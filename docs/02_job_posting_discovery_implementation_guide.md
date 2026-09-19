@@ -1002,4 +1002,4 @@ The purpose of the gates is to stop uncertainty from becoming the foundation of 
 ## Related documents
 
 - [System Design](01_job_posting_discovery_system_design.md)
-- [Phased Execution Plan](03_Job_Posting_Discovery_Phased_Execution_Plan.md)
+- [Phased Execution Plan](03_job_posting_discovery_phased_execution_plan.md)

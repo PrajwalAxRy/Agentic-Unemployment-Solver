@@ -487,5 +487,5 @@ If no adapter fits, the company should be placed in a clearly identified custom-
 
 ## Related documents
 
-- [Implementation Guide](02_Job_Posting_Discovery_Implementation_Guide.md)
-- [Phased Execution Plan](03_Job_Posting_Discovery_Phased_Execution_Plan.md)
+- [Implementation Guide](02_job_posting_discovery_implementation_guide.md)
+- [Phased Execution Plan](03_job_posting_discovery_phased_execution_plan.md)
