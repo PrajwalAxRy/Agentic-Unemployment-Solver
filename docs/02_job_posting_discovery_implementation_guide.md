@@ -153,7 +153,9 @@ Create a versioned search-profile configuration with:
 - Remote and hybrid policy.
 - Seniority target written in plain language.
 - Ten-day recency window.
-- Strict or permissive policy for uncertain publication dates.
+- A `measure_then_decide` mode that holds uncertain publication dates separately until Phase 5 coverage is reviewed.
+
+The final uncertain-date inclusion policy is intentionally deferred. Use the approved baseline in [Approved Product Decisions](04_product_decisions.md); do not choose a strict or permissive default during this step.
 
 Create examples for every rule. Examples should include easy cases and cases likely to produce mistakes.
 
@@ -511,6 +513,18 @@ Review metrics by adapter:
 - Listings outside ten days.
 - Listings with invalid dates.
 
+Also produce a full-registry date-coverage report containing:
+
+- Total enabled companies.
+- Companies with reliable publication dates for every observed listing.
+- Companies with mixed reliable and uncertain dates.
+- Companies whose observed listings have no reliable publication dates.
+- Companies with no listings or that could not be assessed, kept separate from date failures.
+- Total listings with reliable, uncertain, invalid, and missing dates.
+- Percentages by company and by listing.
+- The same breakdown by adapter or source family.
+- `first_seen` availability and representative source evidence.
+
 ### Manual checks
 
 - Open accepted, rejected, and uncertain examples from every adapter.
@@ -518,9 +532,13 @@ Review metrics by adapter:
 - Investigate adapters with unusually high date uncertainty.
 - Promote a date field to reliable only when evidence supports it.
 
+### Human checkpoint
+
+Present the date-coverage report, affected companies, representative URLs and date labels, and a recommendation. Then stop and ask the user to choose whether uncertain-date jobs should be excluded, shown separately, handled using forward-only `first_seen`, or governed by an adapter-specific hybrid policy. Do not choose automatically. After the response, record the decision in configuration and documentation, add tests, and rerun the recency report.
+
 ### Done when
 
-Every normalized job has a stable identity candidate, canonical URL, and explicit date basis, and the ten-day rule behaves consistently across sources and timezones.
+Every normalized job has a stable identity candidate, canonical URL, and explicit date basis; the user-approved uncertain-date policy is recorded and tested; and the ten-day rule behaves consistently across sources and timezones.
 
 ### Commits
 
@@ -1003,3 +1021,4 @@ The purpose of the gates is to stop uncertainty from becoming the foundation of 
 
 - [System Design](01_job_posting_discovery_system_design.md)
 - [Phased Execution Plan](03_job_posting_discovery_phased_execution_plan.md)
+- [Approved Product Decisions](04_product_decisions.md)

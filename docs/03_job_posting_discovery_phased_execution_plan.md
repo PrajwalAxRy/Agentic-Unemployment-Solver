@@ -112,11 +112,11 @@ The request must use the actual paths, variable names, commands, proposal IDs, a
 | ID | Phase | Trigger | Required human response |
 |---|---|---|---|
 | H0 | 0 | Company workbook or machine-specific setup remains ambiguous after inspection | Confirm the exact input or perform the named local action |
-| H1 | 1 | Draft search policy and examples are ready | Approve or correct roles, locations, date policy, and seniority target |
+| H1 | 1 | Derived search vocabulary and examples are ready | Approve or correct title vocabulary, India-eligibility edge cases, and seniority examples; acknowledge that the final uncertain-date policy is deferred |
 | H2 | 2 | Source proposals and exceptions are ready | Approve reviewed sources, access decisions, and initial coverage scope |
 | H3 | 3 | A representative portal cannot be verified reliably with available tools | Perform the named browser checks |
 | H4 | 4 | First-release coverage would exclude or bypass an important source | Approve the exclusion, fallback, or additional adapter work |
-| H5 | 5 | Source date meaning remains ambiguous and affects ten-day inclusion | Choose or approve the documented date treatment |
+| H5 | 5 | Full-registry publication-date coverage report is ready | Choose the uncertain-date treatment using measured company and listing coverage |
 | H6 | 6 | Real role and location samples are ready | Approve or correct filtering behavior |
 | H7 | 7 | Real state must be reset, replaced, or irreversibly migrated | Approve the exact operation after backup evidence |
 | H8 | 8 | Mocked LLM integration passes and live validation needs credentials | Configure local provider variables without sharing secrets |
@@ -326,7 +326,7 @@ Translate the agreed behavior into versioned configuration and data contracts be
 - Normalized-job schema.
 - Adapter-result and diagnostic schema.
 - Ten-day recency specification.
-- Date-uncertainty policy.
+- Date-coverage measurement contract and deferred-policy state.
 - Role and location examples.
 - Seniority evaluation examples.
 
@@ -341,7 +341,7 @@ Translate the agreed behavior into versioned configuration and data contracts be
    - Remote and hybrid policy.
    - Seniority target.
    - Ten-day window.
-   - Date-uncertainty mode.
+   - Date-uncertainty mode, including `measure_then_decide`.
 2. Define the company-source schema:
    - Stable company ID.
    - Display name.
@@ -357,8 +357,10 @@ Translate the agreed behavior into versioned configuration and data contracts be
 4. Define adapter result states and diagnostics.
 5. Define the rolling ten-day calculation using an explicit scan time.
 6. Define which date bases are reliable, uncertain, or excluded.
-7. Add schema versioning and compatibility behavior.
-8. Add configuration hashing for reproducibility.
+7. While the policy is `measure_then_decide`, keep unreliable, missing, and ambiguous dates in a separate measurement pool rather than classifying them as inside or outside the ten-day window.
+8. Define the company-level and listing-level coverage metrics required at checkpoint H5.
+9. Add schema versioning and compatibility behavior.
+10. Add configuration hashing for reproducibility.
 
 ### Automated tests
 
@@ -382,24 +384,24 @@ Translate the agreed behavior into versioned configuration and data contracts be
 - Write concrete target-role examples.
 - Write concrete title exclusions.
 - Review city aliases, regional rules, and remote policy.
-- Decide strict or permissive handling of uncertain dates.
+- Confirm the measure-first approach and the date-coverage fields that will be presented at checkpoint H5.
 - Write at least ten seniority examples with expected outcomes.
 - Confirm a person can classify each example from the written policy.
 
 ### STOP — Human checkpoint H1: approve the search policy
 
-The agent must first create a review artifact containing:
+The approved high-level baseline is recorded in [Approved Product Decisions](04_product_decisions.md). The agent must not ask the user to restate it. The agent must first create a review artifact containing:
 
 - Proposed role families, synonyms, and exclusions with examples.
 - Accepted locations and aliases.
 - Remote, hybrid, multi-location, and missing-location treatment.
-- Strict or permissive treatment of uncertain dates.
+- Confirmation that uncertain-date inclusion is deferred to mandatory checkpoint H5, plus the proposed coverage measurements.
 - The seniority target and at least ten labelled examples.
 - Any assumptions and a recommended choice for each unresolved item.
 
 The agent must provide the exact path to that artifact and ask the user to approve it or return corrections. A suitable request is: “Please review `<path>` and reply `approved`, or list corrections by section.”
 
-Do not begin company-source discovery until the user has approved these product choices. After approval, encode the decisions in the versioned search profile and policy documentation, run schema tests, and commit the approved baseline before continuing.
+Do not begin company-source discovery until the user has approved the derived vocabulary, examples, edge-case treatment, and measurement contract. After approval, encode the decisions in the versioned search profile and policy documentation, run schema tests, and commit the approved baseline before continuing.
 
 ### Full-company validation
 
@@ -419,7 +421,7 @@ Phase 1 is complete when adapters can target stable contracts and product decisi
 
 1. `feat: add search profile schema`
 2. `feat: add company source and job schemas`
-3. `docs: define recency and date uncertainty policy`
+3. `docs: define recency and date coverage measurement policy`
 4. `test: add product contract examples`
 
 ### Stop conditions
@@ -427,7 +429,7 @@ Phase 1 is complete when adapters can target stable contracts and product decisi
 Stop before Phase 2 if:
 
 - Role and location rules still depend on portal behavior.
-- Date uncertainty has no agreed treatment.
+- Date uncertainty has neither an approved final policy nor the approved `measure_then_decide` state.
 - The normalized job record contains fields that only one ATS can produce.
 
 ## Phase 2 Company source inventory
@@ -815,6 +817,7 @@ Make jobs from every adapter comparable and enforce the rolling ten-day rule wit
 - Date-basis classification.
 - Ten-day recency filter.
 - Registry-wide recency metrics.
+- Company-level publication-date coverage report.
 
 ### Implementation tasks
 
@@ -829,8 +832,8 @@ Make jobs from every adapter comparable and enforce the rolling ten-day rule wit
 9. Preserve date-only values without inventing precision.
 10. Set date basis to `published`, `updated`, `first_seen`, or `unknown`.
 11. Compare reliable timestamps with the rolling ten-day boundary.
-12. Route uncertain dates according to the search profile.
-13. Record accepted, rejected, and uncertain metrics.
+12. While the search profile is `measure_then_decide`, retain uncertain dates in a separate measurement pool and do not pass them through the age gate.
+13. Record accepted, rejected, and uncertain metrics by company, listing, adapter, and date-evidence type.
 
 ### Automated tests
 
@@ -862,6 +865,17 @@ Collect by adapter:
 - Inside-window count.
 - Outside-window count.
 
+Also collect across the full registry:
+
+- Total enabled companies.
+- Companies with reliable publication dates for every observed listing.
+- Companies with a mixture of reliable and uncertain publication dates.
+- Companies whose observed listings have no reliable publication dates.
+- Companies with no listings or that could not be assessed, shown separately.
+- Total listings with reliable, uncertain, invalid, and missing dates.
+- Company-level and listing-level percentages for each coverage class.
+- Availability and usefulness of `first_seen` for future runs.
+
 ### Manual work
 
 - Open accepted, rejected, and uncertain examples from each adapter.
@@ -871,17 +885,22 @@ Collect by adapter:
 - Promote a date field to reliable only with evidence.
 - Record adapter-specific date interpretation in configuration.
 
-### CONDITIONAL STOP — Human checkpoint H5: decide ambiguous date treatment
+### STOP — Human checkpoint H5: choose uncertain-date treatment from measured coverage
 
-Trigger this checkpoint only when the source-visible label or field meaning remains ambiguous after documentation review, live comparison, and fixture analysis, and that ambiguity changes whether jobs fall inside the ten-day window.
+This checkpoint is mandatory after full-registry listing and date normalization. The agent must provide the exact counts and percentages required by [Approved Product Decisions](04_product_decisions.md), list the affected companies, break results down by adapter or source family, and include representative job URLs, raw date labels, interpretations, and `first_seen` availability.
 
-The agent must provide representative job URLs, raw date evidence, possible interpretations, the number of affected jobs, and its recommended treatment. Ask the user to choose whether the source should use the field as `published`, keep it `uncertain`, fall back to `first_seen`, or be excluded from strict ten-day results.
+The agent must recommend an option based on the measured impact and ask the user to choose one of these treatments:
 
-Resume after the decision is recorded in the adapter date strategy and covered by fixtures and boundary tests. If the approved Phase 1 policy already determines the answer, apply it and continue without stopping.
+1. Exclude uncertain-date jobs from strict ten-day results.
+2. Include them in a clearly separate uncertain-date section.
+3. Use `first_seen` for forward-only recency after the initial baseline.
+4. Apply a documented hybrid policy by adapter or evidence type.
+
+Do not select a default and do not continue to Phase 6. Resume only after the decision is recorded in the search profile and affected adapter date strategies, covered by fixtures and boundary tests, and the full-registry recency report has been rerun under the approved policy.
 
 ### Completion gate
 
-Phase 5 is complete when every normalized job has a stable identity candidate, canonical URL, and explicit date basis, and the ten-day filter behaves consistently across adapters and timezones.
+Phase 5 is complete when every normalized job has a stable identity candidate, canonical URL, and explicit date basis; the user has approved the uncertain-date treatment at H5; and the ten-day filter behaves consistently across adapters and timezones under that recorded policy.
 
 ### Commit sequence
 
@@ -890,12 +909,14 @@ Phase 5 is complete when every normalized job has a stable identity candidate, c
 3. `feat: normalize publication dates and date basis`
 4. `feat: apply rolling ten-day recency policy`
 5. `data: correct reviewed adapter date strategies`
+6. `docs: record approved uncertain-date policy`
 
 ### Stop conditions
 
 Stop before Phase 6 if:
 
 - Date uncertainty is silently discarded.
+- Checkpoint H5 is unresolved or its decision is not represented in configuration and tests.
 - Canonical URLs merge distinct jobs.
 - One adapter has unexplained date behavior.
 
@@ -1685,3 +1706,4 @@ Consider automatic application of low-risk configuration repairs only after repa
 
 - [System Design](01_job_posting_discovery_system_design.md)
 - [Implementation Guide](02_job_posting_discovery_implementation_guide.md)
+- [Approved Product Decisions](04_product_decisions.md)
