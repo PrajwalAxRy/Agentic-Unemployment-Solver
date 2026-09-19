@@ -2,10 +2,10 @@
 
 ## Current status
 
-- Active phase: Phase 0 — Repository foundation
-- Status: in progress
-- Latest relevant commit: pending
-- Pending human checkpoint: none
+- Active phase: Phase 1 — Product and data contracts
+- Status: Phase 0 complete; Phase 1 ready to begin
+- Latest relevant commits: `f59e533` (scaffold), `40f1d6d` (validation)
+- Pending human checkpoint: H1 after the policy review artifact is ready
 
 ## Completed gates
 
@@ -16,6 +16,11 @@
 - Pre-existing untracked directories recorded and preserved: `.artifact_build/`, `.codex_tmp/`, and
   `outputs/`.
 - Supported runtime selected: CPython 3.12 with `uv` dependency management.
+- Phase 0 package, directory, configuration, ignore, and dependency structure created.
+- Locked clean-checkout install succeeded with CPython 3.12.7.
+- Repository validation passed: Ruff format, Ruff lint, strict mypy, and 4 pytest tests.
+- `job-finder --version` and `python -m job_finder --version` both report `0.1.0`.
+- Temporary generated report and database were ignored successfully and removed after the check.
 
 ## Review artifacts
 
@@ -27,4 +32,5 @@
 
 ## Resume point
 
-Finish Phase 0 scaffolding, validation, and development documentation, then begin Phase 1 contracts.
+Implement Phase 1 versioned contracts and produce the H1 policy review artifact without beginning
+company-source discovery.
