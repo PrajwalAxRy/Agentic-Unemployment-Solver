@@ -1,0 +1,38 @@
+# Local environments and secrets
+.venv/
+.env
+.env.*
+!.env.example
+
+# Python build and tool caches
+__pycache__/
+*.py[cod]
+*.egg-info/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Local application state and generated artifacts
+/state/*
+!/state/.gitkeep
+/reports/*
+!/reports/.gitkeep
+/diagnostics/
+/browser-captures/
+/http-cache/
+/llm-output/
+
+# Pre-existing local build and provenance material
+/.artifact_build/
+/.codex_tmp/
+/outputs/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

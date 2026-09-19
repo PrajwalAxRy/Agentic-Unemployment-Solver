@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "job-finder"
+version = "0.1.0"
+description = "Manually triggered discovery of recent AI and ML job postings"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[project.scripts]
+job-finder = "job_finder.cli:main"
+
+[dependency-groups]
+dev = [
+  "mypy>=1.18,<2",
+  "pytest>=8.4,<9",
+  "ruff>=0.13,<1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/job_finder"]
+
+[tool.pytest.ini_options]
+addopts = "--strict-config --strict-markers"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "SIM", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src/job_finder", "scripts"]
