@@ -1,6 +1,6 @@
 # Job Posting Discovery Phased Execution Plan
 
-Version 1.0
+Version 1.1
 
 Date: 20 September 2026
 
@@ -30,6 +30,103 @@ Each phase must finish with evidence, not merely completed code. The required ev
 6. Focused Git commits for every meaningful completed change.
 
 Do not start the next phase while the current phase has an unexplained failure that could invalidate later assumptions.
+
+## Agent execution and stop-signal protocol
+
+This plan is intended to be executable by an LLM coding agent. The agent should continue autonomously through implementation, testing, debugging, documentation, and focused Git commits unless it reaches an explicit stop signal or needs authority that the user has not granted.
+
+### Suggested build prompt
+
+The user can start or resume implementation with this prompt:
+
+> Read `docs/03_job_posting_discovery_phased_execution_plan.md` in full and implement it phase by phase. Inspect the existing repository before changing anything. Work autonomously through coding, tests, documentation, and focused Git commits. Follow every completion gate and technical stop condition. Stop and ask me for input only at an applicable `STOP — Human checkpoint` or when continuation requires authority not already granted. When stopping, give me the exact action, path, URL, decision, or non-secret configuration I need to provide, plus the exact reply that will resume work. Preserve completed work and resume from the last checkpoint after I respond.
+
+The agent should keep a small, version-controlled implementation progress record containing the current phase, completed gates, latest relevant commit, pending checkpoint, and links to review artifacts. Update it at phase boundaries and before every human checkpoint so a later session can resume without repeating discovery or completed work.
+
+### Exact stop marker
+
+An agent must treat a heading beginning with the following text as a hard boundary:
+
+```text
+STOP — Human checkpoint
+```
+
+At a hard boundary, the agent must:
+
+1. Finish all safe work listed before the checkpoint.
+2. Run the available automated tests and preserve the results.
+3. Commit any coherent completed change before stopping. Do not commit knowingly broken work merely to reach the checkpoint.
+4. State what is complete, what remains, and the exact reason human input is required.
+5. Give the user one short, concrete action or decision request.
+6. Point to the exact file, report, URL, or screen the user should inspect.
+7. State the acceptable reply that will allow work to resume.
+8. Stop the turn. Do not infer approval from silence or continue into work that depends on the answer.
+
+After the user responds, the agent must record the decision in the repository when applicable, validate it, commit that meaningful change, and resume from the named checkpoint. The agent should not repeat already completed work.
+
+### Conditional stop marker
+
+A heading beginning with this text is a stop only when its listed trigger is true:
+
+```text
+CONDITIONAL STOP — Human checkpoint
+```
+
+If the trigger is false, the agent should record why the checkpoint did not apply and continue without interrupting the user. A lack of confidence by itself is not enough: the agent must first exhaust safe inspection, tests, documentation, and available read-only tools.
+
+### What requires a human checkpoint
+
+Stop when continuation requires one of the following:
+
+- A product preference that is not already encoded in an approved profile or this plan.
+- A credential, account login, CAPTCHA, multi-factor authentication, or action in a user-controlled browser.
+- Acceptance of website terms, access restrictions, or another policy decision.
+- Visual inspection that available tools cannot perform reliably.
+- Approval to exclude an important company from first-release coverage.
+- Approval of subjective role, location, date, or seniority behavior based on real examples.
+- A destructive or difficult-to-reverse operation on real local state.
+- Approval to apply an LLM-proposed repair to active configuration.
+- A test that genuinely requires another person or the passage of real time.
+- Final release approval or creation of a release tag.
+
+Do not stop merely to ask the user to run commands, edit ordinary source files, install normal project dependencies, fix lint failures, inspect machine-readable output, or perform work the agent can safely complete and verify itself.
+
+### Standard user requests at a checkpoint
+
+For local secrets, use this pattern:
+
+> I have created or updated the non-secret `.env.example`. Please add the listed variables to your local `.env`; do not paste secret values into chat. Reply `configured` when finished. I will verify only that the variables are present and will not print their values.
+
+For manual inspection, use this pattern:
+
+> Please open `<exact artifact or URL>` and inspect `<specific items>`. Record corrections in `<exact file or reply format>`, then reply `review complete`. I will apply or validate the corrections before continuing.
+
+For a decision, use this pattern:
+
+> I need your decision on `<question>`. My recommendation is `<option and reason>`. Reply with `<allowed answers>`; I will record the decision before continuing.
+
+The request must use the actual paths, variable names, commands, proposal IDs, and choices created during implementation. Never ask the user to paste a secret, session cookie, or private browser token into chat.
+
+### Checkpoint index
+
+| ID | Phase | Trigger | Required human response |
+|---|---|---|---|
+| H0 | 0 | Company workbook or machine-specific setup remains ambiguous after inspection | Confirm the exact input or perform the named local action |
+| H1 | 1 | Draft search policy and examples are ready | Approve or correct roles, locations, date policy, and seniority target |
+| H2 | 2 | Source proposals and exceptions are ready | Approve reviewed sources, access decisions, and initial coverage scope |
+| H3 | 3 | A representative portal cannot be verified reliably with available tools | Perform the named browser checks |
+| H4 | 4 | First-release coverage would exclude or bypass an important source | Approve the exclusion, fallback, or additional adapter work |
+| H5 | 5 | Source date meaning remains ambiguous and affects ten-day inclusion | Choose or approve the documented date treatment |
+| H6 | 6 | Real role and location samples are ready | Approve or correct filtering behavior |
+| H7 | 7 | Real state must be reset, replaced, or irreversibly migrated | Approve the exact operation after backup evidence |
+| H8 | 8 | Mocked LLM integration passes and live validation needs credentials | Configure local provider variables without sharing secrets |
+| H9 | 8 | Evaluation results and quality recommendation are ready | Approve the quality threshold and unresolved uncertainty policy |
+| H10 | 9 | End-to-end command and runbook are ready | Perform the human usability review |
+| H11 | 10 | A live repair proposal is ready for activation | Approve or reject the specific proposal |
+| H12 | 11 | A pilot run completes and the next run requires a later real day | Return later and authorize the next pilot run |
+| H13 | 11 | Release evidence is complete | Approve release and optional tag creation |
+
+Technical stop conditions at the end of each phase are not automatically user tasks. The agent must diagnose and try to resolve them. Escalate to the user only if the remaining blocker matches a hard or conditional human checkpoint above.
 
 ## Delivery principles
 
@@ -183,6 +280,14 @@ Create a reproducible development environment where source code, configuration, 
 - Generate a temporary report and database and confirm ignore rules work.
 - Confirm no secret value exists in the sample environment file.
 
+### CONDITIONAL STOP — Human checkpoint H0: resolve local input or setup ambiguity
+
+Trigger this checkpoint only if the agent has inspected the repository and workbook but still cannot determine the authoritative workbook, worksheet, company-name column, or a machine-specific action that only the user can perform.
+
+Before stopping, the agent must document what it found and narrow the ambiguity to the smallest possible question. It must not ask the user to perform routine scaffolding, dependency installation, file creation, or Git work.
+
+Ask the user to identify the exact file, sheet, or column, or to perform the one named local action. Resume only after the agent can load the chosen input or verify that the required action succeeded. Record stable workbook mapping decisions in configuration or documentation; never modify the source workbook merely to simplify parsing.
+
 ### Completion gate
 
 Phase 0 is complete when a clean checkout can install the project and run the documented validation command without manual repair. Generated local state must remain outside Git.
@@ -280,6 +385,21 @@ Translate the agreed behavior into versioned configuration and data contracts be
 - Decide strict or permissive handling of uncertain dates.
 - Write at least ten seniority examples with expected outcomes.
 - Confirm a person can classify each example from the written policy.
+
+### STOP — Human checkpoint H1: approve the search policy
+
+The agent must first create a review artifact containing:
+
+- Proposed role families, synonyms, and exclusions with examples.
+- Accepted locations and aliases.
+- Remote, hybrid, multi-location, and missing-location treatment.
+- Strict or permissive treatment of uncertain dates.
+- The seniority target and at least ten labelled examples.
+- Any assumptions and a recommended choice for each unresolved item.
+
+The agent must provide the exact path to that artifact and ask the user to approve it or return corrections. A suitable request is: “Please review `<path>` and reply `approved`, or list corrections by section.”
+
+Do not begin company-source discovery until the user has approved these product choices. After approval, encode the decisions in the versioned search profile and policy documentation, run schema tests, and commit the approved baseline before continuing.
 
 ### Full-company validation
 
@@ -387,6 +507,21 @@ The discovery output is a proposal, not approved configuration.
 - Select representative companies for each adapter family.
 - Include different board sizes in the representative sample.
 - Approve adapter implementation priority based on coverage and source simplicity.
+
+### STOP — Human checkpoint H2: approve sources and first-release scope
+
+Before stopping, the agent must finish automated source discovery, verify high-confidence proposals with read-only checks, and generate a concise review artifact. The artifact must separate:
+
+- Verified official sources recommended for enablement.
+- Low-confidence or conflicting source proposals requiring inspection.
+- Login, CAPTCHA, terms, or access-policy concerns.
+- Companies requiring custom adapters.
+- Companies proposed as blocked or unsupported.
+- Recommended adapter priority and projected coverage.
+
+Ask the user to inspect only the unresolved proposals and policy decisions, with direct URLs and a clear recommended disposition. The user may approve the recommendations or provide corrections. Do not enable low-confidence sources, accept access-policy risk, or remove an important company from the first-release scope without the user's explicit decision.
+
+After the response, update source statuses and evidence, run the complete inventory audit, and commit each reviewed registry batch separately. Resume only when every company is accounted for and all unresolved scope decisions are recorded.
 
 ### Full-company validation
 
@@ -516,6 +651,14 @@ Review every unexpected zero, failure, and count anomaly.
 - Preserve fixtures for every confirmed parser defect.
 - Review request volume and access policy.
 
+### CONDITIONAL STOP — Human checkpoint H3: inspect an unverifiable portal
+
+Trigger this checkpoint only when available network or browser tools cannot reliably establish pagination completeness, visible job counts, direct-link behavior, publication-date meaning, or whether an apparent empty result is genuine. Typical triggers include client-side-only rendering, login, CAPTCHA, regional redirects, or content visible only in the user's authenticated browser.
+
+Before stopping, save the automated evidence, identify the exact unresolved fact, and provide the smallest useful checklist with direct URLs. Ask the user to report only observable facts such as the visible result count, whether another page exists, a sample title and location, the displayed date label, and whether the direct job link opens.
+
+Do not ask the user to inspect ordinary JSON or HTML that the agent can retrieve itself. Resume after the observation is recorded as evidence and the affected configuration or adapter test is updated. Never request session cookies or browser tokens.
+
 ### Completion gate
 
 Phase 3 is complete when every valid company in the first adapter family works through the shared interface or has a reviewed, explicit exception.
@@ -597,6 +740,14 @@ Implement reusable adapters until the approved first-release company coverage is
 - Choose native employer alerts instead of bypassing controls.
 - Review large boards for complete pagination.
 - Review small boards for false empty results.
+
+### CONDITIONAL STOP — Human checkpoint H4: approve a coverage exception
+
+Trigger this checkpoint when an important company cannot be supported safely with the planned adapters, when access controls make automated collection inappropriate, or when continuing requires materially more custom work than the approved first-release scope.
+
+The agent must first present the company, observed limitation, attempts made, evidence, estimated implementation cost, and a recommendation among: add custom adapter work now, mark unsupported for this release, use a native employer alert, or remove the company from the approved scope. Ask the user to choose one of those explicit dispositions.
+
+Do not bypass access controls. Do not silently reduce coverage. After the user decides, record the exception, reason, fallback, and revisit condition in the registry and coverage report before continuing.
 
 ### Adapter-group completion gate
 
@@ -720,6 +871,14 @@ Collect by adapter:
 - Promote a date field to reliable only with evidence.
 - Record adapter-specific date interpretation in configuration.
 
+### CONDITIONAL STOP — Human checkpoint H5: decide ambiguous date treatment
+
+Trigger this checkpoint only when the source-visible label or field meaning remains ambiguous after documentation review, live comparison, and fixture analysis, and that ambiguity changes whether jobs fall inside the ten-day window.
+
+The agent must provide representative job URLs, raw date evidence, possible interpretations, the number of affected jobs, and its recommended treatment. Ask the user to choose whether the source should use the field as `published`, keep it `uncertain`, fall back to `first_seen`, or be excluded from strict ten-day results.
+
+Resume after the decision is recorded in the adapter date strategy and covered by fixtures and boundary tests. If the approved Phase 1 policy already determines the answer, apply it and continue without stopping.
+
 ### Completion gate
 
 Phase 5 is complete when every normalized job has a stable identity candidate, canonical URL, and explicit date basis, and the ten-day filter behaves consistently across adapters and timezones.
@@ -815,6 +974,14 @@ Produce:
 - Inspect companies with zero retained roles.
 - Add regression examples for concrete mistakes.
 - Adjust shared vocabulary rather than source-specific exceptions.
+
+### STOP — Human checkpoint H6: approve role and location filtering
+
+Before stopping, the agent must generate a human-readable sample report containing at least twenty retained jobs, at least twenty rejected jobs across different reasons, or all available jobs when fewer exist. Include original title, original location, decision, reason, company, and direct URL. Stratify the sample across role families, locations, adapters, and zero-result companies rather than taking only the first rows.
+
+Ask the user to mark each disputed row as `should include`, `should exclude`, or `uncertain`, and to note any missing target vocabulary. The agent should provide the exact report path and a simple way to return corrections; the user should not need to inspect code.
+
+After review, convert every correction into a general policy change or regression example, rerun the complete filter report, and commit the approved search-profile version. Do not continue to persistence while systematic false positives or false negatives remain unresolved.
 
 ### Completion gate
 
@@ -915,6 +1082,14 @@ Make repeated manual scans idempotent and prevent repeated description fetches a
 - Perform one backup and restore using only documented commands.
 - Confirm state and backups remain outside Git.
 - Confirm reset is explicit and cannot be triggered accidentally by a normal scan.
+
+### CONDITIONAL STOP — Human checkpoint H7: approve a real-state destructive action
+
+Use disposable test state for migrations, reset tests, and failure drills; those do not require user approval. Trigger this checkpoint only if progress requires resetting, replacing, or performing a non-reversible migration on the user's real job history.
+
+Before stopping, create and verify a backup, print the resolved path and record counts without exposing job-description content unnecessarily, explain exactly what will change, and provide the restore command. Ask the user to approve the one specific operation. A vague instruction such as “continue” is not approval for a different destructive target.
+
+After approval, re-resolve and validate the target path, perform only the approved operation, verify record counts and restore readiness, and report the outcome before proceeding. Never treat normal test-database cleanup as authority to alter real state.
 
 ### Completion gate
 
@@ -1020,6 +1195,22 @@ For each example, store:
 - No call for already evaluated unchanged jobs.
 - Usage limit behavior.
 
+### STOP — Human checkpoint H8: configure the live LLM provider
+
+Reach this checkpoint only after the evaluator, schema validation, retry behavior, cache behavior, usage limits, and tests work with mocked responses.
+
+Before stopping, the agent must:
+
+1. Create or update `.env.example` with placeholder values and explanatory comments.
+2. Confirm `.env` and equivalent secret files are ignored by Git.
+3. Document the exact provider, model configuration, variable names, expected cost or usage guardrail, and a non-secret connectivity-test command.
+4. If provider or model choice is still open, recommend one supported option and explain the tradeoff briefly.
+5. Check whether the required variables are already present without printing their values.
+
+If configuration is missing, ask the user to copy the example to the local `.env` and set the named variables, including the provider-specific API key such as `OPENAI_API_KEY`. Tell the user not to paste secret values into chat and to reply `configured` when finished. If an account login, billing action, or organization approval is required, name that action explicitly.
+
+After the user replies, verify only presence and a redacted connectivity result. Never print, log, stage, or commit the secret. If connectivity fails, report the sanitized error and stop again with one concrete corrective request. Continue to live validation only after the guarded connectivity test succeeds.
+
 ### Limited live validation
 
 Run a small unseen candidate batch and review every decision. Classify disagreements and add them to the evaluation set before changing the prompt.
@@ -1049,6 +1240,14 @@ Review:
 - Review every live match in the initial validation.
 - Review evidence quality.
 - Confirm request usage is acceptable.
+
+### STOP — Human checkpoint H9: approve seniority quality
+
+Before stopping, the agent must run the reviewed evaluation set and limited unseen batch, then produce a report containing aggregate metrics, every disagreement, every uncertain or invalid result, representative matches and rejections, evidence quality, model and prompt versions, request count, and estimated or measured usage.
+
+Recommend a first-release quality threshold and state whether it passed. Ask the user to approve the threshold and uncertainty policy, or to correct specific expected labels. The user should review descriptions and evidence, not prompt implementation details.
+
+After the response, update the labelled evaluation set and policy, rerun the evaluation, and commit the approved evaluation baseline separately from any prompt change. Every prompt change must include a regression example. Do not proceed if the threshold is unapproved or a systematic defect remains.
 
 ### Completion gate
 
@@ -1169,6 +1368,14 @@ Ask a person who did not implement the command to:
 
 Record misunderstandings and fix the report or runbook.
 
+### STOP — Human checkpoint H10: perform the usability review
+
+The agent must first run the full command itself, resolve technical failures, and provide a known-good runbook plus a representative report. This checkpoint tests human usability, not whether the command merely executes.
+
+Ask the user, or another person who did not implement the command, to follow the runbook and answer the seven questions above. Provide the exact command and paths, and ask them to reply `usable` or list where they became confused. If asking another person is impractical, the user may perform the review.
+
+After feedback, fix the interface, report, or runbook; rerun automated and full-registry validation; and repeat this checkpoint only for material usability failures. Do not teach around a confusing interface in chat when the product or documentation can be corrected.
+
 ### Completion gate
 
 Phase 9 is complete when a nondeveloper can run the tool and distinguish new matches, no matches, uncertain results, and incomplete coverage.
@@ -1270,6 +1477,14 @@ The report must account for every company and state whether normal scanning may 
 - Approve or reject the repair manually.
 - Confirm previous working configuration remains recoverable.
 
+### CONDITIONAL STOP — Human checkpoint H11: approve a live repair
+
+Synthetic repair-workflow tests do not require approval. Trigger this checkpoint before activating any LLM-proposed change to the real company registry, adapter configuration, or source logic.
+
+The agent must provide a stable proposal ID, the observed failure, sanitized evidence, exact diff, confidence, affected companies, fixture and live-test results, rollback instructions, and its recommendation. Ask the user to reply `approve <proposal-id>` or `reject <proposal-id>` with optional notes.
+
+Do not interpret general permission to continue as repair approval, and never allow the repair system to edit active configuration directly. After explicit approval, apply the exact reviewed diff through the normal code or configuration workflow, rerun affected adapter-group tests, commit it as a focused repair, and confirm rollback remains possible. If rejected, record the disposition and leave active configuration unchanged.
+
 ### Completion gate
 
 Phase 10 is complete when every known failure class is visible and actionable, failures cannot corrupt state, and repair evidence can be reviewed independently.
@@ -1330,6 +1545,14 @@ Prove that the manual tool remains useful and stable across repeated real scans 
 13. Commit each fix.
 14. Repeat the full-registry scan after fixes.
 
+### STOP — Human checkpoint H12: continue the multi-day pilot
+
+A same-day rerun is useful for duplicate testing but does not count as a different-day pilot run. The agent must not alter the clock, publication dates, or state to simulate the passage of time.
+
+After each clean pilot run, the agent must update and commit the pilot log, state which calendar dates have been covered, summarize matches and unresolved issues, and say whether another different-day run is still required. If so, ask the user to return on a later day and say `run the next pilot scan`. Then stop.
+
+When the user returns, preserve duplicate state, verify the current date and configuration versions, run the next scan, and repeat this checkpoint. If defects are found, fix and commit them normally, but do not count a synthetic or reset run as evidence of multi-day stability.
+
 ### Pilot log fields
 
 - Run ID and time.
@@ -1371,6 +1594,18 @@ Prove that the manual tool remains useful and stable across repeated real scans 
 - [ ] Run the final manual scan.
 - [ ] Review known limitations.
 - [ ] Confirm Git status is clean except for known unrelated user files.
+
+### STOP — Human checkpoint H13: approve the first release
+
+Before stopping, the agent must provide a release-readiness summary with every metric, unresolved exception, known limitation, validation result, pilot dates, Git status, and proposed version tag. It must clearly recommend either release or further work.
+
+Ask the user to choose one of:
+
+- `approve release, create tag <proposed-tag>`
+- `approve release, no tag`
+- `do not release: <reason>`
+
+Do not create a tag or describe the system as released without explicit approval. After approval, record the release decision, rerun the final validation if the working tree changed, commit the release documentation, and create only the specifically approved tag. If release is rejected, convert the reasons into tracked work and resume at the relevant phase.
 
 ### Completion gate
 
