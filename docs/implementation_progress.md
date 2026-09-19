@@ -3,9 +3,10 @@
 ## Current status
 
 - Active phase: Phase 1 — Product and data contracts
-- Status: Phase 0 complete; Phase 1 ready to begin
-- Latest relevant commits: `f59e533` (scaffold), `40f1d6d` (validation)
-- Pending human checkpoint: H1 after the policy review artifact is ready
+- Status: Phase 0 complete; Phase 1 awaiting H1 policy approval
+- Latest relevant commits: `20f0871` (search profile schema), `8aa0b69` (source/job contracts),
+  `2b62a42` (recency and date coverage contracts)
+- Pending human checkpoint: H1 — approve or correct the proposed search policy
 
 ## Completed gates
 
@@ -21,10 +22,17 @@
 - Repository validation passed: Ruff format, Ruff lint, strict mypy, and 4 pytest tests.
 - `job-finder --version` and `python -m job_finder --version` both report `0.1.0`.
 - Temporary generated report and database were ignored successfully and removed after the check.
+- Search-profile schema version 1 validates role, location, ten-day, date-uncertainty, and seniority
+  boundaries and produces deterministic content hashes.
+- Company-source, normalized-job, adapter-result, and diagnostic schema version 1 implemented.
+- Rolling-window and full-registry H5 date-measurement contracts implemented.
+- Repository validation passed after Phase 1 contract work: Ruff format, Ruff lint, strict mypy,
+  and 40 pytest tests.
 
 ## Review artifacts
 
-- None yet.
+- H1 search policy review: `docs/reviews/h1_search_policy_review.md`
+- Recency and date coverage contract: `docs/05_recency_and_date_coverage_contract.md`
 
 ## Unresolved defects
 
@@ -32,5 +40,5 @@
 
 ## Resume point
 
-Implement Phase 1 versioned contracts and produce the H1 policy review artifact without beginning
-company-source discovery.
+Wait for H1 approval. Then encode the approved search profile and labelled examples, run the
+330-company minimum source-schema accounting check, validate, and commit the approved baseline.
