@@ -2,14 +2,17 @@
 
 **Checkpoint:** H1
 
-**Status:** Awaiting user approval
+**Status:** Approved and encoded
 
 **Prepared:** 2026-09-20
 
+**Approved:** 2026-09-20
+
 **Applies to:** Proposed first-release search profile `india-ai-ml-under-five-years`
 
-**Important:** This is a review proposal, not active configuration. Source discovery must not begin
-until this checkpoint is approved.
+**Recorded configuration:** `config/search_profile.toml`, profile version `1.0.0`
+
+**Recorded examples:** `config/search_policy_examples.toml`
 
 ## Already-approved product baseline
 

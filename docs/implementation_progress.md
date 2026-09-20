@@ -2,13 +2,13 @@
 
 ## Current status
 
-- Active phase: Phase 1 — Product and data contracts
-- Status: Phase 0 complete; Phase 1 awaiting H1 policy approval
+- Active phase: Phase 2 — Company source inventory
+- Status: Phases 0 and 1 complete; H1 approved; Phase 2 in progress
 - Latest relevant commits: `20f0871` (search profile schema), `8aa0b69` (source/job contracts),
   `2b62a42` (recency and date coverage contracts), `17cce59` (date policy), and `71b3e97`
   (H1 review artifact), with generic-title feedback in `74bb710` and mixed-remote feedback in
-  `d47791a`
-- Pending human checkpoint: H1 — approve or correct the proposed search policy
+  `d47791a`; approved profile encoded in `b63afc6` and seed audit added in `0fbff07`
+- Pending human checkpoint: H2 — approve source proposals and unresolved coverage decisions
 
 ## Completed gates
 
@@ -30,11 +30,17 @@
 - Rolling-window and full-registry H5 date-measurement contracts implemented.
 - Repository validation passed after Phase 1 contract work: Ruff format, Ruff lint, strict mypy,
   and 40 pytest tests.
+- H1 approved by the user on 2026-09-20.
+- Approved search profile `1.0.0` and 49 labelled policy examples encoded and validated.
+- All 330 companies passed the minimum source-schema audit with zero invalid configurations.
+- Repository validation passed after H1 encoding: Ruff format, Ruff lint, strict mypy, and 48
+  pytest tests.
 
 ## Review artifacts
 
 - H1 search policy review: `docs/reviews/h1_search_policy_review.md`
 - Recency and date coverage contract: `docs/05_recency_and_date_coverage_contract.md`
+- Phase 1 company schema audit: `docs/reviews/phase1_company_schema_audit.md`
 
 ## Unresolved defects
 
@@ -52,5 +58,5 @@
 
 ## Resume point
 
-Wait for H1 approval. Then encode the approved search profile and labelled examples, run the
-330-company minimum source-schema accounting check, validate, and commit the approved baseline.
+Implement the Phase 2 registry, validator, discovery proposal importer, and coverage reporting;
+research all 330 sources; then stop at H2 with only unresolved proposals and policy decisions.
