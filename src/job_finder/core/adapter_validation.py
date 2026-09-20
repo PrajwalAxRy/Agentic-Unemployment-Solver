@@ -457,6 +457,110 @@ def apply_workday_validation(
     return revised
 
 
+def apply_darwinbox_validation(
+    proposal_payload: dict[str, Any],
+    report_payload: dict[str, Any],
+) -> dict[str, Any]:
+    """Mark every Darwinbox proposal verified after a complete healthy group report."""
+    revised = deepcopy(proposal_payload)
+    proposals = revised.get("proposals")
+    records = report_payload.get("records")
+    if not isinstance(proposals, list) or not isinstance(records, list):
+        raise ValueError("proposal and verification payloads require arrays")
+    if report_payload.get("schema_version") != 1:
+        raise ValueError("verification report schema_version must be 1")
+    if report_payload.get("adapter_type") != "darwinbox":
+        raise ValueError("verification report must target darwinbox")
+
+    darwinbox_proposals: dict[str, dict[str, Any]] = {}
+    for item in proposals:
+        if not isinstance(item, dict) or item.get("adapter_type") != "darwinbox":
+            continue
+        company_id = item.get("company_id")
+        if not isinstance(company_id, str) or not company_id:
+            raise ValueError("Darwinbox proposal requires company_id")
+        darwinbox_proposals[company_id] = item
+    report_by_id: dict[str, dict[str, Any]] = {}
+    for raw in records:
+        if not isinstance(raw, dict):
+            raise ValueError("verification record must be an object")
+        company_id = raw.get("company_id")
+        if not isinstance(company_id, str) or not company_id:
+            raise ValueError("verification record requires company_id")
+        if company_id in report_by_id:
+            raise ValueError(f"duplicate verification company_id: {company_id}")
+        if raw.get("adapter_type") != "darwinbox":
+            raise ValueError(f"verification record is not darwinbox: {company_id}")
+        if raw.get("outcome") not in {"success", "empty"} or raw.get("complete") is not True:
+            raise ValueError(f"verification record is not healthy and complete: {company_id}")
+        report_by_id[company_id] = raw
+    if set(report_by_id) != set(darwinbox_proposals):
+        missing = sorted(set(darwinbox_proposals) - set(report_by_id))
+        extra = sorted(set(report_by_id) - set(darwinbox_proposals))
+        raise ValueError(f"verification coverage mismatch; missing={missing}; extra={extra}")
+
+    generated_at = report_payload.get("generated_at")
+    if not isinstance(generated_at, str) or not generated_at:
+        raise ValueError("verification report requires generated_at")
+    for company_id, proposal in darwinbox_proposals.items():
+        parameters = proposal.get("adapter_parameters")
+        if not isinstance(parameters, dict):
+            raise ValueError(f"Darwinbox proposal requires adapter_parameters: {company_id}")
+        tenant = parameters.get("tenant")
+        if not isinstance(tenant, str) or not tenant.strip():
+            raise ValueError(f"Darwinbox proposal requires tenant: {company_id}")
+        encoded_tenant = tenant.strip().lower()
+        board_url = f"https://{encoded_tenant}.darwinbox.in/ms/candidate/careers"
+        endpoint = f"https://{encoded_tenant}.darwinbox.in/ms/candidateapi/job?page=1"
+        record = report_by_id[company_id]
+        date_distribution = record.get("date_basis_distribution")
+        unknown_count = (
+            date_distribution.get("unknown", 0) if isinstance(date_distribution, dict) else 0
+        )
+        proposal.update(
+            {
+                "status": "auto_verified",
+                "official_careers_url": board_url,
+                "list_endpoint": endpoint,
+                "pagination": (
+                    "Public candidate API returns ten jobs per numbered page with jobscount; "
+                    "verified through the reported total."
+                ),
+                "external_job_id_field": "id",
+                "publication_date_field": "job_posting_on",
+                "publication_date_basis": "unknown",
+                "publication_date_verified": False,
+                "title_field": "title",
+                "location_field": "officelocation_show_arr",
+                "detail_strategy": "detail_endpoint",
+                "confidence": "high",
+                "access_concern": None,
+                "notes": (
+                    "Darwinbox public candidate endpoints passed full adapter-group validation. "
+                    "Requests use a same-origin public careers-page referer without cookies or "
+                    "authentication; job_posting_on remains uncertain for H5."
+                ),
+            }
+        )
+        evidence = proposal.setdefault("evidence", [])
+        if not isinstance(evidence, list):
+            raise ValueError(f"Darwinbox proposal evidence must be an array: {company_id}")
+        _append_unique_evidence(
+            evidence,
+            {
+                "url": endpoint,
+                "evidence_type": "full_adapter_group_validation",
+                "note": (
+                    f"{generated_at}; outcome={record['outcome']}; "
+                    f"jobs={record.get('job_count')}; pages={record.get('page_count')}; "
+                    f"missing_fields={record.get('missing_field_count')}; "
+                    f"unknown_dates={unknown_count}"
+                ),
+            },
+        )
+    return revised
+
+
 def _append_unique_evidence(evidence: list[object], item: dict[str, str]) -> None:
     if item not in evidence:
         evidence.append(item)

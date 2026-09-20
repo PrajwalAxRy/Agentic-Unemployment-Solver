@@ -8,6 +8,7 @@ import pytest
 
 from job_finder.core.adapter_validation import (
     apply_ashby_validation,
+    apply_darwinbox_validation,
     apply_greenhouse_validation,
     apply_lever_validation,
     apply_workday_validation,
@@ -46,6 +47,13 @@ def proposals() -> dict[str, object]:
                     "tenant": "workday-company",
                     "site": "External",
                 },
+                "status": "proposed",
+                "evidence": [],
+            },
+            {
+                "company_id": "darwinbox-company",
+                "adapter_type": "darwinbox",
+                "adapter_parameters": {"tenant": "darwinbox-company"},
                 "status": "proposed",
                 "evidence": [],
             },
@@ -263,3 +271,60 @@ def test_incomplete_workday_reports_are_rejected(mutator, message: str) -> None:
 
     with pytest.raises(ValueError, match=message):
         apply_workday_validation(proposals(), candidate)
+
+
+def darwinbox_report(*, outcome: str = "success", complete: bool = True) -> dict[str, object]:
+    return {
+        "schema_version": 1,
+        "generated_at": "2026-09-20T21:00:00+05:30",
+        "adapter_type": "darwinbox",
+        "records": [
+            {
+                "company_id": "darwinbox-company",
+                "adapter_type": "darwinbox",
+                "outcome": outcome,
+                "complete": complete,
+                "job_count": 12,
+                "page_count": 2,
+                "missing_field_count": 0,
+                "date_basis_distribution": {
+                    "published": 0,
+                    "updated": 0,
+                    "first_seen": 0,
+                    "unknown": 12,
+                },
+            }
+        ],
+    }
+
+
+def test_complete_darwinbox_report_records_public_api_evidence() -> None:
+    original = proposals()
+    revised = apply_darwinbox_validation(original, darwinbox_report())
+    darwinbox = revised["proposals"][4]
+
+    assert original == proposals()
+    assert darwinbox["status"] == "auto_verified"
+    assert darwinbox["official_careers_url"].endswith("/ms/candidate/careers")
+    assert darwinbox["list_endpoint"].endswith("/ms/candidateapi/job?page=1")
+    assert darwinbox["publication_date_field"] == "job_posting_on"
+    assert darwinbox["publication_date_basis"] == "unknown"
+    assert darwinbox["publication_date_verified"] is False
+    assert darwinbox["detail_strategy"] == "detail_endpoint"
+    assert "unknown_dates=12" in darwinbox["evidence"][-1]["note"]
+
+
+@pytest.mark.parametrize(
+    ("mutator", "message"),
+    [
+        (lambda value: value["records"].clear(), "coverage mismatch"),
+        (lambda value: value["records"][0].update(complete=False), "not healthy"),
+        (lambda value: value.update(adapter_type="workday"), "target darwinbox"),
+    ],
+)
+def test_incomplete_darwinbox_reports_are_rejected(mutator, message: str) -> None:
+    candidate = deepcopy(darwinbox_report())
+    mutator(candidate)
+
+    with pytest.raises(ValueError, match=message):
+        apply_darwinbox_validation(proposals(), candidate)
