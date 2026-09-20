@@ -6,7 +6,7 @@
 - Status: Phase 0 complete; Phase 1 awaiting H1 policy approval
 - Latest relevant commits: `20f0871` (search profile schema), `8aa0b69` (source/job contracts),
   `2b62a42` (recency and date coverage contracts), `17cce59` (date policy), and `71b3e97`
-  (H1 review artifact)
+  (H1 review artifact), with generic-title feedback incorporated in `74bb710`
 - Pending human checkpoint: H1 — approve or correct the proposed search policy
 
 ## Completed gates
