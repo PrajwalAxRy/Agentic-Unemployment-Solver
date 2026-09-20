@@ -25,6 +25,7 @@ def main() -> int:
     """Update proposals in place while leaving weak search results unresolved."""
     root = Path(__file__).resolve().parents[1]
     candidate_paths = (
+        ("targeted search", root / "data" / "source_search_targeted_candidates.json"),
         ("isolated retry", root / "data" / "source_search_isolated_retries.json"),
         ("batch retry", root / "data" / "source_search_retries.json"),
         ("initial search", root / "data" / "source_search_candidates.json"),

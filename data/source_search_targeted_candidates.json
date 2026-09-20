@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "searched_at": "2026-09-20T13:45:00+05:30",
+  "query_template": "{company_name} official careers jobs",
+  "selection_status": "unreviewed_targeted_candidates",
+  "companies": [
+    {
+      "company_id": "dream11-dream-sports",
+      "company_name": "Dream11 / Dream Sports",
+      "source_rank": "303",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Dream Sports - Consultant - Sports Operations",
+          "url": "https://jobs.lever.co/dreamsports/5695908e-b004-4c11-966f-d410f3c5e959/apply",
+          "score": 50
+        },
+        {
+          "title": "DreamSports",
+          "url": "https://www.dreamsports.group/lifeatdreamsports",
+          "score": 35
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1955 @@
+{
+  "schema_version": 1,
+  "searched_at": "2026-09-20T13:30:00+05:30",
+  "query_template": "\"{company_name}\" careers jobs official -LinkedIn -Wikipedia -Reddit",
+  "selection_status": "unreviewed_ranked_retry_candidates",
+  "companies": [
+    {
+      "company_id": "amazon-aws",
+      "company_name": "Amazon / AWS",
+      "source_rank": "23",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "PhonePe - Careers",
+          "url": "https://www.phonepe.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "PhonePe - Job Openings",
+          "url": "https://www.phonepe.com/careers/job-openings/",
+          "score": 6
+        },
+        {
+          "title": "Life at PhonePe | Culture, Careers & Impact",
+          "url": "https://www.phonepe.com/careers/life-at-phonepe/",
+          "score": 6
+        },
+        {
+          "title": "Careers at PHONEPE LIMITED",
+          "url": "https://careers.smartrecruiters.com/PHONEPELIMITED",
+          "score": 6
+        },
+        {
+          "title": "Current openings at PhonePe",
+          "url": "https://knowscope.in/wp-content/uploads/2025/10/PhonePe-is-hiring.pdf",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "confluent",
+      "company_name": "Confluent",
+      "source_rank": "31",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "PhonePe - Careers",
+          "url": "https://www.phonepe.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "PhonePe - Job Openings",
+          "url": "https://www.phonepe.com/careers/job-openings/",
+          "score": 6
+        },
+        {
+          "title": "Life at PhonePe | Culture, Careers & Impact",
+          "url": "https://www.phonepe.com/careers/life-at-phonepe/",
+          "score": 6
+        },
+        {
+          "title": "Careers at PHONEPE LIMITED",
+          "url": "https://careers.smartrecruiters.com/PHONEPELIMITED",
+          "score": 6
+        },
+        {
+          "title": "Confluent, an IBM Company: Jobs | LinkedIn",
+          "url": "https://www.linkedin.com/company/confluent/jobs",
+          "score": -13
+        }
+      ]
+    },
+    {
+      "company_id": "linkedin",
+      "company_name": "LinkedIn",
+      "source_rank": "40",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "PhonePe - Careers",
+          "url": "https://www.phonepe.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "PhonePe - Job Openings",
+          "url": "https://www.phonepe.com/careers/job-openings/",
+          "score": 6
+        },
+        {
+          "title": "Life at PhonePe | Culture, Careers & Impact",
+          "url": "https://www.phonepe.com/careers/life-at-phonepe/",
+          "score": 6
+        },
+        {
+          "title": "Careers at PHONEPE LIMITED",
+          "url": "https://careers.smartrecruiters.com/PHONEPELIMITED",
+          "score": 6
+        },
+        {
+          "title": "PhonePe: Jobs | LinkedIn",
+          "url": "https://www.linkedin.com/company/phonepe-internet/jobs/",
+          "score": -3
+        }
+      ]
+    },
+    {
+      "company_id": "phonepe",
+      "company_name": "PhonePe",
+      "source_rank": "76",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "PhonePe - Careers",
+          "url": "https://www.phonepe.com/careers/",
+          "score": 47
+        },
+        {
+          "title": "PhonePe - Job Openings",
+          "url": "https://www.phonepe.com/careers/job-openings/",
+          "score": 47
+        },
+        {
+          "title": "Life at PhonePe | Culture, Careers & Impact",
+          "url": "https://www.phonepe.com/careers/life-at-phonepe/",
+          "score": 47
+        },
+        {
+          "title": "Careers at PHONEPE LIMITED",
+          "url": "https://careers.smartrecruiters.com/PHONEPELIMITED",
+          "score": 37
+        },
+        {
+          "title": "Current openings at PhonePe",
+          "url": "https://knowscope.in/wp-content/uploads/2025/10/PhonePe-is-hiring.pdf",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "company_id": "zomato-blinkit",
+      "company_name": "Zomato / Blinkit",
+      "source_rank": "79",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Jobs at APT Research",
+          "url": "https://job-boards.greenhouse.io/aptportfolio/jobs/4478626002",
+          "score": 6
+        },
+        {
+          "title": "Zomato, Blinkit, Rapido — even delivery jobs have “no vacancy” now?",
+          "url": "https://www.reddit.com/r/developersIndia/comments/1wb1dif/zomato_blinkit_rapido_even_delivery_jobs_have_no/",
+          "score": -7
+        },
+        {
+          "title": "#eternal #zomato #blinkit #asm #assistantstoremanager #sm #inventorymanagement #lastmile #jobopportunities #careeropportunities #grofers #quickcommerce #storeoperations #qsr | Raakhi Chaudhary | 51 comments",
+          "url": "https://www.linkedin.com/posts/raakhi-chaudhary-654aa2256_eternal-zomato-blinkit-activity-7499084200554160128-Zdzd",
+          "score": -13
+        },
+        {
+          "title": "Hi people! I need your help. Those who are working in zomato/blinkit in gurgaon, I want to know what is the hiring process there?",
+          "url": "https://www.reddit.com/r/gurgaon/comments/1komgnu",
+          "score": -13
+        },
+        {
+          "title": "D. E. SHAW INDIA SOFTWARE PRIVATE",
+          "url": "https://www.ibsindia.org/IBSAF/jobops/DESHAW.pdf",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "apt-portfolio",
+      "company_name": "APT Portfolio",
+      "source_rank": "82",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Jobs at APT Research",
+          "url": "https://job-boards.greenhouse.io/aptportfolio/jobs/4478626002",
+          "score": 12
+        },
+        {
+          "title": "APT Portfolio | Ankita Pachauri",
+          "url": "https://www.linkedin.com/posts/ankita-pachauri-59a3b314_apt-portfolio-activity-7016693353949880320-17SE",
+          "score": -13
+        },
+        {
+          "title": "Happy to share that- I have received a return offer from APT Portfolio. A fitting conclusion to an amazing summer of analyzing and optimizing trading system latency. On off-campus front I’ve… | Yatindra Indoria | 114 comments",
+          "url": "https://www.linkedin.com/posts/yatindra-indoria_happy-to-share-that-i-have-received-a-return-activity-7243520890221608960-QdnU",
+          "score": -13
+        },
+        {
+          "title": "D. E. SHAW INDIA SOFTWARE PRIVATE",
+          "url": "https://www.ibsindia.org/IBSAF/jobops/DESHAW.pdf",
+          "score": -30
+        },
+        {
+          "title": "Samsung R&D Institute India - Noida",
+          "url": "https://13519229945795391054.googlegroups.com/attach/26663b66abb6a0d9/1%20Samsung%20R%26D%20Institute%20India%20Noida%20-%20Job%20Notification%20Letter%20-%20R%26D%20Engineer%202015%20Batch.pdf?part=0.1&vt=ANaJVrFJkHAiCDMjgVma8PRqMAVAHUF1w3d6XUKhg8zzQZfeX1NOomtdJBa-OaXkoyDFDhaI8n_myv-d5Kg79e7MhmHXDZ3wl4Kc9k3vii_qeaFdh4qE0XU",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "d-e-shaw-india",
+      "company_name": "D. E. Shaw India",
+      "source_rank": "83",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Jobs at APT Research",
+          "url": "https://job-boards.greenhouse.io/aptportfolio/jobs/4478626002",
+          "score": 6
+        },
+        {
+          "title": "D. E. SHAW INDIA SOFTWARE PRIVATE",
+          "url": "https://www.ibsindia.org/IBSAF/jobops/DESHAW.pdf",
+          "score": 1
+        },
+        {
+          "title": "D. E. Shaw India | Sarthak Malhotra",
+          "url": "https://www.linkedin.com/posts/sarthakprofile_d-e-shaw-india-activity-7317874390539411456-gW8d",
+          "score": -19
+        },
+        {
+          "title": "Aanchal Bansal - D. E. Shaw India Private Limited | LinkedIn",
+          "url": "https://in.linkedin.com/in/aanchalbansal24",
+          "score": -19
+        },
+        {
+          "title": "Samsung R&D Institute India - Noida",
+          "url": "https://13519229945795391054.googlegroups.com/attach/26663b66abb6a0d9/1%20Samsung%20R%26D%20Institute%20India%20Noida%20-%20Job%20Notification%20Letter%20-%20R%26D%20Engineer%202015%20Batch.pdf?part=0.1&vt=ANaJVrFJkHAiCDMjgVma8PRqMAVAHUF1w3d6XUKhg8zzQZfeX1NOomtdJBa-OaXkoyDFDhaI8n_myv-d5Kg79e7MhmHXDZ3wl4Kc9k3vii_qeaFdh4qE0XU",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "samsung-r-and-d",
+      "company_name": "Samsung R&D",
+      "source_rank": "112",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Jobs at APT Research",
+          "url": "https://job-boards.greenhouse.io/aptportfolio/jobs/4478626002",
+          "score": 6
+        },
+        {
+          "title": "Samsung R&D Institute India - Noida",
+          "url": "https://13519229945795391054.googlegroups.com/attach/26663b66abb6a0d9/1%20Samsung%20R%26D%20Institute%20India%20Noida%20-%20Job%20Notification%20Letter%20-%20R%26D%20Engineer%202015%20Batch.pdf?part=0.1&vt=ANaJVrFJkHAiCDMjgVma8PRqMAVAHUF1w3d6XUKhg8zzQZfeX1NOomtdJBa-OaXkoyDFDhaI8n_myv-d5Kg79e7MhmHXDZ3wl4Kc9k3vii_qeaFdh4qE0XU",
+          "score": 1
+        },
+        {
+          "title": "#ai #machinelearning #hiring #samsung #srin #aiengineer | Samsung R&D Institute Indonesia",
+          "url": "https://www.linkedin.com/posts/samsungrndindonesia_software-engineer-ai-activity-7386236841793990656-cdrj",
+          "score": -19
+        },
+        {
+          "title": "Samsung R&D visited my campus — what’s the hiring process like?",
+          "url": "https://www.reddit.com/r/Btechtards/comments/1op9t1r/samsung_rd_visited_my_campus_whats_the_hiring/",
+          "score": -19
+        },
+        {
+          "title": "D. E. SHAW INDIA SOFTWARE PRIVATE",
+          "url": "https://www.ibsindia.org/IBSAF/jobops/DESHAW.pdf",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "aqr-capital-management",
+      "company_name": "AQR Capital Management",
+      "source_rank": "115",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "citeturn77search25 [wordlim: 200] Crawled: 8 months ago; AQR Capital Management ... After AQR's annual profit plunged 34% in 2018, the firm announced job cuts in January 2019. ... * Official website",
+          "url": "http://www.aqr.com",
+          "score": 47
+        },
+        {
+          "title": "AQR CAPITAL MANAGEMENT (EUROPE) LLP",
+          "url": "https://ucits.aqr.com/-/media/UCITS-Documents/Global-Footer/AQR-Europe_Modern-Slavery-Act-Statement.pdf",
+          "score": 17
+        },
+        {
+          "title": "Quantitative Finance Careers at WorldQuant",
+          "url": "https://www.worldquant.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "Careers – Dolat Capital",
+          "url": "https://dolatcapital.in/careers/",
+          "score": 6
+        },
+        {
+          "title": "Careers – Dolat Capital",
+          "url": "https://dolatcapitalresearch.com/careers/",
+          "score": 6
+        }
+      ]
+    },
+    {
+      "company_id": "dolat-capital",
+      "company_name": "Dolat Capital",
+      "source_rank": "116",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers – Dolat Capital",
+          "url": "https://dolatcapital.in/careers/",
+          "score": 47
+        },
+        {
+          "title": "Careers – Dolat Capital",
+          "url": "https://dolatcapitalresearch.com/careers/",
+          "score": 47
+        },
+        {
+          "title": "Quantitative Finance Careers at WorldQuant",
+          "url": "https://www.worldquant.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "citeturn77search25 [wordlim: 200] Crawled: 8 months ago; AQR Capital Management ... After AQR's annual profit plunged 34% in 2018, the firm announced job cuts in January 2019. ... * Official website",
+          "url": "http://www.aqr.com",
+          "score": 0
+        },
+        {
+          "title": "citeturn77search28 [wordlim: 200] Crawled: 9 months ago; WorldQuant University's entirely-free, accredited, online MSc in Financial Engineering Program integrates mathematical, statistical, and computer science tools with finance theory and professional business skills. ... * WorldQuant University Official Website",
+          "url": "https://wqu.org/",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "company_id": "squarepoint-capital",
+      "company_name": "Squarepoint Capital",
+      "source_rank": "121",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Quantitative Finance Careers at WorldQuant",
+          "url": "https://www.worldquant.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "Careers – Dolat Capital",
+          "url": "https://dolatcapital.in/careers/",
+          "score": 6
+        },
+        {
+          "title": "Careers – Dolat Capital",
+          "url": "https://dolatcapitalresearch.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "citeturn77search25 [wordlim: 200] Crawled: 8 months ago; AQR Capital Management ... After AQR's annual profit plunged 34% in 2018, the firm announced job cuts in January 2019. ... * Official website",
+          "url": "http://www.aqr.com",
+          "score": 0
+        },
+        {
+          "title": "citeturn77search28 [wordlim: 200] Crawled: 9 months ago; WorldQuant University's entirely-free, accredited, online MSc in Financial Engineering Program integrates mathematical, statistical, and computer science tools with finance theory and professional business skills. ... * WorldQuant University Official Website",
+          "url": "https://wqu.org/",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "company_id": "worldquant",
+      "company_name": "WorldQuant",
+      "source_rank": "123",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Quantitative Finance Careers at WorldQuant",
+          "url": "https://www.worldquant.com/careers/",
+          "score": 47
+        },
+        {
+          "title": "citeturn77search28 [wordlim: 200] Crawled: 9 months ago; WorldQuant University's entirely-free, accredited, online MSc in Financial Engineering Program integrates mathematical, statistical, and computer science tools with finance theory and professional business skills. ... * WorldQuant University Official Website",
+          "url": "https://wqu.org/",
+          "score": 31
+        },
+        {
+          "title": "Careers – Dolat Capital",
+          "url": "https://dolatcapital.in/careers/",
+          "score": 6
+        },
+        {
+          "title": "Careers – Dolat Capital",
+          "url": "https://dolatcapitalresearch.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "WorldQuant (www.worldquant.com) is a qua",
+          "url": "https://cpdc.osa.cuhk.edu.hk/sites/cu_joblink/files/highlight_jobs_postings/files/WorldQuant%20JD%20202503.pdf",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "company_id": "aarogyaai",
+      "company_name": "AarogyaAI",
+      "source_rank": "125",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Arya.ai – Shape the Future of Enterprise AI",
+          "url": "https://arya.ai/careers",
+          "score": 6
+        },
+        {
+          "title": "Careers - AiDASH",
+          "url": "https://www.aidash.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "AarogyaAI: AI-Powered TeleHealth for Rural India Launched | Karan Achpeliya posted on the topic | LinkedIn",
+          "url": "https://www.linkedin.com/posts/karan-achpeliya_aarogyaai-healthcareinnovation-telemedicine-activity-7352408568530182146-hIwN",
+          "score": -19
+        },
+        {
+          "title": "Today marks 3 years of the incorporation of AarogyaAI, the company Praapti Jayaswal, PhD and I have built together. We have come a long way from our carpool days in 2013 where the focus was to beat… | Avlokita Tiwari | 57 comments",
+          "url": "https://www.linkedin.com/posts/avlokitatiwari_today-marks-3-years-of-the-incorporation-activity-6937301690651975680-xcqf",
+          "score": -19
+        },
+        {
+          "title": "AI-PRENEURS OF INDIA",
+          "url": "https://aim.gov.in/pdf/AI-Prenuers-Coffee-Table-Book-final.pdf",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "aidash",
+      "company_name": "AiDash",
+      "source_rank": "127",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers - AiDASH",
+          "url": "https://www.aidash.com/careers/",
+          "score": 47
+        },
+        {
+          "title": "Careers at Arya.ai – Shape the Future of Enterprise AI",
+          "url": "https://arya.ai/careers",
+          "score": 6
+        },
+        {
+          "title": "AiDASH: Jobs | LinkedIn",
+          "url": "https://www.linkedin.com/company/aidash/jobs",
+          "score": -13
+        },
+        {
+          "title": "Careers - AiDASH | Alyma Khan",
+          "url": "https://www.linkedin.com/posts/alyma-khan-6304ba19b_careers-aidash-activity-7419286709160505344-rh7q",
+          "score": -13
+        },
+        {
+          "title": "AiDASH | LinkedIn",
+          "url": "https://af.linkedin.com/company/aidash",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "arbix-ai",
+      "company_name": "Arbix AI",
+      "source_rank": "129",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Arya.ai – Shape the Future of Enterprise AI",
+          "url": "https://arya.ai/careers",
+          "score": 6
+        },
+        {
+          "title": "Careers - AiDASH",
+          "url": "https://www.aidash.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "Arbix AI Solutions hiring Full - Stack Engineer - AI in Hyderabad, Telangana, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/full-stack-engineer-ai-at-arbix-ai-solutions-4406870166",
+          "score": -13
+        },
+        {
+          "title": "Arbix AI Solutions | LinkedIn",
+          "url": "https://www.linkedin.com/company/arbixai",
+          "score": -19
+        },
+        {
+          "title": "AI-PRENEURS OF INDIA",
+          "url": "https://aim.gov.in/pdf/AI-Prenuers-Coffee-Table-Book-final.pdf",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "arya-ai",
+      "company_name": "Arya.ai",
+      "source_rank": "131",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Arya.ai – Shape the Future of Enterprise AI",
+          "url": "https://arya.ai/careers",
+          "score": 47
+        },
+        {
+          "title": "Careers - AiDASH",
+          "url": "https://www.aidash.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "Arya.ai offers an easy to use ‘AI Operati",
+          "url": "https://assets-global.website-files.com/6322fbee8175305ccc220107/634e88cfc0d353ca62dd9a50_White%20Paper%20-%20Deep%20Learning%20in%20Insurance.April%2721.pdf",
+          "score": 1
+        },
+        {
+          "title": "3 Arya.ai jobs in India",
+          "url": "https://in.linkedin.com/jobs/arya.ai-jobs",
+          "score": -13
+        },
+        {
+          "title": "Data Scientist at Arya.ai - An Aurionpro Company — Mumbai, Maharashtra, India | LinkedIn Jobs",
+          "url": "https://in.linkedin.com/jobs/view/data-scientist-at-arya-ai-an-aurionpro-company-4465986772",
+          "score": -13
+        }
+      ]
+    },
+    {
+      "company_id": "barraiser",
+      "company_name": "BarRaiser",
+      "source_rank": "133",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/company/careers",
+          "score": 6
+        },
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/en/company/careers",
+          "score": 6
+        },
+        {
+          "title": "Cognite - Oil & Gas Technical Sales",
+          "url": "https://jobs.lever.co/cognite/044d3022-d29d-44fa-9b03-406216851fc3/apply?source=LinkedIn",
+          "score": 6
+        },
+        {
+          "title": "Company - Leadership",
+          "url": "https://www.cognite.com/en/company/leadership",
+          "score": 0
+        },
+        {
+          "title": "citeturn79search24 [wordlim: 200] Crawled: 1.7 years ago; * Official website",
+          "url": "https://www.cognite.com/en/",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "company_id": "blend-ai",
+      "company_name": "Blend AI",
+      "source_rank": "135",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/company/careers",
+          "score": 6
+        },
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/en/company/careers",
+          "score": 6
+        },
+        {
+          "title": "Cognite - Oil & Gas Technical Sales",
+          "url": "https://jobs.lever.co/cognite/044d3022-d29d-44fa-9b03-406216851fc3/apply?source=LinkedIn",
+          "score": 6
+        },
+        {
+          "title": "Company - Leadership",
+          "url": "https://www.cognite.com/en/company/leadership",
+          "score": 0
+        },
+        {
+          "title": "citeturn79search24 [wordlim: 200] Crawled: 1.7 years ago; * Official website",
+          "url": "https://www.cognite.com/en/",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "company_id": "boltzmann-labs",
+      "company_name": "Boltzmann Labs",
+      "source_rank": "136",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/company/careers",
+          "score": 6
+        },
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/en/company/careers",
+          "score": 6
+        },
+        {
+          "title": "Cognite - Oil & Gas Technical Sales",
+          "url": "https://jobs.lever.co/cognite/044d3022-d29d-44fa-9b03-406216851fc3/apply?source=LinkedIn",
+          "score": 6
+        },
+        {
+          "title": "Company - Leadership",
+          "url": "https://www.cognite.com/en/company/leadership",
+          "score": 0
+        },
+        {
+          "title": "citeturn79search24 [wordlim: 200] Crawled: 1.7 years ago; * Official website",
+          "url": "https://www.cognite.com/en/",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "company_id": "cognite",
+      "company_name": "Cognite",
+      "source_rank": "138",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/company/careers",
+          "score": 41
+        },
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/en/company/careers",
+          "score": 41
+        },
+        {
+          "title": "Cognite - Oil & Gas Technical Sales",
+          "url": "https://jobs.lever.co/cognite/044d3022-d29d-44fa-9b03-406216851fc3/apply?source=LinkedIn",
+          "score": 37
+        },
+        {
+          "title": "Company - Leadership",
+          "url": "https://www.cognite.com/en/company/leadership",
+          "score": 35
+        },
+        {
+          "title": "citeturn79search24 [wordlim: 200] Crawled: 1.7 years ago; * Official website",
+          "url": "https://www.cognite.com/en/",
+          "score": 35
+        }
+      ]
+    },
+    {
+      "company_id": "cropin",
+      "company_name": "CropIn",
+      "source_rank": "140",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Cropin careers – build your future in agri-tech",
+          "url": "https://www.cropin.com/career/",
+          "score": 47
+        },
+        {
+          "title": "Careers at Entropik",
+          "url": "https://careers.smartrecruiters.com/Entropik",
+          "score": 6
+        },
+        {
+          "title": "Brief Description: Cropin Technology Solut",
+          "url": "https://rohininilekaniphilanthropies.org/wp-content/uploads/2019/10/RNP-Agriculture-Portfolio-Landscaping-Oct-2018.pdf",
+          "score": 1
+        },
+        {
+          "title": "INCEPTION REPORTSUBMITTED BY: CROPIN TECHNOLOGY SO",
+          "url": "https://www.adpc.net/cic/wp-content/uploads/2022/02/7CropInInceptionReport.pdf",
+          "score": 1
+        },
+        {
+          "title": "About Entropik | The Human Insights Platform for Understanding People",
+          "url": "https://www.entropik.io/about-us",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "company_id": "diagno-systems",
+      "company_name": "DIAGNO Systems",
+      "source_rank": "141",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Cropin careers – build your future in agri-tech",
+          "url": "https://www.cropin.com/career/",
+          "score": 6
+        },
+        {
+          "title": "Careers at Entropik",
+          "url": "https://careers.smartrecruiters.com/Entropik",
+          "score": 6
+        },
+        {
+          "title": "About Entropik | The Human Insights Platform for Understanding People",
+          "url": "https://www.entropik.io/about-us",
+          "score": 0
+        },
+        {
+          "title": "Dakshana Scholars – Careers Launched",
+          "url": "https://dakshana.org/wp-content/uploads/2025/09/AR24_fast.pdf",
+          "score": -24
+        },
+        {
+          "title": "sff2023_attendinglist",
+          "url": "https://fintechfestival.sg/hubfs/SFF%202023/Attendee%20list/sff2023_attendeelist_0211.pdf?hsLang=en",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "entropik",
+      "company_name": "Entropik",
+      "source_rank": "145",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "About Entropik | The Human Insights Platform for Understanding People",
+          "url": "https://www.entropik.io/about-us",
+          "score": 41
+        },
+        {
+          "title": "Careers at Entropik",
+          "url": "https://careers.smartrecruiters.com/Entropik",
+          "score": 37
+        },
+        {
+          "title": "Cropin careers – build your future in agri-tech",
+          "url": "https://www.cropin.com/career/",
+          "score": 6
+        },
+        {
+          "title": "Entropik membuka lowongan Frontend Software Engineer (React) di Lembang | LinkedIn",
+          "url": "https://id.linkedin.com/jobs/view/frontend-software-engineer-react-at-entropik-4391706840",
+          "score": -13
+        },
+        {
+          "title": "Entropik Labs | LinkedIn",
+          "url": "https://www.linkedin.com/company/entropik-labs",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "finbotsai",
+      "company_name": "FinbotsAI",
+      "source_rank": "146",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Cropin careers – build your future in agri-tech",
+          "url": "https://www.cropin.com/career/",
+          "score": 6
+        },
+        {
+          "title": "Careers at Entropik",
+          "url": "https://careers.smartrecruiters.com/Entropik",
+          "score": 6
+        },
+        {
+          "title": "About Entropik | The Human Insights Platform for Understanding People",
+          "url": "https://www.entropik.io/about-us",
+          "score": 0
+        },
+        {
+          "title": "SANJAY UPPAL",
+          "url": "https://smefinanceforum.org/sites/default/files/Sanjay%20Uppal%20Founder%20CEO%20FinbotsAI_2024-10%20%281%29.pdf",
+          "score": -5
+        },
+        {
+          "title": "FinbotsAI hiring Senior Data Scientist in Hyderabad, Telangana, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/senior-data-scientist-at-finbotsai-4446611837",
+          "score": -13
+        }
+      ]
+    },
+    {
+      "company_id": "flutura",
+      "company_name": "Flutura",
+      "source_rank": "147",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Forus Health: Join Our Eye Care Innovation Team",
+          "url": "https://forushealth.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "Contact us - Forus Health",
+          "url": "https://forushealth.com/contact-us/",
+          "score": 0
+        },
+        {
+          "title": "Flutura Academy | LinkedIn",
+          "url": "https://www.linkedin.com/company/flutura-academy",
+          "score": -19
+        },
+        {
+          "title": "Flutura | LinkedIn",
+          "url": "https://www.linkedin.com/company/flutura-app",
+          "score": -19
+        },
+        {
+          "title": "10+ \"Flutura\" profiles | LinkedIn",
+          "url": "https://www.linkedin.com/pub/dir/%2B/Flutura",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "forus-health",
+      "company_name": "Forus Health",
+      "source_rank": "148",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Forus Health: Join Our Eye Care Innovation Team",
+          "url": "https://forushealth.com/careers/",
+          "score": 63
+        },
+        {
+          "title": "Contact us - Forus Health",
+          "url": "https://forushealth.com/contact-us/",
+          "score": 57
+        },
+        {
+          "title": "Forus Health",
+          "url": "https://www.kristujayanti.edu.in/AQAR22/1.3.4-Student_Projects/Internships/Proof/MCA.pdf",
+          "score": 7
+        },
+        {
+          "title": "Forus Health | LinkedIn",
+          "url": "https://in.linkedin.com/company/forushealth",
+          "score": -13
+        },
+        {
+          "title": "2024 - Forus Impact spotlight (merged).docx",
+          "url": "https://teamfundhealth.org/uploads/final-2025-09-17-2024-forus-impact-spotlight.pdf?_cchid=4ae9cac9377ced19a2d11bc79892d019",
+          "score": -14
+        }
+      ]
+    },
+    {
+      "company_id": "kogo-ai",
+      "company_name": "KOGO AI",
+      "source_rank": "155",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Forus Health: Join Our Eye Care Innovation Team",
+          "url": "https://forushealth.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "Contact us - Forus Health",
+          "url": "https://forushealth.com/contact-us/",
+          "score": 0
+        },
+        {
+          "title": "Forus Health",
+          "url": "https://www.kristujayanti.edu.in/AQAR22/1.3.4-Student_Projects/Internships/Proof/MCA.pdf",
+          "score": -30
+        },
+        {
+          "title": "Potencjał AI. Generatywna sztuczna inteligencja",
+          "url": "https://abk.usz.edu.pl/wp-content/uploads/kwfib_2023.pdf",
+          "score": -30
+        },
+        {
+          "title": "October 8th, 2025",
+          "url": "https://teamfundhealth.org/uploads/fy-annual-letter-and-report-10-8-25.pdf?_cchid=f7ab22c8f2689f83880efbda6f49d247",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "krutrim",
+      "company_name": "Krutrim",
+      "source_rank": "156",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Forus Health: Join Our Eye Care Innovation Team",
+          "url": "https://forushealth.com/careers/",
+          "score": 6
+        },
+        {
+          "title": "Contact us - Forus Health",
+          "url": "https://forushealth.com/contact-us/",
+          "score": 0
+        },
+        {
+          "title": "23,000+ Krutrim jobs in Worldwide",
+          "url": "https://www.linkedin.com/jobs/krutrim-jobs-worldwide",
+          "score": -13
+        },
+        {
+          "title": "Krutrim | LinkedIn",
+          "url": "https://www.linkedin.com/company/krutrim",
+          "score": -19
+        },
+        {
+          "title": "#krutrim #indiasownai #wearehiring #salesinterns #ai #cloudsolutions #lifeatola | Sugitha Mohan | 12 comments",
+          "url": "https://www.linkedin.com/posts/sugithamohan_krutrim-indiasownai-wearehiring-activity-7248993715904503808-wD-3",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "limechat",
+      "company_name": "LimeChat",
+      "source_rank": "157",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Jobs at LimeChat",
+          "url": "https://limechat.zohorecruit.in/jobs/Careers/",
+          "score": 47
+        },
+        {
+          "title": "Careers Portal",
+          "url": "https://sites.google.com/nexstem.ai/careers/home",
+          "score": 6
+        },
+        {
+          "title": "Neuralzome Cybernetics - Profile (Agri)",
+          "url": "https://storage.googleapis.com/b2match-as-1/CbFVKaCSFzu38ce868NBAWAr",
+          "score": 0
+        },
+        {
+          "title": "Careers at LimeChat 💚 | Notion | LimeChat | 10 comments",
+          "url": "https://www.linkedin.com/posts/limechat_careers-at-limechat-notion-activity-7422546847749058561-92QX",
+          "score": -13
+        },
+        {
+          "title": "LimeChat hiring Customer Success Manager (CSM) in Bengaluru, Karnataka, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/customer-success-manager-csm-at-limechat-4410274993",
+          "score": -13
+        }
+      ]
+    },
+    {
+      "company_id": "mad-street-den",
+      "company_name": "Mad Street Den",
+      "source_rank": "159",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers Portal",
+          "url": "https://sites.google.com/nexstem.ai/careers/home",
+          "score": 6
+        },
+        {
+          "title": "Jobs at LimeChat",
+          "url": "https://limechat.zohorecruit.in/jobs/Careers/",
+          "score": 6
+        },
+        {
+          "title": "Neuralzome Cybernetics - Profile (Agri)",
+          "url": "https://storage.googleapis.com/b2match-as-1/CbFVKaCSFzu38ce868NBAWAr",
+          "score": 0
+        },
+        {
+          "title": "#careers #hiringnow #dataanalytics | Mad Street Den",
+          "url": "https://www.linkedin.com/posts/mad-street-den_careers-hiringnow-dataanalytics-activity-6958029794408099841-OFz0",
+          "score": -1
+        },
+        {
+          "title": "Mad Street Den | LinkedIn",
+          "url": "https://in.linkedin.com/company/mad-street-den",
+          "score": -7
+        }
+      ]
+    },
+    {
+      "company_id": "neuralzome",
+      "company_name": "Neuralzome",
+      "source_rank": "165",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Neuralzome Cybernetics - Profile (Agri)",
+          "url": "https://storage.googleapis.com/b2match-as-1/CbFVKaCSFzu38ce868NBAWAr",
+          "score": 31
+        },
+        {
+          "title": "Careers Portal",
+          "url": "https://sites.google.com/nexstem.ai/careers/home",
+          "score": 6
+        },
+        {
+          "title": "Jobs at LimeChat",
+          "url": "https://limechat.zohorecruit.in/jobs/Careers/",
+          "score": 6
+        },
+        {
+          "title": "NEW HORIZON",
+          "url": "https://datascience.newhorizoncollegeofengineering.in/wp-content/uploads/2024/12/09-12-24-Neuralzome-Cybernetics-IndustrialVisit-Report.pdf",
+          "score": -5
+        },
+        {
+          "title": "Neuralzome Cybernetics | LinkedIn",
+          "url": "https://www.linkedin.com/company/neuralzome-cybernetics",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "nexstem",
+      "company_name": "Nexstem",
+      "source_rank": "166",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers Portal",
+          "url": "https://sites.google.com/nexstem.ai/careers/home",
+          "score": 31
+        },
+        {
+          "title": "Jobs at LimeChat",
+          "url": "https://limechat.zohorecruit.in/jobs/Careers/",
+          "score": 6
+        },
+        {
+          "title": "NexStem, founded in 2020",
+          "url": "https://longevity.technology/wp-content/uploads/2022/06/NexStem.pdf",
+          "score": 1
+        },
+        {
+          "title": "Neuralzome Cybernetics - Profile (Agri)",
+          "url": "https://storage.googleapis.com/b2match-as-1/CbFVKaCSFzu38ce868NBAWAr",
+          "score": 0
+        },
+        {
+          "title": "Fundraise Update: Nexstem Raises $3.5M At Nexstem, we have always believed in the transformative power of Brain-Computer Interface (BCI) technology to redefine human-machine interaction. With this… | Anthriq | 38 comments",
+          "url": "https://www.linkedin.com/posts/nexstemai_fundraise-update-nexstem-raises-35m-activity-7260633380982038528-d_l3",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "neysa",
+      "company_name": "Neysa",
+      "source_rank": "167",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Contact Neysa | Sales, Support & AI Cloud Enquiries",
+          "url": "https://neysa.ai/contact-us/",
+          "score": 41
+        },
+        {
+          "title": "Quant - Careers",
+          "url": "https://www.quant.ai/en/careers",
+          "score": 6
+        },
+        {
+          "title": "AI Careers at QUANT | Join Our Data Science & Tech Teams",
+          "url": "https://www.quant.global/career/",
+          "score": 6
+        },
+        {
+          "title": "7 Neysa jobs in India",
+          "url": "https://in.linkedin.com/jobs/Neysa-jobs/?f_C=90478085",
+          "score": -13
+        },
+        {
+          "title": "Neysa | LinkedIn",
+          "url": "https://in.linkedin.com/company/neysaai",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "nurix-ai",
+      "company_name": "Nurix AI",
+      "source_rank": "169",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Quant - Careers",
+          "url": "https://www.quant.ai/en/careers",
+          "score": 6
+        },
+        {
+          "title": "AI Careers at QUANT | Join Our Data Science & Tech Teams",
+          "url": "https://www.quant.global/career/",
+          "score": 6
+        },
+        {
+          "title": "Contact Neysa | Sales, Support & AI Cloud Enquiries",
+          "url": "https://neysa.ai/contact-us/",
+          "score": 0
+        },
+        {
+          "title": "T H E  M O N T H L Y  N E W S  F R O M  Q U",
+          "url": "https://www.quant.global/wp-content/uploads/2024/11/QUANT-AI-Lab-Newsletter-Edition-novembre-2024.pdf",
+          "score": -30
+        },
+        {
+          "title": "Home Improvemen",
+          "url": "https://assets.nextleap.app/submissions/AssignmentSubmission_NurixGrowthInternship_AniketKasle_-f4c226a4-16e3-4d2d-8aa7-a46aee65fde3.pdf",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "quant-ai",
+      "company_name": "Quant AI",
+      "source_rank": "176",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Quant - Careers",
+          "url": "https://www.quant.ai/en/careers",
+          "score": 47
+        },
+        {
+          "title": "AI Careers at QUANT | Join Our Data Science & Tech Teams",
+          "url": "https://www.quant.global/career/",
+          "score": 22
+        },
+        {
+          "title": "T H E  M O N T H L Y  N E W S  F R O M  Q U",
+          "url": "https://www.quant.global/wp-content/uploads/2024/11/QUANT-AI-Lab-Newsletter-Edition-novembre-2024.pdf",
+          "score": 5
+        },
+        {
+          "title": "Contact Neysa | Sales, Support & AI Cloud Enquiries",
+          "url": "https://neysa.ai/contact-us/",
+          "score": 0
+        },
+        {
+          "title": "Quant AI | LinkedIn",
+          "url": "https://www.linkedin.com/company/quant-ai",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "ragaai",
+      "company_name": "RagaAI",
+      "source_rank": "177",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Quant - Careers",
+          "url": "https://www.quant.ai/en/careers",
+          "score": 6
+        },
+        {
+          "title": "AI Careers at QUANT | Join Our Data Science & Tech Teams",
+          "url": "https://www.quant.global/career/",
+          "score": 6
+        },
+        {
+          "title": "RagaAI Catalyst",
+          "url": "https://assets.nextleap.app/submissions/RagaAICatalyst-631aaf17-bae9-4f8e-b7e7-5c38c6371477.pdf",
+          "score": 1
+        },
+        {
+          "title": "Contact Neysa | Sales, Support & AI Cloud Enquiries",
+          "url": "https://neysa.ai/contact-us/",
+          "score": 0
+        },
+        {
+          "title": "We’re hiring AI Engineers with 2–8 years of experience! Multiple roles are open, and we’re actively looking for talented individuals to join our growing team. Apply now by sending your resume to… | RagaAI Inc",
+          "url": "https://www.linkedin.com/posts/raga-ai_were-hiring-ai-engineers-with-28-years-activity-7318586830990229504-wWvM",
+          "score": -13
+        }
+      ]
+    },
+    {
+      "company_id": "saptang-labs",
+      "company_name": "Saptang Labs",
+      "source_rank": "180",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Signzy",
+          "url": "https://www.signzy.com/careers",
+          "score": 6
+        },
+        {
+          "title": "Careers at Skit.ai | Build the AI Redefining Collections",
+          "url": "https://skit.ai/in/careers/",
+          "score": 6
+        },
+        {
+          "title": "Saptang Labs",
+          "url": "https://iwcon.live/wp-content/uploads/2023/11/SaikrishnaBVS.pdf",
+          "score": 1
+        },
+        {
+          "title": "Skit.ai_Accounts Recovery White Paper_August 24",
+          "url": "https://skit.ai/wp-content/uploads/2024/09/The-Naked-Truth_-Why-AI-is-Your-Ally.pdf",
+          "score": -30
+        },
+        {
+          "title": "INDIA'S MARCH TO A",
+          "url": "https://emergingpaymentsasia.org/wp-content/uploads/2025/05/EPAAINDIACONNECT_MAY2025.pdf",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "scispace",
+      "company_name": "SciSpace",
+      "source_rank": "181",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Signzy",
+          "url": "https://www.signzy.com/careers",
+          "score": 6
+        },
+        {
+          "title": "Careers at Skit.ai | Build the AI Redefining Collections",
+          "url": "https://skit.ai/in/careers/",
+          "score": 6
+        },
+        {
+          "title": "Search Results",
+          "url": "https://scispace.com/ai-agent-seo/page-files/journal-selection-assistant-rrj3t1uq.pdf",
+          "score": 5
+        },
+        {
+          "title": "Quit GPT - join SciSpace?",
+          "url": "https://www.reddit.com/r/SciSpaceFellow/comments/1vid0m7/quit_gpt_join_scispace/",
+          "score": -13
+        },
+        {
+          "title": "SciSpace | LinkedIn",
+          "url": "https://www.linkedin.com/company/scispace",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "signzy",
+      "company_name": "Signzy",
+      "source_rank": "182",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Signzy",
+          "url": "https://www.signzy.com/careers",
+          "score": 47
+        },
+        {
+          "title": "Careers at Skit.ai | Build the AI Redefining Collections",
+          "url": "https://skit.ai/in/careers/",
+          "score": 6
+        },
+        {
+          "title": "Signzy Jobs in Worldwide (8 Open Roles) | LinkedIn",
+          "url": "https://www.linkedin.com/jobs/signzy-jobs-worldwide",
+          "score": -13
+        },
+        {
+          "title": "Signzy | LinkedIn",
+          "url": "https://www.linkedin.com/company/teamsignzy",
+          "score": -19
+        },
+        {
+          "title": "#techjobs #bangalorejobs #softwaredevelopment #sitereliabilityengineer #techinnovation #joinsignzy #digitaltrust #careeropportunity | Signzy",
+          "url": "https://www.linkedin.com/posts/teamsignzy_techjobs-bangalorejobs-softwaredevelopment-activity-7153621163854708736-i1RU",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "skit-ai",
+      "company_name": "Skit.ai",
+      "source_rank": "185",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Skit.ai | Build the AI Redefining Collections",
+          "url": "https://skit.ai/in/careers/",
+          "score": 47
+        },
+        {
+          "title": "Skit.ai_Accounts Recovery White Paper_August 24",
+          "url": "https://skit.ai/wp-content/uploads/2024/09/The-Naked-Truth_-Why-AI-is-Your-Ally.pdf",
+          "score": 11
+        },
+        {
+          "title": "Signzy",
+          "url": "https://www.signzy.com/careers",
+          "score": 6
+        },
+        {
+          "title": "1,000+ Skit.ai jobs in Worldwide",
+          "url": "https://www.linkedin.com/jobs/skit.ai-jobs-worldwide",
+          "score": -13
+        },
+        {
+          "title": "4,000+ Skit.ai jobs in Worldwide",
+          "url": "https://www.linkedin.com/jobs/skit.ai-jobs-worldwide?f_EA=true",
+          "score": -13
+        }
+      ]
+    },
+    {
+      "company_id": "slang-labs",
+      "company_name": "Slang Labs",
+      "source_rank": "186",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Supervity | Build the Future of AI Employees",
+          "url": "https://www.supervity.ai/careers",
+          "score": 6
+        },
+        {
+          "title": "E-Magazine_Dec.cdr",
+          "url": "https://data.sahyadri.edu.in/main/placements/magazine/E_Magazine_December%202021.pdf",
+          "score": -30
+        },
+        {
+          "title": "CSR POLICY",
+          "url": "https://vayavyalabs.com/wp-content/uploads/2023/03/CSR-Policy_Vayavya-Labs-1.pdf",
+          "score": -30
+        },
+        {
+          "title": "A Webinar on STARTUP AND ENTREPRENEURSHIP by Shri. R. K. Patil, Cofounder, CEO, Vayavya Labs, Belagavi.",
+          "url": "https://git.edu/wp-content/uploads/2024/06/AICTE-MANDATORY-DISCLOSURE-1-min.pdf",
+          "score": -30
+        },
+        {
+          "title": "DEPARTMENT OF ELECTRONICS AND COMMUNICATION ENGINEERING",
+          "url": "https://department-of-electronics-and-communication-engineering.newhorizoncollegeofengineering.in/wp-content/uploads/2023/04/Internship-2019-2020.pdf",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "smallest-ai",
+      "company_name": "Smallest.ai",
+      "source_rank": "187",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Supervity | Build the Future of AI Employees",
+          "url": "https://www.supervity.ai/careers",
+          "score": 6
+        },
+        {
+          "title": "Smallest.ai Jobs at smallest.ai in Worldwide (1 Open Role) | LinkedIn",
+          "url": "https://www.linkedin.com/jobs/smallest.ai-jobs-worldwide?f_C=35940731",
+          "score": -13
+        },
+        {
+          "title": "smallest.ai | LinkedIn",
+          "url": "https://www.linkedin.com/products/smallest-ai/",
+          "score": -19
+        },
+        {
+          "title": "We're hiring 8-10 research and inference engineers at smallest.ai. Smallest is a research lab at its core. We train foundational speech models from scratch and we're obsessed with making them sound… | Aditya Bhat | 18 comments",
+          "url": "https://www.linkedin.com/posts/aditya-bhat-082372228_were-hiring-8-10-research-and-inference-activity-7426807186690875392-itHW",
+          "score": -19
+        },
+        {
+          "title": "Voice AI Platform - TTS, STT & Voice Agents | Smallest AI | Apoorv Sood | 20 comments",
+          "url": "https://www.linkedin.com/posts/apoorv-sood_smallestai-ai-agents-for-enterprise-contact-activity-7416749144075239425-xhy1",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "supervity",
+      "company_name": "Supervity",
+      "source_rank": "189",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Supervity | Build the Future of AI Employees",
+          "url": "https://www.supervity.ai/careers",
+          "score": 47
+        },
+        {
+          "title": "Gift Your Team",
+          "url": "https://supervity.ai/wp-content/themes/cheerup/pdf/Supervity%20AI%20Agent_EventBrochure_Atlanta.pdf",
+          "score": 5
+        },
+        {
+          "title": "About Supervity",
+          "url": "https://4172483.fs1.hubspotusercontent-na1.net/hubfs/4172483/Press%20Kit/August%202025/About%20Supervity-Website.pdf",
+          "score": 1
+        },
+        {
+          "title": "Supervity | LinkedIn",
+          "url": "https://in.linkedin.com/company/supervity",
+          "score": -19
+        },
+        {
+          "title": "Supervity | LinkedIn",
+          "url": "https://www.linkedin.com/company/supervity",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "vayavya-labs",
+      "company_name": "Vayavya Labs",
+      "source_rank": "196",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Supervity | Build the Future of AI Employees",
+          "url": "https://www.supervity.ai/careers",
+          "score": 6
+        },
+        {
+          "title": "CSR POLICY",
+          "url": "https://vayavyalabs.com/wp-content/uploads/2023/03/CSR-Policy_Vayavya-Labs-1.pdf",
+          "score": 5
+        },
+        {
+          "title": "A Webinar on STARTUP AND ENTREPRENEURSHIP by Shri. R. K. Patil, Cofounder, CEO, Vayavya Labs, Belagavi.",
+          "url": "https://git.edu/wp-content/uploads/2024/06/AICTE-MANDATORY-DISCLOSURE-1-min.pdf",
+          "score": 1
+        },
+        {
+          "title": "#vayavyalabs #campusrecruitment #embeddedsystems #semiconductordesign #ai #automotivesoftware #careeropportunities #techcareers #joinus #freshers2025 #bangalorejobs #engineeringcareers… | Vayavya Labs | 13 comments",
+          "url": "https://www.linkedin.com/posts/vayavya-labs_vayavyalabs-campusrecruitment-embeddedsystems-activity-7308321407522811904-jbH7",
+          "score": -19
+        },
+        {
+          "title": "#hiring #embeddedsystems #baremetal #socvalidation #vayavyalabs #bangalore | Vayavya Labs",
+          "url": "https://www.linkedin.com/posts/vayavya-labs_hiring-embeddedsystems-baremetal-activity-7448203107290853376-DqAL",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "fidelity-investments",
+      "company_name": "Fidelity Investments",
+      "source_rank": "209",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "A global capability center with a history of innovation | Fidelity Careers",
+          "url": "https://jobs.fidelity.com/in/",
+          "score": 22
+        },
+        {
+          "title": "Fidelity on Linkedin | Stay connected with what Fidelity is sharing on Linkedin | Fidelity",
+          "url": "https://www.fidelity.com/social-media/linkedin",
+          "score": 16
+        },
+        {
+          "title": "Careers | LSEG",
+          "url": "https://www.lseg.com/en/careers",
+          "score": 6
+        },
+        {
+          "title": "Careers - Arista",
+          "url": "https://www.arista.com/en/careers",
+          "score": 6
+        },
+        {
+          "title": "Fidelity Investments: Jobs | LinkedIn",
+          "url": "https://www.linkedin.com/company/fidelity-investments/jobs",
+          "score": -7
+        }
+      ]
+    },
+    {
+      "company_id": "london-stock-exchange-group",
+      "company_name": "London Stock Exchange Group",
+      "source_rank": "213",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers | LSEG",
+          "url": "https://www.lseg.com/en/careers",
+          "score": 6
+        },
+        {
+          "title": "Careers - Arista",
+          "url": "https://www.arista.com/en/careers",
+          "score": 6
+        },
+        {
+          "title": "A global capability center with a history of innovation | Fidelity Careers",
+          "url": "https://jobs.fidelity.com/in/",
+          "score": 6
+        },
+        {
+          "title": "Fidelity on Linkedin | Stay connected with what Fidelity is sharing on Linkedin | Fidelity",
+          "url": "https://www.fidelity.com/social-media/linkedin",
+          "score": 0
+        },
+        {
+          "title": "London Stock Exchange Group Jobs in United Kingdom (1,000+ Open Roles) | LinkedIn",
+          "url": "https://uk.linkedin.com/jobs/london-stock-exchange-group-jobs",
+          "score": -1
+        }
+      ]
+    },
+    {
+      "company_id": "arista-networks",
+      "company_name": "Arista Networks",
+      "source_rank": "223",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers - Arista",
+          "url": "https://www.arista.com/en/careers",
+          "score": 22
+        },
+        {
+          "title": "Careers | LSEG",
+          "url": "https://www.lseg.com/en/careers",
+          "score": 6
+        },
+        {
+          "title": "A global capability center with a history of innovation | Fidelity Careers",
+          "url": "https://jobs.fidelity.com/in/",
+          "score": 6
+        },
+        {
+          "title": "Fidelity on Linkedin | Stay connected with what Fidelity is sharing on Linkedin | Fidelity",
+          "url": "https://www.fidelity.com/social-media/linkedin",
+          "score": 0
+        },
+        {
+          "title": "📢 Arista Networks is hiring a Network Systems Engineer (Pre-Sales)!",
+          "url": "https://www.reddit.com/r/jobboardsearch/comments/1feniu9",
+          "score": -13
+        }
+      ]
+    },
+    {
+      "company_id": "cisco",
+      "company_name": "Cisco",
+      "source_rank": "225",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers | LSEG",
+          "url": "https://www.lseg.com/en/careers",
+          "score": 6
+        },
+        {
+          "title": "Careers - Arista",
+          "url": "https://www.arista.com/en/careers",
+          "score": 6
+        },
+        {
+          "title": "A global capability center with a history of innovation | Fidelity Careers",
+          "url": "https://jobs.fidelity.com/in/",
+          "score": 6
+        },
+        {
+          "title": "How to Get Hired",
+          "url": "https://www.cisco.com/c/dam/global/en_ae/assets/sa/netversity/pdf/about-cisco.pdf",
+          "score": 5
+        },
+        {
+          "title": "Fidelity on Linkedin | Stay connected with what Fidelity is sharing on Linkedin | Fidelity",
+          "url": "https://www.fidelity.com/social-media/linkedin",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "company_id": "clazar",
+      "company_name": "Clazar",
+      "source_rank": "226",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Arm Job Search Results",
+          "url": "https://careers.arm.com/search-jobs?acm=ALL&alrpm=ALL",
+          "score": 6
+        },
+        {
+          "title": "Exhibit 99.4",
+          "url": "https://wdc.gcs-web.com/static-files/14bcb92d-bc02-4fa1-b2c0-94ad3549c6d9",
+          "score": 0
+        },
+        {
+          "title": "Microsoft Word - 2025.10.17 IPV -  WD stay",
+          "url": "https://ptacts.uspto.gov/ptacts/public-informations/petitions/1558206/download-documents?artifactId=xBNfJLXQzCi0S834HU3PVXFVaYwcd3tTE_IXUPC_pMh9KOk-8hggh2k",
+          "score": 0
+        },
+        {
+          "title": "Clazar | LinkedIn",
+          "url": "https://www.linkedin.com/company/clazar/",
+          "score": -19
+        },
+        {
+          "title": "Opportunity with Clazar | Aditya Khokhar",
+          "url": "https://www.linkedin.com/posts/adityakhokhar_opportunity-with-clazar-activity-7072508430376218624-Da0R",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "arm",
+      "company_name": "Arm",
+      "source_rank": "258",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Arm Job Search Results",
+          "url": "https://careers.arm.com/search-jobs?acm=ALL&alrpm=ALL",
+          "score": 47
+        },
+        {
+          "title": "ARM HCM – A 2021 REVIEW",
+          "url": "https://careers.arm.com.ng/wp-content/uploads/ARM_Digest_Issue%202_H1_2022.pdf",
+          "score": 17
+        },
+        {
+          "title": "Social Value at ARM",
+          "url": "https://www.arm.co.uk/wp-content/uploads/2023/07/Social-Value-2.pdf",
+          "score": 11
+        },
+        {
+          "title": "Exhibit 99.4",
+          "url": "https://wdc.gcs-web.com/static-files/14bcb92d-bc02-4fa1-b2c0-94ad3549c6d9",
+          "score": 0
+        },
+        {
+          "title": "Microsoft Word - 2025.10.17 IPV -  WD stay",
+          "url": "https://ptacts.uspto.gov/ptacts/public-informations/petitions/1558206/download-documents?artifactId=xBNfJLXQzCi0S834HU3PVXFVaYwcd3tTE_IXUPC_pMh9KOk-8hggh2k",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "company_id": "western-digital-sandisk",
+      "company_name": "Western Digital / SanDisk",
+      "source_rank": "269",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Arm Job Search Results",
+          "url": "https://careers.arm.com/search-jobs?acm=ALL&alrpm=ALL",
+          "score": 6
+        },
+        {
+          "title": "Exhibit 99.4",
+          "url": "https://wdc.gcs-web.com/static-files/14bcb92d-bc02-4fa1-b2c0-94ad3549c6d9",
+          "score": 0
+        },
+        {
+          "title": "Microsoft Word - 2025.10.17 IPV -  WD stay",
+          "url": "https://ptacts.uspto.gov/ptacts/public-informations/petitions/1558206/download-documents?artifactId=xBNfJLXQzCi0S834HU3PVXFVaYwcd3tTE_IXUPC_pMh9KOk-8hggh2k",
+          "score": 0
+        },
+        {
+          "title": "Fiscal Year 2022",
+          "url": "https://documents.sandisk.com/content/dam/doc-library/en_us/assets/public/western-digital/collateral/cert/western-digital-FY2022-sustainability-report.pdf",
+          "score": -20
+        },
+        {
+          "title": "ARM HCM – A 2021 REVIEW",
+          "url": "https://careers.arm.com.ng/wp-content/uploads/ARM_Digest_Issue%202_H1_2022.pdf",
+          "score": -24
+        }
+      ]
+    },
+    {
+      "company_id": "ati-motors",
+      "company_name": "Ati Motors",
+      "source_rank": "272",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Arm Job Search Results",
+          "url": "https://careers.arm.com/search-jobs?acm=ALL&alrpm=ALL",
+          "score": 6
+        },
+        {
+          "title": "Exhibit 99.4",
+          "url": "https://wdc.gcs-web.com/static-files/14bcb92d-bc02-4fa1-b2c0-94ad3549c6d9",
+          "score": 0
+        },
+        {
+          "title": "Microsoft Word - 2025.10.17 IPV -  WD stay",
+          "url": "https://ptacts.uspto.gov/ptacts/public-informations/petitions/1558206/download-documents?artifactId=xBNfJLXQzCi0S834HU3PVXFVaYwcd3tTE_IXUPC_pMh9KOk-8hggh2k",
+          "score": 0
+        },
+        {
+          "title": "Ati Motors: Jobs | LinkedIn",
+          "url": "https://www.linkedin.com/company/ati-robotics/jobs",
+          "score": -7
+        },
+        {
+          "title": "ARM HCM – A 2021 REVIEW",
+          "url": "https://careers.arm.com.ng/wp-content/uploads/ARM_Digest_Issue%202_H1_2022.pdf",
+          "score": -24
+        }
+      ]
+    },
+    {
+      "company_id": "bosch-global-software-technologies",
+      "company_name": "Bosch Global Software Technologies",
+      "source_rank": "273",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Job offers | Bosch Global Software Technologies PVT LTD",
+          "url": "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
+          "score": 53
+        },
+        {
+          "title": "Bosch Global Software Technologies",
+          "url": "https://aqar.mace.ac.in/0/table_file/270068",
+          "score": 37
+        },
+        {
+          "title": "Join Us - Careers at Chargebee",
+          "url": "https://www.chargebee.com/careers/join-us/",
+          "score": 6
+        },
+        {
+          "title": "Bosch Global Software Technologies Jobs at Bosch Global Software Technologies in Worldwide (14 Open Roles) | LinkedIn",
+          "url": "https://www.linkedin.com/jobs/bosch-global-software-technologies-jobs-worldwide?f_C=586240",
+          "score": -7
+        },
+        {
+          "title": "Bosch Global Software Technologies | LinkedIn",
+          "url": "https://www.linkedin.com/company/bosch-global-software-technologies",
+          "score": -13
+        }
+      ]
+    },
+    {
+      "company_id": "greyorange",
+      "company_name": "GreyOrange",
+      "source_rank": "276",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Job offers | Bosch Global Software Technologies PVT LTD",
+          "url": "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
+          "score": 6
+        },
+        {
+          "title": "Join Us - Careers at Chargebee",
+          "url": "https://www.chargebee.com/careers/join-us/",
+          "score": 6
+        },
+        {
+          "title": "Bosch Global Software Technologies",
+          "url": "https://aqar.mace.ac.in/0/table_file/270068",
+          "score": 0
+        },
+        {
+          "title": "20,000+ Greyorange jobs in Worldwide",
+          "url": "https://www.linkedin.com/jobs/greyorange-jobs-worldwide",
+          "score": -13
+        },
+        {
+          "title": "GreyOrange Media | LinkedIn",
+          "url": "https://in.linkedin.com/company/greyorange-media",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "minus-zero",
+      "company_name": "Minus Zero",
+      "source_rank": "281",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Job offers | Bosch Global Software Technologies PVT LTD",
+          "url": "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
+          "score": 6
+        },
+        {
+          "title": "Join Us - Careers at Chargebee",
+          "url": "https://www.chargebee.com/careers/join-us/",
+          "score": 6
+        },
+        {
+          "title": "Bosch Global Software Technologies",
+          "url": "https://aqar.mace.ac.in/0/table_file/270068",
+          "score": 0
+        },
+        {
+          "title": "Welcome to the team Vikram Gupta 🚀 Drop us a mail at careers@minuszero.ai if you too want to be a part of an super cool research group. | Minus Zero",
+          "url": "https://www.linkedin.com/posts/minuszero_welcome-to-the-team-vikram-gupta-drop-activity-7183321745754349568-XDhK",
+          "score": -7
+        },
+        {
+          "title": "25Jan15+MKX_BGSW_Legacy-Microsite",
+          "url": "https://www.bosch-softwaretechnologies.com/media/documents/downloads/2025/bgsw_journey.pdf",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "chargebee",
+      "company_name": "Chargebee",
+      "source_rank": "295",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Join Us - Careers at Chargebee",
+          "url": "https://www.chargebee.com/careers/join-us/",
+          "score": 47
+        },
+        {
+          "title": "Job offers | Bosch Global Software Technologies PVT LTD",
+          "url": "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
+          "score": 6
+        },
+        {
+          "title": "Bosch Global Software Technologies",
+          "url": "https://aqar.mace.ac.in/0/table_file/270068",
+          "score": 0
+        },
+        {
+          "title": "Chargebee: Jobs | LinkedIn",
+          "url": "https://www.linkedin.com/company/chargebee/jobs",
+          "score": -13
+        },
+        {
+          "title": "Chargebee Jobs in United States (126 Open Roles) | LinkedIn",
+          "url": "https://www.linkedin.com/jobs/chargebee-jobs",
+          "score": -13
+        }
+      ]
+    },
+    {
+      "company_id": "coinswitch",
+      "company_name": "CoinSwitch",
+      "source_rank": "298",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "CoinSwitch: Jobs | LinkedIn",
+          "url": "https://in.linkedin.com/company/coinswitch/jobs",
+          "score": -13
+        },
+        {
+          "title": "Coinswitch Jobs in Worldwide (15 Open Roles) | LinkedIn",
+          "url": "https://www.linkedin.com/jobs/coinswitch-jobs-worldwide",
+          "score": -13
+        },
+        {
+          "title": "Many employees are going through uncertain times with news of layoffs, especially in the real money gaming sector. At CoinSwitch and Lemonn, we are actively hiring for a few roles. If you are… | Ashish Singhal | 18 comments",
+          "url": "https://www.linkedin.com/posts/ashish-singhal-peepalco_many-employees-are-going-through-uncertain-activity-7365005586821742596-59d3",
+          "score": -19
+        },
+        {
+          "title": "CoinSwitch | LinkedIn",
+          "url": "https://www.linkedin.com/company/coinswitch/",
+          "score": -19
+        },
+        {
+          "title": "#tax #fintech #ecommerce #directtax #indirecttax | CoinSwitch",
+          "url": "https://www.linkedin.com/posts/coinswitch_tax-fintech-ecommerce-activity-6886282527837839361-wMqe",
+          "score": -19
+        }
+      ]
+    },
+    {
+      "company_id": "info-edge",
+      "company_name": "Info Edge",
+      "source_rank": "305",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Microsoft PowerPoint - Info Edge PPT_Jan, 2016",
+          "url": "https://www.infoedgeindia.com/pdfs/corporatePresentations_pdfs/Info-Edge-Jan2016.pdf",
+          "score": 27
+        },
+        {
+          "title": "Microsoft PowerPoint - Info Edge ppt August 2018",
+          "url": "https://www.infoedgeindia.com/pdfs/corporatePresentations_pdfs/info-edge-aug-18.pdf",
+          "score": 27
+        },
+        {
+          "title": "Organization: Job Title: | INFO EDGE Sr. Executive",
+          "url": "https://srinathuniversity.ac.in/wp-content/uploads/2026/03/23.-info-edge.pdf",
+          "score": 7
+        },
+        {
+          "title": "INFO EDGE’S CORE BUSINESSES",
+          "url": "https://stockdiscovery.s3.amazonaws.com/insight/india/4664/Annual%20Report/AR-19.pdf",
+          "score": 7
+        },
+        {
+          "title": "INFO EDGE (INDIA) LTD.",
+          "url": "https://www.prestigegwl.org/pdf4/placement-offer-letter-2022-23/OL-2022-23-217.pdf",
+          "score": 7
+        }
+      ]
+    },
+    {
+      "company_id": "oyo",
+      "company_name": "OYO",
+      "source_rank": "316",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "OYO | LinkedIn",
+          "url": "https://www.linkedin.com/company/oyo-rooms",
+          "score": -19
+        },
+        {
+          "title": "[HIRING] a Production Support Officer (oyo) At Food Concepts Plc! in Production Support Officer (oyo) At Food Concepts Plc",
+          "url": "https://www.reddit.com/r/jobboardsearch/comments/1rfp5po/hiring_a_production_support_officer_oyo_at_food/",
+          "score": -19
+        },
+        {
+          "title": "[HIRING] a In! in Shop Sales Promoters (oyo) At Palmpay Limited",
+          "url": "https://www.reddit.com/r/jobboardsearch/comments/1rggyvy/hiring_a_in_in_shop_sales_promoters_oyo_at/",
+          "score": -19
+        },
+        {
+          "title": "[HIRING] a Hr Generalist (oyo) At A Leading Agro! in Allied Company",
+          "url": "https://www.reddit.com/r/jobboardsearch/comments/1rdqzo4/hiring_a_hr_generalist_oyo_at_a_leading_agro_in/",
+          "score": -19
+        },
+        {
+          "title": "📢 Hiring Alert: OYO Auditor| Immediate Joiners Preferred",
+          "url": "https://www.reddit.com/r/Bengaluru/comments/1ori10c",
+          "score": -19
+        }
+      ]
+    }
+  ]
+}

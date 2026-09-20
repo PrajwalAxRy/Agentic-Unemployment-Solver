@@ -1,0 +1,6448 @@
+{
+  "schema_version": 1,
+  "searched_at": "2026-09-20T13:15:00+05:30",
+  "query_template": "\"{company_name}\" official careers jobs India",
+  "selection_status": "unreviewed_ranked_candidates",
+  "companies": [
+    {
+      "company_id": "adobe",
+      "company_name": "Adobe",
+      "source_rank": "4",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers at Adobe | Adobe job opportunities.",
+          "url": "https://careers.adobe.com/us/en",
+          "score": 38
+        },
+        {
+          "title": "Adobe Research » Bangalore, India",
+          "url": "https://research.adobe.com/careers/bangalore/",
+          "score": 38
+        },
+        {
+          "title": "Adobe Systems India Pvt Ltd jobs | Adobe Systems India Pvt Ltd openings | Adobe Systems India Pvt Ltd careers",
+          "url": "https://adobe.hire.trakstar.com/",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "nvidia",
+      "company_name": "NVIDIA",
+      "source_rank": "6",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Jobs at NVIDIA | NVIDIA Careers",
+          "url": "https://www.nvidia.com/en-in/about-nvidia/careers/",
+          "score": 38
+        },
+        {
+          "title": "Careers at NVIDIA Corporation | NVIDIA Corporation",
+          "url": "https://jobs.nvidia.com/careers?filter_include_relocation=0&filter_include_remote=1&location=india&pid=893395509558&sort_by=distance&start=20",
+          "score": 38
+        },
+        {
+          "title": "Your Future St",
+          "url": "https://www.nvidia.com/content/dam/en-zz/Solutions/careers/university-recruiting/corporate-web-hr-ur-digital-flyer-job-description.pdf",
+          "score": 13
+        }
+      ]
+    },
+    {
+      "company_id": "meta",
+      "company_name": "Meta",
+      "source_rank": "7",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Meta AI Join Us",
+          "url": "https://ai.meta.com/join-us/",
+          "score": 38
+        },
+        {
+          "title": "Jobs at NVIDIA | NVIDIA Careers",
+          "url": "https://www.nvidia.com/en-in/about-nvidia/careers/",
+          "score": 5
+        },
+        {
+          "title": "Atlassian Careers: Join the Team | Atlassian",
+          "url": "https://www.atlassian.com/company/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "atlassian",
+      "company_name": "Atlassian",
+      "source_rank": "8",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Atlassian Careers: Join the Team | Atlassian",
+          "url": "https://www.atlassian.com/company/careers",
+          "score": 38
+        },
+        {
+          "title": "Atlassian Jobs: View Listings for Open Positions | Atlassian",
+          "url": "https://www.atlassian.com/company/careers/all-jobs",
+          "score": 38
+        },
+        {
+          "title": "Human Resources Policies and Procedures",
+          "url": "https://www.atlassian.com/dam/jcr%3A5a28f9bc-7ecb-48f1-9663-5d260d3b3a63/Atlassian-Platform-SOC2-Type2_30-Sep-2022",
+          "score": 28
+        }
+      ]
+    },
+    {
+      "company_id": "doxel",
+      "company_name": "Doxel",
+      "source_rank": "9",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Doxel",
+          "url": "https://jobs.lever.co/doxel?team=Engineering",
+          "score": 30
+        },
+        {
+          "title": "Careers | Sanas",
+          "url": "https://www.sanas.ai/careers",
+          "score": 5
+        },
+        {
+          "title": "Careers at Moloco | Build What’s Next",
+          "url": "https://www.moloco.com/company/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "sanas",
+      "company_name": "Sanas",
+      "source_rank": "10",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers | Sanas",
+          "url": "https://www.sanas.ai/careers",
+          "score": 38
+        },
+        {
+          "title": "Careers",
+          "url": "https://sanas-ai-74872500f498b35ab0b91217c287ce.webflow.io/careers",
+          "score": 33
+        },
+        {
+          "title": "FREQUENTLY ASKED QUESTIONS - Oct 2016",
+          "url": "https://www.sanas.co.za/Pages/website/documents/others/faq/FREQUENTLY%20ASKED%20QUESTIONS%20-%20Oct%202016-1.pdf",
+          "score": 8
+        }
+      ]
+    },
+    {
+      "company_id": "moloco",
+      "company_name": "Moloco",
+      "source_rank": "12",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers at Moloco | Build What’s Next",
+          "url": "https://www.moloco.com/company/careers",
+          "score": 38
+        },
+        {
+          "title": "Talk to Our Team | Moloco",
+          "url": "https://www.moloco.com/contact-us",
+          "score": 33
+        },
+        {
+          "title": "About Moloco | AI Advertising for the Open Internet",
+          "url": "https://www.moloco.com/company/about",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "postman",
+      "company_name": "Postman",
+      "source_rank": "13",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers | Postman",
+          "url": "https://www.postman.com/company/careers/",
+          "score": 38
+        },
+        {
+          "title": "Open Positions at Postman | Join Our Team",
+          "url": "https://www.postman.com/company/careers/open-positions/",
+          "score": 38
+        },
+        {
+          "title": "Jobs at Postman",
+          "url": "https://job-boards.greenhouse.io/postman/?offices%5B%5D=4015621003&offices%5B%5D=4063695003",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "rippling",
+      "company_name": "Rippling",
+      "source_rank": "14",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Rippling Careers | Work Will Never Be the Same",
+          "url": "https://www.rippling.com/en-IN/careers",
+          "score": 38
+        },
+        {
+          "title": "All-in-one HR Software built for Canadian businesses | Rippling Canada",
+          "url": "https://www.rippling.com/en-CA/careers/open-roles",
+          "score": 38
+        },
+        {
+          "title": "Software Engineer Jobs at Rippling | Rippling",
+          "url": "https://www.rippling.com/en-IE/engineering",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "rubrik",
+      "company_name": "Rubrik",
+      "source_rank": "15",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers at Rubrik | Discover The Power of You",
+          "url": "https://www.rubrik.com/company/careers?gh_src=2c3b02b81us",
+          "score": 38
+        },
+        {
+          "title": "Professional Services Careers at Rubrik | Deliver",
+          "url": "https://www.rubrik.com/company/careers/departments/professional-service.1929",
+          "score": 38
+        },
+        {
+          "title": "Rubrik",
+          "url": "https://en.wikipedia.org/wiki/Rubrik",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "gitlab",
+      "company_name": "GitLab",
+      "source_rank": "17",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "GitLab Jobs",
+          "url": "https://about.gitlab.com/jobs/all-jobs/",
+          "score": 38
+        },
+        {
+          "title": "Join GitLab",
+          "url": "https://about.gitlab.com/jobs/",
+          "score": 38
+        },
+        {
+          "title": "Rippling Careers | Work Will Never Be the Same",
+          "url": "https://www.rippling.com/en-IN/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "slack",
+      "company_name": "Slack",
+      "source_rank": "18",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers | Slack",
+          "url": "https://join.slack.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Rippling Careers | Work Will Never Be the Same",
+          "url": "https://www.rippling.com/en-IN/careers",
+          "score": 5
+        },
+        {
+          "title": "Careers at Rubrik | Discover The Power of You",
+          "url": "https://www.rubrik.com/company/careers?gh_src=2c3b02b81us",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "google",
+      "company_name": "Google",
+      "source_rank": "19",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Search for jobs - Google Careers Help",
+          "url": "https://support.google.com/googlecareers/answer/9018529?hl=en",
+          "score": 38
+        },
+        {
+          "title": "Jobs search — Google Careers",
+          "url": "https://www.google.com/about/careers/applications/jobs/results/94342078078558918-software-engineering-android-embedded-software?company=Google&company=Google+Fiber&company=YouTube&employment_type=FULL_TIME&hl=en_US&jlo=en_US&location=India&page=2&q=web+design&skills=computer+programming&sor=",
+          "score": 38
+        },
+        {
+          "title": "Apply for a job - Google Careers Help",
+          "url": "https://support.google.com/googlecareers/answer/6095391?hl=en",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "microsoft",
+      "company_name": "Microsoft",
+      "source_rank": "20",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Jobs in India | Microsoft Careers",
+          "url": "https://careers.microsoft.com/v2/global/en/locations/india.html?trk=public_post_main-feed-card_reshare_feed-article-content",
+          "score": 38
+        },
+        {
+          "title": "Jobs in Mumbai | Microsoft Careers",
+          "url": "https://careers.microsoft.com/v2/global/en/locations/mumbai.html",
+          "score": 38
+        },
+        {
+          "title": "Jobs in Bengaluru | Microsoft Careers",
+          "url": "https://careers.microsoft.com/v2/global/en/locations/bengaluru.html",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "oracle-oci",
+      "company_name": "Oracle / OCI",
+      "source_rank": "21",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Cloud Infrastructure Careers | Join us | | Oracle India",
+          "url": "https://www.oracle.com/in/careers/opportunities/oracle-cloud-infrastructure/",
+          "score": 18
+        },
+        {
+          "title": "Jobs in India | Microsoft Careers",
+          "url": "https://careers.microsoft.com/v2/global/en/locations/india.html?trk=public_post_main-feed-card_reshare_feed-article-content",
+          "score": 5
+        },
+        {
+          "title": "Jobs in Mumbai | Microsoft Careers",
+          "url": "https://careers.microsoft.com/v2/global/en/locations/mumbai.html",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "zerodha",
+      "company_name": "Zerodha",
+      "source_rank": "22",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers | Zerodha Fund House",
+          "url": "https://careers.zerodhafundhouse.com/jobs",
+          "score": 38
+        },
+        {
+          "title": "Jobs in India | Microsoft Careers",
+          "url": "https://careers.microsoft.com/v2/global/en/locations/india.html?trk=public_post_main-feed-card_reshare_feed-article-content",
+          "score": 5
+        },
+        {
+          "title": "Cloud Infrastructure Careers | Join us | | Oracle India",
+          "url": "https://www.oracle.com/in/careers/opportunities/oracle-cloud-infrastructure/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "amazon-aws",
+      "company_name": "Amazon / AWS",
+      "source_rank": "23",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "India Will Need Nine Times as Many Digital Skilled Workers by 2025, Reveals New Report",
+          "url": "https://amazonindia.gcs-web.com/static-files/ab7f9e13-8b7c-46eb-9f63-e02b11431fe1",
+          "score": 8
+        },
+        {
+          "title": "Search Jobs - India - Jobs - Careers at Apple",
+          "url": "https://jobs.apple.com/en-us/search?location=india-INDC",
+          "score": 5
+        },
+        {
+          "title": "Careers at InMobi | Join Our Global Team",
+          "url": "https://www.inmobi.com/company/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "apple",
+      "company_name": "Apple",
+      "source_rank": "24",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Search Jobs - India - Jobs - Careers at Apple",
+          "url": "https://jobs.apple.com/en-us/search?location=india-INDC",
+          "score": 38
+        },
+        {
+          "title": "Apple Software and Services Jobs - Careers at Apple",
+          "url": "https://www.apple.com/careers/in/work-at-apple/teams/software-and-services.html",
+          "score": 38
+        },
+        {
+          "title": "Apple Sales and Business Development Jobs - Careers at Apple",
+          "url": "https://www.apple.com/careers/in/work-at-apple/teams/sales-and-business-development.html",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "inmobi",
+      "company_name": "InMobi",
+      "source_rank": "25",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers at InMobi | Join Our Global Team",
+          "url": "https://www.inmobi.com/company/careers",
+          "score": 38
+        },
+        {
+          "title": "品牌广告|品牌推广|移动品牌广告|移动品牌推广|InMobi",
+          "url": "https://www.inmobi.cn/company/careers/",
+          "score": 38
+        },
+        {
+          "title": "Hiring | Careers | InMobi",
+          "url": "https://www.inmobi.com/company/openings/full-time-employee/jobid/6962965",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "broadcom",
+      "company_name": "Broadcom",
+      "source_rank": "29",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers | Broadcom",
+          "url": "https://www.broadcom.com/company/careers",
+          "score": 38
+        },
+        {
+          "title": "Careers | Featured Offices | Broadcom",
+          "url": "https://www.broadcom.com/company/careers/featured-offices",
+          "score": 38
+        },
+        {
+          "title": "Broadcom Corporation",
+          "url": "https://en.wikipedia.org/wiki/Broadcom_Corporation",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "cockroach-labs",
+      "company_name": "Cockroach Labs",
+      "source_rank": "30",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers at Cockroach Labs",
+          "url": "https://www.cockroachlabs.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Cockroach Labs - Open positions.",
+          "url": "https://www.cockroachlabs.com/careers/open-positions/",
+          "score": 38
+        },
+        {
+          "title": "Internships | Cockroach Labs",
+          "url": "https://www.cockroachlabs.com/careers/internships/",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "confluent",
+      "company_name": "Confluent",
+      "source_rank": "31",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Confluent",
+          "url": "https://en.wikipedia.org/wiki/Confluent",
+          "score": 25
+        },
+        {
+          "title": "Careers at Cockroach Labs",
+          "url": "https://www.cockroachlabs.com/careers/",
+          "score": 5
+        },
+        {
+          "title": "Cockroach Labs - Open positions.",
+          "url": "https://www.cockroachlabs.com/careers/open-positions/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "pure-storage",
+      "company_name": "Pure Storage",
+      "source_rank": "32",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Jobs at Pure Storage",
+          "url": "https://job-boards.greenhouse.io/purestorage/jobs/6660530",
+          "score": 35
+        },
+        {
+          "title": "PURESTORAGE®When Culture Thrives, Customer",
+          "url": "https://blog.purestorage.com/perspectives/creating-a-thriving-culture-and-customer-experience/?linkId=101931998&print=pdf",
+          "score": 26
+        },
+        {
+          "title": "2021 ESG Report: Our People | Pure Storage",
+          "url": "https://www.everpuredata.com/content/dam/pdf/en/misc/esg/2021-esg-pure-report-people.pdf",
+          "score": 18
+        }
+      ]
+    },
+    {
+      "company_id": "linkedin",
+      "company_name": "LinkedIn",
+      "source_rank": "40",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "LinkedIn Job Search: Find India Jobs, Internships, Jobs Near Me",
+          "url": "https://in.linkedin.com/jobs",
+          "score": 8
+        },
+        {
+          "title": "Search Jobs in India (11,000+ Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/search-jobs",
+          "score": 8
+        },
+        {
+          "title": "LinkedIn: Jobs | LinkedIn",
+          "url": "https://www.linkedin.com/company/linkedin/jobs",
+          "score": 8
+        }
+      ]
+    },
+    {
+      "company_id": "airbnb",
+      "company_name": "Airbnb",
+      "source_rank": "51",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Positions Archive - Careers at Airbnb",
+          "url": "https://careers.airbnb.com/positions",
+          "score": 38
+        },
+        {
+          "title": "The Economic Impact of Airbnb in India",
+          "url": "https://news.airbnb.com/wp-content/uploads/sites/4/2025/09/2025-India-Oxford-Economics-050925.pdf",
+          "score": 13
+        },
+        {
+          "title": "Intuit India Careers: Tech Careers & Technology Jobs",
+          "url": "https://www.intuit.com/in/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "falconx",
+      "company_name": "FalconX",
+      "source_rank": "52",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Open Roles at FalconX | Careers in Crypto, Trading & Finance",
+          "url": "https://www.falconx.io/open-roles",
+          "score": 38
+        },
+        {
+          "title": "Join FalconX | Shape Tomorrow’s Financial Systems",
+          "url": "https://www.falconx.io/work-with-us",
+          "score": 38
+        },
+        {
+          "title": "Jobs at FalconX",
+          "url": "https://job-boards.greenhouse.io/falconx?error=true",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "stripe",
+      "company_name": "Stripe",
+      "source_rank": "53",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Stripe Careers | Solutions Architect (India)",
+          "url": "https://stripe.com/careers/listing/solutions-architect-india/8042913",
+          "score": 38
+        },
+        {
+          "title": "Intuit India Careers: Tech Careers & Technology Jobs",
+          "url": "https://www.intuit.com/in/careers/",
+          "score": 5
+        },
+        {
+          "title": "Explore Careers at Intuit | Open Positions Available",
+          "url": "https://jobs.intuit.com/search-jobs?k=intuit-india-jobs",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "intuit",
+      "company_name": "Intuit",
+      "source_rank": "56",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Intuit India Careers: Tech Careers & Technology Jobs",
+          "url": "https://www.intuit.com/in/careers/",
+          "score": 38
+        },
+        {
+          "title": "Explore Careers at Intuit | Open Positions Available",
+          "url": "https://jobs.intuit.com/search-jobs?k=intuit-india-jobs",
+          "score": 38
+        },
+        {
+          "title": "Explore Career and Job Opportunities | Intuit Careers",
+          "url": "https://www.intuit.com/careers/",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "salesforce",
+      "company_name": "Salesforce",
+      "source_rank": "58",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Salesforce in India. | Salesforce Careers",
+          "url": "https://careers.salesforce.com/en/our-locations/asia-pacific/india/",
+          "score": 38
+        },
+        {
+          "title": "Careers in India | Join Salesforce in India | Salesforce",
+          "url": "https://www.salesforce.com/company/careers/locations/india/?bc=OTH",
+          "score": 38
+        },
+        {
+          "title": "Salesforce Jobs | Salesforce",
+          "url": "https://www.salesforce.com/company/careers/jobs/?bc=OTH&country=India&page=1",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "servicenow",
+      "company_name": "ServiceNow",
+      "source_rank": "60",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "India | ServiceNow Careers - Page 3",
+          "url": "https://careers.servicenow.com/locations/apj/india/?page=3",
+          "score": 38
+        },
+        {
+          "title": "ServiceNow - Put AI to Work",
+          "url": "https://www.servicenow.com/in/",
+          "score": 33
+        },
+        {
+          "title": "Building India’s AI Skills Economy: Future-proof your business & invest in upskilling today",
+          "url": "https://www.servicenow.com/content/dam/servicenow-assets/public/en-us/doc-type/resource-center/data-sheet/futureproof-your-business-and-invest-in-upskilling-today.pdf",
+          "score": 8
+        }
+      ]
+    },
+    {
+      "company_id": "booking-com",
+      "company_name": "Booking.com",
+      "source_rank": "62",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Booking.com Careers",
+          "url": "https://jobs.booking.com/",
+          "score": 51
+        },
+        {
+          "title": "Booking.com Careers Apply",
+          "url": "https://jobs.booking.com/booking/jobs/locations",
+          "score": 51
+        },
+        {
+          "title": "Booking Holdings COE Careers Apply",
+          "url": "https://jobs.booking.com/bookingholdings-coe",
+          "score": 46
+        }
+      ]
+    },
+    {
+      "company_id": "coupang",
+      "company_name": "Coupang",
+      "source_rank": "63",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Bengaluru | Coupang Careers",
+          "url": "https://www.coupang.jobs/en/locations/bengaluru/",
+          "score": 38
+        },
+        {
+          "title": "Jobs | Coupang Careers",
+          "url": "https://www.coupang.jobs/en/jobs/?gh_jid=6652068",
+          "score": 38
+        },
+        {
+          "title": "Coupang",
+          "url": "https://en.wikipedia.org/wiki/Coupang",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "crowdstrike",
+      "company_name": "CrowdStrike",
+      "source_rank": "64",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Field Tech Strategist",
+          "url": "https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/Field-Tech-Strategist_R28986",
+          "score": 28
+        },
+        {
+          "title": "Notice of the Filing of a",
+          "url": "https://www.crowdstrike.com/content/dam/crowdstrike/marketing/en-us/documents/pdfs/careers-lca/Austin-TX-Software-Developers-11072025-11062028-PAFSJ399.pdf",
+          "score": 13
+        },
+        {
+          "title": "Join us: https://crowdstrike.com/career",
+          "url": "https://www.usenix.org/system/files/srecon21_slides_schow.pdf",
+          "score": 10
+        }
+      ]
+    },
+    {
+      "company_id": "okta",
+      "company_name": "Okta",
+      "source_rank": "65",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers - Jobs at the Leader in Identity and Access Management | Okta",
+          "url": "https://www.okta.com/company/careers/",
+          "score": 38
+        },
+        {
+          "title": "Careers - Jobs at the Leader in Identity and Access Management | Okta",
+          "url": "https://www.okta.com/company/careers/job-listing/",
+          "score": 38
+        },
+        {
+          "title": "Okta Compliance and",
+          "url": "https://okta.postclickmarketing.com/Director.aspx?eli=EFD6C3A01952C3A0E3D5F8CB52957CC63C91C37FE682B402&pgi=742&pgk=1TY1QGYL&sid=108&sky=8G",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "twilio",
+      "company_name": "Twilio",
+      "source_rank": "66",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers at Twilio | Twilio",
+          "url": "https://jobs.twilio.com/careers?domain=twilio.com&hl=en",
+          "score": 38
+        },
+        {
+          "title": "Careers and culture | Twilio",
+          "url": "https://www.twilio.com/en-us/careers",
+          "score": 38
+        },
+        {
+          "title": "A Major Next Step: End-to-end R&D in Bengaluru | Twilio",
+          "url": "https://www.twilio.com/en-us/blog/company/inside-twilio/research-and-development-in-bengaluru",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "databricks",
+      "company_name": "Databricks",
+      "source_rank": "68",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Jobs at Databricks",
+          "url": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&token=7464169002",
+          "score": 30
+        },
+        {
+          "title": "Jobs at Databricks",
+          "url": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&token=7995574002&validityToken=ij2lo8N1z-CXKJSsqutgk7Ps4kw3Ts4nV1-pexGVUjzv0FCZ5ULbY8FSe62DGupfx6cFsh8i7Hl3e7xe1erY6dOHC8gJW2ei_E14V9gyvyj0hiixQ1c8wY1g6T-k1g5-JJe45j6a0yXNTt9zMkpI1ByJyluq0QM-sg8Eu6VuNetYk2kZeLJclkTGYkGQ9Rdm24n_QzV8NMfMuQhTT9ksTGwa58qJCeYJBiXU3RgPdgZJch2Zl9TjAdJXwph8OLEkMdLmLNtRBA-Hm0_gZ5IV-Ll_JLnL3DPGmPds-OYfIznzWr22U095bOoJpCO-oc7g_4tUEx_q0eyTd711q67NdA%3D%3D",
+          "score": 30
+        },
+        {
+          "title": "Careers - Jobs at the Leader in Identity and Access Management | Okta",
+          "url": "https://www.okta.com/company/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "index-exchange",
+      "company_name": "Index Exchange",
+      "source_rank": "71",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers - Index Exchange",
+          "url": "https://www.indexexchange.com/careers/",
+          "score": 51
+        },
+        {
+          "title": "Erkunden Sie Chancen und offene Stellen",
+          "url": "https://www.indexexchange.com/de/karriere-bei-index-exchange/opportunities/",
+          "score": 41
+        },
+        {
+          "title": "Flipkart Careers - Jobs @ India",
+          "url": "https://www.flipkartcareers.com/jobslist",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "roku",
+      "company_name": "Roku",
+      "source_rank": "72",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Welcome to Roku Bengaluru | Roku Jobs",
+          "url": "https://www.weareroku.com/bengaluru",
+          "score": 38
+        },
+        {
+          "title": "Roku, Inc.",
+          "url": "https://en.wikipedia.org/wiki/Roku%2C_Inc.",
+          "score": 25
+        },
+        {
+          "title": "Flipkart Careers - Jobs @ India",
+          "url": "https://www.flipkartcareers.com/jobslist",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "flipkart",
+      "company_name": "Flipkart",
+      "source_rank": "74",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Flipkart Careers - Jobs @ India",
+          "url": "https://www.flipkartcareers.com/jobslist",
+          "score": 38
+        },
+        {
+          "title": "Flipkart Careers - Product Team",
+          "url": "https://www.flipkartcareers.com/product",
+          "score": 38
+        },
+        {
+          "title": "Flipkart Careers - Maximise Your Potential",
+          "url": "https://www.flipkartcareers.com/",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "meesho",
+      "company_name": "Meesho",
+      "source_rank": "75",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Meesho Jobs | Meesho Careers, Best Startup Jobs in India",
+          "url": "https://www.meesho.io/jobs?i=true",
+          "score": 38
+        },
+        {
+          "title": "Meesho Early Careers | Best Early Career Jobs In India",
+          "url": "https://www.meesho.io/early-careers",
+          "score": 38
+        },
+        {
+          "title": "Meesho",
+          "url": "https://jobs.lever.co/meesho",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "phonepe",
+      "company_name": "PhonePe",
+      "source_rank": "76",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "PhonePe - Job Openings",
+          "url": "https://www.phonepe.com/careers/job-openings/",
+          "score": 38
+        },
+        {
+          "title": "PhonePe - Careers",
+          "url": "https://www.phonepe.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Careers at PHONEPE LIMITED",
+          "url": "https://careers.smartrecruiters.com/PHONEPELIMITED",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "razorpay",
+      "company_name": "Razorpay",
+      "source_rank": "77",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Razorpay Careers | Jobs, Hiring & Career Opportunities at Razorpay",
+          "url": "https://razorpay.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Returnship - Return to Work Program",
+          "url": "https://razorpay.com/return-to-work-program/",
+          "score": 28
+        },
+        {
+          "title": "PhonePe - Job Openings",
+          "url": "https://www.phonepe.com/careers/job-openings/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "swiggy",
+      "company_name": "Swiggy",
+      "source_rank": "78",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Swiggy Careers",
+          "url": "https://careers.swiggy.com/",
+          "score": 38
+        },
+        {
+          "title": "Open roles | Swiggy Careers | Swiggy Jobs | Swiggy Openings | Swiggy.com",
+          "url": "https://careers.swiggy.com/list.html",
+          "score": 38
+        },
+        {
+          "title": "Swiggy Delivery Partner - Join & Start Earning Today",
+          "url": "https://storejobs.swiggy.com/",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "zomato-blinkit",
+      "company_name": "Zomato / Blinkit",
+      "source_rank": "79",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "PhonePe - Job Openings",
+          "url": "https://www.phonepe.com/careers/job-openings/",
+          "score": 5
+        },
+        {
+          "title": "PhonePe - Careers",
+          "url": "https://www.phonepe.com/careers/",
+          "score": 5
+        },
+        {
+          "title": "Swiggy Careers",
+          "url": "https://careers.swiggy.com/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "alphagrep",
+      "company_name": "AlphaGrep",
+      "source_rank": "81",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Investment Management Careers | Quantitative Finance Jobs | AlphaGrep",
+          "url": "https://alphagrepim.com/alphagrep-investment-management-india/careers/",
+          "score": 38
+        },
+        {
+          "title": "Quantitative Trading Careers | Quant Research & Trading Jobs at AlphaGrep",
+          "url": "https://www.alpha-grep.com/career/",
+          "score": 30
+        },
+        {
+          "title": "Jobs at AlphaGrep Securities",
+          "url": "https://job-boards.greenhouse.io/alphagrepsecurities",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "apt-portfolio",
+      "company_name": "APT Portfolio",
+      "source_rank": "82",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Jobs at APT Research",
+          "url": "https://job-boards.greenhouse.io/aptportfolio/jobs/4478626002",
+          "score": 10
+        },
+        {
+          "title": "Quantitative Trading Careers | Quant Research & Trading Jobs at AlphaGrep",
+          "url": "https://www.alpha-grep.com/career/",
+          "score": 5
+        },
+        {
+          "title": "Jobs at AlphaGrep Securities",
+          "url": "https://job-boards.greenhouse.io/alphagrepsecurities",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "d-e-shaw-india",
+      "company_name": "D. E. Shaw India",
+      "source_rank": "83",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Quantitative Trading Careers | Quant Research & Trading Jobs at AlphaGrep",
+          "url": "https://www.alpha-grep.com/career/",
+          "score": 5
+        },
+        {
+          "title": "Jobs at AlphaGrep Securities",
+          "url": "https://job-boards.greenhouse.io/alphagrepsecurities",
+          "score": 5
+        },
+        {
+          "title": "Jobs at Graviton Research Capital LLP",
+          "url": "https://boards.greenhouse.io/embed/job_board?for=gravitonresearchcapital",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "graviton-research-capital",
+      "company_name": "Graviton Research Capital",
+      "source_rank": "84",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Jobs at Graviton Research Capital LLP",
+          "url": "https://boards.greenhouse.io/embed/job_board?for=gravitonresearchcapital",
+          "score": 40
+        },
+        {
+          "title": "Job Application for Quantitative Researcher at Graviton Research Capital LLP",
+          "url": "https://job-boards.greenhouse.io/gravitonresearchcapital/jobs/4004918002",
+          "score": 40
+        },
+        {
+          "title": "Work with us - Graviton",
+          "url": "https://www.gravitontrading.com/careers.html?gh_src=8306423a2us",
+          "score": 18
+        }
+      ]
+    },
+    {
+      "company_id": "mayhem-studios",
+      "company_name": "Mayhem Studios",
+      "source_rank": "85",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Mayhem Studios: Building India’s first AAA Battle Royale",
+          "url": "https://www.mayhem-studios.com/",
+          "score": 46
+        },
+        {
+          "title": "Mayhem Studios | AAA Game Development Studio in Bengaluru, India",
+          "url": "https://www.bjswzc88.com/",
+          "score": 30
+        },
+        {
+          "title": "Jobs at NK Securities Research",
+          "url": "https://job-boards.greenhouse.io/nksecuritiesresearch?error=true",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "mrsool",
+      "company_name": "Mrsool",
+      "source_rank": "86",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "How can I apply for a job at Mrsool? | Mrsool Help Center",
+          "url": "https://help.sa.mrsool.co/en/articles/8345205-how-can-i-apply-for-a-job-at-mrsool",
+          "score": 33
+        },
+        {
+          "title": "citeturn17search22 [wordlim: 200] Crawled: 7 months ago; * Official website",
+          "url": "https://mrsool.co/",
+          "score": 28
+        },
+        {
+          "title": "Mrsool",
+          "url": "https://en.wikipedia.org/wiki/Mrsool",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "nk-securities",
+      "company_name": "NK Securities",
+      "source_rank": "87",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "NK Securities Research - High Frequency Algorithmic Trading",
+          "url": "https://www.nksecurities.com/",
+          "score": 33
+        },
+        {
+          "title": "Jobs at NK Securities Research",
+          "url": "https://job-boards.greenhouse.io/nksecuritiesresearch?error=true",
+          "score": 30
+        },
+        {
+          "title": "Quadeye Careers & Jobs | HireBeacon",
+          "url": "https://hirebeacon.in/company/quadeye",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "quadeye",
+      "company_name": "Quadeye",
+      "source_rank": "88",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Welcome To Quadeye",
+          "url": "https://www.quadeye.com/",
+          "score": 33
+        },
+        {
+          "title": "Quadeye Careers & Jobs | HireBeacon",
+          "url": "https://hirebeacon.in/company/quadeye",
+          "score": 30
+        },
+        {
+          "title": "Discover Jobs at Quadeye",
+          "url": "https://nextleap.app/company/quadeye/jobs",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "quantbox-research",
+      "company_name": "Quantbox Research",
+      "source_rank": "89",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Jobs at Quantbox Research",
+          "url": "https://job-boards.greenhouse.io/quantboxresearchpte?error=true",
+          "score": 35
+        },
+        {
+          "title": "Careers — Quantbox",
+          "url": "https://quantboxresearch.com/careers/",
+          "score": 26
+        },
+        {
+          "title": "Careers - Tower Research Capital",
+          "url": "https://tower-research.com/careers/",
+          "score": 18
+        }
+      ]
+    },
+    {
+      "company_id": "qube-research-and-technologies",
+      "company_name": "Qube Research & Technologies",
+      "source_rank": "90",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Jobs at Qube Research & Technologies",
+          "url": "https://job-boards.greenhouse.io/quberesearchandtechnologies?error=true",
+          "score": 40
+        },
+        {
+          "title": "Job Application for Data Scientist - Pricing at Qube Research & Technologies",
+          "url": "https://job-boards.greenhouse.io/quberesearchandtechnologies/jobs/8551885002",
+          "score": 40
+        },
+        {
+          "title": "Careers - Tower Research Capital",
+          "url": "https://tower-research.com/careers/",
+          "score": 18
+        }
+      ]
+    },
+    {
+      "company_id": "tower-research-capital",
+      "company_name": "Tower Research Capital",
+      "source_rank": "91",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers - Tower Research Capital",
+          "url": "https://tower-research.com/careers/",
+          "score": 56
+        },
+        {
+          "title": "Internships - Tower Research Capital",
+          "url": "https://tower-research.com/internships/",
+          "score": 51
+        },
+        {
+          "title": "Careers at Tower Research Capital LLC",
+          "url": "https://careers.smartrecruiters.com/TowerResearchCapitalLLC?oga=true",
+          "score": 40
+        }
+      ]
+    },
+    {
+      "company_id": "x",
+      "company_name": "X",
+      "source_rank": "92",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers — Quantbox",
+          "url": "https://quantboxresearch.com/careers/",
+          "score": 25
+        },
+        {
+          "title": "Jobs at Quantbox Research",
+          "url": "https://job-boards.greenhouse.io/quantboxresearchpte?error=true",
+          "score": 25
+        },
+        {
+          "title": "Careers - Google X",
+          "url": "https://x.company/careers/",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "cred",
+      "company_name": "CRED",
+      "source_rank": "94",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "CRED: Careers",
+          "url": "https://careers.cred.club/openings",
+          "score": 38
+        },
+        {
+          "title": "Careers at CRED",
+          "url": "https://www.credplatform.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Cred (company)",
+          "url": "https://en.wikipedia.org/wiki/Cred_%28company%29",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "navi",
+      "company_name": "Navi",
+      "source_rank": "95",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers At Navi | Join Our Team",
+          "url": "https://navi.com/careers",
+          "score": 38
+        },
+        {
+          "title": "navi.limited - Link in Bio",
+          "url": "https://navi.com/socials",
+          "score": 33
+        },
+        {
+          "title": "citeturn19search31 [wordlim: 200] Crawled: 5 months ago; Hq Location: Bangalore, Karnataka, India ... * Official Website",
+          "url": "https://navi.com",
+          "score": 28
+        }
+      ]
+    },
+    {
+      "company_id": "uber",
+      "company_name": "Uber",
+      "source_rank": "100",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Job Openings | Uber Careers",
+          "url": "https://www.uber.com/us/en/careers/list/?query=&uclick_id=0ceb75d7-8b7c-4dce-8de6-24c0a903b261",
+          "score": 38
+        },
+        {
+          "title": "Bengaluru",
+          "url": "https://jobs.uber.com/en/locations/bengaluru/?id=14480",
+          "score": 33
+        },
+        {
+          "title": "Uber - Employment Status Consultation Submission",
+          "url": "https://tb-static.uber.com/prod/udam-assets/64174d6a-97ec-5100-8369-23eebc9f886e.pdf",
+          "score": 13
+        }
+      ]
+    },
+    {
+      "company_id": "walmart-global-tech",
+      "company_name": "Walmart Global Tech",
+      "source_rank": "101",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Explore career opportunities at Walmart Global Tech",
+          "url": "https://tech.walmart.com/content/walmart-global-tech/en_us/careers.html",
+          "score": 56
+        },
+        {
+          "title": "Reimagining retail solutions - Walmart Global Tech",
+          "url": "https://tech.walmart.com/",
+          "score": 51
+        },
+        {
+          "title": "Walmart Global Tech",
+          "url": "https://en.wikipedia.org/wiki/Walmart_Global_Tech",
+          "score": 35
+        }
+      ]
+    },
+    {
+      "company_id": "amd",
+      "company_name": "AMD",
+      "source_rank": "109",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "AMD Careers | Engineering and AI Jobs in Technology",
+          "url": "https://www.amd.com/en/corporate/careers.html",
+          "score": 38
+        },
+        {
+          "title": "RTL Design Engineer in Hyderabad, India | Advanced Micro Devices, Inc",
+          "url": "https://careers.amd.com/careers-home/jobs/64189?lang=en-us",
+          "score": 33
+        },
+        {
+          "title": "AMD (disambiguation)",
+          "url": "https://en.wikipedia.org/wiki/AMD_%28disambiguation%29",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "intel",
+      "company_name": "Intel",
+      "source_rank": "110",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Intel Facilities",
+          "url": "https://www.intel.com/content/www/us/en/jobs/locations.html",
+          "score": 38
+        },
+        {
+          "title": "Work and Life at Intel",
+          "url": "https://www.intel.com/content/www/us/en/jobs/life-at-intel.html",
+          "score": 38
+        },
+        {
+          "title": "Intel",
+          "url": "https://en.wikipedia.org/wiki/Intel",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "qualcomm",
+      "company_name": "Qualcomm",
+      "source_rank": "111",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Internship and Career Opportunities | Students and Early Career Professionals | Qualcomm",
+          "url": "https://www.qualcomm.com/company/careers/internships-and-early-in-career-opportunities",
+          "score": 38
+        },
+        {
+          "title": "Internships and Early Career Opportunities | India | Qualcomm",
+          "url": "https://www.qualcomm.com/company/careers/internships-and-early-in-career-opportunities/india",
+          "score": 38
+        },
+        {
+          "title": "Qualcomm India Office Locations and Details | Qualcomm",
+          "url": "https://www.qualcomm.com/company/locations/india",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "samsung-r-and-d",
+      "company_name": "Samsung R&D",
+      "source_rank": "112",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Samsung R&D Institute India, Bengaluru",
+          "url": "https://en.wikipedia.org/wiki/Samsung_R%26D_Institute_India%2C_Bengaluru",
+          "score": 30
+        },
+        {
+          "title": "SRI Noida | Samsung Research",
+          "url": "https://research.samsung.com/sri-n",
+          "score": 13
+        },
+        {
+          "title": "SRI Delhi | Samsung Research",
+          "url": "https://research.samsung.com/sri-d",
+          "score": 13
+        }
+      ]
+    },
+    {
+      "company_id": "aqr-capital-management",
+      "company_name": "AQR Capital Management",
+      "source_rank": "115",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers – Dolat Capital",
+          "url": "https://dolatcapital.in/careers/",
+          "score": 18
+        },
+        {
+          "title": "Careers – Dolat Capital",
+          "url": "https://dolatcapitalresearch.com/careers/",
+          "score": 18
+        },
+        {
+          "title": "Millennium Management | Grow Your Career at Millennium",
+          "url": "https://www.mlp.com/careers/",
+          "score": 10
+        }
+      ]
+    },
+    {
+      "company_id": "dolat-capital",
+      "company_name": "Dolat Capital",
+      "source_rank": "116",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers – Dolat Capital",
+          "url": "https://dolatcapital.in/careers/",
+          "score": 51
+        },
+        {
+          "title": "Careers – Dolat Capital",
+          "url": "https://dolatcapitalresearch.com/careers/",
+          "score": 51
+        },
+        {
+          "title": "Dolat Capital",
+          "url": "https://dolatresearch.com/openings.aspx",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "imc-trading",
+      "company_name": "IMC Trading",
+      "source_rank": "117",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers IN | IMC Trading",
+          "url": "https://www.imc.com/in/careers",
+          "score": 43
+        },
+        {
+          "title": "Search careers-INDIA | IMC Trading",
+          "url": "https://www.imc.com/in/search-careers?jobTypes=Early+Career&page=1&weekdayJdUid=375570",
+          "score": 43
+        },
+        {
+          "title": "Home IN | IMC Trading",
+          "url": "https://www.imc.com/in",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "millennium-management",
+      "company_name": "Millennium Management",
+      "source_rank": "118",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Millennium Management | Grow Your Career at Millennium",
+          "url": "https://www.mlp.com/careers/",
+          "score": 35
+        },
+        {
+          "title": "Millennium Management | Student Opportunities at Millennium",
+          "url": "https://www.mlp.com/careers/students/",
+          "score": 35
+        },
+        {
+          "title": "Millennium Management",
+          "url": "https://en.wikipedia.org/wiki/Millennium_Management",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "optiver",
+      "company_name": "Optiver",
+      "source_rank": "119",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Join Us: Trading, Research & Tech Careers | Optiver",
+          "url": "https://www.optiver.com/join-us/",
+          "score": 38
+        },
+        {
+          "title": "Mumbai Office: Trading, Research & Tech Careers | Optiver",
+          "url": "https://www.optiver.com/join-us/locations/mumbai/",
+          "score": 38
+        },
+        {
+          "title": "Make an Impact with Optiver Careers",
+          "url": "https://optiver.com/working-at-optiver/career-opportunities/8159187002/",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "point72",
+      "company_name": "Point72",
+      "source_rank": "120",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Working Here - Point72",
+          "url": "https://point72.com/working-here/",
+          "score": 33
+        },
+        {
+          "title": "Investment Services - Point72",
+          "url": "https://point72.com/investment-services/",
+          "score": 33
+        },
+        {
+          "title": "Locations - Point72",
+          "url": "https://point72.com/locations/",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "squarepoint-capital",
+      "company_name": "Squarepoint Capital",
+      "source_rank": "121",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Squarepoint Capital",
+          "url": "https://en.wikipedia.org/wiki/Squarepoint_Capital",
+          "score": 30
+        },
+        {
+          "title": "Join Us: Trading, Research & Tech Careers | Optiver",
+          "url": "https://www.optiver.com/join-us/",
+          "score": 5
+        },
+        {
+          "title": "Trexquant Careers",
+          "url": "https://trexquant.com/careers?q=int",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "trexquant-investment",
+      "company_name": "Trexquant Investment",
+      "source_rank": "122",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Trexquant Careers",
+          "url": "https://trexquant.com/careers?q=int",
+          "score": 18
+        },
+        {
+          "title": "Trexquant Careers",
+          "url": "https://trexquant.com/careers/A6E01B3448",
+          "score": 18
+        },
+        {
+          "title": "Trexquant Investment LP: Jobs | LinkedIn",
+          "url": "https://in.linkedin.com/company/trexquant-investment-lp/jobs",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "worldquant",
+      "company_name": "WorldQuant",
+      "source_rank": "123",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Quantitative Finance Careers at WorldQuant",
+          "url": "https://www.worldquant.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Quantitative Finance Careers at WorldQuant",
+          "url": "https://www.worldquant.com/career-listing/?id=4703128006",
+          "score": 38
+        },
+        {
+          "title": "Quantitative Finance Careers at WorldQuant",
+          "url": "https://www.worldquant.com/career-listing/?id=4381945006",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "100ms",
+      "company_name": "100ms",
+      "source_rank": "124",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "100MS",
+          "url": "https://jobs.lever.co/100ms",
+          "score": 30
+        },
+        {
+          "title": "Quantitative Finance Careers at WorldQuant",
+          "url": "https://www.worldquant.com/careers/",
+          "score": 5
+        },
+        {
+          "title": "AI and Machine Learning Jobs | Biopharma | Aganitha",
+          "url": "https://www.aganitha.ai/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "aarogyaai",
+      "company_name": "AarogyaAI",
+      "source_rank": "125",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Quantitative Finance Careers at WorldQuant",
+          "url": "https://www.worldquant.com/careers/",
+          "score": 5
+        },
+        {
+          "title": "AI and Machine Learning Jobs | Biopharma | Aganitha",
+          "url": "https://www.aganitha.ai/careers/",
+          "score": 5
+        },
+        {
+          "title": "Quantitative Finance Careers at WorldQuant",
+          "url": "https://www.worldquant.com/career-listing/?id=4703128006",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "aganitha",
+      "company_name": "Aganitha",
+      "source_rank": "126",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "AI and Machine Learning Jobs | Biopharma | Aganitha",
+          "url": "https://www.aganitha.ai/careers/",
+          "score": 38
+        },
+        {
+          "title": "Partnership Manager | Aganitha Careers",
+          "url": "https://www.aganitha.ai/careers/partnership-manager/",
+          "score": 38
+        },
+        {
+          "title": "Quantitative Finance Careers at WorldQuant",
+          "url": "https://www.worldquant.com/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "aidash",
+      "company_name": "AiDash",
+      "source_rank": "127",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers - AiDASH",
+          "url": "https://www.aidash.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Contact Us - AiDASH",
+          "url": "https://www.aidash.com/contact-us/",
+          "score": 33
+        },
+        {
+          "title": "Jobs at AiDASH, Inc.",
+          "url": "https://job-boards.greenhouse.io/aidashinc?error=true",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "altimate-ai",
+      "company_name": "Altimate.ai",
+      "source_rank": "128",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Company | Altimate.ai",
+          "url": "https://altimate.ai/company",
+          "score": 33
+        },
+        {
+          "title": "Staff Software Engineer - India @ Altimate.ai",
+          "url": "https://jobs.ashbyhq.com/altimate/74b96721-bae8-4c07-83e2-f848079a071f/",
+          "score": 30
+        },
+        {
+          "title": "Solution Architect - India @ Altimate.ai",
+          "url": "https://jobs.ashbyhq.com/altimate/a29b8688-411e-4f5a-a47c-7e76711f67b7/?weekdayJdUid=986018",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "arbix-ai",
+      "company_name": "Arbix AI",
+      "source_rank": "129",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers - AiDASH",
+          "url": "https://www.aidash.com/careers/",
+          "score": 5
+        },
+        {
+          "title": "Jobs at Arcana Analytics",
+          "url": "https://job-boards.greenhouse.io/arcanaanalytics",
+          "score": 5
+        },
+        {
+          "title": "Jobs at AiDASH, Inc.",
+          "url": "https://job-boards.greenhouse.io/aidashinc?error=true",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "arcana-analytics",
+      "company_name": "Arcana Analytics",
+      "source_rank": "130",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Jobs at Arcana Analytics",
+          "url": "https://job-boards.greenhouse.io/arcanaanalytics",
+          "score": 35
+        },
+        {
+          "title": "Job Application for Senior AI Engineer — Inference & Agent Systems at Arcana Analytics",
+          "url": "https://job-boards.greenhouse.io/arcanaanalytics/jobs/4169688009",
+          "score": 35
+        },
+        {
+          "title": "Job Application for Customer Success Manager at Arcana Analytics",
+          "url": "https://job-boards.greenhouse.io/arcanaanalytics/jobs/4070053009",
+          "score": 35
+        }
+      ]
+    },
+    {
+      "company_id": "arya-ai",
+      "company_name": "Arya.ai",
+      "source_rank": "131",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Arya.ai – Shape the Future of Enterprise AI",
+          "url": "https://arya.ai/careers",
+          "score": 38
+        },
+        {
+          "title": "Arya.ai: Enterprise-Grade AI Solutions",
+          "url": "https://arya.ai/",
+          "score": 33
+        },
+        {
+          "title": "About Us",
+          "url": "https://arya.ai/about-us",
+          "score": 28
+        }
+      ]
+    },
+    {
+      "company_id": "athina-ai",
+      "company_name": "Athina AI",
+      "source_rank": "132",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Athina",
+          "url": "https://www.athina.ai/",
+          "score": 33
+        },
+        {
+          "title": "Careers at Arya.ai – Shape the Future of Enterprise AI",
+          "url": "https://arya.ai/careers",
+          "score": 5
+        },
+        {
+          "title": "Binocs Open positions | Notion",
+          "url": "https://binocsco.notion.site/Binocs-Open-positions-13dc18d836c34031a6108082e4986676",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "barraiser",
+      "company_name": "BarRaiser",
+      "source_rank": "133",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Arya.ai – Shape the Future of Enterprise AI",
+          "url": "https://arya.ai/careers",
+          "score": 5
+        },
+        {
+          "title": "Binocs Open positions | Notion",
+          "url": "https://binocsco.notion.site/Binocs-Open-positions-13dc18d836c34031a6108082e4986676",
+          "score": 5
+        },
+        {
+          "title": "Athina",
+          "url": "https://www.athina.ai/",
+          "score": 0
+        }
+      ]
+    },
+    {
+      "company_id": "binocs",
+      "company_name": "Binocs",
+      "source_rank": "134",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Binocs Open positions | Notion",
+          "url": "https://binocsco.notion.site/Binocs-Open-positions-13dc18d836c34031a6108082e4986676",
+          "score": 38
+        },
+        {
+          "title": "Binocs | Due Diligence & Strategic Advisory",
+          "url": "https://binocs.co/",
+          "score": 33
+        },
+        {
+          "title": "The Binary INformation from Open Clusters Using SEDs (BINOCS) Project: Reliable Photometric Mass Determinations of Binary Star Systems in Clusters",
+          "url": "https://arxiv.org/abs/2101.07857",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "blend-ai",
+      "company_name": "Blend AI",
+      "source_rank": "135",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/en/company/careers",
+          "score": 5
+        },
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/company/careers",
+          "score": 5
+        },
+        {
+          "title": "Job Application for Principal Information Security Engineer (AI Product/Cyber Security + SecOps) at Cognite - AI for Industry",
+          "url": "https://job-boards.greenhouse.io/cognite/jobs/4912160101",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "boltzmann-labs",
+      "company_name": "Boltzmann Labs",
+      "source_rank": "136",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/en/company/careers",
+          "score": 5
+        },
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/company/careers",
+          "score": 5
+        },
+        {
+          "title": "Job Application for Principal Information Security Engineer (AI Product/Cyber Security + SecOps) at Cognite - AI for Industry",
+          "url": "https://job-boards.greenhouse.io/cognite/jobs/4912160101",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "brainsightai",
+      "company_name": "BrainsightAI",
+      "source_rank": "137",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Get In Touch | BrainSightAI",
+          "url": "https://www.brainsightai.com/contact-us",
+          "score": 33
+        },
+        {
+          "title": "Our Team and Friends | BrainSightAI",
+          "url": "https://www.brainsightai.com/our-team",
+          "score": 33
+        },
+        {
+          "title": "Home | BrainSightAI",
+          "url": "https://www.brainsightai.com/",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "cognite",
+      "company_name": "Cognite",
+      "source_rank": "138",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/en/company/careers",
+          "score": 33
+        },
+        {
+          "title": "Careers",
+          "url": "https://www.cognite.com/company/careers",
+          "score": 33
+        },
+        {
+          "title": "Cognite Inaugurates India Center of Excellence in Bengaluru with Commitment to Leveraging AI for Industrial Growth",
+          "url": "https://www.cognite.com/en/company/newsroom/cognite-inaugurates-india-center-of-excellence-in-bengaluru-with-commitment-to-leveraging-ai-for-industrial-growth",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "corover",
+      "company_name": "CoRover",
+      "source_rank": "139",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers | CoRover",
+          "url": "https://corover.ai/company/careers",
+          "score": 38
+        },
+        {
+          "title": "Full Stack Developer | Careers at CoRover",
+          "url": "https://corover.ai/company/careers/full-stack-developer",
+          "score": 38
+        },
+        {
+          "title": "Conversational Agentic AI | Full-Stack Enterprise & Sovereign AI | CoRover | BharatGPT",
+          "url": "https://corover.ai/",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "cropin",
+      "company_name": "CropIn",
+      "source_rank": "140",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Cropin careers – build your future in agri-tech",
+          "url": "https://www.cropin.com/career/",
+          "score": 38
+        },
+        {
+          "title": "Contact Us | Cropin Technologies",
+          "url": "https://cropin.com/connect",
+          "score": 33
+        },
+        {
+          "title": "Cropin | SaaS-based AgTech | Smart Farming App | Agriculture Technology",
+          "url": "https://www.cropin.com/",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "diagno-systems",
+      "company_name": "DIAGNO Systems",
+      "source_rank": "141",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Cropin careers – build your future in agri-tech",
+          "url": "https://www.cropin.com/career/",
+          "score": 5
+        },
+        {
+          "title": "Careers | CoRover",
+          "url": "https://corover.ai/company/careers",
+          "score": 5
+        },
+        {
+          "title": "Careers at Dozee",
+          "url": "https://www.dozeehealth.ai/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "dozee",
+      "company_name": "Dozee",
+      "source_rank": "142",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Dozee",
+          "url": "https://www.dozeehealth.ai/careers",
+          "score": 38
+        },
+        {
+          "title": "Dozee",
+          "url": "https://jobs.lever.co/dozee",
+          "score": 30
+        },
+        {
+          "title": "Jobs at Dozee | ZipRecruiter India",
+          "url": "https://www.ziprecruiter.in/jobs/search?co=Dozee",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "dscout",
+      "company_name": "Dscout",
+      "source_rank": "143",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Dscout Careers | Join A Leading UX Research Software Company",
+          "url": "https://dscout.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Jobs at Dscout",
+          "url": "https://job-boards.greenhouse.io/dscout",
+          "score": 30
+        },
+        {
+          "title": "Job Application for Software Engineer - India at Dscout",
+          "url": "https://job-boards.greenhouse.io/dscout/jobs/4370266009",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "earnin",
+      "company_name": "EarnIn",
+      "source_rank": "144",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Jobs at EarnIn",
+          "url": "https://job-boards.greenhouse.io/earnin/jobs/6632415?gh_src=6aa12b601us",
+          "score": 30
+        },
+        {
+          "title": "Jobs at EarnIn: Explore current Opportunities",
+          "url": "https://wellfound.com/company/earnin/jobs",
+          "score": 30
+        },
+        {
+          "title": "EarnIn Tech Hiring in Bengaluru | PlaceMeRight",
+          "url": "https://placemeright.in/companies/earnin/",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "entropik",
+      "company_name": "Entropik",
+      "source_rank": "145",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Entropik",
+          "url": "https://careers.smartrecruiters.com/Entropik",
+          "score": 30
+        },
+        {
+          "title": "Dscout Careers | Join A Leading UX Research Software Company",
+          "url": "https://dscout.com/careers",
+          "score": 5
+        },
+        {
+          "title": "Jobs at Dscout",
+          "url": "https://job-boards.greenhouse.io/dscout",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "finbotsai",
+      "company_name": "FinbotsAI",
+      "source_rank": "146",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Entropik",
+          "url": "https://careers.smartrecruiters.com/Entropik",
+          "score": 5
+        },
+        {
+          "title": "Dscout Careers | Join A Leading UX Research Software Company",
+          "url": "https://dscout.com/careers",
+          "score": 5
+        },
+        {
+          "title": "Jobs at Dscout",
+          "url": "https://job-boards.greenhouse.io/dscout",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "flutura",
+      "company_name": "Flutura",
+      "source_rank": "147",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Forus Health: Join Our Eye Care Innovation Team",
+          "url": "https://forushealth.com/careers/",
+          "score": 5
+        },
+        {
+          "title": "Careers at Gnani.ai | Join the Agentic AI Revolution",
+          "url": "https://careers.gnani.ai/",
+          "score": 5
+        },
+        {
+          "title": "Careers at Gnani.ai | Build Frontier Voice AI",
+          "url": "https://www.gnani.ai/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "forus-health",
+      "company_name": "Forus Health",
+      "source_rank": "148",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Forus Health: Join Our Eye Care Innovation Team",
+          "url": "https://forushealth.com/careers/",
+          "score": 51
+        },
+        {
+          "title": "Contact us - Forus Health",
+          "url": "https://forushealth.com/contact-us/",
+          "score": 46
+        },
+        {
+          "title": "Forus Health",
+          "url": "https://www.kristujayanti.edu.in/AQAR22/1.3.4-Student_Projects/Internships/Proof/MCA.pdf",
+          "score": 10
+        }
+      ]
+    },
+    {
+      "company_id": "galaxeye",
+      "company_name": "GalaxEye",
+      "source_rank": "149",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at GalaxEye | Shape the Future of Earth Observation",
+          "url": "https://galaxeye.space/job-portal",
+          "score": 38
+        },
+        {
+          "title": "GalaxEye Jobs + Careers | Built In",
+          "url": "https://builtin.com/company/galaxeye/jobs",
+          "score": 30
+        },
+        {
+          "title": "GalaxEye | Deep-tech Work India",
+          "url": "https://deeptechwork.in/companies/galaxeye/",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "gnani-ai",
+      "company_name": "Gnani.ai",
+      "source_rank": "150",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Gnani.ai | Join the Agentic AI Revolution",
+          "url": "https://careers.gnani.ai/",
+          "score": 38
+        },
+        {
+          "title": "Careers at Gnani.ai | Build Frontier Voice AI",
+          "url": "https://www.gnani.ai/careers",
+          "score": 38
+        },
+        {
+          "title": "Apply for Full-Stack + AI Engineer | Careers at Gnani.ai",
+          "url": "https://careers.gnani.ai/apply/Ful-Pro-2026-08-13-122",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "handshake",
+      "company_name": "Handshake",
+      "source_rank": "151",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Open roles at Handshake | Changing how new professionals build their career | Handshake",
+          "url": "https://joinhandshake.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Careers | Handshake.AI",
+          "url": "https://handshake.ai/careers/",
+          "score": 38
+        },
+        {
+          "title": "About us | Handshake",
+          "url": "https://joinhandshake.com/about/",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "hyperleap-ai",
+      "company_name": "Hyperleap AI",
+      "source_rank": "152",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers - Join Hyperleap AI | Build AI for SMBs",
+          "url": "https://hyperleap.ai/careers",
+          "score": 38
+        },
+        {
+          "title": "About Hyperleap AI | The businesses that reply first win",
+          "url": "https://hyperleap.ai/about",
+          "score": 33
+        },
+        {
+          "title": "HyperVerge Career Opportunity",
+          "url": "https://hyperverge.co/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "hyperverge",
+      "company_name": "HyperVerge",
+      "source_rank": "153",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "HyperVerge Career Opportunity",
+          "url": "https://hyperverge.co/careers/",
+          "score": 38
+        },
+        {
+          "title": "HYPERVERGE SERVICES PRIVACY POLICY-PROCESSOR",
+          "url": "https://hyperverge.co/wp-content/uploads/2025/07/HYPERVERGE-SERVICES-PRIVACY-POLICY-Processor.pdf",
+          "score": 13
+        },
+        {
+          "title": "Why you should choose HyperVerge for combatting deepfakes:",
+          "url": "https://hyperverge.co/wp-content/themes/monomyth-enterprise/assets/pdf/Hyperverge%20Guide%20to%20Deepfakes.pdf",
+          "score": 13
+        }
+      ]
+    },
+    {
+      "company_id": "invideo",
+      "company_name": "InVideo",
+      "source_rank": "154",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "invideo careers · invideo",
+          "url": "https://careers.invideo.io/",
+          "score": 38
+        },
+        {
+          "title": "HyperVerge Career Opportunity",
+          "url": "https://hyperverge.co/careers/",
+          "score": 5
+        },
+        {
+          "title": "Careers - Join Hyperleap AI | Build AI for SMBs",
+          "url": "https://hyperleap.ai/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "kogo-ai",
+      "company_name": "KOGO AI",
+      "source_rank": "155",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Jobs at LimeChat",
+          "url": "https://limechat.zohorecruit.in/jobs/Careers/",
+          "score": 5
+        },
+        {
+          "title": "Be the force behind the Magic in Motion | Careers in Locus",
+          "url": "https://dynamiclink.locus-dev.com/careers/",
+          "score": 5
+        },
+        {
+          "title": "Build your Career at Locus Technologies",
+          "url": "https://www.locustec.com/company/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "krutrim",
+      "company_name": "Krutrim",
+      "source_rank": "156",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Krutrim LLM: Multilingual Foundational Model for over a Billion People",
+          "url": "https://arxiv.org/abs/2502.09642",
+          "score": 25
+        },
+        {
+          "title": "Jobs at LimeChat",
+          "url": "https://limechat.zohorecruit.in/jobs/Careers/",
+          "score": 5
+        },
+        {
+          "title": "Be the force behind the Magic in Motion | Careers in Locus",
+          "url": "https://dynamiclink.locus-dev.com/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "limechat",
+      "company_name": "LimeChat",
+      "source_rank": "157",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Jobs at LimeChat",
+          "url": "https://limechat.zohorecruit.in/jobs/Careers/",
+          "score": 38
+        },
+        {
+          "title": "Be the force behind the Magic in Motion | Careers in Locus",
+          "url": "https://dynamiclink.locus-dev.com/careers/",
+          "score": 5
+        },
+        {
+          "title": "Build your Career at Locus Technologies",
+          "url": "https://www.locustec.com/company/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "locus",
+      "company_name": "Locus",
+      "source_rank": "158",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Be the force behind the Magic in Motion | Careers in Locus",
+          "url": "https://dynamiclink.locus-dev.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Build your Career at Locus Technologies",
+          "url": "https://www.locustec.com/company/careers/",
+          "score": 38
+        },
+        {
+          "title": "Join Locus Robotics: Careers in Robotics & Logistics",
+          "url": "https://locusrobotics.com/company/careers",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "mad-street-den",
+      "company_name": "Mad Street Den",
+      "source_rank": "159",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "#careers #hiringnow #dataanalytics | Mad Street Den",
+          "url": "https://www.linkedin.com/posts/mad-street-den_careers-hiringnow-dataanalytics-activity-6958029794408099841-OFz0",
+          "score": 10
+        },
+        {
+          "title": "Careers – Miko India",
+          "url": "https://in.miko.ai/pages/careers",
+          "score": 5
+        },
+        {
+          "title": "Join Murf's Global Voice Team | Shape Stories, Stir Emotions",
+          "url": "https://murf.ai/partner-with-us/voice-actors",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "miko",
+      "company_name": "Miko",
+      "source_rank": "160",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers – Miko India",
+          "url": "https://in.miko.ai/pages/careers",
+          "score": 38
+        },
+        {
+          "title": "Careers | Shop Miko",
+          "url": "https://shopmiko.com/pages/careers",
+          "score": 38
+        },
+        {
+          "title": "How Can I Apply to Work at Miko or Inquire About Career Opportunities? – Miko",
+          "url": "https://help.miko.ai/hc/nl/articles/5746233044637-Hoe-kan-ik-solliciteren-bij-Miko-of-informeren-naar-carri%C3%A8remogelijkheden",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "murf-ai",
+      "company_name": "Murf AI",
+      "source_rank": "161",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Join Murf's Global Voice Team | Shape Stories, Stir Emotions",
+          "url": "https://murf.ai/partner-with-us/voice-actors",
+          "score": 38
+        },
+        {
+          "title": "Contact us",
+          "url": "https://murf.ai/contact",
+          "score": 28
+        },
+        {
+          "title": "Careers – Miko India",
+          "url": "https://in.miko.ai/pages/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "nektar-ai",
+      "company_name": "Nektar AI",
+      "source_rank": "162",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Official Information about Nektar.ai",
+          "url": "https://nektar.ai/llm-info/",
+          "score": 33
+        },
+        {
+          "title": "NEKTAR THERAPEUTICS_10K_2025_V1_CWO-49850.pdf",
+          "url": "https://ir.nektar.com/static-files/9ce229d8-9192-4e5d-8b6e-c496ee3f2a19",
+          "score": 13
+        },
+        {
+          "title": "Careers – Miko India",
+          "url": "https://in.miko.ai/pages/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "netra",
+      "company_name": "Netra",
+      "source_rank": "163",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Netra Technosys® | Career",
+          "url": "https://www.netratechnosys.com/career",
+          "score": 38
+        },
+        {
+          "title": "Netra Group",
+          "url": "https://www.netragroup.in/join-us.php",
+          "score": 38
+        },
+        {
+          "title": "Career | Netra Pharmaceuticals | Chemistry | Cosmetics | Medical",
+          "url": "https://en.netrailac.com/Career-i6",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "neuralgarage",
+      "company_name": "NeuralGarage",
+      "source_rank": "164",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "NeuralGarage",
+          "url": "https://jobs.pyjamahr.com/neuralgarage",
+          "score": 30
+        },
+        {
+          "title": "NeuralGarage",
+          "url": "https://en.wikipedia.org/wiki/NeuralGarage",
+          "score": 25
+        },
+        {
+          "title": "Careers Portal",
+          "url": "https://sites.google.com/nexstem.ai/careers/home",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "neuralzome",
+      "company_name": "Neuralzome",
+      "source_rank": "165",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers Portal",
+          "url": "https://sites.google.com/nexstem.ai/careers/home",
+          "score": 5
+        },
+        {
+          "title": "Netra Technosys® | Career",
+          "url": "https://www.netratechnosys.com/career",
+          "score": 5
+        },
+        {
+          "title": "Netra Group",
+          "url": "https://www.netragroup.in/join-us.php",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "nexstem",
+      "company_name": "Nexstem",
+      "source_rank": "166",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers Portal",
+          "url": "https://sites.google.com/nexstem.ai/careers/home",
+          "score": 25
+        },
+        {
+          "title": "Netra Technosys® | Career",
+          "url": "https://www.netratechnosys.com/career",
+          "score": 5
+        },
+        {
+          "title": "Netra Group",
+          "url": "https://www.netragroup.in/join-us.php",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "neysa",
+      "company_name": "Neysa",
+      "source_rank": "167",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Job Opening - Build a Career at Neysa",
+          "url": "https://neysa.ai/careers/job-openings/",
+          "score": 38
+        },
+        {
+          "title": "Careers at Neysa | Build the Future of AI Infrastructure",
+          "url": "https://neysa.ai/careers/",
+          "score": 38
+        },
+        {
+          "title": "Finance Controller Job in Mumbai | Careers at Neysa",
+          "url": "https://neysa.ai/careers/job-openings/finance-controller/",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "niramai",
+      "company_name": "Niramai",
+      "source_rank": "168",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Jobs - Niramai",
+          "url": "https://niramai.com/career/",
+          "score": 38
+        },
+        {
+          "title": "Job Openings at NIRAMAI Health Analytix | Join Our Team",
+          "url": "https://niramai.com/jobs/",
+          "score": 38
+        },
+        {
+          "title": "contact@niramai.com",
+          "url": "https://niramai.com/wp-content/uploads/2020/06/Leave-Policy_v3.pdf",
+          "score": 13
+        }
+      ]
+    },
+    {
+      "company_id": "nurix-ai",
+      "company_name": "Nurix AI",
+      "source_rank": "169",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Job Opening - Build a Career at Neysa",
+          "url": "https://neysa.ai/careers/job-openings/",
+          "score": 5
+        },
+        {
+          "title": "Careers | Peptris Technologies",
+          "url": "https://www.peptris.com/careers.html",
+          "score": 5
+        },
+        {
+          "title": "Careers at Neysa | Build the Future of AI Infrastructure",
+          "url": "https://neysa.ai/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "peptris",
+      "company_name": "Peptris",
+      "source_rank": "170",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers | Peptris Technologies",
+          "url": "https://www.peptris.com/careers.html",
+          "score": 38
+        },
+        {
+          "title": "Peptris Technologies | AI-Powered Drug Discovery",
+          "url": "https://peptris.com/",
+          "score": 33
+        },
+        {
+          "title": "Job Opening - Build a Career at Neysa",
+          "url": "https://neysa.ai/careers/job-openings/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "perceptyne",
+      "company_name": "Perceptyne",
+      "source_rank": "171",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Career",
+          "url": "https://www.perceptyne.com/career",
+          "score": 33
+        },
+        {
+          "title": "Perceptyne – AI-Driven Robotics for Smarter Automation",
+          "url": "https://www.perceptyne.com/",
+          "score": 33
+        },
+        {
+          "title": "Careers at Poppulo | Join Us",
+          "url": "https://www.poppulo.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "poppulo",
+      "company_name": "Poppulo",
+      "source_rank": "172",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Poppulo | Join Us",
+          "url": "https://www.poppulo.com/careers",
+          "score": 38
+        },
+        {
+          "title": "About | Poppulo",
+          "url": "https://www.poppulo.com/about",
+          "score": 33
+        },
+        {
+          "title": "Career",
+          "url": "https://www.perceptyne.com/career",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "portkey",
+      "company_name": "Portkey",
+      "source_rank": "173",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "citeturn35search20 [wordlim: 200] Crawled: 5 months ago; * Official website",
+          "url": "https://www.portkeygames.com",
+          "score": 28
+        },
+        {
+          "title": "Portkey Games",
+          "url": "https://en.wikipedia.org/wiki/Portkey_Games",
+          "score": 25
+        },
+        {
+          "title": "Career",
+          "url": "https://www.perceptyne.com/career",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "predii",
+      "company_name": "Predii",
+      "source_rank": "174",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers – Join Predii's Automotive AI Team",
+          "url": "https://predii.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Career",
+          "url": "https://www.perceptyne.com/career",
+          "score": 5
+        },
+        {
+          "title": "Careers at Poppulo | Join Us",
+          "url": "https://www.poppulo.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "qpiai",
+      "company_name": "QpiAI",
+      "source_rank": "175",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "QpiAI",
+          "url": "https://www.qpiai.tech/careers",
+          "score": 38
+        },
+        {
+          "title": "QpiAI-Indus",
+          "url": "https://en.wikipedia.org/wiki/QpiAI-Indus",
+          "score": 25
+        },
+        {
+          "title": "Quant - Careers",
+          "url": "https://www.quant.ai/en/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "quant-ai",
+      "company_name": "Quant AI",
+      "source_rank": "176",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Quant - Careers",
+          "url": "https://www.quant.ai/en/careers",
+          "score": 38
+        },
+        {
+          "title": "Home - Quant AI",
+          "url": "https://quantaigroup.com/",
+          "score": 33
+        },
+        {
+          "title": "AI Careers at QUANT | Join Our Data Science & Tech Teams",
+          "url": "https://www.quant.global/career/",
+          "score": 18
+        }
+      ]
+    },
+    {
+      "company_id": "ragaai",
+      "company_name": "RagaAI",
+      "source_rank": "177",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Quant - Careers",
+          "url": "https://www.quant.ai/en/careers",
+          "score": 5
+        },
+        {
+          "title": "Healthcare technology jobs | RapidAI",
+          "url": "https://www.rapidai.com/careers",
+          "score": 5
+        },
+        {
+          "title": "QpiAI",
+          "url": "https://www.qpiai.tech/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "rapidai",
+      "company_name": "RapidAI",
+      "source_rank": "178",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Healthcare technology jobs | RapidAI",
+          "url": "https://www.rapidai.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Contact RapidAI | Cerebrovascular Imaging Platform",
+          "url": "https://www.rapidai.com/contact-us",
+          "score": 33
+        },
+        {
+          "title": "RapidAI",
+          "url": "https://jobs.lever.co/rapidai",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "ripik-ai",
+      "company_name": "Ripik.AI",
+      "source_rank": "179",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Contribute in Creating Computer Vision AI Solution at Ripik AI",
+          "url": "https://www.ripik.ai/careers/",
+          "score": 38
+        },
+        {
+          "title": "Maximizing Cement Kiln Efficiency",
+          "url": "https://www.ripik.ai/wp-content/uploads/2024/01/Ripik-Vision_Cement-Brochure.pdf",
+          "score": 8
+        },
+        {
+          "title": "Signzy",
+          "url": "https://www.signzy.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "saptang-labs",
+      "company_name": "Saptang Labs",
+      "source_rank": "180",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Signzy",
+          "url": "https://www.signzy.com/careers",
+          "score": 5
+        },
+        {
+          "title": "Contribute in Creating Computer Vision AI Solution at Ripik AI",
+          "url": "https://www.ripik.ai/careers/",
+          "score": 5
+        },
+        {
+          "title": "Saptang Labs",
+          "url": "https://iwcon.live/wp-content/uploads/2023/11/SaikrishnaBVS.pdf",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "scispace",
+      "company_name": "SciSpace",
+      "source_rank": "181",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "SCISPACE: A Scientific Collaboration Workspace for File Systems in Geo-Distributed HPC Data Centers",
+          "url": "https://arxiv.org/abs/1803.08228",
+          "score": 25
+        },
+        {
+          "title": "Computational Neuroscience Mentors in India",
+          "url": "https://scispace.com/ai-agent-seo/page-files/mentor-match-preview-1qgy1gmm.pdf",
+          "score": 8
+        },
+        {
+          "title": "Search Results",
+          "url": "https://scispace.com/ai-agent-seo/page-files/journal-selection-assistant-rrj3t1uq.pdf",
+          "score": 8
+        }
+      ]
+    },
+    {
+      "company_id": "signzy",
+      "company_name": "Signzy",
+      "source_rank": "182",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Signzy",
+          "url": "https://www.signzy.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Contact Signzy – Get in Touch With Our Team",
+          "url": "https://www.signzy.com/contact-us",
+          "score": 33
+        },
+        {
+          "title": "Contribute in Creating Computer Vision AI Solution at Ripik AI",
+          "url": "https://www.ripik.ai/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "sigtuple",
+      "company_name": "SigTuple",
+      "source_rank": "183",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "SigTuple Technologies — AI-Powered Diagnostic Pathology and Microscopy Solutions",
+          "url": "https://sigtuple.com/",
+          "score": 33
+        },
+        {
+          "title": "Careers at Skit.ai | Build the AI Redefining Collections",
+          "url": "https://skit.ai/in/careers/",
+          "score": 5
+        },
+        {
+          "title": "Jobs at Skild AI",
+          "url": "https://job-boards.greenhouse.io/skildai-careers?gh_src=Simplify&offices%5B%5D=4014898008&weekdayJdUid=626030",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "skild-ai",
+      "company_name": "Skild AI",
+      "source_rank": "184",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers | Skild AI",
+          "url": "https://www.skild.ai/career?job=13",
+          "score": 38
+        },
+        {
+          "title": "Skild AI Expands Global Footprint To Bengaluru | Skild AI",
+          "url": "https://www.skild.ai/blogs/bengaluru",
+          "score": 33
+        },
+        {
+          "title": "Jobs at Skild AI",
+          "url": "https://job-boards.greenhouse.io/skildai-careers?gh_src=Simplify&offices%5B%5D=4014898008&weekdayJdUid=626030",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "skit-ai",
+      "company_name": "Skit.ai",
+      "source_rank": "185",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Skit.ai | Build the AI Redefining Collections",
+          "url": "https://skit.ai/in/careers/",
+          "score": 38
+        },
+        {
+          "title": "Skit.ai Buyers Guide_Auto Finance",
+          "url": "https://skit.ai/wp-content/uploads/2024/11/Skit.ai-Buyers-Guide_Auto-Finance.pdf",
+          "score": 13
+        },
+        {
+          "title": "Jobs at Skild AI",
+          "url": "https://job-boards.greenhouse.io/skildai-careers?gh_src=Simplify&offices%5B%5D=4014898008&weekdayJdUid=626030",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "slang-labs",
+      "company_name": "Slang Labs",
+      "source_rank": "186",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Skit.ai | Build the AI Redefining Collections",
+          "url": "https://skit.ai/in/careers/",
+          "score": 5
+        },
+        {
+          "title": "Jobs at Skild AI",
+          "url": "https://job-boards.greenhouse.io/skildai-careers?gh_src=Simplify&offices%5B%5D=4014898008&weekdayJdUid=626030",
+          "score": 5
+        },
+        {
+          "title": "Careers | Skild AI",
+          "url": "https://www.skild.ai/career?job=13",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "smallest-ai",
+      "company_name": "Smallest.ai",
+      "source_rank": "187",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Supervity | Build the Future of AI Employees",
+          "url": "https://www.supervity.ai/careers",
+          "score": 5
+        },
+        {
+          "title": "Careers at Steps AI | Join Our Team",
+          "url": "https://stepsai.co/careers/",
+          "score": 5
+        },
+        {
+          "title": "Tekion Careers | Tech Jobs, Innovative Culture & Career Growth",
+          "url": "https://tekion.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "steps-ai",
+      "company_name": "Steps AI",
+      "source_rank": "188",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Steps AI | Join Our Team",
+          "url": "https://stepsai.co/careers/",
+          "score": 38
+        },
+        {
+          "title": "Careers at Supervity | Build the Future of AI Employees",
+          "url": "https://www.supervity.ai/careers",
+          "score": 5
+        },
+        {
+          "title": "Tekion Careers | Tech Jobs, Innovative Culture & Career Growth",
+          "url": "https://tekion.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "supervity",
+      "company_name": "Supervity",
+      "source_rank": "189",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Supervity | Build the Future of AI Employees",
+          "url": "https://www.supervity.ai/careers",
+          "score": 38
+        },
+        {
+          "title": "AI Employees for the Enterprise | Supervity",
+          "url": "https://www.supervity.ai/",
+          "score": 33
+        },
+        {
+          "title": "Careers at Steps AI | Join Our Team",
+          "url": "https://stepsai.co/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "tekion",
+      "company_name": "Tekion",
+      "source_rank": "190",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Tekion Careers | Tech Jobs, Innovative Culture & Career Growth",
+          "url": "https://tekion.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Jobs at Tekion",
+          "url": "https://job-boards.greenhouse.io/tekion/jobs/7587621003",
+          "score": 30
+        },
+        {
+          "title": "Jobs at Tekion",
+          "url": "https://job-boards.greenhouse.io/tekion/jobs/5911086003?gh_src=8eb00b913us",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "themathcompany",
+      "company_name": "TheMathCompany",
+      "source_rank": "191",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Explore Careers Opportunities | Join TheMathCompany",
+          "url": "https://mathco.com/careers/",
+          "score": 30
+        },
+        {
+          "title": "Careers | Upscale AI",
+          "url": "https://www.upscale.ai/careers",
+          "score": 5
+        },
+        {
+          "title": "cardiac care technology careers | Tricog Health",
+          "url": "https://tricog.com/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "tredence",
+      "company_name": "Tredence",
+      "source_rank": "192",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Tredence | Build the Greatest AI (G.O.A.T) Team",
+          "url": "https://www.tredence.com/careers/greatest-of-ai",
+          "score": 38
+        },
+        {
+          "title": "Enterprise AI Services & Solutions | AI Consulting Company | Tredence",
+          "url": "https://www.tredence.com/",
+          "score": 33
+        },
+        {
+          "title": "Tredence",
+          "url": "https://en.wikipedia.org/wiki/Tredence",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "tricog",
+      "company_name": "Tricog",
+      "source_rank": "193",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "cardiac care technology careers | Tricog Health",
+          "url": "https://tricog.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Intern | Tricog Health",
+          "url": "https://tricog.com/jobs/intern/",
+          "score": 38
+        },
+        {
+          "title": "Accelerating Cardiac Care Diagnosis | Tricog Health",
+          "url": "https://tricog.com/",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "upscale-ai",
+      "company_name": "Upscale AI",
+      "source_rank": "194",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers | Upscale AI",
+          "url": "https://www.upscale.ai/careers",
+          "score": 38
+        },
+        {
+          "title": "Careers at Upscale AI | Join Our AI Infrastructure Team",
+          "url": "https://upscale.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Upscale AI",
+          "url": "https://jobs.lever.co/upscale-ai",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "uptimeai",
+      "company_name": "UptimeAI",
+      "source_rank": "195",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Data Scientist -Full-Stack Engineering @ UptimeAI",
+          "url": "https://jobs.ashbyhq.com/uptimeai/b97e4672-7899-42bb-8b08-d00a363f2457",
+          "score": 30
+        },
+        {
+          "title": "Customer Success Engineering - Cement @ UptimeAI",
+          "url": "https://jobs.ashbyhq.com/uptimeai/6718fa86-2044-4d41-958f-948687340231",
+          "score": 30
+        },
+        {
+          "title": "Careers at Writesonic | AI Search Visibility Platform",
+          "url": "https://writesonic.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "vayavya-labs",
+      "company_name": "Vayavya Labs",
+      "source_rank": "196",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "CSR POLICY",
+          "url": "https://vayavyalabs.com/wp-content/uploads/2023/03/CSR-Policy_Vayavya-Labs-1.pdf",
+          "score": 8
+        },
+        {
+          "title": "Careers at Writesonic | AI Search Visibility Platform",
+          "url": "https://writesonic.com/careers",
+          "score": 5
+        },
+        {
+          "title": "Careers | Wysa | Everyday Mental Health",
+          "url": "https://www.wysa.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "writesonic",
+      "company_name": "Writesonic",
+      "source_rank": "197",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Writesonic | AI Search Visibility Platform",
+          "url": "https://writesonic.com/careers",
+          "score": 38
+        },
+        {
+          "title": "About Writesonic | The AI Search Growth Engine",
+          "url": "https://writesonic.com/about-us",
+          "score": 33
+        },
+        {
+          "title": "Jobs at Writesonic | Y Combinator",
+          "url": "https://www.ycombinator.com/companies/writesonic/jobs",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "wysa",
+      "company_name": "Wysa",
+      "source_rank": "198",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers | Wysa | Everyday Mental Health",
+          "url": "https://www.wysa.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Careers at Writesonic | AI Search Visibility Platform",
+          "url": "https://writesonic.com/careers",
+          "score": 5
+        },
+        {
+          "title": "Jobs at Writesonic | Y Combinator",
+          "url": "https://www.ycombinator.com/companies/writesonic/jobs",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "xanadu-ai",
+      "company_name": "Xanadu.ai",
+      "source_rank": "199",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "citeturn42search30 [wordlim: 200] Crawled: 5 months ago; * Official website",
+          "url": "https://www.xanadu.ai",
+          "score": 28
+        },
+        {
+          "title": "Careers | Zestiot",
+          "url": "https://www.zestiot.com/company/careers/",
+          "score": 5
+        },
+        {
+          "title": "Careers at Zoniqx – Join the Future of Asset Tokenization",
+          "url": "https://www.zoniqx.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "zestiot",
+      "company_name": "ZestIot",
+      "source_rank": "200",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers | Zestiot",
+          "url": "https://www.zestiot.com/company/careers/",
+          "score": 38
+        },
+        {
+          "title": "<table id=\"e1\">",
+          "url": "https://www.zestiot.com/wp-content/uploads/2023/11/ZestIOT_Information-Security-Policy_2023-1.pdf",
+          "score": 8
+        },
+        {
+          "title": "Careers at Zoniqx – Join the Future of Asset Tokenization",
+          "url": "https://www.zoniqx.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "zeta-global",
+      "company_name": "Zeta Global",
+      "source_rank": "201",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Life at Zeta: Culture and Careers - Zeta Global",
+          "url": "https://www.zetaglobal.com/about/life-at-zeta/",
+          "score": 51
+        },
+        {
+          "title": "Jobs at Zeta Global",
+          "url": "https://job-boards.greenhouse.io/zetaglobal/jobs/5979424004",
+          "score": 35
+        },
+        {
+          "title": "Job Application for Staff Software Engineer at Zeta Global",
+          "url": "https://job-boards.greenhouse.io/zetaglobal/jobs/6179911004",
+          "score": 35
+        }
+      ]
+    },
+    {
+      "company_id": "zoniqx",
+      "company_name": "Zoniqx",
+      "source_rank": "202",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Zoniqx – Join the Future of Asset Tokenization",
+          "url": "https://www.zoniqx.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Zoniqx",
+          "url": "https://www.zoniqx.com/career/blockchain-full-stack-engineer",
+          "score": 38
+        },
+        {
+          "title": "Contact Zoniqx | Tokenization Solutions & Support",
+          "url": "https://www.zoniqx.com/contact",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "american-express",
+      "company_name": "American Express",
+      "source_rank": "203",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Search Jobs - American Express Careers",
+          "url": "https://careers.americanexpress.com/en/sites/CX_1/jobs?inav=au_sitefooter_careers&lastSelectedFacet=POSTING_DATES&selectedPostingDatesFacet=30utm_medium",
+          "score": 51
+        },
+        {
+          "title": "Buscar puestos - American Express Carreras",
+          "url": "https://careers.americanexpress.com/es/sites/CX_1/jobs?ntlink=es-amex-career-es-es-GlobalStudentsPage-View-all-jobs",
+          "score": 51
+        },
+        {
+          "title": "American Express",
+          "url": "https://en.wikipedia.org/wiki/American_Express",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "bank-of-america",
+      "company_name": "Bank of America",
+      "source_rank": "204",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Jobs in India | Bank of America Careers",
+          "url": "https://careers.bankofamerica.com/en-us/job-search/india",
+          "score": 51
+        },
+        {
+          "title": "Bank of America Global Career Opportunities",
+          "url": "https://business.bofa.com/en-us/content/careers.html",
+          "score": 35
+        },
+        {
+          "title": "Bank of America in India",
+          "url": "https://business.bofa.com/in/en/about-us.html",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "barclays",
+      "company_name": "Barclays",
+      "source_rank": "205",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Search our Job Opportunities at Barclays",
+          "url": "https://search.jobs.barclays/search-jobs?alcpm=2077456%2C1819730%2C1269750%2C1861060%2C1880251",
+          "score": 38
+        },
+        {
+          "title": "Search our Job Opportunities at Barclays",
+          "url": "https://search.jobs.barclays/search-jobs?glat=19.136&glon=73.0039",
+          "score": 38
+        },
+        {
+          "title": "Search our Job Opportunities at Barclays",
+          "url": "https://search.jobs.barclays/en/search-jobs/?acm=8736112&orgIds=13015",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "blackrock-aladdin",
+      "company_name": "BlackRock / Aladdin",
+      "source_rank": "206",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Search India Jobs at BlackRock",
+          "url": "https://careers.blackrock.com/location/india-jobs/45831/1269750/2/6",
+          "score": 18
+        },
+        {
+          "title": "Contact Us | Aladdin by BlackRock",
+          "url": "https://www.blackrock.com/aladdin/about-us/about/contact-us",
+          "score": 18
+        },
+        {
+          "title": "Managing Director, Global Head of Portfolio Management Services Engineering , Aladdin",
+          "url": "https://blackrock.wd1.myworkdayjobs.com/en-US/blackrock_professional/job/Gurugram-India/Managing-Director--Global-Head-of-Portfolio-Management-Services-Engineering---Aladdin_R265444?q=managing+director&redirect=%2Fblackrock_professional%2Fjob%2Fsan-francisco-ca%2Fmanaging-director--head-of-family-office--west-coast_r245497%2Fapply%2FapplyManually",
+          "score": 13
+        }
+      ]
+    },
+    {
+      "company_id": "citi",
+      "company_name": "Citi",
+      "source_rank": "207",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Job Search | Citi Careers",
+          "url": "https://jobs.citi.com/search-jobs?k=india",
+          "score": 38
+        },
+        {
+          "title": "Explore Citi Careers",
+          "url": "https://www.careers.citigroup.com/?lang=en&lid=IDBHCBGGNFOTLKarir",
+          "score": 38
+        },
+        {
+          "title": "Citigroup",
+          "url": "https://en.wikipedia.org/wiki/Citigroup",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "deutsche-bank",
+      "company_name": "Deutsche Bank",
+      "source_rank": "208",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Search Roles – Deutsche Bank Careers",
+          "url": "https://careers.db.com/professionals/search-roles/",
+          "score": 35
+        },
+        {
+          "title": "Returners – Deutsche Bank Careers",
+          "url": "https://careers.db.com/professionals/returners/returners-in-india",
+          "score": 35
+        },
+        {
+          "title": "Deutsche Bank Early Careers – Let’s Prepare – Deutsche Bank Careers",
+          "url": "https://careers.db.com/students-graduates/your-application/?language_id=1",
+          "score": 35
+        }
+      ]
+    },
+    {
+      "company_id": "fidelity-investments",
+      "company_name": "Fidelity Investments",
+      "source_rank": "209",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Fidelity Investments",
+          "url": "https://en.wikipedia.org/wiki/Fidelity_Investments",
+          "score": 30
+        },
+        {
+          "title": "A global capability center with a history of innovation | Fidelity Careers",
+          "url": "https://jobs.fidelity.com/in/",
+          "score": 18
+        },
+        {
+          "title": "Careers in India | Goldman Sachs",
+          "url": "https://www.goldmansachs.com/worldwide/india/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "goldman-sachs",
+      "company_name": "Goldman Sachs",
+      "source_rank": "210",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers in India | Goldman Sachs",
+          "url": "https://www.goldmansachs.com/worldwide/india/careers",
+          "score": 51
+        },
+        {
+          "title": "Goldman Sachs Careers | Goldman Sachs",
+          "url": "https://www.goldmansachs.com/careers",
+          "score": 51
+        },
+        {
+          "title": "Apply to Goldman Sachs | Goldman Sachs",
+          "url": "https://www.goldmansachs.com/careers/apply",
+          "score": 51
+        }
+      ]
+    },
+    {
+      "company_id": "hsbc",
+      "company_name": "HSBC",
+      "source_rank": "211",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers in India | Where we hire | HSBC Holdings plc",
+          "url": "https://www.hsbc.com/careers/where-we-hire/india",
+          "score": 38
+        },
+        {
+          "title": "Careers: Discover opportunities | HSBC Holdings plc",
+          "url": "https://www.hsbc.com/careers",
+          "score": 38
+        },
+        {
+          "title": "HSBC jobs in india",
+          "url": "https://portal.careers.hsbc.com/careers?location=india&recommended=1",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "jpmorganchase",
+      "company_name": "JPMorganChase",
+      "source_rank": "212",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Explore Opportunities | JPMorganChase",
+          "url": "https://www.jpmorganchase.com/careers/explore-opportunities",
+          "score": 38
+        },
+        {
+          "title": "Our Impact in India | JPMorganChase",
+          "url": "https://www.jpmorganchase.com/communities/india",
+          "score": 33
+        },
+        {
+          "title": "JPMorganChase Digital Handbook",
+          "url": "https://www.jpmorganchase.com/content/dam/jpmorganchase/documents/careers/jpmc-digital-handbook.pdf",
+          "score": 18
+        }
+      ]
+    },
+    {
+      "company_id": "london-stock-exchange-group",
+      "company_name": "London Stock Exchange Group",
+      "source_rank": "213",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "London Stock Exchange Group",
+          "url": "https://en.wikipedia.org/wiki/London_Stock_Exchange_Group",
+          "score": 35
+        },
+        {
+          "title": "Careers in India | Where we hire | HSBC Holdings plc",
+          "url": "https://www.hsbc.com/careers/where-we-hire/india",
+          "score": 5
+        },
+        {
+          "title": "Careers: Discover opportunities | HSBC Holdings plc",
+          "url": "https://www.hsbc.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "mastercard",
+      "company_name": "Mastercard",
+      "source_rank": "214",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Jobs in Mumbai, India | Mastercard Careers",
+          "url": "https://careers.mastercard.com/us/en/mumbai-india",
+          "score": 38
+        },
+        {
+          "title": "Careers at Mastercard | Search Jobs and Opportunities",
+          "url": "https://careers.mastercard.com/us/en",
+          "score": 38
+        },
+        {
+          "title": "<table id=\"e1\">",
+          "url": "https://www.mastercard.co.in/content/dam/public/mastercardcom/na/global-site/documents/mastercard-bcrs.pdf",
+          "score": 8
+        }
+      ]
+    },
+    {
+      "company_id": "moody-s",
+      "company_name": "Moody's",
+      "source_rank": "215",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Search Credit Analysis & Research Jobs at Moody's",
+          "url": "https://careers.moodys.com/en/category/credit-analysis-and-research-jobs/49841/9382576/1/2",
+          "score": 38
+        },
+        {
+          "title": "Sitemap page for Moody's",
+          "url": "https://careers.moodys.com/en/sitemap",
+          "score": 38
+        },
+        {
+          "title": "Carrières chez Moody's",
+          "url": "https://emplois.moodys.com/",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "morgan-stanley",
+      "company_name": "Morgan Stanley",
+      "source_rank": "216",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers in Finance and Investment Banking | Morgan Stanley",
+          "url": "https://www.morganstanley.com/people",
+          "score": 51
+        },
+        {
+          "title": "Career Opportunities Search | Morgan Stanley",
+          "url": "https://www.morganstanley.com/careers/career-opportunities-search?opportunity=ep%3Ficid%3Dctfs-em-alumnin-4379",
+          "score": 51
+        },
+        {
+          "title": "Finance Jobs in India | Morgan Stanley Careers",
+          "url": "https://www.morganstanley.com/articles/morgan-stanley-india-experienced-professionals",
+          "score": 51
+        }
+      ]
+    },
+    {
+      "company_id": "nasdaq",
+      "company_name": "Nasdaq",
+      "source_rank": "217",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers | Nasdaq",
+          "url": "https://www.nasdaq.com/about/careers",
+          "score": 38
+        },
+        {
+          "title": "Careers in Finance and Investment Banking | Morgan Stanley",
+          "url": "https://www.morganstanley.com/people",
+          "score": 5
+        },
+        {
+          "title": "Search Credit Analysis & Research Jobs at Moody's",
+          "url": "https://careers.moodys.com/en/category/credit-analysis-and-research-jobs/49841/9382576/1/2",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "payu",
+      "company_name": "PayU",
+      "source_rank": "218",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Payu jobs | Payu openings | Payu careers",
+          "url": "https://payu.hire.trakstar.com/",
+          "score": 38
+        },
+        {
+          "title": "PayU Careers - Explore Jobs at PayU & Be a PayUneer",
+          "url": "https://dashboard-staging.payu.in/careers",
+          "score": 38
+        },
+        {
+          "title": "PayU",
+          "url": "https://en.wikipedia.org/wiki/PayU",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "s-and-p-global",
+      "company_name": "S&P Global",
+      "source_rank": "219",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "S&P Global Apply",
+          "url": "https://careers.spglobal.com/jobs/locations",
+          "score": 43
+        },
+        {
+          "title": "S&P Global Apply",
+          "url": "https://careers.spglobal.com/jobs/categories",
+          "score": 43
+        },
+        {
+          "title": "S&P Global Apply",
+          "url": "https://careers.spglobal.com/jobs",
+          "score": 43
+        }
+      ]
+    },
+    {
+      "company_id": "ubs",
+      "company_name": "UBS",
+      "source_rank": "220",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers in India | UBS Global",
+          "url": "https://www.ubs.com/global/en/careers/about-us/locations/india.html",
+          "score": 38
+        },
+        {
+          "title": "Careers | UBS Global",
+          "url": "https://www.ubs.com/global/en/careers.html",
+          "score": 38
+        },
+        {
+          "title": "Search jobs | UBS Global",
+          "url": "https://www.ubs.com/global/en/careers/search-jobs.html",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "visa",
+      "company_name": "Visa",
+      "source_rank": "221",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Visa careers: Progress starts with you | Visa",
+          "url": "https://corporate.visa.com/en/careers.html",
+          "score": 38
+        },
+        {
+          "title": "Visa Careers: Global Jobs at Visa | Visa",
+          "url": "https://www.visa.co.in/careers.html?linkId=475494083",
+          "score": 38
+        },
+        {
+          "title": "Careers in India | UBS Global",
+          "url": "https://www.ubs.com/global/en/careers/about-us/locations/india.html",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "wells-fargo",
+      "company_name": "Wells Fargo",
+      "source_rank": "222",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Wells Fargo Careers",
+          "url": "https://www.wellsfargo.com/about/careers/",
+          "score": 51
+        },
+        {
+          "title": "India Early Careers | Wells Fargo",
+          "url": "https://www.wellsfargojobs.com/en/early-careers/international-programs/india-programs/",
+          "score": 51
+        },
+        {
+          "title": "India Early Careers Programs | Wells Fargo",
+          "url": "https://www.wellsfargojobs.com/en/early-careers/international-programs/india-programs/india/",
+          "score": 51
+        }
+      ]
+    },
+    {
+      "company_id": "arista-networks",
+      "company_name": "Arista Networks",
+      "source_rank": "223",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Arista Networks",
+          "url": "https://en.wikipedia.org/wiki/Arista_Networks",
+          "score": 30
+        },
+        {
+          "title": "Join at Arista India - Arista",
+          "url": "https://www.arista.com/en/careers/india/current-openings-ind",
+          "score": 18
+        },
+        {
+          "title": "Jobs in India – Cisco Careers",
+          "url": "https://careers.cisco.com/global/en/india",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "automattic",
+      "company_name": "Automattic",
+      "source_rank": "224",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Jobs at Automattic – Automattic",
+          "url": "https://automattic.com/work-with-us/jobs/",
+          "score": 38
+        },
+        {
+          "title": "Work With Us – Automattic",
+          "url": "https://automattic.com/work-with-us/",
+          "score": 33
+        },
+        {
+          "title": "Jobs at Automattic",
+          "url": "https://job-boards.greenhouse.io/automatticjobs",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "cisco",
+      "company_name": "Cisco",
+      "source_rank": "225",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Jobs in India – Cisco Careers",
+          "url": "https://careers.cisco.com/global/en/india",
+          "score": 38
+        },
+        {
+          "title": "Entry-Level Jobs in India – Cisco Careers",
+          "url": "https://careers.cisco.com/india/etr-jobs",
+          "score": 38
+        },
+        {
+          "title": "Code with Cisco – India – Cisco Careers",
+          "url": "https://careers.cisco.com/code-with-cisco",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "clazar",
+      "company_name": "Clazar",
+      "source_rank": "226",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Jobs in India – Cisco Careers",
+          "url": "https://careers.cisco.com/global/en/india",
+          "score": 5
+        },
+        {
+          "title": "Join at Arista India - Arista",
+          "url": "https://www.arista.com/en/careers/india/current-openings-ind",
+          "score": 5
+        },
+        {
+          "title": "Jobs at Automattic – Automattic",
+          "url": "https://automattic.com/work-with-us/jobs/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "clipboard-health",
+      "company_name": "Clipboard Health",
+      "source_rank": "227",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Jobs at Clipboard Health",
+          "url": "https://job-boards.greenhouse.io/clipboardhealth/jobs/5479812004?gh_src=9902e9d64us",
+          "score": 35
+        },
+        {
+          "title": "Careers at Clipboard Health",
+          "url": "https://careers.smartrecruiters.com/clipboardhealth",
+          "score": 35
+        },
+        {
+          "title": "Jobs at Clipboard Health",
+          "url": "https://job-boards.greenhouse.io/clipboardhealth/jobs/5560183004?gh_src=b2e829504us",
+          "score": 35
+        }
+      ]
+    },
+    {
+      "company_id": "cloudflare",
+      "company_name": "Cloudflare",
+      "source_rank": "228",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at Cloudflare — Open Positions | Cloudflare",
+          "url": "https://www.cloudflare.com/careers/jobs/",
+          "score": 38
+        },
+        {
+          "title": "HOW CAN I SIGN UP FOR CLOUDFLARE?",
+          "url": "https://www.cloudflare.com/resources/assets/slt3lc6tev37/52WFCD0uETdQLG1NG6Ds00/3e8c05dfdc1708892802296aa587b791/Cloudflare_for_Campaigns_-_Security_Guide.pdf",
+          "score": 13
+        },
+        {
+          "title": "0001477333-25-000043",
+          "url": "https://cloudflare.net/files/doc_financials/2024/q4/2c5ce18c-bb02-4031-89cb-59ff64f22eaf.pdf",
+          "score": 8
+        }
+      ]
+    },
+    {
+      "company_id": "cohesity",
+      "company_name": "Cohesity",
+      "source_rank": "229",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Open Positions, Jobs, Employment Opportunities | Cohesity",
+          "url": "https://www.cohesity.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Open Positions",
+          "url": "https://www.cohesity.com/careers/open-positions/?gh_jid=c8973af259d1100199930cdbaed50000&type=wd",
+          "score": 33
+        },
+        {
+          "title": "Offene Stellen",
+          "url": "https://dev-1-publish.cohesity.com/de-de/careers/open-positions/?gh_jid=dee4c0240f961001d9e37bc7f0fe0000&type=wd",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "coinbase",
+      "company_name": "Coinbase",
+      "source_rank": "230",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Positions - Careers - Coinbase",
+          "url": "https://www.coinbase.com/careers/positions?location=remote+india",
+          "score": 38
+        },
+        {
+          "title": "Positions - Careers - Coinbase",
+          "url": "https://www.coinbase.com/careers/positions?location=Remote",
+          "score": 38
+        },
+        {
+          "title": "Positions - Careers - Coinbase",
+          "url": "https://www.coinbase.com/de/careers/positions?location=remote",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "compass",
+      "company_name": "Compass",
+      "source_rank": "231",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers - Compass",
+          "url": "https://www.compass.com/careers/?gh_board=compassindia",
+          "score": 38
+        },
+        {
+          "title": "Careers at Compass Group India | Food & Facility Management Opportunities",
+          "url": "https://compass-group.co.in/career/",
+          "score": 38
+        },
+        {
+          "title": "Career Opportunities | Compass Group",
+          "url": "https://www.compass-group.com/en/working-for-us/career-opportunities.html",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "crunchyroll",
+      "company_name": "Crunchyroll",
+      "source_rank": "232",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Jobs | Crunchyroll",
+          "url": "https://www.crunchyroll.com/pt-br/about/jobs?locations=berlin",
+          "score": 38
+        },
+        {
+          "title": "Crunchyroll Hiring FAQs – Support & Customer Service | Crunchyroll Help",
+          "url": "https://help.crunchyroll.com/hc/en-us/articles/360040471712-Crunchyroll-Hiring-FAQs",
+          "score": 33
+        },
+        {
+          "title": "Crunchyroll, LLC",
+          "url": "https://en.wikipedia.org/wiki/Crunchyroll%2C_LLC",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "druva",
+      "company_name": "Druva",
+      "source_rank": "233",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers | Druva",
+          "url": "https://www.druva.com/why-druva/explore/careers",
+          "score": 38
+        },
+        {
+          "title": "Druva",
+          "url": "https://en.wikipedia.org/wiki/Druva",
+          "score": 25
+        },
+        {
+          "title": "XIII. **Business Continuity:** Druva shall maintain a business continuity plan and business continuity testing procedures, which include but are not limited to the areas of disaster recovery planning and data security. Druva shall review, update, and test the business continuity plan annually.",
+          "url": "https://www.druva.com/documents/Druva_Customer-GDPR-CCPA-DPA.pdf",
+          "score": 13
+        }
+      ]
+    },
+    {
+      "company_id": "elastic",
+      "company_name": "Elastic",
+      "source_rank": "234",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers | Elastic",
+          "url": "https://www.elastic.co/careers",
+          "score": 38
+        },
+        {
+          "title": "Careers | Druva",
+          "url": "https://www.druva.com/why-druva/explore/careers",
+          "score": 5
+        },
+        {
+          "title": "Careers - Compass",
+          "url": "https://www.compass.com/careers/?gh_board=compassindia",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "endor-labs",
+      "company_name": "Endor Labs",
+      "source_rank": "235",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Jobs at Endor Labs",
+          "url": "https://job-boards.greenhouse.io/endorlabs/jobs/4397008005",
+          "score": 30
+        },
+        {
+          "title": "Careers@Media.Net | Making contextual ad technology better",
+          "url": "https://careers.media.net/",
+          "score": 5
+        },
+        {
+          "title": "Life at GitHub | GitHub Careers",
+          "url": "https://www.github.careers/life-at-github",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "github",
+      "company_name": "GitHub",
+      "source_rank": "236",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Life at GitHub | GitHub Careers",
+          "url": "https://www.github.careers/life-at-github",
+          "score": 38
+        },
+        {
+          "title": "GitHub Careers",
+          "url": "https://www.github.careers/careers-home",
+          "score": 38
+        },
+        {
+          "title": "Experienced Professionals | GitHub Careers",
+          "url": "https://www.github.careers/experienced-professionals",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "kredivo",
+      "company_name": "Kredivo",
+      "source_rank": "237",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Join Kredivo Group | Kredivo Group: Building Fast, Affordable and Accessible Financial Products",
+          "url": "https://kredivocorp.com/careers/?Job=159",
+          "score": 38
+        },
+        {
+          "title": "Careers@Media.Net | Making contextual ad technology better",
+          "url": "https://careers.media.net/",
+          "score": 5
+        },
+        {
+          "title": "Life at GitHub | GitHub Careers",
+          "url": "https://www.github.careers/life-at-github",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "media-net",
+      "company_name": "Media.net",
+      "source_rank": "238",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers@Media.Net | Making contextual ad technology better",
+          "url": "https://careers.media.net/",
+          "score": 51
+        },
+        {
+          "title": "Business Development | Careers@Media.Net",
+          "url": "https://careers.media.net/business-development/",
+          "score": 51
+        },
+        {
+          "title": "citeturn51search19 [wordlim: 200] Crawled: 4 months ago; * Official website",
+          "url": "https://www.media.net/",
+          "score": 36
+        }
+      ]
+    },
+    {
+      "company_id": "mongodb",
+      "company_name": "MongoDB",
+      "source_rank": "239",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers - All Teams | MongoDB | MongoDB",
+          "url": "https://www.mongodb.com/company/careers/see-jobs",
+          "score": 38
+        },
+        {
+          "title": "MongoDB Careers Gurugram | MongoDB | MongoDB",
+          "url": "https://www.mongodb.com/company/careers/locations/gurugram",
+          "score": 38
+        },
+        {
+          "title": "MongoDB Careers | MongoDB",
+          "url": "https://www.mongodb.com/company/careers",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "navan",
+      "company_name": "Navan",
+      "source_rank": "240",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Join Our Team: Careers at Navan",
+          "url": "https://navan.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Join Our Sales Team | Exciting Opportunities Await",
+          "url": "https://navan.com/careers-sales",
+          "score": 33
+        },
+        {
+          "title": "India | Nutanix Careers",
+          "url": "https://careers.nutanix.com/en/locations/india/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "nutanix",
+      "company_name": "Nutanix",
+      "source_rank": "241",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "India | Nutanix Careers",
+          "url": "https://careers.nutanix.com/en/locations/india/",
+          "score": 38
+        },
+        {
+          "title": "Nutanix",
+          "url": "https://en.wikipedia.org/wiki/Nutanix",
+          "score": 25
+        },
+        {
+          "title": "10  Nutanix Team Roles and Responsibilities ........................................ 14",
+          "url": "https://www.nutanix.com/content/dam/nutanix/en/resources/misc/nutanix-support-guide.pdf",
+          "score": 13
+        }
+      ]
+    },
+    {
+      "company_id": "opendoor",
+      "company_name": "Opendoor",
+      "source_rank": "242",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at Opendoor | Join Our Team | Opendoor",
+          "url": "https://www.opendoor.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Open Positions at Opendoor | Join Our Team | Opendoor",
+          "url": "https://www.opendoor.com/careers/open-positions",
+          "score": 38
+        },
+        {
+          "title": "Opendoor Careers | Open Positions",
+          "url": "https://www.opendoor.com/careers/open-positions/jobs?gh_jid=4560232006",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "p0",
+      "company_name": "p0",
+      "source_rank": "243",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers - P0 Security",
+          "url": "https://p0.dev/careers/",
+          "score": 25
+        },
+        {
+          "title": "Search Cybersecurity Careers and Jobs at Palo Alto Networks",
+          "url": "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india",
+          "score": 5
+        },
+        {
+          "title": "SAP Jobs in India",
+          "url": "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/?q=&sortColumn=sort_title&sortDirection=desc",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "palo-alto-networks",
+      "company_name": "Palo Alto Networks",
+      "source_rank": "244",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Search Cybersecurity Careers and Jobs at Palo Alto Networks",
+          "url": "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india",
+          "score": 64
+        },
+        {
+          "title": "Explore Cybersecurity Careers and Jobs at Palo Alto Networks India",
+          "url": "https://jobs.paloaltonetworks.com/en/india/",
+          "score": 64
+        },
+        {
+          "title": "Explore Careers and Jobs in Cybersecurity at Palo Alto Networks",
+          "url": "https://jobs.paloaltonetworks.com/en",
+          "score": 64
+        }
+      ]
+    },
+    {
+      "company_id": "paypal",
+      "company_name": "PayPal",
+      "source_rank": "245",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "PayPal Careers - One PayPal. Many locations.",
+          "url": "https://paypalcareers2025rbcr.q4web.com/locations/default.aspx",
+          "score": 38
+        },
+        {
+          "title": "PayPal Careers - Locations - India",
+          "url": "https://careers.pypl.com/locations/india/",
+          "score": 30
+        },
+        {
+          "title": "PayPal Careers - Opening Possibilities for all",
+          "url": "https://careers.pypl.com/home/default.aspx",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "sap",
+      "company_name": "SAP",
+      "source_rank": "246",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "SAP Jobs in India",
+          "url": "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/?q=&sortColumn=sort_title&sortDirection=desc",
+          "score": 38
+        },
+        {
+          "title": "SAP",
+          "url": "https://en.wikipedia.org/wiki/SAP",
+          "score": 25
+        },
+        {
+          "title": "Search Cybersecurity Careers and Jobs at Palo Alto Networks",
+          "url": "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "sentinelone",
+      "company_name": "SentinelOne",
+      "source_rank": "247",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at SentinelOne | Work, Culture & Values",
+          "url": "https://www.sentinelone.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "SentinelOne",
+          "url": "https://en.wikipedia.org/wiki/SentinelOne",
+          "score": 25
+        },
+        {
+          "title": "SingleStore Jobs",
+          "url": "https://www.singlestore.com/careers/jobs/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "singlestore",
+      "company_name": "SingleStore",
+      "source_rank": "248",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "SingleStore Jobs",
+          "url": "https://www.singlestore.com/careers/jobs/",
+          "score": 38
+        },
+        {
+          "title": "SingleStore Careers - Join Us in Our Mission",
+          "url": "https://www.singlestore.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "SingleStore",
+          "url": "https://en.wikipedia.org/wiki/SingleStore",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "skillz",
+      "company_name": "Skillz",
+      "source_rank": "249",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers – Skillz",
+          "url": "https://ts.skillz.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Join the Team – Skillz",
+          "url": "https://www.skillz.com/careers-list/?gh_jid=6974561&gh_src=d9d924071us",
+          "score": 38
+        },
+        {
+          "title": "Join the Team – Skillz",
+          "url": "https://www.skillz.com/careers/list/?gh_jid=6932712",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "snowflake",
+      "company_name": "Snowflake",
+      "source_rank": "250",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Join the Snowflake Team | Snowflake Careers",
+          "url": "https://careers.snowflake.com/",
+          "score": 38
+        },
+        {
+          "title": "Our Locations | Snowflake Careers",
+          "url": "https://careers.snowflake.com/us/en/locations",
+          "score": 38
+        },
+        {
+          "title": "Jobs in Pune, India | Snowflake Careers",
+          "url": "https://careers.snowflake.com/us/en/pune",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "testgorilla",
+      "company_name": "TestGorilla",
+      "source_rank": "251",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers - TestGorilla",
+          "url": "https://www.testgorilla.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Other common questions – TestGorilla Candidates",
+          "url": "https://candidates.testgorilla.com/hc/en-us/articles/30851952825371-Other-common-questions",
+          "score": 33
+        },
+        {
+          "title": "Submit a request – TestGorilla Candidates",
+          "url": "https://candidates.testgorilla.com/hc/en-us/requests/new",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "thoughtspot",
+      "company_name": "ThoughtSpot",
+      "source_rank": "252",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Join Our Team | ThoughtSpot",
+          "url": "https://www.thoughtspot.com/careers",
+          "score": 38
+        },
+        {
+          "title": "ThoughtSpot",
+          "url": "https://en.wikipedia.org/wiki/ThoughtSpot",
+          "score": 25
+        },
+        {
+          "title": "ThoughtSpot",
+          "url": "https://media.thoughtspot.com/pdf/ThoughtSpot-Customer-Insights-Hour-November-2024.pdf",
+          "score": 13
+        }
+      ]
+    },
+    {
+      "company_id": "toptal",
+      "company_name": "Toptal",
+      "source_rank": "253",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at Toptal",
+          "url": "https://www.toptal.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Apply here for future opportunities! | Toptal®",
+          "url": "https://www.toptal.com/careers/future-opportunities",
+          "score": 38
+        },
+        {
+          "title": "Join as a Freelancer | Toptal | Toptal®",
+          "url": "https://www.toptal.com/talent/apply",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "workday",
+      "company_name": "Workday",
+      "source_rank": "254",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Workday Careers | Benefits, Belonging & Values | Workday India",
+          "url": "https://www.workday.com/en-in/company/careers/life-at-workday.html",
+          "score": 38
+        },
+        {
+          "title": "Contact Us | Workday India",
+          "url": "https://www.workday.com/en-in/company/about-workday/contact-us.html",
+          "score": 33
+        },
+        {
+          "title": "Careers - TestGorilla",
+          "url": "https://www.testgorilla.com/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "zscaler",
+      "company_name": "Zscaler",
+      "source_rank": "255",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers - Engineering & Cloud Ops | Zscaler",
+          "url": "https://www.zscaler.com/careers/engineering",
+          "score": 38
+        },
+        {
+          "title": "Jobs at Zscaler",
+          "url": "https://job-boards.greenhouse.io/zscaler?keyword=India",
+          "score": 30
+        },
+        {
+          "title": "Talent Attraction and Retention",
+          "url": "https://www.zscaler.com/resources/white-papers/zscaler-2025-corporate-responsibility-report-22dec25.pdf",
+          "score": 8
+        }
+      ]
+    },
+    {
+      "company_id": "analog-devices",
+      "company_name": "Analog Devices",
+      "source_rank": "256",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Career Opportunities | Analog Devices",
+          "url": "https://www.analog.com/en/careers/career-opportunities.html",
+          "score": 43
+        },
+        {
+          "title": "Explore Careers | Analog Devices",
+          "url": "https://www.analog.com/en/careers.html",
+          "score": 43
+        },
+        {
+          "title": "Field Applications Engineer Careers at Analog Devices | Analog Devices",
+          "url": "https://www.analog.com/en/careers/fae-careers-at-adi.html",
+          "score": 43
+        }
+      ]
+    },
+    {
+      "company_id": "applied-materials",
+      "company_name": "Applied Materials",
+      "source_rank": "257",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Search India Jobs at Applied Materials",
+          "url": "https://jobs.appliedmaterials.com/location/india-jobs/95/1269750/2/8",
+          "score": 51
+        },
+        {
+          "title": "Search India Jobs at Applied Materials",
+          "url": "https://jobs.appliedmaterials.com/location/india-jobs/95/1269750/2/11",
+          "score": 51
+        },
+        {
+          "title": "Search India Jobs at Applied Materials",
+          "url": "https://jobs.appliedmaterials.com/location/india-jobs/95/1269750/2/9",
+          "score": 51
+        }
+      ]
+    },
+    {
+      "company_id": "arm",
+      "company_name": "Arm",
+      "source_rank": "258",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "ARM: Role-Conditioned Neuron Transplantation for Training-Free Generalist LLM Agent Merging",
+          "url": "https://arxiv.org/abs/2601.07309",
+          "score": 25
+        },
+        {
+          "title": "Careers",
+          "url": "https://www.appliedmaterials.com/in/en/careers.html",
+          "score": 5
+        },
+        {
+          "title": "Search India Jobs at Applied Materials",
+          "url": "https://jobs.appliedmaterials.com/location/india-jobs/95/1269750/2/8",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "cadence",
+      "company_name": "Cadence",
+      "source_rank": "259",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers | Cadence",
+          "url": "https://www.cadence.com/en_US/home/company/careers.html",
+          "score": 38
+        },
+        {
+          "title": "Life at Cadence",
+          "url": "https://www.cadence.com/content/dam/cadence-www/global/en_US/documents/company/csr/cadence-2023-environmental-social-and-governance-report.pdf",
+          "score": 13
+        },
+        {
+          "title": "India - Lam Research",
+          "url": "https://www.lamresearch.com/careers/global-opportunities/india/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "kla",
+      "company_name": "KLA",
+      "source_rank": "260",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "KLA Industries - Jobs - Plastics Career Opportunities",
+          "url": "https://klaindustries.com/career-opportunities/",
+          "score": 38
+        },
+        {
+          "title": "Career",
+          "url": "https://www.klaindia.com/UI/website/career.php",
+          "score": 33
+        },
+        {
+          "title": "Careers in India | Careers | KLA",
+          "url": "https://www.spts.com/careers/locations/india",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "lam-research",
+      "company_name": "Lam Research",
+      "source_rank": "261",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "India - Lam Research",
+          "url": "https://www.lamresearch.com/careers/global-opportunities/india/",
+          "score": 51
+        },
+        {
+          "title": "Career Search | Lam Research",
+          "url": "https://opportunities.lamresearch.com/",
+          "score": 51
+        },
+        {
+          "title": "India - Lam Research",
+          "url": "https://www.lamresearch.com/careers/global-opportunities/india-new/",
+          "score": 51
+        }
+      ]
+    },
+    {
+      "company_id": "marvell",
+      "company_name": "Marvell",
+      "source_rank": "262",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers | At Marvell, Your Future is Now - Life at Marvell",
+          "url": "https://www.marvell.com/company/careers.html",
+          "score": 38
+        },
+        {
+          "title": "PowerPoint Presentation",
+          "url": "https://www.marvell.com/content/dam/marvell/en/company/career/documents/marvell-india-m-stem-scholarship-program-2026-overview.pdf",
+          "score": 13
+        },
+        {
+          "title": "India - Lam Research",
+          "url": "https://www.lamresearch.com/careers/global-opportunities/india/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "mediatek",
+      "company_name": "MediaTek",
+      "source_rank": "263",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Home | MediaTek Careers",
+          "url": "https://careers.mediatek.com/en",
+          "score": 38
+        },
+        {
+          "title": "Openings | MediaTek Careers",
+          "url": "https://careers.mediatek.com/en/jobs?branch=&category=&locations=0000168800%2C0000009297%2C9021&order=&program=&searchKey=india&sortBy=&workExp=",
+          "score": 38
+        },
+        {
+          "title": "Renesas in India | Renesas Careers",
+          "url": "https://jobs.renesas.com/india",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "micron",
+      "company_name": "Micron",
+      "source_rank": "264",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at Micron Technology",
+          "url": "https://careers.micron.com/careers/?location=india",
+          "score": 38
+        },
+        {
+          "title": "Careers | Micron Technology Inc.",
+          "url": "https://in.micron.com/about/careers",
+          "score": 38
+        },
+        {
+          "title": "Careers at Micron Technology",
+          "url": "https://careers.micron.com/careers?source=job-sphere",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "nxp-semiconductors",
+      "company_name": "NXP Semiconductors",
+      "source_rank": "265",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at NXP | NXP Semiconductors",
+          "url": "https://www.nxp.com/company/about-nxp/careers%3ACAREERS",
+          "score": 43
+        },
+        {
+          "title": "NXP Semiconductors",
+          "url": "https://en.wikipedia.org/wiki/NXP_Semiconductors",
+          "score": 30
+        },
+        {
+          "title": "Renesas in India | Renesas Careers",
+          "url": "https://jobs.renesas.com/india",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "renesas",
+      "company_name": "Renesas",
+      "source_rank": "266",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Renesas in India | Renesas Careers",
+          "url": "https://jobs.renesas.com/india",
+          "score": 38
+        },
+        {
+          "title": "Renesas Careers",
+          "url": "https://jobs.renesas.com/",
+          "score": 38
+        },
+        {
+          "title": "Table of Contents",
+          "url": "https://www.renesas.com/en/document/rep/renesas-2024-business-and-sustainability-report",
+          "score": 28
+        }
+      ]
+    },
+    {
+      "company_id": "synopsys",
+      "company_name": "Synopsys",
+      "source_rank": "267",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "India Careers | Synopsys",
+          "url": "https://www.synopsys.com/careers/global/south-asia/india.html",
+          "score": 38
+        },
+        {
+          "title": "Search our Job Opportunities at Synopsys",
+          "url": "https://careers.synopsys.com/en/search-jobs",
+          "score": 38
+        },
+        {
+          "title": "Working at Synopsys",
+          "url": "https://careers.synopsys.com/",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "texas-instruments",
+      "company_name": "Texas Instruments",
+      "source_rank": "268",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Search Jobs - Texas Instruments Careers",
+          "url": "https://edbz.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions?country=IN&location=India",
+          "score": 35
+        },
+        {
+          "title": "Texas Instruments",
+          "url": "https://en.wikipedia.org/wiki/Texas_Instruments",
+          "score": 30
+        },
+        {
+          "title": "India Careers | Synopsys",
+          "url": "https://www.synopsys.com/careers/global/south-asia/india.html",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "western-digital-sandisk",
+      "company_name": "Western Digital / SanDisk",
+      "source_rank": "269",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Western Digital",
+          "url": "https://en.wikipedia.org/wiki/Western_Digital",
+          "score": 10
+        },
+        {
+          "title": "India Careers | Synopsys",
+          "url": "https://www.synopsys.com/careers/global/south-asia/india.html",
+          "score": 5
+        },
+        {
+          "title": "Jobs | India | Aptiv",
+          "url": "https://www.aptiv.com/en/jobs/working-here/global-locations/india",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "aptiv",
+      "company_name": "Aptiv",
+      "source_rank": "270",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Jobs | India | Aptiv",
+          "url": "https://www.aptiv.com/en/jobs/working-here/global-locations/india",
+          "score": 38
+        },
+        {
+          "title": "Jobs | Aptiv",
+          "url": "https://www.aptiv.com/jobs",
+          "score": 38
+        },
+        {
+          "title": "Careers & Job Opportunities at Aptiv",
+          "url": "https://www.aptiv.org/careers/job-opportunities",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "ather-energy",
+      "company_name": "Ather Energy",
+      "source_rank": "271",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Ather Energy - Electric Scooters",
+          "url": "https://www.atherenergy.com/about",
+          "score": 46
+        },
+        {
+          "title": "Ather Energy",
+          "url": "https://en.wikipedia.org/wiki/Ather_Energy",
+          "score": 30
+        },
+        {
+          "title": "ATHER ENERGY LIMITED",
+          "url": "https://nsearchives.nseindia.com/corporate/ATHERENERGY_25082025183119_Reg30AnnualReport2425.pdf",
+          "score": 10
+        }
+      ]
+    },
+    {
+      "company_id": "ati-motors",
+      "company_name": "Ati Motors",
+      "source_rank": "272",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Job offers | Bosch Global Software Technologies PVT LTD",
+          "url": "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
+          "score": 5
+        },
+        {
+          "title": "Careers at CynLr | Robotics & Deep-Tech Jobs",
+          "url": "https://www.cynlr.com/careers?category=Solutions+Engineering&country=India&role=Robotics+Solution+Engineer",
+          "score": 5
+        },
+        {
+          "title": "Fields of work | Bosch Global Software Technologies PVT LTD",
+          "url": "https://www.bosch-softwaretechnologies.com/en/careers/fields-of-work/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "bosch-global-software-technologies",
+      "company_name": "Bosch Global Software Technologies",
+      "source_rank": "273",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Job offers | Bosch Global Software Technologies PVT LTD",
+          "url": "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
+          "score": 43
+        },
+        {
+          "title": "Fields of work | Bosch Global Software Technologies PVT LTD",
+          "url": "https://www.bosch-softwaretechnologies.com/en/careers/fields-of-work/",
+          "score": 43
+        },
+        {
+          "title": "Internships | Bosch Global Software Technologies PVT LTD",
+          "url": "https://www.bosch-softwaretechnologies.com/en/careers/students-and-graduates/internships/",
+          "score": 43
+        }
+      ]
+    },
+    {
+      "company_id": "cynlr",
+      "company_name": "CynLr",
+      "source_rank": "274",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at CynLr | Robotics & Deep-Tech Jobs",
+          "url": "https://www.cynlr.com/careers?category=Solutions+Engineering&country=India&role=Robotics+Solution+Engineer",
+          "score": 38
+        },
+        {
+          "title": "CynLr",
+          "url": "https://cynlr.freshteam.com/jobs/qcChg0JGwlHP/applicants",
+          "score": 38
+        },
+        {
+          "title": "Recruitment 2022",
+          "url": "https://www.cynlr.com/api/pdf?id=1tdSEw456He0ETlX9jyrIB5Jf-xpiJ3eN",
+          "score": 28
+        }
+      ]
+    },
+    {
+      "company_id": "detect-technologies",
+      "company_name": "Detect Technologies",
+      "source_rank": "275",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers - Detect Technologies",
+          "url": "https://detecttechnologies.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "AI Trainee - Detect Technologies",
+          "url": "https://detecttechnologies.com/career/ai-trainee/",
+          "score": 38
+        },
+        {
+          "title": "Current Openings - Detect Technologies",
+          "url": "https://detecttechnologies.com/current-openings/",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "greyorange",
+      "company_name": "GreyOrange",
+      "source_rank": "276",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers Site",
+          "url": "https://jobs.harman.com/",
+          "score": 5
+        },
+        {
+          "title": "Careers - Detect Technologies",
+          "url": "https://detecttechnologies.com/careers/",
+          "score": 5
+        },
+        {
+          "title": "Careers Site",
+          "url": "https://jobs.harman.com/locations",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "harman",
+      "company_name": "Harman",
+      "source_rank": "277",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Job Search | Harman",
+          "url": "https://jobsearch.harman.com/en_US/careers/SearchJobs/?2039=%5B59985%5D&2039_format=2669&jobOffset=120&jobRecordsPerPage=20&listFilterMode=1",
+          "score": 38
+        },
+        {
+          "title": "Careers Site",
+          "url": "https://jobs.harman.com/",
+          "score": 33
+        },
+        {
+          "title": "Life@HARMAN | HARMAN Digital Transformation Solutions",
+          "url": "https://services.harman.com/life-at-harman",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "ideaforge",
+      "company_name": "ideaForge",
+      "source_rank": "278",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Explore Exciting Career Opportunities in Drone Technology",
+          "url": "https://ideaforgetech.com/career",
+          "score": 33
+        },
+        {
+          "title": "WITH ITS DISTINCTLY INDIAN SPIRIT",
+          "url": "https://ideaforgetech.com/uploads/Other/ideaForgeTechnologyAR2023-24_CTCPDFfileforweb-upload.pdf",
+          "score": 8
+        },
+        {
+          "title": "Careers Site",
+          "url": "https://jobs.harman.com/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "kpit",
+      "company_name": "KPIT",
+      "source_rank": "279",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at KPIT - Automotive Industry Domain careers",
+          "url": "https://www.kpit.com/careers-overview/",
+          "score": 38
+        },
+        {
+          "title": "Careers at Kochi | Automotive Industry Careers at kochi - KPIT",
+          "url": "https://www.kpit.com/careers-at-kochi/",
+          "score": 38
+        },
+        {
+          "title": "KPIT Technologies",
+          "url": "https://en.wikipedia.org/wiki/KPIT_Technologies",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "mercedes-benz-research-and-development-india",
+      "company_name": "Mercedes-Benz Research and Development India",
+      "source_rank": "280",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Mercedes-Benz Research and Development India Private Limited, Bangalore | Mercedes-Benz Group > Karriere > Über uns > Standorte",
+          "url": "https://group.mercedes-benz.com/karriere/ueber-uns/standorte/standort-detailseite-18185.html",
+          "score": 61
+        },
+        {
+          "title": "Job search | Mercedes-Benz Group > Careers > Job search",
+          "url": "https://jobs.mercedes-benz.com/?OrganizationMemberCode=%5B%22IN411057A%22%5D&ParentOrganization=140&job_location=7034&job_location_name=%5B%22Pune%22%2C%22+Mercedes-Benz+Research+and+Development+India+Private+Limited%22%5D",
+          "score": 51
+        },
+        {
+          "title": "Mercedes-Benz Research & Development India",
+          "url": "https://mbrdi.co.in/",
+          "score": 45
+        }
+      ]
+    },
+    {
+      "company_id": "minus-zero",
+      "company_name": "Minus Zero",
+      "source_rank": "281",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Job search | Mercedes-Benz Group > Careers > Job search",
+          "url": "https://jobs.mercedes-benz.com/?OrganizationMemberCode=%5B%22IN411057A%22%5D&ParentOrganization=140&job_location=7034&job_location_name=%5B%22Pune%22%2C%22+Mercedes-Benz+Research+and+Development+India+Private+Limited%22%5D",
+          "score": 5
+        },
+        {
+          "title": "Careers at KPIT - Automotive Industry Domain careers",
+          "url": "https://www.kpit.com/careers-overview/",
+          "score": 5
+        },
+        {
+          "title": "Careers at Kochi | Automotive Industry Careers at kochi - KPIT",
+          "url": "https://www.kpit.com/careers-at-kochi/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "myelin-foundry",
+      "company_name": "Myelin Foundry",
+      "source_rank": "282",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "About Us | Myelin Foundry",
+          "url": "https://www.myelinfoundry.ai/company/",
+          "score": 46
+        },
+        {
+          "title": "Microsoft Word - Whistle Blower Policy - Myelin Foundry - FINAL Word File",
+          "url": "https://www.myelinfoundry.ai/wp-content/uploads/2025/07/Whistle-Blower-Policy-Myelin-Foundry-FINAL-PDF.pdf",
+          "score": 26
+        },
+        {
+          "title": "Job search | Mercedes-Benz Group > Careers > Job search",
+          "url": "https://jobs.mercedes-benz.com/?OrganizationMemberCode=%5B%22IN411057A%22%5D&ParentOrganization=140&job_location=7034&job_location_name=%5B%22Pune%22%2C%22+Mercedes-Benz+Research+and+Development+India+Private+Limited%22%5D",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "netradyne",
+      "company_name": "Netradyne",
+      "source_rank": "283",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at Netradyne | Join Our Team",
+          "url": "https://www.netradyne.com/company/careers",
+          "score": 38
+        },
+        {
+          "title": "Contact Us | Connect with Netradyne",
+          "url": "https://www.netradyne.com/company/contact",
+          "score": 33
+        },
+        {
+          "title": "Careers at Netradyne",
+          "url": "https://careers.smartrecruiters.com/Netradyne",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "ola-electric",
+      "company_name": "Ola Electric",
+      "source_rank": "284",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Career Opportunities at Ola Electric | Join Our Team",
+          "url": "https://www.olaelectric.com/careers",
+          "score": 51
+        },
+        {
+          "title": "Ola Electric Scooter - Enabling mobility for the world",
+          "url": "https://www.olaelectric.com/contact-us",
+          "score": 46
+        },
+        {
+          "title": "Ola Electric",
+          "url": "https://en.wikipedia.org/wiki/Ola_Electric",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "rapido",
+      "company_name": "Rapido",
+      "source_rank": "285",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Rapido Recruitment & Career - Job Opportunities at Rapido",
+          "url": "https://www.rapido.bike/Careers",
+          "score": 38
+        },
+        {
+          "title": "Rapido Corporate Services | Best HR Service provider in Chennai",
+          "url": "https://www.rapido.co.in/",
+          "score": 33
+        },
+        {
+          "title": "Rapido (company)",
+          "url": "https://en.wikipedia.org/wiki/Rapido_%28company%29",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "samsara",
+      "company_name": "Samsara",
+      "source_rank": "286",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Work at Samsara: Find jobs in your department",
+          "url": "https://www.samsara.com/company/careers/departments",
+          "score": 38
+        },
+        {
+          "title": "Samsara Careers | Explore Jobs & Open Roles",
+          "url": "https://www.samsara.com/company/careers",
+          "score": 38
+        },
+        {
+          "title": "Work at Samsara: Apply to open roles today",
+          "url": "https://www.samsara.com/uk/company/careers/roles",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "tata-elxsi",
+      "company_name": "Tata Elxsi",
+      "source_rank": "287",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at Tata Elxsi - Join a Global Tech Leader",
+          "url": "https://www.tataelxsi.com/careers",
+          "score": 51
+        },
+        {
+          "title": "Job Openings at Tata Elxsi - Apply Today",
+          "url": "https://www.tataelxsi.com/careers/job-openings?page=1",
+          "score": 51
+        },
+        {
+          "title": "Job Openings at Tata Elxsi - Apply Today",
+          "url": "https://www.tataelxsi.com/careers/job-openings?page=4",
+          "score": 51
+        }
+      ]
+    },
+    {
+      "company_id": "unbox-robotics",
+      "company_name": "Unbox Robotics",
+      "source_rank": "288",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers | Unbox Robotics",
+          "url": "https://unboxrobotics.com/careers",
+          "score": 51
+        },
+        {
+          "title": "About Us | Unbox Robotics",
+          "url": "https://unboxrobotics.com/about-us",
+          "score": 46
+        },
+        {
+          "title": "Careers at Tata Elxsi - Join a Global Tech Leader",
+          "url": "https://www.tataelxsi.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "volvo-group",
+      "company_name": "Volvo Group",
+      "source_rank": "289",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Volvo Group careers | Volvo Group",
+          "url": "https://www.volvogroup.com/en/careers.html/jobs/?q=engineer&sort=relevance",
+          "score": 38
+        },
+        {
+          "title": "Volvo Group India | Volvo Group",
+          "url": "https://www.volvogroup.com/en/about-us/organization/our-global-presence/volvo-group-india.html",
+          "score": 33
+        },
+        {
+          "title": "Careers at Tata Elxsi - Join a Global Tech Leader",
+          "url": "https://www.tataelxsi.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "acko",
+      "company_name": "ACKO",
+      "source_rank": "290",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "ACKO Careers | Ready to make a difference? Join ACKO!",
+          "url": "https://www.acko.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "ACKO Careers | Jobs",
+          "url": "https://www.acko.com/careers/jobs/",
+          "score": 38
+        },
+        {
+          "title": "Acko Insurance",
+          "url": "https://en.wikipedia.org/wiki/Acko_Insurance",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "apna",
+      "company_name": "Apna",
+      "source_rank": "291",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Search Jobs Online | Hire Candidates | Post a Job | apna.co",
+          "url": "https://www.apna.co/",
+          "score": 38
+        },
+        {
+          "title": "92,495 Job Vacancies in India 2026 | Search Jobs in India | apna.co",
+          "url": "https://www.apna.co/jobs",
+          "score": 38
+        },
+        {
+          "title": "India’s favorite Portal to find Genuine jobs – Apna App now in 64 cities",
+          "url": "https://apna.co/career-central/indias-favourite-way-to-find-jobs-for-all-apna-app-now-in-64-cities/",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "billdesk",
+      "company_name": "BillDesk",
+      "source_rank": "292",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "BillDesk - Integrated Payment Solutions",
+          "url": "https://www.billdesk.com/web/job_description/jd%3DBD11",
+          "score": 33
+        },
+        {
+          "title": "BillDesk",
+          "url": "https://en.wikipedia.org/wiki/BillDesk",
+          "score": 25
+        },
+        {
+          "title": "Jobs at BrowserStack",
+          "url": "https://www.browserstack.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "blackbuck",
+      "company_name": "BlackBuck",
+      "source_rank": "293",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Life@BlackBuck - BlackBuck",
+          "url": "https://www.blackbuck.com/team-blackbuck.html",
+          "score": 33
+        },
+        {
+          "title": "Blackbuck",
+          "url": "https://en.wikipedia.org/wiki/Blackbuck",
+          "score": 25
+        },
+        {
+          "title": "Jobs at BrowserStack",
+          "url": "https://www.browserstack.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "browserstack",
+      "company_name": "BrowserStack",
+      "source_rank": "294",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Jobs at BrowserStack",
+          "url": "https://www.browserstack.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Browserstack jobs | Browserstack openings | Browserstack careers",
+          "url": "https://browserstack.hire.trakstar.com/",
+          "score": 38
+        },
+        {
+          "title": "About Us | BrowserStack",
+          "url": "https://www.browserstack.com/company",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "chargebee",
+      "company_name": "Chargebee",
+      "source_rank": "295",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Join Us - Careers at Chargebee",
+          "url": "https://www.chargebee.com/careers/join-us/",
+          "score": 38
+        },
+        {
+          "title": "Grow With Chargebee - Culture Where Learning Thrives",
+          "url": "https://www.chargebee.com/careers/grow-with-chargebee/",
+          "score": 38
+        },
+        {
+          "title": "chargebee jobs | chargebee openings | chargebee careers",
+          "url": "https://chargebee.hire.trakstar.com/",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "cleartax",
+      "company_name": "ClearTax",
+      "source_rank": "296",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Contact Us: ClearTax | Support and Tax Questions",
+          "url": "https://cleartax.in/Meta/Contact/index.html",
+          "score": 33
+        },
+        {
+          "title": "Careers at Cleartax",
+          "url": "https://www.clear.in/s/careers",
+          "score": 30
+        },
+        {
+          "title": "Join Us - Careers at Chargebee",
+          "url": "https://www.chargebee.com/careers/join-us/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "coindcx",
+      "company_name": "CoinDCX",
+      "source_rank": "297",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "CoinDCX Careers | About us",
+          "url": "https://careers.coindcx.com/?trk=organization-update_share-update_update-text",
+          "score": 38
+        },
+        {
+          "title": "CoinDCX HY Report Fin Fin",
+          "url": "https://coindcx.com/blog/wp-content/uploads/2025/08/CoinDCX-Half-yearly-Report-25.pdf",
+          "score": 13
+        },
+        {
+          "title": "Coin DCX Newsletter February 2026",
+          "url": "https://coindcx.com/wp-content/uploads/2026/03/CoinDCX-Newsletter-February-2026-4_repaired.pdf",
+          "score": 8
+        }
+      ]
+    },
+    {
+      "company_id": "coinswitch",
+      "company_name": "CoinSwitch",
+      "source_rank": "298",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Join Us - Careers at Chargebee",
+          "url": "https://www.chargebee.com/careers/join-us/",
+          "score": 5
+        },
+        {
+          "title": "Careers at Cleartax",
+          "url": "https://www.clear.in/s/careers",
+          "score": 5
+        },
+        {
+          "title": "Grow With Chargebee - Culture Where Learning Thrives",
+          "url": "https://www.chargebee.com/careers/grow-with-chargebee/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "delhivery",
+      "company_name": "Delhivery",
+      "source_rank": "299",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Build Your Career with Delhivery – Join India's Leading Logistics Innovator",
+          "url": "https://www.delhivery.com/careers?trk=public_post_comment-text",
+          "score": 38
+        },
+        {
+          "title": "Delhivery Careers & Jobs | delhivery",
+          "url": "https://www.hirezapp.com/careers/delhivery",
+          "score": 30
+        },
+        {
+          "title": "Delhivery",
+          "url": "https://en.wikipedia.org/wiki/Delhivery",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "dream11-dream-sports",
+      "company_name": "Dream11 / Dream Sports",
+      "source_rank": "300",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "known and reputed ‘DREAM11’/‘DREAM SPORTS’/DREAM11/DREAM11/ series of trademarks, which has long-served as one of India’s premier digital destinations for sports entertainment. Plaintiff launched its operations under the Dream11 marks in 2012 and has since been operating the widely popular and immensely successful fantasy sports platform, where sports fans built fantasy teams comprising of athletes/sportspersons like cricketers from different teams, earn points based on real-world performances of such players and participate in contests against fantasy teams created by other sports fans under pre-published rules. The users could play these contests either on free-to-play basis or in some cases on payment of nominal entry fees and winners could get rewards.",
+          "url": "https://www.medianama.com/wp-content/uploads/2026/03/Sporta_Vs_Come_Sports.pdf",
+          "score": 15
+        },
+        {
+          "title": "Dream11",
+          "url": "https://en.wikipedia.org/wiki/Dream11",
+          "score": 10
+        },
+        {
+          "title": "Careers at ElasticRun | Join India's Fastest Growing Company",
+          "url": "https://elastic.run/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "elasticrun",
+      "company_name": "ElasticRun",
+      "source_rank": "301",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at ElasticRun | Join India's Fastest Growing Company",
+          "url": "https://elastic.run/careers",
+          "score": 30
+        },
+        {
+          "title": "ElasticRun - India's fastest growing fulfilment network",
+          "url": "https://careers.elastic.run/",
+          "score": 30
+        },
+        {
+          "title": "Jobs at ElasticRun | JOIN",
+          "url": "https://join.com/companies/elastic",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "company_id": "freshworks",
+      "company_name": "Freshworks",
+      "source_rank": "302",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Freshworks Careers | Explore Job Opportunities at Freshworks",
+          "url": "https://www.freshworks.com/company/careers/",
+          "score": 38
+        },
+        {
+          "title": "Careers at Freshworks",
+          "url": "https://careers.smartrecruiters.com/Freshworks?page=1&search=",
+          "score": 30
+        },
+        {
+          "title": "Freshworks",
+          "url": "https://en.wikipedia.org/wiki/Freshworks",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "games24x7",
+      "company_name": "Games24x7",
+      "source_rank": "303",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Contact Us - Games24x7",
+          "url": "https://www.games24x7.com/contact",
+          "score": 33
+        },
+        {
+          "title": "Bold Ideas, Bright Futures - Life At Games24x7",
+          "url": "https://www.games24x7.com/life",
+          "score": 33
+        },
+        {
+          "title": "Games24x7",
+          "url": "https://en.wikipedia.org/wiki/Games24x7",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "groww",
+      "company_name": "Groww",
+      "source_rank": "304",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Job openings at <!-- -->Groww<!-- -->",
+          "url": "https://groww.sensehq.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Jobs at Groww",
+          "url": "https://job-boards.greenhouse.io/groww/jobs/4601250101",
+          "score": 30
+        },
+        {
+          "title": "Careers",
+          "url": "https://innovaccer.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "info-edge",
+      "company_name": "Info Edge",
+      "source_rank": "305",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Info Edge",
+          "url": "https://en.wikipedia.org/wiki/Info_Edge",
+          "score": 30
+        },
+        {
+          "title": "Microsoft PowerPoint - Info Edge new PPT_Jan, 2015",
+          "url": "https://www.infoedgeindia.com/pdfs/corporatePresentations_pdfs/Info-Edge-Jan2015.pdf",
+          "score": 26
+        },
+        {
+          "title": "Microsoft PowerPoint - Info Edge ppt Q1_ 2020-2021 (09.09.2020).",
+          "url": "https://www.infoedgeindia.com/pdfs/corporatePresentations_pdfs/info-edge-sep-2020.pdf",
+          "score": 26
+        }
+      ]
+    },
+    {
+      "company_id": "innovaccer",
+      "company_name": "Innovaccer",
+      "source_rank": "306",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Inside Innovaccer",
+          "url": "https://innovaccer.com/careers/life-at-innovaccer",
+          "score": 38
+        },
+        {
+          "title": "Innovaccer",
+          "url": "https://innovaccer.com/careers/department/legal",
+          "score": 38
+        },
+        {
+          "title": "Careers",
+          "url": "https://innovaccer.com/careers",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "jio-platforms-haptik",
+      "company_name": "Jio Platforms / Haptik",
+      "source_rank": "307",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Haptik Careers",
+          "url": "https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid",
+          "score": 18
+        },
+        {
+          "title": "Build Enterprise-Grade Customer Experience AI Agents | Jio Haptik",
+          "url": "https://www.haptik.ai/",
+          "score": 18
+        },
+        {
+          "title": "Jio Platforms",
+          "url": "https://en.wikipedia.org/wiki/Jio_Platforms",
+          "score": 10
+        }
+      ]
+    },
+    {
+      "company_id": "jupiter",
+      "company_name": "Jupiter",
+      "source_rank": "308",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at Jupiter - Work with our team at Jupiter on empowering service businesses",
+          "url": "https://tryjupiter.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Careers - Jupiter International Limited",
+          "url": "https://jil-jupiter.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Careers",
+          "url": "https://jupiter.money/careers/",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "juspay",
+      "company_name": "Juspay",
+      "source_rank": "309",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Juspay | Explore career opportunities in payments tech",
+          "url": "https://juspay.io/careers",
+          "score": 38
+        },
+        {
+          "title": "Juspay Careers | Software Development Engineer Backend",
+          "url": "https://juspay.io/careers/DEV-BE01",
+          "score": 38
+        },
+        {
+          "title": "Juspay Careers | Senior Business Development Manager_MENA",
+          "url": "https://juspay.io/careers/SBDM01",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "lenskart",
+      "company_name": "Lenskart",
+      "source_rank": "310",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "lenskart.com",
+          "url": "https://www.lenskart.com/careers-at-lenskart",
+          "score": 38
+        },
+        {
+          "title": "Lenskart",
+          "url": "https://en.wikipedia.org/wiki/Lenskart",
+          "score": 25
+        },
+        {
+          "title": "Juspay | Explore career opportunities in payments tech",
+          "url": "https://juspay.io/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "makemytrip",
+      "company_name": "MakeMyTrip",
+      "source_rank": "311",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "MakeMyTrip",
+          "url": "https://careers.makemytrip.com/",
+          "score": 38
+        },
+        {
+          "title": "MakeMyTrip",
+          "url": "https://en.wikipedia.org/wiki/MakeMyTrip",
+          "score": 25
+        },
+        {
+          "title": "Explore Career Opportunities at Moglix.com",
+          "url": "https://www.moglix.com/career",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "moglix",
+      "company_name": "Moglix",
+      "source_rank": "312",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Explore Career Opportunities at Moglix.com",
+          "url": "https://www.moglix.com/career",
+          "score": 38
+        },
+        {
+          "title": "Online Shopping for Appliances, Power Tools, Electronics, Safety Equipment & More in India - Moglix",
+          "url": "https://www.moglix.com/",
+          "score": 33
+        },
+        {
+          "title": "Moglix",
+          "url": "https://en.wikipedia.org/wiki/Moglix",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "myntra",
+      "company_name": "Myntra",
+      "source_rank": "313",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Myntra - myntra-myntra-customer-service-online-jobs-work-from-home September 11, 2025",
+          "url": "https://govhelp.in/find/job/myntra-customer-service-online-jobs-work-from-home/?export-pdf=88",
+          "score": 30
+        },
+        {
+          "title": "Myntra",
+          "url": "https://en.wikipedia.org/wiki/Myntra",
+          "score": 25
+        },
+        {
+          "title": "Explore Career Opportunities at Moglix.com",
+          "url": "https://www.moglix.com/career",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "nykaa",
+      "company_name": "Nykaa",
+      "source_rank": "314",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers | Nykaa",
+          "url": "https://careers.nykaa.com/",
+          "score": 38
+        },
+        {
+          "title": "Who Are We | Nykaa",
+          "url": "https://www.nykaa.com/who_are_we/lp",
+          "score": 33
+        },
+        {
+          "title": "Who Are We",
+          "url": "https://www.nykaa.com/who_we_are",
+          "score": 28
+        }
+      ]
+    },
+    {
+      "company_id": "ofbusiness",
+      "company_name": "OfBusiness",
+      "source_rank": "315",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "OfBusiness: B2B Raw Materials Procurement, Revenue Opportunities & Credit Platform",
+          "url": "https://www.ofbusiness.com/",
+          "score": 38
+        },
+        {
+          "title": "OfBusiness Careers | Explore High-Growth roles with us",
+          "url": "https://www.ofbcareers.com/",
+          "score": 30
+        },
+        {
+          "title": "Online recharge | Easy mobile recharge for prepaid and postpaid bill @Paytm.com",
+          "url": "https://paytm.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "oyo",
+      "company_name": "OYO",
+      "source_rank": "316",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Oyo Rooms",
+          "url": "https://en.wikipedia.org/wiki/Oyo_Rooms",
+          "score": 25
+        },
+        {
+          "title": "Equal Opportunity Employment Policy_OYO 2021.docx",
+          "url": "https://www.oyorooms.com/esg/images/Equal_Opportunity_Employment_Policy_OYO.pdf",
+          "score": 13
+        },
+        {
+          "title": "OfBusiness Careers | Explore High-Growth roles with us",
+          "url": "https://www.ofbcareers.com/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "paytm",
+      "company_name": "Paytm",
+      "source_rank": "317",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Online recharge | Easy mobile recharge for prepaid and postpaid bill @Paytm.com",
+          "url": "https://paytm.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Careers",
+          "url": "https://business.paytmpayments.com/careers",
+          "score": 33
+        },
+        {
+          "title": "Earn Money - Work from Home Jobs | Freelance & Part Time Jobs for Extra Income",
+          "url": "https://paytm.com/psa",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "pine-labs",
+      "company_name": "Pine Labs",
+      "source_rank": "318",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Pine Labs Careers | Explore Current Job Openings & Vacancies",
+          "url": "https://www.pinelabs.com/careers/open-jobs",
+          "score": 38
+        },
+        {
+          "title": "Careers at Pine Labs – Join Our Fintech Innovation Team",
+          "url": "https://www.pinelabs.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Pine Labs",
+          "url": "https://en.wikipedia.org/wiki/Pine_Labs",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "policybazaar",
+      "company_name": "Policybazaar",
+      "source_rank": "319",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Career Opportunities, Jobs and Vacancies - Policybazaar",
+          "url": "https://www.policybazaar.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Policybazaar",
+          "url": "https://en.wikipedia.org/wiki/Policybazaar",
+          "score": 25
+        },
+        {
+          "title": "ShareChat Moj Careers - Engineering, Tech, Product, Sales, Content and Design jobs",
+          "url": "https://sharechat.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "porter",
+      "company_name": "Porter",
+      "source_rank": "320",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Porter Airlines Careers",
+          "url": "https://careers.flyporter.com/jobs",
+          "score": 38
+        },
+        {
+          "title": "Work with Porter - Career - Tech Enabled Logistics Company",
+          "url": "https://oms.porter.in/careers?click_id=Cj0KCQjwoZbBBhDCARIsAOqMEZVMR_U_u87gk5mkHcaOyAsZ75MrO367G6dgMOn0NGnBtcJ_8FbBTIMaAhHnEALw_wcB",
+          "score": 38
+        },
+        {
+          "title": "Porter Airlines Careers",
+          "url": "https://careers.flyporter.com/auth/",
+          "score": 38
+        }
+      ]
+    },
+    {
+      "company_id": "practo",
+      "company_name": "Practo",
+      "source_rank": "321",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Lead AI Engineer | AI Squad | Practo Careers",
+          "url": "https://www.practo.com/company/careers/aisquad/lead-ai-engineer",
+          "score": 38
+        },
+        {
+          "title": "Career Opportunities, Jobs and Vacancies - Policybazaar",
+          "url": "https://www.policybazaar.com/careers/",
+          "score": 5
+        },
+        {
+          "title": "ShareChat Moj Careers - Engineering, Tech, Product, Sales, Content and Design jobs",
+          "url": "https://sharechat.com/careers",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "sharechat-moj",
+      "company_name": "ShareChat / Moj",
+      "source_rank": "322",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "ShareChat Moj Careers - Engineering, Tech, Product, Sales, Content and Design jobs",
+          "url": "https://sharechat.com/careers",
+          "score": 43
+        },
+        {
+          "title": "About Us",
+          "url": "https://sharechat.com/about",
+          "score": 8
+        },
+        {
+          "title": "Career Opportunities, Jobs and Vacancies - Policybazaar",
+          "url": "https://www.policybazaar.com/careers/",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "company_id": "slice",
+      "company_name": "Slice",
+      "source_rank": "323",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Slice Careers — Open for Talent",
+          "url": "https://slice.careers/",
+          "score": 38
+        },
+        {
+          "title": "Careers | Slice",
+          "url": "https://startslice.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Slice Small Finance Bank",
+          "url": "https://en.wikipedia.org/wiki/Slice_Small_Finance_Bank",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "udaan",
+      "company_name": "Udaan",
+      "source_rank": "324",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Udaan",
+          "url": "https://clientlogin.udaanindia.com/careers.html",
+          "score": 38
+        },
+        {
+          "title": "Careers — Engineering Jobs in Delhi | Udaan Technologies",
+          "url": "https://www.udaantechnologies.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Udaan India",
+          "url": "https://udaanindia.com/apply",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "unacademy",
+      "company_name": "Unacademy",
+      "source_rank": "325",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Unacademy - India's largest learning platform",
+          "url": "https://unacademy.com/careers/public-notice",
+          "score": 38
+        },
+        {
+          "title": "About Unacademy – India's Largest Learning Platform",
+          "url": "https://unacademy.com/about",
+          "score": 33
+        },
+        {
+          "title": "Unacademy",
+          "url": "https://en.wikipedia.org/wiki/Unacademy",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "urban-company",
+      "company_name": "Urban Company",
+      "source_rank": "326",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Urban Company",
+          "url": "https://careers.urbancompany.com/",
+          "score": 51
+        },
+        {
+          "title": "Urban Company",
+          "url": "https://careers.urbancompany.com/jobs?department=Central+teams",
+          "score": 51
+        },
+        {
+          "title": "Join as a service professional at Urban Company | Urban Company Partner",
+          "url": "https://partner.urbancompany.com/",
+          "score": 51
+        }
+      ]
+    },
+    {
+      "company_id": "whatfix",
+      "company_name": "Whatfix",
+      "source_rank": "327",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Whatfix Careers - Join Our Dynamic Team",
+          "url": "https://whatfix.com/careers",
+          "score": 38
+        },
+        {
+          "title": "Whatfix",
+          "url": "https://en.wikipedia.org/wiki/Whatfix",
+          "score": 25
+        },
+        {
+          "title": "Leveling up - IDG",
+          "url": "https://whatfix.com/wp-content/uploads/2024/01/Leveling-up-IDG.pdf",
+          "score": 8
+        }
+      ]
+    },
+    {
+      "company_id": "zepto",
+      "company_name": "Zepto",
+      "source_rank": "328",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers - Zepto",
+          "url": "https://www.zepto.com/s/careers",
+          "score": 38
+        },
+        {
+          "title": "Driving Careers | Zepto",
+          "url": "https://www.zepto.net/careers",
+          "score": 38
+        },
+        {
+          "title": "Zepto (company)",
+          "url": "https://en.wikipedia.org/wiki/Zepto_%28company%29",
+          "score": 25
+        }
+      ]
+    },
+    {
+      "company_id": "zeta",
+      "company_name": "Zeta",
+      "source_rank": "329",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Zeta Careers",
+          "url": "https://www.zeta.tech/in/careers",
+          "score": 38
+        },
+        {
+          "title": "Zeta Career – Zeta Career",
+          "url": "https://career.zetapharma.net/",
+          "score": 38
+        },
+        {
+          "title": "Contact | Zeta: Get in Touch with Us",
+          "url": "https://www.zetaincorporation.in/contact",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "zoho",
+      "company_name": "Zoho",
+      "source_rank": "330",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Zoho Corporation | Careers",
+          "url": "https://www.zoho.com/careers/",
+          "score": 38
+        },
+        {
+          "title": "Careers at Zoho Corporation",
+          "url": "https://www.zoho.com/careers/jobdetails/",
+          "score": 38
+        },
+        {
+          "title": "Zoho Corporation",
+          "url": "https://en.wikipedia.org/wiki/Zoho_Corporation",
+          "score": 25
+        }
+      ]
+    }
+  ]
+}
