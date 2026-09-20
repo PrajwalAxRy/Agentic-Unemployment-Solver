@@ -2,10 +2,10 @@
 
 ## Current status
 
-- Active phase: Phase 3 — Adapter foundation
-- Status: Phases 0–2 complete; H1 and H2 approved; Phase 3 shared-client and Ashby adapter work is
+- Active phase: Phase 4 — Adapter coverage
+- Status: Phases 0–3 complete; H1 and H2 approved; the Ashby adapter group passed and Greenhouse is
   next
-- Pending human checkpoint: none; H3 is conditional and has not been triggered
+- Pending human checkpoint: none; H4 is conditional and has not been triggered
 - No source is enabled. All 330 canonical companies remain in first-release accounting.
 
 ## Completed gates
@@ -36,12 +36,21 @@
   configuration in page scripts had been treated as an active challenge. Regression tests now
   distinguish visible challenge pages from script configuration, and all 44 affected sources were
   re-probed successfully with public HTTP 200 responses.
-- Final proposal accounting reconciles 330/330: 260 auto-verified, 0 current access concerns, 68
-  conflicts/non-enumerating sources, and 2 responsive but oversized structured boards.
+- Phase 3 added a bounded shared HTTP client, adapter runtime interface, fixture-backed Ashby
+  parser, and a read-only source-verification command.
+- Representative Ashby validation covered valid empty, small, large, and previously oversized
+  boards. It found and corrected the case-sensitive Cerebras board name and WisdomAI's current
+  hyphenated slug before the full-group run.
+- Full Ashby validation passed 24/24 companies: 23 successful boards, one valid empty board, 987
+  observed jobs, zero missing required fields, and 987 jobs with `published` date evidence. H3 was
+  not triggered because the documented public API established completeness and direct links.
+- Final proposal accounting reconciles 330/330: 262 auto-verified, 0 current access concerns, 67
+  conflicts/non-enumerating sources, and 1 responsive but oversized structured board.
 - Final source families: Ashby 24, Greenhouse 26, Lever 12, Workday 13, Darwinbox 4, Eightfold 3,
   SmartRecruiters 3, Oracle Cloud 2, SuccessFactors 2, Jobvite 1, search-only 236, unresolved 4.
 - Registry remains fully disabled and reconciles all IDs, names, priorities, and source ranks.
-- Repository validation passes with 95 tests, strict mypy, and Ruff checks at the Phase 2 boundary.
+- Repository validation passes with 125 tests, strict mypy, and Ruff checks at the Phase 3
+  boundary.
 
 ## Relevant Phase 2 commits
 
@@ -62,6 +71,17 @@
 - `54bfed6` — completed disabled 330-company source inventory
 - `fa76385` — corrected false-positive access detection and revalidated all 44 affected companies
 
+## Relevant Phase 3 commits
+
+- `567e625` — bounded shared source request client
+- `93f78cc` — adapter runtime interface and registry
+- `c159325` — sanitized Ashby response fixtures
+- `509ccef` — shared visible access-block detection
+- `33bd50b` — Ashby listing adapter
+- `8e5ed5f` — read-only source-verification command
+- `0c6a6b8` — guarded adapter validation evidence importer
+- `25d0832` — complete Ashby mappings and full-group validation evidence
+
 ## Review artifacts
 
 - H1 search policy review: `docs/reviews/h1_search_policy_review.md`
@@ -69,6 +89,7 @@
 - Phase 1 company schema audit: `docs/reviews/phase1_company_schema_audit.md`
 - Source discovery workflow and output contract: `docs/source_discovery_workflow.md`
 - H2 source inventory review: `docs/reviews/h2_source_inventory_review.md`
+- Phase 3 Ashby validation: `docs/reviews/phase3_ashby_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Disabled runtime registry: `config/company_sources.json`
 
@@ -78,14 +99,14 @@
   and no authentication or access-control bypass was attempted.
 - 68 companies have conflicting, third-party, wrong-region, non-enumerating, or otherwise
   insufficient source evidence. They remain in scope and disabled.
-- Harvey (Ashby) and Pure Storage (Greenhouse) returned public structured responses larger than the
-  two-megabyte discovery cap. They require bounded streaming or pagination validation in their
-  adapter work.
+- Harvey's Ashby response now passes the five-megabyte bounded runtime client. Pure Storage's
+  Greenhouse response remains above the Phase 2 discovery cap and requires bounded validation in
+  Greenhouse adapter work.
 - 236 records remain `search_only`; 178 are verified official pages needing custom adapters or
   deeper source-family work, and 58 are conflicts.
 - No company was approved as blocked or unsupported at H2.
 
 ## Resume point
 
-Begin Phase 3 with the shared bounded HTTP client and adapter runtime interface, then capture Ashby
-fixtures and validate the representative Ashby boards before running the full Ashby company group.
+Begin Phase 4 with Greenhouse fixtures and adapter implementation. Validate representative empty,
+small, medium, large, and oversized boards before running all 26 Greenhouse-mapped companies.
