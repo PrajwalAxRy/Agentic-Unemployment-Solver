@@ -11,6 +11,7 @@ from job_finder.adapters.ashby import AshbyAdapter
 from job_finder.adapters.base import AdapterRegistry
 from job_finder.adapters.greenhouse import GreenhouseAdapter
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
+from job_finder.adapters.lever import LeverAdapter
 from job_finder.core.company_registry import load_company_registry
 from job_finder.core.source_contracts import AdapterType
 from job_finder.verification import verify_adapter_sources, write_verification_report
@@ -31,7 +32,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     verify.add_argument(
         "--adapter",
-        choices=(AdapterType.ASHBY.value, AdapterType.GREENHOUSE.value),
+        choices=(
+            AdapterType.ASHBY.value,
+            AdapterType.GREENHOUSE.value,
+            AdapterType.LEVER.value,
+        ),
         required=True,
     )
     verify.add_argument("--company-id", action="append", default=[])
@@ -57,7 +62,13 @@ def _verify_sources(args: argparse.Namespace) -> int:
     registry = load_company_registry(args.registry)
     policy = HttpPolicy(timeout_seconds=args.timeout)
     client = BoundedHttpClient(policy=policy)
-    adapters = AdapterRegistry([AshbyAdapter(client), GreenhouseAdapter(client)])
+    adapters = AdapterRegistry(
+        [
+            AshbyAdapter(client),
+            GreenhouseAdapter(client),
+            LeverAdapter(client),
+        ]
+    )
     report = verify_adapter_sources(
         registry,
         adapters,
