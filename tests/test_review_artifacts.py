@@ -20,3 +20,15 @@ def test_h2_review_artifact_has_required_decision_sections_and_counts() -> None:
     assert "Verified search-only sources requiring custom adapters" in review
     assert "Ashby is recommended first" in review
     assert "Canonical scope: 330 of 330 companies" in review
+
+
+def test_phase3_ashby_review_records_complete_group_validation() -> None:
+    review = Path("docs/reviews/phase3_ashby_validation.md").read_text(encoding="utf-8")
+
+    assert "Status: **passed**" in review
+    assert "Companies: 24" in review
+    assert 'Outcomes: `{"empty": 1, "success": 23}`' in review
+    assert "Observed jobs: 987" in review
+    assert "Missing required fields: 0" in review
+    assert "Cerebras Systems required the exact case-sensitive board name" in review
+    assert "WisdomAI had moved" in review

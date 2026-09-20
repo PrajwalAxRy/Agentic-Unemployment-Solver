@@ -61,9 +61,9 @@ def test_canonical_discovery_proposals_reconcile_all_companies() -> None:
     assert audit.reconciled is True
     assert audit.proposal_total == 330
     assert audit.by_status == {
-        "auto_verified": 260,
-        "conflict": 68,
-        "proposed": 2,
+        "auto_verified": 262,
+        "conflict": 67,
+        "proposed": 1,
     }
     assert audit.by_adapter == {
         "ashby": 24,

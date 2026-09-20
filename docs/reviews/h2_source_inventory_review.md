@@ -11,10 +11,10 @@
 
 ## Decision summary
 
-- Recommend accepting 260 read-only verified sources as the source baseline, still disabled until their adapters pass later phase gates.
+- Recommend accepting 262 read-only verified sources as the source baseline, still disabled until their adapters pass later phase gates.
 - Keep 0 access-concern sources disabled. Do not bypass login, CAPTCHA, rate-limit, robots, or other access controls.
-- Keep 68 conflicting or non-enumerating sources disabled in the custom-discovery backlog; none is proposed for removal.
-- Carry 2 responsive but oversized structured boards into adapter implementation with bounded streaming/pagination tests.
+- Keep 67 conflicting or non-enumerating sources disabled in the custom-discovery backlog; none is proposed for removal.
+- Carry 1 responsive but oversized structured boards into adapter implementation with bounded streaming/pagination tests.
 - Recommend the adapter order: Ashby, Greenhouse, Lever, Workday, Darwinbox, Eightfold, SmartRecruiters, Oracle Cloud, SuccessFactors, then Jobvite.
 - Preserve all 330 companies in first-release accounting. Priority changes work order and reporting only, never inclusion.
 
@@ -22,13 +22,13 @@
 
 | Metric | Count | Percent of 330 |
 |---|---:|---:|
-| Read-only auto-verified | 260 | 78.8% |
+| Read-only auto-verified | 262 | 79.4% |
 | Access concern | 0 | 0.0% |
-| Conflict / non-enumerating | 68 | 20.6% |
-| Responsive but oversized | 2 | 0.6% |
-| High confidence | 31 | 9.4% |
-| Medium confidence | 231 | 70.0% |
-| Low confidence | 68 | 20.6% |
+| Conflict / non-enumerating | 67 | 20.3% |
+| Responsive but oversized | 1 | 0.3% |
+| High confidence | 38 | 11.5% |
+| Medium confidence | 225 | 68.2% |
+| Low confidence | 67 | 20.3% |
 
 ## Adapter coverage and priority
 
@@ -36,7 +36,7 @@ Known reusable ATS families cover 90 companies (27.3%). The remaining 236 search
 
 | Priority | Adapter | Total | Verified | Access | Conflict | Pending | Projected registry coverage |
 |---:|---|---:|---:|---:|---:|---:|---:|
-| 1 | `ashby` | 24 | 22 | 0 | 1 | 1 | 7.3% |
+| 1 | `ashby` | 24 | 24 | 0 | 0 | 0 | 7.3% |
 | 2 | `greenhouse` | 26 | 21 | 0 | 4 | 1 | 7.9% |
 | 3 | `lever` | 12 | 11 | 0 | 1 | 0 | 3.6% |
 | 4 | `workday` | 13 | 13 | 0 | 0 | 0 | 3.9% |
@@ -68,7 +68,6 @@ None are proposed as unsupported or removed at H2. Any access-concern or conflic
 
 | Rank | Priority | Company | Adapter | Direct URL | Evidence / limitation |
 |---:|---|---|---|---|---|
-| 2 | P1 | Harvey | `ashby` | [open](https://jobs.ashbyhq.com/harvey) | Public structured endpoint responded but exceeded the bounded discovery probe; adapter verification must stream or page it. |
 | 32 | P1 | Pure Storage | `greenhouse` | [open](https://job-boards.greenhouse.io/purestorage/jobs/6660530) | Public structured endpoint responded but exceeded the bounded discovery probe; adapter verification must stream or page it. |
 
 ## Access-policy concerns requiring approval
@@ -92,7 +91,6 @@ Recommendation: keep every company in scope but disabled; treat these as custom 
 | 31 | P1 | Confluent | `search_only` | [open](https://careers.confluent.io/jobs/job/fd9f602f-9741-4360-946d-430f1515ebf9) | HTTP 429 |
 | 57 | P1 | Maxim AI | `search_only` | [open](https://www.getmaxim.ai/jobs/member-of-technical-staff) | HTTP 404 |
 | 58 | P1 | Salesforce | `search_only` | [open](https://www.salesforce.com/company/careers/locations/japac/japan/) | Official India careers URL redirected the bounded probe to a Japan page; India inventory remains unverified. |
-| 61 | P1 | WisdomAI | `ashby` | [open](https://jobs.ashbyhq.com/Wisdom%20AI) | HTTP 404 |
 | 68 | P1 | Databricks | `greenhouse` | [open](https://job-boards.greenhouse.io/embed/job_app?for=databricks&token=7464169002) | HTTP 404 |
 | 79 | P1 | Zomato / Blinkit | `search_only` | [open](https://www.zomato.com/policies/privacy/) | network error: [WinError 10054] An existing connection was forcibly closed by the remote host |
 | 83 | P1 | D. E. Shaw India | `search_only` | [open](https://www.grapevine.in/tal/jobs/c3ee6a7b-6614-4312-903a-d0d944f99e03) | Candidate redirected to a third-party job copy and no official source was verified. |
@@ -350,4 +348,4 @@ These official pages passed read-only checks but exposed no single supported hos
 
 ## Recorded decision
 
-The approved package accepts the 260 verified source baselines; keeps the 0 access concerns, 68 conflicts, and 2 oversized boards disabled without dropping any company; and uses the recommended adapter priority beginning with Ashby. The later access-concern recheck reduced observed access concerns without expanding permissions or enabling any source.
+The approved package accepts the 262 verified source baselines; keeps the 0 access concerns, 67 conflicts, and 1 oversized boards disabled without dropping any company; and uses the recommended adapter priority beginning with Ashby. The later access-concern recheck reduced observed access concerns without expanding permissions or enabling any source.

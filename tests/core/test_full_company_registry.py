@@ -28,3 +28,21 @@ def test_canonical_registry_accounts_for_all_companies_and_stays_disabled() -> N
         "unresolved": 4,
         "workday": 13,
     }
+
+
+def test_cerebras_uses_case_sensitive_verified_ashby_board_name() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    cerebras = next(
+        entry.source for entry in registry.entries if entry.source.company_id == "cerebras-systems"
+    )
+
+    assert cerebras.adapter_parameters["board_name"] == "Cerebras"
+
+
+def test_wisdom_ai_uses_current_verified_ashby_board_name() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    wisdom_ai = next(
+        entry.source for entry in registry.entries if entry.source.company_id == "wisdomai"
+    )
+
+    assert wisdom_ai.adapter_parameters["board_name"] == "Wisdom-AI"

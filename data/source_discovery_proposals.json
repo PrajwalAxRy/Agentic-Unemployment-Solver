@@ -49,10 +49,10 @@
       "source_rank": 2,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Public structured endpoint responded but exceeded the bounded discovery probe; adapter verification must stream or page it.",
-      "status": "proposed",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
+      "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/harvey",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -60,10 +60,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/harvey",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -93,6 +93,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/harvey",
           "evidence_type": "bounded_probe_limit",
           "note": "response exceeded 2000000 bytes"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/harvey",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=299; pages=1; missing_fields=0"
         }
       ]
     },
@@ -103,9 +113,9 @@
       "source_rank": 3,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/Kognitos",
       "adapter_type": "ashby",
@@ -114,10 +124,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/Kognitos",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -132,6 +142,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/Kognitos",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=7"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/Kognitos",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=7; pages=1; missing_fields=0"
         }
       ]
     },
@@ -186,9 +206,9 @@
       "source_rank": 5,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/cartesia",
       "adapter_type": "ashby",
@@ -197,10 +217,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/cartesia",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -215,6 +235,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/cartesia",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=30"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/cartesia",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=30; pages=1; missing_fields=0"
         }
       ]
     },
@@ -435,9 +465,9 @@
       "source_rank": 11,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/deeptune",
       "adapter_type": "ashby",
@@ -446,10 +476,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/deeptune",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -464,6 +494,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/deeptune",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=0"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/deeptune",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=empty; jobs=0; pages=1; missing_fields=0"
         }
       ]
     },
@@ -1345,25 +1385,25 @@
       "source_rank": 34,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
-      "official_careers_url": "https://www.coderabbit.ai/careers",
+      "official_careers_url": "https://jobs.ashbyhq.com/coderabbit",
       "adapter_type": "ashby",
       "adapter_parameters": {
         "board_name": "coderabbit"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/coderabbit",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
+      "external_job_id_field": "id",
+      "publication_date_field": "publishedAt",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.coderabbit.ai/careers",
@@ -1379,6 +1419,16 @@
           "url": "https://jobs.ashbyhq.com/coderabbit",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=ashby without retaining page HTML."
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/coderabbit",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=47; pages=1; missing_fields=0"
         }
       ]
     },
@@ -1389,9 +1439,9 @@
       "source_rank": 35,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/ema",
       "adapter_type": "ashby",
@@ -1400,10 +1450,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/ema",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -1418,6 +1468,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/ema",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=45"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/ema",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=45; pages=1; missing_fields=0"
         }
       ]
     },
@@ -1668,9 +1728,9 @@
       "source_rank": 42,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/articul8",
       "adapter_type": "ashby",
@@ -1679,10 +1739,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/articul8",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -1697,6 +1757,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/articul8",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=20"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/articul8",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=20; pages=1; missing_fields=0"
         }
       ]
     },
@@ -1746,9 +1816,9 @@
       "source_rank": 44,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/nanonets",
       "adapter_type": "ashby",
@@ -1757,10 +1827,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/nanonets",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -1775,6 +1845,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/nanonets",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=11"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/nanonets",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=11; pages=1; missing_fields=0"
         }
       ]
     },
@@ -1902,9 +1982,9 @@
       "source_rank": 48,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/triomics",
       "adapter_type": "ashby",
@@ -1913,10 +1993,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/triomics",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -1931,6 +2011,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/triomics",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=18"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/triomics",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=18; pages=1; missing_fields=0"
         }
       ]
     },
@@ -1985,9 +2075,9 @@
       "source_rank": 50,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/weave",
       "adapter_type": "ashby",
@@ -1996,10 +2086,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/weave",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -2014,6 +2104,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/weave",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=28"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/weave",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=28; pages=1; missing_fields=0"
         }
       ]
     },
@@ -2156,21 +2256,21 @@
       "source_rank": 54,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
-      "official_careers_url": "https://jobs.ashbyhq.com/cerebras",
+      "official_careers_url": "https://jobs.ashbyhq.com/Cerebras",
       "adapter_type": "ashby",
       "adapter_parameters": {
-        "board_name": "cerebras"
+        "board_name": "Cerebras"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/cerebras",
-      "pagination": "public posting API; completeness requires live verification",
+      "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/Cerebras",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -2185,6 +2285,21 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/cerebras",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=113"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/Cerebras",
+          "evidence_type": "live_adapter_parameter_correction",
+          "note": "Exact-case board name returned a complete valid collection of 113 jobs; the lower-case variant returned truncated invalid JSON during Phase 3 validation."
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/Cerebras",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=113; pages=1; missing_fields=0"
         }
       ]
     },
@@ -2195,9 +2310,9 @@
       "source_rank": 55,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/composio",
       "adapter_type": "ashby",
@@ -2206,10 +2321,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/composio",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -2224,6 +2339,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/composio",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=30"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/composio",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=30; pages=1; missing_fields=0"
         }
       ]
     },
@@ -2361,25 +2486,25 @@
       "source_rank": 59,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
-      "official_careers_url": "https://www.sarvam.ai/careers",
+      "official_careers_url": "https://jobs.ashbyhq.com/sarvam",
       "adapter_type": "ashby",
       "adapter_parameters": {
         "board_name": "sarvam"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/sarvam",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
+      "external_job_id_field": "id",
+      "publication_date_field": "publishedAt",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.sarvam.ai/careers",
@@ -2395,6 +2520,16 @@
           "url": "https://jobs.ashbyhq.com/sarvam/a0188ff6-c03d-41e2-bf11-78678b2c794d/application",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=ashby without retaining page HTML."
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/sarvam",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=61; pages=1; missing_fields=0"
         }
       ]
     },
@@ -2444,25 +2579,25 @@
       "source_rank": 61,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
-      "access_concern": "HTTP 404",
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
-      "status": "conflict",
-      "official_careers_url": "https://jobs.ashbyhq.com/Wisdom%20AI",
+      "publication_date_verified": true,
+      "access_concern": null,
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
+      "status": "auto_verified",
+      "official_careers_url": "https://jobs.ashbyhq.com/Wisdom-AI",
       "adapter_type": "ashby",
       "adapter_parameters": {
-        "board_name": "Wisdom AI"
+        "board_name": "Wisdom-AI"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/Wisdom%20AI",
-      "pagination": "public posting API; completeness requires live verification",
+      "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/Wisdom-AI",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
-      "confidence": "low",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://jobs.ashbyhq.com/Wisdom%20AI/93441adc-4cd9-4253-a335-c20a5aa4ada6/",
@@ -2473,6 +2608,21 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/Wisdom%20AI",
           "evidence_type": "failed_source_probe",
           "note": "HTTP 404"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/Wisdom-AI",
+          "evidence_type": "live_adapter_parameter_correction",
+          "note": "Current hyphenated board returned a complete valid collection of 17 jobs during Phase 3 validation."
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/Wisdom-AI",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=17; pages=1; missing_fields=0"
         }
       ]
     },
@@ -2689,9 +2839,9 @@
       "source_rank": 67,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/atlan",
       "adapter_type": "ashby",
@@ -2700,10 +2850,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/atlan",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -2718,6 +2868,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/atlan",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=8"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/atlan",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=8; pages=1; missing_fields=0"
         }
       ]
     },
@@ -2767,9 +2927,9 @@
       "source_rank": 69,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/kong",
       "adapter_type": "ashby",
@@ -2778,10 +2938,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/kong",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -2796,6 +2956,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/kong",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=72"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/kong",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=72; pages=1; missing_fields=0"
         }
       ]
     },
@@ -3206,9 +3376,9 @@
       "source_rank": 80,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/bolna",
       "adapter_type": "ashby",
@@ -3217,10 +3387,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/bolna",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -3235,6 +3405,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/bolna",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=9"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/bolna",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=9; pages=1; missing_fields=0"
         }
       ]
     },
@@ -3728,9 +3908,9 @@
       "source_rank": 93,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/collinear-ai",
       "adapter_type": "ashby",
@@ -3739,10 +3919,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/collinear-ai",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -3757,6 +3937,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/collinear-ai",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=11"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/collinear-ai",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=11; pages=1; missing_fields=0"
         }
       ]
     },
@@ -3850,9 +4040,9 @@
       "source_rank": 96,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/spector-ai",
       "adapter_type": "ashby",
@@ -3861,10 +4051,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/spector-ai",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -3879,6 +4069,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/spector-ai",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=6"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/spector-ai",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=6; pages=1; missing_fields=0"
         }
       ]
     },
@@ -4105,9 +4305,9 @@
       "source_rank": 102,
       "priority": "P2",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/fal-ai",
       "adapter_type": "ashby",
@@ -4116,10 +4316,10 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/fal-ai",
-      "pagination": "public posting API; completeness requires live verification",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
       "external_job_id_field": "id",
       "publication_date_field": "publishedAt",
-      "publication_date_basis": "unknown",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location",
       "detail_strategy": "listing_payload",
@@ -4134,6 +4334,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/fal-ai",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=32"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/fal-ai",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=32; pages=1; missing_fields=0"
         }
       ]
     },
@@ -4215,25 +4425,25 @@
       "source_rank": 105,
       "priority": "P2",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
-      "official_careers_url": "https://www.d-matrix.ai/careers/",
+      "official_careers_url": "https://jobs.ashbyhq.com/d-Matrix",
       "adapter_type": "ashby",
       "adapter_parameters": {
         "board_name": "d-Matrix"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/d-Matrix",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
+      "external_job_id_field": "id",
+      "publication_date_field": "publishedAt",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.d-matrix.ai/careers/",
@@ -4249,6 +4459,16 @@
           "url": "https://jobs.ashbyhq.com/d-Matrix",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=ashby without retaining page HTML."
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/d-Matrix",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=35; pages=1; missing_fields=0"
         }
       ]
     },
@@ -6064,25 +6284,25 @@
       "source_rank": 151,
       "priority": "P2",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
-      "official_careers_url": "https://joinhandshake.com/careers/",
+      "official_careers_url": "https://jobs.ashbyhq.com/handshake",
       "adapter_type": "ashby",
       "adapter_parameters": {
         "board_name": "handshake"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/handshake",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
+      "external_job_id_field": "id",
+      "publication_date_field": "publishedAt",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://joinhandshake.com/careers/",
@@ -6098,6 +6318,16 @@
           "url": "https://jobs.ashbyhq.com/handshake/7e9ed099-34c4-4461-9858-23add238f5a2",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=ashby without retaining page HTML."
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/handshake",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=69; pages=1; missing_fields=0"
         }
       ]
     },
@@ -7506,9 +7736,9 @@
       "source_rank": 187,
       "priority": "P2",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Derived the direct Ashby board from a Smallest.ai hosted job result.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.ashbyhq.com/smallest",
       "adapter_type": "ashby",
@@ -7517,14 +7747,14 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/smallest",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
+      "external_job_id_field": "id",
+      "publication_date_field": "publishedAt",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://app.smallest.ai/",
@@ -7545,6 +7775,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/smallest",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=1"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/smallest",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=1; pages=1; missing_fields=0"
         }
       ]
     },
@@ -7828,25 +8068,25 @@
       "source_rank": 195,
       "priority": "P2",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "status": "auto_verified",
-      "official_careers_url": "https://jobs.ashbyhq.com/uptimeai/b97e4672-7899-42bb-8b08-d00a363f2457",
+      "official_careers_url": "https://jobs.ashbyhq.com/uptimeai",
       "adapter_type": "ashby",
       "adapter_parameters": {
         "board_name": "uptimeai"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/uptimeai",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
+      "external_job_id_field": "id",
+      "publication_date_field": "publishedAt",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://jobs.ashbyhq.com/uptimeai/b97e4672-7899-42bb-8b08-d00a363f2457",
@@ -7857,6 +8097,16 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/uptimeai",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=18"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/uptimeai",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=18; pages=1; missing_fields=0"
         }
       ]
     },

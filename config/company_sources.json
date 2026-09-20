@@ -48,8 +48,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -60,14 +60,16 @@
         "https://api.ashbyhq.com/posting-api/job-board/harvey",
         "https://api.ashbyhq.com/posting-api/job-board/harvey",
         "https://api.ashbyhq.com/posting-api/job-board/harvey",
+        "https://api.ashbyhq.com/posting-api/job-board/harvey",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/harvey"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Public structured endpoint responded but exceeded the bounded discovery probe; adapter verification must stream or page it.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 2,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -82,8 +84,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -91,11 +93,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/Kognitos/82c74eb6-5e5f-4aae-ba2c-02e764c40084",
+        "https://api.ashbyhq.com/posting-api/job-board/Kognitos",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/Kognitos"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 3,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -145,8 +149,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -154,11 +158,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/cartesia/dc61071c-63b8-4df3-8989-7ca8442bdaaf/",
+        "https://api.ashbyhq.com/posting-api/job-board/cartesia",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/cartesia"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 5,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -334,8 +340,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -343,11 +349,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/deeptune/c7b5eebb-4e36-4c02-9888-7ca74d4a726c/",
+        "https://api.ashbyhq.com/posting-api/job-board/deeptune",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/deeptune"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 11,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1040,29 +1048,31 @@
       "company_id": "coderabbit",
       "company_name": "CodeRabbit",
       "status": "proposed",
-      "careers_url": "https://www.coderabbit.ai/careers",
+      "careers_url": "https://jobs.ashbyhq.com/coderabbit",
       "adapter_type": "ashby",
       "adapter_parameters": {
         "board_name": "coderabbit"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "publishedAt",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.coderabbit.ai/careers",
         "https://www.coderabbit.ai/careers",
-        "https://jobs.ashbyhq.com/coderabbit"
+        "https://jobs.ashbyhq.com/coderabbit",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/coderabbit"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 34,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1080,8 +1090,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -1089,11 +1099,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/ema/88d004d9-50a9-41ee-a618-03855001a9be",
+        "https://api.ashbyhq.com/posting-api/job-board/ema",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/ema"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 35,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1299,8 +1311,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -1308,11 +1320,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/articul8/fab35c76-2048-4540-a7ab-118b9b56e434",
+        "https://api.ashbyhq.com/posting-api/job-board/articul8",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/articul8"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 42,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1361,8 +1375,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -1370,11 +1384,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/nanonets/c3715ba7-2924-4432-b78e-3acc56b8e823",
+        "https://api.ashbyhq.com/posting-api/job-board/nanonets",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/nanonets"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 44,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1485,8 +1501,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -1494,11 +1510,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/triomics/ab06d34e-b87f-42ae-a6ff-61777c23cd06",
+        "https://api.ashbyhq.com/posting-api/job-board/triomics",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/triomics"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 48,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1548,8 +1566,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -1557,11 +1575,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/weave/fb1623b7-e355-46b7-8247-84ab76cff7d2/",
+        "https://api.ashbyhq.com/posting-api/job-board/weave",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/weave"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 50,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1667,16 +1687,16 @@
       "company_id": "cerebras-systems",
       "company_name": "Cerebras Systems",
       "status": "proposed",
-      "careers_url": "https://jobs.ashbyhq.com/cerebras",
+      "careers_url": "https://jobs.ashbyhq.com/Cerebras",
       "adapter_type": "ashby",
       "adapter_parameters": {
-        "board_name": "cerebras"
+        "board_name": "Cerebras"
       },
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -1684,11 +1704,14 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/cerebras/de47a79d-5ee5-4ad4-8623-49101d6de4fb",
-        "https://api.ashbyhq.com/posting-api/job-board/cerebras"
+        "https://api.ashbyhq.com/posting-api/job-board/cerebras",
+        "https://api.ashbyhq.com/posting-api/job-board/Cerebras",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/Cerebras"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 54,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1706,8 +1729,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -1715,11 +1738,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/composio/a4046674-59ee-41fd-9045-2a7058a467e1",
+        "https://api.ashbyhq.com/posting-api/job-board/composio",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/composio"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 55,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1824,29 +1849,31 @@
       "company_id": "sarvam-ai",
       "company_name": "Sarvam AI",
       "status": "proposed",
-      "careers_url": "https://www.sarvam.ai/careers",
+      "careers_url": "https://jobs.ashbyhq.com/sarvam",
       "adapter_type": "ashby",
       "adapter_parameters": {
         "board_name": "sarvam"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "publishedAt",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.sarvam.ai/careers",
         "https://www.sarvam.ai/careers",
-        "https://jobs.ashbyhq.com/sarvam/a0188ff6-c03d-41e2-bf11-78678b2c794d/application"
+        "https://jobs.ashbyhq.com/sarvam/a0188ff6-c03d-41e2-bf11-78678b2c794d/application",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/sarvam"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 59,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1887,31 +1914,34 @@
       "company_id": "wisdomai",
       "company_name": "WisdomAI",
       "status": "proposed",
-      "careers_url": "https://jobs.ashbyhq.com/Wisdom%20AI",
+      "careers_url": "https://jobs.ashbyhq.com/Wisdom-AI",
       "adapter_type": "ashby",
       "adapter_parameters": {
-        "board_name": "Wisdom AI"
+        "board_name": "Wisdom-AI"
       },
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/Wisdom%20AI/93441adc-4cd9-4253-a335-c20a5aa4ada6/",
-        "https://api.ashbyhq.com/posting-api/job-board/Wisdom%20AI"
+        "https://api.ashbyhq.com/posting-api/job-board/Wisdom%20AI",
+        "https://api.ashbyhq.com/posting-api/job-board/Wisdom-AI",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/Wisdom-AI"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "HTTP 404",
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "exception_reason": null,
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 61,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -2084,8 +2114,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -2093,11 +2123,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/atlan/6a9441af-27c7-4519-95c2-8381536cf8b4",
+        "https://api.ashbyhq.com/posting-api/job-board/atlan",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/atlan"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 67,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -2146,8 +2178,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -2155,11 +2187,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/kong/01991b01-fdfd-412d-afaa-625dda85fd6e",
+        "https://api.ashbyhq.com/posting-api/job-board/kong",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/kong"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 69,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -2489,8 +2523,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -2498,11 +2532,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/bolna/c04e04c3-2c62-430c-a7ac-16c764b57c5d",
+        "https://api.ashbyhq.com/posting-api/job-board/bolna",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/bolna"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 80,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -2895,8 +2931,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -2904,11 +2940,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/collinear-ai/1c6139b2-e698-419b-ab18-823f12787754",
+        "https://api.ashbyhq.com/posting-api/job-board/collinear-ai",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/collinear-ai"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 93,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -2989,8 +3027,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -2998,11 +3036,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/spector-ai/2aae524c-a665-4dcb-99a0-2820426bc55e",
+        "https://api.ashbyhq.com/posting-api/job-board/spector-ai",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/spector-ai"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 96,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -3180,8 +3220,8 @@
       "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": "publishedAt",
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -3189,11 +3229,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/fal-ai/1d9325cf-28da-4b78-af0d-eb0abe7b501d/",
+        "https://api.ashbyhq.com/posting-api/job-board/fal-ai",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/fal-ai"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 102,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -3262,29 +3304,31 @@
       "company_id": "d-matrix",
       "company_name": "d-Matrix",
       "status": "proposed",
-      "careers_url": "https://www.d-matrix.ai/careers/",
+      "careers_url": "https://jobs.ashbyhq.com/d-Matrix",
       "adapter_type": "ashby",
       "adapter_parameters": {
         "board_name": "d-Matrix"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "publishedAt",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.d-matrix.ai/careers/",
         "https://www.d-matrix.ai/careers/",
-        "https://jobs.ashbyhq.com/d-Matrix"
+        "https://jobs.ashbyhq.com/d-Matrix",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/d-Matrix"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 105,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -4699,29 +4743,31 @@
       "company_id": "handshake",
       "company_name": "Handshake",
       "status": "proposed",
-      "careers_url": "https://joinhandshake.com/careers/",
+      "careers_url": "https://jobs.ashbyhq.com/handshake",
       "adapter_type": "ashby",
       "adapter_parameters": {
         "board_name": "handshake"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "publishedAt",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://joinhandshake.com/careers/",
         "https://joinhandshake.com/careers/",
-        "https://jobs.ashbyhq.com/handshake/7e9ed099-34c4-4461-9858-23add238f5a2"
+        "https://jobs.ashbyhq.com/handshake/7e9ed099-34c4-4461-9858-23add238f5a2",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/handshake"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 151,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -5826,25 +5872,27 @@
       "adapter_parameters": {
         "board_name": "smallest"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "publishedAt",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://app.smallest.ai/",
         "https://app.smallest.ai/login?entry=root",
         "https://jobs.ashbyhq.com/smallest",
+        "https://api.ashbyhq.com/posting-api/job-board/smallest",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/smallest"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Derived the direct Ashby board from a Smallest.ai hosted job result.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 187,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -6071,28 +6119,30 @@
       "company_id": "uptimeai",
       "company_name": "UptimeAI",
       "status": "proposed",
-      "careers_url": "https://jobs.ashbyhq.com/uptimeai/b97e4672-7899-42bb-8b08-d00a363f2457",
+      "careers_url": "https://jobs.ashbyhq.com/uptimeai",
       "adapter_type": "ashby",
       "adapter_parameters": {
         "board_name": "uptimeai"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "publishedAt",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/uptimeai/b97e4672-7899-42bb-8b08-d00a363f2457",
+        "https://api.ashbyhq.com/posting-api/job-board/uptimeai",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "https://api.ashbyhq.com/posting-api/job-board/uptimeai"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 195,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
