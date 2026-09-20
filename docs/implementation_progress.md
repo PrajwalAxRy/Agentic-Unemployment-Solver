@@ -2,11 +2,10 @@
 
 ## Current status
 
-- Active phase: Phase 2 — Company source inventory
-- Status: Phases 0 and 1 complete; H1 approved; Phase 2 automated discovery and validation
-  complete; stopped at mandatory checkpoint H2
-- Pending human checkpoint: H2 — approve sources, access dispositions, custom-source backlog, and
-  adapter priority
+- Active phase: Phase 3 — Adapter foundation
+- Status: Phases 0–2 complete; H1 and H2 approved; Phase 3 shared-client and Ashby adapter work is
+  next
+- Pending human checkpoint: none; H3 is conditional and has not been triggered
 - No source is enabled. All 330 canonical companies remain in first-release accounting.
 
 ## Completed gates
@@ -33,12 +32,16 @@
   non-enumerating false positives.
 - Hosted ATS fingerprinting detected 39 unambiguous embedded configurations without retaining page
   bodies. Citi and Arm remained search-only because multiple boards were detected.
-- Final proposal accounting reconciles 330/330: 216 auto-verified, 44 access concerns, 68
+- An Adobe-supplied public page exposed a false-positive access classification: dormant CAPTCHA
+  configuration in page scripts had been treated as an active challenge. Regression tests now
+  distinguish visible challenge pages from script configuration, and all 44 affected sources were
+  re-probed successfully with public HTTP 200 responses.
+- Final proposal accounting reconciles 330/330: 260 auto-verified, 0 current access concerns, 68
   conflicts/non-enumerating sources, and 2 responsive but oversized structured boards.
 - Final source families: Ashby 24, Greenhouse 26, Lever 12, Workday 13, Darwinbox 4, Eightfold 3,
   SmartRecruiters 3, Oracle Cloud 2, SuccessFactors 2, Jobvite 1, search-only 236, unresolved 4.
 - Registry remains fully disabled and reconciles all IDs, names, priorities, and source ranks.
-- Repository validation passes with 93 tests, strict mypy, and Ruff checks at H2.
+- Repository validation passes with 95 tests, strict mypy, and Ruff checks at the Phase 2 boundary.
 
 ## Relevant Phase 2 commits
 
@@ -57,6 +60,7 @@
 - `2f1f7ed` — hosted ATS detection
 - `4c9b881` — hosted ATS source-family classifications
 - `54bfed6` — completed disabled 330-company source inventory
+- `fa76385` — corrected false-positive access detection and revalidated all 44 affected companies
 
 ## Review artifacts
 
@@ -70,19 +74,18 @@
 
 ## Unresolved evidence and limitations
 
-- 44 public pages triggered an access-control/login/CAPTCHA marker. They remain disabled; no bypass
-  was attempted.
+- No source currently has observed access-control evidence. Active challenge pages remain guarded,
+  and no authentication or access-control bypass was attempted.
 - 68 companies have conflicting, third-party, wrong-region, non-enumerating, or otherwise
   insufficient source evidence. They remain in scope and disabled.
 - Harvey (Ashby) and Pure Storage (Greenhouse) returned public structured responses larger than the
   two-megabyte discovery cap. They require bounded streaming or pagination validation in their
   adapter work.
-- 236 records remain `search_only`; 134 are verified official pages needing custom adapters or
-  deeper source-family work, 44 are access concerns, and 58 are conflicts.
-- No company is classified as approved blocked or unsupported before the H2 decision.
+- 236 records remain `search_only`; 178 are verified official pages needing custom adapters or
+  deeper source-family work, and 58 are conflicts.
+- No company was approved as blocked or unsupported at H2.
 
 ## Resume point
 
-Wait for the user's H2 decision. After approval or corrections, update statuses and evidence, run
-the complete inventory audit, commit reviewed registry batches separately, and begin Phase 3 with
-Ashby only if the recommended adapter order is approved.
+Begin Phase 3 with the shared bounded HTTP client and adapter runtime interface, then capture Ashby
+fixtures and validate the representative Ashby boards before running the full Ashby company group.
