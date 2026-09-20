@@ -21,6 +21,7 @@ class FakeTransport:
     def __init__(self, outcomes: list[HttpResponse | HttpRequestError]) -> None:
         self.outcomes = outcomes
         self.calls: list[tuple[str, Mapping[str, str], float, int, int]] = []
+        self.post_calls: list[tuple[str, Mapping[str, str], bytes, float, int, int]] = []
 
     def get(
         self,
@@ -32,6 +33,24 @@ class FakeTransport:
         max_redirects: int,
     ) -> HttpResponse:
         self.calls.append((url, headers, timeout_seconds, max_response_bytes, max_redirects))
+        outcome = self.outcomes.pop(0)
+        if isinstance(outcome, HttpRequestError):
+            raise outcome
+        return outcome
+
+    def post(
+        self,
+        url: str,
+        *,
+        headers: Mapping[str, str],
+        body: bytes,
+        timeout_seconds: float,
+        max_response_bytes: int,
+        max_redirects: int,
+    ) -> HttpResponse:
+        self.post_calls.append(
+            (url, headers, body, timeout_seconds, max_response_bytes, max_redirects)
+        )
         outcome = self.outcomes.pop(0)
         if isinstance(outcome, HttpRequestError):
             raise outcome
@@ -69,6 +88,60 @@ def test_success_applies_truthful_identity_and_all_bounds() -> None:
     assert headers["User-Agent"].startswith("job-finder/")
     assert headers["Accept"] == "application/json"
     assert (timeout, max_bytes, max_redirects) == (3, 1234, 2)
+
+
+def test_json_post_applies_shared_bounds_and_compact_payload() -> None:
+    transport = FakeTransport([response()])
+    policy = HttpPolicy(
+        timeout_seconds=4,
+        retry_count=0,
+        max_response_bytes=4321,
+        max_redirects=3,
+    )
+
+    result = BoundedHttpClient(policy=policy, transport=transport).post_json(
+        "https://jobs.example.com/api",
+        {"limit": 20, "searchText": ""},
+        accepted_content_types=("application/json",),
+    )
+
+    assert result.status_code == 200
+    url, headers, body, timeout, max_bytes, max_redirects = transport.post_calls[0]
+    assert url == "https://jobs.example.com/api"
+    assert headers["User-Agent"].startswith("job-finder/")
+    assert headers["Accept"] == "application/json"
+    assert headers["Content-Type"] == "application/json"
+    assert body == b'{"limit":20,"searchText":""}'
+    assert (timeout, max_bytes, max_redirects) == (4, 4321, 3)
+
+
+def test_json_post_retries_rate_limits_with_the_shared_policy() -> None:
+    transport = FakeTransport(
+        [
+            HttpRequestError(
+                HttpFailureCategory.HTTP_ERROR,
+                "HTTP 429",
+                status_code=429,
+                retryable=True,
+            ),
+            response(),
+        ]
+    )
+    delays: list[float] = []
+    client = BoundedHttpClient(
+        policy=HttpPolicy(retry_count=1, backoff_seconds=0.25),
+        transport=transport,
+        sleep=delays.append,
+    )
+
+    client.post_json(
+        "https://jobs.example.com/api",
+        {"offset": 0},
+        accepted_content_types=("application/json",),
+    )
+
+    assert len(transport.post_calls) == 2
+    assert delays == [0.25]
 
 
 def test_default_response_limit_covers_observed_large_public_boards() -> None:

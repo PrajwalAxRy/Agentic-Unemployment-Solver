@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import time
 import urllib.error
 import urllib.request
@@ -97,9 +98,20 @@ class HttpTransport(Protocol):
         max_redirects: int,
     ) -> HttpResponse: ...
 
+    def post(
+        self,
+        url: str,
+        *,
+        headers: Mapping[str, str],
+        body: bytes,
+        timeout_seconds: float,
+        max_response_bytes: int,
+        max_redirects: int,
+    ) -> HttpResponse: ...
+
 
 class BoundedHttpClient:
-    """GET-only client with bounded retries, response size, redirects, and diagnostics."""
+    """Public GET and JSON POST client with shared request safeguards."""
 
     def __init__(
         self,
@@ -119,6 +131,37 @@ class BoundedHttpClient:
         accepted_content_types: Sequence[str],
     ) -> HttpResponse:
         """Retrieve one public URL and validate its declared media type."""
+        return self._request(
+            "GET",
+            url,
+            accepted_content_types=accepted_content_types,
+            body=None,
+        )
+
+    def post_json(
+        self,
+        url: str,
+        payload: Mapping[str, object],
+        *,
+        accepted_content_types: Sequence[str],
+    ) -> HttpResponse:
+        """Send one bounded JSON request to a public endpoint."""
+        body = json.dumps(payload, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+        return self._request(
+            "POST",
+            url,
+            accepted_content_types=accepted_content_types,
+            body=body,
+        )
+
+    def _request(
+        self,
+        method: str,
+        url: str,
+        *,
+        accepted_content_types: Sequence[str],
+        body: bytes | None,
+    ) -> HttpResponse:
         _validate_public_url(url)
         accepted = tuple(item.strip().lower() for item in accepted_content_types if item.strip())
         if not accepted:
@@ -128,15 +171,29 @@ class BoundedHttpClient:
             "User-Agent": USER_AGENT,
             "Accept": ", ".join(accepted),
         }
+        if method == "POST":
+            headers["Content-Type"] = "application/json"
         for attempt in range(self.policy.retry_count + 1):
             try:
-                response = self._transport.get(
-                    url,
-                    headers=headers,
-                    timeout_seconds=self.policy.timeout_seconds,
-                    max_response_bytes=self.policy.max_response_bytes,
-                    max_redirects=self.policy.max_redirects,
-                )
+                if method == "GET":
+                    response = self._transport.get(
+                        url,
+                        headers=headers,
+                        timeout_seconds=self.policy.timeout_seconds,
+                        max_response_bytes=self.policy.max_response_bytes,
+                        max_redirects=self.policy.max_redirects,
+                    )
+                else:
+                    if body is None:
+                        raise AssertionError("POST request requires a body")
+                    response = self._transport.post(
+                        url,
+                        headers=headers,
+                        body=body,
+                        timeout_seconds=self.policy.timeout_seconds,
+                        max_response_bytes=self.policy.max_response_bytes,
+                        max_redirects=self.policy.max_redirects,
+                    )
             except HttpRequestError as error:
                 if not error.retryable or attempt == self.policy.retry_count:
                     raise
@@ -179,9 +236,55 @@ class UrllibTransport:
         max_response_bytes: int,
         max_redirects: int,
     ) -> HttpResponse:
+        return self._request(
+            url,
+            method="GET",
+            headers=headers,
+            body=None,
+            timeout_seconds=timeout_seconds,
+            max_response_bytes=max_response_bytes,
+            max_redirects=max_redirects,
+        )
+
+    def post(
+        self,
+        url: str,
+        *,
+        headers: Mapping[str, str],
+        body: bytes,
+        timeout_seconds: float,
+        max_response_bytes: int,
+        max_redirects: int,
+    ) -> HttpResponse:
+        return self._request(
+            url,
+            method="POST",
+            headers=headers,
+            body=body,
+            timeout_seconds=timeout_seconds,
+            max_response_bytes=max_response_bytes,
+            max_redirects=max_redirects,
+        )
+
+    def _request(
+        self,
+        url: str,
+        *,
+        method: str,
+        headers: Mapping[str, str],
+        body: bytes | None,
+        timeout_seconds: float,
+        max_response_bytes: int,
+        max_redirects: int,
+    ) -> HttpResponse:
         redirect_handler = _TrackingRedirectHandler(max_redirects)
         opener = urllib.request.build_opener(redirect_handler)
-        request = urllib.request.Request(url, headers=dict(headers), method="GET")
+        request = urllib.request.Request(
+            url,
+            data=body,
+            headers=dict(headers),
+            method=method,
+        )
         try:
             with opener.open(request, timeout=timeout_seconds) as response:
                 body = response.read(max_response_bytes + 1)
