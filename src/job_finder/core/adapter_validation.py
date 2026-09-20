@@ -347,6 +347,115 @@ def apply_lever_validation(
     return revised
 
 
+def apply_workday_validation(
+    proposal_payload: dict[str, Any],
+    report_payload: dict[str, Any],
+) -> dict[str, Any]:
+    """Mark every Workday proposal verified after a complete healthy group report."""
+    revised = deepcopy(proposal_payload)
+    proposals = revised.get("proposals")
+    records = report_payload.get("records")
+    if not isinstance(proposals, list) or not isinstance(records, list):
+        raise ValueError("proposal and verification payloads require arrays")
+    if report_payload.get("schema_version") != 1:
+        raise ValueError("verification report schema_version must be 1")
+    if report_payload.get("adapter_type") != "workday":
+        raise ValueError("verification report must target workday")
+
+    workday_proposals: dict[str, dict[str, Any]] = {}
+    for item in proposals:
+        if not isinstance(item, dict) or item.get("adapter_type") != "workday":
+            continue
+        company_id = item.get("company_id")
+        if not isinstance(company_id, str) or not company_id:
+            raise ValueError("Workday proposal requires company_id")
+        workday_proposals[company_id] = item
+    report_by_id: dict[str, dict[str, Any]] = {}
+    for raw in records:
+        if not isinstance(raw, dict):
+            raise ValueError("verification record must be an object")
+        company_id = raw.get("company_id")
+        if not isinstance(company_id, str) or not company_id:
+            raise ValueError("verification record requires company_id")
+        if company_id in report_by_id:
+            raise ValueError(f"duplicate verification company_id: {company_id}")
+        if raw.get("adapter_type") != "workday":
+            raise ValueError(f"verification record is not workday: {company_id}")
+        if raw.get("outcome") not in {"success", "empty"} or raw.get("complete") is not True:
+            raise ValueError(f"verification record is not healthy and complete: {company_id}")
+        report_by_id[company_id] = raw
+    if set(report_by_id) != set(workday_proposals):
+        missing = sorted(set(workday_proposals) - set(report_by_id))
+        extra = sorted(set(report_by_id) - set(workday_proposals))
+        raise ValueError(f"verification coverage mismatch; missing={missing}; extra={extra}")
+
+    generated_at = report_payload.get("generated_at")
+    if not isinstance(generated_at, str) or not generated_at:
+        raise ValueError("verification report requires generated_at")
+    for company_id, proposal in workday_proposals.items():
+        parameters = proposal.get("adapter_parameters")
+        if not isinstance(parameters, dict):
+            raise ValueError(f"Workday proposal requires adapter_parameters: {company_id}")
+        host = parameters.get("host")
+        tenant = parameters.get("tenant")
+        site = parameters.get("site")
+        if not all(isinstance(value, str) and value.strip() for value in (host, tenant, site)):
+            raise ValueError(f"Workday proposal requires host, tenant, and site: {company_id}")
+        encoded_tenant = quote(str(tenant).strip(), safe="")
+        encoded_site = quote(str(site).strip(), safe="")
+        board_url = f"https://{str(host).strip().lower()}/{encoded_site}"
+        endpoint = (
+            f"https://{str(host).strip().lower()}/wday/cxs/{encoded_tenant}/{encoded_site}/jobs"
+        )
+        record = report_by_id[company_id]
+        date_distribution = record.get("date_basis_distribution")
+        unknown_count = (
+            date_distribution.get("unknown", 0) if isinstance(date_distribution, dict) else 0
+        )
+        proposal.update(
+            {
+                "status": "auto_verified",
+                "official_careers_url": board_url,
+                "list_endpoint": endpoint,
+                "pagination": (
+                    "Public Candidate Experience API uses offset/limit pagination; the first "
+                    "page total is authoritative because later pages report zero."
+                ),
+                "external_job_id_field": "bulletFields[0]",
+                "publication_date_field": "postedOn",
+                "publication_date_basis": "unknown",
+                "publication_date_verified": False,
+                "title_field": "title",
+                "location_field": "locationsText",
+                "detail_strategy": "detail_endpoint",
+                "confidence": "high",
+                "access_concern": None,
+                "notes": (
+                    "Workday public Candidate Experience endpoints passed full adapter-group "
+                    "validation. Relative postedOn labels remain uncertain for H5; missing or "
+                    "multi-location summaries can be enriched from the public detail endpoint."
+                ),
+            }
+        )
+        evidence = proposal.setdefault("evidence", [])
+        if not isinstance(evidence, list):
+            raise ValueError(f"Workday proposal evidence must be an array: {company_id}")
+        _append_unique_evidence(
+            evidence,
+            {
+                "url": endpoint,
+                "evidence_type": "full_adapter_group_validation",
+                "note": (
+                    f"{generated_at}; outcome={record['outcome']}; "
+                    f"jobs={record.get('job_count')}; pages={record.get('page_count')}; "
+                    f"missing_fields={record.get('missing_field_count')}; "
+                    f"unknown_dates={unknown_count}"
+                ),
+            },
+        )
+    return revised
+
+
 def _append_unique_evidence(evidence: list[object], item: dict[str, str]) -> None:
     if item not in evidence:
         evidence.append(item)

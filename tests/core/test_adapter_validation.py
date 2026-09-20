@@ -10,6 +10,7 @@ from job_finder.core.adapter_validation import (
     apply_ashby_validation,
     apply_greenhouse_validation,
     apply_lever_validation,
+    apply_workday_validation,
 )
 
 
@@ -34,6 +35,17 @@ def proposals() -> dict[str, object]:
                 "company_id": "lever-company",
                 "adapter_type": "lever",
                 "adapter_parameters": {"site": "lever-company"},
+                "status": "proposed",
+                "evidence": [],
+            },
+            {
+                "company_id": "workday-company",
+                "adapter_type": "workday",
+                "adapter_parameters": {
+                    "host": "workday-company.wd1.myworkdayjobs.com",
+                    "tenant": "workday-company",
+                    "site": "External",
+                },
                 "status": "proposed",
                 "evidence": [],
             },
@@ -193,3 +205,61 @@ def test_incomplete_lever_reports_are_rejected(mutator, message: str) -> None:
 
     with pytest.raises(ValueError, match=message):
         apply_lever_validation(proposals(), candidate)
+
+
+def workday_report(*, outcome: str = "success", complete: bool = True) -> dict[str, object]:
+    return {
+        "schema_version": 1,
+        "generated_at": "2026-09-20T20:00:00+05:30",
+        "adapter_type": "workday",
+        "records": [
+            {
+                "company_id": "workday-company",
+                "adapter_type": "workday",
+                "outcome": outcome,
+                "complete": complete,
+                "job_count": 21,
+                "page_count": 2,
+                "missing_field_count": 1,
+                "date_basis_distribution": {
+                    "published": 0,
+                    "updated": 0,
+                    "first_seen": 0,
+                    "unknown": 21,
+                },
+            }
+        ],
+    }
+
+
+def test_complete_workday_report_records_pagination_and_uncertain_date_evidence() -> None:
+    original = proposals()
+    revised = apply_workday_validation(original, workday_report())
+    workday = revised["proposals"][3]
+
+    assert original == proposals()
+    assert workday["status"] == "auto_verified"
+    assert workday["official_careers_url"].endswith("/External")
+    assert workday["list_endpoint"].endswith("/workday-company/External/jobs")
+    assert workday["publication_date_field"] == "postedOn"
+    assert workday["publication_date_basis"] == "unknown"
+    assert workday["publication_date_verified"] is False
+    assert workday["detail_strategy"] == "detail_endpoint"
+    assert "missing_fields=1" in workday["evidence"][-1]["note"]
+    assert "unknown_dates=21" in workday["evidence"][-1]["note"]
+
+
+@pytest.mark.parametrize(
+    ("mutator", "message"),
+    [
+        (lambda value: value["records"].clear(), "coverage mismatch"),
+        (lambda value: value["records"][0].update(outcome="suspicious"), "not healthy"),
+        (lambda value: value.update(adapter_type="lever"), "target workday"),
+    ],
+)
+def test_incomplete_workday_reports_are_rejected(mutator, message: str) -> None:
+    candidate = deepcopy(workday_report())
+    mutator(candidate)
+
+    with pytest.raises(ValueError, match=message):
+        apply_workday_validation(proposals(), candidate)
