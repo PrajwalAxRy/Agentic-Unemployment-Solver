@@ -1199,9 +1199,10 @@
       "company_id": "uniphore",
       "company_name": "Uniphore",
       "status": "proposed",
-      "careers_url": "https://www.uniphore.com/careers/",
+      "careers_url": "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
       "adapter_type": "workday",
       "adapter_parameters": {
+        "host": "uniphore.wd503.myworkdayjobs.com",
         "tenant": "uniphore",
         "site": "Uniphore"
       },
@@ -1218,11 +1219,12 @@
       "evidence": [
         "https://www.uniphore.com/careers/",
         "https://www.uniphore.com/careers/",
+        "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
         "https://uniphore.wd503.myworkdayjobs.com/Uniphore"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
       "source_rank": 38,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -2049,11 +2051,12 @@
       "company_id": "crowdstrike",
       "company_name": "CrowdStrike",
       "status": "proposed",
-      "careers_url": "https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/Field-Tech-Strategist_R28986",
+      "careers_url": "https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers",
       "adapter_type": "workday",
       "adapter_parameters": {
+        "host": "crowdstrike.wd5.myworkdayjobs.com",
         "tenant": "crowdstrike",
-        "site": "en-US"
+        "site": "crowdstrikecareers"
       },
       "identity_strategy": "unresolved",
       "date_strategy": {
@@ -2067,11 +2070,12 @@
       "confidence": "medium",
       "evidence": [
         "https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/Field-Tech-Strategist_R28986",
-        "https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/Field-Tech-Strategist_R28986"
+        "https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/Field-Tech-Strategist_R28986",
+        "https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Company careers page redirected to a public Workday tenant.",
+      "notes": "Correct the locale segment previously misidentified as the Workday site and record the exact shard host.",
       "source_rank": 64,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -3151,6 +3155,7 @@
       "careers_url": "https://fractal.wd1.myworkdayjobs.com/Careers",
       "adapter_type": "workday",
       "adapter_parameters": {
+        "host": "fractal.wd1.myworkdayjobs.com",
         "tenant": "fractal",
         "site": "Careers"
       },
@@ -3166,11 +3171,12 @@
       "confidence": "medium",
       "evidence": [
         "https://fractal.ai/careers/",
+        "https://fractal.wd1.myworkdayjobs.com/Careers",
         "https://fractal.wd1.myworkdayjobs.com/Careers"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Company careers page redirected to a public Workday tenant.",
+      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
       "source_rank": 98,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -6495,9 +6501,10 @@
       "company_id": "bank-of-america",
       "company_name": "Bank of America",
       "status": "proposed",
-      "careers_url": "https://careers.bankofamerica.com/en-us/job-search/india",
+      "careers_url": "https://ghr.wd1.myworkdayjobs.com/lateral-us",
       "adapter_type": "workday",
       "adapter_parameters": {
+        "host": "ghr.wd1.myworkdayjobs.com",
         "tenant": "ghr",
         "site": "lateral-us"
       },
@@ -6514,11 +6521,12 @@
       "evidence": [
         "https://careers.bankofamerica.com/en-us/job-search/india",
         "https://careers.bankofamerica.com/en-us/job-search/india",
-        "https://ghr.wd1.myworkdayjobs.com/en-us/lateral-us/login"
+        "https://ghr.wd1.myworkdayjobs.com/en-us/lateral-us/login",
+        "https://ghr.wd1.myworkdayjobs.com/lateral-us"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Normalize the discovered login path to its public Workday board and record the exact shard host.",
       "source_rank": 204,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -6528,9 +6536,10 @@
       "company_id": "barclays",
       "company_name": "Barclays",
       "status": "proposed",
-      "careers_url": "https://search.jobs.barclays/search-jobs?alcpm=2077456%2C1819730%2C1269750%2C1861060%2C1880251",
+      "careers_url": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays",
       "adapter_type": "workday",
       "adapter_parameters": {
+        "host": "barclays.wd3.myworkdayjobs.com",
         "tenant": "barclays",
         "site": "External_Career_Site_Barclays"
       },
@@ -6547,11 +6556,12 @@
       "evidence": [
         "https://search.jobs.barclays/search-jobs?alcpm=2077456%2C1819730%2C1269750%2C1861060%2C1880251",
         "https://search.jobs.barclays/search-jobs?alcpm=2077456%2C1819730%2C1269750%2C1861060%2C1880251",
-        "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/login?redirect=%2FExternal_Career_Site_Barclays#"
+        "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/login?redirect=%2FExternal_Career_Site_Barclays#",
+        "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Normalize the discovered login redirect to its public Workday board and record the exact shard host.",
       "source_rank": 205,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -6779,9 +6789,10 @@
       "company_id": "london-stock-exchange-group",
       "company_name": "London Stock Exchange Group",
       "status": "proposed",
-      "careers_url": "https://www.lseg.com/en/careers",
+      "careers_url": "https://lseg.wd3.myworkdayjobs.com/Careers",
       "adapter_type": "workday",
       "adapter_parameters": {
+        "host": "lseg.wd3.myworkdayjobs.com",
         "tenant": "lseg",
         "site": "Careers"
       },
@@ -6800,11 +6811,12 @@
         "https://www.efinancialcareers.co.uk/jobs/at-london-stock-exchange-group",
         "https://www.lseg.com/en/careers",
         "https://www.lseg.com/en/careers",
+        "https://lseg.wd3.myworkdayjobs.com/Careers",
         "https://lseg.wd3.myworkdayjobs.com/Careers"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
       "source_rank": 213,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -6911,9 +6923,10 @@
       "company_id": "nasdaq",
       "company_name": "Nasdaq",
       "status": "proposed",
-      "careers_url": "https://www.nasdaq.com/about/careers",
+      "careers_url": "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site",
       "adapter_type": "workday",
       "adapter_parameters": {
+        "host": "nasdaq.wd1.myworkdayjobs.com",
         "tenant": "nasdaq",
         "site": "Global_External_Site"
       },
@@ -6930,11 +6943,12 @@
       "evidence": [
         "https://www.nasdaq.com/about/careers",
         "https://www.nasdaq.com/about/careers",
+        "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site",
         "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
       "source_rank": 217,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -7039,9 +7053,10 @@
       "company_id": "visa",
       "company_name": "Visa",
       "status": "proposed",
-      "careers_url": "https://corporate.visa.com/en/careers.html",
+      "careers_url": "https://visa.wd5.myworkdayjobs.com/Visa",
       "adapter_type": "workday",
       "adapter_parameters": {
+        "host": "visa.wd5.myworkdayjobs.com",
         "tenant": "visa",
         "site": "Visa"
       },
@@ -7058,11 +7073,12 @@
       "evidence": [
         "https://corporate.visa.com/en/careers.html",
         "https://corporate.visa.com/en/careers.html",
+        "https://visa.wd5.myworkdayjobs.com/Visa",
         "https://visa.wd5.myworkdayjobs.com/Visa"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
       "source_rank": 221,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -7765,9 +7781,10 @@
       "company_id": "palo-alto-networks",
       "company_name": "Palo Alto Networks",
       "status": "proposed",
-      "careers_url": "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india",
+      "careers_url": "https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers",
       "adapter_type": "workday",
       "adapter_parameters": {
+        "host": "paloaltonetworks.wd5.myworkdayjobs.com",
         "tenant": "paloaltonetworks",
         "site": "panwexternalcareers"
       },
@@ -7784,11 +7801,12 @@
       "evidence": [
         "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india",
         "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india",
-        "https://paloaltonetworks.wd5.myworkdayjobs.com/en-US/panwexternalcareers/introduceYourself?clientRequestID=06f06ca6dae2441d99391ed600fc2265"
+        "https://paloaltonetworks.wd5.myworkdayjobs.com/en-US/panwexternalcareers/introduceYourself?clientRequestID=06f06ca6dae2441d99391ed600fc2265",
+        "https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Normalize the discovered locale and introduce-yourself path to its public Workday board and record the exact shard host.",
       "source_rank": 244,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -8088,9 +8106,10 @@
       "company_id": "workday",
       "company_name": "Workday",
       "status": "proposed",
-      "careers_url": "https://www.workday.com/en-in/company/careers/life-at-workday.html",
+      "careers_url": "https://workday.wd5.myworkdayjobs.com/Workday",
       "adapter_type": "workday",
       "adapter_parameters": {
+        "host": "workday.wd5.myworkdayjobs.com",
         "tenant": "workday",
         "site": "Workday"
       },
@@ -8107,11 +8126,12 @@
       "evidence": [
         "https://www.workday.com/en-in/company/careers/life-at-workday.html",
         "https://www.workday.com/en-in/company/careers/life-at-workday.html",
+        "https://workday.wd5.myworkdayjobs.com/Workday",
         "https://workday.wd5.myworkdayjobs.com/Workday"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
       "source_rank": 254,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -8152,9 +8172,10 @@
       "company_id": "analog-devices",
       "company_name": "Analog Devices",
       "status": "proposed",
-      "careers_url": "https://www.analog.com/en/careers/career-opportunities.html",
+      "careers_url": "https://analogdevices.wd1.myworkdayjobs.com/External",
       "adapter_type": "workday",
       "adapter_parameters": {
+        "host": "analogdevices.wd1.myworkdayjobs.com",
         "tenant": "analogdevices",
         "site": "External"
       },
@@ -8171,11 +8192,12 @@
       "evidence": [
         "https://www.analog.com/en/careers/career-opportunities.html",
         "https://www.analog.com/en/careers/career-opportunities.html",
+        "https://analogdevices.wd1.myworkdayjobs.com/External",
         "https://analogdevices.wd1.myworkdayjobs.com/External"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
       "source_rank": 256,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -8247,9 +8269,10 @@
       "company_id": "cadence",
       "company_name": "Cadence",
       "status": "proposed",
-      "careers_url": "https://www.cadence.com/en_US/home/company/life-at-cadence/careers.html",
+      "careers_url": "https://cadence.wd1.myworkdayjobs.com/External_Careers",
       "adapter_type": "workday",
       "adapter_parameters": {
+        "host": "cadence.wd1.myworkdayjobs.com",
         "tenant": "cadence",
         "site": "External_Careers"
       },
@@ -8266,11 +8289,12 @@
       "evidence": [
         "https://www.cadence.com/en_US/home/company/careers.html",
         "https://www.cadence.com/en_US/home/company/life-at-cadence/careers.html",
+        "https://cadence.wd1.myworkdayjobs.com/External_Careers",
         "https://cadence.wd1.myworkdayjobs.com/External_Careers"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
       "source_rank": 259,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -8437,9 +8461,10 @@
       "company_id": "nxp-semiconductors",
       "company_name": "NXP Semiconductors",
       "status": "proposed",
-      "careers_url": "https://www.nxp.com/company/about-nxp/careers%3ACAREERS",
+      "careers_url": "https://nxp.wd3.myworkdayjobs.com/careers",
       "adapter_type": "workday",
       "adapter_parameters": {
+        "host": "nxp.wd3.myworkdayjobs.com",
         "tenant": "nxp",
         "site": "careers"
       },
@@ -8456,11 +8481,12 @@
       "evidence": [
         "https://www.nxp.com/company/about-nxp/careers%3ACAREERS",
         "https://www.nxp.com/company/about-nxp/careers%3ACAREERS",
+        "https://nxp.wd3.myworkdayjobs.com/careers",
         "https://nxp.wd3.myworkdayjobs.com/careers"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
       "source_rank": 265,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"

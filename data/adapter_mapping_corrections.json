@@ -26,6 +26,97 @@
       "title": "Life at Dream Sports",
       "status": "conflict",
       "reason": "Dream Sports' official careers page still links to the former Lever board, but both the public board and Postings API return HTTP 404; the official page does not enumerate current jobs."
+    },
+    {
+      "company_id": "uniphore",
+      "url": "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
+      "title": "Uniphore public Workday board",
+      "status": "auto_verified",
+      "reason": "Record the exact public Workday shard host required to construct the listing API endpoint."
+    },
+    {
+      "company_id": "crowdstrike",
+      "url": "https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers",
+      "title": "CrowdStrike public Workday board",
+      "status": "auto_verified",
+      "reason": "Correct the locale segment previously misidentified as the Workday site and record the exact shard host."
+    },
+    {
+      "company_id": "fractal-analytics",
+      "url": "https://fractal.wd1.myworkdayjobs.com/Careers",
+      "title": "Fractal public Workday board",
+      "status": "auto_verified",
+      "reason": "Record the exact public Workday shard host required to construct the listing API endpoint."
+    },
+    {
+      "company_id": "bank-of-america",
+      "url": "https://ghr.wd1.myworkdayjobs.com/lateral-us",
+      "title": "Bank of America public Workday board",
+      "status": "auto_verified",
+      "reason": "Normalize the discovered login path to its public Workday board and record the exact shard host."
+    },
+    {
+      "company_id": "barclays",
+      "url": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays",
+      "title": "Barclays public Workday board",
+      "status": "auto_verified",
+      "reason": "Normalize the discovered login redirect to its public Workday board and record the exact shard host."
+    },
+    {
+      "company_id": "london-stock-exchange-group",
+      "url": "https://lseg.wd3.myworkdayjobs.com/Careers",
+      "title": "LSEG public Workday board",
+      "status": "auto_verified",
+      "reason": "Record the exact public Workday shard host required to construct the listing API endpoint."
+    },
+    {
+      "company_id": "nasdaq",
+      "url": "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site",
+      "title": "Nasdaq public Workday board",
+      "status": "auto_verified",
+      "reason": "Record the exact public Workday shard host required to construct the listing API endpoint."
+    },
+    {
+      "company_id": "visa",
+      "url": "https://visa.wd5.myworkdayjobs.com/Visa",
+      "title": "Visa public Workday board",
+      "status": "auto_verified",
+      "reason": "Record the exact public Workday shard host required to construct the listing API endpoint."
+    },
+    {
+      "company_id": "palo-alto-networks",
+      "url": "https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers",
+      "title": "Palo Alto Networks public Workday board",
+      "status": "auto_verified",
+      "reason": "Normalize the discovered locale and introduce-yourself path to its public Workday board and record the exact shard host."
+    },
+    {
+      "company_id": "workday",
+      "url": "https://workday.wd5.myworkdayjobs.com/Workday",
+      "title": "Workday public Workday board",
+      "status": "auto_verified",
+      "reason": "Record the exact public Workday shard host required to construct the listing API endpoint."
+    },
+    {
+      "company_id": "analog-devices",
+      "url": "https://analogdevices.wd1.myworkdayjobs.com/External",
+      "title": "Analog Devices public Workday board",
+      "status": "auto_verified",
+      "reason": "Record the exact public Workday shard host required to construct the listing API endpoint."
+    },
+    {
+      "company_id": "cadence",
+      "url": "https://cadence.wd1.myworkdayjobs.com/External_Careers",
+      "title": "Cadence public Workday board",
+      "status": "auto_verified",
+      "reason": "Record the exact public Workday shard host required to construct the listing API endpoint."
+    },
+    {
+      "company_id": "nxp-semiconductors",
+      "url": "https://nxp.wd3.myworkdayjobs.com/careers",
+      "title": "NXP public Workday board",
+      "status": "auto_verified",
+      "reason": "Record the exact public Workday shard host required to construct the listing API endpoint."
     }
   ]
 }

@@ -49,8 +49,9 @@ def apply_adapter_mapping_corrections(
         title = _string(correction, "title", "correction")
         reason = _string(correction, "reason", "correction")
         adapter_type, parameters, endpoint, listing_mode = infer_adapter(url)
-        status = correction.get("status", "proposed")
-        if status not in {"proposed", "conflict"}:
+        requested_status = correction.get("status")
+        status = requested_status or "proposed"
+        if status not in {"proposed", "auto_verified", "conflict"}:
             raise ValueError(f"adapter mapping correction has invalid status: {company_id}")
         mapping_is_current = (
             proposal.get("official_careers_url") == url
@@ -80,6 +81,10 @@ def apply_adapter_mapping_corrections(
                     "notes": reason,
                 }
             )
+        elif requested_status is not None and proposal.get("status") != requested_status:
+            proposal["status"] = requested_status
+            proposal["confidence"] = "low" if requested_status == "conflict" else "medium"
+            proposal["access_concern"] = reason if requested_status == "conflict" else None
         evidence = proposal.setdefault("evidence", [])
         if not isinstance(evidence, list):
             raise ValueError(f"proposal evidence must be an array: {company_id}")

@@ -93,4 +93,31 @@ def test_workday_redirect_updates_adapter_parameters() -> None:
 
     assert result["status"] == "auto_verified"
     assert result["adapter_type"] == "workday"
-    assert result["adapter_parameters"] == {"tenant": "fractal", "site": "Careers"}
+    assert result["adapter_parameters"] == {
+        "host": "fractal.wd1.myworkdayjobs.com",
+        "tenant": "fractal",
+        "site": "Careers",
+    }
+
+
+def test_workday_redirect_skips_locale_to_find_site() -> None:
+    item = proposal("search_only")
+    item["list_endpoint"] = item["official_careers_url"]
+    workday_probe = probe(
+        "invalid_content",
+        final_url=(
+            "https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/India/Role_R1"
+        ),
+    )
+    workday_probe["requested_url"] = "https://jobs.example.com"
+
+    result = apply_verification_results(
+        {"proposals": [item]},
+        verification(workday_probe),
+    )["proposals"][0]
+
+    assert result["adapter_parameters"] == {
+        "host": "crowdstrike.wd5.myworkdayjobs.com",
+        "tenant": "crowdstrike",
+        "site": "crowdstrikecareers",
+    }

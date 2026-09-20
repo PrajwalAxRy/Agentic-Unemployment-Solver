@@ -90,17 +90,20 @@ def _apply_workday_redirect(
     final_url: str,
 ) -> None:
     parsed = urlsplit(final_url)
-    tenant = (parsed.hostname or "").split(".", maxsplit=1)[0]
+    host = (parsed.hostname or "").lower()
+    tenant = host.split(".", maxsplit=1)[0]
     path_segments = [unquote(item) for item in parsed.path.split("/") if item]
-    if not tenant or not path_segments:
+    site_index = 1 if len(path_segments) > 1 and _looks_like_locale(path_segments[0]) else 0
+    if not host.endswith(".myworkdayjobs.com") or not tenant or not path_segments:
         _mark_conflict(proposal, probe)
         return
+    site = path_segments[site_index]
     proposal.update(
         {
             "status": "auto_verified",
             "official_careers_url": final_url,
             "adapter_type": "workday",
-            "adapter_parameters": {"tenant": tenant, "site": path_segments[0]},
+            "adapter_parameters": {"host": host, "tenant": tenant, "site": site},
             "listing_mode": "search_only",
             "list_endpoint": final_url,
             "pagination": "Workday search behavior requires adapter verification.",
@@ -116,6 +119,11 @@ def _apply_workday_redirect(
         }
     )
     _add_probe_evidence(proposal, probe, "workday_redirect_probe")
+
+
+def _looks_like_locale(value: str) -> bool:
+    parts = value.replace("_", "-").split("-")
+    return len(parts) == 2 and len(parts[0]) == 2 and len(parts[1]) == 2
 
 
 def _mark_conflict(proposal: dict[str, Any], probe: dict[str, Any]) -> None:

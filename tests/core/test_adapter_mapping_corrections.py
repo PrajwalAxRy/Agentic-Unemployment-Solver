@@ -101,3 +101,14 @@ def test_conflict_correction_moves_obsolete_board_to_search_backlog() -> None:
     assert proposal["adapter_type"] == "search_only"
     assert proposal["confidence"] == "low"
     assert proposal["access_concern"] == candidate["corrections"][0]["reason"]
+
+
+def test_explicit_verified_status_is_preserved_after_parameter_correction() -> None:
+    candidate = deepcopy(corrections())
+    candidate["corrections"][0]["status"] = "auto_verified"
+
+    once = apply_adapter_mapping_corrections(proposals(), candidate)
+    twice = apply_adapter_mapping_corrections(once, candidate)
+
+    assert once["proposals"][0]["status"] == "auto_verified"
+    assert twice["proposals"][0]["status"] == "auto_verified"

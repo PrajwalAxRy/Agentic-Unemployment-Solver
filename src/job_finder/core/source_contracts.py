@@ -190,7 +190,7 @@ _REQUIRED_ADAPTER_PARAMETERS: Mapping[AdapterType, tuple[str, ...]] = {
     AdapterType.GREENHOUSE: ("board_token",),
     AdapterType.LEVER: ("site",),
     AdapterType.ASHBY: ("board_name",),
-    AdapterType.WORKDAY: ("tenant", "site"),
+    AdapterType.WORKDAY: ("host", "tenant", "site"),
     AdapterType.SMARTRECRUITERS: ("company_identifier",),
     AdapterType.EIGHTFOLD: ("tenant",),
     AdapterType.ICIMS: ("customer",),

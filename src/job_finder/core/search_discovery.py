@@ -218,7 +218,12 @@ def infer_adapter(url: str) -> tuple[str, dict[str, str], str, str]:
         tenant = host.split(".", maxsplit=1)[0]
         site_index = 1 if len(segments) > 1 and _looks_like_locale(segments[0]) else 0
         site = segments[site_index]
-        return "workday", {"tenant": tenant, "site": site}, url, "search_only"
+        return (
+            "workday",
+            {"host": host, "tenant": tenant, "site": site},
+            url,
+            "search_only",
+        )
     if host == "careers.smartrecruiters.com" and segments:
         identifier = segments[0]
         return (

@@ -88,7 +88,11 @@ def test_workday_job_url_skips_locale_to_find_site() -> None:
     )
 
     assert adapter == "workday"
-    assert parameters == {"tenant": "example", "site": "External"}
+    assert parameters == {
+        "host": "example.wd1.myworkdayjobs.com",
+        "tenant": "example",
+        "site": "External",
+    }
 
 
 def test_selection_only_updates_unresolved_proposal() -> None:
