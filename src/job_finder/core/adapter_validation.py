@@ -433,7 +433,8 @@ def apply_workday_validation(
                 "notes": (
                     "Workday public Candidate Experience endpoints passed full adapter-group "
                     "validation. Relative postedOn labels remain uncertain for H5; missing or "
-                    "multi-location summaries can be enriched from the public detail endpoint."
+                    "multi-location summaries are checked against the public detail endpoint, "
+                    "and genuinely absent locations remain explicit."
                 ),
             }
         )

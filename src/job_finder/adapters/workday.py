@@ -315,7 +315,8 @@ class WorkdayAdapter:
                 _diagnostic(
                     "missing_location",
                     DiagnosticSeverity.WARNING,
-                    "Workday listings without list-page locations require detail retrieval.",
+                    "Workday listings without list-page locations require detail review and may "
+                    "remain unavailable.",
                     count=missing_location_count,
                 )
             )
@@ -367,9 +368,13 @@ class WorkdayAdapter:
         if not isinstance(info, Mapping):
             raise ValueError("Workday detail response requires a jobPostingInfo object.")
         title = _required_string(info, "title")
-        primary_location = _required_string(info, "location")
+        primary_location = _optional_string(info.get("location"))
         additional_locations = _string_list(info.get("additionalLocations"))
-        locations = [primary_location, *additional_locations]
+        locations = [
+            value for value in (primary_location, *additional_locations) if value is not None
+        ]
+        if not locations:
+            locations = [job.location_original]
         description = _plain_text(_required_string(info, "jobDescription"))
         if not description:
             raise ValueError("Workday jobDescription must contain readable text.")
@@ -385,6 +390,7 @@ class WorkdayAdapter:
         source_metadata.update(
             {
                 "additional_locations": tuple(additional_locations),
+                "detail_location_missing": primary_location is None and not additional_locations,
                 "job_posting_id": info.get("jobPostingId"),
                 "start_date_raw": _optional_string(info.get("startDate")),
                 "time_type": info.get("timeType"),

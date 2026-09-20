@@ -206,6 +206,28 @@ def test_detail_retrieval_maps_description_and_all_locations() -> None:
     ]
 
 
+def test_detail_with_no_location_retains_explicit_listing_placeholder() -> None:
+    list_payload = json.loads((FIXTURES / "healthy_page_1.json").read_text(encoding="utf-8"))
+    list_payload["total"] = 1
+    list_payload["jobPostings"] = [list_payload["jobPostings"][0]]
+    list_payload["jobPostings"][0]["locationsText"] = None
+    detail_payload = json.loads((FIXTURES / "detail.json").read_text(encoding="utf-8"))
+    detail_payload["jobPostingInfo"]["location"] = None
+    detail_payload["jobPostingInfo"]["additionalLocations"] = []
+    adapter, _ = adapter_for(
+        [response(json.dumps(list_payload).encode())],
+        get_outcomes=[response(json.dumps(detail_payload).encode())],
+    )
+    listing = adapter.list_jobs(source()).jobs[0]
+
+    detail = adapter.get_job_detail(source(), listing)
+
+    assert detail.location_original == "Location unavailable"
+    assert detail.location_normalized == ("location unavailable",)
+    assert detail.source_metadata["detail_location_missing"] is True
+    assert detail.description is not None
+
+
 def test_empty_fixture_is_healthy_and_complete() -> None:
     adapter, _ = adapter_for([response((FIXTURES / "empty.json").read_bytes())])
 
