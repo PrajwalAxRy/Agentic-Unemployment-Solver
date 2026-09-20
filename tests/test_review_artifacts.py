@@ -18,7 +18,7 @@ def test_h2_review_artifact_has_required_decision_sections_and_counts() -> None:
     assert "Access-policy concerns requiring approval" in review
     assert "Conflicting or non-enumerating proposals requiring inspection" in review
     assert "Verified search-only sources requiring custom adapters" in review
-    assert "Ashby and Greenhouse have now passed full adapter-group validation" in review
+    assert "Ashby, Greenhouse, and Lever have now passed full adapter-group validation" in review
     assert "Canonical scope: 330 of 330 companies" in review
 
 
@@ -47,3 +47,17 @@ def test_phase4_greenhouse_review_records_complete_group_validation() -> None:
         in review
     )
     assert "Clipboard Health's official careers page now links to the public Ashby board" in review
+
+
+def test_phase4_lever_review_records_complete_group_validation() -> None:
+    review = Path("docs/reviews/phase4_lever_validation.md").read_text(encoding="utf-8")
+
+    assert "Status: **passed for all current Lever mappings**" in review
+    assert "Companies: 11" in review
+    assert 'Outcomes: `{"success": 11}`' in review
+    assert "Observed jobs: 386" in review
+    assert "Jobs missing descriptions: 17" in review
+    assert (
+        'Date evidence: `{"first_seen": 0, "published": 0, "unknown": 386, "updated": 0}`' in review
+    )
+    assert "Dream Sports' official careers page still links to the obsolete" in review

@@ -121,8 +121,8 @@ def main() -> int:
             f"{by_adapter_status['unresolved']['conflict']} | 0 | "
             f"{adapters['unresolved'] / 330:.1%} |",
             "",
-            "Ashby and Greenhouse have now passed full adapter-group validation for all 25 "
-            "current mappings in each family. The next approved adapter family is Lever.",
+            "Ashby, Greenhouse, and Lever have now passed full adapter-group validation. "
+            "The next approved adapter family is Workday.",
             "",
             "### Representative boards",
             "",

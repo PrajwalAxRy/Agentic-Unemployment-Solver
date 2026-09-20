@@ -3,8 +3,8 @@
 ## Current status
 
 - Active phase: Phase 4 — Adapter coverage
-- Status: Phases 0–3 complete; H1 and H2 approved; Ashby and Greenhouse adapter groups passed;
-  Lever is next
+- Status: Phases 0–3 complete; H1 and H2 approved; Ashby, Greenhouse, and Lever adapter groups
+  passed; Workday is next
 - Pending human checkpoint: none; H4 is conditional and has not been triggered
 - No source is enabled. All 330 canonical companies remain in first-release accounting.
 
@@ -60,12 +60,26 @@
 - The embedded URLs for Databricks and Graviton Research Capital were corrected to their real
   Greenhouse board tokens. Databricks' 877-job, 9.6 MB response and Pure Storage's 354-job response
   both pass the bounded shared client; the tested maximum is now 20 MB.
+- Phase 4 Lever fixtures and adapter cover multi-page results, repeated pages, duplicate IDs,
+  pagination limits, access blocks, request failures, HTML description fallback, structured-list
+  descriptions, and completely missing descriptions.
+- Representative Lever validation passed 100ms, Doxel, and Bazaarvoice after a saved regression
+  fixed Bazaarvoice's empty `descriptionPlain` with populated HTML description.
+- Full Lever validation passed all 11 current mappings with 386 jobs across 13 fetched pages.
+  Lever `createdAt` is retained but all 386 dates remain `unknown` because the public API contract
+  does not establish it as publication time. This evidence remains separate for H5.
+- BarRaiser exposes 16 jobs and Paytm one job with no description in either the public list or
+  detail response. They remain visible with `missing_description` evidence rather than being
+  silently rejected.
+- Dream Sports' official careers page still links to an obsolete Lever board that returns 404.
+  The company remains in the 330-company scope as a documented search-only conflict, while the 11
+  current Lever mappings are fully validated.
 - Current proposal accounting reconciles 330/330: 267 auto-verified, 0 current access concerns,
   63 conflicts/non-enumerating sources, and 0 pending oversized structured boards.
-- Current source families: Ashby 25, Greenhouse 25, Lever 12, Workday 13, Darwinbox 4, Eightfold 3,
-  SmartRecruiters 3, Oracle Cloud 2, SuccessFactors 2, Jobvite 1, search-only 236, unresolved 4.
+- Current source families: Ashby 25, Greenhouse 25, Lever 11, Workday 13, Darwinbox 4, Eightfold 3,
+  SmartRecruiters 3, Oracle Cloud 2, SuccessFactors 2, Jobvite 1, search-only 237, unresolved 4.
 - Registry remains fully disabled and reconciles all IDs, names, priorities, and source ranks.
-- Repository validation passes with 143 tests, strict mypy, and Ruff checks after Greenhouse
+- Repository validation passes with 161 tests, strict mypy, and Ruff checks after Lever
   validation.
 
 ## Relevant Phase 2 commits
@@ -106,6 +120,13 @@
 - `92a10a9` — bounded support for observed large public boards
 - `87814f1` — guarded Greenhouse evidence and Phase 4 mapping corrections
 - `7da8605` — corrected ATS mappings and full-group validation evidence
+- `293148a` — sanitized Lever response fixtures
+- `fbe26e2` — paginated Lever listing adapter
+- `9cf16c3` — Lever read-only source verification
+- `37d28b0` — saved HTML-description regression and fallback
+- `1b6a1b0` — structured-list descriptions and explicit missing-description evidence
+- `c612f5c` — guarded Lever evidence and conflict mapping support
+- `288e57e` — complete Lever mappings and full-group validation evidence
 
 ## Review artifacts
 
@@ -116,6 +137,7 @@
 - H2 source inventory review: `docs/reviews/h2_source_inventory_review.md`
 - Phase 3 Ashby validation: `docs/reviews/phase3_ashby_validation.md`
 - Phase 4 Greenhouse validation: `docs/reviews/phase4_greenhouse_validation.md`
+- Phase 4 Lever validation: `docs/reviews/phase4_lever_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Disabled runtime registry: `config/company_sources.json`
 
@@ -128,12 +150,14 @@
 - All current Ashby and Greenhouse mappings pass their complete adapter-group validations.
 - Three observed Greenhouse jobs use update-date evidence because `first_published` is absent.
   They remain separate; no uncertain-date inclusion policy has been selected before H5.
-- 236 records remain `search_only`; 178 are verified official pages needing custom adapters or
-  deeper source-family work, and 58 are conflicts.
+- All 386 observed Lever jobs use uncertain `createdAt` evidence, and 17 lack descriptions. These
+  remain explicit inputs to H5 and later manual-review behavior.
+- 237 records remain `search_only`; 178 are verified official pages needing custom adapters or
+  deeper source-family work, and 59 are conflicts.
 - No company was approved as blocked or unsupported at H2.
 
 ## Resume point
 
-Continue Phase 4 with Lever fixtures and adapter implementation. Validate representative boards
-before running all 12 Lever-mapped companies and diagnose the current conflict rather than
-silently excluding it.
+Continue Phase 4 with Workday fixtures and adapter implementation. Validate representative boards
+before running all 13 Workday-mapped companies and diagnose every pagination or tenant exception
+before updating coverage.

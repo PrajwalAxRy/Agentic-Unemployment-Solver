@@ -26,19 +26,19 @@
 | Access concern | 0 | 0.0% |
 | Conflict / non-enumerating | 63 | 19.1% |
 | Responsive but oversized | 0 | 0.0% |
-| High confidence | 55 | 16.7% |
-| Medium confidence | 212 | 64.2% |
+| High confidence | 61 | 18.5% |
+| Medium confidence | 206 | 62.4% |
 | Low confidence | 63 | 19.1% |
 
 ## Adapter coverage and priority
 
-Known reusable ATS families cover 90 companies (27.3%). The remaining 236 search-only records are an explicit custom/source-family backlog; 4 conflicts have no usable adapter classification.
+Known reusable ATS families cover 89 companies (27.0%). The remaining 237 search-only records are an explicit custom/source-family backlog; 4 conflicts have no usable adapter classification.
 
 | Priority | Adapter | Total | Verified | Access | Conflict | Pending | Projected registry coverage |
 |---:|---|---:|---:|---:|---:|---:|---:|
 | 1 | `ashby` | 25 | 25 | 0 | 0 | 0 | 7.6% |
 | 2 | `greenhouse` | 25 | 25 | 0 | 0 | 0 | 7.6% |
-| 3 | `lever` | 12 | 11 | 0 | 1 | 0 | 3.6% |
+| 3 | `lever` | 11 | 11 | 0 | 0 | 0 | 3.3% |
 | 4 | `workday` | 13 | 13 | 0 | 0 | 0 | 3.9% |
 | 5 | `darwinbox` | 4 | 4 | 0 | 0 | 0 | 1.2% |
 | 6 | `eightfold` | 3 | 3 | 0 | 0 | 0 | 0.9% |
@@ -46,10 +46,10 @@ Known reusable ATS families cover 90 companies (27.3%). The remaining 236 search
 | 8 | `oracle_cloud` | 2 | 2 | 0 | 0 | 0 | 0.6% |
 | 9 | `successfactors` | 2 | 2 | 0 | 0 | 0 | 0.6% |
 | 10 | `jobvite` | 1 | 1 | 0 | 0 | 0 | 0.3% |
-| backlog | `search_only` | 236 | 178 | 0 | 58 | 0 | 71.5% |
+| backlog | `search_only` | 237 | 178 | 0 | 59 | 0 | 71.8% |
 | backlog | `unresolved` | 4 | 0 | 0 | 4 | 0 | 1.2% |
 
-Ashby and Greenhouse have now passed full adapter-group validation for all 25 current mappings in each family. The next approved adapter family is Lever.
+Ashby, Greenhouse, and Lever have now passed full adapter-group validation. The next approved adapter family is Workday.
 
 ### Representative boards
 
@@ -140,7 +140,7 @@ Recommendation: keep every company in scope but disabled; treat these as custom 
 | 291 | P3 | Apna | `search_only` | [open](https://www.apna.co/) | Consumer job marketplace homepage is not Apna's employee careers inventory. |
 | 292 | P3 | BillDesk | `search_only` | [open](https://www.billdesk.com/web/job_description/jd%3DBD11) | Single job detail does not provide a complete enumerable company inventory. |
 | 298 | P3 | CoinSwitch | `search_only` | [open](https://coinswitch.co/ventures) | Ventures page is not the CoinSwitch employee careers inventory. |
-| 300 | P3 | Dream11 / Dream Sports | `lever` | [open](https://jobs.lever.co/dreamsports/5695908e-b004-4c11-966f-d410f3c5e959/apply) | Former Lever board now returns 404; current official site requires custom discovery. |
+| 300 | P3 | Dream11 / Dream Sports | `search_only` | [open](https://www.dreamsports.group/lifeatdreamsports) | Dream Sports' official careers page still links to the former Lever board, but both the public board and Postings API return HTTP 404; the official page does not enumerate current jobs. |
 | 303 | P3 | Games24x7 | `search_only` | [open](https://www.games24x7.com/contact) | Contact page does not enumerate public job openings. |
 | 305 | P3 | Info Edge | `unresolved` | none | No current official employee careers inventory was found. |
 | 313 | P3 | Myntra | `search_only` | [open](https://govhelp.in/find/job/myntra-customer-service-online-jobs-work-from-home/?export-pdf=88) | network error: [WinError 10054] An existing connection was forcibly closed by the remote host |
