@@ -159,12 +159,15 @@ These pages were read only to test the proposed vocabulary. They are not Phase 2
 1. Pass an on-site or hybrid posting when any listed work location is explicitly in India.
 2. Pass a remote posting only when listing metadata or other pre-description source evidence explicitly
    says India is allowed.
-3. Pass a multi-location posting when at least one listed location is explicitly allowed in India.
-4. Do not require every location on a multi-location posting to be in India.
-5. Keep missing, `Remote`, `Global`, `Worldwide`, and region-only locations such as `APAC` in a
+3. Pass a mixed location such as `Singapore or Remote` when `Remote` is presented as a separate,
+   unqualified option. Do not pass when that remote option is explicitly restricted to a non-India
+   geography.
+4. Pass a multi-location posting when at least one listed location is explicitly allowed in India.
+5. Do not require every location on a multi-location posting to be in India.
+6. Keep missing, bare `Remote`, `Global`, `Worldwide`, and region-only locations such as `APAC` in a
    separate location-review state unless the source explicitly confirms India eligibility.
-6. A location-review item does not pass to seniority evaluation and is not reported as a match.
-7. Country code `IN` may be accepted only from a structured country field. Never match the free-text
+7. A location-review item does not pass to seniority evaluation and is not reported as a match.
+8. Country code `IN` may be accepted only from a structured country field. Never match the free-text
    word `in` as India.
 
 ### Proposed aliases
@@ -209,7 +212,7 @@ will store these in configuration rather than rely on this prose list.
 | `Remote - Worldwide` | Location review, not pass | Global wording needs explicit evidence that India is eligible. |
 | `Remote` | Location review, not pass | No allowed geography is stated. |
 | `Asia` | Location review, not pass | Region-only and ambiguous. |
-| `Singapore or Remote` | Reject/review, not pass | No explicit India location. |
+| `Singapore or Remote` | Pass | `Remote` is offered as a separate unqualified option; reject only if other evidence restricts remote work outside India. |
 | `San Francisco, CA` | Reject | Explicitly outside India. |
 | missing location | Location review, not pass | Preserve uncertainty; do not silently include. |
 
@@ -282,11 +285,13 @@ Rules:
 2. **AI solutions engineering:** Include `AI Solutions Engineer` but exclude sales, presales,
    consultant, and customer-success titles. Recommendation: approve because the sampled Neuron7
    role writes production code, agents, parsers, and pipelines.
-3. **Ambiguous location:** Retain missing/global/APAC/remote-only values in a location-review pool,
-   but do not pass them to the LLM or present them as matches. Recommendation: approve to preserve
-   evidence without silently treating ambiguity as India eligibility.
-4. **Multi-location:** Pass when any explicit location is in India. Recommendation: approve because
-   the same requisition is available to an India-based applicant.
+3. **Ambiguous location:** Retain missing/global/APAC/bare-remote values in a location-review pool,
+   but accept an unqualified remote alternative in mixed text such as `Singapore or Remote` unless
+   other evidence restricts that remote option outside India. This exception records the user's H1
+   correction.
+4. **Multi-location:** Pass when any explicit location is in India, and pass a separate unqualified
+   remote option as described above. Recommendation: approve because the same requisition offers an
+   India or unrestricted-remote path.
 5. **Employment type:** Do not filter by full-time, contract, internship, or apprenticeship in the
    first release; role, location, recency, and seniority remain controlling. Recommendation: approve
    because no employment-type exclusion exists in the product baseline.

@@ -45,6 +45,9 @@
   titles are no longer proposed for automatic rejection.
 - They enter a conditional deterministic description-review lane after recency and India-location
   checks; only substantive AI/ML work proceeds to seniority evaluation.
+- `Singapore or Remote` is accepted when remote is a separate unqualified option, unless other
+  evidence explicitly restricts remote work to a non-India geography. Bare `Remote` remains a
+  location-review case.
 
 ## Resume point
 
