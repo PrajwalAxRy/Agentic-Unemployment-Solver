@@ -12,6 +12,7 @@ from job_finder.adapters.base import AdapterRegistry
 from job_finder.adapters.greenhouse import GreenhouseAdapter
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
 from job_finder.adapters.lever import LeverAdapter
+from job_finder.adapters.workday import WorkdayAdapter
 from job_finder.core.company_registry import load_company_registry
 from job_finder.core.source_contracts import AdapterType
 from job_finder.verification import verify_adapter_sources, write_verification_report
@@ -36,6 +37,7 @@ def build_parser() -> argparse.ArgumentParser:
             AdapterType.ASHBY.value,
             AdapterType.GREENHOUSE.value,
             AdapterType.LEVER.value,
+            AdapterType.WORKDAY.value,
         ),
         required=True,
     )
@@ -67,6 +69,7 @@ def _verify_sources(args: argparse.Namespace) -> int:
             AshbyAdapter(client),
             GreenhouseAdapter(client),
             LeverAdapter(client),
+            WorkdayAdapter(client),
         ]
     )
     report = verify_adapter_sources(
