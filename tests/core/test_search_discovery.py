@@ -95,6 +95,17 @@ def test_workday_job_url_skips_locale_to_find_site() -> None:
     }
 
 
+def test_eightfold_url_produces_public_listing_endpoint() -> None:
+    adapter, parameters, endpoint, mode = infer_adapter(
+        "https://example.eightfold.ai/careers"
+    )
+
+    assert adapter == "eightfold"
+    assert parameters == {"tenant": "example"}
+    assert endpoint == "https://example.eightfold.ai/api/apply/v2/jobs"
+    assert mode == "complete_list"
+
+
 def test_selection_only_updates_unresolved_proposal() -> None:
     selection = select_credible_sources(
         [("test", batch(candidate("https://jobs.lever.co/example", 35)))]

@@ -117,6 +117,12 @@
       "title": "NXP public Workday board",
       "status": "auto_verified",
       "reason": "Record the exact public Workday shard host required to construct the listing API endpoint."
+    },
+    {
+      "company_id": "paypal",
+      "url": "https://paypal.eightfold.ai/careers",
+      "title": "PayPal public Eightfold careers board",
+      "reason": "Normalize the discovered candidate-login URL to the public PayPal careers board; adapter access remains subject to Phase 4 validation."
     }
   ]
 }

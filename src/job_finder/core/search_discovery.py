@@ -232,6 +232,15 @@ def infer_adapter(url: str) -> tuple[str, dict[str, str], str, str]:
             url,
             "search_only",
         )
+    if host.endswith(".eightfold.ai"):
+        tenant = host.split(".", maxsplit=1)[0]
+        if tenant != "app":
+            return (
+                "eightfold",
+                {"tenant": tenant},
+                f"https://{host}/api/apply/v2/jobs",
+                "complete_list",
+            )
     return "search_only", {"search_url": url}, url, "search_only"
 
 
