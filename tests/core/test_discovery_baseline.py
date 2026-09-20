@@ -64,14 +64,14 @@ def test_canonical_discovery_proposals_reconcile_all_companies() -> None:
         "access_concern": 4,
         "auto_verified": 41,
         "conflict": 4,
-        "proposed": 1,
-        "unresolved": 280,
+        "proposed": 279,
+        "unresolved": 2,
     }
     assert audit.by_adapter == {
-        "ashby": 19,
-        "greenhouse": 9,
-        "lever": 5,
-        "search_only": 14,
-        "unresolved": 282,
-        "workday": 1,
+        "ashby": 20,
+        "greenhouse": 18,
+        "lever": 9,
+        "search_only": 277,
+        "unresolved": 4,
+        "workday": 2,
     }
