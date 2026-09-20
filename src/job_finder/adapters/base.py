@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 from collections.abc import Iterable, Mapping
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from job_finder.adapters.http_client import HttpRequestError
+from job_finder.core.job_contracts import NormalizedJob
 from job_finder.core.source_contracts import (
     AdapterDiagnostic,
     AdapterResult,
@@ -26,6 +27,13 @@ class JobSourceAdapter(Protocol):
     def adapter_type(self) -> AdapterType: ...
 
     def list_jobs(self, source: CompanySource) -> AdapterResult: ...
+
+
+@runtime_checkable
+class JobDetailAdapter(Protocol):
+    """Optional capability for sources whose list payload omits full details."""
+
+    def get_job_detail(self, source: CompanySource, job: NormalizedJob) -> NormalizedJob: ...
 
 
 class AdapterRegistry:
