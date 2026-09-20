@@ -1,0 +1,296 @@
+schema_version = 1
+profile_id = "india-ai-ml-under-five-years"
+profile_version = "1.0.0"
+
+[[role]]
+id = "role-01"
+title = "Senior Machine Learning Engineer"
+expected = "explicit_pass"
+reason = "Target family; seniority is deferred to the LLM."
+
+[[role]]
+id = "role-02"
+title = "AI Solutions Engineer"
+expected = "explicit_pass"
+reason = "Explicit AI engineering title."
+
+[[role]]
+id = "role-03"
+title = "AI Sales Engineer"
+expected = "reject"
+reason = "Commercial sales exclusion takes precedence."
+
+[[role]]
+id = "role-04"
+title = "Staff Data Scientist – Graph Neural Networks & Predictive AI"
+expected = "explicit_pass"
+reason = "Explicit ML technique and AI qualifier."
+
+[[role]]
+id = "role-05"
+title = "Data Scientist"
+expected = "conditional_description"
+reason = "Description must confirm substantive AI or ML work."
+
+[[role]]
+id = "role-06"
+title = "Senior Software Engineer"
+expected = "conditional_description"
+reason = "Description must confirm substantive AI or ML product or systems work."
+
+[[role]]
+id = "role-07"
+title = "Senior Software Engineer, AI Agents"
+expected = "explicit_pass"
+reason = "Generic engineering title has an explicit target qualifier."
+
+[[role]]
+id = "role-08"
+title = "Backend Engineer - Search"
+expected = "explicit_pass"
+reason = "Explicit search-system qualifier."
+
+[[role]]
+id = "role-09"
+title = "Lead Product Manager – Agentic Experiences"
+expected = "reject"
+reason = "Product-manager exclusion takes precedence."
+
+[[role]]
+id = "role-10"
+title = "Engineering Manager, Machine Learning Platform"
+expected = "explicit_pass"
+reason = "Target family; description-based seniority remains separate."
+
+[[role]]
+id = "role-11"
+title = "AI/ML Evaluator - English"
+expected = "reject"
+reason = "Human evaluation role rather than evaluation-systems engineering."
+
+[[role]]
+id = "role-12"
+title = "MCP Engineer"
+expected = "reject"
+reason = "MCP is ambiguous without AI, agent, LLM, or Model Context Protocol context."
+
+[[role]]
+id = "role-13"
+title = "Computer Vision Engineer"
+expected = "explicit_pass"
+reason = "Established machine-learning subfield."
+
+[[role]]
+id = "role-14"
+title = "CV Engineer"
+expected = "reject"
+reason = "CV alone is ambiguous."
+
+[[location]]
+id = "location-01"
+source_location = "Bengaluru, Karnataka, India"
+expected = "pass"
+reason = "Explicit India city and country."
+
+[[location]]
+id = "location-02"
+source_location = "Bangalore"
+expected = "pass"
+reason = "Approved city alias."
+
+[[location]]
+id = "location-03"
+source_location = "Pune, India (Hybrid)"
+expected = "pass"
+reason = "India location and accepted hybrid mode."
+
+[[location]]
+id = "location-04"
+source_location = "India"
+expected = "pass"
+reason = "Country-wide roles are accepted."
+
+[[location]]
+id = "location-05"
+source_location = "Remote - India"
+expected = "pass"
+reason = "Remote eligibility explicitly includes India."
+
+[[location]]
+id = "location-06"
+source_location = "Bangalore, India - Remote"
+expected = "pass"
+reason = "Remote role is tied to an India location."
+
+[[location]]
+id = "location-07"
+source_location = "Bengaluru; London; New York"
+expected = "pass"
+reason = "At least one explicit India location."
+
+[[location]]
+id = "location-08"
+source_location = "Remote - India and Singapore"
+expected = "pass"
+reason = "India is explicitly allowed."
+
+[[location]]
+id = "location-09"
+source_location = "Remote - APAC"
+expected = "review"
+reason = "APAC alone does not prove India employment eligibility."
+
+[[location]]
+id = "location-10"
+source_location = "Remote - Worldwide"
+expected = "review"
+reason = "Global wording needs explicit India evidence."
+
+[[location]]
+id = "location-11"
+source_location = "Remote"
+expected = "review"
+reason = "Bare remote gives no allowed geography."
+
+[[location]]
+id = "location-12"
+source_location = "Asia"
+expected = "review"
+reason = "Region-only and ambiguous."
+
+[[location]]
+id = "location-13"
+source_location = "Singapore or Remote"
+expected = "pass"
+reason = "Remote is offered as a separate unrestricted option."
+
+[[location]]
+id = "location-14"
+source_location = "San Francisco, CA"
+expected = "reject"
+reason = "Explicitly outside India."
+
+[[location]]
+id = "location-15"
+expected = "review"
+reason = "Missing location remains visible but does not silently pass."
+
+[[seniority]]
+id = "seniority-01"
+evidence = "1–2 years of relevant ML experience"
+expected = "include"
+rationale = "Every eligible value is below five."
+
+[[seniority]]
+id = "seniority-02"
+evidence = "2+ years of software engineering experience"
+expected = "include"
+rationale = "Minimum is below five."
+
+[[seniority]]
+id = "seniority-03"
+evidence = "4+ years building production ML systems"
+expected = "include"
+rationale = "A four-year candidate is eligible."
+
+[[seniority]]
+id = "seniority-04"
+evidence = "5+ years of relevant experience required"
+expected = "exclude"
+rationale = "Minimum is five."
+
+[[seniority]]
+id = "seniority-05"
+evidence = "3–5 years of experience"
+expected = "include"
+rationale = "The range explicitly permits three or four years."
+
+[[seniority]]
+id = "seniority-06"
+evidence = "5–7 years of experience"
+expected = "exclude"
+rationale = "No value below five is eligible."
+
+[[seniority]]
+id = "seniority-07"
+evidence = "At least 7 years total, including 3 years in ML"
+expected = "exclude"
+rationale = "Total required experience is at least seven."
+
+[[seniority]]
+id = "seniority-08"
+evidence = "2 years required; 5 years preferred"
+expected = "include"
+rationale = "Preferred experience does not change the lower required minimum."
+
+[[seniority]]
+id = "seniority-09"
+evidence = "4 years required; 6+ years strongly preferred"
+expected = "include"
+rationale = "A four-year candidate still satisfies the requirement."
+
+[[seniority]]
+id = "seniority-10"
+evidence = "Bachelor's plus 3 years, or Master's plus 1 year"
+expected = "include"
+rationale = "Both alternative paths permit fewer than five years."
+
+[[seniority]]
+id = "seniority-11"
+evidence = "5+ years, or a PhD with no industry experience requirement"
+expected = "include"
+rationale = "At least one explicit path permits fewer than five years."
+
+[[seniority]]
+id = "seniority-12"
+evidence = "New graduates and candidates with internship experience are welcome"
+expected = "include"
+rationale = "Clearly early-career scope."
+
+[[seniority]]
+id = "seniority-13"
+evidence = "Title is Senior ML Engineer; description requires 3+ years"
+expected = "include"
+rationale = "Description minimum controls rather than title."
+
+[[seniority]]
+id = "seniority-14"
+evidence = "Title is Junior AI Engineer; description requires 6+ years"
+expected = "exclude"
+rationale = "Description minimum controls rather than title."
+
+[[seniority]]
+id = "seniority-15"
+evidence = "3+ years in one required section and 8+ years in another"
+expected = "uncertain"
+rationale = "Conflicting minimum requirements need review."
+
+[[seniority]]
+id = "seniority-16"
+evidence = "No years; owns one service with mentoring available and bounded scope"
+expected = "include"
+rationale = "Scope is clearly compatible with early-career execution."
+
+[[seniority]]
+id = "seniority-17"
+evidence = "No years; sets org-wide architecture, manages multiple teams, and owns strategy"
+expected = "uncertain"
+rationale = "Strong senior signals exist without an explicit eligibility boundary."
+
+[[seniority]]
+id = "seniority-18"
+evidence = "No years and only generic responsibilities such as build scalable AI systems"
+expected = "uncertain"
+rationale = "Insufficient seniority evidence."
+
+[[seniority]]
+id = "seniority-19"
+evidence = "Our company has 10 years of ML experience; no candidate requirement"
+expected = "uncertain"
+rationale = "The number is irrelevant to candidate eligibility."
+
+[[seniority]]
+id = "seniority-20"
+evidence = "Up to 5 years of experience"
+expected = "include"
+rationale = "The stated range permits candidates below five years."

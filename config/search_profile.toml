@@ -1,0 +1,388 @@
+schema_version = 1
+profile_id = "india-ai-ml-under-five-years"
+version = "1.0.0"
+
+[recency]
+window_days = 10
+date_uncertainty_mode = "measure_then_decide"
+
+[[roles.families]]
+id = "ml_engineering"
+label = "Machine learning engineering"
+title_terms = [
+  "machine learning engineer",
+  "ml engineer",
+  "applied ml engineer",
+  "deep learning engineer",
+  "computer vision engineer",
+  "nlp engineer",
+  "speech ml engineer",
+]
+
+[[roles.families]]
+id = "generative_ai_engineering"
+label = "Generative AI and LLM engineering"
+title_terms = [
+  "ai engineer",
+  "applied ai engineer",
+  "generative ai engineer",
+  "genai engineer",
+  "llm engineer",
+  "foundation model engineer",
+  "conversational ai engineer",
+]
+
+[[roles.families]]
+id = "research_and_applied_science"
+label = "AI and ML research and applied science"
+title_terms = [
+  "machine learning scientist",
+  "ai research engineer",
+  "ml research engineer",
+  "ai research scientist",
+  "ml research scientist",
+  "llm research scientist",
+  "ai applied scientist",
+  "ml applied scientist",
+  "ai data scientist",
+  "ml data scientist",
+  "deep learning scientist",
+]
+
+[[roles.families]]
+id = "retrieval_search_and_rag"
+label = "Retrieval, search, and RAG engineering"
+title_terms = [
+  "search engineer",
+  "enterprise search engineer",
+  "relevance engineer",
+  "retrieval engineer",
+  "rag engineer",
+  "vector search engineer",
+  "embedding engineer",
+]
+
+[[roles.families]]
+id = "model_systems_and_optimization"
+label = "Model systems and optimization"
+title_terms = [
+  "ml systems engineer",
+  "ai systems engineer",
+  "inference engineer",
+  "model serving engineer",
+  "model optimization engineer",
+  "quantization engineer",
+  "ai compiler engineer",
+  "ml compiler engineer",
+]
+
+[[roles.families]]
+id = "ml_platform_and_infrastructure"
+label = "ML platform and infrastructure"
+title_terms = [
+  "mlops engineer",
+  "ml ops engineer",
+  "ml platform engineer",
+  "ai platform engineer",
+  "llm platform engineer",
+  "ml infrastructure engineer",
+  "ai infrastructure engineer",
+]
+
+[[roles.families]]
+id = "agents_and_tooling"
+label = "AI agents, orchestration, and tooling"
+title_terms = [
+  "ai agent engineer",
+  "agentic ai engineer",
+  "agent platform engineer",
+  "llm agent engineer",
+  "ai orchestration engineer",
+  "model context protocol engineer",
+  "ai mcp engineer",
+  "llm mcp engineer",
+]
+
+[[roles.families]]
+id = "ai_software_and_product_engineering"
+label = "AI software and product engineering"
+title_terms = [
+  "ai software engineer",
+  "ml software engineer",
+  "llm software engineer",
+  "genai software engineer",
+  "rag software engineer",
+  "ai backend engineer",
+  "ml backend engineer",
+  "agent backend engineer",
+  "ai forward deployed engineer",
+  "ml forward deployed engineer",
+  "ai solutions engineer",
+  "ai architect",
+  "ml architect",
+]
+
+[[roles.title_exclusions]]
+term = "sales engineer"
+reason = "Commercial sales function"
+
+[[roles.title_exclusions]]
+term = "presales engineer"
+reason = "Commercial presales function"
+
+[[roles.title_exclusions]]
+term = "pre-sales engineer"
+reason = "Commercial presales function"
+
+[[roles.title_exclusions]]
+term = "sales consultant"
+reason = "Commercial sales function"
+
+[[roles.title_exclusions]]
+term = "solution consultant"
+reason = "Consulting title without an engineering signal"
+
+[[roles.title_exclusions]]
+term = "solutions consultant"
+reason = "Consulting title without an engineering signal"
+
+[[roles.title_exclusions]]
+term = "account executive"
+reason = "Commercial account function"
+
+[[roles.title_exclusions]]
+term = "account manager"
+reason = "Commercial account function"
+
+[[roles.title_exclusions]]
+term = "business development"
+reason = "Commercial growth function"
+
+[[roles.title_exclusions]]
+term = "customer success manager"
+reason = "Customer-success function"
+
+[[roles.title_exclusions]]
+term = "customer success specialist"
+reason = "Customer-success function"
+
+[[roles.title_exclusions]]
+term = "product manager"
+reason = "Product-management function"
+
+[[roles.title_exclusions]]
+term = "program manager"
+reason = "Program-management function"
+
+[[roles.title_exclusions]]
+term = "project manager"
+reason = "Project-management function"
+
+[[roles.title_exclusions]]
+term = "ai trainer"
+reason = "Human data or training-operations work"
+
+[[roles.title_exclusions]]
+term = "model trainer"
+reason = "Human data or training-operations work"
+
+[[roles.title_exclusions]]
+term = "ai training specialist"
+reason = "Human data or training-operations work"
+
+[[roles.title_exclusions]]
+term = "ai training quality specialist"
+reason = "Human data or training-operations work"
+
+[[roles.title_exclusions]]
+term = "data annotator"
+reason = "Data-operations function"
+
+[[roles.title_exclusions]]
+term = "data labeler"
+reason = "Data-operations function"
+
+[[roles.title_exclusions]]
+term = "data annotation"
+reason = "Data-operations function"
+
+[[roles.title_exclusions]]
+term = "data labeling"
+reason = "Data-operations function"
+
+[[roles.title_exclusions]]
+term = "ai evaluator"
+reason = "Human evaluation role"
+
+[[roles.title_exclusions]]
+term = "model evaluator"
+reason = "Human evaluation role"
+
+[[roles.title_exclusions]]
+term = "prompt writer"
+reason = "Content-production function"
+
+[[roles.title_exclusions]]
+term = "ai content writer"
+reason = "Content-production function"
+
+[[roles.title_exclusions]]
+term = "ai content reviewer"
+reason = "Content-production function"
+
+[[roles.title_exclusions]]
+term = "ai recruiter"
+reason = "Recruiting function"
+
+[[roles.title_exclusions]]
+term = "ai marketing"
+reason = "Marketing function"
+
+[[roles.title_exclusions]]
+term = "ai policy"
+reason = "Policy function"
+
+[[roles.title_exclusions]]
+term = "ai governance"
+reason = "Governance function"
+
+[roles.conditional_description]
+title_terms = [
+  "software engineer",
+  "software development engineer",
+  "sde",
+  "backend engineer",
+  "backend software engineer",
+  "data scientist",
+  "applied scientist",
+  "research scientist",
+]
+ai_topic_terms = [
+  "artificial intelligence",
+  "machine learning",
+  "deep learning",
+  "foundation model",
+  "large language model",
+  "llm",
+  "generative ai",
+  "genai",
+  "natural language processing",
+  "nlp",
+  "computer vision",
+  "speech model",
+  "retrieval-augmented generation",
+  "rag",
+  "embedding",
+  "vector database",
+  "ai agent",
+  "agentic ai",
+  "model inference",
+  "model serving",
+  "ml pipeline",
+  "model evaluation",
+]
+substantive_action_terms = [
+  "build",
+  "develop",
+  "design",
+  "implement",
+  "integrate",
+  "train",
+  "fine-tune",
+  "adapt",
+  "evaluate",
+  "deploy",
+  "serve",
+  "optimize",
+  "quantize",
+  "operate",
+  "productionize",
+  "research",
+]
+incidental_only_terms = [
+  "interest in ai",
+  "passion for ai",
+  "ai-powered company",
+  "use ai tools",
+  "use coding assistants",
+  "collaborate with the ai team",
+]
+
+[location]
+accepted_countries = ["India", "Republic of India", "IN", "IND"]
+accepted_work_modes = ["onsite", "hybrid", "remote"]
+remote_requires_explicit_country = true
+accept_unqualified_remote_alternative = true
+multi_location_treatment = "accept_if_any_explicitly_allowed"
+ambiguous_location_treatment = "review"
+
+[location.city_aliases]
+Bengaluru = ["Bengaluru", "Bangalore"]
+Gurugram = ["Gurugram", "Gurgaon"]
+"Delhi NCR" = ["Delhi", "New Delhi", "Delhi NCR", "NCR"]
+Noida = ["Noida", "Greater Noida"]
+Mumbai = ["Mumbai", "Bombay"]
+Kolkata = ["Kolkata", "Calcutta"]
+Chennai = ["Chennai", "Madras"]
+Kochi = ["Kochi", "Cochin"]
+Thiruvananthapuram = ["Thiruvananthapuram", "Trivandrum"]
+Mysuru = ["Mysuru", "Mysore"]
+Mangaluru = ["Mangaluru", "Mangalore"]
+Visakhapatnam = ["Visakhapatnam", "Vizag"]
+Hyderabad = ["Hyderabad"]
+Pune = ["Pune"]
+Ahmedabad = ["Ahmedabad"]
+Gandhinagar = ["Gandhinagar"]
+Coimbatore = ["Coimbatore"]
+Jaipur = ["Jaipur"]
+Chandigarh = ["Chandigarh"]
+Mohali = ["Mohali"]
+Lucknow = ["Lucknow"]
+Indore = ["Indore"]
+Nagpur = ["Nagpur"]
+Bhubaneswar = ["Bhubaneswar", "Bhubaneshwar"]
+Surat = ["Surat"]
+Goa = ["Goa"]
+
+[location.region_aliases]
+"Andhra Pradesh" = ["Andhra Pradesh"]
+"Arunachal Pradesh" = ["Arunachal Pradesh"]
+Assam = ["Assam"]
+Bihar = ["Bihar"]
+Chhattisgarh = ["Chhattisgarh"]
+Goa = ["Goa"]
+Gujarat = ["Gujarat"]
+Haryana = ["Haryana"]
+"Himachal Pradesh" = ["Himachal Pradesh"]
+Jharkhand = ["Jharkhand"]
+Karnataka = ["Karnataka"]
+Kerala = ["Kerala"]
+"Madhya Pradesh" = ["Madhya Pradesh"]
+Maharashtra = ["Maharashtra"]
+Manipur = ["Manipur"]
+Meghalaya = ["Meghalaya"]
+Mizoram = ["Mizoram"]
+Nagaland = ["Nagaland"]
+Odisha = ["Odisha", "Orissa"]
+Punjab = ["Punjab"]
+Rajasthan = ["Rajasthan"]
+Sikkim = ["Sikkim"]
+"Tamil Nadu" = ["Tamil Nadu"]
+Telangana = ["Telangana"]
+Tripura = ["Tripura"]
+"Uttar Pradesh" = ["Uttar Pradesh"]
+Uttarakhand = ["Uttarakhand", "Uttaranchal"]
+"West Bengal" = ["West Bengal"]
+"Andaman and Nicobar Islands" = ["Andaman and Nicobar Islands"]
+Chandigarh = ["Chandigarh"]
+"Dadra and Nagar Haveli and Daman and Diu" = ["Dadra and Nagar Haveli and Daman and Diu"]
+Delhi = ["Delhi", "National Capital Territory of Delhi"]
+"Jammu and Kashmir" = ["Jammu and Kashmir", "J&K"]
+Ladakh = ["Ladakh"]
+Lakshadweep = ["Lakshadweep"]
+Puducherry = ["Puducherry", "Pondicherry"]
+
+[seniority]
+maximum_exclusive_years = 5
+description = "Include a job when at least one stated eligibility path is open to a qualified candidate with fewer than five years of total qualifying professional experience."
+ambiguity_treatment = "review"

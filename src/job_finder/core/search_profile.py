@@ -56,13 +56,25 @@ class TitleExclusion:
 
 
 @dataclass(frozen=True, slots=True)
+class ConditionalDescriptionPolicy:
+    """Generic titles that require deterministic AI-work evidence from the description."""
+
+    title_terms: tuple[str, ...]
+    ai_topic_terms: tuple[str, ...]
+    substantive_action_terms: tuple[str, ...]
+    incidental_only_terms: tuple[str, ...]
+
+
+@dataclass(frozen=True, slots=True)
 class LocationPolicy:
     """Deterministic geography and work-mode policy."""
 
     accepted_countries: tuple[str, ...]
     city_aliases: Mapping[str, tuple[str, ...]]
+    region_aliases: Mapping[str, tuple[str, ...]]
     accepted_work_modes: tuple[str, ...]
     remote_requires_explicit_country: bool
+    accept_unqualified_remote_alternative: bool
     multi_location_treatment: MultiLocationTreatment
     ambiguous_location_treatment: AmbiguousLocationTreatment
 
@@ -87,6 +99,7 @@ class SearchProfile:
     date_uncertainty_mode: DateUncertaintyMode
     role_families: tuple[RoleFamily, ...]
     title_exclusions: tuple[TitleExclusion, ...]
+    conditional_description: ConditionalDescriptionPolicy
     location: LocationPolicy
     seniority: SeniorityTarget
     content_hash: str
@@ -126,6 +139,7 @@ def search_profile_from_mapping(raw: Mapping[str, object]) -> SearchProfile:
     roles = _required_mapping(raw, "roles", "search profile")
     role_families = _parse_role_families(roles)
     title_exclusions = _parse_title_exclusions(roles)
+    conditional_description = _parse_conditional_description(roles)
 
     location = _parse_location(_required_mapping(raw, "location", "search profile"))
     seniority = _parse_seniority(_required_mapping(raw, "seniority", "search profile"))
@@ -138,6 +152,7 @@ def search_profile_from_mapping(raw: Mapping[str, object]) -> SearchProfile:
         date_uncertainty_mode=date_uncertainty_mode,
         role_families=role_families,
         title_exclusions=title_exclusions,
+        conditional_description=conditional_description,
         location=location,
         seniority=seniority,
         content_hash=configuration_hash(raw),
@@ -183,13 +198,33 @@ def _parse_title_exclusions(roles: Mapping[str, object]) -> tuple[TitleExclusion
     return tuple(exclusions)
 
 
+def _parse_conditional_description(
+    roles: Mapping[str, object],
+) -> ConditionalDescriptionPolicy:
+    policy = _required_mapping(roles, "conditional_description", "roles")
+    return ConditionalDescriptionPolicy(
+        title_terms=_required_string_tuple(policy, "title_terms", "roles.conditional_description"),
+        ai_topic_terms=_required_string_tuple(
+            policy,
+            "ai_topic_terms",
+            "roles.conditional_description",
+        ),
+        substantive_action_terms=_required_string_tuple(
+            policy,
+            "substantive_action_terms",
+            "roles.conditional_description",
+        ),
+        incidental_only_terms=_required_string_tuple(
+            policy,
+            "incidental_only_terms",
+            "roles.conditional_description",
+        ),
+    )
+
+
 def _parse_location(location: Mapping[str, object]) -> LocationPolicy:
-    aliases_raw = _required_mapping(location, "city_aliases", "location")
-    aliases: dict[str, tuple[str, ...]] = {}
-    for canonical_name, values in aliases_raw.items():
-        if not isinstance(canonical_name, str) or not canonical_name.strip():
-            raise ValueError("location.city_aliases keys must be non-empty strings")
-        aliases[canonical_name] = _string_tuple(values, f"location.city_aliases.{canonical_name}")
+    city_aliases = _parse_aliases(location, "city_aliases")
+    region_aliases = _parse_aliases(location, "region_aliases")
 
     work_modes = _required_string_tuple(location, "accepted_work_modes", "location")
     unknown_work_modes = set(work_modes) - {"onsite", "hybrid", "remote"}
@@ -200,12 +235,17 @@ def _parse_location(location: Mapping[str, object]) -> LocationPolicy:
     remote_requires_explicit_country = location.get("remote_requires_explicit_country")
     if not isinstance(remote_requires_explicit_country, bool):
         raise ValueError("location.remote_requires_explicit_country must be a boolean")
+    accept_unqualified_remote_alternative = location.get("accept_unqualified_remote_alternative")
+    if not isinstance(accept_unqualified_remote_alternative, bool):
+        raise ValueError("location.accept_unqualified_remote_alternative must be a boolean")
 
     return LocationPolicy(
         accepted_countries=_required_string_tuple(location, "accepted_countries", "location"),
-        city_aliases=aliases,
+        city_aliases=city_aliases,
+        region_aliases=region_aliases,
         accepted_work_modes=work_modes,
         remote_requires_explicit_country=remote_requires_explicit_country,
+        accept_unqualified_remote_alternative=accept_unqualified_remote_alternative,
         multi_location_treatment=_enum_value(
             MultiLocationTreatment,
             _required_string(location, "multi_location_treatment", "location"),
@@ -217,6 +257,21 @@ def _parse_location(location: Mapping[str, object]) -> LocationPolicy:
             "location.ambiguous_location_treatment",
         ),
     )
+
+
+def _parse_aliases(
+    location: Mapping[str, object],
+    key: str,
+) -> Mapping[str, tuple[str, ...]]:
+    aliases_raw = _required_mapping(location, key, "location")
+    aliases: dict[str, tuple[str, ...]] = {}
+    for canonical_name, values in aliases_raw.items():
+        if not isinstance(canonical_name, str) or not canonical_name.strip():
+            raise ValueError(f"location.{key} keys must be non-empty strings")
+        aliases[canonical_name] = _string_tuple(values, f"location.{key}.{canonical_name}")
+    if not aliases:
+        raise ValueError(f"location.{key} must contain at least one alias group")
+    return aliases
 
 
 def _parse_seniority(seniority: Mapping[str, object]) -> SeniorityTarget:
