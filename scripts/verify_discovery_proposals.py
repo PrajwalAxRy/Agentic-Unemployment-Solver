@@ -23,7 +23,8 @@ def main() -> int:
     args = build_parser().parse_args()
     repository_root = Path(__file__).resolve().parents[1]
     input_path = repository_root / "data" / "source_discovery_proposals.json"
-    output_path = repository_root / "data" / "source_discovery_verification.json"
+    output_path = repository_root / "diagnostics" / "source_discovery_verification.json"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     batch = load_discovery_batch(input_path)
     proposals = [
         proposal for proposal in batch.proposals if proposal.status is DiscoveryStatus.PROPOSED
