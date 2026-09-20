@@ -6,7 +6,11 @@ from copy import deepcopy
 
 import pytest
 
-from job_finder.core.adapter_validation import apply_ashby_validation, apply_greenhouse_validation
+from job_finder.core.adapter_validation import (
+    apply_ashby_validation,
+    apply_greenhouse_validation,
+    apply_lever_validation,
+)
 
 
 def proposals() -> dict[str, object]:
@@ -24,6 +28,13 @@ def proposals() -> dict[str, object]:
                 "adapter_type": "greenhouse",
                 "adapter_parameters": {"board_token": "other"},
                 "status": "auto_verified",
+                "evidence": [],
+            },
+            {
+                "company_id": "lever-company",
+                "adapter_type": "lever",
+                "adapter_parameters": {"site": "lever-company"},
+                "status": "proposed",
                 "evidence": [],
             },
         ]
@@ -130,3 +141,55 @@ def test_incomplete_greenhouse_reports_are_rejected(mutator, message: str) -> No
 
     with pytest.raises(ValueError, match=message):
         apply_greenhouse_validation(proposals(), candidate)
+
+
+def lever_report(*, outcome: str = "success", complete: bool = True) -> dict[str, object]:
+    return {
+        "schema_version": 1,
+        "generated_at": "2026-09-20T19:00:00+05:30",
+        "adapter_type": "lever",
+        "records": [
+            {
+                "company_id": "lever-company",
+                "adapter_type": "lever",
+                "outcome": outcome,
+                "complete": complete,
+                "job_count": 5,
+                "page_count": 2,
+                "missing_field_count": 1,
+                "date_basis_distribution": {"published": 0, "updated": 0, "unknown": 5},
+            }
+        ],
+    }
+
+
+def test_complete_lever_report_records_uncertain_date_and_missing_field_evidence() -> None:
+    original = proposals()
+    revised = apply_lever_validation(original, lever_report())
+    lever = revised["proposals"][2]
+
+    assert original == proposals()
+    assert lever["status"] == "auto_verified"
+    assert lever["official_careers_url"].endswith("/lever-company")
+    assert lever["list_endpoint"].endswith("/lever-company?mode=json")
+    assert lever["publication_date_field"] == "createdAt"
+    assert lever["publication_date_basis"] == "unknown"
+    assert lever["publication_date_verified"] is False
+    assert "missing_fields=1" in lever["evidence"][-1]["note"]
+    assert "unknown_dates=5" in lever["evidence"][-1]["note"]
+
+
+@pytest.mark.parametrize(
+    ("mutator", "message"),
+    [
+        (lambda value: value["records"].clear(), "coverage mismatch"),
+        (lambda value: value["records"][0].update(outcome="partial"), "not healthy"),
+        (lambda value: value.update(adapter_type="greenhouse"), "target lever"),
+    ],
+)
+def test_incomplete_lever_reports_are_rejected(mutator, message: str) -> None:
+    candidate = deepcopy(lever_report())
+    mutator(candidate)
+
+    with pytest.raises(ValueError, match=message):
+        apply_lever_validation(proposals(), candidate)

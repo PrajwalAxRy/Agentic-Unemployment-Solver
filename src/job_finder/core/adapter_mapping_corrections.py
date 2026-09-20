@@ -49,10 +49,9 @@ def apply_adapter_mapping_corrections(
         title = _string(correction, "title", "correction")
         reason = _string(correction, "reason", "correction")
         adapter_type, parameters, endpoint, listing_mode = infer_adapter(url)
-        if adapter_type not in {"ashby", "greenhouse"}:
-            raise ValueError(
-                f"adapter mapping correction is not a supported hosted ATS: {company_id}"
-            )
+        status = correction.get("status", "proposed")
+        if status not in {"proposed", "conflict"}:
+            raise ValueError(f"adapter mapping correction has invalid status: {company_id}")
         mapping_is_current = (
             proposal.get("official_careers_url") == url
             and proposal.get("adapter_type") == adapter_type
@@ -61,7 +60,7 @@ def apply_adapter_mapping_corrections(
         if not mapping_is_current:
             proposal.update(
                 {
-                    "status": "proposed",
+                    "status": status,
                     "official_careers_url": url,
                     "regional_board_url": None,
                     "adapter_type": adapter_type,
@@ -76,8 +75,8 @@ def apply_adapter_mapping_corrections(
                     "title_field": None,
                     "location_field": None,
                     "detail_strategy": "detail_page",
-                    "confidence": "medium",
-                    "access_concern": None,
+                    "confidence": "low" if status == "conflict" else "medium",
+                    "access_concern": reason if status == "conflict" else None,
                     "notes": reason,
                 }
             )

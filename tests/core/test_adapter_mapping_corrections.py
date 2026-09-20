@@ -73,8 +73,8 @@ def test_reapplying_current_mapping_preserves_later_validation_fields() -> None:
         (lambda value: value["corrections"].append(deepcopy(value["corrections"][0])), "duplicate"),
         (lambda value: value["corrections"][0].update(company_id="missing"), "unknown"),
         (
-            lambda value: value["corrections"][0].update(url="https://company.example/careers"),
-            "not a supported hosted ATS",
+            lambda value: value["corrections"][0].update(status="enabled"),
+            "invalid status",
         ),
     ],
 )
@@ -84,3 +84,20 @@ def test_invalid_corrections_are_rejected(mutator, message: str) -> None:
 
     with pytest.raises(ValueError, match=message):
         apply_adapter_mapping_corrections(proposals(), candidate)
+
+
+def test_conflict_correction_moves_obsolete_board_to_search_backlog() -> None:
+    candidate = deepcopy(corrections())
+    candidate["corrections"][0].update(
+        url="https://company.example/careers",
+        status="conflict",
+        reason="Former hosted board is gone; official page has no enumerable inventory.",
+    )
+
+    revised = apply_adapter_mapping_corrections(proposals(), candidate)
+    proposal = revised["proposals"][0]
+
+    assert proposal["status"] == "conflict"
+    assert proposal["adapter_type"] == "search_only"
+    assert proposal["confidence"] == "low"
+    assert proposal["access_concern"] == candidate["corrections"][0]["reason"]
