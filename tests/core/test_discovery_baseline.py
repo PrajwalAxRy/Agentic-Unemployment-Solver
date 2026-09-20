@@ -53,18 +53,25 @@ def test_third_party_hint_is_a_conflict_not_an_official_source() -> None:
     assert proposal["access_concern"] is not None
 
 
-def test_generated_canonical_baseline_reconciles_all_companies() -> None:
+def test_canonical_discovery_proposals_reconcile_all_companies() -> None:
     seed = load_company_seed(Path("data/company_seed.csv"))
     batch = load_discovery_batch(Path("data/source_discovery_proposals.json"))
     audit = audit_discovery_batch(batch, seed)
 
     assert audit.reconciled is True
     assert audit.proposal_total == 330
-    assert audit.by_status == {"conflict": 2, "proposed": 48, "unresolved": 280}
+    assert audit.by_status == {
+        "access_concern": 4,
+        "auto_verified": 41,
+        "conflict": 4,
+        "proposed": 1,
+        "unresolved": 280,
+    }
     assert audit.by_adapter == {
         "ashby": 19,
         "greenhouse": 9,
         "lever": 5,
-        "search_only": 15,
+        "search_only": 14,
         "unresolved": 282,
+        "workday": 1,
     }
