@@ -67,11 +67,16 @@ def test_canonical_discovery_proposals_reconcile_all_companies() -> None:
         "proposed": 2,
     }
     assert audit.by_adapter == {
-        "ashby": 20,
-        "greenhouse": 19,
-        "lever": 9,
-        "search_only": 275,
-        "smartrecruiters": 1,
+        "ashby": 24,
+        "darwinbox": 4,
+        "eightfold": 3,
+        "greenhouse": 26,
+        "jobvite": 1,
+        "lever": 12,
+        "oracle_cloud": 2,
+        "search_only": 236,
+        "smartrecruiters": 3,
+        "successfactors": 2,
         "unresolved": 4,
-        "workday": 2,
+        "workday": 13,
     }

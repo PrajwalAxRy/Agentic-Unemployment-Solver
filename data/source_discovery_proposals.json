@@ -222,16 +222,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.nvidia.com/en-in/about-nvidia/careers/",
-      "adapter_type": "search_only",
+      "adapter_type": "eightfold",
       "adapter_parameters": {
-        "search_url": "https://www.nvidia.com/en-in/about-nvidia/careers/"
+        "tenant": "nvidia"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.nvidia.com/en-in/about-nvidia/careers/",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://nvidia.eightfold.ai/careers",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -249,6 +249,11 @@
           "url": "https://www.nvidia.com/en-in/about-nvidia/careers/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://nvidia.eightfold.ai/careers",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=eightfold without retaining page HTML."
         }
       ]
     },
@@ -1317,16 +1322,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.coderabbit.ai/careers",
-      "adapter_type": "search_only",
+      "adapter_type": "ashby",
       "adapter_parameters": {
-        "search_url": "https://www.coderabbit.ai/careers"
+        "board_name": "coderabbit"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://www.coderabbit.ai/careers",
-      "pagination": "unknown; requires live verification",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/coderabbit",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -1344,6 +1349,11 @@
           "url": "https://www.coderabbit.ai/careers",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://jobs.ashbyhq.com/coderabbit",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=ashby without retaining page HTML."
         }
       ]
     },
@@ -1473,16 +1483,17 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.uniphore.com/careers/",
-      "adapter_type": "search_only",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://www.uniphore.com/careers/"
+        "tenant": "uniphore",
+        "site": "Uniphore"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.uniphore.com/careers/",
-      "pagination": "unknown; requires live verification",
+      "list_endpoint": "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -1500,6 +1511,11 @@
           "url": "https://www.uniphore.com/careers/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=workday without retaining page HTML."
         }
       ]
     },
@@ -2317,16 +2333,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.sarvam.ai/careers",
-      "adapter_type": "search_only",
+      "adapter_type": "ashby",
       "adapter_parameters": {
-        "search_url": "https://www.sarvam.ai/careers"
+        "board_name": "sarvam"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://www.sarvam.ai/careers",
-      "pagination": "unknown; requires live verification",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/sarvam",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -2344,6 +2360,11 @@
           "url": "https://www.sarvam.ai/careers",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://jobs.ashbyhq.com/sarvam/a0188ff6-c03d-41e2-bf11-78678b2c794d/application",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=ashby without retaining page HTML."
         }
       ]
     },
@@ -3020,16 +3041,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://razorpay.com/careers/",
-      "adapter_type": "search_only",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://razorpay.com/careers/"
+        "board_token": "razorpaysoftwareprivatelimited"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://razorpay.com/careers/",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/razorpaysoftwareprivatelimited/jobs?content=true",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -3047,6 +3068,11 @@
           "url": "https://razorpay.com/careers/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://job-boards.greenhouse.io/razorpaysoftwareprivatelimited",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=greenhouse without retaining page HTML."
         }
       ]
     },
@@ -3176,16 +3202,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://alphagrepim.com/alphagrep-investment-management-india/careers/",
-      "adapter_type": "search_only",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://alphagrepim.com/alphagrep-investment-management-india/careers/"
+        "board_token": "alphagrepsecurities"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://alphagrepim.com/alphagrep-investment-management-india/careers/",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/alphagrepsecurities/jobs?content=true",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -3203,6 +3229,11 @@
           "url": "https://alphagrepim.com/alphagrep-investment-management-india/careers/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://job-boards.greenhouse.io/alphagrepsecurities/jobs/8642299002",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=greenhouse without retaining page HTML."
         }
       ]
     },
@@ -3938,16 +3969,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.uber.com/en/jobs/?query=&uclick_id=0ceb75d7-8b7c-4dce-8de6-24c0a903b261",
-      "adapter_type": "search_only",
+      "adapter_type": "oracle_cloud",
       "adapter_parameters": {
-        "search_url": "https://jobs.uber.com/en/jobs/?query=&uclick_id=0ceb75d7-8b7c-4dce-8de6-24c0a903b261"
+        "site_number": "UberCareers"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://jobs.uber.com/en/jobs/?query=&uclick_id=0ceb75d7-8b7c-4dce-8de6-24c0a903b261",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://iaziqy.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/UberCareers/my-profile/sign-in",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -3965,6 +3996,11 @@
           "url": "https://jobs.uber.com/en/jobs/?query=&uclick_id=0ceb75d7-8b7c-4dce-8de6-24c0a903b261",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://iaziqy.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/UberCareers/my-profile/sign-in",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=oracle_cloud without retaining page HTML."
         }
       ]
     },
@@ -4126,16 +4162,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.d-matrix.ai/careers/",
-      "adapter_type": "search_only",
+      "adapter_type": "ashby",
       "adapter_parameters": {
-        "search_url": "https://www.d-matrix.ai/careers/"
+        "board_name": "d-Matrix"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://www.d-matrix.ai/careers/",
-      "pagination": "unknown; requires live verification",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/d-Matrix",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -4153,6 +4189,11 @@
           "url": "https://www.d-matrix.ai/careers/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://jobs.ashbyhq.com/d-Matrix",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=ashby without retaining page HTML."
         }
       ]
     },
@@ -4204,16 +4245,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://sima.ai/careers/",
-      "adapter_type": "search_only",
+      "adapter_type": "jobvite",
       "adapter_parameters": {
-        "search_url": "https://sima.ai/careers/"
+        "company": "simaai"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://sima.ai/careers/",
-      "pagination": "unknown; requires live verification",
+      "list_endpoint": "https://jobs.jobvite.com/simaai/apply",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -4231,6 +4272,11 @@
           "url": "https://sima.ai/careers/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://jobs.jobvite.com/simaai/apply",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=jobvite without retaining page HTML."
         }
       ]
     },
@@ -4633,16 +4679,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.mlp.com/careers/",
-      "adapter_type": "search_only",
+      "adapter_type": "eightfold",
       "adapter_parameters": {
-        "search_url": "https://www.mlp.com/careers/"
+        "tenant": "mlp"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.mlp.com/careers/",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://mlp.eightfold.ai/careers",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -4660,6 +4706,11 @@
           "url": "https://www.mlp.com/careers/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://mlp.eightfold.ai/careers",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=eightfold without retaining page HTML."
         }
       ]
     },
@@ -4984,16 +5035,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.aidash.com/careers/",
-      "adapter_type": "search_only",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.aidash.com/careers/"
+        "board_token": "aidashinc"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://www.aidash.com/careers/",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/aidashinc/jobs?content=true",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -5011,6 +5062,11 @@
           "url": "https://www.aidash.com/careers/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://boards.greenhouse.io/embed/job_board/js?for=aidashinc",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=greenhouse without retaining page HTML."
         }
       ]
     },
@@ -5569,16 +5625,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.dozeehealth.ai/careers",
-      "adapter_type": "search_only",
+      "adapter_type": "lever",
       "adapter_parameters": {
-        "search_url": "https://www.dozeehealth.ai/careers"
+        "site": "dozee"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://www.dozeehealth.ai/careers",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://api.lever.co/v0/postings/dozee?mode=json",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -5596,6 +5652,11 @@
           "url": "https://www.dozeehealth.ai/careers",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://jobs.lever.co/dozee",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=lever without retaining page HTML."
         }
       ]
     },
@@ -5608,16 +5669,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://dscout.com/careers",
-      "adapter_type": "search_only",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://dscout.com/careers"
+        "board_token": "dscout"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://dscout.com/careers",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/dscout/jobs?content=true",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -5635,6 +5696,11 @@
           "url": "https://dscout.com/careers",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://job-boards.greenhouse.io/dscout",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=greenhouse without retaining page HTML."
         }
       ]
     },
@@ -5930,16 +5996,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://joinhandshake.com/careers/",
-      "adapter_type": "search_only",
+      "adapter_type": "ashby",
       "adapter_parameters": {
-        "search_url": "https://joinhandshake.com/careers/"
+        "board_name": "handshake"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://joinhandshake.com/careers/",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/handshake",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -5957,6 +6023,11 @@
           "url": "https://joinhandshake.com/careers/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://jobs.ashbyhq.com/handshake/7e9ed099-34c4-4461-9858-23add238f5a2",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=ashby without retaining page HTML."
         }
       ]
     },
@@ -6986,16 +7057,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.rapidai.com/careers",
-      "adapter_type": "search_only",
+      "adapter_type": "lever",
       "adapter_parameters": {
-        "search_url": "https://www.rapidai.com/careers"
+        "site": "rapidai"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://www.rapidai.com/careers",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://api.lever.co/v0/postings/rapidai?mode=json",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -7013,6 +7084,11 @@
           "url": "https://www.rapidai.com/careers",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://jobs.lever.co/rapidai?__hstc=232409728.f6630e86be0d1738bcfcb03af8ed53eb.1695401513135.1727301938974.1727363009839.516&__hssc=232409728.1.1727393939727&__hsfp=1151185409&hsCtaTracking=23f7cbf0-ebf5-487b-9a02-f12eaa44ae90%7Cdb2c4dc5-0f91-4fc3-a3aa-ab3bdd41bace",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=lever without retaining page HTML."
         }
       ]
     },
@@ -7893,16 +7969,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.zetaglobal.com/about/life-at-zeta/",
-      "adapter_type": "search_only",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.zetaglobal.com/about/life-at-zeta/"
+        "board_token": "zetaglobal"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://www.zetaglobal.com/about/life-at-zeta/",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/zetaglobal/jobs?content=true",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -7920,6 +7996,11 @@
           "url": "https://www.zetaglobal.com/about/life-at-zeta/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://job-boards.greenhouse.io/zetaglobal/jobs/6005470004",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=greenhouse without retaining page HTML."
         }
       ]
     },
@@ -8010,16 +8091,17 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://careers.bankofamerica.com/en-us/job-search/india",
-      "adapter_type": "search_only",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://careers.bankofamerica.com/en-us/job-search/india"
+        "tenant": "ghr",
+        "site": "lateral-us"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://careers.bankofamerica.com/en-us/job-search/india",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://ghr.wd1.myworkdayjobs.com/en-us/lateral-us/login",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -8037,6 +8119,11 @@
           "url": "https://careers.bankofamerica.com/en-us/job-search/india",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://ghr.wd1.myworkdayjobs.com/en-us/lateral-us/login",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=workday without retaining page HTML."
         }
       ]
     },
@@ -8049,16 +8136,17 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://search.jobs.barclays/search-jobs?alcpm=2077456%2C1819730%2C1269750%2C1861060%2C1880251",
-      "adapter_type": "search_only",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://search.jobs.barclays/search-jobs?alcpm=2077456%2C1819730%2C1269750%2C1861060%2C1880251"
+        "tenant": "barclays",
+        "site": "External_Career_Site_Barclays"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://search.jobs.barclays/search-jobs?alcpm=2077456%2C1819730%2C1269750%2C1861060%2C1880251",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/login?redirect=%2FExternal_Career_Site_Barclays#",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -8076,6 +8164,11 @@
           "url": "https://search.jobs.barclays/search-jobs?alcpm=2077456%2C1819730%2C1269750%2C1861060%2C1880251",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/login?redirect=%2FExternal_Career_Site_Barclays#",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=workday without retaining page HTML."
         }
       ]
     },
@@ -8127,7 +8220,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Multiple hosted ATS configurations detected; H2 inspection required.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.citi.com/search-jobs?k=india",
       "adapter_type": "search_only",
@@ -8322,16 +8415,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.jpmorganchase.com/careers/explore-opportunities",
-      "adapter_type": "search_only",
+      "adapter_type": "oracle_cloud",
       "adapter_parameters": {
-        "search_url": "https://www.jpmorganchase.com/careers/explore-opportunities"
+        "site_number": "CX_1001"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.jpmorganchase.com/careers/explore-opportunities",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -8349,6 +8442,11 @@
           "url": "https://www.jpmorganchase.com/careers/explore-opportunities",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=oracle_cloud without retaining page HTML."
         }
       ]
     },
@@ -8361,16 +8459,17 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Replaced a third-party finance job page with LSEG's official careers page.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.lseg.com/en/careers",
-      "adapter_type": "search_only",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://www.lseg.com/en/careers"
+        "tenant": "lseg",
+        "site": "Careers"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.lseg.com/en/careers",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://lseg.wd3.myworkdayjobs.com/Careers",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -8398,6 +8497,11 @@
           "url": "https://www.lseg.com/en/careers",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://lseg.wd3.myworkdayjobs.com/Careers",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=workday without retaining page HTML."
         }
       ]
     },
@@ -8449,16 +8553,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Replaced a category page with Moody's complete job search.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://careers.moodys.com/en/search-jobs",
-      "adapter_type": "search_only",
+      "adapter_type": "successfactors",
       "adapter_parameters": {
-        "search_url": "https://careers.moodys.com/en/search-jobs"
+        "company_id": "MoodysProd"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://careers.moodys.com/en/search-jobs",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://career8.successfactors.com/career?career_company=MoodysProd&lang=en_US&company=MoodysProd&site=&login",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -8486,6 +8590,11 @@
           "url": "https://careers.moodys.com/en/search-jobs",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://career8.successfactors.com/career?career_company=MoodysProd&lang=en_US&company=MoodysProd&site=&login",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=successfactors without retaining page HTML."
         }
       ]
     },
@@ -8537,16 +8646,17 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.nasdaq.com/about/careers",
-      "adapter_type": "search_only",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://www.nasdaq.com/about/careers"
+        "tenant": "nasdaq",
+        "site": "Global_External_Site"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.nasdaq.com/about/careers",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -8564,6 +8674,11 @@
           "url": "https://www.nasdaq.com/about/careers",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=workday without retaining page HTML."
         }
       ]
     },
@@ -8693,16 +8808,17 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://corporate.visa.com/en/careers.html",
-      "adapter_type": "search_only",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://corporate.visa.com/en/careers.html"
+        "tenant": "visa",
+        "site": "Visa"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://corporate.visa.com/en/careers.html",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://visa.wd5.myworkdayjobs.com/Visa",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -8720,6 +8836,11 @@
           "url": "https://corporate.visa.com/en/careers.html",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://visa.wd5.myworkdayjobs.com/Visa",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=workday without retaining page HTML."
         }
       ]
     },
@@ -9600,16 +9721,17 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india",
-      "adapter_type": "search_only",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india"
+        "tenant": "paloaltonetworks",
+        "site": "panwexternalcareers"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://paloaltonetworks.wd5.myworkdayjobs.com/en-US/panwexternalcareers/introduceYourself?clientRequestID=06f06ca6dae2441d99391ed600fc2265",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -9627,6 +9749,11 @@
           "url": "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://paloaltonetworks.wd5.myworkdayjobs.com/en-US/panwexternalcareers/introduceYourself?clientRequestID=06f06ca6dae2441d99391ed600fc2265",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=workday without retaining page HTML."
         }
       ]
     },
@@ -9639,16 +9766,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Replaced an unrelated investor-hosted page with PayPal's India careers page.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://careers.pypl.com/locations/india/",
-      "adapter_type": "search_only",
+      "adapter_type": "eightfold",
       "adapter_parameters": {
-        "search_url": "https://careers.pypl.com/locations/india/"
+        "tenant": "paypal"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://careers.pypl.com/locations/india/",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://paypal.eightfold.ai/candidate/login?domain=paypal.com",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -9676,6 +9803,11 @@
           "url": "https://careers.pypl.com/locations/india/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://paypal.eightfold.ai/candidate/login?domain=paypal.com",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=eightfold without retaining page HTML."
         }
       ]
     },
@@ -9688,16 +9820,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/?q=&sortColumn=sort_title&sortDirection=desc",
-      "adapter_type": "search_only",
+      "adapter_type": "successfactors",
       "adapter_parameters": {
-        "search_url": "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/?q=&sortColumn=sort_title&sortDirection=desc"
+        "company_id": "SAP"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/?q=&sortColumn=sort_title&sortDirection=desc",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://career5.successfactors.eu/career?career_company=SAP&lang=en_US&company=SAP&site=&loginFlowRequired=true&_s.crb=FPX8lbWGt3yk6uxsmGyYBKLyRl2Q6jqtQoTRBxl4aco%3d",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -9715,6 +9847,11 @@
           "url": "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/?q=&sortColumn=sort_title&sortDirection=desc",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://career5.successfactors.eu/career?career_company=SAP&lang=en_US&company=SAP&site=&loginFlowRequired=true&_s.crb=FPX8lbWGt3yk6uxsmGyYBKLyRl2Q6jqtQoTRBxl4aco%3d",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=successfactors without retaining page HTML."
         }
       ]
     },
@@ -9766,16 +9903,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.singlestore.com/careers/jobs/",
-      "adapter_type": "search_only",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.singlestore.com/careers/jobs/"
+        "board_token": "singlestore"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://www.singlestore.com/careers/jobs/",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/singlestore/jobs?content=true",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -9793,6 +9930,11 @@
           "url": "https://www.singlestore.com/careers/jobs/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://job-boards.greenhouse.io/singlestore/jobs/7839324",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=greenhouse without retaining page HTML."
         }
       ]
     },
@@ -10000,16 +10142,17 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.workday.com/en-in/company/careers/life-at-workday.html",
-      "adapter_type": "search_only",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://www.workday.com/en-in/company/careers/life-at-workday.html"
+        "tenant": "workday",
+        "site": "Workday"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.workday.com/en-in/company/careers/life-at-workday.html",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://workday.wd5.myworkdayjobs.com/Workday",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -10027,6 +10170,11 @@
           "url": "https://www.workday.com/en-in/company/careers/life-at-workday.html",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://workday.wd5.myworkdayjobs.com/Workday",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=workday without retaining page HTML."
         }
       ]
     },
@@ -10078,16 +10226,17 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.analog.com/en/careers/career-opportunities.html",
-      "adapter_type": "search_only",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://www.analog.com/en/careers/career-opportunities.html"
+        "tenant": "analogdevices",
+        "site": "External"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.analog.com/en/careers/career-opportunities.html",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://analogdevices.wd1.myworkdayjobs.com/External",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -10105,6 +10254,11 @@
           "url": "https://www.analog.com/en/careers/career-opportunities.html",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://analogdevices.wd1.myworkdayjobs.com/External",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=workday without retaining page HTML."
         }
       ]
     },
@@ -10156,7 +10310,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Multiple hosted ATS configurations detected; H2 inspection required.",
       "status": "auto_verified",
       "official_careers_url": "https://careers.arm.com/search-jobs?acm=ALL&alrpm=ALL",
       "adapter_type": "search_only",
@@ -10195,16 +10349,17 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.cadence.com/en_US/home/company/life-at-cadence/careers.html",
-      "adapter_type": "search_only",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://www.cadence.com/en_US/home/company/life-at-cadence/careers.html"
+        "tenant": "cadence",
+        "site": "External_Careers"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.cadence.com/en_US/home/company/life-at-cadence/careers.html",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://cadence.wd1.myworkdayjobs.com/External_Careers",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -10222,6 +10377,11 @@
           "url": "https://www.cadence.com/en_US/home/company/life-at-cadence/careers.html",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://cadence.wd1.myworkdayjobs.com/External_Careers",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=workday without retaining page HTML."
         }
       ]
     },
@@ -10429,16 +10589,17 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.nxp.com/company/about-nxp/careers%3ACAREERS",
-      "adapter_type": "search_only",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://www.nxp.com/company/about-nxp/careers%3ACAREERS"
+        "tenant": "nxp",
+        "site": "careers"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.nxp.com/company/about-nxp/careers%3ACAREERS",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://nxp.wd3.myworkdayjobs.com/careers",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -10456,6 +10617,11 @@
           "url": "https://www.nxp.com/company/about-nxp/careers%3ACAREERS",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://nxp.wd3.myworkdayjobs.com/careers",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=workday without retaining page HTML."
         }
       ]
     },
@@ -10741,16 +10907,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
-      "adapter_type": "search_only",
+      "adapter_type": "smartrecruiters",
       "adapter_parameters": {
-        "search_url": "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/"
+        "company_identifier": "BoschGroup"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://careers.smartrecruiters.com/BoschGroup/india",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -10768,6 +10934,11 @@
           "url": "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://careers.smartrecruiters.com/BoschGroup/india",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=smartrecruiters without retaining page HTML."
         }
       ]
     },
@@ -11141,16 +11312,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.netradyne.com/company/careers",
-      "adapter_type": "search_only",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.netradyne.com/company/careers"
+        "board_token": "netradyne"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://www.netradyne.com/company/careers",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/netradyne/jobs?content=true",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -11168,6 +11339,11 @@
           "url": "https://www.netradyne.com/company/careers",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://boards.greenhouse.io/embed/job_board/js?for=netradyne",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=greenhouse without retaining page HTML."
         }
       ]
     },
@@ -11219,16 +11395,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.rapido.bike/Careers",
-      "adapter_type": "search_only",
+      "adapter_type": "darwinbox",
       "adapter_parameters": {
-        "search_url": "https://www.rapido.bike/Careers"
+        "tenant": "rapido"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.rapido.bike/Careers",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://rapido.darwinbox.in/ms/candidate/careers",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -11246,6 +11422,11 @@
           "url": "https://www.rapido.bike/Careers",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://rapido.darwinbox.in/ms/candidate/careers",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=darwinbox without retaining page HTML."
         }
       ]
     },
@@ -11648,16 +11829,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Replaced a contact page with the official careers page.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.clear.in/s/careers",
-      "adapter_type": "search_only",
+      "adapter_type": "darwinbox",
       "adapter_parameters": {
-        "search_url": "https://www.clear.in/s/careers"
+        "tenant": "clear"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.clear.in/s/careers",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://clear.darwinbox.in/ms/candidate/careers",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -11685,6 +11866,11 @@
           "url": "https://www.clear.in/s/careers",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://clear.darwinbox.in/ms/candidate/careers",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=darwinbox without retaining page HTML."
         }
       ]
     },
@@ -11892,16 +12078,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://www.freshworks.com/company/careers/",
-      "adapter_type": "search_only",
+      "adapter_type": "smartrecruiters",
       "adapter_parameters": {
-        "search_url": "https://www.freshworks.com/company/careers/"
+        "company_identifier": "Freshworks"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.freshworks.com/company/careers/",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://careers.smartrecruiters.com/Freshworks",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -11919,6 +12105,11 @@
           "url": "https://www.freshworks.com/company/careers/",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://careers.smartrecruiters.com/Freshworks",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=smartrecruiters without retaining page HTML."
         }
       ]
     },
@@ -12470,16 +12661,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://paytm.com/careers",
-      "adapter_type": "search_only",
+      "adapter_type": "lever",
       "adapter_parameters": {
-        "search_url": "https://paytm.com/careers"
+        "site": "paytm"
       },
-      "listing_mode": "search_only",
-      "list_endpoint": "https://paytm.com/careers",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "listing_mode": "complete_list",
+      "list_endpoint": "https://api.lever.co/v0/postings/paytm?mode=json",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -12497,6 +12688,11 @@
           "url": "https://paytm.com/careers",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://jobs.lever.co/paytm",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=lever without retaining page HTML."
         }
       ]
     },
@@ -12587,16 +12783,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Replaced the unrelated airline careers page with Porter's logistics careers page.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://porter.in/careers",
-      "adapter_type": "search_only",
+      "adapter_type": "darwinbox",
       "adapter_parameters": {
-        "search_url": "https://porter.in/careers"
+        "tenant": "porter"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://porter.in/careers",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://porter.darwinbox.in/ms/candidate/careers",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -12624,6 +12820,11 @@
           "url": "https://porter.in/careers",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://porter.darwinbox.in/ms/candidate/careers",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=darwinbox without retaining page HTML."
         }
       ]
     },
@@ -12792,16 +12993,16 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Replaced a public notice page with the official careers page.",
+      "notes": "Hosted ATS detected in verified public careers-page markup.",
       "status": "auto_verified",
       "official_careers_url": "https://unacademy.com/careers",
-      "adapter_type": "search_only",
+      "adapter_type": "darwinbox",
       "adapter_parameters": {
-        "search_url": "https://unacademy.com/careers"
+        "tenant": "unacademy"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://unacademy.com/careers",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "list_endpoint": "https://unacademy.darwinbox.in/ms/candidate/careers",
+      "pagination": "Hosted ATS behavior requires adapter verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -12829,6 +13030,11 @@
           "url": "https://unacademy.com/careers",
           "evidence_type": "public_careers_page_probe",
           "note": "public HTML page retrieved"
+        },
+        {
+          "url": "https://unacademy.darwinbox.in/ms/candidate/careers",
+          "evidence_type": "hosted_ats_html_fingerprint",
+          "note": "Detected adapter_type=darwinbox without retaining page HTML."
         }
       ]
     },
