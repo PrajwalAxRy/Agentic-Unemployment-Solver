@@ -10,6 +10,7 @@ from job_finder import __version__
 from job_finder.adapters.ashby import AshbyAdapter
 from job_finder.adapters.base import AdapterRegistry
 from job_finder.adapters.darwinbox import DarwinboxAdapter
+from job_finder.adapters.eightfold import EightfoldAdapter
 from job_finder.adapters.greenhouse import GreenhouseAdapter
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
 from job_finder.adapters.lever import LeverAdapter
@@ -37,6 +38,7 @@ def build_parser() -> argparse.ArgumentParser:
         choices=(
             AdapterType.ASHBY.value,
             AdapterType.DARWINBOX.value,
+            AdapterType.EIGHTFOLD.value,
             AdapterType.GREENHOUSE.value,
             AdapterType.LEVER.value,
             AdapterType.WORKDAY.value,
@@ -70,6 +72,7 @@ def _verify_sources(args: argparse.Namespace) -> int:
         [
             AshbyAdapter(client),
             DarwinboxAdapter(client),
+            EightfoldAdapter(client),
             GreenhouseAdapter(client),
             LeverAdapter(client),
             WorkdayAdapter(client),

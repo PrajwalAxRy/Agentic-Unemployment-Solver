@@ -30,3 +30,9 @@ def test_cli_accepts_darwinbox_source_verification() -> None:
     args = build_parser().parse_args(["verify-sources", "--adapter", "darwinbox"])
 
     assert args.adapter == "darwinbox"
+
+
+def test_cli_accepts_eightfold_source_verification() -> None:
+    args = build_parser().parse_args(["verify-sources", "--adapter", "eightfold"])
+
+    assert args.adapter == "eightfold"
