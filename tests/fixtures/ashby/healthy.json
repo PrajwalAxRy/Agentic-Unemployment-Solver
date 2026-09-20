@@ -1,0 +1,44 @@
+{
+  "apiVersion": 1,
+  "jobs": [
+    {
+      "id": "a3c5bd4c-f6fb-4eb0-b943-e0e1a1d878c5",
+      "title": "Software Engineer Intern (AI-Native)",
+      "location": "San Jose - HQ",
+      "secondaryLocations": [],
+      "publishedAt": "2026-08-26T20:24:56.771+00:00",
+      "jobUrl": "https://jobs.ashbyhq.com/example/a3c5bd4c-f6fb-4eb0-b943-e0e1a1d878c5",
+      "applyUrl": "https://jobs.ashbyhq.com/example/a3c5bd4c-f6fb-4eb0-b943-e0e1a1d878c5/application",
+      "descriptionPlain": "Build and ship AI automation features with the engineering team.",
+      "descriptionHtml": "<p>Build and ship AI automation features with the engineering team.</p>",
+      "isListed": true,
+      "isRemote": false,
+      "workplaceType": "OnSite",
+      "employmentType": "Intern"
+    },
+    {
+      "id": "55fb87e8-e2a3-42fb-b30e-26a76af5cf8f",
+      "title": "Machine Learning Engineer",
+      "location": "Bengaluru, India",
+      "secondaryLocations": [
+        {
+          "location": "Singapore",
+          "address": {
+            "postalAddress": {
+              "addressCountry": "Singapore"
+            }
+          }
+        }
+      ],
+      "publishedAt": "2026-09-18T08:15:30Z",
+      "jobUrl": "https://jobs.ashbyhq.com/example/55fb87e8-e2a3-42fb-b30e-26a76af5cf8f",
+      "applyUrl": "https://jobs.ashbyhq.com/example/55fb87e8-e2a3-42fb-b30e-26a76af5cf8f/application",
+      "descriptionPlain": "Develop production machine-learning systems and evaluation tools.",
+      "descriptionHtml": "<p>Develop production machine-learning systems and evaluation tools.</p>",
+      "isListed": true,
+      "isRemote": true,
+      "workplaceType": "Hybrid",
+      "employmentType": "FullTime"
+    }
+  ]
+}
