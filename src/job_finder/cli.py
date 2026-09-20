@@ -9,6 +9,7 @@ from pathlib import Path
 from job_finder import __version__
 from job_finder.adapters.ashby import AshbyAdapter
 from job_finder.adapters.base import AdapterRegistry
+from job_finder.adapters.greenhouse import GreenhouseAdapter
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
 from job_finder.core.company_registry import load_company_registry
 from job_finder.core.source_contracts import AdapterType
@@ -28,7 +29,11 @@ def build_parser() -> argparse.ArgumentParser:
         "verify-sources",
         help="Run read-only listing verification without modifying job history.",
     )
-    verify.add_argument("--adapter", choices=(AdapterType.ASHBY.value,), required=True)
+    verify.add_argument(
+        "--adapter",
+        choices=(AdapterType.ASHBY.value, AdapterType.GREENHOUSE.value),
+        required=True,
+    )
     verify.add_argument("--company-id", action="append", default=[])
     verify.add_argument("--registry", type=Path, default=Path("config/company_sources.json"))
     verify.add_argument(
@@ -51,7 +56,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 def _verify_sources(args: argparse.Namespace) -> int:
     registry = load_company_registry(args.registry)
     policy = HttpPolicy(timeout_seconds=args.timeout)
-    adapters = AdapterRegistry([AshbyAdapter(BoundedHttpClient(policy=policy))])
+    client = BoundedHttpClient(policy=policy)
+    adapters = AdapterRegistry([AshbyAdapter(client), GreenhouseAdapter(client)])
     report = verify_adapter_sources(
         registry,
         adapters,
