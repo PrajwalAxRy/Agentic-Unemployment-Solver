@@ -11,6 +11,8 @@ from enum import StrEnum
 from typing import Protocol
 from urllib.parse import urlsplit
 
+from job_finder.core.access_detection import is_access_block_html
+
 USER_AGENT = "job-finder/0.1 (manual public job-posting discovery)"
 
 
@@ -142,6 +144,14 @@ class BoundedHttpClient:
 
             content_type = response.content_type.lower()
             if not any(_content_type_matches(content_type, item) for item in accepted):
+                if content_type == "text/html" and is_access_block_html(
+                    response.body[:200_000].decode("utf-8", errors="replace")
+                ):
+                    raise HttpRequestError(
+                        HttpFailureCategory.ACCESS_BLOCK,
+                        "access-control or login page detected",
+                        status_code=response.status_code,
+                    )
                 raise HttpRequestError(
                     HttpFailureCategory.INVALID_CONTENT_TYPE,
                     f"unexpected content type: {content_type or 'missing'}",

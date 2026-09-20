@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
+from pathlib import Path
 
 import pytest
 
@@ -128,6 +129,28 @@ def test_unexpected_content_type_is_rejected_without_body_logging() -> None:
 
     assert raised.value.category is HttpFailureCategory.INVALID_CONTENT_TYPE
     assert "jobs" not in str(raised.value)
+
+
+def test_visible_access_block_html_is_classified_without_logging_its_body() -> None:
+    body = Path("tests/fixtures/ashby/access_block.html").read_bytes()
+    blocked_response = response(content_type="text/html")
+    blocked_response = HttpResponse(
+        requested_url=blocked_response.requested_url,
+        final_url=blocked_response.final_url,
+        status_code=blocked_response.status_code,
+        content_type=blocked_response.content_type,
+        redirect_count=blocked_response.redirect_count,
+        body=body,
+    )
+
+    with pytest.raises(HttpRequestError) as raised:
+        BoundedHttpClient(transport=FakeTransport([blocked_response])).get(
+            "https://jobs.example.com/api",
+            accepted_content_types=("application/json",),
+        )
+
+    assert raised.value.category is HttpFailureCategory.ACCESS_BLOCK
+    assert "Verify you are human" not in str(raised.value)
 
 
 @pytest.mark.parametrize(
