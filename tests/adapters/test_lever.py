@@ -161,6 +161,32 @@ def test_html_description_is_used_when_plain_description_is_empty() -> None:
     )
 
 
+def test_structured_lists_complete_the_description() -> None:
+    adapter, _ = adapter_for([response((FIXTURES / "lists_only_description.json").read_bytes())])
+
+    result = adapter.list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert result.jobs[0].description == (
+        "Responsibilities: Build automated test systems. Validate model-backed features. "
+        "Requirements: Python test automation experience."
+    )
+
+
+def test_missing_description_is_retained_with_explicit_diagnostic() -> None:
+    adapter, _ = adapter_for([response((FIXTURES / "missing_description.json").read_bytes())])
+
+    result = adapter.list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert result.jobs[0].description is None
+    assert result.jobs[0].description_hash is None
+    assert {item.category for item in result.diagnostics} == {
+        "unverified_created_at",
+        "missing_description",
+    }
+
+
 def test_access_block_html_is_rejected_as_blocked() -> None:
     body = Path("tests/fixtures/ashby/access_block.html").read_bytes()
     adapter, _ = adapter_for([response(body, content_type="text/html")])

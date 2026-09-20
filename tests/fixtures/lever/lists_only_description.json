@@ -1,0 +1,30 @@
+[
+  {
+    "id": "5e7ac0a0-29bd-4683-8e8e-71741dccaee6",
+    "text": "QA Software Tester",
+    "categories": {
+      "location": "Bengaluru, India",
+      "allLocations": ["Bengaluru, India"],
+      "commitment": "Full-time",
+      "team": "Quality Engineering",
+      "department": "Engineering"
+    },
+    "country": "IN",
+    "workplaceType": "on-site",
+    "createdAt": 1789369200000,
+    "descriptionPlain": "",
+    "description": "",
+    "lists": [
+      {
+        "text": "Responsibilities:",
+        "content": "<li>Build automated test systems.</li><li>Validate model-backed features.</li>"
+      },
+      {
+        "text": "Requirements:",
+        "content": "<li>Python test automation experience.</li>"
+      }
+    ],
+    "hostedUrl": "https://jobs.lever.co/example/5e7ac0a0-29bd-4683-8e8e-71741dccaee6",
+    "applyUrl": "https://jobs.lever.co/example/5e7ac0a0-29bd-4683-8e8e-71741dccaee6/apply"
+  }
+]

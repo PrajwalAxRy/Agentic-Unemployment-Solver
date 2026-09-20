@@ -36,6 +36,10 @@ check. The adapter requests `content=true` so descriptions are available without
 - `lever/malformed.json`: a listing missing the required title.
 - `lever/html_description_fallback.json`: a regression case observed on Bazaarvoice where
   `descriptionPlain` is empty even though the documented HTML `description` is populated.
+- `lever/lists_only_description.json`: a regression case observed on BarRaiser where content is
+  present only in Lever's structured requirement lists.
+- `lever/missing_description.json`: a regression case observed on BarRaiser and Paytm where the
+  public listing and detail APIs contain no description content at all.
 
 The public Postings API uses `skip` and `limit` pagination and exposes full descriptions in each
 list response. The source-created timestamp is retained as uncertain evidence because the public

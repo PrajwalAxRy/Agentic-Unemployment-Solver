@@ -1,0 +1,23 @@
+[
+  {
+    "id": "157e96d2-d7dc-4c84-8b8b-55156466f73a",
+    "text": "Enterprise Risk Manager",
+    "categories": {
+      "location": "Mumbai, Maharashtra",
+      "allLocations": ["Mumbai, Maharashtra"],
+      "commitment": "Full-time",
+      "team": "Risk",
+      "department": "Finance"
+    },
+    "country": "IN",
+    "workplaceType": "on-site",
+    "createdAt": 1789282800000,
+    "descriptionPlain": "",
+    "description": "",
+    "lists": [],
+    "additionalPlain": "",
+    "additional": "",
+    "hostedUrl": "https://jobs.lever.co/example/157e96d2-d7dc-4c84-8b8b-55156466f73a",
+    "applyUrl": "https://jobs.lever.co/example/157e96d2-d7dc-4c84-8b8b-55156466f73a/apply"
+  }
+]

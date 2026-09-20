@@ -106,7 +106,8 @@ def verify_adapter_sources(
                 job_count=len(result.jobs),
                 page_count=result.page_count,
                 missing_field_count=sum(
-                    diagnostic.category == "malformed_job" for diagnostic in result.diagnostics
+                    diagnostic.category in {"malformed_job", "missing_description"}
+                    for diagnostic in result.diagnostics
                 ),
                 date_basis_distribution={
                     basis.value: dates.get(basis.value, 0) for basis in DateBasis

@@ -260,6 +260,7 @@ def _normalize_job(
 
     created_at_raw = raw_job.get("createdAt")
     created_at = _parse_epoch_milliseconds(created_at_raw)
+    warnings: list[AdapterDiagnostic] = []
     if created_at is None:
         date_warning = AdapterDiagnostic(
             category="uncertain_publication_date",
@@ -286,7 +287,20 @@ def _normalize_job(
             },
         )
 
-    description = description.strip()
+    warnings.append(date_warning)
+    if description is None:
+        warnings.append(
+            AdapterDiagnostic(
+                category="missing_description",
+                severity=DiagnosticSeverity.WARNING,
+                message="Lever public listing and detail fields contain no description content.",
+                context={
+                    "page_index": str(page_index),
+                    "job_index": str(job_index),
+                    "job_id": external_id,
+                },
+            )
+        )
     return (
         NormalizedJob(
             schema_version=1,
@@ -302,7 +316,11 @@ def _normalize_job(
             date_basis=DateBasis.UNKNOWN,
             canonical_url=hosted_url,
             description=description,
-            description_hash=hashlib.sha256(description.encode("utf-8")).hexdigest(),
+            description_hash=(
+                hashlib.sha256(description.encode("utf-8")).hexdigest()
+                if description is not None
+                else None
+            ),
             source_metadata={
                 "created_at_raw": created_at_raw,
                 "created_at_utc": created_at.isoformat() if created_at is not None else None,
@@ -314,7 +332,7 @@ def _normalize_job(
                 "apply_url": raw_job.get("applyUrl"),
             },
         ),
-        (date_warning,),
+        tuple(warnings),
     )
 
 
@@ -368,16 +386,36 @@ def _optional_string(value: object) -> str | None:
     return value.strip() if isinstance(value, str) and value.strip() else None
 
 
-def _description(raw_job: Mapping[object, object]) -> str:
+def _description(raw_job: Mapping[object, object]) -> str | None:
+    parts: list[str] = []
     plain = _optional_string(raw_job.get("descriptionPlain"))
     if plain is not None:
-        return plain
-    styled = _optional_string(raw_job.get("description"))
-    if styled is not None:
-        visible = _plain_text(styled)
-        if visible:
-            return visible
-    raise ValueError("Lever job requires a readable plain or HTML description.")
+        parts.append(plain)
+    else:
+        styled = _optional_string(raw_job.get("description"))
+        if styled is not None:
+            parts.append(_plain_text(styled))
+    lists = raw_job.get("lists")
+    if lists is not None:
+        if not isinstance(lists, list):
+            raise ValueError("Lever job field lists must be an array.")
+        for item in lists:
+            if not isinstance(item, Mapping):
+                raise ValueError("Lever description list entry must be an object.")
+            heading = _optional_string(item.get("text"))
+            content = _optional_string(item.get("content"))
+            visible = _plain_text(content) if content is not None else ""
+            if visible:
+                parts.append(" ".join(value for value in (heading, visible) if value))
+    additional_plain = _optional_string(raw_job.get("additionalPlain"))
+    if additional_plain is not None:
+        parts.append(additional_plain)
+    else:
+        additional = _optional_string(raw_job.get("additional"))
+        if additional is not None:
+            parts.append(_plain_text(additional))
+    combined = re.sub(r"\s+", " ", " ".join(part for part in parts if part)).strip()
+    return combined or None
 
 
 def _string_list(value: object, path: str) -> list[str]:
