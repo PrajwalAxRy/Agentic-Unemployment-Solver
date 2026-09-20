@@ -150,6 +150,17 @@ def test_malformed_fixture_fails_visibly() -> None:
     assert result.diagnostics[0].category == "malformed_job"
 
 
+def test_html_description_is_used_when_plain_description_is_empty() -> None:
+    adapter, _ = adapter_for([response((FIXTURES / "html_description_fallback.json").read_bytes())])
+
+    result = adapter.list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert result.jobs[0].description == (
+        "Lead an engineering team building production AI services. Coach engineers."
+    )
+
+
 def test_access_block_html_is_rejected_as_blocked() -> None:
     body = Path("tests/fixtures/ashby/access_block.html").read_bytes()
     adapter, _ = adapter_for([response(body, content_type="text/html")])

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "362301e0-d124-416a-895a-abff285dceed",
+    "text": "Engineering Manager",
+    "categories": {
+      "location": "Belfast",
+      "allLocations": ["Belfast"],
+      "commitment": "Full-time",
+      "team": "Engineering",
+      "department": "Technology"
+    },
+    "country": "GB",
+    "workplaceType": "hybrid",
+    "createdAt": 1789455600000,
+    "descriptionPlain": "",
+    "description": "<p>Lead an engineering team building production AI services.</p><ul><li>Coach engineers.</li></ul>",
+    "hostedUrl": "https://jobs.lever.co/example/362301e0-d124-416a-895a-abff285dceed",
+    "applyUrl": "https://jobs.lever.co/example/362301e0-d124-416a-895a-abff285dceed/apply"
+  }
+]

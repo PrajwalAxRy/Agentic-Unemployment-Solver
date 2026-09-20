@@ -34,6 +34,8 @@ check. The adapter requests `content=true` so descriptions are available without
   descriptions, canonical URLs, multiple locations, workplace type, and source-created timestamps.
 - `lever/empty.json`: a valid zero-job response.
 - `lever/malformed.json`: a listing missing the required title.
+- `lever/html_description_fallback.json`: a regression case observed on Bazaarvoice where
+  `descriptionPlain` is empty even though the documented HTML `description` is populated.
 
 The public Postings API uses `skip` and `limit` pagination and exposes full descriptions in each
 list response. The source-created timestamp is retained as uncertain evidence because the public

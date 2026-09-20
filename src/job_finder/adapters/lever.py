@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import hashlib
+import html
 import json
 import math
 import re
 from collections.abc import Iterable, Mapping
 from datetime import UTC, datetime
+from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import parse_qsl, quote, urlencode, urlsplit, urlunsplit
 
@@ -253,7 +255,7 @@ def _normalize_job(
     workplace_type = _optional_string(raw_job.get("workplaceType"))
     if workplace_type is not None and workplace_type.casefold() == "remote":
         locations.append("Remote")
-    description = _required_string(raw_job, "descriptionPlain")
+    description = _description(raw_job)
     hosted_url = _canonical_lever_url(_required_string(raw_job, "hostedUrl"))
 
     created_at_raw = raw_job.get("createdAt")
@@ -366,6 +368,18 @@ def _optional_string(value: object) -> str | None:
     return value.strip() if isinstance(value, str) and value.strip() else None
 
 
+def _description(raw_job: Mapping[object, object]) -> str:
+    plain = _optional_string(raw_job.get("descriptionPlain"))
+    if plain is not None:
+        return plain
+    styled = _optional_string(raw_job.get("description"))
+    if styled is not None:
+        visible = _plain_text(styled)
+        if visible:
+            return visible
+    raise ValueError("Lever job requires a readable plain or HTML description.")
+
+
 def _string_list(value: object, path: str) -> list[str]:
     if value is None:
         return []
@@ -430,3 +444,20 @@ def _unique_strings(values: Iterable[str]) -> list[str]:
             result.append(value)
             seen.add(key)
     return result
+
+
+class _VisibleTextParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.parts: list[str] = []
+
+    def handle_data(self, data: str) -> None:
+        if data.strip():
+            self.parts.append(data.strip())
+
+
+def _plain_text(value: str) -> str:
+    parser = _VisibleTextParser()
+    parser.feed(html.unescape(value))
+    parser.close()
+    return re.sub(r"\s+", " ", " ".join(parser.parts)).strip()
