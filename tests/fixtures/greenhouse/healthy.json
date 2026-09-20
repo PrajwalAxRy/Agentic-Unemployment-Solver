@@ -1,0 +1,48 @@
+{
+  "jobs": [
+    {
+      "id": 4724189005,
+      "internal_job_id": 6123456,
+      "title": "AI Data Analyst",
+      "first_published": "2026-09-18T09:30:00-04:00",
+      "updated_at": "2026-09-19T13:53:38-04:00",
+      "location": {
+        "name": "Bangalore, India"
+      },
+      "absolute_url": "https://job-boards.greenhouse.io/example/jobs/4724189005?gh_src=test",
+      "language": "en",
+      "content": "&lt;p&gt;Build evaluation datasets for production AI systems.&lt;/p&gt;",
+      "departments": [
+        {
+          "id": 101,
+          "name": "Data Science"
+        }
+      ],
+      "offices": [
+        {
+          "id": 201,
+          "name": "Bangalore",
+          "location": "Bangalore, India"
+        }
+      ]
+    },
+    {
+      "id": 8123456002,
+      "internal_job_id": 6987654,
+      "title": "Software Engineer, AI Platform",
+      "first_published": null,
+      "updated_at": "2026-09-17T07:15:00Z",
+      "location": {
+        "name": "Singapore or Remote"
+      },
+      "absolute_url": "https://careers.example.com/jobs?gh_jid=8123456002&utm_source=test",
+      "language": "en",
+      "content": "&lt;p&gt;Develop LLM platform services and model evaluation tooling.&lt;/p&gt;",
+      "departments": [],
+      "offices": []
+    }
+  ],
+  "meta": {
+    "total": 2
+  }
+}

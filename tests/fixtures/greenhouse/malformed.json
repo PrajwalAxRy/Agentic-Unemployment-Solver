@@ -1,0 +1,13 @@
+{
+  "jobs": [
+    {
+      "id": 123,
+      "location": {
+        "name": "Bengaluru, India"
+      }
+    }
+  ],
+  "meta": {
+    "total": 1
+  }
+}

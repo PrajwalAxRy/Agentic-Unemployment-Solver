@@ -1,0 +1,18 @@
+{
+  "jobs": [
+    {
+      "id": 4724189005,
+      "title": "AI Data Analyst",
+      "first_published": "2026-09-18T09:30:00-04:00",
+      "updated_at": "2026-09-19T13:53:38-04:00",
+      "location": {
+        "name": "Bangalore, India"
+      },
+      "absolute_url": "https://job-boards.greenhouse.io/example/jobs/4724189005",
+      "content": "&lt;p&gt;Build evaluation datasets for production AI systems.&lt;/p&gt;"
+    }
+  ],
+  "meta": {
+    "total": 2
+  }
+}
