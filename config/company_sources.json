@@ -16,9 +16,9 @@
       },
       "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": "updated_at",
-        "basis": "updated",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -26,11 +26,13 @@
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/gleanwork/jobs/4012745005",
-        "https://boards-api.greenhouse.io/v1/boards/gleanwork/jobs"
+        "https://boards-api.greenhouse.io/v1/boards/gleanwork/jobs",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/gleanwork/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 1,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -62,6 +64,7 @@
         "https://api.ashbyhq.com/posting-api/job-board/harvey",
         "https://api.ashbyhq.com/posting-api/job-board/harvey",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/harvey",
         "https://api.ashbyhq.com/posting-api/job-board/harvey"
       ],
       "low_confidence_approved": false,
@@ -95,6 +98,7 @@
         "https://jobs.ashbyhq.com/Kognitos/82c74eb6-5e5f-4aae-ba2c-02e764c40084",
         "https://api.ashbyhq.com/posting-api/job-board/Kognitos",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/Kognitos",
         "https://api.ashbyhq.com/posting-api/job-board/Kognitos"
       ],
       "low_confidence_approved": false,
@@ -160,6 +164,7 @@
         "https://jobs.ashbyhq.com/cartesia/dc61071c-63b8-4df3-8989-7ca8442bdaaf/",
         "https://api.ashbyhq.com/posting-api/job-board/cartesia",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/cartesia",
         "https://api.ashbyhq.com/posting-api/job-board/cartesia"
       ],
       "low_confidence_approved": false,
@@ -351,6 +356,7 @@
         "https://jobs.ashbyhq.com/deeptune/c7b5eebb-4e36-4c02-9888-7ca74d4a726c/",
         "https://api.ashbyhq.com/posting-api/job-board/deeptune",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/deeptune",
         "https://api.ashbyhq.com/posting-api/job-board/deeptune"
       ],
       "low_confidence_approved": false,
@@ -804,9 +810,9 @@
       },
       "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": "updated_at",
-        "basis": "updated",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -814,11 +820,13 @@
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/jumio/jobs/4664041005",
-        "https://boards-api.greenhouse.io/v1/boards/jumio/jobs"
+        "https://boards-api.greenhouse.io/v1/boards/jumio/jobs",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/jumio/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 26,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -835,9 +843,9 @@
       },
       "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": "updated_at",
-        "basis": "updated",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -845,11 +853,13 @@
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/gomotive/jobs/8781585002",
-        "https://boards-api.greenhouse.io/v1/boards/gomotive/jobs"
+        "https://boards-api.greenhouse.io/v1/boards/gomotive/jobs",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/gomotive/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 27,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -866,9 +876,9 @@
       },
       "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": "updated_at",
-        "basis": "updated",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -876,11 +886,13 @@
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/observeai",
-        "https://boards-api.greenhouse.io/v1/boards/observeai/jobs"
+        "https://boards-api.greenhouse.io/v1/boards/observeai/jobs",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/observeai/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 28,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -984,33 +996,35 @@
       "company_id": "pure-storage",
       "company_name": "Pure Storage",
       "status": "proposed",
-      "careers_url": "https://job-boards.greenhouse.io/purestorage/jobs/6660530",
+      "careers_url": "https://job-boards.greenhouse.io/purestorage",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "purestorage"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/purestorage/jobs/6660530",
         "https://boards-api.greenhouse.io/v1/boards/purestorage/jobs?content=true",
         "https://boards-api.greenhouse.io/v1/boards/purestorage/jobs?content=true",
+        "https://boards-api.greenhouse.io/v1/boards/purestorage/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html",
         "https://boards-api.greenhouse.io/v1/boards/purestorage/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Public structured endpoint responded but exceeded the bounded discovery probe; adapter verification must stream or page it.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 32,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -1024,9 +1038,9 @@
       },
       "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": "updated_at",
-        "basis": "updated",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -1034,11 +1048,13 @@
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/atomicwork",
-        "https://boards-api.greenhouse.io/v1/boards/atomicwork/jobs"
+        "https://boards-api.greenhouse.io/v1/boards/atomicwork/jobs",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/atomicwork/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 33,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1068,6 +1084,7 @@
         "https://www.coderabbit.ai/careers",
         "https://jobs.ashbyhq.com/coderabbit",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/coderabbit",
         "https://api.ashbyhq.com/posting-api/job-board/coderabbit"
       ],
       "low_confidence_approved": false,
@@ -1101,6 +1118,7 @@
         "https://jobs.ashbyhq.com/ema/88d004d9-50a9-41ee-a618-03855001a9be",
         "https://api.ashbyhq.com/posting-api/job-board/ema",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/ema",
         "https://api.ashbyhq.com/posting-api/job-board/ema"
       ],
       "low_confidence_approved": false,
@@ -1322,6 +1340,7 @@
         "https://jobs.ashbyhq.com/articul8/fab35c76-2048-4540-a7ab-118b9b56e434",
         "https://api.ashbyhq.com/posting-api/job-board/articul8",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/articul8",
         "https://api.ashbyhq.com/posting-api/job-board/articul8"
       ],
       "low_confidence_approved": false,
@@ -1343,9 +1362,9 @@
       },
       "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": "updated_at",
-        "basis": "updated",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -1353,11 +1372,13 @@
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/enterpret/jobs/7580532003",
-        "https://boards-api.greenhouse.io/v1/boards/enterpret/jobs"
+        "https://boards-api.greenhouse.io/v1/boards/enterpret/jobs",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/enterpret/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 43,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1386,6 +1407,7 @@
         "https://jobs.ashbyhq.com/nanonets/c3715ba7-2924-4432-b78e-3acc56b8e823",
         "https://api.ashbyhq.com/posting-api/job-board/nanonets",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/nanonets",
         "https://api.ashbyhq.com/posting-api/job-board/nanonets"
       ],
       "low_confidence_approved": false,
@@ -1407,9 +1429,9 @@
       },
       "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": "updated_at",
-        "basis": "updated",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -1417,11 +1439,13 @@
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/prodigal",
-        "https://boards-api.greenhouse.io/v1/boards/prodigal/jobs"
+        "https://boards-api.greenhouse.io/v1/boards/prodigal/jobs",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/prodigal/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 45,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1512,6 +1536,7 @@
         "https://jobs.ashbyhq.com/triomics/ab06d34e-b87f-42ae-a6ff-61777c23cd06",
         "https://api.ashbyhq.com/posting-api/job-board/triomics",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/triomics",
         "https://api.ashbyhq.com/posting-api/job-board/triomics"
       ],
       "low_confidence_approved": false,
@@ -1577,6 +1602,7 @@
         "https://jobs.ashbyhq.com/weave/fb1623b7-e355-46b7-8247-84ab76cff7d2/",
         "https://api.ashbyhq.com/posting-api/job-board/weave",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/weave",
         "https://api.ashbyhq.com/posting-api/job-board/weave"
       ],
       "low_confidence_approved": false,
@@ -1707,6 +1733,7 @@
         "https://api.ashbyhq.com/posting-api/job-board/cerebras",
         "https://api.ashbyhq.com/posting-api/job-board/Cerebras",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/Cerebras",
         "https://api.ashbyhq.com/posting-api/job-board/Cerebras"
       ],
       "low_confidence_approved": false,
@@ -1740,6 +1767,7 @@
         "https://jobs.ashbyhq.com/composio/a4046674-59ee-41fd-9045-2a7058a467e1",
         "https://api.ashbyhq.com/posting-api/job-board/composio",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/composio",
         "https://api.ashbyhq.com/posting-api/job-board/composio"
       ],
       "low_confidence_approved": false,
@@ -1869,6 +1897,7 @@
         "https://www.sarvam.ai/careers",
         "https://jobs.ashbyhq.com/sarvam/a0188ff6-c03d-41e2-bf11-78678b2c794d/application",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/sarvam",
         "https://api.ashbyhq.com/posting-api/job-board/sarvam"
       ],
       "low_confidence_approved": false,
@@ -1934,6 +1963,7 @@
         "https://api.ashbyhq.com/posting-api/job-board/Wisdom%20AI",
         "https://api.ashbyhq.com/posting-api/job-board/Wisdom-AI",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/Wisdom-AI",
         "https://api.ashbyhq.com/posting-api/job-board/Wisdom-AI"
       ],
       "low_confidence_approved": false,
@@ -2125,6 +2155,7 @@
         "https://jobs.ashbyhq.com/atlan/6a9441af-27c7-4519-95c2-8381536cf8b4",
         "https://api.ashbyhq.com/posting-api/job-board/atlan",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/atlan",
         "https://api.ashbyhq.com/posting-api/job-board/atlan"
       ],
       "low_confidence_approved": false,
@@ -2139,31 +2170,35 @@
       "company_id": "databricks",
       "company_name": "Databricks",
       "status": "proposed",
-      "careers_url": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&token=7464169002",
+      "careers_url": "https://job-boards.greenhouse.io/databricks",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "board_token": "embed"
+        "board_token": "databricks"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/embed/job_app?for=databricks&token=7464169002",
-        "https://boards-api.greenhouse.io/v1/boards/embed/jobs?content=true"
+        "https://boards-api.greenhouse.io/v1/boards/embed/jobs?content=true",
+        "https://job-boards.greenhouse.io/databricks",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/databricks/jobs?content=true",
+        "https://job-boards.greenhouse.io/databricks"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "HTTP 404",
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "exception_reason": null,
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 68,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -2189,6 +2224,7 @@
         "https://jobs.ashbyhq.com/kong/01991b01-fdfd-412d-afaa-625dda85fd6e",
         "https://api.ashbyhq.com/posting-api/job-board/kong",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/kong",
         "https://api.ashbyhq.com/posting-api/job-board/kong"
       ],
       "low_confidence_approved": false,
@@ -2421,29 +2457,31 @@
       "company_id": "razorpay",
       "company_name": "Razorpay",
       "status": "proposed",
-      "careers_url": "https://razorpay.com/careers/",
+      "careers_url": "https://job-boards.greenhouse.io/razorpaysoftwareprivatelimited",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "razorpaysoftwareprivatelimited"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://razorpay.com/careers/",
         "https://razorpay.com/careers/",
-        "https://job-boards.greenhouse.io/razorpaysoftwareprivatelimited"
+        "https://job-boards.greenhouse.io/razorpaysoftwareprivatelimited",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/razorpaysoftwareprivatelimited/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 77,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -2534,6 +2572,7 @@
         "https://jobs.ashbyhq.com/bolna/c04e04c3-2c62-430c-a7ac-16c764b57c5d",
         "https://api.ashbyhq.com/posting-api/job-board/bolna",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/bolna",
         "https://api.ashbyhq.com/posting-api/job-board/bolna"
       ],
       "low_confidence_approved": false,
@@ -2548,29 +2587,31 @@
       "company_id": "alphagrep",
       "company_name": "AlphaGrep",
       "status": "proposed",
-      "careers_url": "https://alphagrepim.com/alphagrep-investment-management-india/careers/",
+      "careers_url": "https://job-boards.greenhouse.io/alphagrepsecurities",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "alphagrepsecurities"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://alphagrepim.com/alphagrep-investment-management-india/careers/",
         "https://alphagrepim.com/alphagrep-investment-management-india/careers/",
-        "https://job-boards.greenhouse.io/alphagrepsecurities/jobs/8642299002"
+        "https://job-boards.greenhouse.io/alphagrepsecurities/jobs/8642299002",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/alphagrepsecurities/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 81,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -2585,25 +2626,27 @@
       "adapter_parameters": {
         "board_token": "aptportfolio"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://hotel.twagoda.com/entry/77191464",
         "https://hotel.twagoda.com/entry/77191464",
         "https://job-boards.greenhouse.io/aptportfolio",
+        "https://boards-api.greenhouse.io/v1/boards/aptportfolio/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html",
         "https://boards-api.greenhouse.io/v1/boards/aptportfolio/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Replaced an unrelated hotel page with the direct Greenhouse board.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 82,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -2644,31 +2687,35 @@
       "company_id": "graviton-research-capital",
       "company_name": "Graviton Research Capital",
       "status": "proposed",
-      "careers_url": "https://boards.greenhouse.io/embed/job_board?for=gravitonresearchcapital",
+      "careers_url": "https://job-boards.greenhouse.io/gravitonresearchcapital",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "board_token": "embed"
+        "board_token": "gravitonresearchcapital"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "high",
       "evidence": [
         "https://boards.greenhouse.io/embed/job_board?for=gravitonresearchcapital",
-        "https://boards-api.greenhouse.io/v1/boards/embed/jobs?content=true"
+        "https://boards-api.greenhouse.io/v1/boards/embed/jobs?content=true",
+        "https://job-boards.greenhouse.io/gravitonresearchcapital",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/gravitonresearchcapital/jobs?content=true",
+        "https://job-boards.greenhouse.io/gravitonresearchcapital"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "HTTP 404",
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "exception_reason": null,
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 84,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -2799,28 +2846,30 @@
       "company_id": "quantbox-research",
       "company_name": "Quantbox Research",
       "status": "proposed",
-      "careers_url": "https://job-boards.greenhouse.io/quantboxresearchpte?error=true",
+      "careers_url": "https://job-boards.greenhouse.io/quantboxresearchpte",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "quantboxresearchpte"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/quantboxresearchpte?error=true",
+        "https://boards-api.greenhouse.io/v1/boards/quantboxresearchpte/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html",
         "https://boards-api.greenhouse.io/v1/boards/quantboxresearchpte/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 89,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -2830,28 +2879,30 @@
       "company_id": "qube-research-and-technologies",
       "company_name": "Qube Research & Technologies",
       "status": "proposed",
-      "careers_url": "https://job-boards.greenhouse.io/quberesearchandtechnologies?error=true",
+      "careers_url": "https://job-boards.greenhouse.io/quberesearchandtechnologies",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "quberesearchandtechnologies"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/quberesearchandtechnologies?error=true",
+        "https://boards-api.greenhouse.io/v1/boards/quberesearchandtechnologies/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html",
         "https://boards-api.greenhouse.io/v1/boards/quberesearchandtechnologies/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 90,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -2942,6 +2993,7 @@
         "https://jobs.ashbyhq.com/collinear-ai/1c6139b2-e698-419b-ab18-823f12787754",
         "https://api.ashbyhq.com/posting-api/job-board/collinear-ai",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/collinear-ai",
         "https://api.ashbyhq.com/posting-api/job-board/collinear-ai"
       ],
       "low_confidence_approved": false,
@@ -3038,6 +3090,7 @@
         "https://jobs.ashbyhq.com/spector-ai/2aae524c-a665-4dcb-99a0-2820426bc55e",
         "https://api.ashbyhq.com/posting-api/job-board/spector-ai",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/spector-ai",
         "https://api.ashbyhq.com/posting-api/job-board/spector-ai"
       ],
       "low_confidence_approved": false,
@@ -3231,6 +3284,7 @@
         "https://jobs.ashbyhq.com/fal-ai/1d9325cf-28da-4b78-af0d-eb0abe7b501d/",
         "https://api.ashbyhq.com/posting-api/job-board/fal-ai",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/fal-ai",
         "https://api.ashbyhq.com/posting-api/job-board/fal-ai"
       ],
       "low_confidence_approved": false,
@@ -3280,9 +3334,9 @@
       },
       "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": "updated_at",
-        "basis": "updated",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -3290,11 +3344,13 @@
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/togetherai/jobs/5213325007",
-        "https://boards-api.greenhouse.io/v1/boards/togetherai/jobs"
+        "https://boards-api.greenhouse.io/v1/boards/togetherai/jobs",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/togetherai/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 104,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -3324,6 +3380,7 @@
         "https://www.d-matrix.ai/careers/",
         "https://jobs.ashbyhq.com/d-Matrix",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/d-Matrix",
         "https://api.ashbyhq.com/posting-api/job-board/d-Matrix"
       ],
       "low_confidence_approved": false,
@@ -3345,9 +3402,9 @@
       },
       "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": "updated_at",
-        "basis": "updated",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
@@ -3355,11 +3412,13 @@
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/enchargeai36/jobs/4409175009",
-        "https://boards-api.greenhouse.io/v1/boards/enchargeai36/jobs"
+        "https://boards-api.greenhouse.io/v1/boards/enchargeai36/jobs",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/enchargeai36/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 106,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -3994,29 +4053,31 @@
       "company_id": "aidash",
       "company_name": "AiDash",
       "status": "proposed",
-      "careers_url": "https://www.aidash.com/careers/",
+      "careers_url": "https://job-boards.greenhouse.io/aidashinc",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "aidashinc"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.aidash.com/careers/",
         "https://www.aidash.com/careers/",
-        "https://boards.greenhouse.io/embed/job_board/js?for=aidashinc"
+        "https://boards.greenhouse.io/embed/job_board/js?for=aidashinc",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/aidashinc/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 127,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -4093,23 +4154,25 @@
       "adapter_parameters": {
         "board_token": "arcanaanalytics"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/arcanaanalytics",
+        "https://boards-api.greenhouse.io/v1/boards/arcanaanalytics/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html",
         "https://boards-api.greenhouse.io/v1/boards/arcanaanalytics/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 130,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -4492,29 +4555,31 @@
       "company_id": "dscout",
       "company_name": "Dscout",
       "status": "proposed",
-      "careers_url": "https://dscout.com/careers",
+      "careers_url": "https://job-boards.greenhouse.io/dscout",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "dscout"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://dscout.com/careers",
         "https://dscout.com/careers",
-        "https://job-boards.greenhouse.io/dscout"
+        "https://job-boards.greenhouse.io/dscout",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/dscout/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 143,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -4524,28 +4589,30 @@
       "company_id": "earnin",
       "company_name": "EarnIn",
       "status": "proposed",
-      "careers_url": "https://job-boards.greenhouse.io/earnin/jobs/6632415?gh_src=6aa12b601us",
+      "careers_url": "https://job-boards.greenhouse.io/earnin",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "earnin"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/earnin/jobs/6632415?gh_src=6aa12b601us",
+        "https://boards-api.greenhouse.io/v1/boards/earnin/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html",
         "https://boards-api.greenhouse.io/v1/boards/earnin/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 144,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -4763,6 +4830,7 @@
         "https://joinhandshake.com/careers/",
         "https://jobs.ashbyhq.com/handshake/7e9ed099-34c4-4461-9858-23add238f5a2",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/handshake",
         "https://api.ashbyhq.com/posting-api/job-board/handshake"
       ],
       "low_confidence_approved": false,
@@ -5888,6 +5956,7 @@
         "https://jobs.ashbyhq.com/smallest",
         "https://api.ashbyhq.com/posting-api/job-board/smallest",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/smallest",
         "https://api.ashbyhq.com/posting-api/job-board/smallest"
       ],
       "low_confidence_approved": false,
@@ -6138,6 +6207,7 @@
         "https://jobs.ashbyhq.com/uptimeai/b97e4672-7899-42bb-8b08-d00a363f2457",
         "https://api.ashbyhq.com/posting-api/job-board/uptimeai",
         "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/uptimeai",
         "https://api.ashbyhq.com/posting-api/job-board/uptimeai"
       ],
       "low_confidence_approved": false,
@@ -6309,29 +6379,31 @@
       "company_id": "zeta-global",
       "company_name": "Zeta Global",
       "status": "proposed",
-      "careers_url": "https://www.zetaglobal.com/about/life-at-zeta/",
+      "careers_url": "https://job-boards.greenhouse.io/zetaglobal",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "zetaglobal"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.zetaglobal.com/about/life-at-zeta/",
         "https://www.zetaglobal.com/about/life-at-zeta/",
-        "https://job-boards.greenhouse.io/zetaglobal/jobs/6005470004"
+        "https://job-boards.greenhouse.io/zetaglobal/jobs/6005470004",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/zetaglobal/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 201,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -7135,31 +7207,35 @@
       "company_id": "clipboard-health",
       "company_name": "Clipboard Health",
       "status": "proposed",
-      "careers_url": "https://job-boards.greenhouse.io/clipboardhealth/jobs/5479812004?gh_src=9902e9d64us",
-      "adapter_type": "greenhouse",
+      "careers_url": "https://jobs.ashbyhq.com/clipboard",
+      "adapter_type": "ashby",
       "adapter_parameters": {
-        "board_token": "clipboardhealth"
+        "board_name": "clipboard"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "publishedAt",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/clipboardhealth/jobs/5479812004?gh_src=9902e9d64us",
-        "https://boards-api.greenhouse.io/v1/boards/clipboardhealth/jobs?content=true"
+        "https://boards-api.greenhouse.io/v1/boards/clipboardhealth/jobs?content=true",
+        "https://jobs.ashbyhq.com/clipboard",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "https://api.ashbyhq.com/posting-api/job-board/clipboard",
+        "https://jobs.ashbyhq.com/clipboard"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "HTTP 404",
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "exception_reason": null,
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
       "source_rank": 227,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -7386,31 +7462,33 @@
       "company_id": "endor-labs",
       "company_name": "Endor Labs",
       "status": "proposed",
-      "careers_url": "https://job-boards.greenhouse.io/endorlabs/jobs/4397008005",
+      "careers_url": "https://job-boards.greenhouse.io/endorlabs",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "endorlabs"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/endorlabs/jobs/4397008005",
+        "https://boards-api.greenhouse.io/v1/boards/endorlabs/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html",
         "https://boards-api.greenhouse.io/v1/boards/endorlabs/jobs?content=true"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "request timed out",
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "exception_reason": null,
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 235,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -7798,29 +7876,31 @@
       "company_id": "singlestore",
       "company_name": "SingleStore",
       "status": "proposed",
-      "careers_url": "https://www.singlestore.com/careers/jobs/",
+      "careers_url": "https://job-boards.greenhouse.io/singlestore",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "singlestore"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.singlestore.com/careers/jobs/",
         "https://www.singlestore.com/careers/jobs/",
-        "https://job-boards.greenhouse.io/singlestore/jobs/7839324"
+        "https://job-boards.greenhouse.io/singlestore/jobs/7839324",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/singlestore/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 248,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -8902,29 +8982,31 @@
       "company_id": "netradyne",
       "company_name": "Netradyne",
       "status": "proposed",
-      "careers_url": "https://www.netradyne.com/company/careers",
+      "careers_url": "https://job-boards.greenhouse.io/netradyne",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "netradyne"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.netradyne.com/company/careers",
         "https://www.netradyne.com/company/careers",
-        "https://boards.greenhouse.io/embed/job_board/js?for=netradyne"
+        "https://boards.greenhouse.io/embed/job_board/js?for=netradyne",
+        "https://docs.greenhouse.io/job-board.html",
+        "https://boards-api.greenhouse.io/v1/boards/netradyne/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "source_rank": 283,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"

@@ -15,10 +15,10 @@ def test_canonical_registry_accounts_for_all_companies_and_stays_disabled() -> N
     assert audit.enabled_count == 0
     assert audit.by_status == {"proposed": 330}
     assert audit.by_adapter == {
-        "ashby": 24,
+        "ashby": 25,
         "darwinbox": 4,
         "eightfold": 3,
-        "greenhouse": 26,
+        "greenhouse": 25,
         "jobvite": 1,
         "lever": 12,
         "oracle_cloud": 2,

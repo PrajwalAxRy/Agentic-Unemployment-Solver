@@ -10,9 +10,9 @@
       "source_rank": 1,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
       "official_careers_url": "https://job-boards.greenhouse.io/gleanwork",
       "adapter_type": "greenhouse",
@@ -20,11 +20,11 @@
         "board_token": "gleanwork"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/gleanwork/jobs",
-      "pagination": "public board API; completeness requires live verification",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/gleanwork/jobs?content=true",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
       "external_job_id_field": "id",
-      "publication_date_field": "updated_at",
-      "publication_date_basis": "updated",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location.name",
       "detail_strategy": "listing_payload",
@@ -39,6 +39,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/gleanwork/jobs",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=123"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/gleanwork/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=123; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -103,6 +113,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/harvey",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=299; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/harvey",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=299; pages=1; missing_fields=0"
         }
       ]
     },
@@ -152,6 +167,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/Kognitos",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=7; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/Kognitos",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=7; pages=1; missing_fields=0"
         }
       ]
     },
@@ -245,6 +265,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/cartesia",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=30; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/cartesia",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=30; pages=1; missing_fields=0"
         }
       ]
     },
@@ -504,6 +529,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/deeptune",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=empty; jobs=0; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/deeptune",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=empty; jobs=0; pages=1; missing_fields=0"
         }
       ]
     },
@@ -1058,9 +1088,9 @@
       "source_rank": 26,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
       "official_careers_url": "https://job-boards.greenhouse.io/jumio",
       "adapter_type": "greenhouse",
@@ -1068,11 +1098,11 @@
         "board_token": "jumio"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/jumio/jobs",
-      "pagination": "public board API; completeness requires live verification",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/jumio/jobs?content=true",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
       "external_job_id_field": "id",
-      "publication_date_field": "updated_at",
-      "publication_date_basis": "updated",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location.name",
       "detail_strategy": "listing_payload",
@@ -1087,6 +1117,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/jumio/jobs",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=27"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/jumio/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=27; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -1097,9 +1137,9 @@
       "source_rank": 27,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
       "official_careers_url": "https://job-boards.greenhouse.io/gomotive",
       "adapter_type": "greenhouse",
@@ -1107,11 +1147,11 @@
         "board_token": "gomotive"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/gomotive/jobs",
-      "pagination": "public board API; completeness requires live verification",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/gomotive/jobs?content=true",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
       "external_job_id_field": "id",
-      "publication_date_field": "updated_at",
-      "publication_date_basis": "updated",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location.name",
       "detail_strategy": "listing_payload",
@@ -1126,6 +1166,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/gomotive/jobs",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=151"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/gomotive/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=151; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -1136,9 +1186,9 @@
       "source_rank": 28,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
       "official_careers_url": "https://job-boards.greenhouse.io/observeai",
       "adapter_type": "greenhouse",
@@ -1146,11 +1196,11 @@
         "board_token": "observeai"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/observeai/jobs",
-      "pagination": "public board API; completeness requires live verification",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/observeai/jobs?content=true",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
       "external_job_id_field": "id",
-      "publication_date_field": "updated_at",
-      "publication_date_basis": "updated",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location.name",
       "detail_strategy": "listing_payload",
@@ -1165,6 +1215,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/observeai/jobs",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=15"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/observeai/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=15; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -1297,25 +1357,25 @@
       "source_rank": 32,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Public structured endpoint responded but exceeded the bounded discovery probe; adapter verification must stream or page it.",
-      "status": "proposed",
-      "official_careers_url": "https://job-boards.greenhouse.io/purestorage/jobs/6660530",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
+      "status": "auto_verified",
+      "official_careers_url": "https://job-boards.greenhouse.io/purestorage",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "purestorage"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/purestorage/jobs?content=true",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://job-boards.greenhouse.io/purestorage/jobs/6660530",
@@ -1336,6 +1396,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/purestorage/jobs?content=true",
           "evidence_type": "bounded_probe_limit",
           "note": "response exceeded 2000000 bytes"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/purestorage/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=354; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -1346,9 +1416,9 @@
       "source_rank": 33,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
       "official_careers_url": "https://job-boards.greenhouse.io/atomicwork",
       "adapter_type": "greenhouse",
@@ -1356,11 +1426,11 @@
         "board_token": "atomicwork"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/atomicwork/jobs",
-      "pagination": "public board API; completeness requires live verification",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/atomicwork/jobs?content=true",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
       "external_job_id_field": "id",
-      "publication_date_field": "updated_at",
-      "publication_date_basis": "updated",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location.name",
       "detail_strategy": "listing_payload",
@@ -1375,6 +1445,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/atomicwork/jobs",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=27"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/atomicwork/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=27; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -1429,6 +1509,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/coderabbit",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=47; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/coderabbit",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=47; pages=1; missing_fields=0"
         }
       ]
     },
@@ -1478,6 +1563,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/ema",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=45; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/ema",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=45; pages=1; missing_fields=0"
         }
       ]
     },
@@ -1767,6 +1857,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/articul8",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=20; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/articul8",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=20; pages=1; missing_fields=0"
         }
       ]
     },
@@ -1777,9 +1872,9 @@
       "source_rank": 43,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
       "official_careers_url": "https://job-boards.greenhouse.io/enterpret",
       "adapter_type": "greenhouse",
@@ -1787,11 +1882,11 @@
         "board_token": "enterpret"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/enterpret/jobs",
-      "pagination": "public board API; completeness requires live verification",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/enterpret/jobs?content=true",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
       "external_job_id_field": "id",
-      "publication_date_field": "updated_at",
-      "publication_date_basis": "updated",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location.name",
       "detail_strategy": "listing_payload",
@@ -1806,6 +1901,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/enterpret/jobs",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=15"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/enterpret/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=15; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -1855,6 +1960,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/nanonets",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=11; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/nanonets",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=11; pages=1; missing_fields=0"
         }
       ]
     },
@@ -1865,9 +1975,9 @@
       "source_rank": 45,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
       "official_careers_url": "https://job-boards.greenhouse.io/prodigal",
       "adapter_type": "greenhouse",
@@ -1875,11 +1985,11 @@
         "board_token": "prodigal"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/prodigal/jobs",
-      "pagination": "public board API; completeness requires live verification",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/prodigal/jobs?content=true",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
       "external_job_id_field": "id",
-      "publication_date_field": "updated_at",
-      "publication_date_basis": "updated",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location.name",
       "detail_strategy": "listing_payload",
@@ -1894,6 +2004,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/prodigal/jobs",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=13"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/prodigal/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=13; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -2021,6 +2141,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/triomics",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=18; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/triomics",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=18; pages=1; missing_fields=0"
         }
       ]
     },
@@ -2114,6 +2239,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/weave",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=28; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/weave",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=28; pages=1; missing_fields=0"
         }
       ]
     },
@@ -2300,6 +2430,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/Cerebras",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=113; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/Cerebras",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=113; pages=1; missing_fields=0"
         }
       ]
     },
@@ -2349,6 +2484,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/composio",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=30; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/composio",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=30; pages=1; missing_fields=0"
         }
       ]
     },
@@ -2530,6 +2670,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/sarvam",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=61; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/sarvam",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=61; pages=1; missing_fields=0"
         }
       ]
     },
@@ -2623,6 +2768,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/Wisdom-AI",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=17; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/Wisdom-AI",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=17; pages=1; missing_fields=0"
         }
       ]
     },
@@ -2878,6 +3028,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/atlan",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=8; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/atlan",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=8; pages=1; missing_fields=0"
         }
       ]
     },
@@ -2888,25 +3043,25 @@
       "source_rank": 68,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
-      "access_concern": "HTTP 404",
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "conflict",
-      "official_careers_url": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&token=7464169002",
+      "publication_date_verified": true,
+      "access_concern": null,
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
+      "status": "auto_verified",
+      "official_careers_url": "https://job-boards.greenhouse.io/databricks",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "board_token": "embed"
+        "board_token": "databricks"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/embed/jobs?content=true",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "low",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/databricks/jobs?content=true",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&token=7464169002",
@@ -2917,6 +3072,26 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/embed/jobs?content=true",
           "evidence_type": "failed_source_probe",
           "note": "HTTP 404"
+        },
+        {
+          "url": "https://job-boards.greenhouse.io/databricks",
+          "evidence_type": "quality_correction_candidate",
+          "note": "Jobs at Databricks"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/databricks/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=877; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
+        },
+        {
+          "url": "https://job-boards.greenhouse.io/databricks",
+          "evidence_type": "phase4_adapter_mapping_correction",
+          "note": "Jobs at Databricks"
         }
       ]
     },
@@ -2966,6 +3141,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/kong",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=72; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/kong",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=72; pages=1; missing_fields=0"
         }
       ]
     },
@@ -3254,25 +3434,25 @@
       "source_rank": 77,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://razorpay.com/careers/",
+      "official_careers_url": "https://job-boards.greenhouse.io/razorpaysoftwareprivatelimited",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "razorpaysoftwareprivatelimited"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/razorpaysoftwareprivatelimited/jobs?content=true",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://razorpay.com/careers/",
@@ -3288,6 +3468,16 @@
           "url": "https://job-boards.greenhouse.io/razorpaysoftwareprivatelimited",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=greenhouse without retaining page HTML."
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/razorpaysoftwareprivatelimited/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=18; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -3415,6 +3605,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/bolna",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=9; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/bolna",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=9; pages=1; missing_fields=0"
         }
       ]
     },
@@ -3425,25 +3620,25 @@
       "source_rank": 81,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://alphagrepim.com/alphagrep-investment-management-india/careers/",
+      "official_careers_url": "https://job-boards.greenhouse.io/alphagrepsecurities",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "alphagrepsecurities"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/alphagrepsecurities/jobs?content=true",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://alphagrepim.com/alphagrep-investment-management-india/careers/",
@@ -3459,6 +3654,16 @@
           "url": "https://job-boards.greenhouse.io/alphagrepsecurities/jobs/8642299002",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=greenhouse without retaining page HTML."
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/alphagrepsecurities/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=15; pages=1; missing_fields=0; updated_fallback=1; unknown_dates=0"
         }
       ]
     },
@@ -3469,9 +3674,9 @@
       "source_rank": 82,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Replaced an unrelated hotel page with the direct Greenhouse board.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
       "official_careers_url": "https://job-boards.greenhouse.io/aptportfolio",
       "adapter_type": "greenhouse",
@@ -3480,14 +3685,14 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/aptportfolio/jobs?content=true",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://hotel.twagoda.com/entry/77191464",
@@ -3508,6 +3713,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/aptportfolio/jobs?content=true",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=1"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/aptportfolio/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=1; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -3557,25 +3772,25 @@
       "source_rank": 84,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
-      "access_concern": "HTTP 404",
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "conflict",
-      "official_careers_url": "https://boards.greenhouse.io/embed/job_board?for=gravitonresearchcapital",
+      "publication_date_verified": true,
+      "access_concern": null,
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
+      "status": "auto_verified",
+      "official_careers_url": "https://job-boards.greenhouse.io/gravitonresearchcapital",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "board_token": "embed"
+        "board_token": "gravitonresearchcapital"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/embed/jobs?content=true",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "low",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/gravitonresearchcapital/jobs?content=true",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://boards.greenhouse.io/embed/job_board?for=gravitonresearchcapital",
@@ -3586,6 +3801,26 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/embed/jobs?content=true",
           "evidence_type": "failed_source_probe",
           "note": "HTTP 404"
+        },
+        {
+          "url": "https://job-boards.greenhouse.io/gravitonresearchcapital",
+          "evidence_type": "quality_correction_candidate",
+          "note": "Jobs at Graviton Research Capital"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/gravitonresearchcapital/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=19; pages=1; missing_fields=0; updated_fallback=1; unknown_dates=0"
+        },
+        {
+          "url": "https://job-boards.greenhouse.io/gravitonresearchcapital",
+          "evidence_type": "phase4_adapter_mapping_correction",
+          "note": "Jobs at Graviton Research Capital"
         }
       ]
     },
@@ -3752,25 +3987,25 @@
       "source_rank": 89,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://job-boards.greenhouse.io/quantboxresearchpte?error=true",
+      "official_careers_url": "https://job-boards.greenhouse.io/quantboxresearchpte",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "quantboxresearchpte"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/quantboxresearchpte/jobs?content=true",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://job-boards.greenhouse.io/quantboxresearchpte?error=true",
@@ -3781,6 +4016,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/quantboxresearchpte/jobs?content=true",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=8"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/quantboxresearchpte/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=8; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -3791,25 +4036,25 @@
       "source_rank": 90,
       "priority": "P1",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://job-boards.greenhouse.io/quberesearchandtechnologies?error=true",
+      "official_careers_url": "https://job-boards.greenhouse.io/quberesearchandtechnologies",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "quberesearchandtechnologies"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/quberesearchandtechnologies/jobs?content=true",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://job-boards.greenhouse.io/quberesearchandtechnologies?error=true",
@@ -3820,6 +4065,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/quberesearchandtechnologies/jobs?content=true",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=202"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/quberesearchandtechnologies/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=202; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -3947,6 +4202,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/collinear-ai",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=11; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/collinear-ai",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=11; pages=1; missing_fields=0"
         }
       ]
     },
@@ -4079,6 +4339,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/spector-ai",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=6; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/spector-ai",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=6; pages=1; missing_fields=0"
         }
       ]
     },
@@ -4344,6 +4609,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/fal-ai",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=32; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/fal-ai",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=32; pages=1; missing_fields=0"
         }
       ]
     },
@@ -4386,9 +4656,9 @@
       "source_rank": 104,
       "priority": "P2",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
       "official_careers_url": "https://job-boards.greenhouse.io/togetherai",
       "adapter_type": "greenhouse",
@@ -4396,11 +4666,11 @@
         "board_token": "togetherai"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/togetherai/jobs",
-      "pagination": "public board API; completeness requires live verification",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/togetherai/jobs?content=true",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
       "external_job_id_field": "id",
-      "publication_date_field": "updated_at",
-      "publication_date_basis": "updated",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location.name",
       "detail_strategy": "listing_payload",
@@ -4415,6 +4685,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/togetherai/jobs",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=78"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/togetherai/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=78; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -4469,6 +4749,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/d-Matrix",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=35; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/d-Matrix",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=35; pages=1; missing_fields=0"
         }
       ]
     },
@@ -4479,9 +4764,9 @@
       "source_rank": 106,
       "priority": "P2",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
       "official_careers_url": "https://job-boards.greenhouse.io/enchargeai36",
       "adapter_type": "greenhouse",
@@ -4489,11 +4774,11 @@
         "board_token": "enchargeai36"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/enchargeai36/jobs",
-      "pagination": "public board API; completeness requires live verification",
+      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/enchargeai36/jobs?content=true",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
       "external_job_id_field": "id",
-      "publication_date_field": "updated_at",
-      "publication_date_basis": "updated",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
       "title_field": "title",
       "location_field": "location.name",
       "detail_strategy": "listing_payload",
@@ -4508,6 +4793,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/enchargeai36/jobs",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=26"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/enchargeai36/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=26; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -5323,25 +5618,25 @@
       "source_rank": 127,
       "priority": "P2",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://www.aidash.com/careers/",
+      "official_careers_url": "https://job-boards.greenhouse.io/aidashinc",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "aidashinc"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/aidashinc/jobs?content=true",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.aidash.com/careers/",
@@ -5357,6 +5652,16 @@
           "url": "https://boards.greenhouse.io/embed/job_board/js?for=aidashinc",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=greenhouse without retaining page HTML."
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/aidashinc/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=8; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -5445,9 +5750,9 @@
       "source_rank": 130,
       "priority": "P2",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
       "official_careers_url": "https://job-boards.greenhouse.io/arcanaanalytics",
       "adapter_type": "greenhouse",
@@ -5456,14 +5761,14 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/arcanaanalytics/jobs?content=true",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://job-boards.greenhouse.io/arcanaanalytics",
@@ -5474,6 +5779,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/arcanaanalytics/jobs?content=true",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=28"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/arcanaanalytics/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=28; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -5957,25 +6272,25 @@
       "source_rank": 143,
       "priority": "P2",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://dscout.com/careers",
+      "official_careers_url": "https://job-boards.greenhouse.io/dscout",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "dscout"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/dscout/jobs?content=true",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://dscout.com/careers",
@@ -5991,6 +6306,16 @@
           "url": "https://job-boards.greenhouse.io/dscout",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=greenhouse without retaining page HTML."
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/dscout/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=9; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -6001,25 +6326,25 @@
       "source_rank": 144,
       "priority": "P2",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://job-boards.greenhouse.io/earnin/jobs/6632415?gh_src=6aa12b601us",
+      "official_careers_url": "https://job-boards.greenhouse.io/earnin",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "earnin"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/earnin/jobs?content=true",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://job-boards.greenhouse.io/earnin/jobs/6632415?gh_src=6aa12b601us",
@@ -6030,6 +6355,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/earnin/jobs?content=true",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=17"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/earnin/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=17; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -6328,6 +6663,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/handshake",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=69; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/handshake",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=69; pages=1; missing_fields=0"
         }
       ]
     },
@@ -7785,6 +8125,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/smallest",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=1; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/smallest",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=1; pages=1; missing_fields=0"
         }
       ]
     },
@@ -8107,6 +8452,11 @@
           "url": "https://api.ashbyhq.com/posting-api/job-board/uptimeai",
           "evidence_type": "full_adapter_group_validation",
           "note": "2026-09-20T17:58:18+05:30; outcome=success; jobs=18; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/uptimeai",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=18; pages=1; missing_fields=0"
         }
       ]
     },
@@ -8322,25 +8672,25 @@
       "source_rank": 201,
       "priority": "P2",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://www.zetaglobal.com/about/life-at-zeta/",
+      "official_careers_url": "https://job-boards.greenhouse.io/zetaglobal",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "zetaglobal"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/zetaglobal/jobs?content=true",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.zetaglobal.com/about/life-at-zeta/",
@@ -8356,6 +8706,16 @@
           "url": "https://job-boards.greenhouse.io/zetaglobal/jobs/6005470004",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=greenhouse without retaining page HTML."
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/zetaglobal/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=145; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -9416,25 +9776,25 @@
       "source_rank": 227,
       "priority": "P3",
       "regional_board_url": null,
-      "publication_date_verified": false,
-      "access_concern": "HTTP 404",
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "conflict",
-      "official_careers_url": "https://job-boards.greenhouse.io/clipboardhealth/jobs/5479812004?gh_src=9902e9d64us",
-      "adapter_type": "greenhouse",
+      "publication_date_verified": true,
+      "access_concern": null,
+      "notes": "Ashby public job-posting API passed full adapter-group validation.",
+      "status": "auto_verified",
+      "official_careers_url": "https://jobs.ashbyhq.com/clipboard",
+      "adapter_type": "ashby",
       "adapter_parameters": {
-        "board_token": "clipboardhealth"
+        "board_name": "clipboard"
       },
       "listing_mode": "complete_list",
-      "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/clipboardhealth/jobs?content=true",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "low",
+      "list_endpoint": "https://api.ashbyhq.com/posting-api/job-board/clipboard",
+      "pagination": "Official public posting API returns one complete jobs collection without page tokens; verified in Phase 3.",
+      "external_job_id_field": "id",
+      "publication_date_field": "publishedAt",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://job-boards.greenhouse.io/clipboardhealth/jobs/5479812004?gh_src=9902e9d64us",
@@ -9445,6 +9805,26 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/clipboardhealth/jobs?content=true",
           "evidence_type": "failed_source_probe",
           "note": "HTTP 404"
+        },
+        {
+          "url": "https://jobs.ashbyhq.com/clipboard",
+          "evidence_type": "quality_correction_candidate",
+          "note": "Jobs at Clipboard"
+        },
+        {
+          "url": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official field contract confirms complete published postings, publishedAt, locations, URLs, and listing-payload descriptions."
+        },
+        {
+          "url": "https://api.ashbyhq.com/posting-api/job-board/clipboard",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:17:17+05:30; outcome=success; jobs=40; pages=1; missing_fields=0"
+        },
+        {
+          "url": "https://jobs.ashbyhq.com/clipboard",
+          "evidence_type": "phase4_adapter_mapping_correction",
+          "note": "Jobs at Clipboard"
         }
       ]
     },
@@ -9743,25 +10123,25 @@
       "source_rank": 235,
       "priority": "P3",
       "regional_board_url": null,
-      "publication_date_verified": false,
-      "access_concern": "request timed out",
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "conflict",
-      "official_careers_url": "https://job-boards.greenhouse.io/endorlabs/jobs/4397008005",
+      "publication_date_verified": true,
+      "access_concern": null,
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
+      "status": "auto_verified",
+      "official_careers_url": "https://job-boards.greenhouse.io/endorlabs",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "endorlabs"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/endorlabs/jobs?content=true",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "low",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://job-boards.greenhouse.io/endorlabs/jobs/4397008005",
@@ -9772,6 +10152,16 @@
           "url": "https://boards-api.greenhouse.io/v1/boards/endorlabs/jobs?content=true",
           "evidence_type": "failed_source_probe",
           "note": "request timed out"
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/endorlabs/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=26; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
@@ -10291,25 +10681,25 @@
       "source_rank": 248,
       "priority": "P3",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://www.singlestore.com/careers/jobs/",
+      "official_careers_url": "https://job-boards.greenhouse.io/singlestore",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "singlestore"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/singlestore/jobs?content=true",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.singlestore.com/careers/jobs/",
@@ -10325,6 +10715,16 @@
           "url": "https://job-boards.greenhouse.io/singlestore/jobs/7839324",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=greenhouse without retaining page HTML."
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/singlestore/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=40; pages=1; missing_fields=0; updated_fallback=1; unknown_dates=0"
         }
       ]
     },
@@ -11735,25 +12135,25 @@
       "source_rank": 283,
       "priority": "P3",
       "regional_board_url": null,
-      "publication_date_verified": false,
+      "publication_date_verified": true,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://www.netradyne.com/company/careers",
+      "official_careers_url": "https://job-boards.greenhouse.io/netradyne",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
         "board_token": "netradyne"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://boards-api.greenhouse.io/v1/boards/netradyne/jobs?content=true",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
-      "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "pagination": "Official public Job Board API returns one complete jobs collection with meta.total; verified in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "first_published",
+      "publication_date_basis": "published",
+      "title_field": "title",
+      "location_field": "location.name",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.netradyne.com/company/careers",
@@ -11769,6 +12169,16 @@
           "url": "https://boards.greenhouse.io/embed/job_board/js?for=netradyne",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=greenhouse without retaining page HTML."
+        },
+        {
+          "url": "https://docs.greenhouse.io/job-board.html",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Job Board API contract confirms the complete jobs collection, job identifiers, first_published, locations, URLs, and content payload."
+        },
+        {
+          "url": "https://boards-api.greenhouse.io/v1/boards/netradyne/jobs?content=true",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:16:49+05:30; outcome=success; jobs=26; pages=1; missing_fields=0; updated_fallback=0; unknown_dates=0"
         }
       ]
     },
