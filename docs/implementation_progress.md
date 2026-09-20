@@ -3,8 +3,8 @@
 ## Current status
 
 - Active phase: Phase 4 — Adapter coverage
-- Status: Phases 0–3 complete; H1 and H2 approved; Ashby, Greenhouse, and Lever adapter groups
-  passed; Workday is next
+- Status: Phases 0–3 complete; H1 and H2 approved; Ashby, Greenhouse, Lever, and Workday
+  adapter groups passed; Darwinbox is next
 - Pending human checkpoint: none; H4 is conditional and has not been triggered
 - No source is enabled. All 330 canonical companies remain in first-release accounting.
 
@@ -74,12 +74,24 @@
 - Dream Sports' official careers page still links to an obsolete Lever board that returns 404.
   The company remains in the 330-company scope as a documented search-only conflict, while the 11
   current Lever mappings are fully validated.
+- Phase 4 Workday fixtures and adapter cover bounded JSON POST pagination, later-page zero totals,
+  repeated pages, inconsistent totals, access blocks, partial failures, optional detail retrieval,
+  multi-location details, and locations absent from both listing and detail payloads.
+- Representative Workday validation passed CrowdStrike, Fractal Analytics, and London Stock
+  Exchange Group before the full-family run. The CrowdStrike detail endpoint matched the listing
+  identity and supplied full descriptions and additional locations.
+- Full Workday validation passed 13/13 companies with 9,198 jobs across 467 pages. All jobs retain
+  relative `postedOn` labels as `unknown` date evidence for H5; no detail endpoints or LLM calls
+  were used by the full listing validation.
+- Fractal Analytics, Barclays, and Cadence each exposed one listing with no location in either the
+  list or detail payload. All three remain visible with `Location unavailable`, valid descriptions,
+  and direct public links instead of being silently rejected.
 - Current proposal accounting reconciles 330/330: 267 auto-verified, 0 current access concerns,
   63 conflicts/non-enumerating sources, and 0 pending oversized structured boards.
 - Current source families: Ashby 25, Greenhouse 25, Lever 11, Workday 13, Darwinbox 4, Eightfold 3,
   SmartRecruiters 3, Oracle Cloud 2, SuccessFactors 2, Jobvite 1, search-only 237, unresolved 4.
 - Registry remains fully disabled and reconciles all IDs, names, priorities, and source ranks.
-- Repository validation passes with 161 tests, strict mypy, and Ruff checks after Lever
+- Repository validation passes with 183 tests, strict mypy, and Ruff checks after Workday
   validation.
 
 ## Relevant Phase 2 commits
@@ -127,6 +139,15 @@
 - `1b6a1b0` — structured-list descriptions and explicit missing-description evidence
 - `c612f5c` — guarded Lever evidence and conflict mapping support
 - `288e57e` — complete Lever mappings and full-group validation evidence
+- `f3d5c5d` — exact Workday hosts and corrected locale-prefixed site parameters
+- `2edd20f` — bounded JSON POST support in the shared request client
+- `39ebcbe` — sanitized Workday list, detail, empty, malformed, and access fixtures
+- `a850f5d` — Workday listing and optional detail adapter
+- `fdd3e46` — Workday read-only source verification
+- `2979f2a` — Workday first-page total and missing-list-location regressions
+- `8bbdb2a` — guarded Workday validation evidence importer
+- `96d43d5` — complete Workday mappings and full-group validation evidence
+- `c44e1f7` — explicit retention of jobs missing detail locations
 
 ## Review artifacts
 
@@ -138,6 +159,7 @@
 - Phase 3 Ashby validation: `docs/reviews/phase3_ashby_validation.md`
 - Phase 4 Greenhouse validation: `docs/reviews/phase4_greenhouse_validation.md`
 - Phase 4 Lever validation: `docs/reviews/phase4_lever_validation.md`
+- Phase 4 Workday validation: `docs/reviews/phase4_workday_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Disabled runtime registry: `config/company_sources.json`
 
@@ -152,12 +174,14 @@
   They remain separate; no uncertain-date inclusion policy has been selected before H5.
 - All 386 observed Lever jobs use uncertain `createdAt` evidence, and 17 lack descriptions. These
   remain explicit inputs to H5 and later manual-review behavior.
+- All 9,198 observed Workday jobs use uncertain relative `postedOn` evidence. Three listings lack
+  locations in both listing and detail payloads, and multi-location list summaries require detail
+  retrieval before deterministic location filtering.
 - 237 records remain `search_only`; 178 are verified official pages needing custom adapters or
   deeper source-family work, and 59 are conflicts.
 - No company was approved as blocked or unsupported at H2.
 
 ## Resume point
 
-Continue Phase 4 with Workday fixtures and adapter implementation. Validate representative boards
-before running all 13 Workday-mapped companies and diagnose every pagination or tenant exception
-before updating coverage.
+Continue Phase 4 with the Darwinbox adapter family, starting with representative fixtures and
+public endpoint verification before validating all four mapped companies.

@@ -1225,7 +1225,7 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries are checked against the public detail endpoint, and genuinely absent locations remain explicit.",
       "source_rank": 38,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -2077,7 +2077,7 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries are checked against the public detail endpoint, and genuinely absent locations remain explicit.",
       "source_rank": 64,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -3179,7 +3179,7 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries are checked against the public detail endpoint, and genuinely absent locations remain explicit.",
       "source_rank": 98,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -6530,7 +6530,7 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries are checked against the public detail endpoint, and genuinely absent locations remain explicit.",
       "source_rank": 204,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -6566,7 +6566,7 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries are checked against the public detail endpoint, and genuinely absent locations remain explicit.",
       "source_rank": 205,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -6822,7 +6822,7 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries are checked against the public detail endpoint, and genuinely absent locations remain explicit.",
       "source_rank": 213,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -6955,7 +6955,7 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries are checked against the public detail endpoint, and genuinely absent locations remain explicit.",
       "source_rank": 217,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -7086,7 +7086,7 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries are checked against the public detail endpoint, and genuinely absent locations remain explicit.",
       "source_rank": 221,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -7815,7 +7815,7 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries are checked against the public detail endpoint, and genuinely absent locations remain explicit.",
       "source_rank": 244,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -8141,7 +8141,7 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries are checked against the public detail endpoint, and genuinely absent locations remain explicit.",
       "source_rank": 254,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -8208,7 +8208,7 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries are checked against the public detail endpoint, and genuinely absent locations remain explicit.",
       "source_rank": 256,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -8306,7 +8306,7 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries are checked against the public detail endpoint, and genuinely absent locations remain explicit.",
       "source_rank": 259,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -8499,7 +8499,7 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries are checked against the public detail endpoint, and genuinely absent locations remain explicit.",
       "source_rank": 265,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"

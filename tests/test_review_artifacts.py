@@ -18,7 +18,10 @@ def test_h2_review_artifact_has_required_decision_sections_and_counts() -> None:
     assert "Access-policy concerns requiring approval" in review
     assert "Conflicting or non-enumerating proposals requiring inspection" in review
     assert "Verified search-only sources requiring custom adapters" in review
-    assert "Ashby, Greenhouse, and Lever have now passed full adapter-group validation" in review
+    assert (
+        "Ashby, Greenhouse, Lever, and Workday have now passed full adapter-group validation"
+        in review
+    )
     assert "Canonical scope: 330 of 330 companies" in review
 
 
