@@ -27,3 +27,14 @@ is not applicable to this adapter family.
 
 Greenhouse's public list endpoint returns one `jobs` collection and a `meta.total` completeness
 check. The adapter requests `content=true` so descriptions are available without per-job requests.
+
+## Lever
+
+- `lever/page_1.json` and `lever/page_2.json`: a complete multi-page collection with stable IDs,
+  descriptions, canonical URLs, multiple locations, workplace type, and source-created timestamps.
+- `lever/empty.json`: a valid zero-job response.
+- `lever/malformed.json`: a listing missing the required title.
+
+The public Postings API uses `skip` and `limit` pagination and exposes full descriptions in each
+list response. The source-created timestamp is retained as uncertain evidence because the public
+API documentation does not establish it as a publication date.

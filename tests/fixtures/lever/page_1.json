@@ -1,0 +1,36 @@
+[
+  {
+    "id": "6a0f0b5a-55a8-4f42-8798-9cc840b04f15",
+    "text": "Software Engineer, AI Platform",
+    "categories": {
+      "location": "Singapore or Remote",
+      "allLocations": ["Singapore", "Remote"],
+      "commitment": "Full-time",
+      "team": "Engineering",
+      "department": "Product & Engineering"
+    },
+    "country": "SG",
+    "workplaceType": "remote",
+    "createdAt": 1789714800000,
+    "descriptionPlain": "Build LLM evaluation services and production model tooling.",
+    "hostedUrl": "https://jobs.lever.co/example/6a0f0b5a-55a8-4f42-8798-9cc840b04f15?lever-source=test",
+    "applyUrl": "https://jobs.lever.co/example/6a0f0b5a-55a8-4f42-8798-9cc840b04f15/apply"
+  },
+  {
+    "id": "6c36fb23-cf80-4234-8ca8-04b587745ca0",
+    "text": "Data Scientist",
+    "categories": {
+      "location": "Bengaluru, India",
+      "allLocations": ["Bengaluru, India"],
+      "commitment": "Full-time",
+      "team": "Data Science",
+      "department": "Technology"
+    },
+    "country": "IN",
+    "workplaceType": "hybrid",
+    "createdAt": 1789628400000,
+    "descriptionPlain": "Develop ranking models and experimentation systems.",
+    "hostedUrl": "https://jobs.lever.co/example/6c36fb23-cf80-4234-8ca8-04b587745ca0",
+    "applyUrl": "https://jobs.lever.co/example/6c36fb23-cf80-4234-8ca8-04b587745ca0/apply"
+  }
+]

@@ -1,0 +1,19 @@
+[
+  {
+    "id": "39ad5391-9206-4cc8-891d-f2c3992e0f45",
+    "text": "Machine Learning Engineer",
+    "categories": {
+      "location": "Hyderabad, India",
+      "allLocations": ["Hyderabad, India", "Remote"],
+      "commitment": "Full-time",
+      "team": "Machine Learning",
+      "department": "Engineering"
+    },
+    "country": "IN",
+    "workplaceType": "hybrid",
+    "createdAt": 1789542000000,
+    "descriptionPlain": "Train, evaluate, and deploy machine-learning models.",
+    "hostedUrl": "https://jobs.lever.co/example/39ad5391-9206-4cc8-891d-f2c3992e0f45?utm_source=test",
+    "applyUrl": "https://jobs.lever.co/example/39ad5391-9206-4cc8-891d-f2c3992e0f45/apply"
+  }
+]

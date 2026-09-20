@@ -1,0 +1,10 @@
+[
+  {
+    "id": "bad-job",
+    "categories": {
+      "location": "Bengaluru, India"
+    },
+    "descriptionPlain": "This record intentionally has no title.",
+    "hostedUrl": "https://jobs.lever.co/example/bad-job"
+  }
+]
