@@ -1,0 +1,32 @@
+{
+  "status": true,
+  "message": {
+    "jobs": [
+      {
+        "id": "a6example000001",
+        "title": "Software Development Engineer",
+        "officelocation_show_arr": "Bangalore, Karnataka, India",
+        "tool_tip_locations": "Bangalore, Karnataka, India",
+        "job_posting_on": 1789669800,
+        "created_on": "9/18/2026 10:24:50 AM",
+        "timezone": "Asia/Kolkata",
+        "experience_from_num": 1,
+        "experience_to_num": 4,
+        "emp_type": "Full Time"
+      },
+      {
+        "id": "a6example000002",
+        "title": "Data Scientist",
+        "officelocation_show_arr": "Singapore or Remote",
+        "tool_tip_locations": "Singapore or Remote",
+        "job_posting_on": 1789583400,
+        "created_on": "9/17/2026 9:00:00 AM",
+        "timezone": "Asia/Singapore",
+        "experience_from_num": null,
+        "experience_to_num": null,
+        "emp_type": "Full Time"
+      }
+    ],
+    "jobscount": 3
+  }
+}

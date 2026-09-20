@@ -1,0 +1,23 @@
+{
+  "status": true,
+  "message": {
+    "isSaved": false,
+    "job": [
+      {
+        "id": "a6example000001",
+        "title": "Software Development Engineer",
+        "officelocation_show_arr": "Bangalore, Karnataka, India",
+        "tool_tip_locations": "Bangalore, Karnataka, India",
+        "is_remote": 0,
+        "job_posting_on": 1789669800,
+        "posted_on": 1789669800,
+        "created_on": "9/18/2026 10:24:50 AM",
+        "timezone": "Asia/Kolkata",
+        "experience_from_num": 1,
+        "experience_to_num": 4,
+        "emp_type": "Full Time",
+        "jd": "<p>Build production machine-learning systems and retrieval pipelines.</p>"
+      }
+    ]
+  }
+}
