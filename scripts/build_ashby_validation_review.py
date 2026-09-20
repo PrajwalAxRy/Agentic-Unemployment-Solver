@@ -74,8 +74,7 @@ def main() -> int:
             "matched normalized adapter records.",
             "- Deeptune returned the documented healthy empty shape and remains a valid empty "
             "board rather than a collection failure.",
-            "- Harvey's 299-job, 3.9 MB response passed the five-megabyte bounded client, "
-            "resolving "
+            "- Harvey's 299-job, 3.9 MB response passed the bounded shared client, resolving "
             "the earlier two-megabyte discovery-probe limitation.",
             "",
             "## Limitations",

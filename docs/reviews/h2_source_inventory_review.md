@@ -11,10 +11,10 @@
 
 ## Decision summary
 
-- Recommend accepting 262 read-only verified sources as the source baseline, still disabled until their adapters pass later phase gates.
+- Recommend accepting 267 read-only verified sources as the source baseline, still disabled until their adapters pass later phase gates.
 - Keep 0 access-concern sources disabled. Do not bypass login, CAPTCHA, rate-limit, robots, or other access controls.
-- Keep 67 conflicting or non-enumerating sources disabled in the custom-discovery backlog; none is proposed for removal.
-- Carry 1 responsive but oversized structured boards into adapter implementation with bounded streaming/pagination tests.
+- Keep 63 conflicting or non-enumerating sources disabled in the custom-discovery backlog; none is proposed for removal.
+- Carry 0 responsive but oversized structured boards into adapter implementation with bounded streaming/pagination tests.
 - Recommend the adapter order: Ashby, Greenhouse, Lever, Workday, Darwinbox, Eightfold, SmartRecruiters, Oracle Cloud, SuccessFactors, then Jobvite.
 - Preserve all 330 companies in first-release accounting. Priority changes work order and reporting only, never inclusion.
 
@@ -22,13 +22,13 @@
 
 | Metric | Count | Percent of 330 |
 |---|---:|---:|
-| Read-only auto-verified | 262 | 79.4% |
+| Read-only auto-verified | 267 | 80.9% |
 | Access concern | 0 | 0.0% |
-| Conflict / non-enumerating | 67 | 20.3% |
-| Responsive but oversized | 1 | 0.3% |
-| High confidence | 38 | 11.5% |
-| Medium confidence | 225 | 68.2% |
-| Low confidence | 67 | 20.3% |
+| Conflict / non-enumerating | 63 | 19.1% |
+| Responsive but oversized | 0 | 0.0% |
+| High confidence | 55 | 16.7% |
+| Medium confidence | 212 | 64.2% |
+| Low confidence | 63 | 19.1% |
 
 ## Adapter coverage and priority
 
@@ -36,8 +36,8 @@ Known reusable ATS families cover 90 companies (27.3%). The remaining 236 search
 
 | Priority | Adapter | Total | Verified | Access | Conflict | Pending | Projected registry coverage |
 |---:|---|---:|---:|---:|---:|---:|---:|
-| 1 | `ashby` | 24 | 24 | 0 | 0 | 0 | 7.3% |
-| 2 | `greenhouse` | 26 | 21 | 0 | 4 | 1 | 7.9% |
+| 1 | `ashby` | 25 | 25 | 0 | 0 | 0 | 7.6% |
+| 2 | `greenhouse` | 25 | 25 | 0 | 0 | 0 | 7.6% |
 | 3 | `lever` | 12 | 11 | 0 | 1 | 0 | 3.6% |
 | 4 | `workday` | 13 | 13 | 0 | 0 | 0 | 3.9% |
 | 5 | `darwinbox` | 4 | 4 | 0 | 0 | 0 | 1.2% |
@@ -49,7 +49,7 @@ Known reusable ATS families cover 90 companies (27.3%). The remaining 236 search
 | backlog | `search_only` | 236 | 178 | 0 | 58 | 0 | 71.5% |
 | backlog | `unresolved` | 4 | 0 | 0 | 4 | 0 | 1.2% |
 
-Ashby is recommended first because 22 of 24 mappings are verified, its public listing interface is simple, and the representative set spans empty, small, medium, and large boards. Greenhouse has slightly greater raw coverage but more conflicts and one oversized response.
+Ashby and Greenhouse have now passed full adapter-group validation for all 25 current mappings in each family. The next approved adapter family is Lever.
 
 ### Representative boards
 
@@ -68,7 +68,7 @@ None are proposed as unsupported or removed at H2. Any access-concern or conflic
 
 | Rank | Priority | Company | Adapter | Direct URL | Evidence / limitation |
 |---:|---|---|---|---|---|
-| 32 | P1 | Pure Storage | `greenhouse` | [open](https://job-boards.greenhouse.io/purestorage/jobs/6660530) | Public structured endpoint responded but exceeded the bounded discovery probe; adapter verification must stream or page it. |
+| — | — | None | — | — | — |
 
 ## Access-policy concerns requiring approval
 
@@ -91,10 +91,8 @@ Recommendation: keep every company in scope but disabled; treat these as custom 
 | 31 | P1 | Confluent | `search_only` | [open](https://careers.confluent.io/jobs/job/fd9f602f-9741-4360-946d-430f1515ebf9) | HTTP 429 |
 | 57 | P1 | Maxim AI | `search_only` | [open](https://www.getmaxim.ai/jobs/member-of-technical-staff) | HTTP 404 |
 | 58 | P1 | Salesforce | `search_only` | [open](https://www.salesforce.com/company/careers/locations/japac/japan/) | Official India careers URL redirected the bounded probe to a Japan page; India inventory remains unverified. |
-| 68 | P1 | Databricks | `greenhouse` | [open](https://job-boards.greenhouse.io/embed/job_app?for=databricks&token=7464169002) | HTTP 404 |
 | 79 | P1 | Zomato / Blinkit | `search_only` | [open](https://www.zomato.com/policies/privacy/) | network error: [WinError 10054] An existing connection was forcibly closed by the remote host |
 | 83 | P1 | D. E. Shaw India | `search_only` | [open](https://www.grapevine.in/tal/jobs/c3ee6a7b-6614-4312-903a-d0d944f99e03) | Candidate redirected to a third-party job copy and no official source was verified. |
-| 84 | P1 | Graviton Research Capital | `greenhouse` | [open](https://boards.greenhouse.io/embed/job_board?for=gravitonresearchcapital) | HTTP 404 |
 | 85 | P1 | Mayhem Studios | `search_only` | [open](https://www.mayhem-studios.com/) | network error: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.mayhem-studios.com'. (_ssl.c:1000) |
 | 86 | P1 | Mrsool | `search_only` | [open](https://help.sa.mrsool.co/en/articles/8345205-how-can-i-apply-for-a-job-at-mrsool) | Official help article explains applying but does not enumerate current jobs. |
 | 87 | P1 | NK Securities | `search_only` | [open](https://www.nksecurities.com/) | Company homepage does not expose a verified enumerable careers source. |
@@ -131,8 +129,6 @@ Recommendation: keep every company in scope but disabled; treat these as custom 
 | 216 | P3 | Morgan Stanley | `search_only` | [open](https://www.morganstanley.com/people) | People page is not a complete job search source. |
 | 225 | P3 | Cisco | `search_only` | [open](https://www.cisco.com/c/en/us/about/careers/job-areas/engineering.html) | HTTP 404 |
 | 226 | P3 | Clazar | `search_only` | [open](https://www.levels.fyi/companies/clazar/jobs) | Only third-party job copies were found; official careers source remains unverified. |
-| 227 | P3 | Clipboard Health | `greenhouse` | [open](https://job-boards.greenhouse.io/clipboardhealth/jobs/5479812004?gh_src=9902e9d64us) | HTTP 404 |
-| 235 | P3 | Endor Labs | `greenhouse` | [open](https://job-boards.greenhouse.io/endorlabs/jobs/4397008005) | request timed out |
 | 239 | P3 | MongoDB | `search_only` | [open](https://www.mongodb.com/company/careers/see-jobs) | response exceeded 2000000 bytes |
 | 260 | P3 | KLA | `search_only` | [open](https://klaindustries.com/career-opportunities/) | Search result belonged to KLA Industries, not KLA semiconductor. |
 | 263 | P3 | MediaTek | `search_only` | [open](https://careers.mediatek.com/en) | HTTP 307 |
@@ -348,4 +344,4 @@ These official pages passed read-only checks but exposed no single supported hos
 
 ## Recorded decision
 
-The approved package accepts the 262 verified source baselines; keeps the 0 access concerns, 67 conflicts, and 1 oversized boards disabled without dropping any company; and uses the recommended adapter priority beginning with Ashby. The later access-concern recheck reduced observed access concerns without expanding permissions or enabling any source.
+The approved package accepts the 267 verified source baselines; keeps the 0 access concerns, 63 conflicts, and 0 oversized boards disabled without dropping any company; and uses the recommended adapter priority beginning with Ashby. The later access-concern recheck reduced observed access concerns without expanding permissions or enabling any source.

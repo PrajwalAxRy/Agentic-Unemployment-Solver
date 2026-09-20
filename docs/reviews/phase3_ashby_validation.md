@@ -3,11 +3,11 @@
 ## Result
 
 - Status: **passed**
-- Generated at: `2026-09-20T17:58:18+05:30`
+- Generated at: `2026-09-20T18:17:17+05:30`
 - Registry version: `0.1.0-provisional`
-- Companies: 24
-- Outcomes: `{"empty": 1, "success": 23}`
-- Observed jobs: 987
+- Companies: 25
+- Outcomes: `{"empty": 1, "success": 24}`
+- Observed jobs: 1027
 - Missing required fields: 0
 - Pagination: one complete public `jobs` collection per board; no page tokens
 - Official API contract: [Ashby public job-posting API](https://developers.ashbyhq.com/docs/public-job-posting-api)
@@ -40,6 +40,7 @@
 | 151 | P2 | Handshake | success | 69 | 1 | 0 | published=69 | none |
 | 187 | P2 | Smallest.ai | success | 1 | 1 | 0 | published=1 | none |
 | 195 | P2 | UptimeAI | success | 18 | 1 | 0 | published=18 | none |
+| 227 | P3 | Clipboard Health | success | 40 | 1 | 0 | published=40 | none |
 
 ## Corrections and manual evidence
 
@@ -47,7 +48,7 @@
 - WisdomAI had moved from the obsolete `Wisdom AI` slug to `Wisdom-AI`; the current public board returned 17 complete jobs.
 - Kognitos, Kong, and Cerebras direct job URLs returned public job pages whose titles matched normalized adapter records.
 - Deeptune returned the documented healthy empty shape and remains a valid empty board rather than a collection failure.
-- Harvey's 299-job, 3.9 MB response passed the five-megabyte bounded client, resolving the earlier two-megabyte discovery-probe limitation.
+- Harvey's 299-job, 3.9 MB response passed the bounded shared client, resolving the earlier two-megabyte discovery-probe limitation.
 
 ## Limitations
 

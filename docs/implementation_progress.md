@@ -3,8 +3,8 @@
 ## Current status
 
 - Active phase: Phase 4 — Adapter coverage
-- Status: Phases 0–3 complete; H1 and H2 approved; the Ashby adapter group passed and Greenhouse is
-  next
+- Status: Phases 0–3 complete; H1 and H2 approved; Ashby and Greenhouse adapter groups passed;
+  Lever is next
 - Pending human checkpoint: none; H4 is conditional and has not been triggered
 - No source is enabled. All 330 canonical companies remain in first-release accounting.
 
@@ -41,16 +41,32 @@
 - Representative Ashby validation covered valid empty, small, large, and previously oversized
   boards. It found and corrected the case-sensitive Cerebras board name and WisdomAI's current
   hyphenated slug before the full-group run.
-- Full Ashby validation passed 24/24 companies: 23 successful boards, one valid empty board, 987
-  observed jobs, zero missing required fields, and 987 jobs with `published` date evidence. H3 was
-  not triggered because the documented public API established completeness and direct links.
-- Final proposal accounting reconciles 330/330: 262 auto-verified, 0 current access concerns, 67
-  conflicts/non-enumerating sources, and 1 responsive but oversized structured board.
-- Final source families: Ashby 24, Greenhouse 26, Lever 12, Workday 13, Darwinbox 4, Eightfold 3,
+- Clipboard Health's former Greenhouse board returned 404. Its official careers page now links to
+  the public Ashby `clipboard` board, so it was deterministically remapped and both affected
+  adapter cohorts were revalidated.
+- Updated full Ashby validation passed 25/25 companies: 24 successful boards, one valid empty
+  board, 1,027 observed jobs, zero missing required fields, and 1,027 jobs with `published` date
+  evidence. H3 was not triggered because the documented public API established completeness and
+  direct links.
+- Phase 4 Greenhouse fixtures and adapter cover healthy, empty, malformed, incomplete, duplicate,
+  and blocked responses; collection size is verified against `meta.total`, descriptions are
+  normalized from the listing payload, and direct job URLs are canonicalized.
+- Representative Greenhouse validation passed APT Portfolio, Glean, Motive, Qube Research &
+  Technologies, and Pure Storage before the full-family run.
+- Full Greenhouse validation passed 25/25 companies with 2,268 jobs and zero missing required
+  fields. Of those jobs, 2,265 had `first_published`; one job each at AlphaGrep, Graviton Research
+  Capital, and SingleStore retained `updated_at` as an explicit fallback for the H5 date-policy
+  review.
+- The embedded URLs for Databricks and Graviton Research Capital were corrected to their real
+  Greenhouse board tokens. Databricks' 877-job, 9.6 MB response and Pure Storage's 354-job response
+  both pass the bounded shared client; the tested maximum is now 20 MB.
+- Current proposal accounting reconciles 330/330: 267 auto-verified, 0 current access concerns,
+  63 conflicts/non-enumerating sources, and 0 pending oversized structured boards.
+- Current source families: Ashby 25, Greenhouse 25, Lever 12, Workday 13, Darwinbox 4, Eightfold 3,
   SmartRecruiters 3, Oracle Cloud 2, SuccessFactors 2, Jobvite 1, search-only 236, unresolved 4.
 - Registry remains fully disabled and reconciles all IDs, names, priorities, and source ranks.
-- Repository validation passes with 125 tests, strict mypy, and Ruff checks at the Phase 3
-  boundary.
+- Repository validation passes with 143 tests, strict mypy, and Ruff checks after Greenhouse
+  validation.
 
 ## Relevant Phase 2 commits
 
@@ -82,6 +98,15 @@
 - `0c6a6b8` — guarded adapter validation evidence importer
 - `25d0832` — complete Ashby mappings and full-group validation evidence
 
+## Relevant Phase 4 commits
+
+- `c538a6e` — sanitized Greenhouse response fixtures
+- `4e4b661` — Greenhouse listing adapter
+- `941eed4` — Greenhouse read-only source verification
+- `92a10a9` — bounded support for observed large public boards
+- `87814f1` — guarded Greenhouse evidence and Phase 4 mapping corrections
+- `7da8605` — corrected ATS mappings and full-group validation evidence
+
 ## Review artifacts
 
 - H1 search policy review: `docs/reviews/h1_search_policy_review.md`
@@ -90,6 +115,7 @@
 - Source discovery workflow and output contract: `docs/source_discovery_workflow.md`
 - H2 source inventory review: `docs/reviews/h2_source_inventory_review.md`
 - Phase 3 Ashby validation: `docs/reviews/phase3_ashby_validation.md`
+- Phase 4 Greenhouse validation: `docs/reviews/phase4_greenhouse_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Disabled runtime registry: `config/company_sources.json`
 
@@ -97,16 +123,17 @@
 
 - No source currently has observed access-control evidence. Active challenge pages remain guarded,
   and no authentication or access-control bypass was attempted.
-- 68 companies have conflicting, third-party, wrong-region, non-enumerating, or otherwise
+- 63 companies have conflicting, third-party, wrong-region, non-enumerating, or otherwise
   insufficient source evidence. They remain in scope and disabled.
-- Harvey's Ashby response now passes the five-megabyte bounded runtime client. Pure Storage's
-  Greenhouse response remains above the Phase 2 discovery cap and requires bounded validation in
-  Greenhouse adapter work.
+- All current Ashby and Greenhouse mappings pass their complete adapter-group validations.
+- Three observed Greenhouse jobs use update-date evidence because `first_published` is absent.
+  They remain separate; no uncertain-date inclusion policy has been selected before H5.
 - 236 records remain `search_only`; 178 are verified official pages needing custom adapters or
   deeper source-family work, and 58 are conflicts.
 - No company was approved as blocked or unsupported at H2.
 
 ## Resume point
 
-Begin Phase 4 with Greenhouse fixtures and adapter implementation. Validate representative empty,
-small, medium, large, and oversized boards before running all 26 Greenhouse-mapped companies.
+Continue Phase 4 with Lever fixtures and adapter implementation. Validate representative boards
+before running all 12 Lever-mapped companies and diagnose the current conflict rather than
+silently excluding it.

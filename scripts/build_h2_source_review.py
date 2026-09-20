@@ -121,10 +121,8 @@ def main() -> int:
             f"{by_adapter_status['unresolved']['conflict']} | 0 | "
             f"{adapters['unresolved'] / 330:.1%} |",
             "",
-            "Ashby is recommended first because 22 of 24 mappings are verified, its public "
-            "listing interface is simple, and the representative set spans empty, small, "
-            "medium, and large boards. Greenhouse has slightly greater raw coverage but more "
-            "conflicts and one oversized response.",
+            "Ashby and Greenhouse have now passed full adapter-group validation for all 25 "
+            "current mappings in each family. The next approved adapter family is Lever.",
             "",
             "### Representative boards",
             "",
