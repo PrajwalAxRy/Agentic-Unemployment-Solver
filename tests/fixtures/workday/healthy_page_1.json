@@ -1,0 +1,26 @@
+{
+  "total": 3,
+  "jobPostings": [
+    {
+      "title": "Software Engineer, AI Platform",
+      "externalPath": "/job/India---Bengaluru/Software-Engineer--AI-Platform_R100",
+      "locationsText": "Bengaluru, India",
+      "postedOn": "Posted 2 Days Ago",
+      "bulletFields": [
+        "R100"
+      ],
+      "timeType": "Full time"
+    },
+    {
+      "title": "Data Scientist",
+      "externalPath": "/job/Singapore/Data-Scientist_R101",
+      "locationsText": "Singapore or Remote",
+      "postedOn": "Posted Today",
+      "bulletFields": [
+        "R101"
+      ]
+    }
+  ],
+  "facets": [],
+  "userAuthenticated": false
+}

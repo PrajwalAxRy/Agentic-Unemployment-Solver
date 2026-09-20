@@ -1,0 +1,23 @@
+{
+  "jobPostingInfo": {
+    "id": "R100",
+    "jobPostingId": "7b5397d011f81000aa11bb22cc330000",
+    "jobReqId": "R100",
+    "title": "Software Engineer, AI Platform",
+    "location": "India - Bengaluru",
+    "additionalLocations": [
+      "Singapore",
+      "Remote"
+    ],
+    "postedOn": "Posted 2 Days Ago",
+    "startDate": "2026-09-18",
+    "externalUrl": "https://example.wd1.myworkdayjobs.com/External/job/India---Bengaluru/Software-Engineer--AI-Platform_R100",
+    "jobDescription": "<p>Build production machine-learning systems and retrieval pipelines.</p>",
+    "timeType": "Full time"
+  },
+  "hiringOrganization": {
+    "name": "Example"
+  },
+  "similarJobs": [],
+  "userAuthenticated": false
+}
