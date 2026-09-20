@@ -129,6 +129,7 @@ class BoundedHttpClient:
         url: str,
         *,
         accepted_content_types: Sequence[str],
+        referer: str | None = None,
     ) -> HttpResponse:
         """Retrieve one public URL and validate its declared media type."""
         return self._request(
@@ -136,6 +137,7 @@ class BoundedHttpClient:
             url,
             accepted_content_types=accepted_content_types,
             body=None,
+            referer=referer,
         )
 
     def post_json(
@@ -144,6 +146,7 @@ class BoundedHttpClient:
         payload: Mapping[str, object],
         *,
         accepted_content_types: Sequence[str],
+        referer: str | None = None,
     ) -> HttpResponse:
         """Send one bounded JSON request to a public endpoint."""
         body = json.dumps(payload, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
@@ -152,6 +155,7 @@ class BoundedHttpClient:
             url,
             accepted_content_types=accepted_content_types,
             body=body,
+            referer=referer,
         )
 
     def _request(
@@ -161,8 +165,11 @@ class BoundedHttpClient:
         *,
         accepted_content_types: Sequence[str],
         body: bytes | None,
+        referer: str | None,
     ) -> HttpResponse:
         _validate_public_url(url)
+        if referer is not None:
+            _validate_public_url(referer)
         accepted = tuple(item.strip().lower() for item in accepted_content_types if item.strip())
         if not accepted:
             raise ValueError("accepted_content_types must contain at least one media type")
@@ -173,6 +180,8 @@ class BoundedHttpClient:
         }
         if method == "POST":
             headers["Content-Type"] = "application/json"
+        if referer is not None:
+            headers["Referer"] = referer
         for attempt in range(self.policy.retry_count + 1):
             try:
                 if method == "GET":

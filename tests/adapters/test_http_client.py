@@ -90,6 +90,20 @@ def test_success_applies_truthful_identity_and_all_bounds() -> None:
     assert (timeout, max_bytes, max_redirects) == (3, 1234, 2)
 
 
+def test_public_referer_is_forwarded_without_changing_client_identity() -> None:
+    transport = FakeTransport([response()])
+
+    BoundedHttpClient(transport=transport).get(
+        "https://jobs.example.com/api",
+        accepted_content_types=("application/json",),
+        referer="https://jobs.example.com/careers",
+    )
+
+    _, headers, *_ = transport.calls[0]
+    assert headers["Referer"] == "https://jobs.example.com/careers"
+    assert headers["User-Agent"].startswith("job-finder/")
+
+
 def test_json_post_applies_shared_bounds_and_compact_payload() -> None:
     transport = FakeTransport([response()])
     policy = HttpPolicy(
