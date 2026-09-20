@@ -12478,23 +12478,23 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Darwinbox public candidate endpoints passed full adapter-group validation. Requests use a same-origin public careers-page referer without cookies or authentication; job_posting_on remains uncertain for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://www.rapido.bike/Careers",
+      "official_careers_url": "https://rapido.darwinbox.in/ms/candidate/careers",
       "adapter_type": "darwinbox",
       "adapter_parameters": {
         "tenant": "rapido"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://rapido.darwinbox.in/ms/candidate/careers",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://rapido.darwinbox.in/ms/candidateapi/job?page=1",
+      "pagination": "Public candidate API returns ten jobs per numbered page with jobscount; verified through the reported total.",
+      "external_job_id_field": "id",
+      "publication_date_field": "job_posting_on",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "officelocation_show_arr",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.rapido.bike/Careers",
@@ -12510,6 +12510,11 @@
           "url": "https://rapido.darwinbox.in/ms/candidate/careers",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=darwinbox without retaining page HTML."
+        },
+        {
+          "url": "https://rapido.darwinbox.in/ms/candidateapi/job?page=1",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:37:00+05:30; outcome=empty; jobs=0; pages=1; missing_fields=0; unknown_dates=0"
         }
       ]
     },
@@ -12922,23 +12927,23 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Darwinbox public candidate endpoints passed full adapter-group validation. Requests use a same-origin public careers-page referer without cookies or authentication; job_posting_on remains uncertain for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://www.clear.in/s/careers",
+      "official_careers_url": "https://clear.darwinbox.in/ms/candidate/careers",
       "adapter_type": "darwinbox",
       "adapter_parameters": {
         "tenant": "clear"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://clear.darwinbox.in/ms/candidate/careers",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://clear.darwinbox.in/ms/candidateapi/job?page=1",
+      "pagination": "Public candidate API returns ten jobs per numbered page with jobscount; verified through the reported total.",
+      "external_job_id_field": "id",
+      "publication_date_field": "job_posting_on",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "officelocation_show_arr",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://cleartax.in/Meta/Contact/index.html",
@@ -12964,6 +12969,11 @@
           "url": "https://clear.darwinbox.in/ms/candidate/careers",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=darwinbox without retaining page HTML."
+        },
+        {
+          "url": "https://clear.darwinbox.in/ms/candidateapi/job?page=1",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:37:00+05:30; outcome=success; jobs=13; pages=2; missing_fields=0; unknown_dates=13"
         }
       ]
     },
@@ -13916,23 +13926,23 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Darwinbox public candidate endpoints passed full adapter-group validation. Requests use a same-origin public careers-page referer without cookies or authentication; job_posting_on remains uncertain for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://porter.in/careers",
+      "official_careers_url": "https://porter.darwinbox.in/ms/candidate/careers",
       "adapter_type": "darwinbox",
       "adapter_parameters": {
         "tenant": "porter"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://porter.darwinbox.in/ms/candidate/careers",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://porter.darwinbox.in/ms/candidateapi/job?page=1",
+      "pagination": "Public candidate API returns ten jobs per numbered page with jobscount; verified through the reported total.",
+      "external_job_id_field": "id",
+      "publication_date_field": "job_posting_on",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "officelocation_show_arr",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://careers.flyporter.com/jobs",
@@ -13958,6 +13968,11 @@
           "url": "https://porter.darwinbox.in/ms/candidate/careers",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=darwinbox without retaining page HTML."
+        },
+        {
+          "url": "https://porter.darwinbox.in/ms/candidateapi/job?page=1",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:37:00+05:30; outcome=success; jobs=121; pages=13; missing_fields=0; unknown_dates=121"
         }
       ]
     },
@@ -14131,23 +14146,23 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Darwinbox public candidate endpoints passed full adapter-group validation. Requests use a same-origin public careers-page referer without cookies or authentication; job_posting_on remains uncertain for H5.",
       "status": "auto_verified",
-      "official_careers_url": "https://unacademy.com/careers",
+      "official_careers_url": "https://unacademy.darwinbox.in/ms/candidate/careers",
       "adapter_type": "darwinbox",
       "adapter_parameters": {
         "tenant": "unacademy"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://unacademy.darwinbox.in/ms/candidate/careers",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://unacademy.darwinbox.in/ms/candidateapi/job?page=1",
+      "pagination": "Public candidate API returns ten jobs per numbered page with jobscount; verified through the reported total.",
+      "external_job_id_field": "id",
+      "publication_date_field": "job_posting_on",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "officelocation_show_arr",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://unacademy.com/careers/public-notice",
@@ -14173,6 +14188,11 @@
           "url": "https://unacademy.darwinbox.in/ms/candidate/careers",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=darwinbox without retaining page HTML."
+        },
+        {
+          "url": "https://unacademy.darwinbox.in/ms/candidateapi/job?page=1",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:37:00+05:30; outcome=success; jobs=7; pages=1; missing_fields=0; unknown_dates=7"
         }
       ]
     },

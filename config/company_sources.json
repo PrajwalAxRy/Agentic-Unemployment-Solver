@@ -9107,29 +9107,30 @@
       "company_id": "rapido",
       "company_name": "Rapido",
       "status": "proposed",
-      "careers_url": "https://www.rapido.bike/Careers",
+      "careers_url": "https://rapido.darwinbox.in/ms/candidate/careers",
       "adapter_type": "darwinbox",
       "adapter_parameters": {
         "tenant": "rapido"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "job_posting_on",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.rapido.bike/Careers",
         "https://www.rapido.bike/Careers",
-        "https://rapido.darwinbox.in/ms/candidate/careers"
+        "https://rapido.darwinbox.in/ms/candidate/careers",
+        "https://rapido.darwinbox.in/ms/candidateapi/job?page=1"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Darwinbox public candidate endpoints passed full adapter-group validation. Requests use a same-origin public careers-page referer without cookies or authentication; job_posting_on remains uncertain for H5.",
       "source_rank": 285,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -9451,31 +9452,32 @@
       "company_id": "cleartax",
       "company_name": "ClearTax",
       "status": "proposed",
-      "careers_url": "https://www.clear.in/s/careers",
+      "careers_url": "https://clear.darwinbox.in/ms/candidate/careers",
       "adapter_type": "darwinbox",
       "adapter_parameters": {
         "tenant": "clear"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "job_posting_on",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://cleartax.in/Meta/Contact/index.html",
         "https://cleartax.in/Meta/Contact/index.html",
         "https://www.clear.in/s/careers",
         "https://www.clear.in/s/careers",
-        "https://clear.darwinbox.in/ms/candidate/careers"
+        "https://clear.darwinbox.in/ms/candidate/careers",
+        "https://clear.darwinbox.in/ms/candidateapi/job?page=1"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Darwinbox public candidate endpoints passed full adapter-group validation. Requests use a same-origin public careers-page referer without cookies or authentication; job_posting_on remains uncertain for H5.",
       "source_rank": 296,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -10205,31 +10207,32 @@
       "company_id": "porter",
       "company_name": "Porter",
       "status": "proposed",
-      "careers_url": "https://porter.in/careers",
+      "careers_url": "https://porter.darwinbox.in/ms/candidate/careers",
       "adapter_type": "darwinbox",
       "adapter_parameters": {
         "tenant": "porter"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "job_posting_on",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://careers.flyporter.com/jobs",
         "https://careers.flyporter.com/jobs",
         "https://porter.in/careers",
         "https://porter.in/careers",
-        "https://porter.darwinbox.in/ms/candidate/careers"
+        "https://porter.darwinbox.in/ms/candidate/careers",
+        "https://porter.darwinbox.in/ms/candidateapi/job?page=1"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Darwinbox public candidate endpoints passed full adapter-group validation. Requests use a same-origin public careers-page referer without cookies or authentication; job_posting_on remains uncertain for H5.",
       "source_rank": 320,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -10364,31 +10367,32 @@
       "company_id": "unacademy",
       "company_name": "Unacademy",
       "status": "proposed",
-      "careers_url": "https://unacademy.com/careers",
+      "careers_url": "https://unacademy.darwinbox.in/ms/candidate/careers",
       "adapter_type": "darwinbox",
       "adapter_parameters": {
         "tenant": "unacademy"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "job_posting_on",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://unacademy.com/careers/public-notice",
         "https://unacademy.com/careers/public-notice",
         "https://unacademy.com/careers",
         "https://unacademy.com/careers",
-        "https://unacademy.darwinbox.in/ms/candidate/careers"
+        "https://unacademy.darwinbox.in/ms/candidate/careers",
+        "https://unacademy.darwinbox.in/ms/candidateapi/job?page=1"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Darwinbox public candidate endpoints passed full adapter-group validation. Requests use a same-origin public careers-page referer without cookies or authentication; job_posting_on remains uncertain for H5.",
       "source_rank": 325,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
