@@ -1,0 +1,37 @@
+{
+  "count": 3,
+  "positions": [
+    {
+      "id": 755958684099,
+      "ats_job_id": "REQ-31110",
+      "display_job_id": "REQ-31110",
+      "name": "Compliance Analyst (Vendor Management - AI)",
+      "posting_name": "Compliance Analyst (Vendor Management - AI)",
+      "location": "Bangalore, Karnataka, India",
+      "locations": ["Bangalore, Karnataka, India"],
+      "department": "Compliance",
+      "business_unit": "Unknown",
+      "canonicalPositionUrl": "https://example.eightfold.ai/careers/job/755958684099",
+      "job_description": "",
+      "t_create": 1788998400,
+      "t_update": 1788998400,
+      "work_location_option": "onsite"
+    },
+    {
+      "id": 755958684100,
+      "ats_job_id": "REQ-31111",
+      "display_job_id": "REQ-31111",
+      "name": "Software Engineer, Data Platform",
+      "posting_name": "Software Engineer, Data Platform",
+      "location": "Singapore or Remote",
+      "locations": ["Singapore", "Remote"],
+      "department": "Technology",
+      "business_unit": "Engineering",
+      "canonicalPositionUrl": "https://example.eightfold.ai/careers/job/755958684100",
+      "job_description": "",
+      "t_create": 1789084800,
+      "t_update": 1789171200,
+      "work_location_option": "remote"
+    }
+  ]
+}

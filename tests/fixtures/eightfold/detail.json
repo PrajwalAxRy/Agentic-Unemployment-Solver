@@ -1,0 +1,16 @@
+{
+  "id": 755958684099,
+  "ats_job_id": "REQ-31110",
+  "display_job_id": "REQ-31110",
+  "name": "Compliance Analyst (Vendor Management - AI)",
+  "posting_name": "Compliance Analyst (Vendor Management - AI)",
+  "location": "Bangalore, Karnataka, India",
+  "locations": ["Bangalore, Karnataka, India"],
+  "department": "Compliance",
+  "business_unit": "Unknown",
+  "canonicalPositionUrl": "https://example.eightfold.ai/careers/job/755958684099",
+  "job_description": "<p>Evaluate AI vendor risk and build controls for machine-learning systems.</p>",
+  "t_create": 1788998400,
+  "t_update": 1788998400,
+  "work_location_option": "onsite"
+}

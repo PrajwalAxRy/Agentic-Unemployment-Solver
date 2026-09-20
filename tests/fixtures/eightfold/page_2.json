@@ -1,0 +1,21 @@
+{
+  "count": 3,
+  "positions": [
+    {
+      "id": 755958684101,
+      "ats_job_id": "REQ-31112",
+      "display_job_id": "REQ-31112",
+      "name": "Data Scientist",
+      "posting_name": "Data Scientist",
+      "location": "Mumbai, Maharashtra, India",
+      "locations": ["Mumbai, Maharashtra, India"],
+      "department": "Technology",
+      "business_unit": "Data",
+      "canonicalPositionUrl": "https://example.eightfold.ai/careers/job/755958684101",
+      "job_description": "",
+      "t_create": 1789257600,
+      "t_update": 1789257600,
+      "work_location_option": "hybrid"
+    }
+  ]
+}
