@@ -39,6 +39,13 @@
 
 - None.
 
+## H1 feedback incorporated
+
+- Generic `Software Engineer`, software-development, backend-engineering, and data-science/scientist
+  titles are no longer proposed for automatic rejection.
+- They enter a conditional deterministic description-review lane after recency and India-location
+  checks; only substantive AI/ML work proceeds to seniority evaluation.
+
 ## Resume point
 
 Wait for H1 approval. Then encode the approved search profile and labelled examples, run the

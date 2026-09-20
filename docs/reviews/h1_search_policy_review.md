@@ -26,9 +26,11 @@ The proposal below refines, and does not reopen, these decisions from `docs/04_p
 ## Recommended title-matching model
 
 Normalize case, Unicode punctuation, slashes, and common hyphenation, then match whole words or
-phrases. A target topic must be present in the title. Seniority words such as `senior`, `lead`,
-`staff`, `principal`, `manager`, and `director` do not cause a deterministic rejection; the LLM will
-read the description and experience requirements later.
+phrases. Use two deterministic title lanes: explicit target titles pass directly, while approved
+generic engineering and data-science titles become conditional candidates whose descriptions must
+confirm substantive AI/ML work. Seniority words such as `senior`, `lead`, `staff`, `principal`,
+`manager`, and `director` do not cause a deterministic rejection; the LLM will read the description
+and experience requirements later.
 
 ### Proposed role families and accepted title terms
 
@@ -36,12 +38,46 @@ read the description and experience requirements later.
 |---|---|---|
 | `ml_engineering` | Build and productionize ML systems | `machine learning engineer`, `ML engineer`, `applied ML engineer`, `deep learning engineer`, `computer vision engineer`, `NLP engineer`, `speech ML engineer` |
 | `generative_ai_engineering` | Build LLM and generative-AI products | `AI engineer`, `applied AI engineer`, `generative AI engineer`, `GenAI engineer`, `LLM engineer`, `foundation model engineer`, `conversational AI engineer` |
-| `research_and_applied_science` | Model research or applied-science work | `machine learning scientist`, `AI research engineer`, `ML research engineer`, `research scientist` with an AI/ML/LLM qualifier, `applied scientist` with an AI/ML/LLM qualifier, `data scientist` with an AI/ML/LLM/deep-learning qualifier |
+| `research_and_applied_science` | Model research or applied-science work | `machine learning scientist`, `AI research engineer`, `ML research engineer`, `research scientist` with an AI/ML/LLM qualifier, `applied scientist` with an AI/ML/LLM qualifier, `data scientist` with an AI/ML/LLM/deep-learning qualifier; unqualified scientist titles use the conditional lane below |
 | `retrieval_search_and_rag` | Search, relevance, retrieval, embeddings, and RAG | `search engineer`, `enterprise search engineer`, `relevance engineer`, `retrieval engineer`, `RAG engineer`, `vector search engineer`, `embedding engineer` |
 | `model_systems_and_optimization` | Training/inference performance and deployment | `ML systems engineer`, `AI systems engineer`, `inference engineer`, `model serving engineer`, `model optimization engineer`, `quantization engineer`, `AI compiler engineer`, `ML compiler engineer` |
 | `ml_platform_and_infrastructure` | Platforms and infrastructure for model delivery | `MLOps engineer`, `ML platform engineer`, `AI platform engineer`, `LLM platform engineer`, `ML infrastructure engineer`, `AI infrastructure engineer` |
 | `agents_and_tooling` | Agents, orchestration, tools, and MCP | `AI agent engineer`, `agentic AI engineer`, `agent platform engineer`, `LLM agent engineer`, `AI orchestration engineer`, `Model Context Protocol engineer`, `MCP engineer` only when the title also contains AI, LLM, agent, or Model Context Protocol context |
-| `ai_software_and_product_engineering` | Software roles whose title explicitly identifies target AI work | `software engineer` or `backend engineer` with an AI/ML/LLM/GenAI/RAG/agent/search qualifier, `forward deployed engineer` with an AI/ML qualifier, `AI solutions engineer`, `AI architect`, `ML architect` |
+| `ai_software_and_product_engineering` | Software roles whose title explicitly identifies target AI work | `software engineer` or `backend engineer` with an AI/ML/LLM/GenAI/RAG/agent/search qualifier, `forward deployed engineer` with an AI/ML qualifier, `AI solutions engineer`, `AI architect`, `ML architect`; unqualified software titles use the conditional lane below |
+
+### Conditional generic-title lane
+
+The pre-description role gate has three outcomes:
+
+1. `explicit_role_pass`: the title contains a target role and topic.
+2. `conditional_description_check`: the title is a plausible generic engineering or science role.
+3. `role_reject`: neither lane applies, or an explicit exclusion takes precedence.
+
+Proposed conditional titles are:
+
+- `software engineer`, `software development engineer`, and the structured abbreviation `SDE`.
+- `backend engineer` and `backend software engineer`.
+- `data scientist`, `applied scientist`, and `research scientist`.
+
+Conditional candidates are still selected deterministically before description retrieval. Only
+recent, India-eligible candidates in this bounded title set receive a description fetch. The fetched
+description then passes a second deterministic AI-work check before any seniority LLM request.
+
+The AI-work check passes when responsibilities or required qualifications show substantive work in
+at least one of these areas:
+
+- Building, training, fine-tuning, adapting, or evaluating ML, deep-learning, or foundation models.
+- Building LLM, generative-AI, NLP, speech, computer-vision, RAG, retrieval, embedding, or agent
+  systems.
+- Deploying, serving, optimizing, quantizing, or operating models or ML inference infrastructure.
+- Engineering AI product capabilities through model APIs, vector databases, agent tools, model
+  evaluation frameworks, or production ML pipelines.
+
+Incidental text does not pass: company boilerplate saying the product is AI-powered, use of coding
+assistants, collaboration with a separate AI team, or generic requests for an "interest in AI" are
+insufficient. The filter must return the matching description evidence and a machine-readable
+reason. Phase 6 will measure the conditional-lane volume, description-fetch count, pass rate, and
+review samples separately.
 
 ### Proposed abbreviations and spelling equivalence
 
@@ -87,8 +123,8 @@ must not preempt the description-based LLM decision.
 | `AI Solutions Engineer` | Role pass | Explicit AI engineering title; do not blanket-exclude customer-facing technical work. |
 | `AI Sales Engineer` | Role reject | Exact commercial exclusion takes precedence. |
 | `Staff Data Scientist – Graph Neural Networks & Predictive AI` | Role pass | Explicit ML technique and AI qualifier. |
-| `Data Scientist` | Role reject | Too broad without AI/ML/LLM/deep-learning evidence in the title. |
-| `Senior Software Engineer` | Role reject | Too broad without a target qualifier, even if the company is AI-focused. |
+| `Data Scientist` | Conditional description check | Include only when responsibilities or requirements confirm substantive AI/ML work. |
+| `Senior Software Engineer` | Conditional description check | Generic title is retained; the description must confirm substantive AI/ML product or systems work. |
 | `Senior Software Engineer, AI Agents` | Role pass | Generic engineering title has an explicit target qualifier. |
 | `Backend Engineer - Search` | Role pass | Explicit search-system qualifier. |
 | `Lead Product Manager – Agentic Experiences` | Role reject | Product-manager exclusion takes precedence. |
@@ -114,7 +150,7 @@ These pages were read only to test the proposed vocabulary. They are not Phase 2
 | Neuron7.ai | `Lead Software Engineer – AI Platform Engineering`, Bengaluru | Role pass; seniority deferred | [Official public board](https://jobs.lever.co/neuron7?location=Bengaluru) |
 | Neuron7.ai | `Staff Data Scientist – Graph Neural Networks (GNN) & Predictive AI`, Bengaluru | Role pass; seniority deferred | [Official public board](https://jobs.lever.co/neuron7?location=Bengaluru) |
 | Neuron7.ai | `Lead Product Manager – Agentic Experiences`, Bengaluru | Role reject | [Official public board](https://jobs.lever.co/neuron7?location=Bengaluru) |
-| Nanonets | `Senior Software Engineer`, India; description mentions ML APIs and vector databases | Role reject because title is generic; records a known false-negative risk of title-only filtering | [Official public job page](https://jobs.ashbyhq.com/nanonets/94ed41a9-3f11-4249-85f2-20a17c6f65f7) |
+| Nanonets | `Senior Software Engineer`, India; description includes engineering ML APIs, AI workflow features, and vector-database integrations | Conditional title, then AI-work pass; seniority remains deferred | [Official public job page](https://jobs.ashbyhq.com/nanonets/94ed41a9-3f11-4249-85f2-20a17c6f65f7) |
 
 ## Proposed India location policy
 
@@ -238,9 +274,11 @@ Rules:
 
 ## Assumptions and recommendations requiring H1 approval
 
-1. **Generic titles:** Reject standalone `Software Engineer` and `Data Scientist` titles unless the
-   title itself has a target qualifier. Recommendation: approve to keep pre-description filtering
-   deterministic and affordable; the Nanonets example documents the false-negative risk.
+1. **Generic titles:** Treat approved software-engineering and science titles as conditional rather
+   than rejecting them. Fetch descriptions only after recency and India-location checks, require
+   deterministic evidence of substantive AI/ML work, and call the LLM only for seniority after that
+   evidence passes. Recommendation: approve; this addresses the user-identified coverage gap and
+   the Nanonets example while keeping role relevance deterministic.
 2. **AI solutions engineering:** Include `AI Solutions Engineer` but exclude sales, presales,
    consultant, and customer-success titles. Recommendation: approve because the sampled Neuron7
    role writes production code, agents, parsers, and pipelines.
