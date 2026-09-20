@@ -163,6 +163,20 @@ def test_multiple_pages_map_identity_location_url_and_uncertain_date() -> None:
     assert json.loads(transport.post_calls[1][1])["offset"] == 2
 
 
+def test_later_pages_accept_workdays_zero_total_pagination_shape() -> None:
+    second_page = json.loads((FIXTURES / "healthy_page_2.json").read_text(encoding="utf-8"))
+
+    assert second_page["total"] == 0
+    adapter, _ = adapter_for(
+        [
+            response((FIXTURES / "healthy_page_1.json").read_bytes()),
+            response(json.dumps(second_page).encode()),
+        ]
+    )
+
+    assert adapter.list_jobs(source()).outcome is AdapterOutcome.SUCCESS
+
+
 def test_detail_retrieval_maps_description_and_all_locations() -> None:
     list_payload = json.loads((FIXTURES / "healthy_page_1.json").read_text(encoding="utf-8"))
     list_payload["total"] = 2
@@ -210,6 +224,24 @@ def test_malformed_fixture_fails_visibly() -> None:
     assert result.outcome is AdapterOutcome.FAILED
     assert result.complete is False
     assert result.diagnostics[0].category == "unsupported_schema"
+
+
+def test_missing_listing_location_is_retained_for_detail_retrieval() -> None:
+    payload = json.loads((FIXTURES / "healthy_page_1.json").read_text(encoding="utf-8"))
+    payload["total"] = 1
+    payload["jobPostings"] = [payload["jobPostings"][0]]
+    payload["jobPostings"][0]["locationsText"] = None
+    adapter, _ = adapter_for([response(json.dumps(payload).encode())])
+
+    result = adapter.list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert result.jobs[0].location_original == "Location unavailable"
+    assert result.jobs[0].source_metadata["listing_location_missing"] is True
+    assert {item.category for item in result.diagnostics} == {
+        "relative_posted_on",
+        "missing_location",
+    }
 
 
 def test_access_block_html_is_rejected_as_blocked() -> None:

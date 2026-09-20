@@ -61,6 +61,7 @@ class WorkdayAdapter:
         expected_total: int | None = None
         raw_job_count = 0
         parse_error_count = 0
+        missing_location_count = 0
         relative_date_count = 0
         missing_date_count = 0
         page_count = 0
@@ -161,7 +162,7 @@ class WorkdayAdapter:
                 )
             if expected_total is None:
                 expected_total = total
-            elif total != expected_total:
+            elif total not in {0, expected_total}:
                 diagnostics.append(
                     _diagnostic(
                         "inconsistent_total",
@@ -199,14 +200,33 @@ class WorkdayAdapter:
                 )
             seen_pages.add(fingerprint)
 
-            if not raw_jobs and raw_job_count < total:
+            if raw_job_count + len(raw_jobs) > expected_total:
+                diagnostics.append(
+                    _diagnostic(
+                        "collection_exceeds_total",
+                        DiagnosticSeverity.ERROR,
+                        "Workday returned more jobs than the first-page total.",
+                        page_index=page_index,
+                        expected=expected_total,
+                        observed=raw_job_count + len(raw_jobs),
+                    )
+                )
+                return _result(
+                    source,
+                    AdapterOutcome.SUSPICIOUS,
+                    jobs,
+                    page_count,
+                    diagnostics,
+                )
+
+            if not raw_jobs and raw_job_count < expected_total:
                 diagnostics.append(
                     _diagnostic(
                         "premature_empty_page",
                         DiagnosticSeverity.ERROR,
                         "Workday returned an empty page before the reported total was reached.",
                         page_index=page_index,
-                        expected=total,
+                        expected=expected_total,
                         observed=raw_job_count,
                     )
                 )
@@ -252,6 +272,8 @@ class WorkdayAdapter:
                         diagnostics,
                     )
                 seen_keys.add(identity)
+                if job.source_metadata.get("listing_location_missing") is True:
+                    missing_location_count += 1
                 if job.published_at_raw is None:
                     missing_date_count += 1
                 else:
@@ -259,7 +281,7 @@ class WorkdayAdapter:
                 jobs.append(job)
 
             raw_job_count += len(raw_jobs)
-            if raw_job_count >= total:
+            if raw_job_count >= expected_total:
                 break
         else:
             diagnostics.append(
@@ -286,6 +308,15 @@ class WorkdayAdapter:
                     DiagnosticSeverity.WARNING,
                     "Workday relative postedOn labels are retained as uncertain date evidence.",
                     count=relative_date_count,
+                )
+            )
+        if missing_location_count:
+            diagnostics.append(
+                _diagnostic(
+                    "missing_location",
+                    DiagnosticSeverity.WARNING,
+                    "Workday listings without list-page locations require detail retrieval.",
+                    count=missing_location_count,
                 )
             )
         if missing_date_count:
@@ -413,7 +444,8 @@ def _normalize_listing(
     external_path = _required_string(raw_job, "externalPath")
     if not external_path.startswith("/job/"):
         raise ValueError("Workday externalPath must start with /job/.")
-    location = _required_string(raw_job, "locationsText")
+    location_value = _optional_string(raw_job.get("locationsText"))
+    location = location_value or "Location unavailable"
     posted_on = _optional_string(raw_job.get("postedOn"))
     bullet_fields = _string_list(raw_job.get("bulletFields"))
     external_id = bullet_fields[0] if bullet_fields else _id_from_path(external_path)
@@ -438,6 +470,7 @@ def _normalize_listing(
             "bullet_fields": tuple(bullet_fields),
             "time_type": raw_job.get("timeType"),
             "detail_available": True,
+            "listing_location_missing": location_value is None,
         },
     )
 
