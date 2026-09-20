@@ -1206,25 +1206,26 @@
         "tenant": "uniphore",
         "site": "Uniphore"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.uniphore.com/careers/",
         "https://www.uniphore.com/careers/",
         "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
-        "https://uniphore.wd503.myworkdayjobs.com/Uniphore"
+        "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
+        "https://uniphore.wd503.myworkdayjobs.com/wday/cxs/uniphore/Uniphore/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "source_rank": 38,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -2058,24 +2059,25 @@
         "tenant": "crowdstrike",
         "site": "crowdstrikecareers"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/Field-Tech-Strategist_R28986",
         "https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/Field-Tech-Strategist_R28986",
-        "https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers"
+        "https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers",
+        "https://crowdstrike.wd5.myworkdayjobs.com/wday/cxs/crowdstrike/crowdstrikecareers/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Correct the locale segment previously misidentified as the Workday site and record the exact shard host.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "source_rank": 64,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -3159,24 +3161,25 @@
         "tenant": "fractal",
         "site": "Careers"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://fractal.ai/careers/",
         "https://fractal.wd1.myworkdayjobs.com/Careers",
-        "https://fractal.wd1.myworkdayjobs.com/Careers"
+        "https://fractal.wd1.myworkdayjobs.com/Careers",
+        "https://fractal.wd1.myworkdayjobs.com/wday/cxs/fractal/Careers/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "source_rank": 98,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -6508,25 +6511,26 @@
         "tenant": "ghr",
         "site": "lateral-us"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://careers.bankofamerica.com/en-us/job-search/india",
         "https://careers.bankofamerica.com/en-us/job-search/india",
         "https://ghr.wd1.myworkdayjobs.com/en-us/lateral-us/login",
-        "https://ghr.wd1.myworkdayjobs.com/lateral-us"
+        "https://ghr.wd1.myworkdayjobs.com/lateral-us",
+        "https://ghr.wd1.myworkdayjobs.com/wday/cxs/ghr/lateral-us/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Normalize the discovered login path to its public Workday board and record the exact shard host.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "source_rank": 204,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -6543,25 +6547,26 @@
         "tenant": "barclays",
         "site": "External_Career_Site_Barclays"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://search.jobs.barclays/search-jobs?alcpm=2077456%2C1819730%2C1269750%2C1861060%2C1880251",
         "https://search.jobs.barclays/search-jobs?alcpm=2077456%2C1819730%2C1269750%2C1861060%2C1880251",
         "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/login?redirect=%2FExternal_Career_Site_Barclays#",
-        "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays"
+        "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays",
+        "https://barclays.wd3.myworkdayjobs.com/wday/cxs/barclays/External_Career_Site_Barclays/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Normalize the discovered login redirect to its public Workday board and record the exact shard host.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "source_rank": 205,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -6796,27 +6801,28 @@
         "tenant": "lseg",
         "site": "Careers"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.efinancialcareers.co.uk/jobs/at-london-stock-exchange-group",
         "https://www.efinancialcareers.co.uk/jobs/at-london-stock-exchange-group",
         "https://www.lseg.com/en/careers",
         "https://www.lseg.com/en/careers",
         "https://lseg.wd3.myworkdayjobs.com/Careers",
-        "https://lseg.wd3.myworkdayjobs.com/Careers"
+        "https://lseg.wd3.myworkdayjobs.com/Careers",
+        "https://lseg.wd3.myworkdayjobs.com/wday/cxs/lseg/Careers/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "source_rank": 213,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -6930,25 +6936,26 @@
         "tenant": "nasdaq",
         "site": "Global_External_Site"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.nasdaq.com/about/careers",
         "https://www.nasdaq.com/about/careers",
         "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site",
-        "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site"
+        "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site",
+        "https://nasdaq.wd1.myworkdayjobs.com/wday/cxs/nasdaq/Global_External_Site/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "source_rank": 217,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -7060,25 +7067,26 @@
         "tenant": "visa",
         "site": "Visa"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://corporate.visa.com/en/careers.html",
         "https://corporate.visa.com/en/careers.html",
         "https://visa.wd5.myworkdayjobs.com/Visa",
-        "https://visa.wd5.myworkdayjobs.com/Visa"
+        "https://visa.wd5.myworkdayjobs.com/Visa",
+        "https://visa.wd5.myworkdayjobs.com/wday/cxs/visa/Visa/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "source_rank": 221,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -7788,25 +7796,26 @@
         "tenant": "paloaltonetworks",
         "site": "panwexternalcareers"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india",
         "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india",
         "https://paloaltonetworks.wd5.myworkdayjobs.com/en-US/panwexternalcareers/introduceYourself?clientRequestID=06f06ca6dae2441d99391ed600fc2265",
-        "https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers"
+        "https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers",
+        "https://paloaltonetworks.wd5.myworkdayjobs.com/wday/cxs/paloaltonetworks/panwexternalcareers/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Normalize the discovered locale and introduce-yourself path to its public Workday board and record the exact shard host.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "source_rank": 244,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -8113,25 +8122,26 @@
         "tenant": "workday",
         "site": "Workday"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.workday.com/en-in/company/careers/life-at-workday.html",
         "https://www.workday.com/en-in/company/careers/life-at-workday.html",
         "https://workday.wd5.myworkdayjobs.com/Workday",
-        "https://workday.wd5.myworkdayjobs.com/Workday"
+        "https://workday.wd5.myworkdayjobs.com/Workday",
+        "https://workday.wd5.myworkdayjobs.com/wday/cxs/workday/Workday/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "source_rank": 254,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -8179,25 +8189,26 @@
         "tenant": "analogdevices",
         "site": "External"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.analog.com/en/careers/career-opportunities.html",
         "https://www.analog.com/en/careers/career-opportunities.html",
         "https://analogdevices.wd1.myworkdayjobs.com/External",
-        "https://analogdevices.wd1.myworkdayjobs.com/External"
+        "https://analogdevices.wd1.myworkdayjobs.com/External",
+        "https://analogdevices.wd1.myworkdayjobs.com/wday/cxs/analogdevices/External/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "source_rank": 256,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -8276,25 +8287,26 @@
         "tenant": "cadence",
         "site": "External_Careers"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.cadence.com/en_US/home/company/careers.html",
         "https://www.cadence.com/en_US/home/company/life-at-cadence/careers.html",
         "https://cadence.wd1.myworkdayjobs.com/External_Careers",
-        "https://cadence.wd1.myworkdayjobs.com/External_Careers"
+        "https://cadence.wd1.myworkdayjobs.com/External_Careers",
+        "https://cadence.wd1.myworkdayjobs.com/wday/cxs/cadence/External_Careers/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "source_rank": 259,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -8468,25 +8480,26 @@
         "tenant": "nxp",
         "site": "careers"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.nxp.com/company/about-nxp/careers%3ACAREERS",
         "https://www.nxp.com/company/about-nxp/careers%3ACAREERS",
         "https://nxp.wd3.myworkdayjobs.com/careers",
-        "https://nxp.wd3.myworkdayjobs.com/careers"
+        "https://nxp.wd3.myworkdayjobs.com/careers",
+        "https://nxp.wd3.myworkdayjobs.com/wday/cxs/nxp/careers/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "source_rank": 265,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"

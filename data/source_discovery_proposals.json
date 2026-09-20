@@ -1678,7 +1678,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "status": "auto_verified",
       "official_careers_url": "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
       "adapter_type": "workday",
@@ -1688,15 +1688,15 @@
         "site": "Uniphore"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
-      "pagination": "Requires full adapter-group verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://uniphore.wd503.myworkdayjobs.com/wday/cxs/uniphore/Uniphore/jobs",
+      "pagination": "Public Candidate Experience API uses offset/limit pagination; the first page total is authoritative because later pages report zero.",
+      "external_job_id_field": "bulletFields[0]",
+      "publication_date_field": "postedOn",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "locationsText",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.uniphore.com/careers/",
@@ -1717,6 +1717,11 @@
           "url": "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
           "evidence_type": "phase4_adapter_mapping_correction",
           "note": "Uniphore public Workday board"
+        },
+        {
+          "url": "https://uniphore.wd503.myworkdayjobs.com/wday/cxs/uniphore/Uniphore/jobs",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:17:51+05:30; outcome=success; jobs=37; pages=2; missing_fields=0; unknown_dates=37"
         }
       ]
     },
@@ -2914,7 +2919,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Correct the locale segment previously misidentified as the Workday site and record the exact shard host.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "status": "auto_verified",
       "official_careers_url": "https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers",
       "adapter_type": "workday",
@@ -2924,15 +2929,15 @@
         "site": "crowdstrikecareers"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers",
-      "pagination": "Requires full adapter-group verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://crowdstrike.wd5.myworkdayjobs.com/wday/cxs/crowdstrike/crowdstrikecareers/jobs",
+      "pagination": "Public Candidate Experience API uses offset/limit pagination; the first page total is authoritative because later pages report zero.",
+      "external_job_id_field": "bulletFields[0]",
+      "publication_date_field": "postedOn",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "locationsText",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/Field-Tech-Strategist_R28986",
@@ -2948,6 +2953,11 @@
           "url": "https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers",
           "evidence_type": "phase4_adapter_mapping_correction",
           "note": "CrowdStrike public Workday board"
+        },
+        {
+          "url": "https://crowdstrike.wd5.myworkdayjobs.com/wday/cxs/crowdstrike/crowdstrikecareers/jobs",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:17:51+05:30; outcome=success; jobs=371; pages=19; missing_fields=0; unknown_dates=371"
         }
       ]
     },
@@ -4467,7 +4477,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "status": "auto_verified",
       "official_careers_url": "https://fractal.wd1.myworkdayjobs.com/Careers",
       "adapter_type": "workday",
@@ -4477,15 +4487,15 @@
         "site": "Careers"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://fractal.wd1.myworkdayjobs.com/Careers",
-      "pagination": "Requires full adapter-group verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://fractal.wd1.myworkdayjobs.com/wday/cxs/fractal/Careers/jobs",
+      "pagination": "Public Candidate Experience API uses offset/limit pagination; the first page total is authoritative because later pages report zero.",
+      "external_job_id_field": "bulletFields[0]",
+      "publication_date_field": "postedOn",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "locationsText",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://fractal.ai/careers/",
@@ -4501,6 +4511,11 @@
           "url": "https://fractal.wd1.myworkdayjobs.com/Careers",
           "evidence_type": "phase4_adapter_mapping_correction",
           "note": "Fractal public Workday board"
+        },
+        {
+          "url": "https://fractal.wd1.myworkdayjobs.com/wday/cxs/fractal/Careers/jobs",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:17:51+05:30; outcome=success; jobs=137; pages=7; missing_fields=1; unknown_dates=137"
         }
       ]
     },
@@ -8924,7 +8939,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Normalize the discovered login path to its public Workday board and record the exact shard host.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "status": "auto_verified",
       "official_careers_url": "https://ghr.wd1.myworkdayjobs.com/lateral-us",
       "adapter_type": "workday",
@@ -8934,15 +8949,15 @@
         "site": "lateral-us"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://ghr.wd1.myworkdayjobs.com/lateral-us",
-      "pagination": "Requires full adapter-group verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://ghr.wd1.myworkdayjobs.com/wday/cxs/ghr/lateral-us/jobs",
+      "pagination": "Public Candidate Experience API uses offset/limit pagination; the first page total is authoritative because later pages report zero.",
+      "external_job_id_field": "bulletFields[0]",
+      "publication_date_field": "postedOn",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "locationsText",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://careers.bankofamerica.com/en-us/job-search/india",
@@ -8963,6 +8978,11 @@
           "url": "https://ghr.wd1.myworkdayjobs.com/lateral-us",
           "evidence_type": "phase4_adapter_mapping_correction",
           "note": "Bank of America public Workday board"
+        },
+        {
+          "url": "https://ghr.wd1.myworkdayjobs.com/wday/cxs/ghr/lateral-us/jobs",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:17:51+05:30; outcome=success; jobs=2023; pages=102; missing_fields=0; unknown_dates=2023"
         }
       ]
     },
@@ -8975,7 +8995,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Normalize the discovered login redirect to its public Workday board and record the exact shard host.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "status": "auto_verified",
       "official_careers_url": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays",
       "adapter_type": "workday",
@@ -8985,15 +9005,15 @@
         "site": "External_Career_Site_Barclays"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays",
-      "pagination": "Requires full adapter-group verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://barclays.wd3.myworkdayjobs.com/wday/cxs/barclays/External_Career_Site_Barclays/jobs",
+      "pagination": "Public Candidate Experience API uses offset/limit pagination; the first page total is authoritative because later pages report zero.",
+      "external_job_id_field": "bulletFields[0]",
+      "publication_date_field": "postedOn",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "locationsText",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://search.jobs.barclays/search-jobs?alcpm=2077456%2C1819730%2C1269750%2C1861060%2C1880251",
@@ -9014,6 +9034,11 @@
           "url": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays",
           "evidence_type": "phase4_adapter_mapping_correction",
           "note": "Barclays public Workday board"
+        },
+        {
+          "url": "https://barclays.wd3.myworkdayjobs.com/wday/cxs/barclays/External_Career_Site_Barclays/jobs",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:17:51+05:30; outcome=success; jobs=874; pages=44; missing_fields=1; unknown_dates=874"
         }
       ]
     },
@@ -9304,7 +9329,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "status": "auto_verified",
       "official_careers_url": "https://lseg.wd3.myworkdayjobs.com/Careers",
       "adapter_type": "workday",
@@ -9314,15 +9339,15 @@
         "site": "Careers"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://lseg.wd3.myworkdayjobs.com/Careers",
-      "pagination": "Requires full adapter-group verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://lseg.wd3.myworkdayjobs.com/wday/cxs/lseg/Careers/jobs",
+      "pagination": "Public Candidate Experience API uses offset/limit pagination; the first page total is authoritative because later pages report zero.",
+      "external_job_id_field": "bulletFields[0]",
+      "publication_date_field": "postedOn",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "locationsText",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.efinancialcareers.co.uk/jobs/at-london-stock-exchange-group",
@@ -9353,6 +9378,11 @@
           "url": "https://lseg.wd3.myworkdayjobs.com/Careers",
           "evidence_type": "phase4_adapter_mapping_correction",
           "note": "LSEG public Workday board"
+        },
+        {
+          "url": "https://lseg.wd3.myworkdayjobs.com/wday/cxs/lseg/Careers/jobs",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:17:51+05:30; outcome=success; jobs=722; pages=37; missing_fields=0; unknown_dates=722"
         }
       ]
     },
@@ -9502,7 +9532,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "status": "auto_verified",
       "official_careers_url": "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site",
       "adapter_type": "workday",
@@ -9512,15 +9542,15 @@
         "site": "Global_External_Site"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site",
-      "pagination": "Requires full adapter-group verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://nasdaq.wd1.myworkdayjobs.com/wday/cxs/nasdaq/Global_External_Site/jobs",
+      "pagination": "Public Candidate Experience API uses offset/limit pagination; the first page total is authoritative because later pages report zero.",
+      "external_job_id_field": "bulletFields[0]",
+      "publication_date_field": "postedOn",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "locationsText",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.nasdaq.com/about/careers",
@@ -9541,6 +9571,11 @@
           "url": "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site",
           "evidence_type": "phase4_adapter_mapping_correction",
           "note": "Nasdaq public Workday board"
+        },
+        {
+          "url": "https://nasdaq.wd1.myworkdayjobs.com/wday/cxs/nasdaq/Global_External_Site/jobs",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:17:51+05:30; outcome=success; jobs=183; pages=10; missing_fields=0; unknown_dates=183"
         }
       ]
     },
@@ -9680,7 +9715,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "status": "auto_verified",
       "official_careers_url": "https://visa.wd5.myworkdayjobs.com/Visa",
       "adapter_type": "workday",
@@ -9690,15 +9725,15 @@
         "site": "Visa"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://visa.wd5.myworkdayjobs.com/Visa",
-      "pagination": "Requires full adapter-group verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://visa.wd5.myworkdayjobs.com/wday/cxs/visa/Visa/jobs",
+      "pagination": "Public Candidate Experience API uses offset/limit pagination; the first page total is authoritative because later pages report zero.",
+      "external_job_id_field": "bulletFields[0]",
+      "publication_date_field": "postedOn",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "locationsText",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://corporate.visa.com/en/careers.html",
@@ -9719,6 +9754,11 @@
           "url": "https://visa.wd5.myworkdayjobs.com/Visa",
           "evidence_type": "phase4_adapter_mapping_correction",
           "note": "Visa public Workday board"
+        },
+        {
+          "url": "https://visa.wd5.myworkdayjobs.com/wday/cxs/visa/Visa/jobs",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:17:51+05:30; outcome=success; jobs=794; pages=40; missing_fields=0; unknown_dates=794"
         }
       ]
     },
@@ -10644,7 +10684,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Normalize the discovered locale and introduce-yourself path to its public Workday board and record the exact shard host.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "status": "auto_verified",
       "official_careers_url": "https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers",
       "adapter_type": "workday",
@@ -10654,15 +10694,15 @@
         "site": "panwexternalcareers"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers",
-      "pagination": "Requires full adapter-group verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://paloaltonetworks.wd5.myworkdayjobs.com/wday/cxs/paloaltonetworks/panwexternalcareers/jobs",
+      "pagination": "Public Candidate Experience API uses offset/limit pagination; the first page total is authoritative because later pages report zero.",
+      "external_job_id_field": "bulletFields[0]",
+      "publication_date_field": "postedOn",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "locationsText",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india",
@@ -10683,6 +10723,11 @@
           "url": "https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers",
           "evidence_type": "phase4_adapter_mapping_correction",
           "note": "Palo Alto Networks public Workday board"
+        },
+        {
+          "url": "https://paloaltonetworks.wd5.myworkdayjobs.com/wday/cxs/paloaltonetworks/panwexternalcareers/jobs",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:17:51+05:30; outcome=success; jobs=1510; pages=76; missing_fields=0; unknown_dates=1510"
         }
       ]
     },
@@ -11101,7 +11146,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "status": "auto_verified",
       "official_careers_url": "https://workday.wd5.myworkdayjobs.com/Workday",
       "adapter_type": "workday",
@@ -11111,15 +11156,15 @@
         "site": "Workday"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://workday.wd5.myworkdayjobs.com/Workday",
-      "pagination": "Requires full adapter-group verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://workday.wd5.myworkdayjobs.com/wday/cxs/workday/Workday/jobs",
+      "pagination": "Public Candidate Experience API uses offset/limit pagination; the first page total is authoritative because later pages report zero.",
+      "external_job_id_field": "bulletFields[0]",
+      "publication_date_field": "postedOn",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "locationsText",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.workday.com/en-in/company/careers/life-at-workday.html",
@@ -11140,6 +11185,11 @@
           "url": "https://workday.wd5.myworkdayjobs.com/Workday",
           "evidence_type": "phase4_adapter_mapping_correction",
           "note": "Workday public Workday board"
+        },
+        {
+          "url": "https://workday.wd5.myworkdayjobs.com/wday/cxs/workday/Workday/jobs",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:17:51+05:30; outcome=success; jobs=365; pages=19; missing_fields=0; unknown_dates=365"
         }
       ]
     },
@@ -11191,7 +11241,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "status": "auto_verified",
       "official_careers_url": "https://analogdevices.wd1.myworkdayjobs.com/External",
       "adapter_type": "workday",
@@ -11201,15 +11251,15 @@
         "site": "External"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://analogdevices.wd1.myworkdayjobs.com/External",
-      "pagination": "Requires full adapter-group verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://analogdevices.wd1.myworkdayjobs.com/wday/cxs/analogdevices/External/jobs",
+      "pagination": "Public Candidate Experience API uses offset/limit pagination; the first page total is authoritative because later pages report zero.",
+      "external_job_id_field": "bulletFields[0]",
+      "publication_date_field": "postedOn",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "locationsText",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.analog.com/en/careers/career-opportunities.html",
@@ -11230,6 +11280,11 @@
           "url": "https://analogdevices.wd1.myworkdayjobs.com/External",
           "evidence_type": "phase4_adapter_mapping_correction",
           "note": "Analog Devices public Workday board"
+        },
+        {
+          "url": "https://analogdevices.wd1.myworkdayjobs.com/wday/cxs/analogdevices/External/jobs",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:17:51+05:30; outcome=success; jobs=785; pages=40; missing_fields=0; unknown_dates=785"
         }
       ]
     },
@@ -11320,7 +11375,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "status": "auto_verified",
       "official_careers_url": "https://cadence.wd1.myworkdayjobs.com/External_Careers",
       "adapter_type": "workday",
@@ -11330,15 +11385,15 @@
         "site": "External_Careers"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://cadence.wd1.myworkdayjobs.com/External_Careers",
-      "pagination": "Requires full adapter-group verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://cadence.wd1.myworkdayjobs.com/wday/cxs/cadence/External_Careers/jobs",
+      "pagination": "Public Candidate Experience API uses offset/limit pagination; the first page total is authoritative because later pages report zero.",
+      "external_job_id_field": "bulletFields[0]",
+      "publication_date_field": "postedOn",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "locationsText",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.cadence.com/en_US/home/company/careers.html",
@@ -11359,6 +11414,11 @@
           "url": "https://cadence.wd1.myworkdayjobs.com/External_Careers",
           "evidence_type": "phase4_adapter_mapping_correction",
           "note": "Cadence public Workday board"
+        },
+        {
+          "url": "https://cadence.wd1.myworkdayjobs.com/wday/cxs/cadence/External_Careers/jobs",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:17:51+05:30; outcome=success; jobs=608; pages=31; missing_fields=1; unknown_dates=608"
         }
       ]
     },
@@ -11576,7 +11636,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Record the exact public Workday shard host required to construct the listing API endpoint.",
+      "notes": "Workday public Candidate Experience endpoints passed full adapter-group validation. Relative postedOn labels remain uncertain for H5; missing or multi-location summaries can be enriched from the public detail endpoint.",
       "status": "auto_verified",
       "official_careers_url": "https://nxp.wd3.myworkdayjobs.com/careers",
       "adapter_type": "workday",
@@ -11586,15 +11646,15 @@
         "site": "careers"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://nxp.wd3.myworkdayjobs.com/careers",
-      "pagination": "Requires full adapter-group verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "list_endpoint": "https://nxp.wd3.myworkdayjobs.com/wday/cxs/nxp/careers/jobs",
+      "pagination": "Public Candidate Experience API uses offset/limit pagination; the first page total is authoritative because later pages report zero.",
+      "external_job_id_field": "bulletFields[0]",
+      "publication_date_field": "postedOn",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "title",
+      "location_field": "locationsText",
+      "detail_strategy": "detail_endpoint",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.nxp.com/company/about-nxp/careers%3ACAREERS",
@@ -11615,6 +11675,11 @@
           "url": "https://nxp.wd3.myworkdayjobs.com/careers",
           "evidence_type": "phase4_adapter_mapping_correction",
           "note": "NXP public Workday board"
+        },
+        {
+          "url": "https://nxp.wd3.myworkdayjobs.com/wday/cxs/nxp/careers/jobs",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T19:17:51+05:30; outcome=success; jobs=789; pages=40; missing_fields=0; unknown_dates=789"
         }
       ]
     },
