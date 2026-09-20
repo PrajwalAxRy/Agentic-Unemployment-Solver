@@ -7825,7 +7825,7 @@
       "company_id": "paypal",
       "company_name": "PayPal",
       "status": "proposed",
-      "careers_url": "https://careers.pypl.com/locations/india/",
+      "careers_url": "https://paypal.eightfold.ai/careers",
       "adapter_type": "eightfold",
       "adapter_parameters": {
         "tenant": "paypal"
@@ -7845,11 +7845,12 @@
         "https://paypalcareers2025rbcr.q4web.com/locations/default.aspx",
         "https://careers.pypl.com/locations/india/",
         "https://careers.pypl.com/locations/india/",
-        "https://paypal.eightfold.ai/candidate/login?domain=paypal.com"
+        "https://paypal.eightfold.ai/candidate/login?domain=paypal.com",
+        "https://paypal.eightfold.ai/careers"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Normalize the discovered candidate-login URL to the public PayPal careers board; adapter access remains subject to Phase 4 validation.",
       "source_rank": 245,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"

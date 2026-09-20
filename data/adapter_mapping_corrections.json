@@ -122,6 +122,7 @@
       "company_id": "paypal",
       "url": "https://paypal.eightfold.ai/careers",
       "title": "PayPal public Eightfold careers board",
+      "status": "auto_verified",
       "reason": "Normalize the discovered candidate-login URL to the public PayPal careers board; adapter access remains subject to Phase 4 validation."
     }
   ]
