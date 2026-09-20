@@ -275,28 +275,30 @@
       "company_id": "doxel",
       "company_name": "Doxel",
       "status": "proposed",
-      "careers_url": "https://jobs.lever.co/doxel?team=Engineering",
+      "careers_url": "https://jobs.lever.co/doxel",
       "adapter_type": "lever",
       "adapter_parameters": {
         "site": "doxel"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "createdAt",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/doxel?team=Engineering",
+        "https://api.lever.co/v0/postings/doxel?mode=json",
+        "https://github.com/lever/postings-api",
         "https://api.lever.co/v0/postings/doxel?mode=json"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "source_rank": 9,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1181,11 +1183,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/neuron7?location=Bengaluru",
+        "https://api.lever.co/v0/postings/neuron7?mode=json",
+        "https://github.com/lever/postings-api",
         "https://api.lever.co/v0/postings/neuron7?mode=json"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "source_rank": 37,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1307,11 +1311,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/aeratechnology/a5e2a621-a540-4230-bed8-574dadf58469",
+        "https://api.lever.co/v0/postings/aeratechnology?mode=json",
+        "https://github.com/lever/postings-api",
         "https://api.lever.co/v0/postings/aeratechnology?mode=json"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "source_rank": 41,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -1503,11 +1509,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/safe?location=Bengaluru",
+        "https://api.lever.co/v0/postings/safe?mode=json",
+        "https://github.com/lever/postings-api",
         "https://api.lever.co/v0/postings/safe?mode=json"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "source_rank": 47,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -2256,11 +2264,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/levelai?team=AI",
+        "https://api.lever.co/v0/postings/levelai?mode=json",
+        "https://github.com/lever/postings-api",
         "https://api.lever.co/v0/postings/levelai?mode=json"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "source_rank": 70,
       "priority": "P1",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -3122,11 +3132,13 @@
       "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/bazaarvoice?location=Bengaluru",
+        "https://api.lever.co/v0/postings/bazaarvoice?mode=json",
+        "https://github.com/lever/postings-api",
         "https://api.lever.co/v0/postings/bazaarvoice?mode=json"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "source_rank": 97,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -3965,23 +3977,25 @@
       "adapter_parameters": {
         "site": "100ms"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "createdAt",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/100ms",
+        "https://api.lever.co/v0/postings/100ms?mode=json",
+        "https://github.com/lever/postings-api",
         "https://api.lever.co/v0/postings/100ms?mode=json"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "source_rank": 124,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -4244,28 +4258,30 @@
       "company_id": "barraiser",
       "company_name": "BarRaiser",
       "status": "proposed",
-      "careers_url": "https://jobs.lever.co/barraiser/5e7ac0a0-29bd-4683-8e8e-71741dccaee6/apply?lever-origin=applied&lever-source%5B%5D=levels.fyi&src=levels.fyi",
+      "careers_url": "https://jobs.lever.co/barraiser",
       "adapter_type": "lever",
       "adapter_parameters": {
         "site": "barraiser"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "createdAt",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/barraiser/5e7ac0a0-29bd-4683-8e8e-71741dccaee6/apply?lever-origin=applied&lever-source%5B%5D=levels.fyi&src=levels.fyi",
+        "https://api.lever.co/v0/postings/barraiser?mode=json",
+        "https://github.com/lever/postings-api",
         "https://api.lever.co/v0/postings/barraiser?mode=json"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "source_rank": 133,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -4523,29 +4539,31 @@
       "company_id": "dozee",
       "company_name": "Dozee",
       "status": "proposed",
-      "careers_url": "https://www.dozeehealth.ai/careers",
+      "careers_url": "https://jobs.lever.co/dozee",
       "adapter_type": "lever",
       "adapter_parameters": {
         "site": "dozee"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "createdAt",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.dozeehealth.ai/careers",
         "https://www.dozeehealth.ai/careers",
-        "https://jobs.lever.co/dozee"
+        "https://jobs.lever.co/dozee",
+        "https://github.com/lever/postings-api",
+        "https://api.lever.co/v0/postings/dozee?mode=json"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "source_rank": 142,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -5654,29 +5672,31 @@
       "company_id": "rapidai",
       "company_name": "RapidAI",
       "status": "proposed",
-      "careers_url": "https://www.rapidai.com/careers",
+      "careers_url": "https://jobs.lever.co/rapidai",
       "adapter_type": "lever",
       "adapter_parameters": {
         "site": "rapidai"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "createdAt",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.rapidai.com/careers",
         "https://www.rapidai.com/careers",
-        "https://jobs.lever.co/rapidai?__hstc=232409728.f6630e86be0d1738bcfcb03af8ed53eb.1695401513135.1727301938974.1727363009839.516&__hssc=232409728.1.1727393939727&__hsfp=1151185409&hsCtaTracking=23f7cbf0-ebf5-487b-9a02-f12eaa44ae90%7Cdb2c4dc5-0f91-4fc3-a3aa-ab3bdd41bace"
+        "https://jobs.lever.co/rapidai?__hstc=232409728.f6630e86be0d1738bcfcb03af8ed53eb.1695401513135.1727301938974.1727363009839.516&__hssc=232409728.1.1727393939727&__hsfp=1151185409&hsCtaTracking=23f7cbf0-ebf5-487b-9a02-f12eaa44ae90%7Cdb2c4dc5-0f91-4fc3-a3aa-ab3bdd41bace",
+        "https://github.com/lever/postings-api",
+        "https://api.lever.co/v0/postings/rapidai?mode=json"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "source_rank": 178,
       "priority": "P2",
       "last_verified_at": "2026-09-20T12:40:52+05:30"
@@ -9520,10 +9540,10 @@
       "company_id": "dream11-dream-sports",
       "company_name": "Dream11 / Dream Sports",
       "status": "proposed",
-      "careers_url": "https://jobs.lever.co/dreamsports/5695908e-b004-4c11-966f-d410f3c5e959/apply",
-      "adapter_type": "lever",
+      "careers_url": "https://www.dreamsports.group/lifeatdreamsports",
+      "adapter_type": "search_only",
       "adapter_parameters": {
-        "site": "dreamsports"
+        "search_url": "https://www.dreamsports.group/lifeatdreamsports"
       },
       "identity_strategy": "unresolved",
       "date_strategy": {
@@ -9537,11 +9557,12 @@
       "confidence": "low",
       "evidence": [
         "https://jobs.lever.co/dreamsports/5695908e-b004-4c11-966f-d410f3c5e959/apply",
-        "https://api.lever.co/v0/postings/dreamsports?mode=json"
+        "https://api.lever.co/v0/postings/dreamsports?mode=json",
+        "https://www.dreamsports.group/lifeatdreamsports"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Former Lever board now returns 404; current official site requires custom discovery.",
-      "notes": "Automated quality audit rejected this source for enablement.",
+      "exception_reason": "Dream Sports' official careers page still links to the former Lever board, but both the public board and Postings API return HTTP 404; the official page does not enumerate current jobs.",
+      "notes": "Dream Sports' official careers page still links to the former Lever board, but both the public board and Postings API return HTTP 404; the official page does not enumerate current jobs.",
       "source_rank": 300,
       "priority": "P3",
       "last_verified_at": null
@@ -10049,29 +10070,31 @@
       "company_id": "paytm",
       "company_name": "Paytm",
       "status": "proposed",
-      "careers_url": "https://paytm.com/careers",
+      "careers_url": "https://jobs.lever.co/paytm",
       "adapter_type": "lever",
       "adapter_parameters": {
         "site": "paytm"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "createdAt",
         "basis": "unknown",
         "verified_as_publication": false,
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "listing_payload",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://paytm.com/careers",
         "https://paytm.com/careers",
-        "https://jobs.lever.co/paytm"
+        "https://jobs.lever.co/paytm",
+        "https://github.com/lever/postings-api",
+        "https://api.lever.co/v0/postings/paytm?mode=json"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "source_rank": 317,
       "priority": "P3",
       "last_verified_at": "2026-09-20T12:40:52+05:30"

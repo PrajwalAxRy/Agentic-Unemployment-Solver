@@ -19,6 +19,13 @@
       "url": "https://jobs.ashbyhq.com/clipboard",
       "title": "Jobs at Clipboard",
       "reason": "Clipboard's official careers page now links to its public Ashby board; the former Greenhouse board returns 404."
+    },
+    {
+      "company_id": "dream11-dream-sports",
+      "url": "https://www.dreamsports.group/lifeatdreamsports",
+      "title": "Life at Dream Sports",
+      "status": "conflict",
+      "reason": "Dream Sports' official careers page still links to the former Lever board, but both the public board and Postings API return HTTP 404; the official page does not enumerate current jobs."
     }
   ]
 }

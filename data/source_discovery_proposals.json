@@ -414,23 +414,23 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "status": "auto_verified",
-      "official_careers_url": "https://jobs.lever.co/doxel?team=Engineering",
+      "official_careers_url": "https://jobs.lever.co/doxel",
       "adapter_type": "lever",
       "adapter_parameters": {
         "site": "doxel"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.lever.co/v0/postings/doxel?mode=json",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "pagination": "Official public Postings API uses skip/limit pagination; verified until a short page in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "createdAt",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "text",
+      "location_field": "categories.location",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://jobs.lever.co/doxel?team=Engineering",
@@ -441,6 +441,16 @@
           "url": "https://api.lever.co/v0/postings/doxel?mode=json",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=13"
+        },
+        {
+          "url": "https://github.com/lever/postings-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Postings API contract confirms public published jobs, stable IDs, skip/limit pagination, locations, URLs, and description fields."
+        },
+        {
+          "url": "https://api.lever.co/v0/postings/doxel?mode=json",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:40:59+05:30; outcome=success; jobs=13; pages=1; missing_fields=0; unknown_dates=13"
         }
       ]
     },
@@ -1619,7 +1629,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.lever.co/neuron7",
       "adapter_type": "lever",
@@ -1628,7 +1638,7 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.lever.co/v0/postings/neuron7?mode=json",
-      "pagination": "public postings API; completeness requires live verification",
+      "pagination": "Official public Postings API uses skip/limit pagination; verified until a short page in Phase 4.",
       "external_job_id_field": "id",
       "publication_date_field": "createdAt",
       "publication_date_basis": "unknown",
@@ -1646,6 +1656,16 @@
           "url": "https://api.lever.co/v0/postings/neuron7?mode=json",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=18"
+        },
+        {
+          "url": "https://github.com/lever/postings-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Postings API contract confirms public published jobs, stable IDs, skip/limit pagination, locations, URLs, and description fields."
+        },
+        {
+          "url": "https://api.lever.co/v0/postings/neuron7?mode=json",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:40:59+05:30; outcome=success; jobs=18; pages=1; missing_fields=0; unknown_dates=18"
         }
       ]
     },
@@ -1781,7 +1801,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.lever.co/aeratechnology",
       "adapter_type": "lever",
@@ -1790,7 +1810,7 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.lever.co/v0/postings/aeratechnology?mode=json",
-      "pagination": "public postings API; completeness requires live verification",
+      "pagination": "Official public Postings API uses skip/limit pagination; verified until a short page in Phase 4.",
       "external_job_id_field": "id",
       "publication_date_field": "createdAt",
       "publication_date_basis": "unknown",
@@ -1808,6 +1828,16 @@
           "url": "https://api.lever.co/v0/postings/aeratechnology?mode=json",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=14"
+        },
+        {
+          "url": "https://github.com/lever/postings-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Postings API contract confirms public published jobs, stable IDs, skip/limit pagination, locations, URLs, and description fields."
+        },
+        {
+          "url": "https://api.lever.co/v0/postings/aeratechnology?mode=json",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:40:59+05:30; outcome=success; jobs=14; pages=1; missing_fields=0; unknown_dates=14"
         }
       ]
     },
@@ -2065,7 +2095,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.lever.co/safe",
       "adapter_type": "lever",
@@ -2074,7 +2104,7 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.lever.co/v0/postings/safe?mode=json",
-      "pagination": "public postings API; completeness requires live verification",
+      "pagination": "Official public Postings API uses skip/limit pagination; verified until a short page in Phase 4.",
       "external_job_id_field": "id",
       "publication_date_field": "createdAt",
       "publication_date_basis": "unknown",
@@ -2092,6 +2122,16 @@
           "url": "https://api.lever.co/v0/postings/safe?mode=json",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=20"
+        },
+        {
+          "url": "https://github.com/lever/postings-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Postings API contract confirms public published jobs, stable IDs, skip/limit pagination, locations, URLs, and description fields."
+        },
+        {
+          "url": "https://api.lever.co/v0/postings/safe?mode=json",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:40:59+05:30; outcome=success; jobs=20; pages=1; missing_fields=0; unknown_dates=20"
         }
       ]
     },
@@ -3158,7 +3198,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.lever.co/levelai",
       "adapter_type": "lever",
@@ -3167,7 +3207,7 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.lever.co/v0/postings/levelai?mode=json",
-      "pagination": "public postings API; completeness requires live verification",
+      "pagination": "Official public Postings API uses skip/limit pagination; verified until a short page in Phase 4.",
       "external_job_id_field": "id",
       "publication_date_field": "createdAt",
       "publication_date_basis": "unknown",
@@ -3185,6 +3225,16 @@
           "url": "https://api.lever.co/v0/postings/levelai?mode=json",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=19"
+        },
+        {
+          "url": "https://github.com/lever/postings-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Postings API contract confirms public published jobs, stable IDs, skip/limit pagination, locations, URLs, and description fields."
+        },
+        {
+          "url": "https://api.lever.co/v0/postings/levelai?mode=json",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:40:59+05:30; outcome=success; jobs=19; pages=1; missing_fields=0; unknown_dates=19"
         }
       ]
     },
@@ -4356,7 +4406,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.lever.co/bazaarvoice",
       "adapter_type": "lever",
@@ -4365,7 +4415,7 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.lever.co/v0/postings/bazaarvoice?mode=json",
-      "pagination": "public postings API; completeness requires live verification",
+      "pagination": "Official public Postings API uses skip/limit pagination; verified until a short page in Phase 4.",
       "external_job_id_field": "id",
       "publication_date_field": "createdAt",
       "publication_date_basis": "unknown",
@@ -4383,6 +4433,16 @@
           "url": "https://api.lever.co/v0/postings/bazaarvoice?mode=json",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=29"
+        },
+        {
+          "url": "https://github.com/lever/postings-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Postings API contract confirms public published jobs, stable IDs, skip/limit pagination, locations, URLs, and description fields."
+        },
+        {
+          "url": "https://api.lever.co/v0/postings/bazaarvoice?mode=json",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:40:59+05:30; outcome=success; jobs=29; pages=1; missing_fields=0; unknown_dates=29"
         }
       ]
     },
@@ -5503,7 +5563,7 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "status": "auto_verified",
       "official_careers_url": "https://jobs.lever.co/100ms",
       "adapter_type": "lever",
@@ -5512,14 +5572,14 @@
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.lever.co/v0/postings/100ms?mode=json",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "pagination": "Official public Postings API uses skip/limit pagination; verified until a short page in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "createdAt",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "text",
+      "location_field": "categories.location",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://jobs.lever.co/100ms",
@@ -5530,6 +5590,16 @@
           "url": "https://api.lever.co/v0/postings/100ms?mode=json",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=8"
+        },
+        {
+          "url": "https://github.com/lever/postings-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Postings API contract confirms public published jobs, stable IDs, skip/limit pagination, locations, URLs, and description fields."
+        },
+        {
+          "url": "https://api.lever.co/v0/postings/100ms?mode=json",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:40:59+05:30; outcome=success; jobs=8; pages=1; missing_fields=0; unknown_dates=8"
         }
       ]
     },
@@ -5879,23 +5949,23 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "status": "auto_verified",
-      "official_careers_url": "https://jobs.lever.co/barraiser/5e7ac0a0-29bd-4683-8e8e-71741dccaee6/apply?lever-origin=applied&lever-source%5B%5D=levels.fyi&src=levels.fyi",
+      "official_careers_url": "https://jobs.lever.co/barraiser",
       "adapter_type": "lever",
       "adapter_parameters": {
         "site": "barraiser"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.lever.co/v0/postings/barraiser?mode=json",
-      "pagination": "Requires adapter verification after H2 source approval.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "pagination": "Official public Postings API uses skip/limit pagination; verified until a short page in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "createdAt",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "text",
+      "location_field": "categories.location",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://jobs.lever.co/barraiser/5e7ac0a0-29bd-4683-8e8e-71741dccaee6/apply?lever-origin=applied&lever-source%5B%5D=levels.fyi&src=levels.fyi",
@@ -5906,6 +5976,16 @@
           "url": "https://api.lever.co/v0/postings/barraiser?mode=json",
           "evidence_type": "structured_list_probe",
           "note": "recognized public JSON jobs collection; observed jobs=18"
+        },
+        {
+          "url": "https://github.com/lever/postings-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Postings API contract confirms public published jobs, stable IDs, skip/limit pagination, locations, URLs, and description fields."
+        },
+        {
+          "url": "https://api.lever.co/v0/postings/barraiser?mode=json",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:40:59+05:30; outcome=success; jobs=18; pages=1; missing_fields=16; unknown_dates=18"
         }
       ]
     },
@@ -6230,23 +6310,23 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "status": "auto_verified",
-      "official_careers_url": "https://www.dozeehealth.ai/careers",
+      "official_careers_url": "https://jobs.lever.co/dozee",
       "adapter_type": "lever",
       "adapter_parameters": {
         "site": "dozee"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.lever.co/v0/postings/dozee?mode=json",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "pagination": "Official public Postings API uses skip/limit pagination; verified until a short page in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "createdAt",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "text",
+      "location_field": "categories.location",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.dozeehealth.ai/careers",
@@ -6262,6 +6342,16 @@
           "url": "https://jobs.lever.co/dozee",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=lever without retaining page HTML."
+        },
+        {
+          "url": "https://github.com/lever/postings-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Postings API contract confirms public published jobs, stable IDs, skip/limit pagination, locations, URLs, and description fields."
+        },
+        {
+          "url": "https://api.lever.co/v0/postings/dozee?mode=json",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:40:59+05:30; outcome=success; jobs=25; pages=1; missing_fields=0; unknown_dates=25"
         }
       ]
     },
@@ -7717,23 +7807,23 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "status": "auto_verified",
-      "official_careers_url": "https://www.rapidai.com/careers",
+      "official_careers_url": "https://jobs.lever.co/rapidai",
       "adapter_type": "lever",
       "adapter_parameters": {
         "site": "rapidai"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.lever.co/v0/postings/rapidai?mode=json",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "pagination": "Official public Postings API uses skip/limit pagination; verified until a short page in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "createdAt",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "text",
+      "location_field": "categories.location",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://www.rapidai.com/careers",
@@ -7749,6 +7839,16 @@
           "url": "https://jobs.lever.co/rapidai?__hstc=232409728.f6630e86be0d1738bcfcb03af8ed53eb.1695401513135.1727301938974.1727363009839.516&__hssc=232409728.1.1727393939727&__hsfp=1151185409&hsCtaTracking=23f7cbf0-ebf5-487b-9a02-f12eaa44ae90%7Cdb2c4dc5-0f91-4fc3-a3aa-ab3bdd41bace",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=lever without retaining page HTML."
+        },
+        {
+          "url": "https://github.com/lever/postings-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Postings API contract confirms public published jobs, stable IDs, skip/limit pagination, locations, URLs, and description fields."
+        },
+        {
+          "url": "https://api.lever.co/v0/postings/rapidai?mode=json",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:40:59+05:30; outcome=success; jobs=17; pages=1; missing_fields=0; unknown_dates=17"
         }
       ]
     },
@@ -12854,17 +12954,17 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Former Lever board now returns 404; current official site requires custom discovery.",
-      "notes": "Automated quality audit rejected this source for enablement.",
+      "access_concern": "Dream Sports' official careers page still links to the former Lever board, but both the public board and Postings API return HTTP 404; the official page does not enumerate current jobs.",
+      "notes": "Dream Sports' official careers page still links to the former Lever board, but both the public board and Postings API return HTTP 404; the official page does not enumerate current jobs.",
       "status": "conflict",
-      "official_careers_url": "https://jobs.lever.co/dreamsports/5695908e-b004-4c11-966f-d410f3c5e959/apply",
-      "adapter_type": "lever",
+      "official_careers_url": "https://www.dreamsports.group/lifeatdreamsports",
+      "adapter_type": "search_only",
       "adapter_parameters": {
-        "site": "dreamsports"
+        "search_url": "https://www.dreamsports.group/lifeatdreamsports"
       },
-      "listing_mode": "complete_list",
-      "list_endpoint": "https://api.lever.co/v0/postings/dreamsports?mode=json",
-      "pagination": "Requires adapter verification after H2 source approval.",
+      "listing_mode": "search_only",
+      "list_endpoint": "https://www.dreamsports.group/lifeatdreamsports",
+      "pagination": "Requires full adapter-group verification.",
       "external_job_id_field": null,
       "publication_date_field": null,
       "publication_date_basis": "unknown",
@@ -12882,6 +12982,11 @@
           "url": "https://api.lever.co/v0/postings/dreamsports?mode=json",
           "evidence_type": "failed_source_probe",
           "note": "HTTP 404"
+        },
+        {
+          "url": "https://www.dreamsports.group/lifeatdreamsports",
+          "evidence_type": "phase4_adapter_mapping_correction",
+          "note": "Life at Dream Sports"
         }
       ]
     },
@@ -13536,23 +13641,23 @@
       "regional_board_url": null,
       "publication_date_verified": false,
       "access_concern": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Lever public Postings API passed full adapter-group validation. createdAt remains uncertain date evidence for H5; missing descriptions stay explicit.",
       "status": "auto_verified",
-      "official_careers_url": "https://paytm.com/careers",
+      "official_careers_url": "https://jobs.lever.co/paytm",
       "adapter_type": "lever",
       "adapter_parameters": {
         "site": "paytm"
       },
       "listing_mode": "complete_list",
       "list_endpoint": "https://api.lever.co/v0/postings/paytm?mode=json",
-      "pagination": "Hosted ATS behavior requires adapter verification.",
-      "external_job_id_field": null,
-      "publication_date_field": null,
+      "pagination": "Official public Postings API uses skip/limit pagination; verified until a short page in Phase 4.",
+      "external_job_id_field": "id",
+      "publication_date_field": "createdAt",
       "publication_date_basis": "unknown",
-      "title_field": null,
-      "location_field": null,
-      "detail_strategy": "detail_page",
-      "confidence": "medium",
+      "title_field": "text",
+      "location_field": "categories.location",
+      "detail_strategy": "listing_payload",
+      "confidence": "high",
       "evidence": [
         {
           "url": "https://paytm.com/careers",
@@ -13568,6 +13673,16 @@
           "url": "https://jobs.lever.co/paytm",
           "evidence_type": "hosted_ats_html_fingerprint",
           "note": "Detected adapter_type=lever without retaining page HTML."
+        },
+        {
+          "url": "https://github.com/lever/postings-api",
+          "evidence_type": "official_adapter_documentation",
+          "note": "Official Postings API contract confirms public published jobs, stable IDs, skip/limit pagination, locations, URLs, and description fields."
+        },
+        {
+          "url": "https://api.lever.co/v0/postings/paytm?mode=json",
+          "evidence_type": "full_adapter_group_validation",
+          "note": "2026-09-20T18:40:59+05:30; outcome=success; jobs=205; pages=3; missing_fields=1; unknown_dates=205"
         }
       ]
     },
