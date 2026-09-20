@@ -14,6 +14,7 @@ from urllib.parse import urlsplit
 from job_finder.core.access_detection import is_access_block_html
 
 USER_AGENT = "job-finder/0.1 (manual public job-posting discovery)"
+DEFAULT_MAX_RESPONSE_BYTES = 20_000_000
 
 
 class HttpFailureCategory(StrEnum):
@@ -36,7 +37,7 @@ class HttpPolicy:
     retry_count: int = 2
     backoff_seconds: float = 0.5
     max_backoff_seconds: float = 4.0
-    max_response_bytes: int = 5_000_000
+    max_response_bytes: int = DEFAULT_MAX_RESPONSE_BYTES
     max_redirects: int = 5
 
     def __post_init__(self) -> None:

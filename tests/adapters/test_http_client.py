@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from job_finder.adapters.http_client import (
+    DEFAULT_MAX_RESPONSE_BYTES,
     BoundedHttpClient,
     HttpFailureCategory,
     HttpPolicy,
@@ -68,6 +69,13 @@ def test_success_applies_truthful_identity_and_all_bounds() -> None:
     assert headers["User-Agent"].startswith("job-finder/")
     assert headers["Accept"] == "application/json"
     assert (timeout, max_bytes, max_redirects) == (3, 1234, 2)
+
+
+def test_default_response_limit_covers_observed_large_public_boards() -> None:
+    policy = HttpPolicy()
+
+    assert policy.max_response_bytes == DEFAULT_MAX_RESPONSE_BYTES
+    assert 10_000_000 < policy.max_response_bytes <= 20_000_000
 
 
 def test_retryable_failure_uses_bounded_backoff_then_succeeds() -> None:
