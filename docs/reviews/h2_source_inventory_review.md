@@ -49,7 +49,7 @@ Known reusable ATS families cover 89 companies (27.0%). The remaining 237 search
 | backlog | `search_only` | 237 | 178 | 0 | 59 | 0 | 71.8% |
 | backlog | `unresolved` | 4 | 0 | 0 | 4 | 0 | 1.2% |
 
-Ashby, Greenhouse, Lever, and Workday have now passed full adapter-group validation. The next approved adapter family is Darwinbox.
+Ashby, Greenhouse, Lever, Workday, and Darwinbox have now passed full adapter-group validation. The next approved adapter family is Eightfold.
 
 ### Representative boards
 

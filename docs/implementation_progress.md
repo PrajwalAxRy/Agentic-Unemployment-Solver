@@ -3,8 +3,8 @@
 ## Current status
 
 - Active phase: Phase 4 — Adapter coverage
-- Status: Phases 0–3 complete; H1 and H2 approved; Ashby, Greenhouse, Lever, and Workday
-  adapter groups passed; Darwinbox is next
+- Status: Phases 0–3 complete; H1 and H2 approved; Ashby, Greenhouse, Lever, Workday, and
+  Darwinbox adapter groups passed; Eightfold is next
 - Pending human checkpoint: none; H4 is conditional and has not been triggered
 - No source is enabled. All 330 canonical companies remain in first-release accounting.
 
@@ -86,12 +86,21 @@
 - Fractal Analytics, Barclays, and Cadence each exposed one listing with no location in either the
   list or detail payload. All three remain visible with `Location unavailable`, valid descriptions,
   and direct public links instead of being silently rejected.
+- Phase 4 Darwinbox fixtures and adapter cover numbered pagination, stable direct links, public
+  detail retrieval, access blocks, repeated pages, total inconsistencies, partial failures, and
+  uncertain epoch-valued date evidence.
+- Representative Darwinbox validation covered Porter's 121-job paginated board and Rapido's valid
+  empty board before the complete group run. A live Porter engineering detail returned a complete
+  description and public HTTP 200 deep link.
+- Full Darwinbox validation passed 4/4 companies: three successful boards, one valid empty board,
+  141 jobs across 17 pages, and zero missing required listing fields. All 141 `job_posting_on`
+  values remain `unknown` date evidence for H5.
 - Current proposal accounting reconciles 330/330: 267 auto-verified, 0 current access concerns,
   63 conflicts/non-enumerating sources, and 0 pending oversized structured boards.
 - Current source families: Ashby 25, Greenhouse 25, Lever 11, Workday 13, Darwinbox 4, Eightfold 3,
   SmartRecruiters 3, Oracle Cloud 2, SuccessFactors 2, Jobvite 1, search-only 237, unresolved 4.
 - Registry remains fully disabled and reconciles all IDs, names, priorities, and source ranks.
-- Repository validation passes with 183 tests, strict mypy, and Ruff checks after Workday
+- Repository validation passes with 199 tests, strict mypy, and Ruff checks after Darwinbox
   validation.
 
 ## Relevant Phase 2 commits
@@ -148,6 +157,12 @@
 - `8bbdb2a` — guarded Workday validation evidence importer
 - `96d43d5` — complete Workday mappings and full-group validation evidence
 - `c44e1f7` — explicit retention of jobs missing detail locations
+- `2d97f5b` — bounded support for public same-origin source referers
+- `b720b6c` — sanitized Darwinbox list, detail, empty, malformed, and access fixtures
+- `363d616` — paginated Darwinbox listing and detail adapter
+- `2eb6382` — Darwinbox read-only source verification
+- `55b3816` — guarded Darwinbox validation evidence importer
+- `2668d06` — complete Darwinbox mappings and full-group validation evidence
 
 ## Review artifacts
 
@@ -160,6 +175,7 @@
 - Phase 4 Greenhouse validation: `docs/reviews/phase4_greenhouse_validation.md`
 - Phase 4 Lever validation: `docs/reviews/phase4_lever_validation.md`
 - Phase 4 Workday validation: `docs/reviews/phase4_workday_validation.md`
+- Phase 4 Darwinbox validation: `docs/reviews/phase4_darwinbox_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Disabled runtime registry: `config/company_sources.json`
 
@@ -177,11 +193,13 @@
 - All 9,198 observed Workday jobs use uncertain relative `postedOn` evidence. Three listings lack
   locations in both listing and detail payloads, and multi-location list summaries require detail
   retrieval before deterministic location filtering.
+- All 141 observed Darwinbox jobs use uncertain `job_posting_on` evidence; the date values are
+  retained but not promoted to publication timestamps before H5.
 - 237 records remain `search_only`; 178 are verified official pages needing custom adapters or
   deeper source-family work, and 59 are conflicts.
 - No company was approved as blocked or unsupported at H2.
 
 ## Resume point
 
-Continue Phase 4 with the Darwinbox adapter family, starting with representative fixtures and
-public endpoint verification before validating all four mapped companies.
+Continue Phase 4 with the Eightfold adapter family, starting with representative fixtures and
+public endpoint verification before validating all three mapped companies.
