@@ -1,0 +1,2803 @@
+{
+  "schema_version": 1,
+  "searched_at": "2026-09-20T14:20:00+05:30",
+  "query_template": "\"{company_name}\" official careers jobs India open positions -LinkedIn",
+  "selection_status": "unreviewed_isolated_quality_candidates",
+  "companies": [
+    {
+      "company_id": "google",
+      "company_name": "Google",
+      "source_rank": "19",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Search for jobs - Google Careers Help",
+          "url": "https://support.google.com/googlecareers/answer/9018529?hl=en",
+          "score": 49
+        },
+        {
+          "title": "Jobs search — Google Careers",
+          "url": "https://www.google.com/about/careers/applications/jobs/results/103667844620657350-student-researcher-2026?location=India&q=india&target_level=EARLY&target_level=INTERN_AND_APPRENTICE",
+          "score": 49
+        },
+        {
+          "title": "Jobs search — Google Careers",
+          "url": "https://www.google.com/about/careers/applications/jobs/results/79000330343195334-software-engineer-full-stack-cloud?location=India&page=3&q=%22Google+Cloud%22&src=Online%2FHouse+Ads%2FBKWS_LOC1",
+          "score": 49
+        },
+        {
+          "title": "Apply at Google India Careers →",
+          "url": "https://thecubicals.online/thecubicals/blogs/download-blog/69dbe8894c92dd0905f3c94d",
+          "score": 39
+        },
+        {
+          "title": "Google Fiber Inc.",
+          "url": "https://fiber.storage.googleapis.com/legal/2021/recruiting-sources-and-description-of-outreach-initiatives-2021.pdf",
+          "score": 11
+        },
+        {
+          "title": "Google Fiber Inc.",
+          "url": "https://fiber.storage.googleapis.com/legal/2018/recruiting-sources-and-description-of-outreach-initiatives-2018.pdf",
+          "score": 11
+        },
+        {
+          "title": "3,000+ Google jobs in India",
+          "url": "https://in.linkedin.com/jobs/google-jobs",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "zerodha",
+      "company_name": "Zerodha",
+      "source_rank": "22",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "What are the official social media handles of Zerodha?",
+          "url": "https://support.zerodha.com/category/your-zerodha-account/your-profile/general-profile-questions/articles/official-social-media-handles-zerodha",
+          "score": 41
+        },
+        {
+          "title": "About Zerodha",
+          "url": "https://zerodha-common.s3.ap-south-1.amazonaws.com/Docs/Capital%20Markets%20Yearbook%202024%28digital_new%29.pdf",
+          "score": 11
+        },
+        {
+          "title": "Statement of Additional Information_October 2025.docx",
+          "url": "https://assets.zerodhafundhouse.com/offer-documents/sai/Statement%20of%20Additional%20Information.pdf",
+          "score": 5
+        },
+        {
+          "title": "visit us",
+          "url": "https://tps-storage.s3.ap-south-1.amazonaws.com/prod/Zerodha.pdf",
+          "score": -5
+        },
+        {
+          "title": "40 Zerodha jobs in India",
+          "url": "https://in.linkedin.com/jobs/zerodha-jobs",
+          "score": -21
+        },
+        {
+          "title": "Careers - Zerodha | Zerodha | 32 comments",
+          "url": "https://www.linkedin.com/posts/zerodha_job-openings-at-zerodha-activity-7086656279724662787-fqT0",
+          "score": -21
+        },
+        {
+          "title": "Careers - Zerodha | Zerodha | 32 comments",
+          "url": "https://www.linkedin.com/posts/zerodha_careers-zerodha-activity-7086656279724662787-k2Vl",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "amazon-aws",
+      "company_name": "Amazon / AWS",
+      "source_rank": "23",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "クラウドコンピューティングの求人-AWS で働く | AWS 採用情報",
+          "url": "https://aws.amazon.com/jp/careers/",
+          "score": 34
+        },
+        {
+          "title": "Careers - Amazon Science",
+          "url": "https://www.amazon.science/careers?expandedFilters=Job%2520type%2CCountry%2520%2F%2520region%2CJob%2520category%2C&f1=in&p=2&q=",
+          "score": 24
+        },
+        {
+          "title": "Careers - Amazon Science",
+          "url": "https://www.amazon.science/careers?0000016f-c46f-da1d-abef-eeef98360009-page=2&linkId=92425643&p=10&sc_campaign=Working_at_AWS&sc_channel=sm&sc_content=recruiting_culture_pride&sc_country=Employer+Brand&sc_geo=GLOBAL&sc_outcome=awareness&sc_publisher=INSTAGRAM&trk=recruiting_culture_pride_INSTAGRAM",
+          "score": 24
+        },
+        {
+          "title": "AWS Early Career",
+          "url": "https://jobs.amazon.co.uk/content/en/teams/amazon-web-services/early-career",
+          "score": 24
+        },
+        {
+          "title": "Software development engineer roles for students and grads",
+          "url": "https://amazon.jobs/content/en-gb/career-programs/university/sde",
+          "score": 18
+        },
+        {
+          "title": "Amazon boosts its logistics network ahead of the festive season, launches 3 New Fulfillment Centers",
+          "url": "https://amazonindia.gcs-web.com/node/9301/pdf",
+          "score": 16
+        },
+        {
+          "title": "India Will Need Nine Times as Many Digital Skilled Workers by 2025, Reveals New Report",
+          "url": "https://amazonindia.gcs-web.com/static-files/ab7f9e13-8b7c-46eb-9f63-e02b11431fe1",
+          "score": 10
+        }
+      ]
+    },
+    {
+      "company_id": "salesforce",
+      "company_name": "Salesforce",
+      "source_rank": "58",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Salesforce in India. | Salesforce Careers",
+          "url": "https://careers.salesforce.com/en/our-locations/asia-pacific/india/",
+          "score": 49
+        },
+        {
+          "title": "Salesforce Jobs | Salesforce",
+          "url": "https://www.salesforce.com/company/careers/jobs",
+          "score": 49
+        },
+        {
+          "title": "Salesforce Jobs | Salesforce",
+          "url": "https://careers.salesforce.com/en/jobs/",
+          "score": 49
+        },
+        {
+          "title": "Salesforce Jobs | Salesforce",
+          "url": "https://www.salesforce.com/company/careers/jobs/?bc=OTH&country=India&page=1",
+          "score": 49
+        },
+        {
+          "title": "Careers in India | Join Salesforce in India | Salesforce",
+          "url": "https://www.salesforce.com/company/careers/locations/india/?bc=OTH",
+          "score": 49
+        },
+        {
+          "title": "Salesforce Jobs | Salesforce",
+          "url": "https://careers.salesforce.com/en/jobs/?country=India&page=1&pagesize=20",
+          "score": 49
+        },
+        {
+          "title": "Salesforce Candidate Privacy Statement",
+          "url": "https://www.salesforce.com/content/dam/web/en_in/www/documents/pdf/salesforce-candidate-privacy-statement.pdf?bc=OTH",
+          "score": 11
+        }
+      ]
+    },
+    {
+      "company_id": "apt-portfolio",
+      "company_name": "APT Portfolio",
+      "source_rank": "82",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "APT Portfolio Private Limited Jobs & Careers - 1 Open Positions - Aug 2026",
+          "url": "https://www.uplers.com/company/apt-portfolio-private-limited-15220",
+          "score": 45
+        },
+        {
+          "title": "Jobs at APT Research",
+          "url": "https://job-boards.greenhouse.io/aptportfolio/jobs/4478626002",
+          "score": 14
+        },
+        {
+          "title": "Job Application for Python Developer/ Senior Python Developer at APT Research",
+          "url": "https://job-boards.greenhouse.io/aptportfolio/jobs/6395093002",
+          "score": 14
+        },
+        {
+          "title": "APT Portfolio | Ankita Pachauri",
+          "url": "https://www.linkedin.com/posts/ankita-pachauri-59a3b314_apt-portfolio-activity-7016693353949880320-17SE",
+          "score": -23
+        },
+        {
+          "title": "Kushal Gehlot - APT Portfolio Private Limited | LinkedIn",
+          "url": "https://in.linkedin.com/in/kushal-gehlot",
+          "score": -23
+        },
+        {
+          "title": "Archit Tayal - APT Portfolio Pvt ltd | LinkedIn",
+          "url": "https://in.linkedin.com/in/archit-tayal-790800171",
+          "score": -23
+        },
+        {
+          "title": "Pavan Kalyan - APT Portfolio Private Limited | LinkedIn",
+          "url": "https://in.linkedin.com/in/pavan-kalyan-840913212",
+          "score": -23
+        }
+      ]
+    },
+    {
+      "company_id": "d-e-shaw-india",
+      "company_name": "D. E. Shaw India",
+      "source_rank": "83",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "All Jobs",
+          "url": "https://vacancyinindia.com/all-jobs",
+          "score": 8
+        },
+        {
+          "title": "D. E. SHAW INDIA SOFTWARE PRIVATE",
+          "url": "https://www.ibsindia.org/IBSAF/jobops/DESHAW.pdf",
+          "score": 1
+        },
+        {
+          "title": "D E Shaw India",
+          "url": "https://arkajainuniversity.ac.in/wp-content/uploads/2025/05/27-D-E-Shaw-India-1.-Financial-Research-Associate-2.-Core-Tech-Associate-3.-Operations-and-Recruitment-Associate.pdf",
+          "score": 1
+        },
+        {
+          "title": "PRESS RELEASE",
+          "url": "https://www.deshawindia.com/assets/articles/DESIS_Press_Release_New_Office_Opening.pdf",
+          "score": -20
+        },
+        {
+          "title": "PRESS RELEASE",
+          "url": "https://www.deshawindia.com/assets/articles/news/DESIS_Press_Release_GIDS_2024.pdf",
+          "score": -20
+        },
+        {
+          "title": "D E Shaw India Private Limited Jobs in India (1,000+ Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/d-e-shaw-india-private-limited-jobs",
+          "score": -21
+        },
+        {
+          "title": "D E Shaw India Private Limited Jobs in Hyderabad (68 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/d-e-shaw-india-private-limited-jobs-hyderabad",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "mrsool",
+      "company_name": "Mrsool",
+      "source_rank": "86",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "How can I apply for a job at Mrsool? | Mrsool Help Center",
+          "url": "https://help.sa.mrsool.co/en/articles/8345104-how-can-i-apply-for-a-job-at-mrsool",
+          "score": 41
+        },
+        {
+          "title": "citeturn132search15 [wordlim: 200] Crawled: 7 months ago; * Official website",
+          "url": "https://mrsool.co/",
+          "score": 35
+        },
+        {
+          "title": "MRSOOL | مرسول: Jobs | LinkedIn",
+          "url": "https://www.linkedin.com/company/mrsool-co/jobs",
+          "score": -21
+        },
+        {
+          "title": "MRSOOL | مرسول: Jobs | LinkedIn",
+          "url": "https://www.linkedin.com/company/mrsool-co/jobs/",
+          "score": -21
+        },
+        {
+          "title": "MRSOOL | مرسول hiring Engineering Manager in India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/engineering-manager-at-mrsool-%D9%85%D8%B1%D8%B3%D9%88%D9%84-4451522040",
+          "score": -21
+        },
+        {
+          "title": "MRSOOL | مرسول hiring Data Scientist II in India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/data-scientist-ii-at-mrsool-%D9%85%D8%B1%D8%B3%D9%88%D9%84-4467988121",
+          "score": -21
+        },
+        {
+          "title": "‏MRSOOL | مرسول‏: وظائف | LinkedIn",
+          "url": "https://sa.linkedin.com/company/mrsool-co/jobs",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "nk-securities",
+      "company_name": "NK Securities",
+      "source_rank": "87",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "NK Securities Research - High Frequency Algorithmic Trading",
+          "url": "https://www.nksecurities.com/",
+          "score": 41
+        },
+        {
+          "title": "Open Positions - NK Securities Research | Azharuddin Qureshi",
+          "url": "https://www.linkedin.com/posts/azharqureshi39_open-positions-nk-securities-research-activity-7472906838943084544-OGZ8",
+          "score": -21
+        },
+        {
+          "title": "Open Positions - NK Securities Research | Azharuddin Qureshi | 14 comments",
+          "url": "https://www.linkedin.com/posts/azharqureshi39_open-positions-nk-securities-research-activity-7481309009791094784-krjs",
+          "score": -21
+        },
+        {
+          "title": "Open Positions - NK Securities Research | Azharuddin Qureshi",
+          "url": "https://www.linkedin.com/posts/azharqureshi39_open-positions-nk-securities-research-activity-7419646151769018369-scW2",
+          "score": -21
+        },
+        {
+          "title": "Open Positions - NK Securities Research | Azharuddin Qureshi",
+          "url": "https://www.linkedin.com/posts/azharqureshi39_open-positions-nk-securities-research-activity-7371888200858013696-C-8H",
+          "score": -21
+        },
+        {
+          "title": "14 Nk Securities Research jobs in Worldwide",
+          "url": "https://www.linkedin.com/jobs/nk-securities-research-jobs-worldwide",
+          "score": -21
+        },
+        {
+          "title": "Open Positions - NK Securities Research | Azharuddin Qureshi",
+          "url": "https://www.linkedin.com/posts/azharqureshi39_open-positions-nk-securities-research-activity-7409476888517345280-1tfR",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "quadeye",
+      "company_name": "Quadeye",
+      "source_rank": "88",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Quadeye Excellence Scholarship 2021",
+          "url": "https://www.quadeye.com/wp-content/uploads/2021/09/Quadeye-Excellence-Scholarship-2021.pdf",
+          "score": 11
+        },
+        {
+          "title": "3 Quadeye jobs in India",
+          "url": "https://in.linkedin.com/jobs/quadeye-jobs",
+          "score": -21
+        },
+        {
+          "title": "Quadeye hiring Quantitative Researcher - India in Gurugram, Haryana, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/quantitative-researcher-india-at-quadeye-4461858926",
+          "score": -21
+        },
+        {
+          "title": "Quadeye hiring Quantitative Strategist - India in Gurugram, Haryana, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/quantitative-strategist-india-at-quadeye-4461875903",
+          "score": -21
+        },
+        {
+          "title": "Network Engineer at Quadeye — Gurugram, Haryana, India | LinkedIn Jobs",
+          "url": "https://in.linkedin.com/jobs/view/network-engineer-at-quadeye-4461855844",
+          "score": -21
+        },
+        {
+          "title": "Careers - Quadeye | Riya W.",
+          "url": "https://www.linkedin.com/posts/riya-w-4b55531a7_careers-quadeye-activity-7396115650668056576-DP1N",
+          "score": -21
+        },
+        {
+          "title": "Careers - Quadeye | Riya W.",
+          "url": "https://www.linkedin.com/posts/riya-w-4b55531a7_careers-quadeye-activity-7402283100720005120-vQKA",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "x",
+      "company_name": "X",
+      "source_rank": "92",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Careers - Google X",
+          "url": "https://x.company/careers/",
+          "score": 33
+        },
+        {
+          "title": "Careers at X",
+          "url": "https://careers.smartrecruiters.com/X",
+          "score": 33
+        },
+        {
+          "title": "Careers - Google X",
+          "url": "https://www.x.company/careers/",
+          "score": 33
+        },
+        {
+          "title": "Posts with replies by Careers (@XCareers) / X",
+          "url": "https://x.com/XCareers/with_replies",
+          "score": 33
+        },
+        {
+          "title": "JobBoardPage — The board for LinkedIn hiring posts",
+          "url": "https://jobboardpage.com/?page=5",
+          "score": 0
+        },
+        {
+          "title": "Microsoft Word - FixedTermHiring26052026",
+          "url": "https://www6.eil.co.in/ceilrecruitmentadmin/Open_pdf.aspx?AspxAutoDetectCookieSupport=1&path=EXP%2FNotification%2F8.pdf",
+          "score": -5
+        },
+        {
+          "title": "X India Employment Report 2024",
+          "url": "https://s3.eu-central-1.amazonaws.com/eu-st01.ext.exlibrisgroup.com/41ILO_INST/storage/alma/EE/C5/5C/A3/20/F5/02/85/ED/9F/EB/21/79/A5/9E/77/wcms_921154.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUYRSPBSIJGGDX6A%2F20260622%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260622T044657Z&X-Amz-Expires=86399&X-Amz-Signature=61349e081a803ae154084ff7dc7c27954cc76037199603c1347810a08fc8335b&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B+filename%3D%22wcms_921154.pdf%22%3B+filename%2A%3DUTF-8%27%27wcms_921154.pdf&response-content-type=application%2Fpdf",
+          "score": -5
+        }
+      ]
+    },
+    {
+      "company_id": "noon",
+      "company_name": "Noon",
+      "source_rank": "99",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Noon | Build AI Recruiting Agents",
+          "url": "https://www.noon.ai/careers",
+          "score": 49
+        },
+        {
+          "title": "NOON GEO TECH PVT. LTD",
+          "url": "https://www.noongeotech.com/assets/NGT-Profile-2024.pdf",
+          "score": 11
+        },
+        {
+          "title": "Where Talent Meets",
+          "url": "https://noonresources.com/wp-content/uploads/2024/09/noon-profile.pdf",
+          "score": 5
+        },
+        {
+          "title": "Noon Jobs in India (101 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/noon-jobs",
+          "score": -21
+        },
+        {
+          "title": "noon: Jobs | LinkedIn",
+          "url": "https://in.linkedin.com/company/nooncom/jobs",
+          "score": -21
+        },
+        {
+          "title": "noon: Jobs | LinkedIn",
+          "url": "https://www.linkedin.com/company/nooncom/jobs",
+          "score": -21
+        },
+        {
+          "title": "noon: Jobs | LinkedIn",
+          "url": "https://is.linkedin.com/company/nooncom/jobs",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "samsung-r-and-d",
+      "company_name": "Samsung R&D",
+      "source_rank": "112",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Samsung R&D Institute India - Noida",
+          "url": "https://13519229945795391054.googlegroups.com/attach/26663b66abb6a0d9/1%20Samsung%20R%26D%20Institute%20India%20Noida%20-%20Job%20Notification%20Letter%20-%20R%26D%20Engineer%202015%20Batch.pdf?part=0.1&vt=ANaJVrFJkHAiCDMjgVma8PRqMAVAHUF1w3d6XUKhg8zzQZfeX1NOomtdJBa-OaXkoyDFDhaI8n_myv-d5Kg79e7MhmHXDZ3wl4Kc9k3vii_qeaFdh4qE0XU",
+          "score": 1
+        },
+        {
+          "title": "Samsung R&D Institute India – Bangalore P",
+          "url": "https://www.bmsce.ac.in/assets/files/IQAC/NAAC%20CYCLE-3/1.3.3/4-EC-1.3.3/25-EC-1.3.3-PG-LVS-Internship%202021-22.pdf",
+          "score": 1
+        },
+        {
+          "title": "Samsung R&d India Jobs in India (2,000+ Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/samsung-r%26d-india-jobs",
+          "score": -21
+        },
+        {
+          "title": "Samsung R&d India Jobs in India (1,000+ Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/samsung-r%26d-india-jobs?f_AL=true",
+          "score": -21
+        },
+        {
+          "title": "14 Samsung R&d jobs in India",
+          "url": "https://in.linkedin.com/jobs/samsung-r%26d-jobs",
+          "score": -21
+        },
+        {
+          "title": "14 Samsung R&d jobs in India",
+          "url": "https://in.linkedin.com/jobs/samsung-r%26d-jobs?locationType=Y&orig=MDYS&pageNum=0&position=1",
+          "score": -21
+        },
+        {
+          "title": "4 Samsung R&d jobs in India",
+          "url": "https://in.linkedin.com/jobs/samsung-r%26d-jobs?f_AL=true&locationType=Y&orig=MDYS&pageNum=0&position=1",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "aqr-capital-management",
+      "company_name": "AQR Capital Management",
+      "source_rank": "115",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "PROSPECTUS",
+          "url": "https://www.fundsquare.net/download/dl?siteId=FSQ&v=OT9ulVT3qLzaMXFguRcjpQjgAUfXqkYCws5lLvRCCSuEX3OrvQu65e6S0p2DHpbsFMFwWakVTkY04X3iRsYAnQmoyiEiAkHa%2FWUOg1fTna7iT7OglUFo%2FXO9PIwZeW2cHt%2FvL78Tk+v3XGYvgmF4Dg%3D%3D",
+          "score": 0
+        },
+        {
+          "title": "PROSPECTUS",
+          "url": "https://www.fundsquare.net/download/dl?siteId=FSQ&v=rASvYyGSsCua5MN3S9A8V8XW4AaARAkvdqgREnyYpB0mcEVYlmRSR2McFCzc5gCDOi9Ngs4EpgXdiFZqW%2FX%2FT0Mn3UsbT7B1I0Hp+9ob4aqquyVChVDdLyd8oxOI2Qcdqo81fryzQ9BQlIICICakAg%3D%3D",
+          "score": 0
+        },
+        {
+          "title": "PROSPECTUS",
+          "url": "https://www.fundsquare.net/download/dl?siteId=FSQ&v=QCaNVuiyqfV6XB6xsWXeAVnRqeKiUCAg+DVrs3AqXg60M+XbrGEKuw1hl1L4g7hSdhHPC2F0gd0pJHQSvjG%2Fci3uHc54LGRTpZWj6KdsN0DgW%2FUroWYpq57Ki5judQzh7QNkT0lkPxKV0t+7J5ym6Q%3D%3D",
+          "score": 0
+        },
+        {
+          "title": "Aqr Capital Management Jobs in India (8 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/aqr-capital-management-jobs",
+          "score": -15
+        },
+        {
+          "title": "AQR Capital Management: Jobs | LinkedIn",
+          "url": "https://hr.linkedin.com/company/aqr-capital-management/jobs",
+          "score": -15
+        },
+        {
+          "title": "AQR Capital Management: Jobs | LinkedIn",
+          "url": "https://ng.linkedin.com/company/aqr-capital-management/jobs",
+          "score": -15
+        },
+        {
+          "title": "Aqr Capital Management Jobs in Worldwide (28,000+ Open Roles) | LinkedIn",
+          "url": "https://www.linkedin.com/jobs/aqr-capital-management-jobs-worldwide",
+          "score": -15
+        }
+      ]
+    },
+    {
+      "company_id": "squarepoint-capital",
+      "company_name": "Squarepoint Capital",
+      "source_rank": "121",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "About Us :: Squarepoint",
+          "url": "https://www.squarepoint-capital.com/about",
+          "score": 41
+        },
+        {
+          "title": "Software Developer - Data Reliability | Squarepoint Capital | Hiretik",
+          "url": "https://hiretik.com/jobs/51d93405-0e73-4667-80d4-fb75450a0490",
+          "score": 39
+        },
+        {
+          "title": "Jobs at Squarepoint Capital - NiyukJobs",
+          "url": "https://niyukjobs.ai/jobs-at-squarepoint-capital",
+          "score": 39
+        },
+        {
+          "title": "Squarepoint Capital Careers 2026: 18 Interview Questions + Jobs",
+          "url": "https://scoutify.com/companies/squarepointcapital/",
+          "score": 39
+        },
+        {
+          "title": "Squarepoint Capital Jobs & Careers - 14 Open Positions | Glassdoor",
+          "url": "https://www.glassdoor.co.in/Jobs/Squarepoint-Capital-Quantitative-Developer-Jobs-EI_IE1442647.0%2C19_KO20%2C42.htm",
+          "score": 39
+        },
+        {
+          "title": "Squarepoint Capital — Jobs & Internships Tracked | LucidTrack | LucidTrack",
+          "url": "https://lucidtrack.dev/job-postings/company/ff00b87c-10c7-42ef-a0a7-5079e4a6eb36",
+          "score": 39
+        },
+        {
+          "title": "Careersaas Remote Job Search: Tax Analyst",
+          "url": "https://app.careersaas.com/portal/redirect.html?id=87191876&url=https%3A%2F%2Fwww.squarepoint-capital.com%2Fopen-opportunities%3Fid%3D6890887%26gh_jid%3D6890887",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "company_id": "qualcomm",
+      "company_name": "Qualcomm",
+      "source_rank": "111",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "QIF India 2022 Official Rules",
+          "url": "https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/QIF-India-2024-official-rules.pdf",
+          "score": 5
+        },
+        {
+          "title": "Qualcomm India Prival",
+          "url": "https://uploads.naac.jssstuniv.in/NAAC/CYCLE1/CRITERIA5/5.2/5.2.1/2020-21/2020-2021_CSE/CSE_2020-21_RASHMI-A-G.pdf",
+          "score": 1
+        },
+        {
+          "title": "Qualcomm Jobs in India (775 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/qualcomm-jobs",
+          "score": -21
+        },
+        {
+          "title": "Qualcomm India Jobs in India (605 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/qualcomm-india-jobs",
+          "score": -21
+        },
+        {
+          "title": "Qualcomm: Jobs | LinkedIn",
+          "url": "https://www.linkedin.com/company/qualcomm/jobs",
+          "score": -21
+        },
+        {
+          "title": "Qualcomm India Pvt Ltd Jobs in India (614 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/qualcomm-india-pvt-ltd-jobs",
+          "score": -21
+        },
+        {
+          "title": "605 Qualcomm Careers jobs in India",
+          "url": "https://in.linkedin.com/jobs/qualcomm-careers-jobs",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "aarogyaai",
+      "company_name": "AarogyaAI",
+      "source_rank": "125",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "AarogyaAI",
+          "url": "https://aarogyaai.com/EnhancedPortalLogin",
+          "score": 41
+        },
+        {
+          "title": "AAROGYAAI INNOVATIONS PRIVATE LIMITED",
+          "url": "https://aim.gov.in/CTB-75-womenpreneurs-of-India.pdf",
+          "score": 1
+        },
+        {
+          "title": "AarogyaAI: AI-Powered TeleHealth for Rural India Launched | Karan Achpeliya posted on the topic | LinkedIn",
+          "url": "https://www.linkedin.com/posts/karan-achpeliya_aarogyaai-healthcareinnovation-telemedicine-activity-7352408568530182146-hIwN",
+          "score": -29
+        },
+        {
+          "title": "AarogyaAI: AI-Powered Healthcare Assistant for Rural India | Mohammed Mishal posted on the topic | LinkedIn",
+          "url": "https://www.linkedin.com/posts/mohammed-mishal-a4a286250_github-mishalmaaarogyaai-ai-powered-healthcare-assistant-activity-7364630856616906752--mFW",
+          "score": -29
+        },
+        {
+          "title": "Aizaz Gouri - AarogyaAI | LinkedIn",
+          "url": "https://in.linkedin.com/in/aizaz-gouri-0b7244195",
+          "score": -29
+        },
+        {
+          "title": "Sehnaz Ferdosh, PhD - AarogyaAI | LinkedIn",
+          "url": "https://in.linkedin.com/in/sehnaz-ferdosh",
+          "score": -29
+        },
+        {
+          "title": "Ambily Nath I.V - AarogyaAI | LinkedIn",
+          "url": "https://in.linkedin.com/in/ambilynathiv",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "arbix-ai",
+      "company_name": "Arbix AI",
+      "source_rank": "129",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Contact – Arbix AI Solutions",
+          "url": "https://arbixai.com/contact/",
+          "score": 41
+        },
+        {
+          "title": "Full-Stack AI Engineer at Arbix AI Solutions • Hyderabad | Wellfound",
+          "url": "https://wellfound.com/jobs/4098480-full-stack-ai-engineer",
+          "score": 39
+        },
+        {
+          "title": "Machine Learning Engineer – Credit Scoring & MLOps at Arbix AI Solutions • Hyderabad | Wellfound",
+          "url": "https://wellfound.com/jobs/4335743-machine-learning-engineer-credit-scoring-mlops",
+          "score": 39
+        },
+        {
+          "title": "Full - Stack Engineer - AI with 3 - 5 Years of Experience at Arbix AI Solutions in Hyderabad / Secunderabad, Telangana,India",
+          "url": "https://www.foundit.in/job/full-stack-engineer-ai-arbix-ai-solutions-hyderabad-secunderabad-telangana-47579232",
+          "score": 31
+        },
+        {
+          "title": "Arbix AI Solutions hiring Full - Stack Engineer - AI in Hyderabad, Telangana, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/full-stack-engineer-ai-at-arbix-ai-solutions-4406870166",
+          "score": -21
+        },
+        {
+          "title": "Arbix AI Solutions | LinkedIn",
+          "url": "https://www.linkedin.com/company/arbixai",
+          "score": -29
+        },
+        {
+          "title": "A. Sriram - Arbix AI Solutions | LinkedIn",
+          "url": "https://in.linkedin.com/in/sriramanreddy2456",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "blend-ai",
+      "company_name": "Blend AI",
+      "source_rank": "135",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Python jobs at Blend — 12 openings | Chuno",
+          "url": "https://www.chuno.work/company/blend/skills/python/jobs",
+          "score": 14
+        },
+        {
+          "title": "Careers at Pacewalk | Digital Marketing Jobs in Zirakpur, Punjab",
+          "url": "https://pacewalk.com/careers",
+          "score": 8
+        },
+        {
+          "title": "Blockwoods Marketing Management OPC Pvt Ltd careers | 19 Blockwoods Marketing Management OPC Pvt Ltd Jobs in India | Cutshort",
+          "url": "https://cutshort.io/company/jobs-at-blockwoods-marketing-management-%28opc%29-pvt-ltd-64-qjFyCWGW",
+          "score": 8
+        },
+        {
+          "title": "Empowering Early-Career Professionals in India to Navigate Career Transitions Confidently",
+          "url": "https://assets.nextleap.app/submissions/NLELEVARE-98e98fc8-dcc4-470a-bebf-8e77912708f0.pdf",
+          "score": -22
+        },
+        {
+          "title": "Empowering Early-Career Professionals in India to Navigate Career Transitions Confidently",
+          "url": "https://assets.nextleap.app/submissions/NLELEVARE-573e1b73-5874-47fc-9418-0c5b68a62581.pdf",
+          "score": -22
+        },
+        {
+          "title": "Blend AI | LinkedIn",
+          "url": "https://www.linkedin.com/company/blend-ai",
+          "score": -29
+        },
+        {
+          "title": "Blend AI | LinkedIn",
+          "url": "https://au.linkedin.com/company/blend-ai",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "brainsightai",
+      "company_name": "BrainsightAI",
+      "source_rank": "137",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Our Team and Friends | BrainSightAI",
+          "url": "https://www.brainsightai.com/our-team",
+          "score": 41
+        },
+        {
+          "title": "BrainSightAI | LinkedIn",
+          "url": "https://ccn.web.tr/web-api/iframe-proxy?url=https%3A%2F%2Fin.linkedin.com%2Fcompany%2Fbrainsightai%3Ftrk%3Dorganization_guest_main-feed-card-text",
+          "score": 31
+        },
+        {
+          "title": "BrainSightAI | LinkedIn",
+          "url": "https://ccn.web.tr/web-api/iframe-proxy?url=https%3A%2F%2Fin.linkedin.com%2Fcompany%2Fbrainsightai%3Ftrk%3Dorganization_guest_main-feed-card_feed-actor-image",
+          "score": 31
+        },
+        {
+          "title": "BrainSightAI | LinkedIn",
+          "url": "https://ccn.web.tr/web-api/iframe-proxy?url=https%3A%2F%2Fin.linkedin.com%2Fcompany%2Fbrainsightai",
+          "score": 31
+        },
+        {
+          "title": "Brainsightai Jobs in Worldwide (24,000+ Open Roles) | LinkedIn",
+          "url": "https://www.linkedin.com/jobs/brainsightai-jobs-worldwide",
+          "score": -21
+        },
+        {
+          "title": "Technical Product Manager at BrainSightAI — Bengaluru, Karnataka, India | LinkedIn Jobs",
+          "url": "https://in.linkedin.com/jobs/view/technical-product-manager-at-brainsightai-4455622727",
+          "score": -21
+        },
+        {
+          "title": "BrainSightAI | LinkedIn",
+          "url": "https://www.linkedin.com/company/brainsightai/",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "finbotsai",
+      "company_name": "FinbotsAI",
+      "source_rank": "146",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Contact Us | finbots.ai | Your Trusted AI Credit Risk Platform",
+          "url": "https://www.finbots.ai/contact/",
+          "score": 0
+        },
+        {
+          "title": "FinbotsAI hiring Senior Data Scientist in Hyderabad, Telangana, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/senior-data-scientist-at-finbotsai-4446611837",
+          "score": -21
+        },
+        {
+          "title": "FinbotsAI hiring Senior Data Scientist in Hyderabad, Telangana, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/senior-data-scientist-at-finbotsai-4446640392",
+          "score": -21
+        },
+        {
+          "title": "FinbotsAI hiring Senior Vice President - Customer Success in Hyderabad, Telangana, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/senior-vice-president-customer-success-at-finbotsai-3417744273",
+          "score": -21
+        },
+        {
+          "title": "Dakshana Scholars – Careers Launched",
+          "url": "https://dakshana.org/wp-content/uploads/2025/09/AR24_fast.pdf",
+          "score": -22
+        },
+        {
+          "title": "Dakshana Scholars - Careers Launched",
+          "url": "https://dakshana.org/wp-content/uploads/2024/07/AR23_fast.pdf",
+          "score": -22
+        },
+        {
+          "title": "FinbotsAI | LinkedIn",
+          "url": "https://in.linkedin.com/company/finbots-ai-pte-ltd",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "altimate-ai",
+      "company_name": "Altimate.ai",
+      "source_rank": "128",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Company | Altimate.ai",
+          "url": "https://altimate.ai/company",
+          "score": 41
+        },
+        {
+          "title": "Agentic Data Engineering Platform | Altimate.ai",
+          "url": "https://altimate.ai/platform",
+          "score": 41
+        },
+        {
+          "title": "Altimate.ai | Best AI Data Engineering Agent",
+          "url": "https://altimate.ai/",
+          "score": 41
+        },
+        {
+          "title": "Staff Software Engineer - India @ Altimate.ai",
+          "url": "https://jobs.ashbyhq.com/altimate/74b96721-bae8-4c07-83e2-f848079a071f/",
+          "score": 39
+        },
+        {
+          "title": "Staff Data Engineer - India @ Altimate.ai",
+          "url": "https://jobs.ashbyhq.com/altimate/649d4b30-e12f-4f0e-906c-6e3011b6eb20/",
+          "score": 39
+        },
+        {
+          "title": "Senior Software Engineer @ Altimate.ai",
+          "url": "https://jobs.ashbyhq.com/altimate/e54c9b15-d0fa-4a1c-8637-884dd9a2e741",
+          "score": 39
+        },
+        {
+          "title": "Senior Machine Learning Engineer @ Altimate.ai",
+          "url": "https://jobs.ashbyhq.com/altimate/8b0d2148-9d1b-4f5e-b082-bacdc0f83e0b",
+          "score": 39
+        }
+      ]
+    },
+    {
+      "company_id": "athina-ai",
+      "company_name": "Athina AI",
+      "source_rank": "132",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Athina",
+          "url": "https://www.athina.ai/",
+          "score": 41
+        },
+        {
+          "title": "Athina AI - Athina",
+          "url": "https://athinaai.mintlify.app/overview",
+          "score": 41
+        },
+        {
+          "title": "athina.ai",
+          "url": "https://blog.athina.ai/",
+          "score": 41
+        },
+        {
+          "title": "Athina AI · GitHub",
+          "url": "https://github.com/athina-ai",
+          "score": 31
+        },
+        {
+          "title": "Software Engineer at Athina.ai",
+          "url": "https://www.pingojo.com/job/software-engineer-at-athinaai/",
+          "score": 31
+        },
+        {
+          "title": "🧪 Are you an AI Researcher, Data Scientist, or ML Engineer? 🔊 We're hiring! Athina is looking for an AI Research Engineer with a background in Data Science / AI / ML to join the team! As an AI… | Athina AI (YC W23)",
+          "url": "https://www.linkedin.com/posts/athina-ai_are-you-an-ai-researcher-data-scientist-activity-7216961272553046016-TOK4",
+          "score": -21
+        },
+        {
+          "title": "Athina AI (YC W23) | LinkedIn",
+          "url": "https://www.linkedin.com/company/athina-ai",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "boltzmann-labs",
+      "company_name": "Boltzmann Labs",
+      "source_rank": "136",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Boltzmann Labs hiring Bioinformatics Intern in Hyderabad, Telangana, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/bioinformatics-intern-at-boltzmann-labs-4452895806",
+          "score": -21
+        },
+        {
+          "title": "Boltzmann Labs | LinkedIn",
+          "url": "https://in.linkedin.com/company/boltzmannlabs",
+          "score": -29
+        },
+        {
+          "title": "Boltzmann Labs | LinkedIn",
+          "url": "https://www.linkedin.com/company/boltzmannlabs",
+          "score": -29
+        },
+        {
+          "title": "#scientistinresidence #researchopportunities #aiinscience #computationalbiology #deeptech #boltzmannlabs | Boltzmann Labs",
+          "url": "https://www.linkedin.com/posts/boltzmannlabs_scientistinresidence-researchopportunities-activity-7407307560535359488-G3DE",
+          "score": -29
+        },
+        {
+          "title": "#scientistinresidence #researchopportunities #aiinscience #computationalbiology #deeptech #boltzmannlabs | Boltzmann Labs",
+          "url": "https://www.linkedin.com/posts/boltzmannlabs_scientistinresidence-researchopportunities-activity-7406594572312748032-qV2O",
+          "score": -29
+        },
+        {
+          "title": "Boltzmann Labs | LinkedIn",
+          "url": "https://as.linkedin.com/company/boltzmannlabs/",
+          "score": -29
+        },
+        {
+          "title": "Boltzmann Labs | LinkedIn",
+          "url": "https://as.linkedin.com/company/boltzmannlabs",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "diagno-systems",
+      "company_name": "DIAGNO Systems",
+      "source_rank": "141",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Astam Diagno hiring Production Control Specialist in New Delhi, Delhi, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/production-control-specialist-at-astam-diagno-4460210573",
+          "score": -46
+        },
+        {
+          "title": "Medical Devices Diagnostics Jobs in India (180 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/medical-devices-diagnostics-jobs",
+          "score": -46
+        },
+        {
+          "title": "Astam Diagno hiring Production Executive in Tijara, Rajasthan, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/production-executive-at-astam-diagno-4436625673",
+          "score": -46
+        },
+        {
+          "title": "1,000+ Diagnostics Company jobs in India",
+          "url": "https://in.linkedin.com/jobs/diagnostics-company-jobs-india?count=25&f_AL=true",
+          "score": -46
+        },
+        {
+          "title": "Diagno Intelligent Systems | LinkedIn",
+          "url": "https://in.linkedin.com/company/diagno-intelligent-systems",
+          "score": -54
+        },
+        {
+          "title": "EduDiagno Internship and hiring platform powered by AI | LinkedIn",
+          "url": "https://in.linkedin.com/company/edudiagno",
+          "score": -54
+        },
+        {
+          "title": "Diagno Intelligent Systems Private Limited | LinkedIn",
+          "url": "https://www.linkedin.com/company/diagno-intelligent-systems-private-limited",
+          "score": -54
+        }
+      ]
+    },
+    {
+      "company_id": "entropik",
+      "company_name": "Entropik",
+      "source_rank": "145",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Careers at Entropik",
+          "url": "https://careers.smartrecruiters.com/Entropik",
+          "score": 39
+        },
+        {
+          "title": "2.5.9.5 Apart from these five case studies, there are several other startups which are working towards making India a proud leader in the ICT sector. These include Cyclops Medtech, Kaaenat, Maxerience, Terrablue XT, Parkzap, QNu Labs, Cardiotrack, SwitchOn, Entropik Tech, Skincurate Labs etc. 63",
+          "url": "https://www.trai.gov.in/sites/default/files/2024-11/CPS_22092023.pdf",
+          "score": 1
+        },
+        {
+          "title": "Entropik hiring Senior Software Engineer - Backend + DevOps in Chennai, Tamil Nadu, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/senior-software-engineer-backend-%2B-devops-at-entropik-4435457082",
+          "score": -21
+        },
+        {
+          "title": "Entropik hiring Sales Development Representative (SaaS) - US in Chennai, Tamil Nadu, India | LinkedIn",
+          "url": "https://www.linkedin.com/jobs/view/4407397167/",
+          "score": -21
+        },
+        {
+          "title": "Entropik | LinkedIn",
+          "url": "https://in.linkedin.com/company/decodebyentropik",
+          "score": -29
+        },
+        {
+          "title": "Entropik Labs | LinkedIn",
+          "url": "https://www.linkedin.com/company/entropik-labs",
+          "score": -29
+        },
+        {
+          "title": "Entropik | LinkedIn",
+          "url": "https://na.linkedin.com/company/decodebyentropik",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "flutura",
+      "company_name": "Flutura",
+      "source_rank": "147",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "12/10/25, 17:13",
+          "url": "https://europeanigamingawards.co.uk/frm_file/aWQ6NDMyMnxmaWxlbmFtZToxLVJlZmVyZW56ZS1fLUNoYXJsZXMtSGVyaXNzb24tXy1MaW5rZWRJbi5wZGY%3D",
+          "score": 0
+        },
+        {
+          "title": "Solution Brief | Cerebra* Machine Intelligence Platform",
+          "url": "https://www.intel.com/content/dam/develop/external/us/en/documents/flutura-machine-intelligence-platform-for-industrial-insight.pdf",
+          "score": -5
+        },
+        {
+          "title": "Flutura Jobs | Levels.fyi",
+          "url": "https://www.levels.fyi/companies/flutura/jobs",
+          "score": -21
+        },
+        {
+          "title": "Flutura | LinkedIn",
+          "url": "https://www.linkedin.com/company/flutura-app",
+          "score": -29
+        },
+        {
+          "title": "Flutura Academy | LinkedIn",
+          "url": "https://www.linkedin.com/company/flutura-academy",
+          "score": -29
+        },
+        {
+          "title": "10+ \"Flutura\" profiles | LinkedIn",
+          "url": "https://www.linkedin.com/pub/dir/%2B/Flutura",
+          "score": -29
+        },
+        {
+          "title": "Flutura Academy | LinkedIn",
+          "url": "https://fj.linkedin.com/company/flutura-academy",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "kogo-ai",
+      "company_name": "KOGO AI",
+      "source_rank": "155",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "KOGO Workspace - AI that’s runs your Business",
+          "url": "https://kogo.ai/about",
+          "score": 41
+        },
+        {
+          "title": "Kogo AI | Seamless multilingual support with Kogo AI | KOGO",
+          "url": "https://www.linkedin.com/feed/update/urn%3Ali%3Aactivity%3A7272897289516412928/",
+          "score": -29
+        },
+        {
+          "title": "Kogo AI | Universal In Car AI Assistant | KOGO",
+          "url": "https://www.linkedin.com/posts/kogo-tech-labs_kogo-ai-universal-in-car-ai-assistant-activity-7287071581686714368-0xB0",
+          "score": -29
+        },
+        {
+          "title": "Kogo AI | Human Potential Meets AI | Praveer Kochhar",
+          "url": "https://www.linkedin.com/posts/praveer-kochhar-2913712_kogo-ai-human-potential-meets-ai-activity-7265019364389642240-Ud03",
+          "score": -29
+        },
+        {
+          "title": "Kogo AI | Introduction to the AI App Store | KOGO",
+          "url": "https://www.linkedin.com/posts/kogo-tech-labs_kogo-ai-introduction-to-the-ai-app-store-activity-7265340706234200064-xhGg",
+          "score": -29
+        },
+        {
+          "title": "ux4g-booklet",
+          "url": "https://www.ux4g.gov.in/assets/img/pdf/UX4G-Workshop-Compendium-May-28-24.pdf",
+          "score": -30
+        },
+        {
+          "title": "TML Earnings Presentation",
+          "url": "https://insights.techmahindra.com/investors/tml-q1-fy-26-earnings-presentation.pdf",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "krutrim",
+      "company_name": "Krutrim",
+      "source_rank": "156",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Krutrim Insights hiring AI Engineer in Delhi in Delhi, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/ai-engineer-in-delhi-at-krutrim-insights-4461529180",
+          "score": -21
+        },
+        {
+          "title": "Krutrim Insights hiring AI Training |Internship| Job Opportunity |2026 Graduates in India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/ai-training-internship-job-opportunity-2026-graduates-at-krutrim-insights-4458376472",
+          "score": -21
+        },
+        {
+          "title": "Artificial Intelligence (AI) Trainee in Delhi at Krutrim Insights — Delhi, India | LinkedIn Jobs",
+          "url": "https://in.linkedin.com/jobs/view/artificial-intelligence-ai-trainee-in-delhi-at-krutrim-insights-4464927419",
+          "score": -21
+        },
+        {
+          "title": "Sales And Business Development in Delhi at Krutrim Insights — Delhi, India | LinkedIn Jobs",
+          "url": "https://in.linkedin.com/jobs/view/sales-and-business-development-in-delhi-at-krutrim-insights-4457038267",
+          "score": -21
+        },
+        {
+          "title": "Krutrim Insights hiring Artificial Intelligence Engineer in Delhi, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/artificial-intelligence-engineer-at-krutrim-insights-4416377896",
+          "score": -21
+        },
+        {
+          "title": "Data Analyst at Krutrim Insights — Delhi, India | LinkedIn Jobs",
+          "url": "https://in.linkedin.com/jobs/view/data-analyst-at-krutrim-insights-4411317580",
+          "score": -21
+        },
+        {
+          "title": "AgileFever AI Career Salary Report 2025-2026 — India",
+          "url": "https://agilefever.com/wp-content/uploads/2026/04/AgileFever_AI_Salary_Report_India_2025-26.pdf",
+          "score": -22
+        }
+      ]
+    },
+    {
+      "company_id": "murf-ai",
+      "company_name": "Murf AI",
+      "source_rank": "161",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Join Murf's Global Voice Team | Shape Stories, Stir Emotions",
+          "url": "https://murf.ai/partner-with-us/voice-actors",
+          "score": 49
+        },
+        {
+          "title": "Murf AI | Transforming Text-to-Speech with Human-Like voices",
+          "url": "https://murf.ai/about",
+          "score": 41
+        },
+        {
+          "title": "Contact us",
+          "url": "https://murf.ai/contact",
+          "score": 35
+        },
+        {
+          "title": "Murf AI hiring Content Marketer in Bengaluru, Karnataka, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/content-marketer-at-murf-ai-4462201490",
+          "score": -21
+        },
+        {
+          "title": "Murf AI | LinkedIn",
+          "url": "https://www.linkedin.com/company/murf-ai",
+          "score": -29
+        },
+        {
+          "title": "We are excited to share with you that Murf AI has raised $10 Mn Series A funding led by Matrix Partners with participation from Elevation Capital. Thanks to all our customers and partners for placing… | Murf AI",
+          "url": "https://www.linkedin.com/posts/murf-ai_we-are-excited-to-share-with-you-that-murf-activity-6978249506605735936-HXPK",
+          "score": -29
+        },
+        {
+          "title": "Murf AI | LinkedIn",
+          "url": "https://in.linkedin.com/company/murf-ai",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "nektar-ai",
+      "company_name": "Nektar AI",
+      "source_rank": "162",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Official Information about Nektar.ai",
+          "url": "https://nektar.ai/llm-info/",
+          "score": 41
+        },
+        {
+          "title": "Nektar.ai | Automatically Capture and Connect Your Revenue Data",
+          "url": "https://nektar.ai/",
+          "score": 41
+        },
+        {
+          "title": "Jobs at Nektar AI: Explore current Opportunities",
+          "url": "https://wellfound.com/company/nektar-ai/jobs",
+          "score": 39
+        },
+        {
+          "title": "Career Center",
+          "url": "https://phg.tbe.taleo.net/phg04/ats/careers/v2/searchResults?cws=37&org=NEKTAR",
+          "score": 8
+        },
+        {
+          "title": "Career Center",
+          "url": "https://phg.tbe.taleo.net/phg04/ats/careers/v2/viewRequisition?cws=37&org=NEKTAR&rid=6080",
+          "score": 8
+        },
+        {
+          "title": "Data+ Overview & Key Capabilities",
+          "url": "https://nektar.ai/wp-content/uploads/2023/01/EXTERNAL-Data-Key-Capabilities.pdf",
+          "score": 5
+        },
+        {
+          "title": "Nektar.ai hiring UX Lead in Singapore | LinkedIn",
+          "url": "https://sg.linkedin.com/jobs/view/ux-lead-at-nektar-ai-1169643222",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "neuralzome",
+      "company_name": "Neuralzome",
+      "source_rank": "165",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Neuralzome Cybernetics - Profile (Agri)",
+          "url": "https://storage.googleapis.com/b2match-as-1/CbFVKaCSFzu38ce868NBAWAr",
+          "score": 31
+        },
+        {
+          "title": "NEW HORIZON",
+          "url": "https://datascience.newhorizoncollegeofengineering.in/wp-content/uploads/2024/12/09-12-24-Neuralzome-Cybernetics-IndustrialVisit-Report.pdf",
+          "score": -5
+        },
+        {
+          "title": "Neuralzome Cybernetics | LinkedIn",
+          "url": "https://www.linkedin.com/company/neuralzome-cybernetics",
+          "score": -29
+        },
+        {
+          "title": "Aditya Shriwastava - Neuralzome Cybernetics | LinkedIn",
+          "url": "https://in.linkedin.com/in/adityashriwastava7",
+          "score": -29
+        },
+        {
+          "title": "#robotics #deeptech #autonomousrobots #agritech #hiring #startupindia #neuralzome | Mohan Sivam",
+          "url": "https://www.linkedin.com/posts/mohansivam_robotics-deeptech-autonomousrobots-activity-7404829925922267136-Mhyf",
+          "score": -29
+        },
+        {
+          "title": "Neuralzome Cybernetics | LinkedIn",
+          "url": "https://gr.linkedin.com/company/neuralzome-cybernetics",
+          "score": -29
+        },
+        {
+          "title": "Building Robotics Tech for Global Markets with Neuralzome Cybernetics | Neuralzome Cybernetics posted on the topic | LinkedIn",
+          "url": "https://www.linkedin.com/posts/neuralzome-cybernetics_robotics-deeptech-physicalai-activity-7447372832461877248-Gmzg",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "neysa",
+      "company_name": "Neysa",
+      "source_rank": "167",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Job Opening - Build a Career at Neysa",
+          "url": "https://neysa.ai/careers/job-openings/",
+          "score": 49
+        },
+        {
+          "title": "Careers at Neysa | Build the Future of AI Infrastructure",
+          "url": "https://neysa.ai/careers/",
+          "score": 49
+        },
+        {
+          "title": "Contact Neysa | Sales, Support & AI Cloud Enquiries",
+          "url": "https://neysa.ai/contact-us/",
+          "score": 41
+        },
+        {
+          "title": "Neysa Careers India Technology",
+          "url": "https://placemeright.in/companies/neysa/",
+          "score": 39
+        },
+        {
+          "title": "9 Neysa jobs in Worldwide",
+          "url": "https://www.linkedin.com/jobs/neysa-jobs-worldwide",
+          "score": -21
+        },
+        {
+          "title": "9 Neysa jobs in Worldwide",
+          "url": "https://www.linkedin.com/jobs/neysa-jobs-worldwide?f_C=90478085",
+          "score": -21
+        },
+        {
+          "title": "7 Neysa jobs in India",
+          "url": "https://in.linkedin.com/jobs/Neysa-jobs/?f_C=90478085",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "nurix-ai",
+      "company_name": "Nurix AI",
+      "source_rank": "169",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Principal Engineer - Nurix AI @ Meraki-Labs",
+          "url": "https://jobs.ashbyhq.com/Meraki-Labs/faa77ba2-94a6-4f02-8202-942dc67fa4ee",
+          "score": 39
+        },
+        {
+          "title": "Nurix | General Catalyst Job Board",
+          "url": "https://jobs.generalcatalyst.com/companies/nurix",
+          "score": 14
+        },
+        {
+          "title": "Meraki Labs hiring AI/ML Engineer - NuPlay (Nurix AI) in Bengaluru, Karnataka, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/ai-ml-engineer-nuplay-nurix-ai-at-meraki-labs-4461753380",
+          "score": -21
+        },
+        {
+          "title": "September 2024",
+          "url": "https://itnthub.tn.gov.in/assets/newsletter-pdfs/september2024.pdf",
+          "score": -30
+        },
+        {
+          "title": "Didac India 2025_Digital Catalogue.cdr",
+          "url": "https://didacindia.com/wp-content/uploads/2025/11/Didac-India-2025_Digital-Catalogue-1-2025.pdf",
+          "score": -30
+        },
+        {
+          "title": "<visual_element id=\"e1\">",
+          "url": "https://psa.gov.in/CMS/web/sites/default/files/psa_custom_files/VIGYAN%20DHARA%20MAGAZINE%20AUGUST%20EDITION%20-%2008%20Sept.pdf",
+          "score": -30
+        },
+        {
+          "title": "Sector Focus & Project Framework",
+          "url": "https://assets.nextleap.app/submissions/AssignmentSubmission_NurixGrowthInternship_AniketKasle_-f4c226a4-16e3-4d2d-8aa7-a46aee65fde3.pdf",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "portkey",
+      "company_name": "Portkey",
+      "source_rank": "173",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Indian Startup Jobs Board",
+          "url": "https://indianstartups.work/",
+          "score": 8
+        },
+        {
+          "title": "#hiring #portkey | Ayush Garg",
+          "url": "https://www.linkedin.com/posts/ayush92garg_hiring-portkey-activity-7058792537079111680-59Ui",
+          "score": -29
+        },
+        {
+          "title": "Hi, I'm Ayush Garg. Cofounder & CTO @ Portkey AI. AMA.",
+          "url": "https://www.reddit.com/r/developersIndia/comments/1cusrv0",
+          "score": -29
+        },
+        {
+          "title": "Palo Alto Networks Acquires Portkey for Enhanced AI Security | Founders India posted on the topic | LinkedIn",
+          "url": "https://www.linkedin.com/posts/foundersind_cybersecurity-aiinfrastructure-startupacquisition-activity-7455909220711014400-q_bq",
+          "score": -29
+        },
+        {
+          "title": "Portkey SEO Solutions | 领英",
+          "url": "https://cn.linkedin.com/company/portkey-seo-solutions",
+          "score": -29
+        },
+        {
+          "title": "Pallavi . - Palo Alto Networks | LinkedIn",
+          "url": "https://in.linkedin.com/in/pallavi-58b85a18a",
+          "score": -60
+        },
+        {
+          "title": "Gavin McWhirter - JD Finish Line | LinkedIn",
+          "url": "https://www.linkedin.com/in/gavin-mcwhirter-73a494230",
+          "score": -60
+        }
+      ]
+    },
+    {
+      "company_id": "sigtuple",
+      "company_name": "SigTuple",
+      "source_rank": "183",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "SigTuple | LinkedIn",
+          "url": "https://ccn.web.tr/web-api/iframe-proxy?url=https%3A%2F%2Fin.linkedin.com%2Fcompany%2Fsigtuple%3Ftrk%3Dorganization_guest_main-feed-card-text",
+          "score": 31
+        },
+        {
+          "title": "IAES International Journal of Artificial Intelligence (IJ-AI)",
+          "url": "https://download.garuda.kemdikbud.go.id/article.php?article=1493355&title=Artificial+Intelligence+Way+Forward+for+India&val=151",
+          "score": 0
+        },
+        {
+          "title": "SigTuple | LinkedIn",
+          "url": "https://in.linkedin.com/company/sigtuple",
+          "score": -29
+        },
+        {
+          "title": "SigTuple | LinkedIn",
+          "url": "https://www.linkedin.com/company/sigtuple",
+          "score": -29
+        },
+        {
+          "title": "Dear Linkers, SigTuple is hiring Data Scientists(2-10 years) across the levels for Bangalore location. At SigTuple we are trying to make the common screening, and pathology tests more accessible… | Harin M",
+          "url": "https://www.linkedin.com/posts/harin-maroju-7126b456_dear-linkers-sigtuple-is-hiring-data-scientists-activity-6566579632395644928-KMRo",
+          "score": -29
+        },
+        {
+          "title": "Chandramouli Randhi - SigTuple | LinkedIn",
+          "url": "https://in.linkedin.com/in/chandramouli-randhi-3a6691148",
+          "score": -29
+        },
+        {
+          "title": "Abinaya Mathi - SigTuple | LinkedIn",
+          "url": "https://in.linkedin.com/in/abinaya-mathi-121770185",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "slang-labs",
+      "company_name": "Slang Labs",
+      "source_rank": "186",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Slang Labs | LinkedIn",
+          "url": "https://in.linkedin.com/company/slanglabs",
+          "score": -29
+        },
+        {
+          "title": "Viana Lobo - Slang Labs | LinkedIn",
+          "url": "https://in.linkedin.com/in/vianalobo",
+          "score": -29
+        },
+        {
+          "title": "It's official! I'm saying goodbye to my previous company, Slang Labs, where I worked(err...grew up) for 4 years, and now, I'm taking a leap of faith to chase my dreams and start my own startup… | Vinayak Jhunjhunwala | 68 comments",
+          "url": "https://www.linkedin.com/posts/vinayakjjw_its-official-im-saying-goodbye-to-my-previous-activity-7028410642764099584-Z4wW",
+          "score": -29
+        },
+        {
+          "title": "Chethan B M - Slang Labs | LinkedIn",
+          "url": "https://in.linkedin.com/in/chethan-b-m-b4647b163",
+          "score": -29
+        },
+        {
+          "title": "Slang Labs Launches Multilingual Voice Search Assistant CONVA For Ecommerce Industry - The NFA Post | Slang Labs",
+          "url": "https://www.linkedin.com/posts/slanglabs_slang-labs-launches-multilingual-voice-search-activity-7038464595434373120-Bkc4",
+          "score": -29
+        },
+        {
+          "title": "#searchbeyondthebar #aiwithoutdrama #convaai | Slang Labs",
+          "url": "https://www.linkedin.com/posts/slanglabs_searchbeyondthebar-aiwithoutdrama-convaai-activity-7214653366994358272-9PWC",
+          "score": -29
+        },
+        {
+          "title": "Voice-assistance technologies with Kumar Rangarajan of Slang Labs | The Imagination Sessions | Kumar Rangarajan",
+          "url": "https://www.linkedin.com/posts/kumarrangarajan_voice-assistance-technologies-with-kumar-activity-7064907164179443712-Wjwm",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "smallest-ai",
+      "company_name": "Smallest.ai",
+      "source_rank": "187",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "Research Data Engineer @ Smallest",
+          "url": "https://jobs.ashbyhq.com/smallest/b32e1720-368f-460c-a896-f79211bdc3fa",
+          "score": 14
+        },
+        {
+          "title": "Go Careers 🚀 – Telegram",
+          "url": "https://t.me/s/gocareers/11082",
+          "score": 8
+        },
+        {
+          "title": "REWRITING TTS INFERENCE ECONOMICS: LIGHTNING V2 ON",
+          "url": "https://www.adinstruments.com.ve/pdf/2604.03279",
+          "score": 0
+        },
+        {
+          "title": "Smallest.ai Jobs at smallest.ai in Worldwide (1 Open Role) | LinkedIn",
+          "url": "https://www.linkedin.com/jobs/smallest.ai-jobs-worldwide?f_C=35940731",
+          "score": -21
+        },
+        {
+          "title": "smallest.ai hiring DevOps Engineer (Startup Environment) in Bengaluru, Karnataka, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/devops-engineer-startup-environment-at-smallest-ai-4365280725",
+          "score": -21
+        },
+        {
+          "title": "Growth Marketing Manager at smallest.ai — Bengaluru, Karnataka, India | LinkedIn Jobs",
+          "url": "https://in.linkedin.com/jobs/view/growth-marketing-manager-at-smallest-ai-4207333766",
+          "score": -21
+        },
+        {
+          "title": "Lead Data Scientist - Speech at smallest.ai — Bengaluru, Karnataka, India | LinkedIn Jobs",
+          "url": "https://in.linkedin.com/jobs/view/lead-data-scientist-speech-at-smallest-ai-3977689442",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "vayavya-labs",
+      "company_name": "Vayavya Labs",
+      "source_rank": "196",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "CSR POLICY",
+          "url": "https://vayavyalabs.com/wp-content/uploads/2023/03/CSR-Policy_Vayavya-Labs-1.pdf",
+          "score": 5
+        },
+        {
+          "title": "MosChip Technologies Limited – Acquisition of Vayavya Labs",
+          "url": "https://nsearchives.nseindia.com/corporate/MOSCHIP_16042026125347_Press_Release_to_Stcok_exchanges.pdf",
+          "score": 1
+        },
+        {
+          "title": "A Webinar on STARTUP AND ENTREPRENEURSHIP by Shri. R. K. Patil, Cofounder, CEO, Vayavya Labs, Belagavi.",
+          "url": "https://git.edu/wp-content/uploads/2024/06/AICTE-MANDATORY-DISCLOSURE-1-min.pdf",
+          "score": 1
+        },
+        {
+          "title": "| CSR POLICY",
+          "url": "https://vayavyalabs.com/wp-content/uploads/2023/11/Vlabs_CSR-Policy__Committee_Spending.pdf",
+          "score": -20
+        },
+        {
+          "title": "Vayavya Labs Pvt. Ltd. Jobs in Worldwide (1,000+ Open Roles) | LinkedIn",
+          "url": "https://www.linkedin.com/jobs/vayavya-labs-pvt.-ltd.-jobs-worldwide?f_EA=true",
+          "score": -21
+        },
+        {
+          "title": "0 Vayavya Labs Pvt Ltd jobs in India",
+          "url": "https://in.linkedin.com/jobs/vayavya-labs-pvt-ltd-jobs",
+          "score": -21
+        },
+        {
+          "title": "Vayavya Labs Pvt. Ltd. Jobs in Worldwide (17,000+ Open Roles) | LinkedIn",
+          "url": "https://www.linkedin.com/jobs/vayavya-labs-pvt.-ltd.-jobs-worldwide",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "xanadu-ai",
+      "company_name": "Xanadu.ai",
+      "source_rank": "199",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "citeturn164search18 [wordlim: 200] Crawled: 5 months ago; The company develops cloud accessible photonic quantum computers and develops open-source software for quantum machine learning and simulating quantum photonic devices. ... * Official website",
+          "url": "https://www.xanadu.ai",
+          "score": 35
+        },
+        {
+          "title": "Canadian Quantum Technolog",
+          "url": "https://www.fqcf.org/niabbs5/newdownload.php?bbstable=media&f_no=2694",
+          "score": 0
+        },
+        {
+          "title": "[partners_cqe] Open Jobs in the CQE Community",
+          "url": "https://ascnet.osu.edu/storage/request_documents/6126/QuGIP%20Curriculum%20Proposal_Compiled_ASC%20%28002%29.pdf",
+          "score": -22
+        },
+        {
+          "title": "NYCREATES-Presentation.pptx",
+          "url": "https://ny-creates.org/wp-content/uploads/Zach-Vernon-NYCREATES-Presentation.pdf",
+          "score": -30
+        },
+        {
+          "title": "OHHStandard",
+          "url": "https://newsfile.moomoo.com/public/NN-PersistNoticeAttachment/7781/20260403/SEDAR_PLUS/CSA_SEDAR_PLUS_NOTICE_RECORD_ID_2371705.pdf",
+          "score": -30
+        },
+        {
+          "title": "Form 45-106F1 Report of Exempt Distribution",
+          "url": "https://newsfile.moomoo.com/public/NN-PersistNoticeAttachment/7781/20260403/SEDAR_PLUS/CSA_SEDAR_PLUS_NOTICE_RECORD_ID_2371707.pdf",
+          "score": -30
+        },
+        {
+          "title": "EV",
+          "url": "https://www.evgroup.com/fileadmin/media/company/news/2026/2026_05_05_Xanadu_EVG/Press_Release_Xanadu_EV_Group_photonic_quantum_computing_2026_05_05_EN.pdf",
+          "score": -30
+        }
+      ]
+    },
+    {
+      "company_id": "london-stock-exchange-group",
+      "company_name": "London Stock Exchange Group",
+      "source_rank": "213",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "London Stock Exchange Group plc",
+          "url": "https://www.fundslibrary.co.uk/FundsLibrary.DataRetrieval/Documents.aspx/?id=ebd9c346-f172-4fcf-b3c7-c3faf78bb609&r=1&type=sl.ra.full&user=6DOa4Tx6Trskic4Wq%2BjIRUDSwIsOsll5ksBrLQarD7xBfVlGuHbVnxWwb2L1i9zX",
+          "score": 43
+        },
+        {
+          "title": "London Stock Exchange Group plc",
+          "url": "https://www.responsibilityreports.co.uk/HostedData/ResponsibilityReportArchive/l/LSE_LSE_2023.pdf",
+          "score": 13
+        },
+        {
+          "title": "Careers | LSEG",
+          "url": "https://www.lseg.com/en/careers",
+          "score": 8
+        },
+        {
+          "title": "CAREERS IN COMPUTING FAIR 2020  RECRUITER",
+          "url": "https://www.careers.ox.ac.uk/files/careers-computing-fair-booklet-2020pdf",
+          "score": 8
+        },
+        {
+          "title": "FURTHER READING",
+          "url": "https://docs.londonstockexchange.com/sites/default/files/documents/AIM_guide_for_entrepeneurs.pdf",
+          "score": 0
+        },
+        {
+          "title": "Lseg (london Stock Exchange Group) Jobs in India (215 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/lseg-%28london-stock-exchange-group%29-jobs",
+          "score": -9
+        },
+        {
+          "title": "London Stock Exchange Group Jobs in United Kingdom (1,000+ Open Roles) | LinkedIn",
+          "url": "https://uk.linkedin.com/jobs/london-stock-exchange-group-jobs",
+          "score": -9
+        }
+      ]
+    },
+    {
+      "company_id": "moody-s",
+      "company_name": "Moody's",
+      "source_rank": "215",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Search our Job Opportunities at Moody's",
+          "url": "https://careers.moodys.com/en/search-jobs",
+          "score": 49
+        },
+        {
+          "title": "Search India Jobs at Moody's",
+          "url": "https://careers.moodys.com/en/location/inde-jobs/49841/1269750/2/2",
+          "score": 49
+        },
+        {
+          "title": "Search our Job Opportunities at Moody's",
+          "url": "https://careers.moodys.com/en/search-jobs?acm=9382576&alrpm=ALL&ascf=%5B%7B%22key%22%3A%22ALL%22%2C%22value%22%3A%22%22%7D%5D",
+          "score": 49
+        },
+        {
+          "title": "Corporate Services Jobs in India at Moody's",
+          "url": "https://careers.moodys.com/en/employment/india-corporate-services-jobs/49841/9382624/1269750/2",
+          "score": 49
+        },
+        {
+          "title": "Moody’s Investors Service (“MIS”)",
+          "url": "https://ratings.moodys.com/api/rmc-documents/361240",
+          "score": 41
+        },
+        {
+          "title": "Moody's Ratings                                                                 Cross-Sector",
+          "url": "https://dkf1ato8y5dsg.cloudfront.net/uploads/52/504/sector-in-depth-government-policy-india-budget-04feb2025-pbc-1436308-1.pdf",
+          "score": 1
+        },
+        {
+          "title": "Moody's is an essential component of the",
+          "url": "https://www.mackenzie.br/fileadmin/ARQUIVOS/Public/1-mackenzie/universidade/unidades-academicas/CCSA/2019/Vagas_de_Est%C3%A1gio/AGOSTO/Moody%E2%80%99s.pdf",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "company_id": "morgan-stanley",
+      "company_name": "Morgan Stanley",
+      "source_rank": "216",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Morgan Stanley India",
+          "url": "https://www.morganstanley.com/assets/pdfs/about-us-global-offices/india/Terms_and_conditions.pdf",
+          "score": 27
+        },
+        {
+          "title": "Morgan Stanley",
+          "url": "https://www.morganstanley.com/im/publication/insights/articles/article_theindiaopportunity_A4.pdf",
+          "score": 27
+        },
+        {
+          "title": "MORGAN STANLEY INDIA COMPANY PRIVATE LIMITED",
+          "url": "https://www.morganstanley.com/content/dam/msdotcom/en/assets/pdfs/about-us-global-offices/india/Initial_Public_Offer_IPO_and_Further_Public_Offer_FPO_including_Offer_for_Sale_OFS.pdf",
+          "score": 27
+        },
+        {
+          "title": "MORGAN STANLEY INDIA COMPANY PRIVATE LIMITED",
+          "url": "https://www.morganstanley.com/content/dam/msdotcom/en/assets/pdfs/about-us-global-offices/india/Qualified_Institutions_Placement_QIP.pdf",
+          "score": 27
+        },
+        {
+          "title": "MORGAN STANLEY INDIA COMPANY PRIVATE LIMITED",
+          "url": "https://www.morganstanley.com/content/dam/msdotcom/en/assets/pdfs/about-us-global-offices/india/SME_IPOs_FPOs_and_OFS.pdf",
+          "score": 27
+        },
+        {
+          "title": "Morgan Stanley India Company",
+          "url": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/F866E6A5-037B-44BE-97DE-5056EE1C9EA6-111635.pdf",
+          "score": 7
+        },
+        {
+          "title": "Morgan Stanley Jobs in India (5,000+ Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/morgan-stanley-jobs",
+          "score": -15
+        }
+      ]
+    },
+    {
+      "company_id": "clazar",
+      "company_name": "Clazar",
+      "source_rank": "226",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "(anonymous)",
+          "url": "https://2026sirmvitplacementcell.wordpress.com/wp-content/uploads/2026/03/product_support_intern_jd_clazar-1.pdf",
+          "score": -5
+        },
+        {
+          "title": "At Clazar, we move fast, think big, and win as a team🤘. If you value ownership, thrive on curiosity, and are driven by results, this one's for you: We're hiring an Account Executive (in India) to… | Ishani Gupta",
+          "url": "https://www.linkedin.com/posts/ishanigupta_at-clazar-we-move-fast-think-big-and-win-activity-7333827504119390208-zjOL",
+          "score": -29
+        },
+        {
+          "title": "Opportunity with Clazar | Lalit Aggarwal",
+          "url": "https://www.linkedin.com/posts/lalit-aggarwal-b6707450_opportunity-with-clazar-activity-7072505948426125312-rGgg",
+          "score": -29
+        },
+        {
+          "title": "Clazar | LinkedIn",
+          "url": "https://www.linkedin.com/company/clazar/",
+          "score": -29
+        },
+        {
+          "title": "Opportunity with Clazar | Aditya Khokhar",
+          "url": "https://www.linkedin.com/posts/adityakhokhar_opportunity-with-clazar-activity-7072508430376218624-Da0R",
+          "score": -29
+        },
+        {
+          "title": "Clazar | LinkedIn",
+          "url": "https://www.linkedin.com/products/clazar/",
+          "score": -29
+        },
+        {
+          "title": "#lifeatclazar #clazarculture #aithon #innovation #startuplife #wearehiring #buildwithus | Clazar",
+          "url": "https://www.linkedin.com/posts/clazar_lifeatclazar-clazarculture-aithon-activity-7423009660284215297-_qZB",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "crunchyroll",
+      "company_name": "Crunchyroll",
+      "source_rank": "232",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Crunchyroll | About",
+          "url": "https://www.crunchyroll.com/about/jobs",
+          "score": 49
+        },
+        {
+          "title": "Crunchyroll Jobs in India (10 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/crunchyroll-jobs",
+          "score": -21
+        },
+        {
+          "title": "Crunchyroll: Jobs | LinkedIn",
+          "url": "https://www.linkedin.com/company/crunchyroll/jobs",
+          "score": -21
+        },
+        {
+          "title": "Crunchyroll: Jobs | LinkedIn",
+          "url": "https://in.linkedin.com/company/crunchyroll/jobs",
+          "score": -21
+        },
+        {
+          "title": "Crunchyroll: Jobs | LinkedIn",
+          "url": "https://is.linkedin.com/company/crunchyroll/jobs",
+          "score": -21
+        },
+        {
+          "title": "Crunchyroll: Empleos | LinkedIn",
+          "url": "https://pa.linkedin.com/company/crunchyroll/jobs",
+          "score": -21
+        },
+        {
+          "title": "Crunchyroll: Jobs | LinkedIn",
+          "url": "https://jm.linkedin.com/company/crunchyroll/jobs",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "paypal",
+      "company_name": "PayPal",
+      "source_rank": "245",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "PayPal Careers - Locations - India",
+          "url": "https://careers.pypl.com/locations/india/",
+          "score": 39
+        },
+        {
+          "title": "Section 1.1 - President's Welcome",
+          "url": "https://www.paypalbenefits.com/document/98",
+          "score": 35
+        },
+        {
+          "title": "Section 1.1 - President's Welcome",
+          "url": "https://www.paypalbenefits.com/document/99",
+          "score": 35
+        },
+        {
+          "title": "Paypal Jobs in India (252 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/paypal-jobs",
+          "score": -21
+        },
+        {
+          "title": "Paypal Inc. Jobs in India (21 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/paypal-inc.-jobs",
+          "score": -21
+        },
+        {
+          "title": "Paypal Work At Home Jobs in India (79 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/paypal-work-at-home-jobs",
+          "score": -21
+        },
+        {
+          "title": "17 Paypal Pte. Ltd. jobs in India",
+          "url": "https://in.linkedin.com/jobs/paypal-pte.-ltd.-jobs",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "kla",
+      "company_name": "KLA",
+      "source_rank": "260",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "KLA Industries - Jobs - Plastics Career Opportunities",
+          "url": "https://klaindustries.com/career-opportunities/",
+          "score": 49
+        },
+        {
+          "title": "Fo",
+          "url": "https://klagroup.in/assets/images/Openings-Vaccancies.pdf",
+          "score": 5
+        },
+        {
+          "title": "KLA Laboratories Incorporated",
+          "url": "https://talsuite2.s3.ap-south-1.amazonaws.com/BIZ365/S3ImageUploads/Fliplink/155710/ca4fb661~JULY2025MICHIGANHIRED.pdf",
+          "score": 1
+        },
+        {
+          "title": "Bring your big dreams! KLA, a global technology leader, is hiring.",
+          "url": "https://eipbn.org/2022/wp-content/uploads/2022/05/KLA_Student_Recruiting.pdf",
+          "score": 1
+        },
+        {
+          "title": "Job Description : Assistant Director of KLA Plus",
+          "url": "https://resources.finalsite.net/images/v1739203043/klaacademyorg/qa7otgxwatxypkwpygyl/JobDescription_AssistantDirectorofKLAPlus.pdf",
+          "score": 1
+        },
+        {
+          "title": "Kla Jobs in India (51 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/kla-jobs",
+          "score": -21
+        },
+        {
+          "title": "Kla Corporation Jobs in India (48 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/kla-corporation-jobs",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "western-digital-sandisk",
+      "company_name": "Western Digital / SanDisk",
+      "source_rank": "269",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Western Digital | Sandisk",
+          "url": "https://www.sandisk.com/en-in/support/wdc",
+          "score": 53
+        },
+        {
+          "title": "Western Digital / SanDisk / WD_BLACK",
+          "url": "https://www.westerndigital.com/content/dam/store/en-us/assets/landing-page/sandiskExtremeClub/TnC_Consumer_Offer_21_July.pdf",
+          "score": 33
+        },
+        {
+          "title": "Western Digital Fiscal 2024 Sustainability Report",
+          "url": "https://documents.westerndigital.com/content/dam/doc-library/en_us/assets/public/western-digital/collateral/cert/western-digital-FY2024-sustainability-report.pdf",
+          "score": 2
+        },
+        {
+          "title": "Western Digital",
+          "url": "https://documents.westerndigital.com/content/dam/doc-library/en_us/assets/public/western-digital/collateral/company/western-digital-FY2021-executive-summary.pdf",
+          "score": 2
+        },
+        {
+          "title": "GENERAL DISCLOSURES",
+          "url": "https://documents.westerndigital.com/content/dam/doc-library/en_us/assets/public/western-digital/collateral/cert/western-digital-FY2021-sustainability-report.pdf",
+          "score": -10
+        },
+        {
+          "title": "At Western Digital - SanDisk, we don’t just build technology—we redefine what’s possible. We’re growing in Bangalore, and we want the best minds to be part of our exciting journey!   We are currently… | Dinesh Khanna",
+          "url": "https://www.linkedin.com/posts/dineshkhanna34a2592_at-western-digital-sandisk-we-dont-just-activity-7297845249589026818-IeUg",
+          "score": -17
+        },
+        {
+          "title": "🚀 Excited to share that I've joined Western Digital SanDisk® as an Intern in System Design Verification Engineering! I'll be diving into designing and developing automated test scripts using Python,… | Ayush Kumar Mishra | 30 comments",
+          "url": "https://www.linkedin.com/posts/speedcuberayush_excited-to-share-that-ive-joined-western-activity-7245269676438478848-mpvV",
+          "score": -17
+        }
+      ]
+    },
+    {
+      "company_id": "ather-energy",
+      "company_name": "Ather Energy",
+      "source_rank": "271",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "ATHER ENERGY LIMITED",
+          "url": "https://media.atherenergy.com/Annual-Report-FY-2024-25.pdf",
+          "score": 27
+        },
+        {
+          "title": "DRAFT RED HERRING PROSPECTUS",
+          "url": "https://media.atherenergy.com/Consolidated-DRHP.pdf",
+          "score": -10
+        },
+        {
+          "title": "RED HERRING PROSPECTUS",
+          "url": "https://media.atherenergy.com/Red-Herring-Prospectus-Apr-22-2025.pdf",
+          "score": -10
+        },
+        {
+          "title": "Ather Energy: Jobs | LinkedIn",
+          "url": "https://in.linkedin.com/company/ather-energy/jobs",
+          "score": -15
+        },
+        {
+          "title": "Ather Energy Jobs in India (52 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/ather-energy-jobs",
+          "score": -15
+        },
+        {
+          "title": "Ather Energy: Empleos | LinkedIn",
+          "url": "https://cr.linkedin.com/company/ather-energy/jobs",
+          "score": -15
+        },
+        {
+          "title": "53 Ather Energy jobs in India",
+          "url": "https://in.linkedin.com/jobs/ather-energy-jobs-india?count=25&start=0",
+          "score": -15
+        }
+      ]
+    },
+    {
+      "company_id": "greyorange",
+      "company_name": "GreyOrange",
+      "source_rank": "276",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "WHITE PAPER",
+          "url": "https://scg-mmh.s3.amazonaws.com/pdfs/greyorange-wp-futureoffulfillment-062519.pdf",
+          "score": -5
+        },
+        {
+          "title": "Greyorange Pte Ltd Jobs in India (6,000+ Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/greyorange-pte-ltd-jobs",
+          "score": -21
+        },
+        {
+          "title": "8,000+ Greyorange jobs in India",
+          "url": "https://in.linkedin.com/jobs/greyorange-jobs",
+          "score": -21
+        },
+        {
+          "title": "Greyorange Jobs in Greater Delhi Area (7,000+ Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/greyorange-jobs-greater-delhi-area",
+          "score": -21
+        },
+        {
+          "title": "20,000+ Greyorange jobs in Worldwide",
+          "url": "https://www.linkedin.com/jobs/greyorange-jobs-worldwide",
+          "score": -21
+        },
+        {
+          "title": "31 Greyorange jobs in Gurugram",
+          "url": "https://in.linkedin.com/jobs/greyorange-jobs-gurugram",
+          "score": -21
+        },
+        {
+          "title": "Greyorange Software Engineer Jobs in Greater Delhi Area (14 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/greyorange-software-engineer-jobs-greater-delhi-area",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "mercedes-benz-research-and-development-india",
+      "company_name": "Mercedes-Benz Research and Development India",
+      "source_rank": "280",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Mercedes –Benz Research & Development India (MBRDI)",
+          "url": "https://www.ias-hannover.de/attachments/File/public_html/11-07-2011_MBRDI_Flyer.pdf",
+          "score": 19
+        },
+        {
+          "title": "Mercedes-Benz Research and Development India: Jobs | LinkedIn",
+          "url": "https://in.linkedin.com/company/mercedes-benz-research-and-development-india/jobs",
+          "score": -3
+        },
+        {
+          "title": "3,000+ Mercedes Benz Research And Development India jobs in India",
+          "url": "https://in.linkedin.com/jobs/mercedes-benz-research-and-development-india-jobs",
+          "score": -3
+        },
+        {
+          "title": "622 Mercedes Benz Research And Development India jobs in India",
+          "url": "https://in.linkedin.com/jobs/mercedes-benz-research-and-development-india-jobs?f_EA=true",
+          "score": -3
+        },
+        {
+          "title": "2,000+ Mercedes Benz Research And Development India jobs in India",
+          "url": "https://in.linkedin.com/jobs/mercedes-benz-research-and-development-india-jobs?f_AL=true",
+          "score": -3
+        },
+        {
+          "title": "Our future is driven by Diversity ! Explore opportunities with us at http://mbrdi.co.in/career/ The First automobile did not drive itself; a pioneer named Bertha Benz did. When she drove the Benz… | Mercedes-Benz Research and Development India | 22 comments",
+          "url": "https://www.linkedin.com/posts/mercedes-benz-research-and-development-india_our-future-is-driven-by-diversity-explore-activity-6339784336023314432-o56m",
+          "score": -3
+        },
+        {
+          "title": "236 Mercedes Benz Research And Development India jobs in India",
+          "url": "https://in.linkedin.com/jobs/mercedes-benz-research-and-development-india-jobs?f_AL=true&f_EA=true",
+          "score": -3
+        }
+      ]
+    },
+    {
+      "company_id": "minus-zero",
+      "company_name": "Minus Zero",
+      "source_rank": "281",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Ashok Leyland Limited (India, APAC)",
+          "url": "https://media.licdn.com/dms/document/media/v2/D4E1FAQEbfifV4VgJAw/feedshare-document-pdf-analyzed/B4EZruDjEVKcAc-/0/1764930500684?e=1781740800&t=BUQOGMbukHw_KPxSw7gTTbuzFW0GiHWeZLj37f4PrLs&v=beta",
+          "score": 0
+        },
+        {
+          "title": "INTELLECTUAL PROPERTY OFFICIAL JOURNAL",
+          "url": "https://ipjournal.myipo.gov.my/ipjournal/index.cfm?bid=840&div=tm&f=22_2020.pdf&pg=pnmb%2Foutbox%2Fdownload4",
+          "score": 0
+        },
+        {
+          "title": "Welcome to the team Vikram Gupta 🚀 Drop us a mail at careers@minuszero.ai if you too want to be a part of an super cool research group. | Minus Zero",
+          "url": "https://www.linkedin.com/posts/minuszero_welcome-to-the-team-vikram-gupta-drop-activity-7183321745754349568-XDhK",
+          "score": -15
+        },
+        {
+          "title": "Video Editor at MINUS ZERO منفی صفر — Quetta, Baluchistan, Pakistan | LinkedIn Jobs",
+          "url": "https://pk.linkedin.com/jobs/view/video-editor-at-minus-zero-%D9%85%D9%86%D9%81%DB%8C-%D8%B5%D9%81%D8%B1-4397871916",
+          "score": -15
+        },
+        {
+          "title": "Minus Zero | LinkedIn",
+          "url": "https://in.linkedin.com/company/minuszero",
+          "score": -23
+        },
+        {
+          "title": "#hiring | Minus Zero",
+          "url": "https://www.linkedin.com/posts/minuszero_hiring-activity-7221846571657609217--0FT",
+          "score": -23
+        },
+        {
+          "title": "#hiring | Minus Zero",
+          "url": "https://www.linkedin.com/posts/minuszero_hiring-activity-7187052486682124288-tXCn",
+          "score": -23
+        }
+      ]
+    },
+    {
+      "company_id": "myelin-foundry",
+      "company_name": "Myelin Foundry",
+      "source_rank": "282",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at Myelin Foundry | Build the Future with AI",
+          "url": "https://www.myelinfoundry.ai/careers/",
+          "score": 65
+        },
+        {
+          "title": "About Us | Myelin Foundry",
+          "url": "https://www.myelinfoundry.ai/company/",
+          "score": 57
+        },
+        {
+          "title": "Myelin Foundry",
+          "url": "https://www.myelinfoundry.com/wp-content/uploads/2025/07/JD-for-Head-of-Sales-2.pdf",
+          "score": 27
+        },
+        {
+          "title": "ASM Technologies and Myelin Foundry Forge Strategic Partnership",
+          "url": "https://bsmedia.business-standard.com/_media/bs/data/announcements/bse/20022026/b717cb8e-5333-49fb-978b-0902b99550e8.pdf",
+          "score": 7
+        },
+        {
+          "title": "Myelin is revolutionizing the future o",
+          "url": "https://www.myelinfoundry.ai/wp-content/uploads/2025/07/JD-for-Android-Developer-2.pdf",
+          "score": -4
+        },
+        {
+          "title": "Myelin is revolution",
+          "url": "https://www.myelinfoundry.ai/wp-content/uploads/2025/09/Senior-QA.pdf",
+          "score": -4
+        },
+        {
+          "title": "Myelin Foundry hiring Lead Product Engineer - AI in Bengaluru, Karnataka, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/lead-product-engineer-ai-at-myelin-foundry-4418569384",
+          "score": -15
+        }
+      ]
+    },
+    {
+      "company_id": "dream11-dream-sports",
+      "company_name": "Dream11 / Dream Sports",
+      "source_rank": "300",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Dream Sports - Consultant - Sports Operations",
+          "url": "https://jobs.lever.co/dreamsports/5695908e-b004-4c11-966f-d410f3c5e959/apply?source=LinkedIn",
+          "score": 20
+        },
+        {
+          "title": "known and reputed ‘DREAM11’/‘DREAM SPORTS’/DREAM11/DREAM11/ series of trademarks, which has long-served as one of India’s premier digital destinations for sports entertainment. Plaintiff launched its operations under the Dream11 marks in 2012 and has since been operating the widely popular and immensely successful fantasy sports platform, where sports fans built fantasy teams comprising of athletes/sportspersons like cricketers from different teams, earn points based on real-world performances of such players and participate in contests against fantasy teams created by other sports fans under pre-published rules. The users could play these contests either on free-to-play basis or in some cases on payment of nominal entry fees and winners could get rewards.",
+          "url": "https://www.medianama.com/wp-content/uploads/2026/03/Sporta_Vs_Come_Sports.pdf",
+          "score": 13
+        },
+        {
+          "title": "Dream11 About Us/Culture Deck - February 2024",
+          "url": "https://cdn-prod.dreamsports.group/wp-content/uploads/2025/09/02070133/Dream11AboutUs_CultureDeck-February2024-1.pdf",
+          "score": 2
+        },
+        {
+          "title": "<visual_element id=\"e1\">",
+          "url": "https://delhihighcourt.nic.in/app/showlogo/1772289665_a256f193cd0e97e0_jis_1812026.pdf/2026",
+          "score": 0
+        },
+        {
+          "title": "About Dream Sports & Dream11",
+          "url": "https://interiit-tech.com/wp-content/uploads/2024/11/Dream11_MidPrep_InterIIT_Tech.pdf",
+          "score": -12
+        },
+        {
+          "title": "- Dream11 is a prominent Indian fantasy",
+          "url": "https://assets.nextleap.app/submissions/dream11lip2-90c2c463-b717-43b3-b5b8-de4c76a0c6d2.pdf",
+          "score": -18
+        },
+        {
+          "title": "Dream Sports jobs | Harsh Jain",
+          "url": "https://www.linkedin.com/posts/harshj22_dream-sports-jobs-activity-6663722794813128704-Jpo0",
+          "score": -40
+        }
+      ]
+    },
+    {
+      "company_id": "apna",
+      "company_name": "Apna",
+      "source_rank": "291",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Search Jobs Online | Hire Candidates | Post a Job | apna.co",
+          "url": "https://www.apna.co/",
+          "score": 49
+        },
+        {
+          "title": "New User Onboarding on Apna.co",
+          "url": "https://assets.nextleap.app/submissions/NewUserOnboardingonApna.co-f2ebe2df-8d85-4539-b60c-8e6e515e174b.pdf",
+          "score": 1
+        },
+        {
+          "title": "Apna Final - 23:51",
+          "url": "https://assets.nextleap.app/submissions/_ApnaFinal-2351-fc3b7938-669c-49c4-8050-5d189c509f5c.pdf",
+          "score": 1
+        },
+        {
+          "title": "apna: Jobs | LinkedIn",
+          "url": "https://in.linkedin.com/company/apnahq/jobs",
+          "score": -21
+        },
+        {
+          "title": "apna | LinkedIn",
+          "url": "https://www.linkedin.com/company/apnahq/",
+          "score": -29
+        },
+        {
+          "title": "apna | LinkedIn",
+          "url": "https://in.linkedin.com/company/apnahq",
+          "score": -29
+        },
+        {
+          "title": "apna | LinkedIn",
+          "url": "https://cv.linkedin.com/company/apnahq/",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "cleartax",
+      "company_name": "ClearTax",
+      "source_rank": "296",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at Cleartax",
+          "url": "https://www.clear.in/s/careers",
+          "score": 39
+        },
+        {
+          "title": "FOR BUSINESSES IN INDI",
+          "url": "https://assets1.cleartax-cdn.com/s/img/2020/04/21162926/Business-Compliance-Guide1.pdf",
+          "score": 5
+        },
+        {
+          "title": "GST Guidebook-ClearTax",
+          "url": "https://mlsu.ac.in/econtents/3230_GST-E-book.pdf",
+          "score": 1
+        },
+        {
+          "title": "Cleartax In Jobs in India (6,000+ Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/cleartax-in-jobs",
+          "score": -21
+        },
+        {
+          "title": "4,000+ Cleartax jobs in India",
+          "url": "https://in.linkedin.com/jobs/cleartax-jobs",
+          "score": -21
+        },
+        {
+          "title": "Cleartax In Jobs in Bengaluru (4,000+ Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/cleartax-in-jobs-bengaluru",
+          "score": -21
+        },
+        {
+          "title": "ClearTax | LinkedIn",
+          "url": "https://www.linkedin.com/company/cleartaxofficial",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "coinswitch",
+      "company_name": "CoinSwitch",
+      "source_rank": "298",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Annual_Report_2026_Rev",
+          "url": "https://coinswitch.co/switch/wp-content/uploads/2026/04/Annual_Report_2026_Rev-1.pdf",
+          "score": 5
+        },
+        {
+          "title": "CLOSING NOTE:",
+          "url": "https://coinswitch.co/switch/wp-content/uploads/2025/12/Handbook-VDA-Decoded-4.pdf",
+          "score": 5
+        },
+        {
+          "title": "India’s Crypto Portfolio Q3 2025",
+          "url": "https://coinswitch.co/switch/wp-content/uploads/2025/10/Indias-Crypto-Portfolio-Q3-2025.pdf",
+          "score": 5
+        },
+        {
+          "title": "CoinSwitch: Jobs | LinkedIn",
+          "url": "https://in.linkedin.com/company/coinswitch/jobs",
+          "score": -21
+        },
+        {
+          "title": "13 Coinswitch jobs in India",
+          "url": "https://in.linkedin.com/jobs/coinswitch-jobs",
+          "score": -21
+        },
+        {
+          "title": "Coinswitch Jobs in Worldwide (15 Open Roles) | LinkedIn",
+          "url": "https://www.linkedin.com/jobs/coinswitch-jobs-worldwide",
+          "score": -21
+        },
+        {
+          "title": "Talent Acquisition Specialist at CoinSwitch — Bengaluru, Karnataka, India | LinkedIn Jobs",
+          "url": "https://in.linkedin.com/jobs/view/talent-acquisition-specialist-at-coinswitch-4466191120",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "games24x7",
+      "company_name": "Games24x7",
+      "source_rank": "303",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Contact Us - Games24x7",
+          "url": "https://www.games24x7.com/contact",
+          "score": 41
+        },
+        {
+          "title": "Bold Ideas, Bright Futures - Life At Games24x7",
+          "url": "https://www.games24x7.com/life",
+          "score": 41
+        },
+        {
+          "title": "1 Games24x7 jobs in India",
+          "url": "https://in.linkedin.com/jobs/games24x7-jobs",
+          "score": -21
+        },
+        {
+          "title": "EXCLUSIVE: My11Circle parent Games24x7 begins layoffs, 400 jobs on the line",
+          "url": "https://www.reddit.com/r/Storyboard18/comments/1n5i8y4",
+          "score": -21
+        },
+        {
+          "title": "Games24x7 | LinkedIn",
+          "url": "https://in.linkedin.com/company/games24x7-private-limited",
+          "score": -29
+        },
+        {
+          "title": "Games24x7 | LinkedIn",
+          "url": "https://so.linkedin.com/company/games24x7-private-limited",
+          "score": -29
+        },
+        {
+          "title": "Games24x7 | LinkedIn",
+          "url": "https://www.linkedin.com/company/games24x7-private-limited",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "info-edge",
+      "company_name": "Info Edge",
+      "source_rank": "305",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Microsoft PowerPoint - Info Edge ppt Q1_ 2020-2021 (09.09.2020).",
+          "url": "https://www.infoedge.in/pdfs/corporatePresentations_pdfs/info-edge-sep-2020.pdf",
+          "score": 27
+        },
+        {
+          "title": "Microsoft PowerPoint - Info Edge ppt Q1_ 2020-2021 (09.09.2020).",
+          "url": "https://www.infoedgeindia.com/pdfs/corporatePresentations_pdfs/info-edge-sep-2020.pdf",
+          "score": 27
+        },
+        {
+          "title": "Microsoft PowerPoint - Info Edge ppt Q4_19-20 FY (11.07.2020) GS version",
+          "url": "https://www.infoedgeindia.com/pdfs/corporatePresentations_pdfs/info-edge-july-2020.pdf",
+          "score": 27
+        },
+        {
+          "title": "INFO EDGE (INDIA) LTD.",
+          "url": "https://nsearchives.nseindia.com/corporate/NAUKRI_23022022192103_IEILReg30IIMjobsMergerintimation23022022.pdf",
+          "score": 7
+        },
+        {
+          "title": "Info Edge (India) Limited",
+          "url": "https://stockdiscovery.s3.amazonaws.com/india/company/4664/3223/IP-Dec20.pdf",
+          "score": 7
+        },
+        {
+          "title": "I 0 INFO EDGE 0 I",
+          "url": "https://www.bseindia.com/bseplus/AnnualReport/532777/5327770319.pdf",
+          "score": 7
+        },
+        {
+          "title": "7,000+ Info Edge jobs in India",
+          "url": "https://in.linkedin.com/jobs/info-edge-jobs",
+          "score": -15
+        }
+      ]
+    },
+    {
+      "company_id": "ragaai",
+      "company_name": "RagaAI",
+      "source_rank": "177",
+      "priority": "P2",
+      "candidates": [
+        {
+          "title": "REFERÈNCIES",
+          "url": "https://contractaciopublica.cat/portal-api/descarrega-document/301653235/C37D373DA2F72CE632B68D25FC80D50F",
+          "score": 0
+        },
+        {
+          "title": "RagaAI Inc hiring AI Product & Customer Success Associate in Bengaluru, Karnataka, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/ai-product-customer-success-associate-at-ragaai-inc-4467885990",
+          "score": -21
+        },
+        {
+          "title": "We’re hiring AI Engineers with 2–8 years of experience! Multiple roles are open, and we’re actively looking for talented individuals to join our growing team. Apply now by sending your resume to… | RagaAI Inc",
+          "url": "https://www.linkedin.com/posts/raga-ai_were-hiring-ai-engineers-with-28-years-activity-7318586830990229504-wWvM",
+          "score": -21
+        },
+        {
+          "title": "GTM Intern at RagaAI Inc — Bengaluru, Karnataka, India | LinkedIn Jobs",
+          "url": "https://in.linkedin.com/jobs/view/gtm-intern-at-ragaai-inc-4457447669",
+          "score": -21
+        },
+        {
+          "title": "RagaAI Inc hiring AI Product & Customer Success Intern in Bengaluru, Karnataka, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/ai-product-customer-success-intern-at-ragaai-inc-4461953595",
+          "score": -21
+        },
+        {
+          "title": "RagaAI Inc hiring Sales Intern (Cold Calling) in Bengaluru, Karnataka, India | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/view/sales-intern-cold-calling-at-ragaai-inc-4464839748",
+          "score": -21
+        },
+        {
+          "title": "RagaAI Inc | LinkedIn",
+          "url": "https://www.linkedin.com/company/raga-ai",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "unacademy",
+      "company_name": "Unacademy",
+      "source_rank": "325",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Careers at Unacademy – Join India's EdTech Team",
+          "url": "https://unacademy.com/careers",
+          "score": 49
+        },
+        {
+          "title": "Unacademy - India's largest learning platform",
+          "url": "https://unacademy.com/careers/public-notice",
+          "score": 49
+        },
+        {
+          "title": "About Unacademy – India's Largest Learning Platform",
+          "url": "https://unacademy.com/about",
+          "score": 41
+        },
+        {
+          "title": "Is This For You?",
+          "url": "https://unacademy.com/content/wp-content/uploads/sites/2/2022/12/Unacademy-Civil-Engineering-Jobs-Curriculum-Snippet.pdf",
+          "score": 13
+        },
+        {
+          "title": "CENTRE FOR SKILL DEVELOPMENT",
+          "url": "https://www.slc.du.ac.in/uploads/centre/CSD/2022-23/3.Unacademy_2022-23.pdf",
+          "score": -5
+        },
+        {
+          "title": "Unacademy: Jobs | LinkedIn",
+          "url": "https://in.linkedin.com/company/unacademy/jobs",
+          "score": -21
+        },
+        {
+          "title": "3,000+ Unacademy jobs in India",
+          "url": "https://in.linkedin.com/jobs/unacademy-jobs",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "oyo",
+      "company_name": "OYO",
+      "source_rank": "316",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Equal Opportunity Employment Policy_OYO 2021.docx",
+          "url": "https://www.oyorooms.com/esg/images/Equal_Opportunity_Employment_Policy_OYO.pdf",
+          "score": 11
+        },
+        {
+          "title": "OYO Corporate Brochure 2025",
+          "url": "https://www.oyo.co.jp/assets/pdf/corporate-profile/company-overview/OYO_Corporate_Brochure_en.pdf",
+          "score": 11
+        },
+        {
+          "title": "MakeMyTrip Ltd. and OYO announce partnership",
+          "url": "https://s22.q4cdn.com/244830719/files/doc_news/FINAL-MMYT-OYO-Joint-Press-Release.pdf",
+          "score": 1
+        },
+        {
+          "title": "OYO case study_18July",
+          "url": "https://taggd.in/wp-content/uploads/2025/09/How-Oyo-Rooms-experienced-big-lift-in-hiring-metrics.pdf",
+          "score": 1
+        },
+        {
+          "title": "Job Description",
+          "url": "https://ibsindia.org/IBSAF/jobops/ASM_OYO_LIFE.pdf",
+          "score": -5
+        },
+        {
+          "title": "10 Oyo jobs in India",
+          "url": "https://in.linkedin.com/jobs/oyo-jobs?f_AL=true",
+          "score": -21
+        },
+        {
+          "title": "68 Oyo jobs in India",
+          "url": "https://in.linkedin.com/jobs/oyo-jobs",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "porter",
+      "company_name": "Porter",
+      "source_rank": "320",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Work with Porter - Career - Tech Enabled Logistics Company",
+          "url": "https://porter.in/careers",
+          "score": 49
+        },
+        {
+          "title": "Porter Airlines Careers",
+          "url": "https://careers.flyporter.com/jobs",
+          "score": 49
+        },
+        {
+          "title": "About us",
+          "url": "https://porter.in/about-us",
+          "score": 35
+        },
+        {
+          "title": "GENERAL PORTER",
+          "url": "https://docs.trac.jobs/docs-vacancy/7883926/10158287/Job%20Description%20-%20Porter.pdf?rscd=attachment%3B+filename%3D%22236-NCA-EA042-26-A_Job+Description+-+Porter.pdf%22%3B+filename%2A%3Dutf-8%27en%27236-NCA-EA042-26-A_Job%2520Description%2520-%2520Porter.pdf&se=2026-03-22T13%3A56%3A17Z&sig=S7qogKOhshiXcA%2F4B5KcoQaZCxBzK3%2FE2%2BLqXu1kdH8%3D&ske=2026-03-22T13%3A56%3A17Z&skoid=eda9d889-bd88-4bae-8c08-a6e4925afdaf&sks=b&skt=2026-03-22T13%3A54%3A37Z&sktid=1eadface-4784-4ebc-9512-e7e7a81ddb61&skv=2020-04-08&sp=r&sr=b&sv=2020-04-08",
+          "score": 9
+        },
+        {
+          "title": "PORTER RECRUITMENT",
+          "url": "https://dailyjobalert.in/wp-content/uploads/2026/03/Indian-Army-Porter-Recruitment-Notification-2026-Kullu.pdf",
+          "score": 1
+        },
+        {
+          "title": "PORTER RECRUITMENT",
+          "url": "https://static.pw.live/5eb393ee95fab7468a79d189/GLOBAL_CMS_BLOGS/c421c6b3-6b19-452c-96f9-a462e6036457.pdf",
+          "score": 1
+        },
+        {
+          "title": "RECRUITMENT RALLY FOR PORTER COMPANY 2025-26",
+          "url": "https://uniquefriends.in/wp-content/uploads/2025/04/Army-P-bharti-2025.pdf",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "company_id": "stripe",
+      "company_name": "Stripe",
+      "source_rank": "53",
+      "priority": "P1",
+      "candidates": [
+        {
+          "title": "Stripe Jobs",
+          "url": "https://stripe.com/jobs/search?gh_jid=7061852",
+          "score": 49
+        },
+        {
+          "title": "Stripe Jobs",
+          "url": "https://stripe.com/jobs/search?gh_jid=7294728",
+          "score": 49
+        },
+        {
+          "title": "Stripe Jobs",
+          "url": "https://stripe.com/jobs/search?gh_jid=6506193",
+          "score": 49
+        },
+        {
+          "title": "Stripe AMER/EMEA Eng Candidate Recruiting Resource",
+          "url": "https://www.greatfrontend.com/static/guides/stripe-guide-2025.pdf",
+          "score": 1
+        },
+        {
+          "title": "Backend / API Engineer, Cards Expansi",
+          "url": "https://blogs.ubc.ca/engl301-99a-2019wa/files/2019/12/Backend-_-API-Engineer-Cards-Expansion-Stripe_-Job-Openings.pdf",
+          "score": -5
+        },
+        {
+          "title": "Stripe Jobs in India (3,000+ Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/stripe-jobs",
+          "score": -21
+        },
+        {
+          "title": "Stripe: Jobs | LinkedIn",
+          "url": "https://www.linkedin.com/company/stripe/jobs",
+          "score": -21
+        }
+      ]
+    },
+    {
+      "company_id": "billdesk",
+      "company_name": "BillDesk",
+      "source_rank": "292",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "BillDesk - Integrated Payment Solutions",
+          "url": "https://www.billdesk.com/web/job_description/jd%3DBD11",
+          "score": 41
+        },
+        {
+          "title": "BILLDESK",
+          "url": "https://connect.billdesk.com/",
+          "score": 41
+        },
+        {
+          "title": "Strictly Confidential",
+          "url": "https://www.billdesk.com/onlinedoc/BillDesk%20Reports%20Specs%20V1.0_01Dec2023.pdf",
+          "score": 5
+        },
+        {
+          "title": "Billdesk Jobs in India (8,000+ Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/billdesk-jobs",
+          "score": -21
+        },
+        {
+          "title": "1,000+ Billdesk jobs in India",
+          "url": "https://in.linkedin.com/jobs/billdesk-jobs?f_EA=true",
+          "score": -21
+        },
+        {
+          "title": "BillDesk Careers | BillDesk | 17 comments",
+          "url": "https://www.linkedin.com/posts/billdesk_billdesk-careers-activity-7056471229033062402-OpH4",
+          "score": -21
+        },
+        {
+          "title": "BillDesk | LinkedIn",
+          "url": "https://www.linkedin.com/company/billdesk/",
+          "score": -29
+        }
+      ]
+    },
+    {
+      "company_id": "practo",
+      "company_name": "Practo",
+      "source_rank": "321",
+      "priority": "P3",
+      "candidates": [
+        {
+          "title": "Practo Insight Report_AW",
+          "url": "https://www.practo.com/company/insights/practo_insights_report.pdf",
+          "score": 11
+        },
+        {
+          "title": "Practo_Practo com TCs_Samvad_020415_Clean",
+          "url": "https://www.practo.com/assets/pdf/Practo-T-and-C.pdf",
+          "score": 11
+        },
+        {
+          "title": "corporate-team@practo.com",
+          "url": "https://img.etb2bimg.com/files/cp/1153/cdoc-1654575171-Guidebook%20on%20How%20to%20create%20a%20healthy%20workplace%20with%20well-being%20at%20the%20core.pdf",
+          "score": 1
+        },
+        {
+          "title": "Practo Jobs in India (28 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/practo-jobs",
+          "score": -21
+        },
+        {
+          "title": "3,000+ Practo Technologies jobs in India",
+          "url": "https://in.linkedin.com/jobs/practo-technologies-jobs",
+          "score": -21
+        },
+        {
+          "title": "Practo Jobs in Bengaluru (16 Open Roles) | LinkedIn",
+          "url": "https://in.linkedin.com/jobs/practo-jobs-bengaluru",
+          "score": -21
+        },
+        {
+          "title": "Want to join Practo? We are hiring across functions! If you’re looking for a new opportunity as a Lead Software Engineer, SEO Lead or Customer Insight Manager, please send us your resume at… | Practo | 22 comments",
+          "url": "https://www.linkedin.com/posts/practo-technologies-pvt-ltd_want-to-join-practo-we-are-hiring-across-activity-7000327577571639296-fbdZ",
+          "score": -21
+        }
+      ]
+    }
+  ]
+}
