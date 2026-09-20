@@ -35,6 +35,13 @@ class AdapterType(StrEnum):
     ASHBY = "ashby"
     WORKDAY = "workday"
     SMARTRECRUITERS = "smartrecruiters"
+    EIGHTFOLD = "eightfold"
+    ICIMS = "icims"
+    ORACLE_CLOUD = "oracle_cloud"
+    SUCCESSFACTORS = "successfactors"
+    TALEO = "taleo"
+    JOBVITE = "jobvite"
+    DARWINBOX = "darwinbox"
     GENERIC_STRUCTURED = "generic_structured"
     SEARCH_ONLY = "search_only"
     CUSTOM = "custom"
@@ -185,6 +192,13 @@ _REQUIRED_ADAPTER_PARAMETERS: Mapping[AdapterType, tuple[str, ...]] = {
     AdapterType.ASHBY: ("board_name",),
     AdapterType.WORKDAY: ("tenant", "site"),
     AdapterType.SMARTRECRUITERS: ("company_identifier",),
+    AdapterType.EIGHTFOLD: ("tenant",),
+    AdapterType.ICIMS: ("customer",),
+    AdapterType.ORACLE_CLOUD: ("site_number",),
+    AdapterType.SUCCESSFACTORS: ("company_id",),
+    AdapterType.TALEO: ("organization",),
+    AdapterType.JOBVITE: ("company",),
+    AdapterType.DARWINBOX: ("tenant",),
     AdapterType.GENERIC_STRUCTURED: ("listing_url",),
     AdapterType.SEARCH_ONLY: ("search_url",),
     AdapterType.CUSTOM: ("adapter_key",),
