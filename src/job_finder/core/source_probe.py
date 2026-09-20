@@ -9,6 +9,7 @@ import urllib.error
 import urllib.request
 from dataclasses import asdict, dataclass
 from enum import StrEnum
+from html import unescape
 from typing import Any
 
 MAX_RESPONSE_BYTES = 2_000_000
@@ -132,28 +133,21 @@ def classify_probe_body(
     """Classify a bounded response body for tests and live probes."""
     text = body[:200_000].decode("utf-8", errors="replace")
     lowered = text.lower()
-    block_markers = (
-        "captcha",
-        "verify you are human",
-        "access denied",
-        "attention required! | cloudflare",
-        "sign in to continue",
-        "login required",
-    )
-    if any(marker in lowered for marker in block_markers):
-        return _classified(
-            requested_url,
-            final_url,
-            status_code,
-            content_type,
-            ProbeOutcome.ACCESS_BLOCK,
-            "access-control or login marker detected",
-        )
+    page_title = _extract_page_title(text)
 
     if expect_json_jobs:
         try:
             payload: Any = json.loads(body)
         except (json.JSONDecodeError, UnicodeDecodeError):
+            if _is_access_block_page(text, page_title):
+                return _classified(
+                    requested_url,
+                    final_url,
+                    status_code,
+                    content_type,
+                    ProbeOutcome.ACCESS_BLOCK,
+                    "access-control or login page detected",
+                )
             return _classified(
                 requested_url,
                 final_url,
@@ -184,10 +178,6 @@ def classify_probe_body(
             detail="recognized public JSON jobs collection",
         )
 
-    title_match = re.search(r"<title[^>]*>(.*?)</title>", text, flags=re.IGNORECASE | re.DOTALL)
-    page_title = None
-    if title_match:
-        page_title = re.sub(r"\s+", " ", title_match.group(1)).strip()[:200] or None
     if "html" not in content_type and "<html" not in lowered:
         return _classified(
             requested_url,
@@ -196,6 +186,15 @@ def classify_probe_body(
             content_type,
             ProbeOutcome.INVALID_CONTENT,
             "expected a public HTML careers page",
+        )
+    if _is_access_block_page(text, page_title):
+        return _classified(
+            requested_url,
+            final_url,
+            status_code,
+            content_type,
+            ProbeOutcome.ACCESS_BLOCK,
+            "access-control or login page detected",
         )
     return ProbeResult(
         requested_url=requested_url,
@@ -208,6 +207,47 @@ def classify_probe_body(
         job_count=None,
         detail="public HTML page retrieved",
     )
+
+
+def _extract_page_title(text: str) -> str | None:
+    title_match = re.search(r"<title[^>]*>(.*?)</title>", text, flags=re.IGNORECASE | re.DOTALL)
+    if not title_match:
+        return None
+    return re.sub(r"\s+", " ", unescape(title_match.group(1))).strip()[:200] or None
+
+
+def _is_access_block_page(text: str, page_title: str | None) -> bool:
+    """Detect an active challenge without matching dormant application-form configuration."""
+    title = (page_title or "").lower()
+    title_markers = (
+        "access denied",
+        "attention required! | cloudflare",
+        "captcha",
+        "login required",
+        "sign in to continue",
+        "verify you are human",
+    )
+    if any(marker in title for marker in title_markers):
+        return True
+
+    visible_html = re.sub(
+        r"<(script|style|noscript|template)\b[^>]*>.*?</\1\s*>",
+        " ",
+        text,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    visible_text = unescape(re.sub(r"<[^>]+>", " ", visible_html))
+    visible_text = re.sub(r"\s+", " ", visible_text).lower()
+    visible_markers = (
+        "access denied",
+        "captcha challenge",
+        "captcha verification",
+        "complete the captcha",
+        "login required",
+        "sign in to continue",
+        "verify you are human",
+    )
+    return any(marker in visible_text for marker in visible_markers)
 
 
 def _job_count(payload: object) -> int | None:

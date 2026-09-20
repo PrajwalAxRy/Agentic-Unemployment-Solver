@@ -143,9 +143,9 @@
       "priority": "P1",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://careers.adobe.com/us/en",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -160,7 +160,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://careers.adobe.com/us/en",
@@ -171,6 +171,11 @@
           "url": "https://careers.adobe.com/us/en",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://careers.adobe.com/us/en",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -265,9 +270,9 @@
       "priority": "P1",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://ai.meta.com/join-us/",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -282,7 +287,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://ai.meta.com/join-us/",
@@ -293,6 +298,11 @@
           "url": "https://ai.meta.com/join-us/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://ai.meta.com/join-us/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -304,9 +314,9 @@
       "priority": "P1",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.atlassian.com/company/careers",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -321,7 +331,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.atlassian.com/company/careers",
@@ -332,6 +342,11 @@
           "url": "https://www.atlassian.com/company/careers",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.atlassian.com/company/careers",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -687,16 +702,16 @@
       "priority": "P1",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
-      "official_careers_url": "https://join.slack.com/careers",
+      "status": "auto_verified",
+      "official_careers_url": "https://slack.com/intl/en-in/careers",
       "adapter_type": "search_only",
       "adapter_parameters": {
-        "search_url": "https://join.slack.com/careers"
+        "search_url": "https://slack.com/intl/en-in/careers"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://join.slack.com/careers",
+      "list_endpoint": "https://slack.com/intl/en-in/careers",
       "pagination": "Requires adapter verification after H2 source approval.",
       "external_job_id_field": null,
       "publication_date_field": null,
@@ -704,7 +719,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://join.slack.com/careers",
@@ -715,6 +730,11 @@
           "url": "https://slack.com/intl/en-in/careers",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://slack.com/intl/en-in/careers",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -1116,9 +1136,9 @@
       "priority": "P1",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.broadcom.com/company/careers",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -1133,7 +1153,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.broadcom.com/company/careers",
@@ -1144,6 +1164,11 @@
           "url": "https://www.broadcom.com/company/careers",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.broadcom.com/company/careers",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -1917,9 +1942,9 @@
       "priority": "P1",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.truefoundry.com/careers",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -1934,7 +1959,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.truefoundry.com/careers",
@@ -1945,6 +1970,11 @@
           "url": "https://www.truefoundry.com/careers",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.truefoundry.com/careers",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -2454,16 +2484,16 @@
       "priority": "P1",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
-      "official_careers_url": "https://jobs.booking.com/",
+      "status": "auto_verified",
+      "official_careers_url": "https://jobs.booking.com/booking/jobs",
       "adapter_type": "search_only",
       "adapter_parameters": {
-        "search_url": "https://jobs.booking.com/"
+        "search_url": "https://jobs.booking.com/booking/jobs"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://jobs.booking.com/",
+      "list_endpoint": "https://jobs.booking.com/booking/jobs",
       "pagination": "Requires adapter verification after H2 source approval.",
       "external_job_id_field": null,
       "publication_date_field": null,
@@ -2471,7 +2501,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://jobs.booking.com/",
@@ -2482,6 +2512,11 @@
           "url": "https://jobs.booking.com/booking/jobs",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://jobs.booking.com/booking/jobs",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -2611,9 +2646,9 @@
       "priority": "P1",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://jobs.twilio.com/careers?domain=twilio.com&hl=en",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -2628,7 +2663,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://jobs.twilio.com/careers?domain=twilio.com&hl=en",
@@ -2639,6 +2674,11 @@
           "url": "https://jobs.twilio.com/careers?domain=twilio.com&hl=en",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://jobs.twilio.com/careers?domain=twilio.com&hl=en",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -2884,9 +2924,9 @@
       "priority": "P1",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://app.eightfold.ai/careers?start=0",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -2901,7 +2941,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://app.eightfold.ai/careers?start=0",
@@ -2912,6 +2952,11 @@
           "url": "https://app.eightfold.ai/careers?start=0",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://app.eightfold.ai/careers?start=0",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -3723,9 +3768,9 @@
       "priority": "P1",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://careers.cred.club/openings",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -3740,7 +3785,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://careers.cred.club/openings",
@@ -3751,6 +3796,11 @@
           "url": "https://careers.cred.club/openings",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://careers.cred.club/openings",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -3919,9 +3969,9 @@
       "priority": "P2",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Replaced a different company's Ashby board with Noon's official careers page.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.noon.ai/careers",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -3936,7 +3986,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://jobs.ashbyhq.com/noon-design/11ba73d8-6ea9-4bc5-8137-d48eca9342ee",
@@ -3957,6 +4007,11 @@
           "url": "https://www.noon.ai/careers",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.noon.ai/careers",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -4327,9 +4382,9 @@
       "priority": "P2",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.amd.com/en/corporate/careers.html",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -4344,7 +4399,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.amd.com/en/corporate/careers.html",
@@ -4355,6 +4410,11 @@
           "url": "https://www.amd.com/en/corporate/careers.html",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.amd.com/en/corporate/careers.html",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -4483,9 +4543,9 @@
       "priority": "P2",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://quantiphi.com/careers/",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -4500,7 +4560,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://quantiphi.com/careers/",
@@ -4511,6 +4571,11 @@
           "url": "https://quantiphi.com/careers/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://quantiphi.com/careers/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -4522,16 +4587,16 @@
       "priority": "P2",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
-      "status": "access_concern",
-      "official_careers_url": "https://www.tigeranalytics.com/careers/",
+      "status": "auto_verified",
+      "official_careers_url": "https://www.tigeranalytics.com/about-us/current-openings/",
       "adapter_type": "search_only",
       "adapter_parameters": {
-        "search_url": "https://www.tigeranalytics.com/careers/"
+        "search_url": "https://www.tigeranalytics.com/about-us/current-openings/"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://www.tigeranalytics.com/careers/",
+      "list_endpoint": "https://www.tigeranalytics.com/about-us/current-openings/",
       "pagination": "unknown; requires live verification",
       "external_job_id_field": null,
       "publication_date_field": null,
@@ -4539,7 +4604,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.tigeranalytics.com/careers/",
@@ -4550,6 +4615,11 @@
           "url": "https://www.tigeranalytics.com/about-us/current-openings/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.tigeranalytics.com/about-us/current-openings/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -6234,9 +6304,9 @@
       "priority": "P2",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://limechat.zohorecruit.in/jobs/Careers/",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -6251,7 +6321,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://limechat.zohorecruit.in/jobs/Careers/",
@@ -6262,6 +6332,11 @@
           "url": "https://limechat.zohorecruit.in/jobs/Careers/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://limechat.zohorecruit.in/jobs/Careers/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -6351,9 +6426,9 @@
       "priority": "P2",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://in.miko.ai/pages/careers",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -6368,7 +6443,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://in.miko.ai/pages/careers",
@@ -6379,6 +6454,11 @@
           "url": "https://in.miko.ai/pages/careers",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://in.miko.ai/pages/careers",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -6468,9 +6548,9 @@
       "priority": "P2",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.netratechnosys.com/career",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -6485,7 +6565,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.netratechnosys.com/career",
@@ -6496,6 +6576,11 @@
           "url": "https://www.netratechnosys.com/career",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.netratechnosys.com/career",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -6673,9 +6758,9 @@
       "priority": "P2",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://niramai.com/career/",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -6690,7 +6775,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://niramai.com/career/",
@@ -6701,6 +6786,11 @@
           "url": "https://niramai.com/career/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://niramai.com/career/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -7139,9 +7229,9 @@
       "priority": "P2",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://saptanglabs.com/",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -7156,7 +7246,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://saptanglabs.com/",
@@ -7167,6 +7257,11 @@
           "url": "https://saptanglabs.com/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://saptanglabs.com/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -7851,9 +7946,9 @@
       "priority": "P2",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.wysa.com/careers",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -7868,7 +7963,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.wysa.com/careers",
@@ -7879,6 +7974,11 @@
           "url": "https://www.wysa.com/careers",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.wysa.com/careers",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -7929,9 +8029,9 @@
       "priority": "P2",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.zestiot.com/company/careers/",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -7946,7 +8046,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.zestiot.com/company/careers/",
@@ -7957,6 +8057,11 @@
           "url": "https://www.zestiot.com/company/careers/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.zestiot.com/company/careers/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -8513,9 +8618,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://careers.mastercard.com/us/en/mumbai-india",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -8530,7 +8635,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://careers.mastercard.com/us/en/mumbai-india",
@@ -8541,6 +8646,11 @@
           "url": "https://careers.mastercard.com/us/en/mumbai-india",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://careers.mastercard.com/us/en/mumbai-india",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -8690,9 +8800,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://payu.hire.trakstar.com/",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -8707,7 +8817,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://payu.hire.trakstar.com/",
@@ -8718,6 +8828,11 @@
           "url": "https://payu.hire.trakstar.com/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://payu.hire.trakstar.com/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -8729,9 +8844,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://careers.spglobal.com/jobs/locations",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -8746,7 +8861,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://careers.spglobal.com/jobs/locations",
@@ -8757,6 +8872,11 @@
           "url": "https://careers.spglobal.com/jobs/locations",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://careers.spglobal.com/jobs/locations",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -9086,9 +9206,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.cloudflare.com/careers/jobs/",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -9103,7 +9223,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.cloudflare.com/careers/jobs/",
@@ -9114,6 +9234,11 @@
           "url": "https://www.cloudflare.com/careers/jobs/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.cloudflare.com/careers/jobs/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -9408,9 +9533,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.github.careers/life-at-github",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -9425,7 +9550,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.github.careers/life-at-github",
@@ -9436,6 +9561,11 @@
           "url": "https://www.github.careers/life-at-github",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.github.careers/life-at-github",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -9447,9 +9577,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://kredivocorp.com/careers/?Job=159",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -9464,7 +9594,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://kredivocorp.com/careers/?Job=159",
@@ -9475,6 +9605,11 @@
           "url": "https://kredivocorp.com/careers/?Job=159",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://kredivocorp.com/careers/?Job=159",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -9863,9 +9998,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.sentinelone.com/careers/",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -9880,7 +10015,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.sentinelone.com/careers/",
@@ -9891,6 +10026,11 @@
           "url": "https://www.sentinelone.com/careers/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.sentinelone.com/careers/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -9985,16 +10125,16 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
-      "official_careers_url": "https://careers.snowflake.com/",
+      "status": "auto_verified",
+      "official_careers_url": "https://careers.snowflake.com/us/en",
       "adapter_type": "search_only",
       "adapter_parameters": {
-        "search_url": "https://careers.snowflake.com/"
+        "search_url": "https://careers.snowflake.com/us/en"
       },
       "listing_mode": "search_only",
-      "list_endpoint": "https://careers.snowflake.com/",
+      "list_endpoint": "https://careers.snowflake.com/us/en",
       "pagination": "Requires adapter verification after H2 source approval.",
       "external_job_id_field": null,
       "publication_date_field": null,
@@ -10002,7 +10142,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://careers.snowflake.com/",
@@ -10013,6 +10153,11 @@
           "url": "https://careers.snowflake.com/us/en",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://careers.snowflake.com/us/en",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -10024,9 +10169,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.testgorilla.com/careers/",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -10041,7 +10186,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.testgorilla.com/careers/",
@@ -10052,6 +10197,11 @@
           "url": "https://www.testgorilla.com/careers/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.testgorilla.com/careers/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -10102,9 +10252,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.toptal.com/careers",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -10119,7 +10269,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.toptal.com/careers",
@@ -10130,6 +10280,11 @@
           "url": "https://www.toptal.com/careers",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.toptal.com/careers",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -10471,9 +10626,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.marvell.com/company/careers.html",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -10488,7 +10643,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.marvell.com/company/careers.html",
@@ -10499,6 +10654,11 @@
           "url": "https://www.marvell.com/company/careers.html",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.marvell.com/company/careers.html",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -10549,9 +10709,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://careers.micron.com/careers/?location=india",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -10566,7 +10726,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://careers.micron.com/careers/?location=india",
@@ -10577,6 +10737,11 @@
           "url": "https://careers.micron.com/careers/?location=india",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://careers.micron.com/careers/?location=india",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -10633,9 +10798,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://jobs.renesas.com/india",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -10650,7 +10815,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://jobs.renesas.com/india",
@@ -10661,6 +10826,11 @@
           "url": "https://jobs.renesas.com/india",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://jobs.renesas.com/india",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -11145,9 +11315,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.kpit.com/careers-overview/",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -11162,7 +11332,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.kpit.com/careers-overview/",
@@ -11173,6 +11343,11 @@
           "url": "https://www.kpit.com/careers-overview/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.kpit.com/careers-overview/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -11355,9 +11530,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.olaelectric.com/careers",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -11372,7 +11547,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.olaelectric.com/careers",
@@ -11383,6 +11558,11 @@
           "url": "https://www.olaelectric.com/careers",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.olaelectric.com/careers",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -11438,9 +11618,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.samsara.com/company/careers/departments",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -11455,7 +11635,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.samsara.com/company/careers/departments",
@@ -11466,6 +11646,11 @@
           "url": "https://www.samsara.com/company/careers/departments",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.samsara.com/company/careers/departments",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -11750,9 +11935,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.browserstack.com/careers",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -11767,7 +11952,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.browserstack.com/careers",
@@ -11778,6 +11963,11 @@
           "url": "https://www.browserstack.com/careers",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.browserstack.com/careers",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -11960,9 +12150,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.delhivery.com/careers?trk=public_post_comment-text",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -11977,7 +12167,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.delhivery.com/careers?trk=public_post_comment-text",
@@ -11988,6 +12178,11 @@
           "url": "https://www.delhivery.com/careers?trk=public_post_comment-text",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.delhivery.com/careers?trk=public_post_comment-text",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -12038,9 +12233,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://elastic.run/careers",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -12055,7 +12250,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://elastic.run/careers",
@@ -12066,6 +12261,11 @@
           "url": "https://elastic.run/careers",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://elastic.run/careers",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -12270,9 +12470,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -12287,7 +12487,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid",
@@ -12298,6 +12498,11 @@
           "url": "https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -12387,9 +12592,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.lenskart.com/careers-at-lenskart",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -12404,7 +12609,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.lenskart.com/careers-at-lenskart",
@@ -12415,6 +12620,11 @@
           "url": "https://www.lenskart.com/careers-at-lenskart",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.lenskart.com/careers-at-lenskart",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -12582,9 +12792,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://www.ofbusiness.com/",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -12599,7 +12809,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://www.ofbusiness.com/",
@@ -12610,6 +12820,11 @@
           "url": "https://www.ofbusiness.com/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://www.ofbusiness.com/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },
@@ -12914,9 +13129,9 @@
       "priority": "P3",
       "regional_board_url": null,
       "publication_date_verified": false,
-      "access_concern": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "access_concern": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
-      "status": "access_concern",
+      "status": "auto_verified",
       "official_careers_url": "https://slice.careers/",
       "adapter_type": "search_only",
       "adapter_parameters": {
@@ -12931,7 +13146,7 @@
       "title_field": null,
       "location_field": null,
       "detail_strategy": "detail_page",
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         {
           "url": "https://slice.careers/",
@@ -12942,6 +13157,11 @@
           "url": "https://slice.careers/",
           "evidence_type": "access_concern_probe",
           "note": "access-control or login marker detected"
+        },
+        {
+          "url": "https://slice.careers/",
+          "evidence_type": "public_careers_page_probe",
+          "note": "public HTML page retrieved"
         }
       ]
     },

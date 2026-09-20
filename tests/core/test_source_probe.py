@@ -34,6 +34,21 @@ def test_login_or_captcha_page_is_not_healthy_html() -> None:
     assert result.outcome is ProbeOutcome.ACCESS_BLOCK
 
 
+def test_dormant_captcha_configuration_does_not_block_public_careers_page() -> None:
+    result = classify(
+        b"""
+        <html>
+          <title>Engineering jobs</title>
+          <script>window.config = {"captchaEnabled": true, "useCaptcha": true};</script>
+          <body><h1>Engineering and Product jobs</h1></body>
+        </html>
+        """,
+        expect_json=False,
+    )
+
+    assert result.outcome is ProbeOutcome.SUCCESS
+
+
 def test_html_instead_of_expected_json_is_invalid() -> None:
     result = classify(b"<html><title>Jobs</title></html>", expect_json=True)
 

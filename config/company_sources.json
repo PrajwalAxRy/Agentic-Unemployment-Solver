@@ -119,17 +119,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://careers.adobe.com/us/en",
         "https://careers.adobe.com/us/en",
         "https://careers.adobe.com/us/en"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 4,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -213,17 +214,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://ai.meta.com/join-us/",
         "https://ai.meta.com/join-us/",
         "https://ai.meta.com/join-us/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 7,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -244,17 +246,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.atlassian.com/company/careers",
         "https://www.atlassian.com/company/careers",
         "https://www.atlassian.com/company/careers"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 8,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -537,10 +540,10 @@
       "company_id": "slack",
       "company_name": "Slack",
       "status": "proposed",
-      "careers_url": "https://join.slack.com/careers",
+      "careers_url": "https://slack.com/intl/en-in/careers",
       "adapter_type": "search_only",
       "adapter_parameters": {
-        "search_url": "https://join.slack.com/careers"
+        "search_url": "https://slack.com/intl/en-in/careers"
       },
       "identity_strategy": "unresolved",
       "date_strategy": {
@@ -551,17 +554,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         "https://join.slack.com/careers",
+        "https://slack.com/intl/en-in/careers",
         "https://slack.com/intl/en-in/careers"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 18,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -892,17 +896,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.broadcom.com/company/careers",
         "https://www.broadcom.com/company/careers",
         "https://www.broadcom.com/company/careers"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 29,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -1517,17 +1522,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.truefoundry.com/careers",
         "https://www.truefoundry.com/careers",
         "https://www.truefoundry.com/careers"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
       "source_rank": 49,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -1912,10 +1918,10 @@
       "company_id": "booking-com",
       "company_name": "Booking.com",
       "status": "proposed",
-      "careers_url": "https://jobs.booking.com/",
+      "careers_url": "https://jobs.booking.com/booking/jobs",
       "adapter_type": "search_only",
       "adapter_parameters": {
-        "search_url": "https://jobs.booking.com/"
+        "search_url": "https://jobs.booking.com/booking/jobs"
       },
       "identity_strategy": "unresolved",
       "date_strategy": {
@@ -1926,17 +1932,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         "https://jobs.booking.com/",
+        "https://jobs.booking.com/booking/jobs",
         "https://jobs.booking.com/booking/jobs"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 62,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -2051,17 +2058,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://jobs.twilio.com/careers?domain=twilio.com&hl=en",
         "https://jobs.twilio.com/careers?domain=twilio.com&hl=en",
         "https://jobs.twilio.com/careers?domain=twilio.com&hl=en"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 66,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -2268,17 +2276,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://app.eightfold.ai/careers?start=0",
         "https://app.eightfold.ai/careers?start=0",
         "https://app.eightfold.ai/careers?start=0"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
       "source_rank": 73,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -2923,17 +2932,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://careers.cred.club/openings",
         "https://careers.cred.club/openings",
         "https://careers.cred.club/openings"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 94,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -3079,19 +3089,20 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         "https://jobs.ashbyhq.com/noon-design/11ba73d8-6ea9-4bc5-8137-d48eca9342ee",
         "https://api.ashbyhq.com/posting-api/job-board/noon-design",
         "https://www.noon.ai/careers",
+        "https://www.noon.ai/careers",
         "https://www.noon.ai/careers"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Replaced a different company's Ashby board with Noon's official careers page.",
       "source_rank": 99,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -3391,17 +3402,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.amd.com/en/corporate/careers.html",
         "https://www.amd.com/en/corporate/careers.html",
         "https://www.amd.com/en/corporate/careers.html"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 109,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -3515,27 +3527,28 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://quantiphi.com/careers/",
         "https://quantiphi.com/careers/",
         "https://quantiphi.com/careers/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
       "source_rank": 113,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
       "company_id": "tiger-analytics",
       "company_name": "Tiger Analytics",
       "status": "proposed",
-      "careers_url": "https://www.tigeranalytics.com/careers/",
+      "careers_url": "https://www.tigeranalytics.com/about-us/current-openings/",
       "adapter_type": "search_only",
       "adapter_parameters": {
-        "search_url": "https://www.tigeranalytics.com/careers/"
+        "search_url": "https://www.tigeranalytics.com/about-us/current-openings/"
       },
       "identity_strategy": "unresolved",
       "date_strategy": {
@@ -3546,17 +3559,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         "https://www.tigeranalytics.com/careers/",
+        "https://www.tigeranalytics.com/about-us/current-openings/",
         "https://www.tigeranalytics.com/about-us/current-openings/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
       "source_rank": 114,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -4886,17 +4900,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://limechat.zohorecruit.in/jobs/Careers/",
         "https://limechat.zohorecruit.in/jobs/Careers/",
         "https://limechat.zohorecruit.in/jobs/Careers/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 157,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -4979,17 +4994,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://in.miko.ai/pages/careers",
         "https://in.miko.ai/pages/careers",
         "https://in.miko.ai/pages/careers"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 160,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -5072,17 +5088,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.netratechnosys.com/career",
         "https://www.netratechnosys.com/career",
         "https://www.netratechnosys.com/career"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 163,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -5229,17 +5246,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://niramai.com/career/",
         "https://niramai.com/career/",
         "https://niramai.com/career/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 168,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -5599,17 +5617,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://saptanglabs.com/",
         "https://saptanglabs.com/",
         "https://saptanglabs.com/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 180,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -6159,17 +6178,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.wysa.com/careers",
         "https://www.wysa.com/careers",
         "https://www.wysa.com/careers"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 198,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -6221,17 +6241,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.zestiot.com/company/careers/",
         "https://www.zestiot.com/company/careers/",
         "https://www.zestiot.com/company/careers/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 200,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -6665,17 +6686,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://careers.mastercard.com/us/en/mumbai-india",
         "https://careers.mastercard.com/us/en/mumbai-india",
         "https://careers.mastercard.com/us/en/mumbai-india"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 214,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -6794,17 +6816,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://payu.hire.trakstar.com/",
         "https://payu.hire.trakstar.com/",
         "https://payu.hire.trakstar.com/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 218,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -6825,17 +6848,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://careers.spglobal.com/jobs/locations",
         "https://careers.spglobal.com/jobs/locations",
         "https://careers.spglobal.com/jobs/locations"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 219,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -7106,17 +7130,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.cloudflare.com/careers/jobs/",
         "https://www.cloudflare.com/careers/jobs/",
         "https://www.cloudflare.com/careers/jobs/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 228,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -7356,17 +7381,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.github.careers/life-at-github",
         "https://www.github.careers/life-at-github",
         "https://www.github.careers/life-at-github"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 236,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -7387,17 +7413,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://kredivocorp.com/careers/?Job=159",
         "https://kredivocorp.com/careers/?Job=159",
         "https://kredivocorp.com/careers/?Job=159"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 237,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -7703,17 +7730,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.sentinelone.com/careers/",
         "https://www.sentinelone.com/careers/",
         "https://www.sentinelone.com/careers/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 247,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -7783,10 +7811,10 @@
       "company_id": "snowflake",
       "company_name": "Snowflake",
       "status": "proposed",
-      "careers_url": "https://careers.snowflake.com/",
+      "careers_url": "https://careers.snowflake.com/us/en",
       "adapter_type": "search_only",
       "adapter_parameters": {
-        "search_url": "https://careers.snowflake.com/"
+        "search_url": "https://careers.snowflake.com/us/en"
       },
       "identity_strategy": "unresolved",
       "date_strategy": {
@@ -7797,17 +7825,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
         "https://careers.snowflake.com/",
+        "https://careers.snowflake.com/us/en",
         "https://careers.snowflake.com/us/en"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 250,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -7828,17 +7857,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.testgorilla.com/careers/",
         "https://www.testgorilla.com/careers/",
         "https://www.testgorilla.com/careers/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 251,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -7890,17 +7920,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.toptal.com/careers",
         "https://www.toptal.com/careers",
         "https://www.toptal.com/careers"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 253,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -8175,17 +8206,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.marvell.com/company/careers.html",
         "https://www.marvell.com/company/careers.html",
         "https://www.marvell.com/company/careers.html"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 262,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -8237,17 +8269,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://careers.micron.com/careers/?location=india",
         "https://careers.micron.com/careers/?location=india",
         "https://careers.micron.com/careers/?location=india"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 264,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -8301,17 +8334,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://jobs.renesas.com/india",
         "https://jobs.renesas.com/india",
         "https://jobs.renesas.com/india"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 266,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -8705,17 +8739,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.kpit.com/careers-overview/",
         "https://www.kpit.com/careers-overview/",
         "https://www.kpit.com/careers-overview/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 279,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -8863,17 +8898,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.olaelectric.com/careers",
         "https://www.olaelectric.com/careers",
         "https://www.olaelectric.com/careers"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 284,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -8926,17 +8962,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.samsara.com/company/careers/departments",
         "https://www.samsara.com/company/careers/departments",
         "https://www.samsara.com/company/careers/departments"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 286,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -9174,17 +9211,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.browserstack.com/careers",
         "https://www.browserstack.com/careers",
         "https://www.browserstack.com/careers"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 294,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -9332,17 +9370,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.delhivery.com/careers?trk=public_post_comment-text",
         "https://www.delhivery.com/careers?trk=public_post_comment-text",
         "https://www.delhivery.com/careers?trk=public_post_comment-text"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 299,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -9394,17 +9433,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://elastic.run/careers",
         "https://elastic.run/careers",
         "https://elastic.run/careers"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 301,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -9578,17 +9618,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid",
         "https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid",
         "https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 307,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -9671,17 +9712,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.lenskart.com/careers-at-lenskart",
         "https://www.lenskart.com/careers-at-lenskart",
         "https://www.lenskart.com/careers-at-lenskart"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 310,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -9826,17 +9868,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://www.ofbusiness.com/",
         "https://www.ofbusiness.com/",
         "https://www.ofbusiness.com/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 315,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,
@@ -10078,17 +10121,18 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "low",
+      "confidence": "medium",
       "evidence": [
+        "https://slice.careers/",
         "https://slice.careers/",
         "https://slice.careers/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Public probe encountered login, CAPTCHA, or access-control text.",
+      "exception_reason": null,
       "notes": "Automated search proposal; requires read-only verification and H2 review.",
       "source_rank": 323,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-20T12:40:52+05:30"
     },
     {
       "schema_version": 1,

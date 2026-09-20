@@ -60,6 +60,23 @@ def test_access_control_remains_visible() -> None:
     assert result["access_concern"] is not None
 
 
+def test_successful_reprobe_clears_stale_access_concern() -> None:
+    item = proposal("search_only")
+    item["status"] = "access_concern"
+    item["access_concern"] = "Earlier probe matched dormant CAPTCHA configuration."
+    item["list_endpoint"] = item["official_careers_url"]
+    successful_probe = probe("success", final_url="https://jobs.example.com")
+    successful_probe["requested_url"] = "https://jobs.example.com"
+
+    result = apply_verification_results(
+        {"proposals": [item]},
+        verification(successful_probe),
+    )["proposals"][0]
+
+    assert result["status"] == "auto_verified"
+    assert result["access_concern"] is None
+
+
 def test_workday_redirect_updates_adapter_parameters() -> None:
     item = proposal("search_only")
     item["list_endpoint"] = item["official_careers_url"]

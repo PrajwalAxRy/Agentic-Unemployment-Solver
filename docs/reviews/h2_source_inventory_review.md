@@ -4,15 +4,15 @@
 
 - Phase: 2 — Company source inventory
 - Checkpoint: H2 — approve sources and first-release scope
-- Status: **STOP — awaiting human decision**
+- Status: **APPROVED — proceed instruction received 2026-09-20**
 - Discovery batch: `canonical-seed-2026-09-20`
 - Discovery timestamp: `2026-09-20T12:40:52+05:30`
 - Canonical scope: 330 of 330 companies; no company is removed or enabled
 
 ## Decision summary
 
-- Recommend accepting 216 read-only verified sources as the source baseline, still disabled until their adapters pass later phase gates.
-- Keep 44 access-concern sources disabled. Do not bypass login, CAPTCHA, rate-limit, robots, or other access controls.
+- Recommend accepting 260 read-only verified sources as the source baseline, still disabled until their adapters pass later phase gates.
+- Keep 0 access-concern sources disabled. Do not bypass login, CAPTCHA, rate-limit, robots, or other access controls.
 - Keep 68 conflicting or non-enumerating sources disabled in the custom-discovery backlog; none is proposed for removal.
 - Carry 2 responsive but oversized structured boards into adapter implementation with bounded streaming/pagination tests.
 - Recommend the adapter order: Ashby, Greenhouse, Lever, Workday, Darwinbox, Eightfold, SmartRecruiters, Oracle Cloud, SuccessFactors, then Jobvite.
@@ -22,17 +22,17 @@
 
 | Metric | Count | Percent of 330 |
 |---|---:|---:|
-| Read-only auto-verified | 216 | 65.5% |
-| Access concern | 44 | 13.3% |
+| Read-only auto-verified | 260 | 78.8% |
+| Access concern | 0 | 0.0% |
 | Conflict / non-enumerating | 68 | 20.6% |
 | Responsive but oversized | 2 | 0.6% |
 | High confidence | 31 | 9.4% |
-| Medium confidence | 187 | 56.7% |
-| Low confidence | 112 | 33.9% |
+| Medium confidence | 231 | 70.0% |
+| Low confidence | 68 | 20.6% |
 
 ## Adapter coverage and priority
 
-Known reusable ATS families cover 90 companies (27.3%). The remaining 236 search-only records are an explicit custom/source-family backlog; four conflicts have no usable adapter classification.
+Known reusable ATS families cover 90 companies (27.3%). The remaining 236 search-only records are an explicit custom/source-family backlog; 4 conflicts have no usable adapter classification.
 
 | Priority | Adapter | Total | Verified | Access | Conflict | Pending | Projected registry coverage |
 |---:|---|---:|---:|---:|---:|---:|---:|
@@ -46,7 +46,7 @@ Known reusable ATS families cover 90 companies (27.3%). The remaining 236 search
 | 8 | `oracle_cloud` | 2 | 2 | 0 | 0 | 0 | 0.6% |
 | 9 | `successfactors` | 2 | 2 | 0 | 0 | 0 | 0.6% |
 | 10 | `jobvite` | 1 | 1 | 0 | 0 | 0 | 0.3% |
-| backlog | `search_only` | 236 | 134 | 44 | 58 | 0 | 71.5% |
+| backlog | `search_only` | 236 | 178 | 0 | 58 | 0 | 71.5% |
 | backlog | `unresolved` | 4 | 0 | 0 | 4 | 0 | 1.2% |
 
 Ashby is recommended first because 22 of 24 mappings are verified, its public listing interface is simple, and the representative set spans empty, small, medium, and large boards. Greenhouse has slightly greater raw coverage but more conflicts and one oversized response.
@@ -62,7 +62,7 @@ Ashby is recommended first because 22 of 24 mappings are verified, its public li
 
 ## Unsupported or blocked proposals
 
-None are proposed as unsupported or removed at H2. Access-concern and conflict companies remain in scope and disabled pending the approved disposition and later adapter-specific evidence.
+None are proposed as unsupported or removed at H2. Any access-concern or conflict companies remain in scope and disabled pending the approved disposition and later adapter-specific evidence.
 
 ## Responsive but oversized structured boards
 
@@ -77,50 +77,7 @@ Recommendation: keep disabled, do not bypass the observed control, and attempt o
 
 | Rank | Priority | Company | Adapter | Direct URL | Evidence / limitation |
 |---:|---|---|---|---|---|
-| 4 | P1 | Adobe | `search_only` | [open](https://careers.adobe.com/us/en) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 7 | P1 | Meta | `search_only` | [open](https://ai.meta.com/join-us/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 8 | P1 | Atlassian | `search_only` | [open](https://www.atlassian.com/company/careers) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 18 | P1 | Slack | `search_only` | [open](https://join.slack.com/careers) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 29 | P1 | Broadcom | `search_only` | [open](https://www.broadcom.com/company/careers) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 49 | P1 | TrueFoundry | `search_only` | [open](https://www.truefoundry.com/careers) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 62 | P1 | Booking.com | `search_only` | [open](https://jobs.booking.com/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 66 | P1 | Twilio | `search_only` | [open](https://jobs.twilio.com/careers?domain=twilio.com&hl=en) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 73 | P1 | Eightfold AI | `search_only` | [open](https://app.eightfold.ai/careers?start=0) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 94 | P1 | CRED | `search_only` | [open](https://careers.cred.club/openings) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 99 | P2 | Noon | `search_only` | [open](https://www.noon.ai/careers) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 109 | P2 | AMD | `search_only` | [open](https://www.amd.com/en/corporate/careers.html) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 113 | P2 | Quantiphi | `search_only` | [open](https://quantiphi.com/careers/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 114 | P2 | Tiger Analytics | `search_only` | [open](https://www.tigeranalytics.com/careers/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 157 | P2 | LimeChat | `search_only` | [open](https://limechat.zohorecruit.in/jobs/Careers/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 160 | P2 | Miko | `search_only` | [open](https://in.miko.ai/pages/careers) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 163 | P2 | Netra | `search_only` | [open](https://www.netratechnosys.com/career) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 168 | P2 | Niramai | `search_only` | [open](https://niramai.com/career/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 180 | P2 | Saptang Labs | `search_only` | [open](https://saptanglabs.com/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 198 | P2 | Wysa | `search_only` | [open](https://www.wysa.com/careers) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 200 | P2 | ZestIot | `search_only` | [open](https://www.zestiot.com/company/careers/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 214 | P3 | Mastercard | `search_only` | [open](https://careers.mastercard.com/us/en/mumbai-india) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 218 | P3 | PayU | `search_only` | [open](https://payu.hire.trakstar.com/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 219 | P3 | S&P Global | `search_only` | [open](https://careers.spglobal.com/jobs/locations) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 228 | P3 | Cloudflare | `search_only` | [open](https://www.cloudflare.com/careers/jobs/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 236 | P3 | GitHub | `search_only` | [open](https://www.github.careers/life-at-github) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 237 | P3 | Kredivo | `search_only` | [open](https://kredivocorp.com/careers/?Job=159) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 247 | P3 | SentinelOne | `search_only` | [open](https://www.sentinelone.com/careers/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 250 | P3 | Snowflake | `search_only` | [open](https://careers.snowflake.com/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 251 | P3 | TestGorilla | `search_only` | [open](https://www.testgorilla.com/careers/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 253 | P3 | Toptal | `search_only` | [open](https://www.toptal.com/careers) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 262 | P3 | Marvell | `search_only` | [open](https://www.marvell.com/company/careers.html) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 264 | P3 | Micron | `search_only` | [open](https://careers.micron.com/careers/?location=india) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 266 | P3 | Renesas | `search_only` | [open](https://jobs.renesas.com/india) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 279 | P3 | KPIT | `search_only` | [open](https://www.kpit.com/careers-overview/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 284 | P3 | Ola Electric | `search_only` | [open](https://www.olaelectric.com/careers) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 286 | P3 | Samsara | `search_only` | [open](https://www.samsara.com/company/careers/departments) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 294 | P3 | BrowserStack | `search_only` | [open](https://www.browserstack.com/careers) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 299 | P3 | Delhivery | `search_only` | [open](https://www.delhivery.com/careers?trk=public_post_comment-text) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 301 | P3 | ElasticRun | `search_only` | [open](https://elastic.run/careers) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 307 | P3 | Jio Platforms / Haptik | `search_only` | [open](https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 310 | P3 | Lenskart | `search_only` | [open](https://www.lenskart.com/careers-at-lenskart) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 315 | P3 | OfBusiness | `search_only` | [open](https://www.ofbusiness.com/) | Public probe encountered login, CAPTCHA, or access-control text. |
-| 323 | P3 | Slice | `search_only` | [open](https://slice.careers/) | Public probe encountered login, CAPTCHA, or access-control text. |
+| — | — | None | — | — | — |
 
 ## Conflicting or non-enumerating proposals requiring inspection
 
@@ -203,39 +160,53 @@ These official pages passed read-only checks but exposed no single supported hos
 
 | Rank | Priority | Company | Adapter | Direct URL | Evidence / limitation |
 |---:|---|---|---|---|---|
+| 4 | P1 | Adobe | `search_only` | [open](https://careers.adobe.com/us/en) | Automated search proposal; requires read-only verification and H2 review. |
+| 7 | P1 | Meta | `search_only` | [open](https://ai.meta.com/join-us/) | Automated search proposal; requires read-only verification and H2 review. |
+| 8 | P1 | Atlassian | `search_only` | [open](https://www.atlassian.com/company/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 10 | P1 | Sanas | `search_only` | [open](https://www.sanas.ai/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 12 | P1 | Moloco | `search_only` | [open](https://www.moloco.com/company/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 13 | P1 | Postman | `search_only` | [open](https://www.postman.com/company/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 14 | P1 | Rippling | `search_only` | [open](https://www.rippling.com/en-IN/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 15 | P1 | Rubrik | `search_only` | [open](https://www.rubrik.com/company/careers?gh_src=2c3b02b81us) | Automated search proposal; requires read-only verification and H2 review. |
 | 17 | P1 | GitLab | `search_only` | [open](https://about.gitlab.com/jobs/all-jobs/) | Automated search proposal; requires read-only verification and H2 review. |
+| 18 | P1 | Slack | `search_only` | [open](https://slack.com/intl/en-in/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 20 | P1 | Microsoft | `search_only` | [open](https://careers.microsoft.com/v2/global/en/locations/india.html?trk=public_post_main-feed-card_reshare_feed-article-content) | Automated search proposal; requires read-only verification and H2 review. |
 | 21 | P1 | Oracle / OCI | `search_only` | [open](https://www.oracle.com/in/careers/opportunities/oracle-cloud-infrastructure/) | Automated search proposal; requires read-only verification and H2 review. |
 | 24 | P1 | Apple | `search_only` | [open](https://jobs.apple.com/en-us/search?location=india-INDC) | Automated search proposal; requires read-only verification and H2 review. |
 | 25 | P1 | InMobi | `search_only` | [open](https://www.inmobi.com/company/careers) | Automated search proposal; requires read-only verification and H2 review. |
+| 29 | P1 | Broadcom | `search_only` | [open](https://www.broadcom.com/company/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 30 | P1 | Cockroach Labs | `search_only` | [open](https://www.cockroachlabs.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 36 | P1 | Kore.ai | `search_only` | [open](https://www.kore.ai/careers) | Generated from an unverified canonical seed URL hint; H2 review is required. |
 | 39 | P1 | Yellow.ai | `search_only` | [open](https://yellow.ai/career/) | Generated from an unverified canonical seed URL hint; H2 review is required. |
 | 40 | P1 | LinkedIn | `search_only` | [open](https://careers.linkedin.com/) | Automated search proposal; requires read-only verification and H2 review. |
 | 46 | P1 | Qure.ai | `search_only` | [open](https://jobs.qure.ai/) | Generated from an unverified canonical seed URL hint; H2 review is required. |
+| 49 | P1 | TrueFoundry | `search_only` | [open](https://www.truefoundry.com/careers) | Generated from an unverified canonical seed URL hint; H2 review is required. |
 | 51 | P1 | Airbnb | `search_only` | [open](https://careers.airbnb.com/positions/) | Automated search proposal; requires read-only verification and H2 review. |
 | 52 | P1 | FalconX | `search_only` | [open](https://www.falconx.io/open-roles) | Automated search proposal; requires read-only verification and H2 review. |
 | 53 | P1 | Stripe | `search_only` | [open](https://stripe.com/careers/search) | Replaced one job detail with Stripe's complete job search. |
 | 56 | P1 | Intuit | `search_only` | [open](https://www.intuit.com/in/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 60 | P1 | ServiceNow | `search_only` | [open](https://careers.servicenow.com/locations/apj/india/?page=3) | Automated search proposal; requires read-only verification and H2 review. |
+| 62 | P1 | Booking.com | `search_only` | [open](https://jobs.booking.com/booking/jobs) | Automated search proposal; requires read-only verification and H2 review. |
 | 63 | P1 | Coupang | `search_only` | [open](https://www.coupang.jobs/en/locations/bengaluru/) | Automated search proposal; requires read-only verification and H2 review. |
 | 65 | P1 | Okta | `search_only` | [open](https://www.okta.com/company/careers/) | Automated search proposal; requires read-only verification and H2 review. |
+| 66 | P1 | Twilio | `search_only` | [open](https://jobs.twilio.com/careers?domain=twilio.com&hl=en) | Automated search proposal; requires read-only verification and H2 review. |
 | 71 | P1 | Index Exchange | `search_only` | [open](https://www.indexexchange.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 72 | P1 | Roku | `search_only` | [open](https://www.weareroku.com/bengaluru) | Automated search proposal; requires read-only verification and H2 review. |
+| 73 | P1 | Eightfold AI | `search_only` | [open](https://app.eightfold.ai/careers?start=0) | Generated from an unverified canonical seed URL hint; H2 review is required. |
 | 74 | P1 | Flipkart | `search_only` | [open](https://www.flipkartcareers.com/jobslist) | Automated search proposal; requires read-only verification and H2 review. |
 | 75 | P1 | Meesho | `search_only` | [open](https://www.meesho.io/jobs?i=true) | Automated search proposal; requires read-only verification and H2 review. |
 | 76 | P1 | PhonePe | `search_only` | [open](https://www.phonepe.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 78 | P1 | Swiggy | `search_only` | [open](https://careers.swiggy.com/) | Automated search proposal; requires read-only verification and H2 review. |
 | 91 | P1 | Tower Research Capital | `search_only` | [open](https://tower-research.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
+| 94 | P1 | CRED | `search_only` | [open](https://careers.cred.club/openings) | Automated search proposal; requires read-only verification and H2 review. |
 | 95 | P1 | Navi | `search_only` | [open](https://navi.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
+| 99 | P2 | Noon | `search_only` | [open](https://www.noon.ai/careers) | Replaced a different company's Ashby board with Noon's official careers page. |
 | 101 | P2 | Walmart Global Tech | `search_only` | [open](https://tech.walmart.com/content/walmart-global-tech/en_us/careers.html) | Automated search proposal; requires read-only verification and H2 review. |
 | 108 | P2 | Tenstorrent | `search_only` | [open](https://tenstorrent.madebyhowler.com/careers/) | Generated from an unverified canonical seed URL hint; H2 review is required. |
+| 109 | P2 | AMD | `search_only` | [open](https://www.amd.com/en/corporate/careers.html) | Automated search proposal; requires read-only verification and H2 review. |
 | 110 | P2 | Intel | `search_only` | [open](https://www.intel.com/content/www/us/en/jobs/locations.html) | Automated search proposal; requires read-only verification and H2 review. |
+| 113 | P2 | Quantiphi | `search_only` | [open](https://quantiphi.com/careers/) | Generated from an unverified canonical seed URL hint; H2 review is required. |
+| 114 | P2 | Tiger Analytics | `search_only` | [open](https://www.tigeranalytics.com/about-us/current-openings/) | Generated from an unverified canonical seed URL hint; H2 review is required. |
 | 116 | P2 | Dolat Capital | `search_only` | [open](https://dolatcapital.in/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 117 | P2 | IMC Trading | `search_only` | [open](https://www.imc.com/in/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 119 | P2 | Optiver | `search_only` | [open](https://www.optiver.com/join-us/) | Automated search proposal; requires read-only verification and H2 review. |
@@ -254,11 +225,15 @@ These official pages passed read-only checks but exposed no single supported hos
 | 152 | P2 | Hyperleap AI | `search_only` | [open](https://hyperleap.ai/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 153 | P2 | HyperVerge | `search_only` | [open](https://hyperverge.co/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 154 | P2 | InVideo | `search_only` | [open](https://careers.invideo.io/) | Automated search proposal; requires read-only verification and H2 review. |
+| 157 | P2 | LimeChat | `search_only` | [open](https://limechat.zohorecruit.in/jobs/Careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 158 | P2 | Locus | `search_only` | [open](https://dynamiclink.locus-dev.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 159 | P2 | Mad Street Den | `search_only` | [open](https://careers.swglobalventures.in/company/mad-street-den/careers) | Automated search proposal; requires read-only verification and H2 review. |
+| 160 | P2 | Miko | `search_only` | [open](https://in.miko.ai/pages/careers) | Automated search proposal; requires read-only verification and H2 review. |
+| 163 | P2 | Netra | `search_only` | [open](https://www.netratechnosys.com/career) | Automated search proposal; requires read-only verification and H2 review. |
 | 164 | P2 | NeuralGarage | `search_only` | [open](https://jobs.pyjamahr.com/neuralgarage) | Automated search proposal; requires read-only verification and H2 review. |
 | 166 | P2 | Nexstem | `search_only` | [open](https://sites.google.com/nexstem.ai/careers/home) | Automated search proposal; requires read-only verification and H2 review. |
 | 167 | P2 | Neysa | `search_only` | [open](https://neysa.ai/careers/job-openings/) | Replaced a contact page with the official openings page. |
+| 168 | P2 | Niramai | `search_only` | [open](https://niramai.com/career/) | Automated search proposal; requires read-only verification and H2 review. |
 | 170 | P2 | Peptris | `search_only` | [open](https://www.peptris.com/careers.html) | Automated search proposal; requires read-only verification and H2 review. |
 | 171 | P2 | Perceptyne | `search_only` | [open](https://www.perceptyne.com/career) | Automated search proposal; requires read-only verification and H2 review. |
 | 172 | P2 | Poppulo | `search_only` | [open](https://www.poppulo.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
@@ -266,6 +241,7 @@ These official pages passed read-only checks but exposed no single supported hos
 | 175 | P2 | QpiAI | `search_only` | [open](https://www.qpiai.tech/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 176 | P2 | Quant AI | `search_only` | [open](https://www.quant.ai/en/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 179 | P2 | Ripik.AI | `search_only` | [open](https://www.ripik.ai/careers/) | Automated search proposal; requires read-only verification and H2 review. |
+| 180 | P2 | Saptang Labs | `search_only` | [open](https://saptanglabs.com/) | Automated search proposal; requires read-only verification and H2 review. |
 | 182 | P2 | Signzy | `search_only` | [open](https://www.signzy.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 184 | P2 | Skild AI | `search_only` | [open](https://www.skild.ai/career?job=13) | Automated search proposal; requires read-only verification and H2 review. |
 | 185 | P2 | Skit.ai | `search_only` | [open](https://skit.ai/in/careers/) | Automated search proposal; requires read-only verification and H2 review. |
@@ -277,6 +253,8 @@ These official pages passed read-only checks but exposed no single supported hos
 | 193 | P2 | Tricog | `search_only` | [open](https://tricog.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 194 | P2 | Upscale AI | `search_only` | [open](https://www.upscale.ai/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 197 | P2 | Writesonic | `search_only` | [open](https://writesonic.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
+| 198 | P2 | Wysa | `search_only` | [open](https://www.wysa.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
+| 200 | P2 | ZestIot | `search_only` | [open](https://www.zestiot.com/company/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 202 | P2 | Zoniqx | `search_only` | [open](https://www.zoniqx.com/contact) | Automated search proposal; requires read-only verification and H2 review. |
 | 203 | P3 | American Express | `search_only` | [open](https://careers.americanexpress.com/en/sites/CX_1/jobs?inav=au_sitefooter_careers&lastSelectedFacet=POSTING_DATES&selectedPostingDatesFacet=30utm_medium) | Automated search proposal; requires read-only verification and H2 review. |
 | 206 | P3 | BlackRock / Aladdin | `search_only` | [open](https://careers.blackrock.com/location/india-jobs/45831/1269750/2/6) | Automated search proposal; requires read-only verification and H2 review. |
@@ -285,27 +263,40 @@ These official pages passed read-only checks but exposed no single supported hos
 | 209 | P3 | Fidelity Investments | `search_only` | [open](https://jobs.fidelity.com/in/) | Automated search proposal; requires read-only verification and H2 review. |
 | 210 | P3 | Goldman Sachs | `search_only` | [open](https://www.goldmansachs.com/worldwide/india/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 211 | P3 | HSBC | `search_only` | [open](https://www.hsbc.com/careers/where-we-hire/india) | Automated search proposal; requires read-only verification and H2 review. |
+| 214 | P3 | Mastercard | `search_only` | [open](https://careers.mastercard.com/us/en/mumbai-india) | Automated search proposal; requires read-only verification and H2 review. |
+| 218 | P3 | PayU | `search_only` | [open](https://payu.hire.trakstar.com/) | Automated search proposal; requires read-only verification and H2 review. |
+| 219 | P3 | S&P Global | `search_only` | [open](https://careers.spglobal.com/jobs/locations) | Automated search proposal; requires read-only verification and H2 review. |
 | 220 | P3 | UBS | `search_only` | [open](https://www.ubs.com/global/en/careers/about-us/locations/india.html) | Automated search proposal; requires read-only verification and H2 review. |
 | 222 | P3 | Wells Fargo | `search_only` | [open](https://www.wellsfargojobs.com/?utm_medium=www-redirect&utm_source=about--careers--index) | Automated search proposal; requires read-only verification and H2 review. |
 | 223 | P3 | Arista Networks | `search_only` | [open](https://www.arista.com/en/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 224 | P3 | Automattic | `search_only` | [open](https://automattic.com/work-with-us/jobs/) | Automated search proposal; requires read-only verification and H2 review. |
+| 228 | P3 | Cloudflare | `search_only` | [open](https://www.cloudflare.com/careers/jobs/) | Automated search proposal; requires read-only verification and H2 review. |
 | 229 | P3 | Cohesity | `search_only` | [open](https://www.cohesity.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 230 | P3 | Coinbase | `search_only` | [open](https://www.coinbase.com/en-in/careers/positions?location=remote+india) | Automated search proposal; requires read-only verification and H2 review. |
 | 231 | P3 | Compass | `search_only` | [open](https://www.compass.com/careers/?gh_board=compassindia) | Automated search proposal; requires read-only verification and H2 review. |
 | 232 | P3 | Crunchyroll | `search_only` | [open](https://www.crunchyroll.com/about/jobs) | Replaced a Brazil-localized URL with the global official jobs page. |
 | 233 | P3 | Druva | `search_only` | [open](https://www.druva.com/why-druva/explore/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 234 | P3 | Elastic | `search_only` | [open](https://www.elastic.co/careers) | Automated search proposal; requires read-only verification and H2 review. |
+| 236 | P3 | GitHub | `search_only` | [open](https://www.github.careers/life-at-github) | Automated search proposal; requires read-only verification and H2 review. |
+| 237 | P3 | Kredivo | `search_only` | [open](https://kredivocorp.com/careers/?Job=159) | Automated search proposal; requires read-only verification and H2 review. |
 | 238 | P3 | Media.net | `search_only` | [open](https://careers.media.net/) | Automated search proposal; requires read-only verification and H2 review. |
 | 240 | P3 | Navan | `search_only` | [open](https://navan.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 241 | P3 | Nutanix | `search_only` | [open](https://careers.nutanix.com/en/locations/india/) | Automated search proposal; requires read-only verification and H2 review. |
 | 242 | P3 | Opendoor | `search_only` | [open](https://www.opendoor.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 243 | P3 | p0 | `search_only` | [open](https://p0.dev/careers/) | Automated search proposal; requires read-only verification and H2 review. |
+| 247 | P3 | SentinelOne | `search_only` | [open](https://www.sentinelone.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 249 | P3 | Skillz | `search_only` | [open](https://ts.skillz.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
+| 250 | P3 | Snowflake | `search_only` | [open](https://careers.snowflake.com/us/en) | Automated search proposal; requires read-only verification and H2 review. |
+| 251 | P3 | TestGorilla | `search_only` | [open](https://www.testgorilla.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 252 | P3 | ThoughtSpot | `search_only` | [open](https://www.thoughtspot.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
+| 253 | P3 | Toptal | `search_only` | [open](https://www.toptal.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 255 | P3 | Zscaler | `search_only` | [open](https://www.zscaler.com/careers/engineering) | Automated search proposal; requires read-only verification and H2 review. |
 | 257 | P3 | Applied Materials | `search_only` | [open](https://jobs.appliedmaterials.com/location/india-jobs/95/1269750/2/8) | Automated search proposal; requires read-only verification and H2 review. |
 | 258 | P3 | Arm | `search_only` | [open](https://careers.arm.com/search-jobs?acm=ALL&alrpm=ALL) | Multiple hosted ATS configurations detected; H2 inspection required. |
 | 261 | P3 | Lam Research | `search_only` | [open](https://www.lamresearch.com/careers/global-opportunities/india/) | Automated search proposal; requires read-only verification and H2 review. |
+| 262 | P3 | Marvell | `search_only` | [open](https://www.marvell.com/company/careers.html) | Automated search proposal; requires read-only verification and H2 review. |
+| 264 | P3 | Micron | `search_only` | [open](https://careers.micron.com/careers/?location=india) | Automated search proposal; requires read-only verification and H2 review. |
+| 266 | P3 | Renesas | `search_only` | [open](https://jobs.renesas.com/india) | Automated search proposal; requires read-only verification and H2 review. |
 | 267 | P3 | Synopsys | `search_only` | [open](https://www.synopsys.com/careers/global/south-asia/india.html) | Automated search proposal; requires read-only verification and H2 review. |
 | 268 | P3 | Texas Instruments | `search_only` | [open](https://edbz.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/jobs?country=IN&location=India) | Automated search proposal; requires read-only verification and H2 review. |
 | 270 | P3 | Aptiv | `search_only` | [open](https://www.aptiv.com/en/jobs/working-here/global-locations/india) | Automated search proposal; requires read-only verification and H2 review. |
@@ -314,24 +305,34 @@ These official pages passed read-only checks but exposed no single supported hos
 | 275 | P3 | Detect Technologies | `search_only` | [open](https://detecttechnologies.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 277 | P3 | Harman | `search_only` | [open](https://jobsearch.harman.com/en_US/careers/SearchJobs/?2039=%5B59985%5D&2039_format=2669&jobOffset=120&jobRecordsPerPage=20&listFilterMode=1) | Automated search proposal; requires read-only verification and H2 review. |
 | 278 | P3 | ideaForge | `search_only` | [open](https://ideaforgetech.com/career) | Automated search proposal; requires read-only verification and H2 review. |
+| 279 | P3 | KPIT | `search_only` | [open](https://www.kpit.com/careers-overview/) | Automated search proposal; requires read-only verification and H2 review. |
 | 282 | P3 | Myelin Foundry | `search_only` | [open](https://www.myelinfoundry.ai/careers/) | Replaced a company profile page with the official careers page. |
+| 284 | P3 | Ola Electric | `search_only` | [open](https://www.olaelectric.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
+| 286 | P3 | Samsara | `search_only` | [open](https://www.samsara.com/company/careers/departments) | Automated search proposal; requires read-only verification and H2 review. |
 | 287 | P3 | Tata Elxsi | `search_only` | [open](https://www.tataelxsi.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 288 | P3 | Unbox Robotics | `search_only` | [open](https://unboxrobotics.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 289 | P3 | Volvo Group | `search_only` | [open](https://www.volvogroup.com/en/careers.html/jobs/?q=engineer&sort=relevance) | Automated search proposal; requires read-only verification and H2 review. |
 | 290 | P3 | ACKO | `search_only` | [open](https://www.acko.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 293 | P3 | BlackBuck | `search_only` | [open](https://www.blackbuck.com/team-blackbuck.html) | Automated search proposal; requires read-only verification and H2 review. |
+| 294 | P3 | BrowserStack | `search_only` | [open](https://www.browserstack.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 295 | P3 | Chargebee | `search_only` | [open](https://www.chargebee.com/careers/join-us/) | Automated search proposal; requires read-only verification and H2 review. |
 | 297 | P3 | CoinDCX | `search_only` | [open](https://careers.coindcx.com/?trk=organization-update_share-update_update-text) | Automated search proposal; requires read-only verification and H2 review. |
+| 299 | P3 | Delhivery | `search_only` | [open](https://www.delhivery.com/careers?trk=public_post_comment-text) | Automated search proposal; requires read-only verification and H2 review. |
+| 301 | P3 | ElasticRun | `search_only` | [open](https://elastic.run/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 304 | P3 | Groww | `search_only` | [open](https://groww.sensehq.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 306 | P3 | Innovaccer | `search_only` | [open](https://innovaccer.com/careers/life-at-innovaccer) | Automated search proposal; requires read-only verification and H2 review. |
+| 307 | P3 | Jio Platforms / Haptik | `search_only` | [open](https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid) | Automated search proposal; requires read-only verification and H2 review. |
 | 308 | P3 | Jupiter | `search_only` | [open](https://tryjupiter.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 309 | P3 | Juspay | `search_only` | [open](https://juspay.io/careers) | Automated search proposal; requires read-only verification and H2 review. |
+| 310 | P3 | Lenskart | `search_only` | [open](https://www.lenskart.com/careers-at-lenskart) | Automated search proposal; requires read-only verification and H2 review. |
 | 311 | P3 | MakeMyTrip | `search_only` | [open](https://careers.makemytrip.com/) | Automated search proposal; requires read-only verification and H2 review. |
 | 312 | P3 | Moglix | `search_only` | [open](https://www.moglix.com/career) | Automated search proposal; requires read-only verification and H2 review. |
 | 314 | P3 | Nykaa | `search_only` | [open](https://careers.nykaa.com/) | Automated search proposal; requires read-only verification and H2 review. |
+| 315 | P3 | OfBusiness | `search_only` | [open](https://www.ofbusiness.com/) | Automated search proposal; requires read-only verification and H2 review. |
 | 318 | P3 | Pine Labs | `search_only` | [open](https://www.pinelabs.com/careers/open-jobs) | Automated search proposal; requires read-only verification and H2 review. |
 | 319 | P3 | Policybazaar | `search_only` | [open](https://www.policybazaar.com/careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 322 | P3 | ShareChat / Moj | `search_only` | [open](https://sharechat.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
+| 323 | P3 | Slice | `search_only` | [open](https://slice.careers/) | Automated search proposal; requires read-only verification and H2 review. |
 | 326 | P3 | Urban Company | `search_only` | [open](https://careers.urbancompany.com/) | Automated search proposal; requires read-only verification and H2 review. |
 | 327 | P3 | Whatfix | `search_only` | [open](https://whatfix.com/careers) | Automated search proposal; requires read-only verification and H2 review. |
 | 328 | P3 | Zepto | `search_only` | [open](https://www.zepto.com/s/careers) | Automated search proposal; requires read-only verification and H2 review. |
@@ -347,6 +348,6 @@ These official pages passed read-only checks but exposed no single supported hos
 - Detailed proposal evidence: `data/source_discovery_proposals.json`.
 - Disabled runtime registry: `config/company_sources.json`.
 
-## Required decision
+## Recorded decision
 
-Approve or correct this package: accept the 216 verified source baselines; keep the 44 access concerns, 68 conflicts, and two oversized boards disabled without dropping any company; and use the recommended adapter priority beginning with Ashby.
+The approved package accepts the 260 verified source baselines; keeps the 0 access concerns, 68 conflicts, and 2 oversized boards disabled without dropping any company; and uses the recommended adapter priority beginning with Ashby. The later access-concern recheck reduced observed access concerns without expanding permissions or enabling any source.

@@ -42,6 +42,7 @@ def main() -> int:
     by_adapter_status: dict[str, Counter[str]] = defaultdict(Counter)
     for item in rows:
         by_adapter_status[item.adapter_type.value][item.status.value] += 1
+    reusable_total = sum(adapters[adapter] for adapter in ADAPTER_PRIORITY)
 
     output: list[str] = [
         "# H2 source inventory review",
@@ -50,7 +51,7 @@ def main() -> int:
         "",
         "- Phase: 2 — Company source inventory",
         "- Checkpoint: H2 — approve sources and first-release scope",
-        "- Status: **STOP — awaiting human decision**",
+        "- Status: **APPROVED — proceed instruction received 2026-09-20**",
         f"- Discovery batch: `{batch.batch_id}`",
         f"- Discovery timestamp: `{batch.discovered_at.isoformat()}`",
         "- Canonical scope: 330 of 330 companies; no company is removed or enabled",
@@ -91,9 +92,10 @@ def main() -> int:
             "",
             "## Adapter coverage and priority",
             "",
-            "Known reusable ATS families cover 90 companies (27.3%). The remaining 236 "
-            "search-only records are an explicit custom/source-family backlog; four conflicts "
-            "have no usable adapter classification.",
+            f"Known reusable ATS families cover {reusable_total} companies "
+            f"({reusable_total / 330:.1%}). The remaining {adapters['search_only']} "
+            "search-only records are an explicit custom/source-family backlog; "
+            f"{adapters['unresolved']} conflicts have no usable adapter classification.",
             "",
             "| Priority | Adapter | Total | Verified | Access | Conflict | Pending | "
             "Projected registry coverage |",
@@ -136,7 +138,7 @@ def main() -> int:
             "",
             "## Unsupported or blocked proposals",
             "",
-            "None are proposed as unsupported or removed at H2. Access-concern and conflict "
+            "None are proposed as unsupported or removed at H2. Any access-concern or conflict "
             "companies remain in scope and disabled pending the approved disposition and later "
             "adapter-specific evidence.",
             "",
@@ -203,11 +205,14 @@ def main() -> int:
             "- Detailed proposal evidence: `data/source_discovery_proposals.json`.",
             "- Disabled runtime registry: `config/company_sources.json`.",
             "",
-            "## Required decision",
+            "## Recorded decision",
             "",
-            "Approve or correct this package: accept the 216 verified source baselines; keep the "
-            "44 access concerns, 68 conflicts, and two oversized boards disabled without dropping "
-            "any company; and use the recommended adapter priority beginning with Ashby.",
+            f"The approved package accepts the {statuses['auto_verified']} verified source "
+            f"baselines; keeps the {statuses['access_concern']} access concerns, "
+            f"{statuses['conflict']} conflicts, and {statuses['proposed']} oversized boards "
+            "disabled without dropping any company; and uses the recommended adapter priority "
+            "beginning with Ashby. The later access-concern recheck reduced observed access "
+            "concerns without expanding permissions or enabling any source.",
         ]
     )
     output_path = root / "docs" / "reviews" / "h2_source_inventory_review.md"

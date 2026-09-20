@@ -45,9 +45,11 @@ def _apply_company_result(proposal: dict[str, Any], probes: list[object]) -> Non
     if adapter_type in {"greenhouse", "ashby", "lever"}:
         if outcome == "success":
             proposal["status"] = "auto_verified"
+            proposal["access_concern"] = None
             _add_probe_evidence(proposal, list_probe, "structured_list_probe")
         elif outcome == "response_too_large" and list_probe.get("status_code") == 200:
             proposal["status"] = "proposed"
+            proposal["access_concern"] = None
             proposal["notes"] = (
                 "Public structured endpoint responded but exceeded the bounded discovery probe; "
                 "adapter verification must stream or page it."
@@ -65,6 +67,7 @@ def _apply_company_result(proposal: dict[str, Any], probes: list[object]) -> Non
     if first_probe.get("outcome") == "success":
         proposal["status"] = "auto_verified"
         proposal["confidence"] = "medium"
+        proposal["access_concern"] = None
         if isinstance(final_url, str):
             proposal["official_careers_url"] = final_url
             proposal["list_endpoint"] = final_url

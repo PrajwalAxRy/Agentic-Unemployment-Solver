@@ -15,6 +15,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--timeout", type=float, default=12.0)
+    parser.add_argument(
+        "--status",
+        action="append",
+        choices=[status.value for status in DiscoveryStatus],
+        dest="statuses",
+        help="Proposal status to re-probe; repeat for multiple statuses (default: proposed).",
+    )
     return parser
 
 
@@ -26,9 +33,10 @@ def main() -> int:
     output_path = repository_root / "diagnostics" / "source_discovery_verification.json"
     output_path.parent.mkdir(parents=True, exist_ok=True)
     batch = load_discovery_batch(input_path)
-    proposals = [
-        proposal for proposal in batch.proposals if proposal.status is DiscoveryStatus.PROPOSED
-    ]
+    selected_statuses = {
+        DiscoveryStatus(status) for status in (args.statuses or [DiscoveryStatus.PROPOSED.value])
+    }
+    proposals = [proposal for proposal in batch.proposals if proposal.status in selected_statuses]
     if args.limit is not None:
         proposals = proposals[: args.limit]
 
