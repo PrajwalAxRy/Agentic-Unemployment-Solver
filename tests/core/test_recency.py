@@ -130,6 +130,37 @@ def test_unverified_publication_field_stays_uncertain() -> None:
     assert result.evidence_status is DateEvidenceStatus.UNCERTAIN
 
 
+def test_hybrid_policy_keeps_updated_date_in_the_uncertain_section() -> None:
+    result = assess_recency(
+        SCAN_AT - timedelta(days=1),
+        basis=DateBasis.UPDATED,
+        scan_at=SCAN_AT,
+        window_days=10,
+        uncertainty_mode=DateUncertaintyMode.HYBRID,
+        publication_date_verified=False,
+    )
+
+    assert result.decision is RecencyDecision.UNCERTAIN
+    assert result.evidence_status is DateEvidenceStatus.UNCERTAIN
+    assert result.measurement_pool is True
+
+
+def test_hybrid_policy_ages_persisted_first_seen_without_claiming_publication() -> None:
+    result = assess_recency(
+        SCAN_AT - timedelta(days=1),
+        basis=DateBasis.FIRST_SEEN,
+        scan_at=SCAN_AT,
+        window_days=10,
+        uncertainty_mode=DateUncertaintyMode.HYBRID,
+        publication_date_verified=False,
+    )
+
+    assert result.decision is RecencyDecision.INSIDE_WINDOW
+    assert result.evidence_status is DateEvidenceStatus.UNCERTAIN
+    assert result.measurement_pool is True
+    assert "first-seen" in result.reason
+
+
 def test_future_timestamp_is_invalid() -> None:
     result = assess(SCAN_AT + timedelta(seconds=1))
 

@@ -56,15 +56,21 @@ A title such as `Senior Machine Learning Engineer` must not be deterministically
 
 ## Publication-date uncertainty
 
-The final treatment of jobs without a reliable publication date is intentionally deferred until the system measures the real coverage across all companies. The interim policy state is `measure_then_decide`.
+The H5 review approved the documented hybrid policy on 2026-09-22. Strict ten-day results use
+only verified publication timestamps. Updated values, date-only boundary overlaps, and unverified
+or missing source dates remain visible in a separate uncertain-date section. Jobvite and
+SuccessFactors may retrieve verified detail dates only after deterministic title and India-location
+filters. Workday, Lever, Darwinbox, and Eightfold retain uncertain evidence and use persisted
+`first_seen` only for forward-only aging after the initial baseline; it is never relabelled as a
+publication time.
 
-Until the decision is made:
+Under this approved policy:
 
 - Preserve the source's raw date text and the normalized date basis.
-- Keep postings with unreliable, missing, or ambiguous dates in a separate measurement pool.
+- Keep postings with unreliable, missing, or ambiguous dates in a separate uncertain-date section.
 - Do not silently classify those postings as either inside or outside the rolling ten-day window.
 - Do not silently substitute an updated date for a publication date.
-- Record whether a trustworthy `first_seen` timestamp can support future runs.
+- Record a trustworthy `first_seen` timestamp for forward-only aging in future runs.
 
 ### Required Phase 5 report
 
@@ -81,7 +87,8 @@ After listing and date normalization has run across the entire enabled registry,
 - Whether `first_seen` is available and meaningful for subsequent runs.
 - Representative company names, job URLs, raw date labels, and interpretations for each uncertainty pattern.
 
-Human checkpoint H5 is mandatory after this report. The agent must recommend an option based on the measured impact and then stop for the user's decision. The choices to present are:
+Human checkpoint H5 was mandatory after this report. The user selected option 4 based on the
+measured impact. The historical choices were:
 
 1. Exclude uncertain-date jobs from strict ten-day results.
 2. Include them in a clearly separate uncertain-date section.

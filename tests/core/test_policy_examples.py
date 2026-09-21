@@ -14,7 +14,7 @@ def test_approved_policy_examples_load() -> None:
     examples = load_policy_examples(Path("config/search_policy_examples.toml"))
 
     assert examples.profile_id == "india-ai-ml-under-five-years"
-    assert examples.profile_version == "1.0.0"
+    assert examples.profile_version == "1.1.0"
     assert len(examples.role) == 14
     assert len(examples.location) == 15
     assert len(examples.seniority) == 20

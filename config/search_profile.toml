@@ -1,10 +1,10 @@
 schema_version = 1
 profile_id = "india-ai-ml-under-five-years"
-version = "1.0.0"
+version = "1.1.0"
 
 [recency]
 window_days = 10
-date_uncertainty_mode = "measure_then_decide"
+date_uncertainty_mode = "hybrid"
 
 [[roles.families]]
 id = "ml_engineering"

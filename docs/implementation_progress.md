@@ -3,10 +3,11 @@
 ## Current status
 
 - Active phase: Phase 5 — Normalization and recency
-- Status: Phases 0–4 complete; H1, H2, and H4 approved. Phase 5 normalization and the complete
-  86-company measurement passed; further implementation is stopped at H5.
-- Pending human checkpoint: H5 is ready. The user must choose uncertain-date option 1, 2, 3, or 4
-  from `docs/reviews/h5_date_coverage_review.md` before Phase 5 can be completed.
+- Status: Phases 0–4 complete; H1, H2, H4, and H5 approved. Phase 5's hybrid policy is encoded
+  and fixture-covered; its required post-decision, 86-company read-only recency remeasurement is
+  in progress.
+- Pending human checkpoint: none in Phase 5. Do not begin Phase 6 until the post-decision
+  full-registry report passes and is recorded.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 

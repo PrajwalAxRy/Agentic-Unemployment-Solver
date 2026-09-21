@@ -2,11 +2,11 @@
 
 ## Checkpoint status
 
-**STOP — Human checkpoint H5: awaiting the user's uncertain-date decision**
+**Complete — Human checkpoint H5: option 4, the recommended hybrid policy, approved on 2026-09-22.**
 
 Phase 5 listing, normalization, and date measurement completed on 2026-09-21. The search profile
-remains `measure_then_decide`; this report recommends a policy but does not select or apply one.
-Phase 6 must not begin until the user chooses an option below.
+used `measure_then_decide` to obtain this baseline. The approved profile is now `hybrid`; Phase 5
+must rerun the complete registry report under that recorded policy before Phase 6 begins.
 
 The complete sanitized runtime report is `reports/phase5_recency_measurement.json`. It is ignored by
 Git and contains per-listing public URLs and date evidence, but no descriptions or response bodies.
@@ -151,9 +151,9 @@ and keep Workday, Lever, Darwinbox, and Eightfold jobs in the uncertain section 
 uncertain. This retains material company coverage without pretending that observation time or an
 unverified source field is publication time.
 
-## Decision requested
+## Decision recorded
 
-Choose option 1, 2, 3, or 4. If choosing option 4, approve the recommended hybrid above or specify
-the evidence types or adapter families to change. The decision will then be recorded in the search
-profile and adapter date strategies, covered by fixtures and boundary tests, and validated in a new
-full-registry recency run before Phase 6 begins.
+The user approved option 4, including the recommended hybrid policy, on 2026-09-22. The decision
+is represented by search-profile version `1.1.0`; its fixtures and boundary tests cover updated
+dates and forward-only `first_seen` aging. The post-decision full-registry validation is recorded
+below once completed.

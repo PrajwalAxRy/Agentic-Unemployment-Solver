@@ -201,15 +201,19 @@ def assess_recency(
 ) -> RecencyAssessment:
     """Assess one date against an explicit rolling window.
 
-    During ``measure_then_decide``, non-publication dates remain in a measurement pool and never
-    silently pass or fail the age gate.
+    The approved hybrid policy keeps unverified source dates in the separate uncertain-date
+    section.  It uses ``first_seen`` only for a forward-only age decision after persistence has
+    established that timestamp; it never treats it as a publication date.
     """
     if scan_at.tzinfo is None:
         raise ValueError("scan_at must be timezone-aware")
     if window_days <= 0:
         raise ValueError("window_days must be positive")
-    if uncertainty_mode is not DateUncertaintyMode.MEASURE_THEN_DECIDE:
-        raise ValueError("final uncertain-date behavior is deferred until checkpoint H5")
+    if uncertainty_mode not in {
+        DateUncertaintyMode.MEASURE_THEN_DECIDE,
+        DateUncertaintyMode.HYBRID,
+    }:
+        raise ValueError("unsupported date-uncertainty behavior for recency assessment")
 
     boundary = scan_at - timedelta(days=window_days)
     if value is None:
@@ -220,6 +224,40 @@ def assess_recency(
             boundary=boundary,
             measurement_pool=True,
             reason="source publication date is missing",
+        )
+
+    if basis is DateBasis.FIRST_SEEN and uncertainty_mode is DateUncertaintyMode.HYBRID:
+        if not isinstance(value, datetime):
+            return RecencyAssessment(
+                decision=RecencyDecision.UNCERTAIN,
+                evidence_status=DateEvidenceStatus.UNCERTAIN,
+                date_basis=basis,
+                boundary=boundary,
+                measurement_pool=True,
+                reason="first-seen evidence lacks a timestamp and remains uncertain",
+            )
+        if value.tzinfo is None:
+            raise ValueError("first-seen datetime must be timezone-aware")
+        if value > scan_at:
+            return RecencyAssessment(
+                decision=RecencyDecision.INVALID,
+                evidence_status=DateEvidenceStatus.INVALID,
+                date_basis=basis,
+                boundary=boundary,
+                measurement_pool=True,
+                reason="first-seen datetime is after the scan time",
+            )
+        return RecencyAssessment(
+            decision=(
+                RecencyDecision.INSIDE_WINDOW
+                if value >= boundary
+                else RecencyDecision.OUTSIDE_WINDOW
+            ),
+            evidence_status=DateEvidenceStatus.UNCERTAIN,
+            date_basis=basis,
+            boundary=boundary,
+            measurement_pool=True,
+            reason="forward-only first-seen timestamp determines uncertain-section aging",
         )
 
     if basis is not DateBasis.PUBLISHED or not publication_date_verified:

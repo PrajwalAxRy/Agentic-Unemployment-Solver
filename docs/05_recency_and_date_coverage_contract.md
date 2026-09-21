@@ -4,9 +4,9 @@
 
 **First-release window:** rolling 10 days
 
-**Current uncertainty mode:** `measure_then_decide`
+**Current uncertainty mode:** `hybrid`
 
-**Final uncertain-date treatment:** deliberately unresolved until checkpoint H5
+**Final uncertain-date treatment:** H5 option 4, approved 2026-09-22
 
 ## Rolling-window calculation
 
@@ -36,21 +36,29 @@ Every observed listing belongs to exactly one evidence state:
 | `invalid` | A date value is impossible or unusable, such as a future timestamp. |
 | `missing` | The source exposes no usable date value. |
 
-Only verified `published` evidence can currently enter the inside/outside age decision. `updated`,
-`first_seen`, and `unknown` bases remain uncertain while the profile uses `measure_then_decide`.
+Verified `published` evidence enters the strict inside/outside age decision. `updated` and
+unverified `unknown` values remain in the uncertain-date section. A persisted `first_seen`
+timestamp may age an uncertain listing forward from its first observation, but never establishes
+its publication time.
 
-## Measure-then-decide behavior
+## Approved hybrid behavior
 
-Until checkpoint H5:
-
-- Reliable publication dates receive an inside- or outside-window decision.
-- Uncertain, invalid, and missing dates enter a separate measurement pool.
-- Measurement-pool jobs are not classified as inside or outside the ten-day window.
-- Raw date text, normalized date basis, job URL, and `first_seen_at` availability are retained.
+- Reliable publication dates receive a strict inside- or outside-window decision.
+- Updated values, unverified values, missing values, and date-only boundary overlaps stay visible
+  in the separate uncertain-date section.
+- Jobvite and SuccessFactors may retrieve their verified detail dates only after deterministic
+  title and India-location filters.
+- Workday, Lever, Darwinbox, and Eightfold retain their source values as uncertain and use a
+  persisted `first_seen_at` only for forward-only aging after the initial baseline.
+- Raw date text, normalized date basis, job URL, and `first_seen_at` remain retained.
 - An updated date is never relabelled as an original publication date.
 
-The runtime rejects any attempt to activate a final uncertain-date behavior before H5 records the
-user's decision.
+| Evidence family | Approved treatment |
+|---|---|
+| Verified publication timestamp | Strict ten-day decision. |
+| Greenhouse `updated_at` fallback and Oracle date-only boundary overlap | Separate uncertain-date section. |
+| Jobvite and SuccessFactors list-date omission | Fetch verified public detail date after deterministic pre-detail filters. |
+| Workday `postedOn`, Lever `createdAt`, Darwinbox `job_posting_on`, Eightfold `t_create` | Separate uncertain-date section; age forward only from persisted `first_seen`. |
 
 ## Required Phase 5 company metrics
 
@@ -90,14 +98,15 @@ the employer first published it. The Phase 5 report must distinguish:
 3. Historical limitation: first seen cannot establish the age of a listing already present during
    the initial scan.
 
-## Mandatory H5 decision
+## H5 decision record
 
-After full-registry listing and date normalization, the report must recommend but not select one of:
+The report presented the following options and the user approved option 4 on 2026-09-22:
 
 1. Exclude uncertain-date jobs from strict ten-day results.
 2. Include them in a clearly separate uncertain-date section.
 3. Use `first_seen` for forward-only recency after the initial baseline.
 4. Apply a documented hybrid policy by adapter or evidence type.
 
-The approved choice must then be represented in the search profile, adapter date strategies,
-fixtures, and boundary tests before Phase 6 begins.
+The approved choice is represented in search-profile version `1.1.0`, the adapter-specific table
+above, fixtures, and boundary tests. A full-registry rerun under that profile remains the final
+Phase 5 validation gate.

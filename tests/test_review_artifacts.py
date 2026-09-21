@@ -116,10 +116,10 @@ def test_phase4_coverage_review_records_reconciled_full_registry_gate() -> None:
     assert "Phase 4 is complete" in review
 
 
-def test_h5_review_records_full_registry_date_coverage_and_decision_request() -> None:
+def test_h5_review_records_full_registry_date_coverage_and_approved_decision() -> None:
     review = Path("docs/reviews/h5_date_coverage_review.md").read_text(encoding="utf-8")
 
-    assert "**STOP — Human checkpoint H5: awaiting the user's uncertain-date decision**" in review
+    assert "**Complete — Human checkpoint H5: option 4, the recommended hybrid policy" in review
     assert 'Enabled companies: 86; outcomes: `{"empty": 2, "success": 84}`' in review
     assert "Observed listings: 26,122" in review
     assert "Valid identities: 26,122; valid canonical URLs: 26,122" in review
@@ -130,4 +130,5 @@ def test_h5_review_records_full_registry_date_coverage_and_decision_request() ->
     assert "| Measurement pool, no age decision | 10,211 | 39.09% |" in review
     assert "First-seen timestamps available in this initial measurement: 0" in review
     assert "**Recommendation: option 4.**" in review
-    assert "Choose option 1, 2, 3, or 4" in review
+    assert "The user approved option 4" in review
+    assert "search-profile version `1.1.0`" in review
