@@ -4,9 +4,9 @@
 
 - Active phase: Phase 4 — Adapter coverage
 - Status: Phases 0–3 complete; H1, H2, and H4 approved; Ashby, Greenhouse, Lever, Workday,
-  Darwinbox, Eightfold, SmartRecruiters, and Oracle Cloud adapter groups passed. SuccessFactors is
-  next.
-- Pending human checkpoint: None; continue with SuccessFactors validation.
+  Darwinbox, Eightfold, SmartRecruiters, Oracle Cloud, and SuccessFactors adapter groups passed.
+  Jobvite is next.
+- Pending human checkpoint: None; continue with Jobvite validation.
 - No source is enabled. All 330 canonical companies remain in first-release accounting.
 
 ## Completed gates
@@ -120,13 +120,23 @@
   37 pages) with zero missing required fields and published `PostedDate` evidence for all 7,887
   observed listings. One public detail from each source matched its listing identity and supplied a
   readable full description. H3 and H4 were not triggered.
-- Current proposal accounting reconciles 330/330: 267 auto-verified inventory sources, two
-  approved unsupported sources, and 61 conflicts/non-enumerating sources.
+- Phase 4 SuccessFactors fixtures and adapter cover range-checked HTML pagination, stable numeric
+  posting IDs and public links, empty and malformed pages, access blocks, partial failures,
+  duplicate identities, page limits, and public detail-page dates and descriptions.
+- Full SuccessFactors validation passed SAP's India category with 46 jobs across two pages and zero
+  missing required listing fields. The list omits dates, so all 46 remain `unknown` until detail
+  retrieval. A sampled detail matched posting `1280449101`, exposed a published schema.org
+  `datePosted`, and supplied a 9,843-character normalized description.
+- Moody's official inventory is a Radancy search site. Its embedded SuccessFactors URL is only a
+  returning-applicant login, so the false-positive mapping was corrected to `search_only` and kept
+  in the H2-approved custom-discovery backlog. No source was removed and H4 was not triggered.
+- Current registry accounting reconciles 330/330: 86 reusable adapter mappings, 238 search-only
+  records, four unresolved records, and two approved unsupported sources.
 - Current source families: Ashby 25, Greenhouse 25, Lever 11, Workday 13, Darwinbox 4, Eightfold 1,
-  SmartRecruiters 3, Oracle Cloud 2, SuccessFactors 2, Jobvite 1, search-only 237, unresolved 4,
+  SmartRecruiters 3, Oracle Cloud 2, SuccessFactors 1, Jobvite 1, search-only 238, unresolved 4,
   unsupported 2.
 - Registry remains fully disabled and reconciles all IDs, names, priorities, and source ranks.
-- Repository validation passes with 226 tests, strict mypy, and Ruff checks after Oracle Cloud
+- Repository validation passes with 233 tests, strict mypy, and Ruff checks after SuccessFactors
   validation.
 
 ## Relevant Phase 2 commits
@@ -200,6 +210,10 @@
 - `83aac4c` — Oracle Cloud read-only source verification
 - `b7e0999` — active-inventory and short-page pagination regressions
 - `1243695` — complete Oracle Cloud mappings and full-group validation evidence
+- `5353c88` — sanitized SuccessFactors HTML response fixtures
+- `eb5a181` — SuccessFactors listing and detail-page adapter
+- `ce0d8ed` — SuccessFactors read-only source verification and Moody's mapping correction
+- `e113f55` — complete SuccessFactors mapping and full-group validation evidence
 
 ## Review artifacts
 
@@ -216,6 +230,7 @@
 - Phase 4 Eightfold H4 review: `docs/reviews/phase4_eightfold_h4_review.md`
 - Phase 4 SmartRecruiters validation: `docs/reviews/phase4_smartrecruiters_validation.md`
 - Phase 4 Oracle Cloud validation: `docs/reviews/phase4_oracle_cloud_validation.md`
+- Phase 4 SuccessFactors validation: `docs/reviews/phase4_successfactors_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Disabled runtime registry: `config/company_sources.json`
 
@@ -242,12 +257,17 @@
   JPMorganChase board can change totals during a scan and return short nonterminal pages; both
   behaviors remain visible while requested offset ranges, duplicate IDs, and repeated pages are
   checked.
-- 237 records remain `search_only`; 178 are verified official pages needing custom adapters or
+- All 46 observed SAP listing rows omit a publication date. The public detail page supplies a
+  verified schema.org `datePosted`, so recency requires detail retrieval after the deterministic
+  title and India-location gates.
+- Moody's remains an explicit `search_only` custom-discovery item after its returning-applicant
+  SuccessFactors login was rejected as an inventory source.
+- 238 records remain `search_only`; 179 are verified official pages needing custom adapters or
   deeper source-family work, and 59 are conflicts.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
   official careers pages as manual fallbacks.
 
 ## Resume point
 
-Resume Phase 4 with SuccessFactors. The Oracle Cloud adapter group passed, and no human checkpoint
-is pending.
+Resume Phase 4 with Jobvite. The SuccessFactors adapter group passed, and no human checkpoint is
+pending.
