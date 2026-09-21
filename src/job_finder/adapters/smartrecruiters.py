@@ -55,6 +55,9 @@ class SmartRecruitersAdapter:
         diagnostics: list[AdapterDiagnostic] = []
         seen_ids: set[str] = set()
         expected_total: int | None = None
+        raw_job_count = 0
+        parse_error_count = 0
+        inventory_total_changed = False
 
         for page_index in range(self._max_pages):
             offset = page_index * self._page_size
@@ -90,12 +93,13 @@ class SmartRecruitersAdapter:
             elif total != expected_total:
                 diagnostics.append(
                     _diagnostic(
-                        "inconsistent_total",
-                        "SmartRecruiters totalFound changed during pagination.",
+                        "inventory_total_changed",
+                        "SmartRecruiters totalFound changed during active pagination.",
                         page_index,
                     )
                 )
-                return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_index + 1, diagnostics)
+                expected_total = total
+                inventory_total_changed = True
             if len(content) > self._page_size:
                 diagnostics.append(
                     _diagnostic(
@@ -109,6 +113,7 @@ class SmartRecruitersAdapter:
                 try:
                     job, warnings = _normalize_job(source, raw, page_index, job_index)
                 except ValueError as error:
+                    parse_error_count += 1
                     diagnostics.append(
                         _diagnostic("malformed_job", str(error), page_index, job_index)
                     )
@@ -129,7 +134,25 @@ class SmartRecruitersAdapter:
                 if job.external_job_id is not None:
                     seen_ids.add(job.external_job_id)
                 jobs.append(job)
-            if len(jobs) == total:
+            raw_job_count += len(content)
+            if raw_job_count > expected_total and not inventory_total_changed:
+                diagnostics.append(
+                    _diagnostic(
+                        "incomplete_pagination",
+                        "SmartRecruiters content exceeded totalFound.",
+                        page_index,
+                    )
+                )
+                return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_index + 1, diagnostics)
+            if raw_job_count >= expected_total:
+                if parse_error_count:
+                    return _result(
+                        source,
+                        AdapterOutcome.PARTIAL if jobs else AdapterOutcome.FAILED,
+                        jobs,
+                        page_index + 1,
+                        diagnostics,
+                    )
                 return _result(
                     source,
                     AdapterOutcome.SUCCESS if jobs else AdapterOutcome.EMPTY,
@@ -138,7 +161,7 @@ class SmartRecruitersAdapter:
                     diagnostics,
                     complete=True,
                 )
-            if len(content) < self._page_size or len(jobs) > total:
+            if len(content) < self._page_size:
                 diagnostics.append(
                     _diagnostic(
                         "incomplete_pagination",
@@ -321,7 +344,7 @@ def _diagnostic(
     return AdapterDiagnostic(
         category=category,
         severity=DiagnosticSeverity.ERROR
-        if category not in {"uncertain_publication_date"}
+        if category not in {"inventory_total_changed", "uncertain_publication_date"}
         else DiagnosticSeverity.WARNING,
         message=message,
         context=context,

@@ -177,6 +177,52 @@ def test_later_pages_accept_workdays_zero_total_pagination_shape() -> None:
     assert adapter.list_jobs(source()).outcome is AdapterOutcome.SUCCESS
 
 
+@pytest.mark.parametrize(
+    "totals",
+    [
+        (3, 4),
+        (4, 3),
+    ],
+)
+def test_active_inventory_total_drift_remains_complete_and_visible(
+    totals: tuple[int, int],
+) -> None:
+    first = json.loads((FIXTURES / "healthy_page_1.json").read_text(encoding="utf-8"))
+    second = json.loads((FIXTURES / "healthy_page_2.json").read_text(encoding="utf-8"))
+    first["total"] = totals[0]
+    if totals[1] == 4:
+        extra = dict(second["jobPostings"][0])
+        extra["title"] = "AI Platform Engineer"
+        extra["externalPath"] = "/job/India---Pune/AI-Platform-Engineer_R103"
+        extra["bulletFields"] = ["R103"]
+        second["jobPostings"].append(extra)
+    second["total"] = totals[1]
+    adapter, _ = adapter_for(
+        [response(json.dumps(first).encode()), response(json.dumps(second).encode())]
+    )
+
+    result = adapter.list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert result.complete is True
+    assert len(result.jobs) == totals[1]
+    assert "inventory_total_changed" in {diagnostic.category for diagnostic in result.diagnostics}
+
+
+def test_identifier_only_workday_placeholder_is_accounted_without_becoming_a_job() -> None:
+    payload = json.loads((FIXTURES / "healthy_page_1.json").read_text(encoding="utf-8"))
+    payload["total"] = 3
+    payload["jobPostings"].append({"bulletFields": ["JR-PLACEHOLDER"]})
+    adapter, _ = adapter_for([response(json.dumps(payload).encode())], page_size=3)
+
+    result = adapter.list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert result.complete is True
+    assert len(result.jobs) == 2
+    assert "unusable_placeholder" in {diagnostic.category for diagnostic in result.diagnostics}
+
+
 def test_detail_retrieval_maps_description_and_all_locations() -> None:
     list_payload = json.loads((FIXTURES / "healthy_page_1.json").read_text(encoding="utf-8"))
     list_payload["total"] = 2

@@ -108,6 +108,32 @@ def test_count_checked_pagination_maps_identity_location_url_and_date() -> None:
     assert transport.calls[1].endswith("limit=2&offset=2")
 
 
+@pytest.mark.parametrize(
+    "totals",
+    [
+        (3, 4),
+        (4, 3),
+    ],
+)
+def test_active_inventory_total_drift_remains_complete_and_visible(
+    totals: tuple[int, int],
+) -> None:
+    second_page = [job("three"), job("four")] if totals[1] == 4 else [job("three")]
+    adapter, _ = adapter_for(
+        [
+            response({"content": [job("one"), job("two")], "totalFound": totals[0]}),
+            response({"content": second_page, "totalFound": totals[1]}),
+        ]
+    )
+
+    result = adapter.list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert result.complete is True
+    assert len(result.jobs) == totals[1]
+    assert result.diagnostics[-1].category == "inventory_total_changed"
+
+
 def test_empty_malformed_access_and_partial_responses_are_visible() -> None:
     empty, _ = adapter_for([response({"content": [], "totalFound": 0})])
     assert empty.list_jobs(source()).outcome is AdapterOutcome.EMPTY

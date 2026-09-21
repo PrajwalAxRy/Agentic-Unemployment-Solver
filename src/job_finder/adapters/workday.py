@@ -64,6 +64,7 @@ class WorkdayAdapter:
         missing_location_count = 0
         relative_date_count = 0
         missing_date_count = 0
+        inventory_total_changed = False
         page_count = 0
 
         for page_index in range(self._max_pages):
@@ -165,21 +166,16 @@ class WorkdayAdapter:
             elif total not in {0, expected_total}:
                 diagnostics.append(
                     _diagnostic(
-                        "inconsistent_total",
-                        DiagnosticSeverity.ERROR,
-                        "Workday total changed during pagination; completeness is unknown.",
+                        "inventory_total_changed",
+                        DiagnosticSeverity.WARNING,
+                        "Workday total changed during active pagination.",
                         page_index=page_index,
                         expected=expected_total,
                         observed=total,
                     )
                 )
-                return _result(
-                    source,
-                    AdapterOutcome.SUSPICIOUS,
-                    jobs,
-                    page_count,
-                    diagnostics,
-                )
+                expected_total = total
+                inventory_total_changed = True
 
             fingerprint = hashlib.sha256(response.body).hexdigest()
             if raw_jobs and fingerprint in seen_pages:
@@ -200,7 +196,7 @@ class WorkdayAdapter:
                 )
             seen_pages.add(fingerprint)
 
-            if raw_job_count + len(raw_jobs) > expected_total:
+            if raw_job_count + len(raw_jobs) > expected_total and not inventory_total_changed:
                 diagnostics.append(
                     _diagnostic(
                         "collection_exceeds_total",
@@ -239,6 +235,17 @@ class WorkdayAdapter:
                 )
 
             for job_index, raw_job in enumerate(raw_jobs):
+                if _is_identifier_only_placeholder(raw_job):
+                    diagnostics.append(
+                        _diagnostic(
+                            "unusable_placeholder",
+                            DiagnosticSeverity.WARNING,
+                            "Workday returned an identifier-only row with no public job link.",
+                            page_index=page_index,
+                            job_index=job_index,
+                        )
+                    )
+                    continue
                 try:
                     job = _normalize_listing(source, parameters, raw_job)
                 except ValueError as error:
@@ -430,6 +437,18 @@ def _workday_parameters(source: CompanySource) -> Mapping[str, str]:
     ):
         raise ValueError("Workday host must be the configured tenant's public jobs host.")
     return parameters
+
+
+def _is_identifier_only_placeholder(raw_job: object) -> bool:
+    if not isinstance(raw_job, Mapping) or set(raw_job) != {"bulletFields"}:
+        return False
+    bullet_fields = raw_job.get("bulletFields")
+    return (
+        isinstance(bullet_fields, list)
+        and len(bullet_fields) == 1
+        and isinstance(bullet_fields[0], str)
+        and bool(bullet_fields[0].strip())
+    )
 
 
 def _api_base(parameters: Mapping[str, str]) -> str:
