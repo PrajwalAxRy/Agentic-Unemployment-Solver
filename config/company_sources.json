@@ -3220,34 +3220,36 @@
       "schema_version": 1,
       "company_id": "uber",
       "company_name": "Uber",
-      "status": "proposed",
-      "careers_url": "https://jobs.uber.com/en/jobs/?query=&uclick_id=0ceb75d7-8b7c-4dce-8de6-24c0a903b261",
+      "status": "reviewed",
+      "careers_url": "https://iaziqy.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/UberCareers/jobs",
       "adapter_type": "oracle_cloud",
       "adapter_parameters": {
         "host": "iaziqy.fa.ocs.oraclecloud.com",
         "site_number": "UberCareers"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "PostedDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Oracle documents PostedDate as the date of posting for the public requisition list."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.uber.com/us/en/careers/list/?query=&uclick_id=0ceb75d7-8b7c-4dce-8de6-24c0a903b261",
         "https://jobs.uber.com/en/jobs/?query=&uclick_id=0ceb75d7-8b7c-4dce-8de6-24c0a903b261",
-        "https://iaziqy.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/UberCareers/my-profile/sign-in"
+        "https://iaziqy.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/UberCareers/my-profile/sign-in",
+        "https://iaziqy.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/UberCareers/jobs",
+        "https://iaziqy.fa.ocs.oraclecloud.com/hcmRestApi/resources/latest/recruitingCEJobRequisitions"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Oracle Cloud public Candidate Experience list and detail resources passed full adapter-group validation with count-checked offset ranges and no authentication.",
       "source_rank": 100,
       "priority": "P2",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-21T13:40:00+05:30"
     },
     {
       "schema_version": 1,
@@ -6760,34 +6762,36 @@
       "schema_version": 1,
       "company_id": "jpmorganchase",
       "company_name": "JPMorganChase",
-      "status": "proposed",
-      "careers_url": "https://www.jpmorganchase.com/careers/explore-opportunities",
+      "status": "reviewed",
+      "careers_url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/jobs",
       "adapter_type": "oracle_cloud",
       "adapter_parameters": {
         "host": "jpmc.fa.oraclecloud.com",
         "site_number": "CX_1001"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "PostedDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Oracle documents PostedDate as the date of posting for the public requisition list."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.jpmorganchase.com/careers/explore-opportunities",
         "https://www.jpmorganchase.com/careers/explore-opportunities",
-        "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions"
+        "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+        "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/jobs",
+        "https://jpmc.fa.oraclecloud.com/hcmRestApi/resources/latest/recruitingCEJobRequisitions"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Oracle Cloud public Candidate Experience list and detail resources passed full adapter-group validation. The active large board can report total drift and short nonterminal pages; the adapter traverses requested offset ranges while surfacing those conditions.",
       "source_rank": 212,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-21T13:40:00+05:30"
     },
     {
       "schema_version": 1,

@@ -64,3 +64,14 @@ def test_phase4_lever_review_records_complete_group_validation() -> None:
         'Date evidence: `{"first_seen": 0, "published": 0, "unknown": 386, "updated": 0}`' in review
     )
     assert "Dream Sports' official careers page still links to the obsolete" in review
+
+
+def test_phase4_oracle_cloud_review_records_complete_group_validation() -> None:
+    review = Path("docs/reviews/phase4_oracle_cloud_validation.md").read_text(encoding="utf-8")
+
+    assert "Status: **passed for both Oracle Cloud mappings**" in review
+    assert "| Uber | 532 | 3 | 0 | 532 `PostedDate` published |" in review
+    assert "| JPMorganChase | 7,355 | 37 | 0 | 7,355 `PostedDate` published |" in review
+    assert "The inventory total can change during a long scan" in review
+    assert "the next correct offset is still the prior offset plus the requested limit" in review
+    assert "H3 and H4 were not triggered" in review
