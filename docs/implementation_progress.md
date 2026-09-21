@@ -3,10 +3,9 @@
 ## Current status
 
 - Active phase: Phase 4 — Adapter coverage
-- Status: Phases 0–3 complete; H1 and H2 approved; Ashby, Greenhouse, Lever, Workday, and
-  Darwinbox adapter groups passed; the Eightfold adapter supports Millennium Management, while
-  NVIDIA and PayPal require an H4 disposition
-- Pending human checkpoint: H4 — choose the NVIDIA and PayPal coverage disposition
+- Status: Phases 0–3 complete; H1, H2, and H4 approved; Ashby, Greenhouse, Lever, Workday,
+  Darwinbox, and Eightfold adapter groups passed. SmartRecruiters is next.
+- Pending human checkpoint: None; continue with SmartRecruiters validation.
 - No source is enabled. All 330 canonical companies remain in first-release accounting.
 
 ## Completed gates
@@ -104,13 +103,13 @@
   for a Bangalore AI role. All 225 `t_create` values remain `unknown` date evidence for H5.
 - NVIDIA and PayPal expose public, human-viewable Eightfold careers pages, but their server HTML
   contains no job inventory and the public listing route returns HTTP 403 to the bounded collector.
-  The full three-company result is one success and two blocks, triggering conditional checkpoint
-  H4. No access control was bypassed.
-- Current proposal accounting reconciles 330/330: 267 auto-verified inventory sources and 63
-  conflicts/non-enumerating sources. The two runtime Eightfold access blocks remain pending H4 and
-  have not been recorded as approved source exceptions.
-- Current source families: Ashby 25, Greenhouse 25, Lever 11, Workday 13, Darwinbox 4, Eightfold 3,
-  SmartRecruiters 3, Oracle Cloud 2, SuccessFactors 2, Jobvite 1, search-only 237, unresolved 4.
+  H4 was approved on 2026-09-21: both are unsupported for this release with their official careers
+  pages retained as manual fallbacks. No access control was bypassed.
+- Current proposal accounting reconciles 330/330: 267 auto-verified inventory sources, two
+  approved unsupported sources, and 61 conflicts/non-enumerating sources.
+- Current source families: Ashby 25, Greenhouse 25, Lever 11, Workday 13, Darwinbox 4, Eightfold 1,
+  SmartRecruiters 3, Oracle Cloud 2, SuccessFactors 2, Jobvite 1, search-only 237, unresolved 4,
+  unsupported 2.
 - Registry remains fully disabled and reconciles all IDs, names, priorities, and source ranks.
 - Repository validation passes with 212 tests, strict mypy, and Ruff checks after Eightfold
   validation.
@@ -199,9 +198,9 @@
 
 ## Unresolved evidence and limitations
 
-- NVIDIA and PayPal have public careers pages but block the reusable Eightfold JSON listing route;
-  their first-release disposition is pending H4. No authentication or access-control bypass was
-  attempted.
+- NVIDIA and PayPal are approved unsupported sources for this release because they block the
+  reusable Eightfold JSON listing route; their public careers pages remain manual fallbacks. No
+  authentication or access-control bypass was attempted.
 - 63 companies have conflicting, third-party, wrong-region, non-enumerating, or otherwise
   insufficient source evidence. They remain in scope and disabled.
 - All current Ashby and Greenhouse mappings pass their complete adapter-group validations.
@@ -215,13 +214,13 @@
 - All 141 observed Darwinbox jobs use uncertain `job_posting_on` evidence; the date values are
   retained but not promoted to publication timestamps before H5.
 - All 225 observed Millennium Management jobs use uncertain Eightfold `t_create` evidence. NVIDIA
-  and PayPal listing/date coverage cannot be measured until their H4 disposition is decided.
+  and PayPal are excluded from automated listing/date coverage as approved unsupported sources.
 - 237 records remain `search_only`; 178 are verified official pages needing custom adapters or
   deeper source-family work, and 59 are conflicts.
-- No company was approved as blocked or unsupported at H2.
+- H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
+  official careers pages as manual fallbacks.
 
 ## Resume point
 
-STOP at Phase 4 checkpoint H4. Review `docs/reviews/phase4_eightfold_h4_review.md` and choose one
-explicit disposition for each of NVIDIA and PayPal. After approval, record the exception or resume
-custom adapter work, re-run the three-company completion gate, and continue with SmartRecruiters.
+Resume Phase 4 with SmartRecruiters. H4 is complete: NVIDIA and PayPal are approved unsupported
+sources with official public careers pages retained as manual fallbacks.

@@ -13,11 +13,11 @@ def test_canonical_registry_accounts_for_all_companies_and_stays_disabled() -> N
     assert audit.reconciled is True
     assert audit.registry_total == 330
     assert audit.enabled_count == 0
-    assert audit.by_status == {"proposed": 330}
+    assert audit.by_status == {"proposed": 328, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 25,
         "darwinbox": 4,
-        "eightfold": 3,
+        "eightfold": 1,
         "greenhouse": 25,
         "jobvite": 1,
         "lever": 11,
@@ -25,6 +25,7 @@ def test_canonical_registry_accounts_for_all_companies_and_stays_disabled() -> N
         "search_only": 237,
         "smartrecruiters": 3,
         "successfactors": 2,
+        "unsupported": 2,
         "unresolved": 4,
         "workday": 13,
     }

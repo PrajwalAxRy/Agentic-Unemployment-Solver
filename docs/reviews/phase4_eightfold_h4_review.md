@@ -4,7 +4,7 @@
 
 - Phase: 4 — Adapter coverage
 - Checkpoint: H4 — approve a coverage exception
-- Status: **STOP — user decision required**
+- Status: **Approved 2026-09-21 — exception recorded**
 - Decision scope: NVIDIA and PayPal only
 - Safe supported source: Millennium Management
 
@@ -92,3 +92,11 @@ Choose one disposition for each of NVIDIA and PayPal: add custom adapter work no
 for this release, use a native employer alert, or remove from the approved scope. The recommended
 choice is **mark unsupported for this release with the official careers page as the manual fallback
 for both companies**.
+
+## Decision record
+
+On 2026-09-21, the user approved the recommended disposition for both NVIDIA and PayPal: mark
+each unsupported for this release, retain its official public Eightfold careers page as the manual
+fallback, and revisit if Eightfold exposes a collector-safe public feed. This does not remove
+either company from the canonical 330-company accounting and does not authorize access-control
+bypass or browser-session collection.
