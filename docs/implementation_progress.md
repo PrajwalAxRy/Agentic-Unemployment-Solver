@@ -4,8 +4,9 @@
 
 - Active phase: Phase 4 — Adapter coverage
 - Status: Phases 0–3 complete; H1, H2, and H4 approved; Ashby, Greenhouse, Lever, Workday,
-  Darwinbox, Eightfold, and SmartRecruiters adapter groups passed. Oracle Cloud is next.
-- Pending human checkpoint: None; continue with Oracle Cloud validation.
+  Darwinbox, Eightfold, SmartRecruiters, and Oracle Cloud adapter groups passed. SuccessFactors is
+  next.
+- Pending human checkpoint: None; continue with SuccessFactors validation.
 - No source is enabled. All 330 canonical companies remain in first-release accounting.
 
 ## Completed gates
@@ -111,13 +112,21 @@
   one page), Bosch Global Software Technologies (4,806 jobs, 49 pages), and Freshworks (136 jobs,
   two pages), with zero missing required fields and published `releasedDate` evidence for all 4,945
   observed listings.
+- Phase 4 Oracle Cloud fixtures and adapter cover public Candidate Experience list and detail
+  resources, stable requisition IDs and direct links, count-checked offset ranges, active-inventory
+  total drift, short nonterminal pages, access restrictions, malformed jobs, duplicate and repeated
+  pages, and published date-only values.
+- Full Oracle Cloud validation passed Uber (532 jobs, three pages) and JPMorganChase (7,355 jobs,
+  37 pages) with zero missing required fields and published `PostedDate` evidence for all 7,887
+  observed listings. One public detail from each source matched its listing identity and supplied a
+  readable full description. H3 and H4 were not triggered.
 - Current proposal accounting reconciles 330/330: 267 auto-verified inventory sources, two
   approved unsupported sources, and 61 conflicts/non-enumerating sources.
 - Current source families: Ashby 25, Greenhouse 25, Lever 11, Workday 13, Darwinbox 4, Eightfold 1,
   SmartRecruiters 3, Oracle Cloud 2, SuccessFactors 2, Jobvite 1, search-only 237, unresolved 4,
   unsupported 2.
 - Registry remains fully disabled and reconciles all IDs, names, priorities, and source ranks.
-- Repository validation passes with 212 tests, strict mypy, and Ruff checks after Eightfold
+- Repository validation passes with 226 tests, strict mypy, and Ruff checks after Oracle Cloud
   validation.
 
 ## Relevant Phase 2 commits
@@ -185,6 +194,12 @@
 - `cce24ab` — Eightfold read-only source verification
 - `7fbe3e9` — deterministic Eightfold careers URL inference
 - `372de97` — corrected PayPal public Eightfold board mapping
+- `6f533af` — SmartRecruiters adapter and full-group validation evidence
+- `af9a9a7` — sanitized Oracle Cloud response fixtures
+- `979342c` — Oracle Cloud listing and detail adapter
+- `83aac4c` — Oracle Cloud read-only source verification
+- `b7e0999` — active-inventory and short-page pagination regressions
+- `1243695` — complete Oracle Cloud mappings and full-group validation evidence
 
 ## Review artifacts
 
@@ -200,6 +215,7 @@
 - Phase 4 Darwinbox validation: `docs/reviews/phase4_darwinbox_validation.md`
 - Phase 4 Eightfold H4 review: `docs/reviews/phase4_eightfold_h4_review.md`
 - Phase 4 SmartRecruiters validation: `docs/reviews/phase4_smartrecruiters_validation.md`
+- Phase 4 Oracle Cloud validation: `docs/reviews/phase4_oracle_cloud_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Disabled runtime registry: `config/company_sources.json`
 
@@ -222,6 +238,10 @@
   retained but not promoted to publication timestamps before H5.
 - All 225 observed Millennium Management jobs use uncertain Eightfold `t_create` evidence. NVIDIA
   and PayPal are excluded from automated listing/date coverage as approved unsupported sources.
+- All 7,887 observed Oracle Cloud jobs use documented `PostedDate` publication evidence. The
+  JPMorganChase board can change totals during a scan and return short nonterminal pages; both
+  behaviors remain visible while requested offset ranges, duplicate IDs, and repeated pages are
+  checked.
 - 237 records remain `search_only`; 178 are verified official pages needing custom adapters or
   deeper source-family work, and 59 are conflicts.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
@@ -229,5 +249,5 @@
 
 ## Resume point
 
-Resume Phase 4 with Oracle Cloud. H4 is complete: NVIDIA and PayPal are approved unsupported
-sources with official public careers pages retained as manual fallbacks.
+Resume Phase 4 with SuccessFactors. The Oracle Cloud adapter group passed, and no human checkpoint
+is pending.
