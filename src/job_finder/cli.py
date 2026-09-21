@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from collections.abc import Sequence
+from dataclasses import asdict
 from pathlib import Path
 
 from job_finder import __version__
@@ -20,7 +21,9 @@ from job_finder.adapters.smartrecruiters import SmartRecruitersAdapter
 from job_finder.adapters.successfactors import SuccessFactorsAdapter
 from job_finder.adapters.workday import WorkdayAdapter
 from job_finder.core.company_registry import load_company_registry
+from job_finder.core.search_profile import load_search_profile
 from job_finder.core.source_contracts import AdapterType
+from job_finder.recency_verification import measure_enabled_recency, write_recency_report
 from job_finder.verification import (
     verify_adapter_sources,
     verify_enabled_sources,
@@ -70,6 +73,18 @@ def build_parser() -> argparse.ArgumentParser:
         default=Path("reports/source_verification.json"),
     )
     verify.add_argument("--timeout", type=float, default=15.0)
+    measure = subparsers.add_parser(
+        "measure-recency",
+        help="Normalize all enabled listings and measure ten-day date coverage.",
+    )
+    measure.add_argument("--registry", type=Path, default=Path("config/company_sources.json"))
+    measure.add_argument("--profile", type=Path, default=Path("config/search_profile.toml"))
+    measure.add_argument(
+        "--output",
+        type=Path,
+        default=Path("reports/recency_measurement.json"),
+    )
+    measure.add_argument("--timeout", type=float, default=15.0)
     return parser
 
 
@@ -78,6 +93,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     if args.command == "verify-sources":
         return _verify_sources(args)
+    if args.command == "measure-recency":
+        return _measure_recency(args)
     return 0
 
 
@@ -85,20 +102,7 @@ def _verify_sources(args: argparse.Namespace) -> int:
     registry = load_company_registry(args.registry)
     policy = HttpPolicy(timeout_seconds=args.timeout)
     client = BoundedHttpClient(policy=policy)
-    adapters = AdapterRegistry(
-        [
-            AshbyAdapter(client),
-            DarwinboxAdapter(client),
-            EightfoldAdapter(client),
-            GreenhouseAdapter(client),
-            JobviteAdapter(client),
-            LeverAdapter(client),
-            OracleCloudAdapter(client),
-            SmartRecruitersAdapter(client),
-            SuccessFactorsAdapter(client),
-            WorkdayAdapter(client),
-        ]
-    )
+    adapters = _runtime_adapters(client)
     if args.all_enabled:
         if args.company_id:
             raise ValueError("--company-id cannot be combined with --all-enabled")
@@ -123,3 +127,41 @@ def _verify_sources(args: argparse.Namespace) -> int:
         )
     print(f"Wrote sanitized verification report to {args.output}")
     return 0 if report.healthy else 2
+
+
+def _measure_recency(args: argparse.Namespace) -> int:
+    registry = load_company_registry(args.registry)
+    profile = load_search_profile(args.profile)
+    client = BoundedHttpClient(policy=HttpPolicy(timeout_seconds=args.timeout))
+    report = measure_enabled_recency(registry, _runtime_adapters(client), profile)
+    write_recency_report(report, args.output)
+    classes = ",".join(f"{key.value}={value}" for key, value in report.company_class_counts.items())
+    evidence = ",".join(f"{key}={value}" for key, value in asdict(report.listing_counts).items())
+    decisions = ",".join(f"{key}={value}" for key, value in asdict(report.decision_counts).items())
+    print(
+        f"companies={report.enabled_company_count} listings={report.listing_count} "
+        f"identities={report.valid_identity_count} urls={report.valid_url_count}"
+    )
+    print(f"company_classes={classes}")
+    print(f"date_evidence={evidence}")
+    print(f"recency_decisions={decisions}")
+    print(f"first_seen_available={report.first_seen_available_count}")
+    print(f"Wrote sanitized recency report to {args.output}")
+    return 0 if report.healthy else 2
+
+
+def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
+    return AdapterRegistry(
+        [
+            AshbyAdapter(client),
+            DarwinboxAdapter(client),
+            EightfoldAdapter(client),
+            GreenhouseAdapter(client),
+            JobviteAdapter(client),
+            LeverAdapter(client),
+            OracleCloudAdapter(client),
+            SmartRecruitersAdapter(client),
+            SuccessFactorsAdapter(client),
+            WorkdayAdapter(client),
+        ]
+    )

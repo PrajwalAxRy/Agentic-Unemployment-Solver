@@ -61,3 +61,11 @@ def test_cli_accepts_enabled_registry_source_verification() -> None:
 
     assert args.all_enabled is True
     assert args.adapter is None
+
+
+def test_cli_accepts_full_registry_recency_measurement() -> None:
+    args = build_parser().parse_args(["measure-recency", "--output", "reports/test_recency.json"])
+
+    assert args.command == "measure-recency"
+    assert str(args.profile) == "config\\search_profile.toml"
+    assert str(args.output) == "reports\\test_recency.json"
