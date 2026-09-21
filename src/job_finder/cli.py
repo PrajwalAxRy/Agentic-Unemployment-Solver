@@ -13,6 +13,7 @@ from job_finder.adapters.darwinbox import DarwinboxAdapter
 from job_finder.adapters.eightfold import EightfoldAdapter
 from job_finder.adapters.greenhouse import GreenhouseAdapter
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
+from job_finder.adapters.jobvite import JobviteAdapter
 from job_finder.adapters.lever import LeverAdapter
 from job_finder.adapters.oracle_cloud import OracleCloudAdapter
 from job_finder.adapters.smartrecruiters import SmartRecruitersAdapter
@@ -43,6 +44,7 @@ def build_parser() -> argparse.ArgumentParser:
             AdapterType.DARWINBOX.value,
             AdapterType.EIGHTFOLD.value,
             AdapterType.GREENHOUSE.value,
+            AdapterType.JOBVITE.value,
             AdapterType.LEVER.value,
             AdapterType.ORACLE_CLOUD.value,
             AdapterType.SMARTRECRUITERS.value,
@@ -80,6 +82,7 @@ def _verify_sources(args: argparse.Namespace) -> int:
             DarwinboxAdapter(client),
             EightfoldAdapter(client),
             GreenhouseAdapter(client),
+            JobviteAdapter(client),
             LeverAdapter(client),
             OracleCloudAdapter(client),
             SmartRecruitersAdapter(client),
