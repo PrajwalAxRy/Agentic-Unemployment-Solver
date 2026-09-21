@@ -43,6 +43,17 @@ def test_free_text_in_is_not_treated_as_india() -> None:
     assert result.decision is LocationDecision.REJECT
 
 
+def test_structured_workday_india_codes_pass() -> None:
+    result = filter_location(
+        "IN - Remote - IND",
+        source_type="workday",
+        policy=PROFILE.location,
+    )
+
+    assert result.decision is LocationDecision.PASS
+    assert result.reason_code == "structured_india_location_code"
+
+
 def test_multiple_locations_pass_when_any_is_in_india() -> None:
     result = filter_location(
         "Toronto | Hyderabad | London",
@@ -56,7 +67,16 @@ def test_multiple_locations_pass_when_any_is_in_india() -> None:
 
 @pytest.mark.parametrize(
     "location",
-    ["Remote - United States", "London / Toronto", "Singapore"],
+    [
+        "Remote - United States",
+        "USA - Remote",
+        "BR - Remote - Brazil",
+        "Timișoara, TM, Romania - Remote",
+        "London / Toronto",
+        "Singapore",
+        "Philippines, Bonifacio Global City",
+        "Sunnyvale, CA | Remote",
+    ],
 )
 def test_explicit_non_india_locations_do_not_pass(location: str) -> None:
     assert filter_location(location, policy=PROFILE.location).decision is LocationDecision.REJECT

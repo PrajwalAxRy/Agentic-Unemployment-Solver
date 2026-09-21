@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from collections import Counter, defaultdict, deque
 from collections.abc import Callable, Iterable, Mapping
 from dataclasses import asdict, dataclass
@@ -10,7 +11,8 @@ from datetime import datetime, timedelta
 from enum import StrEnum
 from pathlib import Path
 
-from job_finder.adapters.base import AdapterRegistry, list_jobs_with_retry
+from job_finder.adapters.base import AdapterRegistry, JobDetailAdapter, list_jobs_with_retry
+from job_finder.adapters.http_client import HttpRequestError
 from job_finder.core.company_registry import CompanySourceRegistry
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.recency import RecencyDecision, assess_listing_recency
@@ -81,6 +83,8 @@ class CompanyFilterRecord:
     review_count: int
     rejected_count: int
     exception_categories: tuple[str, ...]
+    detail_fetch_count: int
+    detail_failure_count: int
 
 
 @dataclass(frozen=True, slots=True)
@@ -109,6 +113,8 @@ class FilterVerificationReport:
     retained_by_family: Mapping[str, int]
     retained_by_location: Mapping[str, int]
     zero_retained_companies: tuple[str, ...]
+    detail_fetch_count: int
+    detail_failure_count: int
     companies: tuple[CompanyFilterRecord, ...]
     listings: tuple[FilterListingRecord, ...]
 
@@ -143,6 +149,8 @@ class FilterVerificationReport:
             "retained_by_family": dict(self.retained_by_family),
             "retained_by_location": dict(self.retained_by_location),
             "zero_retained_companies": list(self.zero_retained_companies),
+            "detail_fetch_count": self.detail_fetch_count,
+            "detail_failure_count": self.detail_failure_count,
             "companies": [asdict(company) for company in self.companies],
             "listings": [_listing_as_json(listing) for listing in self.listings],
         }
@@ -209,6 +217,8 @@ def verify_filters(
     for item in pending:
         company_listings: list[FilterListingRecord] = []
         recency_excluded_count = 0
+        detail_fetch_count = 0
+        detail_failure_count = 0
         for job in item.jobs:
             assessment = assess_listing_recency(
                 job.published_at,
@@ -230,11 +240,51 @@ def verify_filters(
                 recency_excluded_count += 1
                 continue
             role = filter_role(job.title_original, profile=profile)
-            location = (
-                filter_job_location(job, policy=profile.location)
-                if role.decision is not RoleDecision.REJECT
-                else None
-            )
+            filtered_job = job
+            location: LocationFilterResult | None = None
+            if role.decision is not RoleDecision.REJECT:
+                if _needs_workday_location_detail(job):
+                    detail_fetch_count += 1
+                    try:
+                        filtered_job = _fetch_detail(job, item.source, adapters, profile)
+                    except (HttpRequestError, ValueError):
+                        detail_failure_count += 1
+                        location = LocationFilterResult(
+                            decision=LocationDecision.REVIEW,
+                            reason_code="detail_location_unavailable",
+                            reason="required public detail location could not be retrieved",
+                        )
+                if location is None:
+                    location = filter_job_location(filtered_job, policy=profile.location)
+
+                if (
+                    location.decision is LocationDecision.PASS
+                    and section is CandidateSection.UNCERTAIN
+                    and job.source_type in {"jobvite", "successfactors"}
+                ):
+                    detail_fetch_count += 1
+                    try:
+                        filtered_job = _fetch_detail(job, item.source, adapters, profile)
+                    except (HttpRequestError, ValueError):
+                        detail_failure_count += 1
+                    else:
+                        detail_assessment = assess_listing_recency(
+                            filtered_job.published_at,
+                            raw_date_text=filtered_job.published_at_raw,
+                            basis=filtered_job.date_basis,
+                            scan_at=effective_scan_at,
+                            window_days=profile.recency_window_days,
+                            uncertainty_mode=profile.date_uncertainty_mode,
+                            publication_date_verified=(
+                                item.source.date_strategy.verified_as_publication
+                                and filtered_job.date_basis is DateBasis.PUBLISHED
+                            ),
+                        )
+                        if detail_assessment.decision is RecencyDecision.INSIDE_WINDOW:
+                            section = CandidateSection.STRICT
+                        elif detail_assessment.decision is not RecencyDecision.UNCERTAIN:
+                            recency_excluded_count += 1
+                            continue
             final = _final_decision(role, location)
             company_listings.append(
                 FilterListingRecord(
@@ -242,19 +292,27 @@ def verify_filters(
                     company_name=item.company_name,
                     source_rank=item.source_rank,
                     adapter_type=item.adapter_type,
-                    title_original=job.title_original,
-                    location_original=job.location_original,
-                    canonical_url=job.canonical_url,
+                    title_original=filtered_job.title_original,
+                    location_original=filtered_job.location_original,
+                    canonical_url=filtered_job.canonical_url,
                     candidate_section=section,
-                    date_basis=job.date_basis,
-                    raw_date_text=job.published_at_raw,
+                    date_basis=filtered_job.date_basis,
+                    raw_date_text=filtered_job.published_at_raw,
                     role=role,
                     location=location,
                     final_decision=final,
                 )
             )
         listings.extend(company_listings)
-        companies.append(_company_record(item, company_listings, recency_excluded_count))
+        companies.append(
+            _company_record(
+                item,
+                company_listings,
+                recency_excluded_count,
+                detail_fetch_count,
+                detail_failure_count,
+            )
+        )
 
     role_counts = Counter(row.role.decision.value for row in listings)
     role_reasons = Counter(
@@ -309,6 +367,8 @@ def verify_filters(
         zero_retained_companies=tuple(
             company.company_name for company in companies if company.retained_count == 0
         ),
+        detail_fetch_count=sum(company.detail_fetch_count for company in companies),
+        detail_failure_count=sum(company.detail_failure_count for company in companies),
         companies=tuple(companies),
         listings=tuple(listings),
     )
@@ -368,6 +428,8 @@ def write_filter_review(
         f"- Location outcomes after role eligibility: "
         f"`{json.dumps(report.location_counts, sort_keys=True)}`.",
         f"- Final outcomes: `{json.dumps(report.final_counts, sort_keys=True)}`.",
+        f"- Pre-filter detail lookups: {report.detail_fetch_count}; failures: "
+        f"{report.detail_failure_count}.",
         f"- Companies with zero retained jobs: {len(report.zero_retained_companies)}.",
         "",
         "## Retained sample",
@@ -415,6 +477,8 @@ def _company_record(
     pending: _PendingCompany,
     listings: list[FilterListingRecord],
     recency_excluded_count: int,
+    detail_fetch_count: int,
+    detail_failure_count: int,
 ) -> CompanyFilterRecord:
     diagnostics = list(dict.fromkeys(item.category for item in pending.result.diagnostics))
     if pending.attempt_count > 1:
@@ -465,7 +529,28 @@ def _company_record(
         review_count=sum(row.final_decision is FinalFilterDecision.REVIEW for row in listings),
         rejected_count=sum(row.final_decision is FinalFilterDecision.REJECTED for row in listings),
         exception_categories=tuple(diagnostics),
+        detail_fetch_count=detail_fetch_count,
+        detail_failure_count=detail_failure_count,
     )
+
+
+def _needs_workday_location_detail(job: NormalizedJob) -> bool:
+    return job.source_type == "workday" and (
+        job.source_metadata.get("listing_location_missing") is True
+        or bool(re.fullmatch(r"\d+\s+locations?", job.location_original.strip(), re.IGNORECASE))
+    )
+
+
+def _fetch_detail(
+    job: NormalizedJob,
+    source: CompanySource,
+    adapters: AdapterRegistry,
+    profile: SearchProfile,
+) -> NormalizedJob:
+    adapter = adapters.resolve(source)
+    if not isinstance(adapter, JobDetailAdapter):
+        raise ValueError(f"adapter {source.adapter_type.value} does not support detail retrieval")
+    return normalize_job(adapter.get_job_detail(source, job), location_policy=profile.location)
 
 
 def _listing_as_json(row: FilterListingRecord) -> dict[str, object]:

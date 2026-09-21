@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
@@ -32,14 +32,14 @@ from job_finder.filter_verification import (
 SCAN_AT = datetime(2026, 9, 22, 12, tzinfo=UTC)
 
 
-def source() -> CompanySource:
+def source(adapter_type: AdapterType = AdapterType.ASHBY) -> CompanySource:
     return CompanySource(
         1,
         "example",
         "Example",
         SourceStatus.ENABLED,
         "https://jobs.example.com",
-        AdapterType.ASHBY,
+        adapter_type,
         {"board_name": "example"},
         IdentityStrategy.EXTERNAL_ID,
         DateStrategy("publishedAt", DateBasis.PUBLISHED, True, "test"),
@@ -96,6 +96,55 @@ def registry() -> CompanySourceRegistry:
     )
 
 
+@dataclass(frozen=True)
+class WorkdayDetailStub:
+    adapter_type: AdapterType = AdapterType.WORKDAY
+
+    def list_jobs(self, company_source: CompanySource) -> AdapterResult:
+        listing = replace(
+            job("multi", "AI Engineer", "2 Locations"),
+            source_type="workday",
+            location_normalized=("2 locations",),
+            source_metadata={"external_path": "/job/multi"},
+        )
+        return AdapterResult(1, company_source, AdapterOutcome.SUCCESS, (listing,), 1, True, ())
+
+    def get_job_detail(
+        self, company_source: CompanySource, listing: NormalizedJob
+    ) -> NormalizedJob:
+        return replace(
+            listing,
+            location_original="Bengaluru, India | London, UK",
+            location_normalized=("bengaluru india", "london uk"),
+        )
+
+
+@dataclass(frozen=True)
+class JobviteDetailStub:
+    adapter_type: AdapterType = AdapterType.JOBVITE
+
+    def list_jobs(self, company_source: CompanySource) -> AdapterResult:
+        listing = replace(
+            job("old-detail", "AI Engineer", "Bengaluru, India"),
+            source_type="jobvite",
+            published_at=None,
+            published_at_raw=None,
+            date_basis=DateBasis.UNKNOWN,
+        )
+        return AdapterResult(1, company_source, AdapterOutcome.SUCCESS, (listing,), 1, True, ())
+
+    def get_job_detail(
+        self, company_source: CompanySource, listing: NormalizedJob
+    ) -> NormalizedJob:
+        published = SCAN_AT - timedelta(days=11)
+        return replace(
+            listing,
+            published_at=published,
+            published_at_raw=published.isoformat(),
+            date_basis=DateBasis.PUBLISHED,
+        )
+
+
 def test_filter_report_reconciles_every_reduction_stage() -> None:
     report = verify_filters(
         registry(),
@@ -143,3 +192,46 @@ def test_filter_outputs_are_sanitized_and_human_readable(tmp_path: Path) -> None
     assert "Machine Learning Engineer" in review_text
     assert "Product Manager" in review_text
     assert "Remote" in review_text
+
+
+def test_workday_multi_location_is_resolved_before_location_filtering() -> None:
+    company_source = source(AdapterType.WORKDAY)
+    report = verify_filters(
+        CompanySourceRegistry(
+            1,
+            "test",
+            SCAN_AT,
+            "test",
+            (CompanyRegistryEntry(1, "P1", None, company_source),),
+        ),
+        AdapterRegistry([WorkdayDetailStub()]),
+        load_search_profile(Path("config/search_profile.toml")),
+        scan_at=SCAN_AT,
+    )
+
+    assert report.final_counts == {"retained": 1}
+    assert report.detail_fetch_count == 1
+    assert report.detail_failure_count == 0
+
+
+def test_jobvite_detail_date_is_applied_after_role_and_location_pass() -> None:
+    company_source = replace(
+        source(AdapterType.JOBVITE),
+        date_strategy=DateStrategy("datePosted", DateBasis.PUBLISHED, True, "test"),
+    )
+    report = verify_filters(
+        CompanySourceRegistry(
+            1,
+            "test",
+            SCAN_AT,
+            "test",
+            (CompanyRegistryEntry(1, "P1", None, company_source),),
+        ),
+        AdapterRegistry([JobviteDetailStub()]),
+        load_search_profile(Path("config/search_profile.toml")),
+        scan_at=SCAN_AT,
+    )
+
+    assert report.final_counts == {}
+    assert report.recency_excluded_count == 1
+    assert report.detail_fetch_count == 1

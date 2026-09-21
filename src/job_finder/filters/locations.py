@@ -50,6 +50,7 @@ def filter_job_location(job: NormalizedJob, *, policy: LocationPolicy) -> Locati
         job.location_original,
         normalized_locations=job.location_normalized,
         source_metadata=job.source_metadata,
+        source_type=job.source_type,
         policy=policy,
     )
 
@@ -59,6 +60,7 @@ def filter_location(
     *,
     normalized_locations: Sequence[str] | None = None,
     source_metadata: Mapping[str, object] | None = None,
+    source_type: str | None = None,
     policy: LocationPolicy,
 ) -> LocationFilterResult:
     """Determine whether public pre-description evidence establishes India eligibility."""
@@ -81,6 +83,15 @@ def filter_location(
             work_modes=work_modes,
         )
 
+    if source_type == "workday" and _has_structured_india_code(raw_normalized):
+        return LocationFilterResult(
+            decision=LocationDecision.PASS,
+            reason_code="structured_india_location_code",
+            reason="structured Workday location contains an explicit India country code",
+            matched_locations=("india",),
+            work_modes=work_modes,
+        )
+
     allowed_locations = _allowed_locations(normalized, policy)
     if allowed_locations:
         if not _modes_allowed(work_modes, policy):
@@ -100,7 +111,7 @@ def filter_location(
         )
 
     if _has_unqualified_remote_alternative(
-        location_original, normalized
+        location_original
     ) and policy.accept_unqualified_remote_alternative:
         return LocationFilterResult(
             decision=LocationDecision.PASS,
@@ -118,7 +129,11 @@ def filter_location(
             work_modes=work_modes,
         )
 
-    if _has_explicit_foreign_remote_scope(location_original):
+    if (
+        "remote" in work_modes
+        and raw_normalized != "remote"
+        and not _has_ambiguous_region_scope(normalized, raw_normalized)
+    ):
         return LocationFilterResult(
             decision=LocationDecision.REJECT,
             reason_code="remote_outside_india",
@@ -205,30 +220,21 @@ def _modes_allowed(work_modes: tuple[str, ...], policy: LocationPolicy) -> bool:
     return not work_modes or all(mode in policy.accepted_work_modes for mode in work_modes)
 
 
-def _has_unqualified_remote_alternative(
-    original: str | None, normalized_locations: tuple[str, ...]
-) -> bool:
+def _has_unqualified_remote_alternative(original: str | None) -> bool:
     if original and re.search(r"(?:\bor\b|[|;/])\s*remote\b", original, flags=re.IGNORECASE):
-        return not re.search(
+        has_or_remote = bool(re.search(r"\bor\s+remote\b", original, flags=re.IGNORECASE))
+        return has_or_remote and not re.search(
             r"remote\s*[-:,]?\s*(?:apac|asia|emea|global|worldwide|us|usa|united states|canada|"
             r"europe|uk|united kingdom|singapore)\b",
             original,
             flags=re.IGNORECASE,
         )
-    return "remote" in normalized_locations and len(normalized_locations) > 1
+    return False
 
 
-def _has_explicit_foreign_remote_scope(original: str | None) -> bool:
-    if not original:
-        return False
-    return bool(
-        re.search(
-            r"remote\s*[-:,]?\s*(?:us|usa|united states|canada|europe|uk|united kingdom|"
-            r"singapore|australia|new zealand)\b",
-            original,
-            flags=re.IGNORECASE,
-        )
-    )
+def _has_structured_india_code(raw_normalized: str) -> bool:
+    tokens = raw_normalized.split()
+    return "in" in tokens and "ind" in tokens
 
 
 def _is_missing(
@@ -246,8 +252,20 @@ def _is_missing(
 def _has_ambiguous_geography(
     normalized_locations: tuple[str, ...], raw_normalized: str
 ) -> bool:
-    combined = " ".join((*normalized_locations, raw_normalized))
-    return any(_contains_phrase(combined, term) for term in (*_AMBIGUOUS_REGIONS, "remote"))
+    return "remote" in raw_normalized.split() or _has_ambiguous_region_scope(
+        normalized_locations, raw_normalized
+    )
+
+
+def _has_ambiguous_region_scope(
+    normalized_locations: tuple[str, ...], raw_normalized: str
+) -> bool:
+    values = {*normalized_locations, raw_normalized}
+    return any(
+        value == region or value in {f"remote {region}", f"{region} remote"}
+        for value in values
+        for region in _AMBIGUOUS_REGIONS
+    )
 
 
 def _contains_phrase(value: str, phrase: str) -> bool:
