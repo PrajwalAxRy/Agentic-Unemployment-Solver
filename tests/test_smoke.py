@@ -42,3 +42,9 @@ def test_cli_accepts_oracle_cloud_source_verification() -> None:
     args = build_parser().parse_args(["verify-sources", "--adapter", "oracle_cloud"])
 
     assert args.adapter == "oracle_cloud"
+
+
+def test_cli_accepts_successfactors_source_verification() -> None:
+    args = build_parser().parse_args(["verify-sources", "--adapter", "successfactors"])
+
+    assert args.adapter == "successfactors"

@@ -195,7 +195,7 @@ _REQUIRED_ADAPTER_PARAMETERS: Mapping[AdapterType, tuple[str, ...]] = {
     AdapterType.EIGHTFOLD: ("tenant",),
     AdapterType.ICIMS: ("customer",),
     AdapterType.ORACLE_CLOUD: ("host", "site_number"),
-    AdapterType.SUCCESSFACTORS: ("company_id",),
+    AdapterType.SUCCESSFACTORS: ("host", "category_path"),
     AdapterType.TALEO: ("organization",),
     AdapterType.JOBVITE: ("company",),
     AdapterType.DARWINBOX: ("tenant",),

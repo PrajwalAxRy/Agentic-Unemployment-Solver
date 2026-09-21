@@ -6869,9 +6869,9 @@
       "company_name": "Moody's",
       "status": "proposed",
       "careers_url": "https://careers.moodys.com/en/search-jobs",
-      "adapter_type": "successfactors",
+      "adapter_type": "search_only",
       "adapter_parameters": {
-        "company_id": "MoodysProd"
+        "search_url": "https://careers.moodys.com/en/search-jobs"
       },
       "identity_strategy": "unresolved",
       "date_strategy": {
@@ -6891,11 +6891,11 @@
         "https://career8.successfactors.com/career?career_company=MoodysProd&lang=en_US&company=MoodysProd&site=&login"
       ],
       "low_confidence_approved": false,
-      "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "exception_reason": "Phase 4 source-family correction: Moody's public inventory is a Radancy search site; the embedded SuccessFactors URL is only a returning-applicant login and does not enumerate jobs.",
+      "notes": "Retained in the H2-approved custom-discovery backlog at the official Radancy search page; no access control was bypassed.",
       "source_rank": 215,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-21T13:57:42+05:30"
     },
     {
       "schema_version": 1,
@@ -7865,7 +7865,8 @@
       "careers_url": "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/?q=&sortColumn=sort_title&sortDirection=desc",
       "adapter_type": "successfactors",
       "adapter_parameters": {
-        "company_id": "SAP"
+        "host": "jobs.sap.com",
+        "category_path": "/go/SAP-Jobs-in-India/851201/"
       },
       "identity_strategy": "unresolved",
       "date_strategy": {

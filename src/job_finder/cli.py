@@ -16,6 +16,7 @@ from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
 from job_finder.adapters.lever import LeverAdapter
 from job_finder.adapters.oracle_cloud import OracleCloudAdapter
 from job_finder.adapters.smartrecruiters import SmartRecruitersAdapter
+from job_finder.adapters.successfactors import SuccessFactorsAdapter
 from job_finder.adapters.workday import WorkdayAdapter
 from job_finder.core.company_registry import load_company_registry
 from job_finder.core.source_contracts import AdapterType
@@ -45,6 +46,7 @@ def build_parser() -> argparse.ArgumentParser:
             AdapterType.LEVER.value,
             AdapterType.ORACLE_CLOUD.value,
             AdapterType.SMARTRECRUITERS.value,
+            AdapterType.SUCCESSFACTORS.value,
             AdapterType.WORKDAY.value,
         ),
         required=True,
@@ -81,6 +83,7 @@ def _verify_sources(args: argparse.Namespace) -> int:
             LeverAdapter(client),
             OracleCloudAdapter(client),
             SmartRecruitersAdapter(client),
+            SuccessFactorsAdapter(client),
             WorkdayAdapter(client),
         ]
     )
