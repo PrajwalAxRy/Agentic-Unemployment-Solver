@@ -1,4 +1,4 @@
-"""Full-seed assertions for the tracked provisional company registry."""
+"""Full-seed assertions for the tracked company source registry."""
 
 from pathlib import Path
 
@@ -6,14 +6,14 @@ from job_finder.core.company_registry import audit_company_registry, load_compan
 from job_finder.core.company_seed import load_company_seed
 
 
-def test_canonical_registry_accounts_for_all_companies_and_stays_disabled() -> None:
+def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sources() -> None:
     registry = load_company_registry(Path("config/company_sources.json"))
     audit = audit_company_registry(registry, load_company_seed(Path("data/company_seed.csv")))
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 0
-    assert audit.by_status == {"proposed": 321, "reviewed": 7, "unsupported": 2}
+    assert audit.enabled_count == 86
+    assert audit.by_status == {"enabled": 86, "proposed": 242, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 25,
         "darwinbox": 4,
@@ -65,7 +65,7 @@ def test_oracle_cloud_sources_use_verified_public_hosts_and_date_strategy() -> N
         "host": "jpmc.fa.oraclecloud.com",
         "site_number": "CX_1001",
     }
-    assert all(source.status.value == "reviewed" for source in oracle_sources.values())
+    assert all(source.status.value == "enabled" for source in oracle_sources.values())
     assert all(
         source.identity_strategy.value == "external_id" for source in oracle_sources.values()
     )
@@ -76,7 +76,7 @@ def test_oracle_cloud_sources_use_verified_public_hosts_and_date_strategy() -> N
         source.date_strategy.basis.value == "published" for source in oracle_sources.values()
     )
     assert all(source.date_strategy.verified_as_publication for source in oracle_sources.values())
-    assert all(source.enabled is False for source in oracle_sources.values())
+    assert all(source.enabled is True for source in oracle_sources.values())
 
 
 def test_successfactors_mapping_and_moodys_correction_are_explicit() -> None:
@@ -90,12 +90,12 @@ def test_successfactors_mapping_and_moodys_correction_are_explicit() -> None:
         "host": "jobs.sap.com",
         "category_path": "/go/SAP-Jobs-in-India/851201/",
     }
-    assert sap.status.value == "reviewed"
+    assert sap.status.value == "enabled"
     assert sap.identity_strategy.value == "external_id"
     assert sap.date_strategy.field_name == "datePosted"
     assert sap.date_strategy.basis.value == "published"
     assert sap.date_strategy.verified_as_publication is True
-    assert sap.enabled is False
+    assert sap.enabled is True
 
     assert moodys.adapter_type.value == "search_only"
     assert moodys.adapter_parameters == {"search_url": "https://careers.moodys.com/en/search-jobs"}
@@ -109,10 +109,10 @@ def test_jobvite_source_uses_verified_board_identity_and_detail_date() -> None:
 
     assert sima.adapter_type.value == "jobvite"
     assert sima.adapter_parameters == {"company": "simaai"}
-    assert sima.status.value == "reviewed"
+    assert sima.status.value == "enabled"
     assert sima.identity_strategy.value == "external_id"
     assert sima.date_strategy.field_name == "datePosted"
     assert sima.date_strategy.basis.value == "published"
     assert sima.date_strategy.verified_as_publication is True
     assert sima.detail_strategy.value == "detail_page"
-    assert sima.enabled is False
+    assert sima.enabled is True

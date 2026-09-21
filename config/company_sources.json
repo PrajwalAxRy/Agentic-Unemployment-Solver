@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "registry_version": "0.1.0-provisional",
-  "generated_at": "2026-09-20T12:40:52+05:30",
+  "registry_version": "0.2.0-phase4",
+  "generated_at": "2026-09-21T14:40:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
       "schema_version": 1,
       "company_id": "glean",
       "company_name": "Glean",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/gleanwork",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -22,7 +22,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/gleanwork/jobs/4012745005",
@@ -41,7 +41,7 @@
       "schema_version": 1,
       "company_id": "harvey",
       "company_name": "Harvey",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/harvey",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -55,7 +55,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/harvey/a9029fd7-bf08-400d-b56a-9d1eb71ad7da",
@@ -78,7 +78,7 @@
       "schema_version": 1,
       "company_id": "kognitos",
       "company_name": "Kognitos",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/Kognitos",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -92,7 +92,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/Kognitos/82c74eb6-5e5f-4aae-ba2c-02e764c40084",
@@ -144,7 +144,7 @@
       "schema_version": 1,
       "company_id": "cartesia",
       "company_name": "Cartesia",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/cartesia",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -158,7 +158,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/cartesia/dc61071c-63b8-4df3-8989-7ca8442bdaaf/",
@@ -272,7 +272,7 @@
       "schema_version": 1,
       "company_id": "doxel",
       "company_name": "Doxel",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.lever.co/doxel",
       "adapter_type": "lever",
       "adapter_parameters": {
@@ -286,7 +286,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/doxel?team=Engineering",
@@ -336,7 +336,7 @@
       "schema_version": 1,
       "company_id": "deeptune",
       "company_name": "Deeptune",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/deeptune",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -350,7 +350,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/deeptune/c7b5eebb-4e36-4c02-9888-7ca74d4a726c/",
@@ -802,7 +802,7 @@
       "schema_version": 1,
       "company_id": "jumio",
       "company_name": "Jumio",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/jumio",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -816,7 +816,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/jumio/jobs/4664041005",
@@ -835,7 +835,7 @@
       "schema_version": 1,
       "company_id": "motive",
       "company_name": "Motive",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/gomotive",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -849,7 +849,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/gomotive/jobs/8781585002",
@@ -868,7 +868,7 @@
       "schema_version": 1,
       "company_id": "observe-ai",
       "company_name": "Observe.AI",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/observeai",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -882,7 +882,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/observeai",
@@ -995,7 +995,7 @@
       "schema_version": 1,
       "company_id": "pure-storage",
       "company_name": "Pure Storage",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/purestorage",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -1009,7 +1009,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/purestorage/jobs/6660530",
@@ -1030,7 +1030,7 @@
       "schema_version": 1,
       "company_id": "atomicwork",
       "company_name": "Atomicwork",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/atomicwork",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -1044,7 +1044,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/atomicwork",
@@ -1063,7 +1063,7 @@
       "schema_version": 1,
       "company_id": "coderabbit",
       "company_name": "CodeRabbit",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/coderabbit",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -1077,7 +1077,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.coderabbit.ai/careers",
@@ -1098,7 +1098,7 @@
       "schema_version": 1,
       "company_id": "ema",
       "company_name": "Ema",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/ema",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -1112,7 +1112,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/ema/88d004d9-50a9-41ee-a618-03855001a9be",
@@ -1163,7 +1163,7 @@
       "schema_version": 1,
       "company_id": "neuron7-ai",
       "company_name": "Neuron7.ai",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.lever.co/neuron7",
       "adapter_type": "lever",
       "adapter_parameters": {
@@ -1177,7 +1177,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/neuron7?location=Bengaluru",
@@ -1196,7 +1196,7 @@
       "schema_version": 1,
       "company_id": "uniphore",
       "company_name": "Uniphore",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://uniphore.wd503.myworkdayjobs.com/Uniphore",
       "adapter_type": "workday",
       "adapter_parameters": {
@@ -1212,7 +1212,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.uniphore.com/careers/",
@@ -1294,7 +1294,7 @@
       "schema_version": 1,
       "company_id": "aera-technology",
       "company_name": "Aera Technology",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.lever.co/aeratechnology",
       "adapter_type": "lever",
       "adapter_parameters": {
@@ -1308,7 +1308,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/aeratechnology/a5e2a621-a540-4230-bed8-574dadf58469",
@@ -1327,7 +1327,7 @@
       "schema_version": 1,
       "company_id": "articul8-ai",
       "company_name": "Articul8 AI",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/articul8",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -1341,7 +1341,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/articul8/fab35c76-2048-4540-a7ab-118b9b56e434",
@@ -1361,7 +1361,7 @@
       "schema_version": 1,
       "company_id": "enterpret",
       "company_name": "Enterpret",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/enterpret",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -1375,7 +1375,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/enterpret/jobs/7580532003",
@@ -1394,7 +1394,7 @@
       "schema_version": 1,
       "company_id": "nanonets",
       "company_name": "Nanonets",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/nanonets",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -1408,7 +1408,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/nanonets/c3715ba7-2924-4432-b78e-3acc56b8e823",
@@ -1428,7 +1428,7 @@
       "schema_version": 1,
       "company_id": "prodigal",
       "company_name": "Prodigal",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/prodigal",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -1442,7 +1442,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/prodigal",
@@ -1492,7 +1492,7 @@
       "schema_version": 1,
       "company_id": "safe-security",
       "company_name": "Safe Security",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.lever.co/safe",
       "adapter_type": "lever",
       "adapter_parameters": {
@@ -1506,7 +1506,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/safe?location=Bengaluru",
@@ -1525,7 +1525,7 @@
       "schema_version": 1,
       "company_id": "triomics",
       "company_name": "Triomics",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/triomics",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -1539,7 +1539,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/triomics/ab06d34e-b87f-42ae-a6ff-61777c23cd06",
@@ -1591,7 +1591,7 @@
       "schema_version": 1,
       "company_id": "weave",
       "company_name": "Weave",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/weave",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -1605,7 +1605,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/weave/fb1623b7-e355-46b7-8247-84ab76cff7d2/",
@@ -1721,7 +1721,7 @@
       "schema_version": 1,
       "company_id": "cerebras-systems",
       "company_name": "Cerebras Systems",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/Cerebras",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -1735,7 +1735,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/cerebras/de47a79d-5ee5-4ad4-8623-49101d6de4fb",
@@ -1756,7 +1756,7 @@
       "schema_version": 1,
       "company_id": "composio",
       "company_name": "Composio",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/composio",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -1770,7 +1770,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/composio/a4046674-59ee-41fd-9045-2a7058a467e1",
@@ -1885,7 +1885,7 @@
       "schema_version": 1,
       "company_id": "sarvam-ai",
       "company_name": "Sarvam AI",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/sarvam",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -1899,7 +1899,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.sarvam.ai/careers",
@@ -1951,7 +1951,7 @@
       "schema_version": 1,
       "company_id": "wisdomai",
       "company_name": "WisdomAI",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/Wisdom-AI",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -1965,7 +1965,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/Wisdom%20AI/93441adc-4cd9-4253-a335-c20a5aa4ada6/",
@@ -2049,7 +2049,7 @@
       "schema_version": 1,
       "company_id": "crowdstrike",
       "company_name": "CrowdStrike",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers",
       "adapter_type": "workday",
       "adapter_parameters": {
@@ -2065,7 +2065,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers/job/Field-Tech-Strategist_R28986",
@@ -2147,7 +2147,7 @@
       "schema_version": 1,
       "company_id": "atlan",
       "company_name": "Atlan",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/atlan",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -2161,7 +2161,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/atlan/6a9441af-27c7-4519-95c2-8381536cf8b4",
@@ -2181,7 +2181,7 @@
       "schema_version": 1,
       "company_id": "databricks",
       "company_name": "Databricks",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/databricks",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -2195,7 +2195,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/embed/job_app?for=databricks&token=7464169002",
@@ -2216,7 +2216,7 @@
       "schema_version": 1,
       "company_id": "kong",
       "company_name": "Kong",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/kong",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -2230,7 +2230,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/kong/01991b01-fdfd-412d-afaa-625dda85fd6e",
@@ -2250,7 +2250,7 @@
       "schema_version": 1,
       "company_id": "level-ai",
       "company_name": "Level AI",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.lever.co/levelai",
       "adapter_type": "lever",
       "adapter_parameters": {
@@ -2264,7 +2264,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/levelai?team=AI",
@@ -2470,7 +2470,7 @@
       "schema_version": 1,
       "company_id": "razorpay",
       "company_name": "Razorpay",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/razorpaysoftwareprivatelimited",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -2484,7 +2484,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://razorpay.com/careers/",
@@ -2566,7 +2566,7 @@
       "schema_version": 1,
       "company_id": "bolna",
       "company_name": "Bolna",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/bolna",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -2580,7 +2580,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/bolna/c04e04c3-2c62-430c-a7ac-16c764b57c5d",
@@ -2600,7 +2600,7 @@
       "schema_version": 1,
       "company_id": "alphagrep",
       "company_name": "AlphaGrep",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/alphagrepsecurities",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -2614,7 +2614,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://alphagrepim.com/alphagrep-investment-management-india/careers/",
@@ -2634,7 +2634,7 @@
       "schema_version": 1,
       "company_id": "apt-portfolio",
       "company_name": "APT Portfolio",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/aptportfolio",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -2648,7 +2648,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://hotel.twagoda.com/entry/77191464",
@@ -2700,7 +2700,7 @@
       "schema_version": 1,
       "company_id": "graviton-research-capital",
       "company_name": "Graviton Research Capital",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/gravitonresearchcapital",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -2714,7 +2714,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://boards.greenhouse.io/embed/job_board?for=gravitonresearchcapital",
@@ -2859,7 +2859,7 @@
       "schema_version": 1,
       "company_id": "quantbox-research",
       "company_name": "Quantbox Research",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/quantboxresearchpte",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -2873,7 +2873,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/quantboxresearchpte?error=true",
@@ -2892,7 +2892,7 @@
       "schema_version": 1,
       "company_id": "qube-research-and-technologies",
       "company_name": "Qube Research & Technologies",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/quberesearchandtechnologies",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -2906,7 +2906,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/quberesearchandtechnologies?error=true",
@@ -2987,7 +2987,7 @@
       "schema_version": 1,
       "company_id": "collinear-ai",
       "company_name": "Collinear AI",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/collinear-ai",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -3001,7 +3001,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/collinear-ai/1c6139b2-e698-419b-ab18-823f12787754",
@@ -3084,7 +3084,7 @@
       "schema_version": 1,
       "company_id": "spector-ai",
       "company_name": "Spector.ai",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/spector-ai",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -3098,7 +3098,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/spector-ai/2aae524c-a665-4dcb-99a0-2820426bc55e",
@@ -3118,7 +3118,7 @@
       "schema_version": 1,
       "company_id": "bazaarvoice",
       "company_name": "Bazaarvoice",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.lever.co/bazaarvoice",
       "adapter_type": "lever",
       "adapter_parameters": {
@@ -3132,7 +3132,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/bazaarvoice?location=Bengaluru",
@@ -3151,7 +3151,7 @@
       "schema_version": 1,
       "company_id": "fractal-analytics",
       "company_name": "Fractal Analytics",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://fractal.wd1.myworkdayjobs.com/Careers",
       "adapter_type": "workday",
       "adapter_parameters": {
@@ -3167,7 +3167,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://fractal.ai/careers/",
@@ -3220,7 +3220,7 @@
       "schema_version": 1,
       "company_id": "uber",
       "company_name": "Uber",
-      "status": "reviewed",
+      "status": "enabled",
       "careers_url": "https://iaziqy.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/UberCareers/jobs",
       "adapter_type": "oracle_cloud",
       "adapter_parameters": {
@@ -3235,7 +3235,7 @@
         "notes": "Oracle documents PostedDate as the date of posting for the public requisition list."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.uber.com/us/en/careers/list/?query=&uclick_id=0ceb75d7-8b7c-4dce-8de6-24c0a903b261",
@@ -3286,7 +3286,7 @@
       "schema_version": 1,
       "company_id": "fal-ai",
       "company_name": "fal.ai",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/fal-ai",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -3300,7 +3300,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/fal-ai/1d9325cf-28da-4b78-af0d-eb0abe7b501d/",
@@ -3348,7 +3348,7 @@
       "schema_version": 1,
       "company_id": "together-ai",
       "company_name": "Together AI",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/togetherai",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -3362,7 +3362,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/togetherai/jobs/5213325007",
@@ -3381,7 +3381,7 @@
       "schema_version": 1,
       "company_id": "d-matrix",
       "company_name": "d-Matrix",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/d-Matrix",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -3395,7 +3395,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.d-matrix.ai/careers/",
@@ -3416,7 +3416,7 @@
       "schema_version": 1,
       "company_id": "encharge-ai",
       "company_name": "EnCharge AI",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/enchargeai36",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -3430,7 +3430,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/enchargeai36/jobs/4409175009",
@@ -3449,7 +3449,7 @@
       "schema_version": 1,
       "company_id": "sima-ai",
       "company_name": "SiMa.ai",
-      "status": "reviewed",
+      "status": "enabled",
       "careers_url": "https://sima.ai/careers/",
       "adapter_type": "jobvite",
       "adapter_parameters": {
@@ -3463,7 +3463,7 @@
         "notes": "Public detail pages expose schema.org JobPosting datePosted; listing pages omit the field."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://sima.ai/careers/",
@@ -3795,33 +3795,33 @@
       "schema_version": 1,
       "company_id": "millennium-management",
       "company_name": "Millennium Management",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://www.mlp.com/careers/",
       "adapter_type": "eightfold",
       "adapter_parameters": {
         "tenant": "mlp"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "t_create",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Eightfold t_create is retained as uncertain source date evidence for H5."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://www.mlp.com/careers/",
-        "https://www.mlp.com/careers/",
-        "https://mlp.eightfold.ai/careers"
+        "https://mlp.eightfold.ai/careers",
+        "https://mlp.eightfold.ai/api/apply/v2/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Eightfold public list and detail endpoints passed full adapter-group validation with 225 jobs and no missing required listing fields.",
       "source_rank": 118,
       "priority": "P2",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-21T14:40:00+05:30"
     },
     {
       "schema_version": 1,
@@ -3982,7 +3982,7 @@
       "schema_version": 1,
       "company_id": "100ms",
       "company_name": "100ms",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.lever.co/100ms",
       "adapter_type": "lever",
       "adapter_parameters": {
@@ -3996,7 +3996,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/100ms",
@@ -4077,7 +4077,7 @@
       "schema_version": 1,
       "company_id": "aidash",
       "company_name": "AiDash",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/aidashinc",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -4091,7 +4091,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.aidash.com/careers/",
@@ -4173,7 +4173,7 @@
       "schema_version": 1,
       "company_id": "arcana-analytics",
       "company_name": "Arcana Analytics",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/arcanaanalytics",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -4187,7 +4187,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/arcanaanalytics",
@@ -4268,7 +4268,7 @@
       "schema_version": 1,
       "company_id": "barraiser",
       "company_name": "BarRaiser",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.lever.co/barraiser",
       "adapter_type": "lever",
       "adapter_parameters": {
@@ -4282,7 +4282,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.lever.co/barraiser/5e7ac0a0-29bd-4683-8e8e-71741dccaee6/apply?lever-origin=applied&lever-source%5B%5D=levels.fyi&src=levels.fyi",
@@ -4549,7 +4549,7 @@
       "schema_version": 1,
       "company_id": "dozee",
       "company_name": "Dozee",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.lever.co/dozee",
       "adapter_type": "lever",
       "adapter_parameters": {
@@ -4563,7 +4563,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.dozeehealth.ai/careers",
@@ -4583,7 +4583,7 @@
       "schema_version": 1,
       "company_id": "dscout",
       "company_name": "Dscout",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/dscout",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -4597,7 +4597,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://dscout.com/careers",
@@ -4617,7 +4617,7 @@
       "schema_version": 1,
       "company_id": "earnin",
       "company_name": "EarnIn",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/earnin",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -4631,7 +4631,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/earnin/jobs/6632415?gh_src=6aa12b601us",
@@ -4650,7 +4650,7 @@
       "schema_version": 1,
       "company_id": "entropik",
       "company_name": "Entropik",
-      "status": "reviewed",
+      "status": "enabled",
       "careers_url": "https://careers.smartrecruiters.com/Entropik",
       "adapter_type": "smartrecruiters",
       "adapter_parameters": {
@@ -4664,7 +4664,7 @@
         "notes": "SmartRecruiters public postings API exposes an ISO-8601 release timestamp."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.entropik.io/about-us",
@@ -4838,7 +4838,7 @@
       "schema_version": 1,
       "company_id": "handshake",
       "company_name": "Handshake",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/handshake",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -4852,7 +4852,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://joinhandshake.com/careers/",
@@ -5682,7 +5682,7 @@
       "schema_version": 1,
       "company_id": "rapidai",
       "company_name": "RapidAI",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.lever.co/rapidai",
       "adapter_type": "lever",
       "adapter_parameters": {
@@ -5696,7 +5696,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.rapidai.com/careers",
@@ -5965,7 +5965,7 @@
       "schema_version": 1,
       "company_id": "smallest-ai",
       "company_name": "Smallest.ai",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/smallest",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -5979,7 +5979,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://app.smallest.ai/",
@@ -6218,7 +6218,7 @@
       "schema_version": 1,
       "company_id": "uptimeai",
       "company_name": "UptimeAI",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/uptimeai",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -6232,7 +6232,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.ashbyhq.com/uptimeai/b97e4672-7899-42bb-8b08-d00a363f2457",
@@ -6409,7 +6409,7 @@
       "schema_version": 1,
       "company_id": "zeta-global",
       "company_name": "Zeta Global",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/zetaglobal",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -6423,7 +6423,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.zetaglobal.com/about/life-at-zeta/",
@@ -6505,7 +6505,7 @@
       "schema_version": 1,
       "company_id": "bank-of-america",
       "company_name": "Bank of America",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://ghr.wd1.myworkdayjobs.com/lateral-us",
       "adapter_type": "workday",
       "adapter_parameters": {
@@ -6521,7 +6521,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://careers.bankofamerica.com/en-us/job-search/india",
@@ -6541,7 +6541,7 @@
       "schema_version": 1,
       "company_id": "barclays",
       "company_name": "Barclays",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays",
       "adapter_type": "workday",
       "adapter_parameters": {
@@ -6557,7 +6557,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://search.jobs.barclays/search-jobs?alcpm=2077456%2C1819730%2C1269750%2C1861060%2C1880251",
@@ -6763,7 +6763,7 @@
       "schema_version": 1,
       "company_id": "jpmorganchase",
       "company_name": "JPMorganChase",
-      "status": "reviewed",
+      "status": "enabled",
       "careers_url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/jobs",
       "adapter_type": "oracle_cloud",
       "adapter_parameters": {
@@ -6778,7 +6778,7 @@
         "notes": "Oracle documents PostedDate as the date of posting for the public requisition list."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.jpmorganchase.com/careers/explore-opportunities",
@@ -6798,7 +6798,7 @@
       "schema_version": 1,
       "company_id": "london-stock-exchange-group",
       "company_name": "London Stock Exchange Group",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://lseg.wd3.myworkdayjobs.com/Careers",
       "adapter_type": "workday",
       "adapter_parameters": {
@@ -6814,7 +6814,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.efinancialcareers.co.uk/jobs/at-london-stock-exchange-group",
@@ -6933,7 +6933,7 @@
       "schema_version": 1,
       "company_id": "nasdaq",
       "company_name": "Nasdaq",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://nasdaq.wd1.myworkdayjobs.com/Global_External_Site",
       "adapter_type": "workday",
       "adapter_parameters": {
@@ -6949,7 +6949,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.nasdaq.com/about/careers",
@@ -7064,7 +7064,7 @@
       "schema_version": 1,
       "company_id": "visa",
       "company_name": "Visa",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://visa.wd5.myworkdayjobs.com/Visa",
       "adapter_type": "workday",
       "adapter_parameters": {
@@ -7080,7 +7080,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://corporate.visa.com/en/careers.html",
@@ -7255,7 +7255,7 @@
       "schema_version": 1,
       "company_id": "clipboard-health",
       "company_name": "Clipboard Health",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.ashbyhq.com/clipboard",
       "adapter_type": "ashby",
       "adapter_parameters": {
@@ -7269,7 +7269,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/clipboardhealth/jobs/5479812004?gh_src=9902e9d64us",
@@ -7510,7 +7510,7 @@
       "schema_version": 1,
       "company_id": "endor-labs",
       "company_name": "Endor Labs",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/endorlabs",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -7524,7 +7524,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://job-boards.greenhouse.io/endorlabs/jobs/4397008005",
@@ -7793,7 +7793,7 @@
       "schema_version": 1,
       "company_id": "palo-alto-networks",
       "company_name": "Palo Alto Networks",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers",
       "adapter_type": "workday",
       "adapter_parameters": {
@@ -7809,7 +7809,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.paloaltonetworks.com/en/search-jobs/palo%20alto%20networks%20india",
@@ -7862,7 +7862,7 @@
       "schema_version": 1,
       "company_id": "sap",
       "company_name": "SAP",
-      "status": "reviewed",
+      "status": "enabled",
       "careers_url": "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/",
       "adapter_type": "successfactors",
       "adapter_parameters": {
@@ -7877,7 +7877,7 @@
         "notes": "Public detail pages expose schema.org datePosted and a matching visible Posted Date; listing pages omit the field."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/",
@@ -7927,7 +7927,7 @@
       "schema_version": 1,
       "company_id": "singlestore",
       "company_name": "SingleStore",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/singlestore",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -7941,7 +7941,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.singlestore.com/careers/jobs/",
@@ -8119,7 +8119,7 @@
       "schema_version": 1,
       "company_id": "workday",
       "company_name": "Workday",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://workday.wd5.myworkdayjobs.com/Workday",
       "adapter_type": "workday",
       "adapter_parameters": {
@@ -8135,7 +8135,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.workday.com/en-in/company/careers/life-at-workday.html",
@@ -8186,7 +8186,7 @@
       "schema_version": 1,
       "company_id": "analog-devices",
       "company_name": "Analog Devices",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://analogdevices.wd1.myworkdayjobs.com/External",
       "adapter_type": "workday",
       "adapter_parameters": {
@@ -8202,7 +8202,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.analog.com/en/careers/career-opportunities.html",
@@ -8284,7 +8284,7 @@
       "schema_version": 1,
       "company_id": "cadence",
       "company_name": "Cadence",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://cadence.wd1.myworkdayjobs.com/External_Careers",
       "adapter_type": "workday",
       "adapter_parameters": {
@@ -8300,7 +8300,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.cadence.com/en_US/home/company/careers.html",
@@ -8477,7 +8477,7 @@
       "schema_version": 1,
       "company_id": "nxp-semiconductors",
       "company_name": "NXP Semiconductors",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://nxp.wd3.myworkdayjobs.com/careers",
       "adapter_type": "workday",
       "adapter_parameters": {
@@ -8493,7 +8493,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.nxp.com/company/about-nxp/careers%3ACAREERS",
@@ -8731,7 +8731,7 @@
       "schema_version": 1,
       "company_id": "bosch-global-software-technologies",
       "company_name": "Bosch Global Software Technologies",
-      "status": "reviewed",
+      "status": "enabled",
       "careers_url": "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
       "adapter_type": "smartrecruiters",
       "adapter_parameters": {
@@ -8745,7 +8745,7 @@
         "notes": "SmartRecruiters public postings API exposes an ISO-8601 release timestamp."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
@@ -9045,7 +9045,7 @@
       "schema_version": 1,
       "company_id": "netradyne",
       "company_name": "Netradyne",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://job-boards.greenhouse.io/netradyne",
       "adapter_type": "greenhouse",
       "adapter_parameters": {
@@ -9059,7 +9059,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.netradyne.com/company/careers",
@@ -9111,7 +9111,7 @@
       "schema_version": 1,
       "company_id": "rapido",
       "company_name": "Rapido",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://rapido.darwinbox.in/ms/candidate/careers",
       "adapter_type": "darwinbox",
       "adapter_parameters": {
@@ -9125,7 +9125,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.rapido.bike/Careers",
@@ -9456,7 +9456,7 @@
       "schema_version": 1,
       "company_id": "cleartax",
       "company_name": "ClearTax",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://clear.darwinbox.in/ms/candidate/careers",
       "adapter_type": "darwinbox",
       "adapter_parameters": {
@@ -9470,7 +9470,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://cleartax.in/Meta/Contact/index.html",
@@ -9649,7 +9649,7 @@
       "schema_version": 1,
       "company_id": "freshworks",
       "company_name": "Freshworks",
-      "status": "reviewed",
+      "status": "enabled",
       "careers_url": "https://www.freshworks.com/company/careers/",
       "adapter_type": "smartrecruiters",
       "adapter_parameters": {
@@ -9663,7 +9663,7 @@
         "notes": "SmartRecruiters public postings API exposes an ISO-8601 release timestamp."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://www.freshworks.com/company/careers/",
@@ -10115,7 +10115,7 @@
       "schema_version": 1,
       "company_id": "paytm",
       "company_name": "Paytm",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.lever.co/paytm",
       "adapter_type": "lever",
       "adapter_parameters": {
@@ -10129,7 +10129,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "listing_payload",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://paytm.com/careers",
@@ -10211,7 +10211,7 @@
       "schema_version": 1,
       "company_id": "porter",
       "company_name": "Porter",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://porter.darwinbox.in/ms/candidate/careers",
       "adapter_type": "darwinbox",
       "adapter_parameters": {
@@ -10225,7 +10225,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://careers.flyporter.com/jobs",
@@ -10371,7 +10371,7 @@
       "schema_version": 1,
       "company_id": "unacademy",
       "company_name": "Unacademy",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://unacademy.darwinbox.in/ms/candidate/careers",
       "adapter_type": "darwinbox",
       "adapter_parameters": {
@@ -10385,7 +10385,7 @@
         "notes": "Imported from a provisional Phase 2 discovery proposal."
       },
       "detail_strategy": "detail_endpoint",
-      "enabled": false,
+      "enabled": true,
       "confidence": "high",
       "evidence": [
         "https://unacademy.com/careers/public-notice",
