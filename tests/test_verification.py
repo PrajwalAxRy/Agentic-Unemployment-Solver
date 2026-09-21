@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -23,7 +23,11 @@ from job_finder.core.source_contracts import (
     IdentityStrategy,
     SourceStatus,
 )
-from job_finder.verification import verify_adapter_sources, write_verification_report
+from job_finder.verification import (
+    verify_adapter_sources,
+    verify_enabled_sources,
+    write_verification_report,
+)
 
 
 def source(company_id: str, company_name: str) -> CompanySource:
@@ -140,3 +144,33 @@ def test_report_writer_excludes_job_descriptions(tmp_path: Path) -> None:
 
     assert payload["company_count"] == 2
     assert "description" not in output.read_text(encoding="utf-8")
+
+
+def test_enabled_verification_selects_only_enabled_sources_in_registry_order() -> None:
+    base = registry()
+    enabled_source = replace(
+        base.entries[0].source,
+        status=SourceStatus.ENABLED,
+        enabled=True,
+    )
+    mixed = CompanySourceRegistry(
+        schema_version=base.schema_version,
+        registry_version=base.registry_version,
+        generated_at=base.generated_at,
+        discovery_batch_id=base.discovery_batch_id,
+        entries=(
+            replace(base.entries[0], source=enabled_source),
+            base.entries[1],
+        ),
+    )
+
+    report = verify_enabled_sources(
+        mixed,
+        AdapterRegistry([StubAshbyAdapter()]),
+        generated_at=datetime(2026, 9, 20, 10, tzinfo=UTC),
+    )
+
+    assert report.adapter_type == "all_enabled"
+    assert report.company_count == 1
+    assert report.outcome_counts == {"success": 1}
+    assert [record.company_id for record in report.records] == ["two"]

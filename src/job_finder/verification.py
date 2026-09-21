@@ -10,7 +10,7 @@ from datetime import datetime
 from pathlib import Path
 
 from job_finder.adapters.base import AdapterRegistry
-from job_finder.core.company_registry import CompanySourceRegistry
+from job_finder.core.company_registry import CompanyRegistryEntry, CompanySourceRegistry
 from job_finder.core.job_contracts import DateBasis
 from job_finder.core.source_contracts import AdapterOutcome, AdapterType
 
@@ -89,6 +89,41 @@ def verify_adapter_sources(
     ]
     entries.sort(key=lambda item: item.source_rank)
 
+    return _verify_entries(
+        registry,
+        adapters,
+        entries,
+        adapter_type=adapter_type.value,
+        generated_at=generated_at,
+    )
+
+
+def verify_enabled_sources(
+    registry: CompanySourceRegistry,
+    adapters: AdapterRegistry,
+    *,
+    generated_at: datetime | None = None,
+) -> SourceVerificationReport:
+    """Run one listing verification across every enabled source in registry order."""
+    entries = [entry for entry in registry.entries if entry.source.enabled]
+    entries.sort(key=lambda item: item.source_rank)
+    return _verify_entries(
+        registry,
+        adapters,
+        entries,
+        adapter_type="all_enabled",
+        generated_at=generated_at,
+    )
+
+
+def _verify_entries(
+    registry: CompanySourceRegistry,
+    adapters: AdapterRegistry,
+    entries: list[CompanyRegistryEntry],
+    *,
+    adapter_type: str,
+    generated_at: datetime | None,
+) -> SourceVerificationReport:
     records: list[SourceVerificationRecord] = []
     for entry in entries:
         result = adapters.resolve(entry.source).list_jobs(entry.source)
@@ -125,7 +160,7 @@ def verify_adapter_sources(
         schema_version=1,
         generated_at=timestamp.isoformat(timespec="seconds"),
         registry_version=registry.registry_version,
-        adapter_type=adapter_type.value,
+        adapter_type=adapter_type,
         company_count=len(records),
         outcome_counts=dict(sorted(outcomes.items())),
         records=tuple(records),

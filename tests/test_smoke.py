@@ -54,3 +54,10 @@ def test_cli_accepts_jobvite_source_verification() -> None:
     args = build_parser().parse_args(["verify-sources", "--adapter", "jobvite"])
 
     assert args.adapter == "jobvite"
+
+
+def test_cli_accepts_enabled_registry_source_verification() -> None:
+    args = build_parser().parse_args(["verify-sources", "--all-enabled"])
+
+    assert args.all_enabled is True
+    assert args.adapter is None

@@ -21,7 +21,11 @@ from job_finder.adapters.successfactors import SuccessFactorsAdapter
 from job_finder.adapters.workday import WorkdayAdapter
 from job_finder.core.company_registry import load_company_registry
 from job_finder.core.source_contracts import AdapterType
-from job_finder.verification import verify_adapter_sources, write_verification_report
+from job_finder.verification import (
+    verify_adapter_sources,
+    verify_enabled_sources,
+    write_verification_report,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -37,7 +41,8 @@ def build_parser() -> argparse.ArgumentParser:
         "verify-sources",
         help="Run read-only listing verification without modifying job history.",
     )
-    verify.add_argument(
+    selection = verify.add_mutually_exclusive_group(required=True)
+    selection.add_argument(
         "--adapter",
         choices=(
             AdapterType.ASHBY.value,
@@ -51,7 +56,11 @@ def build_parser() -> argparse.ArgumentParser:
             AdapterType.SUCCESSFACTORS.value,
             AdapterType.WORKDAY.value,
         ),
-        required=True,
+    )
+    selection.add_argument(
+        "--all-enabled",
+        action="store_true",
+        help="Verify every enabled source in canonical registry order.",
     )
     verify.add_argument("--company-id", action="append", default=[])
     verify.add_argument("--registry", type=Path, default=Path("config/company_sources.json"))
@@ -90,12 +99,17 @@ def _verify_sources(args: argparse.Namespace) -> int:
             WorkdayAdapter(client),
         ]
     )
-    report = verify_adapter_sources(
-        registry,
-        adapters,
-        AdapterType(args.adapter),
-        company_ids=args.company_id,
-    )
+    if args.all_enabled:
+        if args.company_id:
+            raise ValueError("--company-id cannot be combined with --all-enabled")
+        report = verify_enabled_sources(registry, adapters)
+    else:
+        report = verify_adapter_sources(
+            registry,
+            adapters,
+            AdapterType(args.adapter),
+            company_ids=args.company_id,
+        )
     write_verification_report(report, args.output)
     for record in report.records:
         exceptions = ",".join(record.exception_categories) or "none"
