@@ -3,10 +3,10 @@
 ## Current status
 
 - Active phase: Phase 6 — Role and location filters
-- Status: Phases 0–5 complete; H1, H2, H4, and H5 approved. The H5 hybrid policy is encoded,
-  fixture-covered, and validated by the required post-decision 86-company recency rerun.
-- Pending human checkpoint: H6, after complete-registry filtering and the stratified retained and
-  rejected sample report are ready for review.
+- Status: Phases 0–5 complete; H1, H2, H4, and H5 approved. Phase 6 implementation and its
+  complete-registry live validation are complete, with final approval pending at H6.
+- Pending human checkpoint: H6. The stratified retained, rejected, and location-review sample
+  report is ready at `docs/reviews/h6_filter_review.md`.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -179,6 +179,30 @@
   unassessed companies. Evidence was 15,981 reliable, 9,906 uncertain, and 65 missing; decisions
   were 2,432 inside, 13,549 outside, and 9,971 uncertain. Bank of America recovered on its third
   bounded attempt.
+- Phase 6 implements exclusion-first role-family filtering, the approved generic-title
+  conditional-description lane, deterministic India location handling, remote and hybrid policy,
+  multi-location handling, and machine-readable reasons while retaining source-original fields.
+- Live sample review found and fixed shared location defects for foreign restricted-remote roles,
+  the word `Global` inside non-India locations, Workday's structured `IN - Remote - IND` value,
+  and Workday multi-location summaries. Jobvite and SuccessFactors detail dates are fetched only
+  after deterministic role and location eligibility, as approved at H5.
+- The corrected Phase 6 complete-registry run passed all 86 enabled companies with 84 successful
+  and two valid-empty outcomes. It observed 25,960 listings, yielding 2,461 strict-recent and 9,964
+  uncertain-date candidates after 13,535 recency exclusions. Role filtering produced 426 explicit
+  passes, 831 conditional-description candidates, and 11,168 rejections.
+- Location filtering reduced the 1,257 role-eligible candidates to 329 retained, 19 explicit
+  location reviews, and 909 location rejections; 12,077 candidates were rejected overall. The
+  retained set covers all nine approved role families or lanes and all three accepted-location
+  evidence categories.
+- Phase 6 used 149 post-role location/date detail lookups. Seventeen Bank of America Workday
+  multi-location details were unavailable and remain visible for location review; two SAP detail
+  date failures remain in the H5-approved uncertain-date lane. No candidate was silently dropped.
+- Fifty-one companies have no retained jobs: 17 have no recency candidates, 22 have no eligible
+  role titles, 11 have eligible roles only outside India, and Bank of America has location-review
+  candidates but no deterministic pass. The H6 artifact samples 30 retained, 30 rejected, and all
+  19 review rows with unique correction labels.
+- Repository validation passes at the H6 stop with 323 tests, strict mypy, and Ruff formatting and
+  lint checks.
 
 ## Relevant Phase 2 commits
 
@@ -272,6 +296,13 @@
 - `181f629` — bounded retry of unstable complete-source scans
 - `8e70f8e` — stable ordering and drift-aware Oracle pagination
 
+## Relevant Phase 6 commits
+
+- `3309c02` — role-family title filtering and title exclusions
+- `fd74adc` — India location and work-mode filtering
+- `39b46fa` — complete-registry filter verification and H6 report generation
+- `3760094` — live location regressions and selective detail resolution
+
 ## Review artifacts
 
 - H1 search policy review: `docs/reviews/h1_search_policy_review.md`
@@ -291,6 +322,7 @@
 - Phase 4 Jobvite validation: `docs/reviews/phase4_jobvite_validation.md`
 - Phase 4 adapter coverage completion: `docs/reviews/phase4_adapter_coverage_completion.md`
 - H5 publication-date coverage review: `docs/reviews/h5_date_coverage_review.md`
+- H6 role and location filter review: `docs/reviews/h6_filter_review.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -324,6 +356,9 @@
   SuccessFactors login was rejected as an inventory source.
 - SiMa.ai's 18 Jobvite listings omit dates; its public detail pages provide structured published
   dates, which Phase 5 may retrieve only after deterministic pre-detail filters.
+- Seventeen Bank of America multi-location candidates could not retrieve their public Workday
+  details during the Phase 6 scan and remain explicit H6 location-review rows. Two SAP detail-date
+  fetches failed and remain explicit uncertain-date candidates under the approved hybrid policy.
 - 238 records remain `search_only`; 179 are verified official pages needing custom adapters or
   deeper source-family work, and 59 are conflicts.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
@@ -331,6 +366,7 @@
 
 ## Resume point
 
-Implement Phase 6 role and India-location filtering, run it across the complete recent and
-uncertain candidate set, produce the required stratified sample review, and stop at mandatory
-checkpoint H6 for the user's corrections or approval.
+Await explicit H6 approval or row-labelled corrections from
+`docs/reviews/h6_filter_review.md`. Convert any corrections into shared policy regressions, rerun
+the complete filter report, and commit the approved profile before beginning Phase 7. Do not begin
+persistence while H6 is unresolved.

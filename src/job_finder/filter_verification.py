@@ -392,7 +392,11 @@ def write_filter_review(
     """Write the H6 human checkpoint artifact with stratified public-job samples."""
     retained = _stratified_sample(
         (row for row in report.listings if row.final_decision is FinalFilterDecision.RETAINED),
-        key=lambda row: (row.role.family_id, row.adapter_type),
+        key=lambda row: (
+            _role_family_or_lane(row),
+            row.location.reason_code if row.location is not None else "missing_location_result",
+            row.adapter_type,
+        ),
         limit=sample_limit,
     )
     rejected = _stratified_sample(
@@ -412,8 +416,8 @@ def write_filter_review(
         "",
         "**STOP — Human checkpoint H6: awaiting role and location sample review**",
         "",
-        f"Generated from `{report.scan_at}` under profile `{report.profile_version}` ",
-        f"(`{report.profile_hash}`). The complete sanitized report is ",
+        f"Generated from `{report.scan_at}` under profile `{report.profile_version}` "
+        f"(`{report.profile_hash}`). The complete sanitized report is "
         "`reports/phase6_filter_verification.json`.",
         "",
         "## Reduction summary",
@@ -428,21 +432,31 @@ def write_filter_review(
         f"- Location outcomes after role eligibility: "
         f"`{json.dumps(report.location_counts, sort_keys=True)}`.",
         f"- Final outcomes: `{json.dumps(report.final_counts, sort_keys=True)}`.",
+        f"- Retained by role family/lane: "
+        f"`{json.dumps(report.retained_by_family, sort_keys=True)}`.",
+        f"- Retained by accepted-location category: "
+        f"`{json.dumps(_retained_location_categories(report), sort_keys=True)}`.",
         f"- Pre-filter detail lookups: {report.detail_fetch_count}; failures: "
         f"{report.detail_failure_count}.",
+        f"- Detail failures by company: "
+        f"`{json.dumps(_detail_failures_by_company(report), sort_keys=True)}`. "
+        "Failed Bank of America location lookups remain in the review section; failed SAP "
+        "date lookups remain in the H5-approved uncertain-date lane.",
         f"- Companies with zero retained jobs: {len(report.zero_retained_companies)}.",
+        f"- Zero-retained company classification: "
+        f"`{json.dumps(_zero_retained_categories(report), sort_keys=True)}`.",
         "",
         "## Retained sample",
         "",
-        *_sample_table(retained),
+        *_sample_table(retained, prefix="K"),
         "",
         "## Rejected sample",
         "",
-        *_sample_table(rejected),
+        *_sample_table(rejected, prefix="X"),
         "",
         "## Location-review sample",
         "",
-        *_sample_table(reviews),
+        *_sample_table(reviews, prefix="L"),
         "",
         "## Companies with zero retained jobs",
         "",
@@ -591,20 +605,21 @@ def _stratified_sample(
     return tuple(selected)
 
 
-def _sample_table(rows: tuple[FilterListingRecord, ...]) -> list[str]:
+def _sample_table(rows: tuple[FilterListingRecord, ...], *, prefix: str) -> list[str]:
     lines = [
-        "| Row | Company | Adapter | Original title | Original location | "
+        "| Row | Company | Adapter | Role family/lane | Original title | Original location | "
         "Decision | Reason | Link |",
-        "|---|---|---|---|---|---|---|---|",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
     for index, row in enumerate(rows, start=1):
         lines.append(
             "| "
             + " | ".join(
                 (
-                    f"R{index:02d}",
+                    f"{prefix}{index:02d}",
                     _markdown(row.company_name),
                     row.adapter_type,
+                    _role_family_or_lane(row),
                     _markdown(row.title_original),
                     _markdown(row.location_original),
                     row.final_decision.value,
@@ -615,8 +630,52 @@ def _sample_table(rows: tuple[FilterListingRecord, ...]) -> list[str]:
             + " |"
         )
     if not rows:
-        lines.append("| — | — | — | — | — | — | No rows available. | — |")
+        lines.append("| — | — | — | — | — | — | — | No rows available. | — |")
     return lines
+
+
+def _retained_location_categories(report: FilterVerificationReport) -> dict[str, int]:
+    return dict(
+        sorted(
+            Counter(
+                row.location.reason_code
+                for row in report.listings
+                if row.final_decision is FinalFilterDecision.RETAINED and row.location is not None
+            ).items()
+        )
+    )
+
+
+def _role_family_or_lane(row: FilterListingRecord) -> str:
+    if row.role.family_id:
+        return row.role.family_id
+    if row.role.decision is RoleDecision.CONDITIONAL_DESCRIPTION:
+        return "conditional_description"
+    return "role_rejected"
+
+
+def _detail_failures_by_company(report: FilterVerificationReport) -> dict[str, int]:
+    return {
+        company.company_name: company.detail_failure_count
+        for company in report.companies
+        if company.detail_failure_count
+    }
+
+
+def _zero_retained_categories(report: FilterVerificationReport) -> dict[str, int]:
+    categories: Counter[str] = Counter()
+    for company in report.companies:
+        if company.retained_count:
+            continue
+        if company.strict_recent_count + company.uncertain_candidate_count == 0:
+            categories["no_recency_candidates"] += 1
+        elif company.location_review_count:
+            categories["location_review_only"] += 1
+        elif company.explicit_role_count + company.conditional_role_count:
+            categories["eligible_roles_outside_india"] += 1
+        else:
+            categories["no_eligible_role_titles"] += 1
+    return dict(sorted(categories.items()))
 
 
 def _decision_reason(row: FilterListingRecord) -> str:

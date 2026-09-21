@@ -132,3 +132,28 @@ def test_h5_review_records_full_registry_date_coverage_and_approved_decision() -
     assert "**Recommendation: option 4.**" in review
     assert "The user approved option 4" in review
     assert "search-profile version `1.1.0`" in review
+
+
+def test_h6_review_has_required_samples_and_coverage() -> None:
+    review = Path("docs/reviews/h6_filter_review.md").read_text(encoding="utf-8")
+
+    assert "**STOP — Human checkpoint H6: awaiting role and location sample review**" in review
+    assert "Listings observed: 25,960" in review
+    assert "| K20 |" in review
+    assert "| X20 |" in review
+    assert review.count("| K01 |") == 1
+    assert review.count("| X01 |") == 1
+    assert review.count("| L01 |") == 1
+    assert "structured_india_location_code" in review
+    for family in (
+        "agents_and_tooling",
+        "ai_software_and_product_engineering",
+        "conditional_description",
+        "generative_ai_engineering",
+        "ml_engineering",
+        "ml_platform_and_infrastructure",
+        "model_systems_and_optimization",
+        "research_and_applied_science",
+        "retrieval_search_and_rag",
+    ):
+        assert family in review

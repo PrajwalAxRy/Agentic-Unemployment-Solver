@@ -192,6 +192,12 @@ def test_filter_outputs_are_sanitized_and_human_readable(tmp_path: Path) -> None
     assert "Machine Learning Engineer" in review_text
     assert "Product Manager" in review_text
     assert "Remote" in review_text
+    assert "Role family/lane" in review_text
+    assert "| K01 |" in review_text
+    assert "| X01 |" in review_text
+    assert "| L01 |" in review_text
+    assert "| R01 |" not in review_text
+    assert "role_rejected" in review_text
 
 
 def test_workday_multi_location_is_resolved_before_location_filtering() -> None:
