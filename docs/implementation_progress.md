@@ -4,7 +4,7 @@
 
 - Active phase: Phase 4 — Adapter coverage
 - Status: Phases 0–3 complete; H1, H2, and H4 approved; Ashby, Greenhouse, Lever, Workday,
-  Darwinbox, and Eightfold adapter groups passed. SmartRecruiters is next.
+  Darwinbox, Eightfold, and SmartRecruiters adapter groups passed. Oracle Cloud is next.
 - Pending human checkpoint: None; continue with SmartRecruiters validation.
 - No source is enabled. All 330 canonical companies remain in first-release accounting.
 
@@ -105,6 +105,12 @@
   contains no job inventory and the public listing route returns HTTP 403 to the bounded collector.
   H4 was approved on 2026-09-21: both are unsupported for this release with their official careers
   pages retained as manual fallbacks. No access control was bypassed.
+- Phase 4 SmartRecruiters fixtures and adapter cover count-checked offset pagination, empty and
+  malformed responses, access restrictions, partial failures, duplicate identifiers, direct URLs,
+  released-date mapping, and public detail descriptions. Full validation passed Entropik (3 jobs,
+  one page), Bosch Global Software Technologies (4,806 jobs, 49 pages), and Freshworks (136 jobs,
+  two pages), with zero missing required fields and published `releasedDate` evidence for all 4,945
+  observed listings.
 - Current proposal accounting reconciles 330/330: 267 auto-verified inventory sources, two
   approved unsupported sources, and 61 conflicts/non-enumerating sources.
 - Current source families: Ashby 25, Greenhouse 25, Lever 11, Workday 13, Darwinbox 4, Eightfold 1,
@@ -193,6 +199,7 @@
 - Phase 4 Workday validation: `docs/reviews/phase4_workday_validation.md`
 - Phase 4 Darwinbox validation: `docs/reviews/phase4_darwinbox_validation.md`
 - Phase 4 Eightfold H4 review: `docs/reviews/phase4_eightfold_h4_review.md`
+- Phase 4 SmartRecruiters validation: `docs/reviews/phase4_smartrecruiters_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Disabled runtime registry: `config/company_sources.json`
 
@@ -222,5 +229,5 @@
 
 ## Resume point
 
-Resume Phase 4 with SmartRecruiters. H4 is complete: NVIDIA and PayPal are approved unsupported
+Resume Phase 4 with Oracle Cloud. H4 is complete: NVIDIA and PayPal are approved unsupported
 sources with official public careers pages retained as manual fallbacks.

@@ -4646,22 +4646,22 @@
       "schema_version": 1,
       "company_id": "entropik",
       "company_name": "Entropik",
-      "status": "proposed",
+      "status": "reviewed",
       "careers_url": "https://careers.smartrecruiters.com/Entropik",
       "adapter_type": "smartrecruiters",
       "adapter_parameters": {
         "company_identifier": "Entropik"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "releasedDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "SmartRecruiters public postings API exposes an ISO-8601 release timestamp."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.entropik.io/about-us",
         "https://www.entropik.io/about-us",
@@ -4670,10 +4670,10 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Replaced an about page with Entropik's direct SmartRecruiters board.",
+      "notes": "SmartRecruiters public postings API passed full adapter-group validation; public per-job detail endpoints supply descriptions.",
       "source_rank": 145,
       "priority": "P2",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-21T12:54:46+05:30"
     },
     {
       "schema_version": 1,
@@ -8723,22 +8723,22 @@
       "schema_version": 1,
       "company_id": "bosch-global-software-technologies",
       "company_name": "Bosch Global Software Technologies",
-      "status": "proposed",
+      "status": "reviewed",
       "careers_url": "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
       "adapter_type": "smartrecruiters",
       "adapter_parameters": {
         "company_identifier": "BoschGroup"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "releasedDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "SmartRecruiters public postings API exposes an ISO-8601 release timestamp."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
         "https://www.bosch-softwaretechnologies.com/en/careers/job-offers/",
@@ -8746,10 +8746,10 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "SmartRecruiters public postings API passed full adapter-group validation; its 4,806-job board completed in 49 count-checked pages.",
       "source_rank": 273,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-21T12:54:46+05:30"
     },
     {
       "schema_version": 1,
@@ -9641,22 +9641,22 @@
       "schema_version": 1,
       "company_id": "freshworks",
       "company_name": "Freshworks",
-      "status": "proposed",
+      "status": "reviewed",
       "careers_url": "https://www.freshworks.com/company/careers/",
       "adapter_type": "smartrecruiters",
       "adapter_parameters": {
         "company_identifier": "Freshworks"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "releasedDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "SmartRecruiters public postings API exposes an ISO-8601 release timestamp."
       },
-      "detail_strategy": "detail_page",
+      "detail_strategy": "detail_endpoint",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://www.freshworks.com/company/careers/",
         "https://www.freshworks.com/company/careers/",
@@ -9664,10 +9664,10 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "SmartRecruiters public postings API passed full adapter-group validation; public per-job detail endpoints supply descriptions.",
       "source_rank": 302,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-21T12:54:46+05:30"
     },
     {
       "schema_version": 1,

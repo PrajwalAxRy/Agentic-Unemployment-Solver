@@ -14,6 +14,7 @@ from job_finder.adapters.eightfold import EightfoldAdapter
 from job_finder.adapters.greenhouse import GreenhouseAdapter
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
 from job_finder.adapters.lever import LeverAdapter
+from job_finder.adapters.smartrecruiters import SmartRecruitersAdapter
 from job_finder.adapters.workday import WorkdayAdapter
 from job_finder.core.company_registry import load_company_registry
 from job_finder.core.source_contracts import AdapterType
@@ -41,6 +42,7 @@ def build_parser() -> argparse.ArgumentParser:
             AdapterType.EIGHTFOLD.value,
             AdapterType.GREENHOUSE.value,
             AdapterType.LEVER.value,
+            AdapterType.SMARTRECRUITERS.value,
             AdapterType.WORKDAY.value,
         ),
         required=True,
@@ -75,6 +77,7 @@ def _verify_sources(args: argparse.Namespace) -> int:
             EightfoldAdapter(client),
             GreenhouseAdapter(client),
             LeverAdapter(client),
+            SmartRecruitersAdapter(client),
             WorkdayAdapter(client),
         ]
     )
