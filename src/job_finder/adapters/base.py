@@ -9,6 +9,7 @@ from job_finder.adapters.http_client import HttpRequestError
 from job_finder.core.job_contracts import NormalizedJob
 from job_finder.core.source_contracts import (
     AdapterDiagnostic,
+    AdapterOutcome,
     AdapterResult,
     AdapterType,
     CompanySource,
@@ -62,6 +63,28 @@ class AdapterRegistry:
     @property
     def adapter_types(self) -> tuple[AdapterType, ...]:
         return tuple(sorted(self._adapters, key=lambda item: item.value))
+
+
+def list_jobs_with_retry(
+    adapter: JobSourceAdapter,
+    source: CompanySource,
+    *,
+    retry_count: int,
+) -> tuple[AdapterResult, int]:
+    """Retry incomplete whole-source scans without retrying empty or blocked results."""
+    if retry_count < 0:
+        raise ValueError("retry_count cannot be negative")
+    retryable_outcomes = {
+        AdapterOutcome.PARTIAL,
+        AdapterOutcome.FAILED,
+        AdapterOutcome.SUSPICIOUS,
+    }
+    result = adapter.list_jobs(source)
+    attempt_count = 1
+    while result.outcome in retryable_outcomes and attempt_count <= retry_count:
+        result = adapter.list_jobs(source)
+        attempt_count += 1
+    return result, attempt_count
 
 
 def require_source_configuration(

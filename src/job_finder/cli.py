@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from collections.abc import Sequence
 from dataclasses import asdict
 from pathlib import Path
@@ -23,6 +24,11 @@ from job_finder.adapters.workday import WorkdayAdapter
 from job_finder.core.company_registry import load_company_registry
 from job_finder.core.search_profile import load_search_profile
 from job_finder.core.source_contracts import AdapterType
+from job_finder.filter_verification import (
+    verify_filters,
+    write_filter_report,
+    write_filter_review,
+)
 from job_finder.recency_verification import measure_enabled_recency, write_recency_report
 from job_finder.verification import (
     verify_adapter_sources,
@@ -91,6 +97,24 @@ def build_parser() -> argparse.ArgumentParser:
         default=2,
         help="Retry an incomplete full-source scan this many times (default: 2).",
     )
+    filter_jobs = subparsers.add_parser(
+        "filter-jobs",
+        help="Run complete-registry recency, role, and India-location filtering.",
+    )
+    filter_jobs.add_argument("--registry", type=Path, default=Path("config/company_sources.json"))
+    filter_jobs.add_argument("--profile", type=Path, default=Path("config/search_profile.toml"))
+    filter_jobs.add_argument(
+        "--output",
+        type=Path,
+        default=Path("reports/phase6_filter_verification.json"),
+    )
+    filter_jobs.add_argument(
+        "--review-output",
+        type=Path,
+        default=Path("docs/reviews/h6_filter_review.md"),
+    )
+    filter_jobs.add_argument("--timeout", type=float, default=15.0)
+    filter_jobs.add_argument("--source-retries", type=int, default=2)
     return parser
 
 
@@ -101,6 +125,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _verify_sources(args)
     if args.command == "measure-recency":
         return _measure_recency(args)
+    if args.command == "filter-jobs":
+        return _filter_jobs(args)
     return 0
 
 
@@ -176,3 +202,28 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
             WorkdayAdapter(client),
         ]
     )
+
+
+def _filter_jobs(args: argparse.Namespace) -> int:
+    registry = load_company_registry(args.registry)
+    profile = load_search_profile(args.profile)
+    client = BoundedHttpClient(policy=HttpPolicy(timeout_seconds=args.timeout))
+    report = verify_filters(
+        registry,
+        _runtime_adapters(client),
+        profile,
+        source_retry_count=args.source_retries,
+    )
+    write_filter_report(report, args.output)
+    write_filter_review(report, args.review_output)
+    print(
+        f"companies={report.enabled_company_count} listings={report.listing_count} "
+        f"strict_recent={report.strict_recent_count} "
+        f"uncertain={report.uncertain_candidate_count}"
+    )
+    print(f"roles={json.dumps(report.role_counts, sort_keys=True)}")
+    print(f"locations={json.dumps(report.location_counts, sort_keys=True)}")
+    print(f"final={json.dumps(report.final_counts, sort_keys=True)}")
+    print(f"Wrote sanitized filter report to {args.output}")
+    print(f"Wrote H6 review artifact to {args.review_output}")
+    return 0 if report.healthy else 2

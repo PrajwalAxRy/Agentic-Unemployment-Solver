@@ -9,7 +9,7 @@ from dataclasses import asdict, dataclass
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
-from job_finder.adapters.base import AdapterRegistry, JobSourceAdapter
+from job_finder.adapters.base import AdapterRegistry, list_jobs_with_retry
 from job_finder.core.company_registry import CompanySourceRegistry
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.recency import (
@@ -26,8 +26,6 @@ from job_finder.core.recency import (
 from job_finder.core.search_profile import SearchProfile
 from job_finder.core.source_contracts import (
     AdapterOutcome,
-    AdapterResult,
-    CompanySource,
     IdentityStrategy,
 )
 from job_finder.normalization.jobs import normalize_job
@@ -179,10 +177,10 @@ def measure_enabled_recency(
     pending_records: list[_PendingCompanyRecord] = []
     for entry in entries:
         source = entry.source
-        result, attempt_count = _list_with_retry(
+        result, attempt_count = list_jobs_with_retry(
             adapters.resolve(source),
             source,
-            source_retry_count=source_retry_count,
+            retry_count=source_retry_count,
         )
         if result.outcome is AdapterOutcome.SUCCESS:
             normalized_jobs = tuple(
@@ -305,25 +303,6 @@ def write_recency_report(report: RecencyVerificationReport, path: Path) -> None:
 
 def _local_now() -> datetime:
     return datetime.now().astimezone()
-
-
-def _list_with_retry(
-    adapter: JobSourceAdapter,
-    source: CompanySource,
-    *,
-    source_retry_count: int,
-) -> tuple[AdapterResult, int]:
-    retryable_outcomes = {
-        AdapterOutcome.PARTIAL,
-        AdapterOutcome.FAILED,
-        AdapterOutcome.SUSPICIOUS,
-    }
-    result = adapter.list_jobs(source)
-    attempt_count = 1
-    while result.outcome in retryable_outcomes and attempt_count <= source_retry_count:
-        result = adapter.list_jobs(source)
-        attempt_count += 1
-    return result, attempt_count
 
 
 def _observation(

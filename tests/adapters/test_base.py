@@ -10,12 +10,14 @@ from job_finder.adapters.base import (
     AdapterConfigurationError,
     AdapterRegistry,
     JobSourceAdapter,
+    list_jobs_with_retry,
     request_failure_diagnostic,
     require_source_configuration,
 )
 from job_finder.adapters.http_client import HttpFailureCategory, HttpRequestError
 from job_finder.core.job_contracts import DateBasis
 from job_finder.core.source_contracts import (
+    AdapterDiagnostic,
     AdapterOutcome,
     AdapterResult,
     AdapterType,
@@ -23,6 +25,7 @@ from job_finder.core.source_contracts import (
     Confidence,
     DateStrategy,
     DetailStrategy,
+    DiagnosticSeverity,
     IdentityStrategy,
     SourceStatus,
 )
@@ -123,3 +126,27 @@ def test_http_failure_becomes_sanitized_adapter_diagnostic() -> None:
     assert diagnostic.category == "access_block"
     assert diagnostic.message == "HTTP 403"
     assert diagnostic.context == {"retryable": "false", "status_code": "403"}
+
+
+@dataclass
+class RetryAdapter:
+    call_count: int = 0
+    adapter_type: AdapterType = AdapterType.ASHBY
+
+    def list_jobs(self, company_source: CompanySource) -> AdapterResult:
+        self.call_count += 1
+        if self.call_count == 2:
+            return AdapterResult(1, company_source, AdapterOutcome.EMPTY, (), 1, True, ())
+        diagnostic = AdapterDiagnostic(
+            "request_failed", DiagnosticSeverity.ERROR, "transient failure", {}
+        )
+        return AdapterResult(1, company_source, AdapterOutcome.FAILED, (), 1, False, (diagnostic,))
+
+
+def test_whole_source_retry_is_shared_by_validation_pipelines() -> None:
+    adapter = RetryAdapter()
+
+    result, attempts = list_jobs_with_retry(adapter, source(), retry_count=2)
+
+    assert result.outcome is AdapterOutcome.EMPTY
+    assert attempts == 2
