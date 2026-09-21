@@ -13,7 +13,7 @@ def test_canonical_registry_accounts_for_all_companies_and_stays_disabled() -> N
     assert audit.reconciled is True
     assert audit.registry_total == 330
     assert audit.enabled_count == 0
-    assert audit.by_status == {"proposed": 322, "reviewed": 6, "unsupported": 2}
+    assert audit.by_status == {"proposed": 321, "reviewed": 7, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 25,
         "darwinbox": 4,
@@ -101,3 +101,18 @@ def test_successfactors_mapping_and_moodys_correction_are_explicit() -> None:
     assert moodys.adapter_parameters == {"search_url": "https://careers.moodys.com/en/search-jobs"}
     assert moodys.exception_reason is not None
     assert "returning-applicant login" in moodys.exception_reason
+
+
+def test_jobvite_source_uses_verified_board_identity_and_detail_date() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    sima = next(entry.source for entry in registry.entries if entry.source.company_id == "sima-ai")
+
+    assert sima.adapter_type.value == "jobvite"
+    assert sima.adapter_parameters == {"company": "simaai"}
+    assert sima.status.value == "reviewed"
+    assert sima.identity_strategy.value == "external_id"
+    assert sima.date_strategy.field_name == "datePosted"
+    assert sima.date_strategy.basis.value == "published"
+    assert sima.date_strategy.verified_as_publication is True
+    assert sima.detail_strategy.value == "detail_page"
+    assert sima.enabled is False

@@ -86,3 +86,14 @@ def test_phase4_successfactors_review_records_mapping_and_correction() -> None:
     assert "9,843-character normalized description" in review
     assert "Moody's official public inventory is hosted by Radancy" in review
     assert "This correction does not trigger H4" in review
+
+
+def test_phase4_jobvite_review_records_complete_group_validation() -> None:
+    review = Path("docs/reviews/phase4_jobvite_validation.md").read_text(encoding="utf-8")
+
+    assert "Status: **passed for the Jobvite mapping**" in review
+    assert "| SiMa.ai | 18 | 1 | 0 | 18 unknown until detail retrieval |" in review
+    assert "18 unique job links and no pagination control" in review
+    assert "Jobvite ID `oCzUzfwo` matched the listing identity" in review
+    assert "1,705-character normalized description" in review
+    assert "H3 and H4 were not triggered" in review

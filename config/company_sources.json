@@ -3449,33 +3449,34 @@
       "schema_version": 1,
       "company_id": "sima-ai",
       "company_name": "SiMa.ai",
-      "status": "proposed",
+      "status": "reviewed",
       "careers_url": "https://sima.ai/careers/",
       "adapter_type": "jobvite",
       "adapter_parameters": {
         "company": "simaai"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "datePosted",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Public detail pages expose schema.org JobPosting datePosted; listing pages omit the field."
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "https://sima.ai/careers/",
-        "https://sima.ai/careers/",
-        "https://jobs.jobvite.com/simaai/apply"
+        "https://jobs.jobvite.com/simaai/jobs?nl=1",
+        "https://jobs.jobvite.com/simaai/job/oCzUzfwo",
+        "https://schema.org/datePosted"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "Jobvite public board passed complete unpaginated-list validation; listing dates remain unknown until detail retrieval.",
       "source_rank": 107,
       "priority": "P2",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-21T14:37:49+05:30"
     },
     {
       "schema_version": 1,
