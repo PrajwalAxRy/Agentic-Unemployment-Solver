@@ -3,10 +3,10 @@
 ## Current status
 
 - Active phase: Phase 5 — Normalization and recency
-- Status: Phases 0–4 complete; H1, H2, and H4 approved. All ten reusable adapter families and
-  the 86-company enabled-registry listing gate passed.
-- Pending human checkpoint: H5 is mandatory after full-registry date normalization and coverage
-  measurement; it is not yet ready for review.
+- Status: Phases 0–4 complete; H1, H2, and H4 approved. Phase 5 normalization and the complete
+  86-company measurement passed; further implementation is stopped at H5.
+- Pending human checkpoint: H5 is ready. The user must choose uncertain-date option 1, 2, 3, or 4
+  from `docs/reviews/h5_date_coverage_review.md` before Phase 5 can be completed.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -144,6 +144,27 @@
   valid empty sources, 26,107 jobs, 661 pages, and zero failed, blocked, partial, or suspicious
   companies. Date evidence was 16,142 published, three updated, and 9,962 unknown listings; those
   measurements are inputs to Phase 5 and do not preselect an H5 policy.
+- Phase 5 added shared Unicode, punctuation, whitespace, title, multi-location alias, URL, and
+  timestamp normalization while preserving all source-original fields and date precision.
+- The rolling recency measurement command applies one completion-time boundary after collection,
+  records every listing's evidence and decision without descriptions, and reports company,
+  adapter, listing, identity, URL, first-seen, and ten-day metrics. A saved regression prevents jobs
+  published during a long scan from being falsely classified as future.
+- Bounded complete-source retries recover intermittent invalid payloads and active-pagination
+  churn without retrying access blocks. Oracle Cloud now requests explicit oldest-first ordering;
+  when Oracle reports inventory-total drift, duplicate IDs remain visible warnings and each unique
+  listing is retained once after every requested offset is fetched.
+- The final Phase 5 live gate passed 86/86 companies with 84 successful and two valid-empty
+  sources. It observed 26,122 jobs, all with valid identities and URLs, with zero invalid dates and
+  zero unassessed companies. One Greenhouse source recovered on its second bounded attempt.
+- Company date coverage is 49 all-reliable (56.98%), five mixed (5.81%), 30 no-reliable (34.88%),
+  two no-listings (2.33%), and zero unassessed. Listing evidence is 15,911 reliable (60.91%),
+  10,146 uncertain (38.84%), zero invalid, and 65 missing (0.25%). The interim decisions are 2,326
+  inside, 13,585 outside, and 10,211 uncertain. First-seen availability is zero in the initial
+  baseline.
+- H5 recommends a documented hybrid policy but does not select it: strict verified publication
+  dates, a separate uncertain section, post-filter detail dates for Jobvite and SuccessFactors,
+  and forward-only first-seen aging for the persistently uncertain adapter families.
 - Current registry accounting reconciles 330/330: 86 reusable adapter mappings, 238 search-only
   records, four unresolved records, and two approved unsupported sources.
 - Current source families: Ashby 25, Greenhouse 25, Lever 11, Workday 13, Darwinbox 4, Eightfold 1,
@@ -151,8 +172,7 @@
   unsupported 2.
 - All 86 validated adapter mappings are enabled. The registry still reconciles all IDs, names,
   priorities, and source ranks; the other 244 records remain explicitly disabled.
-- Repository validation passes with 248 tests, strict mypy, and Ruff checks after the Phase 4
-  coverage artifact.
+- Repository validation passes with 262 tests, strict mypy, and Ruff checks at checkpoint H5.
 
 ## Relevant Phase 2 commits
 
@@ -237,6 +257,15 @@
 - `01209d3` — active-inventory drift and identifier-only placeholder regressions
 - `b95429c` — activation of all 86 validated Phase 4 sources
 
+## Relevant Phase 5 commits
+
+- `6f92ab8` — shared source-independent job normalization
+- `a4f2e96` — registry-wide recency measurement and reporting
+- `59ffbc1` — read-only recency measurement command
+- `bf6a990` — completion-time boundary for long live scans
+- `181f629` — bounded retry of unstable complete-source scans
+- `8e70f8e` — stable ordering and drift-aware Oracle pagination
+
 ## Review artifacts
 
 - H1 search policy review: `docs/reviews/h1_search_policy_review.md`
@@ -255,6 +284,7 @@
 - Phase 4 SuccessFactors validation: `docs/reviews/phase4_successfactors_validation.md`
 - Phase 4 Jobvite validation: `docs/reviews/phase4_jobvite_validation.md`
 - Phase 4 adapter coverage completion: `docs/reviews/phase4_adapter_coverage_completion.md`
+- H5 publication-date coverage review: `docs/reviews/h5_date_coverage_review.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -268,20 +298,20 @@
 - All current Ashby and Greenhouse mappings pass their complete adapter-group validations.
 - Three observed Greenhouse jobs use update-date evidence because `first_published` is absent.
   They remain separate; no uncertain-date inclusion policy has been selected before H5.
-- All 386 observed Lever jobs use uncertain `createdAt` evidence, and 17 lack descriptions. These
-  remain explicit inputs to H5 and later manual-review behavior.
-- All 9,198 observed Workday jobs use uncertain relative `postedOn` evidence. Three listings lack
+- All 372 observed Lever jobs use uncertain `createdAt` evidence. Missing descriptions remain
+  explicit later manual-review inputs.
+- All 9,166 observed Workday jobs use uncertain relative `postedOn` evidence. Three listings lack
   locations in both listing and detail payloads, and multi-location list summaries require detail
   retrieval before deterministic location filtering.
 - All 141 observed Darwinbox jobs use uncertain `job_posting_on` evidence; the date values are
   retained but not promoted to publication timestamps before H5.
 - All 225 observed Millennium Management jobs use uncertain Eightfold `t_create` evidence. NVIDIA
   and PayPal are excluded from automated listing/date coverage as approved unsupported sources.
-- All 7,887 observed Oracle Cloud jobs use documented `PostedDate` publication evidence. The
-  JPMorganChase board can change totals during a scan and return short nonterminal pages; both
-  behaviors remain visible while requested offset ranges, duplicate IDs, and repeated pages are
-  checked.
-- All 46 observed SAP listing rows omit a publication date. The public detail page supplies a
+- Of 7,911 observed Oracle Cloud jobs, 7,672 have decidable documented `PostedDate` evidence and
+  239 date-only values overlap the exact ten-day timestamp boundary. The JPMorganChase board can
+  change totals during a scan and return short or overlapping pages; those behaviors remain
+  visible while every requested offset, unique ID, and repeated page is checked.
+- All 47 observed SAP listing rows omit a publication date. The public detail page supplies a
   verified schema.org `datePosted`, so recency requires detail retrieval after the deterministic
   title and India-location gates.
 - Moody's remains an explicit `search_only` custom-discovery item after its returning-applicant
@@ -295,6 +325,7 @@
 
 ## Resume point
 
-Implement Phase 5 shared normalization and the rolling ten-day measurement pipeline. Then run all
-86 enabled companies without detail fetches or LLM calls, save the company- and adapter-level date
-coverage report, and stop at mandatory checkpoint H5 for the user's uncertain-date decision.
+STOP at mandatory checkpoint H5. Await the user's choice of option 1, 2, 3, or 4 in
+`docs/reviews/h5_date_coverage_review.md`. After the decision, record it in the search profile and
+affected adapter date strategies, add policy fixtures and boundary tests, rerun the complete
+86-company recency report, and finish Phase 5 before starting Phase 6.

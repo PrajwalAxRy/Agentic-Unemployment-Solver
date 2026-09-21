@@ -114,3 +114,20 @@ def test_phase4_coverage_review_records_reconciled_full_registry_gate() -> None:
     )
     assert "NVIDIA and PayPal; H4-approved official-page manual fallbacks" in review
     assert "Phase 4 is complete" in review
+
+
+def test_h5_review_records_full_registry_date_coverage_and_decision_request() -> None:
+    review = Path("docs/reviews/h5_date_coverage_review.md").read_text(encoding="utf-8")
+
+    assert "**STOP — Human checkpoint H5: awaiting the user's uncertain-date decision**" in review
+    assert 'Enabled companies: 86; outcomes: `{"empty": 2, "success": 84}`' in review
+    assert "Observed listings: 26,122" in review
+    assert "Valid identities: 26,122; valid canonical URLs: 26,122" in review
+    assert "| Every observed listing reliable | 49 | 56.98% |" in review
+    assert "| Mixed reliable and uncertain | 5 | 5.81% |" in review
+    assert "| No reliable publication dates | 30 | 34.88% |" in review
+    assert "| Reliable publication evidence | 15,911 | 60.91% |" in review
+    assert "| Measurement pool, no age decision | 10,211 | 39.09% |" in review
+    assert "First-seen timestamps available in this initial measurement: 0" in review
+    assert "**Recommendation: option 4.**" in review
+    assert "Choose option 1, 2, 3, or 4" in review
