@@ -97,3 +97,20 @@ def test_phase4_jobvite_review_records_complete_group_validation() -> None:
     assert "Jobvite ID `oCzUzfwo` matched the listing identity" in review
     assert "1,705-character normalized description" in review
     assert "H3 and H4 were not triggered" in review
+
+
+def test_phase4_coverage_review_records_reconciled_full_registry_gate() -> None:
+    review = Path("docs/reviews/phase4_adapter_coverage_completion.md").read_text(encoding="utf-8")
+
+    assert "Status: **passed**" in review
+    assert "The registry has 86 enabled and 244 disabled records" in review
+    assert 'Outcomes: `{"empty": 2, "success": 84}`' in review
+    assert "Observed jobs: 26,107" in review
+    assert "Fetched pages: 661" in review
+    assert "Failed, blocked, partial, or suspicious companies: 0" in review
+    assert (
+        'Date evidence: `{"first_seen": 0, "published": 16142, "unknown": 9962, '
+        '"updated": 3}`' in review
+    )
+    assert "NVIDIA and PayPal; H4-approved official-page manual fallbacks" in review
+    assert "Phase 4 is complete" in review

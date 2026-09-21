@@ -2,12 +2,13 @@
 
 ## Current status
 
-- Active phase: Phase 4 — Adapter coverage
-- Status: Phases 0–3 complete; H1, H2, and H4 approved; Ashby, Greenhouse, Lever, Workday,
-  Darwinbox, Eightfold, SmartRecruiters, Oracle Cloud, and SuccessFactors adapter groups passed.
-  Jobvite is next.
-- Pending human checkpoint: None; continue with Jobvite validation.
-- No source is enabled. All 330 canonical companies remain in first-release accounting.
+- Active phase: Phase 5 — Normalization and recency
+- Status: Phases 0–4 complete; H1, H2, and H4 approved. All ten reusable adapter families and
+  the 86-company enabled-registry listing gate passed.
+- Pending human checkpoint: H5 is mandatory after full-registry date normalization and coverage
+  measurement; it is not yet ready for review.
+- The 86 validated adapter sources are enabled. All 330 canonical companies remain in
+  first-release accounting, including 244 disabled backlog or unsupported records.
 
 ## Completed gates
 
@@ -130,14 +131,28 @@
 - Moody's official inventory is a Radancy search site. Its embedded SuccessFactors URL is only a
   returning-applicant login, so the false-positive mapping was corrected to `search_only` and kept
   in the H2-approved custom-discovery backlog. No source was removed and H4 was not triggered.
+- Phase 4 Jobvite fixtures and adapter cover the complete public board, stable link identities,
+  malformed or incomplete rows, duplicate IDs, unexpected pagination controls, access blocks,
+  public detail dates, and detail descriptions. SiMa.ai passed full validation with 18 jobs, one
+  page, and no missing listing fields; its sampled detail supplied a published schema.org date and
+  a 1,705-character normalized description.
+- A single enabled-registry verifier now exercises all adapter families through the shared runtime
+  contract. Saved regressions handle active-inventory total drift in SmartRecruiters and Workday,
+  while exact identifier-only Workday placeholders remain visible as warnings but are not emitted
+  as usable jobs.
+- The fresh Phase 4 full-registry run passed all 86 enabled companies: 84 successful sources, two
+  valid empty sources, 26,107 jobs, 661 pages, and zero failed, blocked, partial, or suspicious
+  companies. Date evidence was 16,142 published, three updated, and 9,962 unknown listings; those
+  measurements are inputs to Phase 5 and do not preselect an H5 policy.
 - Current registry accounting reconciles 330/330: 86 reusable adapter mappings, 238 search-only
   records, four unresolved records, and two approved unsupported sources.
 - Current source families: Ashby 25, Greenhouse 25, Lever 11, Workday 13, Darwinbox 4, Eightfold 1,
   SmartRecruiters 3, Oracle Cloud 2, SuccessFactors 1, Jobvite 1, search-only 238, unresolved 4,
   unsupported 2.
-- Registry remains fully disabled and reconciles all IDs, names, priorities, and source ranks.
-- Repository validation passes with 233 tests, strict mypy, and Ruff checks after SuccessFactors
-  validation.
+- All 86 validated adapter mappings are enabled. The registry still reconciles all IDs, names,
+  priorities, and source ranks; the other 244 records remain explicitly disabled.
+- Repository validation passes with 248 tests, strict mypy, and Ruff checks after the Phase 4
+  coverage artifact.
 
 ## Relevant Phase 2 commits
 
@@ -214,6 +229,13 @@
 - `eb5a181` — SuccessFactors listing and detail-page adapter
 - `ce0d8ed` — SuccessFactors read-only source verification and Moody's mapping correction
 - `e113f55` — complete SuccessFactors mapping and full-group validation evidence
+- `177dde5` — sanitized Jobvite response fixtures
+- `b54a63e` — Jobvite listing and detail-page adapter
+- `14ad6d2` — Jobvite read-only source verification
+- `4ca97cf` — complete Jobvite mapping and full-group validation evidence
+- `e69c04e` — enabled-registry listing verifier
+- `01209d3` — active-inventory drift and identifier-only placeholder regressions
+- `b95429c` — activation of all 86 validated Phase 4 sources
 
 ## Review artifacts
 
@@ -231,8 +253,10 @@
 - Phase 4 SmartRecruiters validation: `docs/reviews/phase4_smartrecruiters_validation.md`
 - Phase 4 Oracle Cloud validation: `docs/reviews/phase4_oracle_cloud_validation.md`
 - Phase 4 SuccessFactors validation: `docs/reviews/phase4_successfactors_validation.md`
+- Phase 4 Jobvite validation: `docs/reviews/phase4_jobvite_validation.md`
+- Phase 4 adapter coverage completion: `docs/reviews/phase4_adapter_coverage_completion.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
-- Disabled runtime registry: `config/company_sources.json`
+- Active source registry and explicit backlog: `config/company_sources.json`
 
 ## Unresolved evidence and limitations
 
@@ -262,6 +286,8 @@
   title and India-location gates.
 - Moody's remains an explicit `search_only` custom-discovery item after its returning-applicant
   SuccessFactors login was rejected as an inventory source.
+- SiMa.ai's 18 Jobvite listings omit dates; its public detail pages provide structured published
+  dates, which Phase 5 may retrieve only after deterministic pre-detail filters.
 - 238 records remain `search_only`; 179 are verified official pages needing custom adapters or
   deeper source-family work, and 59 are conflicts.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
@@ -269,5 +295,6 @@
 
 ## Resume point
 
-Resume Phase 4 with Jobvite. The SuccessFactors adapter group passed, and no human checkpoint is
-pending.
+Implement Phase 5 shared normalization and the rolling ten-day measurement pipeline. Then run all
+86 enabled companies without detail fetches or LLM calls, save the company- and adapter-level date
+coverage report, and stop at mandatory checkpoint H5 for the user's uncertain-date decision.
