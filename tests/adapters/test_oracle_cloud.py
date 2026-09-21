@@ -124,8 +124,12 @@ def test_count_checked_pagination_maps_identity_locations_url_and_date() -> None
     assert result.jobs[0].date_basis is DateBasis.PUBLISHED
     first_query = parse_qs(urlsplit(transport.calls[0][0]).query)
     second_query = parse_qs(urlsplit(transport.calls[1][0]).query)
-    assert first_query["finder"] == ["findReqs;siteNumber=CX_TEST,limit=2,offset=0"]
-    assert second_query["finder"] == ["findReqs;siteNumber=CX_TEST,limit=2,offset=2"]
+    assert first_query["finder"] == [
+        "findReqs;siteNumber=CX_TEST,limit=2,offset=0,sortBy=POSTING_DATES_ASC"
+    ]
+    assert second_query["finder"] == [
+        "findReqs;siteNumber=CX_TEST,limit=2,offset=2,sortBy=POSTING_DATES_ASC"
+    ]
     assert transport.calls[0][1]["Referer"].endswith("/sites/CX_TEST/jobs")
 
 
@@ -189,6 +193,28 @@ def test_inventory_total_change_is_visible_and_pagination_continues() -> None:
     assert result.diagnostics[0].category == "inventory_total_changed"
 
 
+def test_duplicate_during_reported_inventory_drift_is_deduplicated_and_visible() -> None:
+    first = json.loads((FIXTURES / "page_1.json").read_text(encoding="utf-8"))
+    changed = json.loads((FIXTURES / "page_2.json").read_text(encoding="utf-8"))
+    changed["items"][0]["TotalJobsCount"] = 4
+    changed["items"][0]["requisitionList"].insert(
+        0,
+        first["items"][0]["requisitionList"][1],
+    )
+    adapter, _ = adapter_for([fixture("page_1.json"), response(json.dumps(changed).encode())])
+
+    result = adapter.list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert result.complete is True
+    assert [item.external_job_id for item in result.jobs] == ["1001", "1002", "1003"]
+    assert [item.category for item in result.diagnostics] == [
+        "inventory_total_changed",
+        "duplicate_job_id",
+    ]
+    assert result.diagnostics[-1].severity.value == "warning"
+
+
 def test_short_nonterminal_page_advances_by_requested_limit() -> None:
     short = json.loads((FIXTURES / "page_1.json").read_text(encoding="utf-8"))
     short["items"][0]["requisitionList"] = short["items"][0]["requisitionList"][:1]
@@ -200,7 +226,9 @@ def test_short_nonterminal_page_advances_by_requested_limit() -> None:
     assert [item.external_job_id for item in result.jobs] == ["1001", "1003"]
     assert result.diagnostics[-1].category == "short_page"
     second_query = parse_qs(urlsplit(transport.calls[1][0]).query)
-    assert second_query["finder"] == ["findReqs;siteNumber=CX_TEST,limit=2,offset=2"]
+    assert second_query["finder"] == [
+        "findReqs;siteNumber=CX_TEST,limit=2,offset=2,sortBy=POSTING_DATES_ASC"
+    ]
 
 
 def test_repeated_page_and_page_limit_are_suspicious() -> None:

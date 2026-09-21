@@ -30,6 +30,7 @@ DEFAULT_MAX_PAGES = 100
 API_ROOT = "/hcmRestApi/resources/latest"
 LIST_RESOURCE = "recruitingCEJobRequisitions"
 DETAIL_RESOURCE = "recruitingCEJobRequisitionDetails"
+LIST_SORT = "POSTING_DATES_ASC"
 LIST_EXPAND = (
     "requisitionList,requisitionList.workLocation,"
     "requisitionList.otherWorkLocations,requisitionList.secondaryLocations"
@@ -72,6 +73,8 @@ class OracleCloudAdapter:
         parse_error_count = 0
         missing_date_count = 0
         missing_location_count = 0
+        duplicate_count = 0
+        inventory_total_changed = False
         page_count = 0
         next_offset = 0
 
@@ -135,6 +138,7 @@ class OracleCloudAdapter:
                     )
                 )
                 expected_total = total
+                inventory_total_changed = True
 
             page_ids = tuple(_raw_id(raw) for raw in raw_jobs)
             if raw_jobs and page_ids in seen_pages:
@@ -193,16 +197,8 @@ class OracleCloudAdapter:
                 if external_id is None:
                     raise AssertionError("Oracle Cloud normalized jobs require IDs")
                 if external_id in seen_ids:
-                    diagnostics.append(
-                        _diagnostic(
-                            "duplicate_job_id",
-                            DiagnosticSeverity.ERROR,
-                            "Oracle Cloud pagination returned a duplicate job ID.",
-                            page_index=page_index,
-                            job_index=job_index,
-                        )
-                    )
-                    return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_count, diagnostics)
+                    duplicate_count += 1
+                    continue
                 seen_ids.add(external_id)
                 if job.published_at is None:
                     missing_date_count += 1
@@ -239,6 +235,33 @@ class OracleCloudAdapter:
             )
             return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_count, diagnostics)
 
+        if duplicate_count:
+            diagnostics.append(
+                _diagnostic(
+                    "duplicate_job_id",
+                    (
+                        DiagnosticSeverity.WARNING
+                        if inventory_total_changed
+                        else DiagnosticSeverity.ERROR
+                    ),
+                    (
+                        "Oracle Cloud active-inventory pagination repeated job IDs; each unique "
+                        "listing was retained once after all requested offsets were fetched."
+                        if inventory_total_changed
+                        else "Oracle Cloud pagination returned duplicate job IDs without a "
+                        "reported inventory change."
+                    ),
+                    count=duplicate_count,
+                )
+            )
+            if not inventory_total_changed:
+                return _result(
+                    source,
+                    AdapterOutcome.SUSPICIOUS,
+                    jobs,
+                    page_count,
+                    diagnostics,
+                )
         if missing_date_count:
             diagnostics.append(
                 _diagnostic(
@@ -356,7 +379,10 @@ def _board_url(parameters: Mapping[str, str]) -> str:
 
 
 def _list_endpoint(parameters: Mapping[str, str], limit: int, offset: int) -> str:
-    finder = f"findReqs;siteNumber={parameters['site_number']},limit={limit},offset={offset}"
+    finder = (
+        f"findReqs;siteNumber={parameters['site_number']},limit={limit},offset={offset},"
+        f"sortBy={LIST_SORT}"
+    )
     query = urlencode({"onlyData": "true", "expand": LIST_EXPAND, "finder": finder})
     return f"https://{parameters['host']}{API_ROOT}/{LIST_RESOURCE}?{query}"
 
