@@ -1,0 +1,30 @@
+{
+  "count": 1,
+  "hasMore": false,
+  "limit": 200,
+  "offset": 0,
+  "items": [
+    {
+      "SearchId": 1,
+      "SiteNumber": "CX_TEST",
+      "TotalJobsCount": 3,
+      "Limit": 2,
+      "Offset": 2,
+      "requisitionList": [
+        {
+          "Id": "1003",
+          "Title": "AI Platform Engineer",
+          "PrimaryLocation": "Chennai, Tamil Nadu, India",
+          "PrimaryLocationCountry": "IN",
+          "PostedDate": "2026-09-18",
+          "ShortDescriptionStr": "Operate model-serving infrastructure.",
+          "WorkplaceType": "On-site",
+          "WorkplaceTypeCode": "ORA_ON_SITE",
+          "workLocation": [],
+          "otherWorkLocations": [],
+          "secondaryLocations": []
+        }
+      ]
+    }
+  ]
+}

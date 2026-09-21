@@ -1,0 +1,48 @@
+{
+  "count": 1,
+  "hasMore": false,
+  "limit": 200,
+  "offset": 0,
+  "items": [
+    {
+      "SearchId": 1,
+      "SiteNumber": "CX_TEST",
+      "TotalJobsCount": 3,
+      "Limit": 2,
+      "Offset": 0,
+      "requisitionList": [
+        {
+          "Id": "1001",
+          "Title": "Machine Learning Engineer",
+          "PrimaryLocation": "Bengaluru, Karnataka, India",
+          "PrimaryLocationCountry": "IN",
+          "PostedDate": "2026-09-20",
+          "ShortDescriptionStr": "Build production machine-learning systems.",
+          "WorkplaceType": "Hybrid",
+          "WorkplaceTypeCode": "ORA_HYBRID",
+          "workLocation": [],
+          "otherWorkLocations": [],
+          "secondaryLocations": [
+            {
+              "Name": "Hyderabad, Telangana, India",
+              "CountryCode": "IN"
+            }
+          ]
+        },
+        {
+          "Id": "1002",
+          "Title": "Applied AI Engineer",
+          "PrimaryLocation": "Pune, Maharashtra, India",
+          "PrimaryLocationCountry": "IN",
+          "PostedDate": "2026-09-19",
+          "ShortDescriptionStr": null,
+          "WorkplaceType": "Remote",
+          "WorkplaceTypeCode": "ORA_REMOTE",
+          "workLocation": [],
+          "otherWorkLocations": [],
+          "secondaryLocations": []
+        }
+      ]
+    }
+  ]
+}

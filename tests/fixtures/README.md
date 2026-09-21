@@ -44,3 +44,18 @@ check. The adapter requests `content=true` so descriptions are available without
 The public Postings API uses `skip` and `limit` pagination and exposes full descriptions in each
 list response. The source-created timestamp is retained as uncertain evidence because the public
 API documentation does not establish it as a publication date.
+
+## Oracle Cloud
+
+- `oracle_cloud/page_1.json` and `oracle_cloud/page_2.json`: the public Candidate Experience
+  search envelope with count-checked offset pagination, stable requisition IDs, published dates,
+  primary and secondary locations, and workplace metadata.
+- `oracle_cloud/empty.json`: a complete zero-job search result.
+- `oracle_cloud/malformed.json`: a requisition missing its required title.
+- `oracle_cloud/detail.json`: a matching public detail response with the complete description,
+  qualifications, responsibilities, and secondary locations.
+- `oracle_cloud/access_block.html`: a sanitized blocked-page response.
+
+The public Candidate Experience search resource returns one search envelope whose
+`TotalJobsCount`, `Limit`, `Offset`, and `requisitionList` fields drive pagination. Full job text is
+retrieved only from the separate public requisition-detail resource.

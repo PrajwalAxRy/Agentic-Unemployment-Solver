@@ -1,0 +1,29 @@
+{
+  "count": 1,
+  "hasMore": false,
+  "limit": 25,
+  "offset": 0,
+  "items": [
+    {
+      "Id": "1001",
+      "Title": "Machine Learning Engineer",
+      "PrimaryLocation": "Bengaluru, Karnataka, India",
+      "PrimaryLocationCountry": "IN",
+      "ExternalPostedStartDate": "2026-09-20",
+      "ExternalDescriptionStr": "<p>Build and operate production machine-learning systems.</p>",
+      "ExternalResponsibilitiesStr": "<p>Own retrieval and model-serving pipelines.</p>",
+      "ExternalQualificationsStr": "<p>Three years of software engineering experience.</p>",
+      "ShortDescriptionStr": "Production ML engineering role.",
+      "WorkplaceType": "Hybrid",
+      "WorkplaceTypeCode": "ORA_HYBRID",
+      "workLocation": [],
+      "otherWorkLocations": [],
+      "secondaryLocations": [
+        {
+          "Name": "Hyderabad, Telangana, India",
+          "CountryCode": "IN"
+        }
+      ]
+    }
+  ]
+}

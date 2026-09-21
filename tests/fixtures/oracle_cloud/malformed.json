@@ -1,0 +1,22 @@
+{
+  "count": 1,
+  "hasMore": false,
+  "limit": 200,
+  "offset": 0,
+  "items": [
+    {
+      "SearchId": 1,
+      "SiteNumber": "CX_TEST",
+      "TotalJobsCount": 1,
+      "Limit": 2,
+      "Offset": 0,
+      "requisitionList": [
+        {
+          "Id": "broken-1001",
+          "PrimaryLocation": "Bengaluru, Karnataka, India",
+          "PostedDate": "2026-09-20"
+        }
+      ]
+    }
+  ]
+}
