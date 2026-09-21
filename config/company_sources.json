@@ -6882,7 +6882,7 @@
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "low",
       "evidence": [
         "https://careers.moodys.com/en/category/credit-analysis-and-research-jobs/49841/9382576/1/2",
         "https://careers.moodys.com/en/category/credit-analysis-and-research-jobs/49841/9382576/1/2",
@@ -7861,34 +7861,34 @@
       "schema_version": 1,
       "company_id": "sap",
       "company_name": "SAP",
-      "status": "proposed",
-      "careers_url": "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/?q=&sortColumn=sort_title&sortDirection=desc",
+      "status": "reviewed",
+      "careers_url": "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/",
       "adapter_type": "successfactors",
       "adapter_parameters": {
         "host": "jobs.sap.com",
         "category_path": "/go/SAP-Jobs-in-India/851201/"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "datePosted",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Public detail pages expose schema.org datePosted and a matching visible Posted Date; listing pages omit the field."
       },
       "detail_strategy": "detail_page",
       "enabled": false,
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
-        "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/?q=&sortColumn=sort_title&sortDirection=desc",
-        "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/?q=&sortColumn=sort_title&sortDirection=desc",
-        "https://career5.successfactors.eu/career?career_company=SAP&lang=en_US&company=SAP&site=&loginFlowRequired=true&_s.crb=FPX8lbWGt3yk6uxsmGyYBKLyRl2Q6jqtQoTRBxl4aco%3d"
+        "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/",
+        "https://jobs.sap.com/job/Bangalore-Technical-Product-Manager-%28mfd%29-for-API-Management-%40-BTP-Integration-Suite-560066/1280449101/",
+        "https://schema.org/datePosted"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Hosted ATS detected in verified public careers-page markup.",
+      "notes": "SuccessFactors RMK India category passed complete pagination and public detail validation; listing dates remain unknown until detail retrieval.",
       "source_rank": 246,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-21T13:58:31+05:30"
     },
     {
       "schema_version": 1,

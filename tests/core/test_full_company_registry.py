@@ -13,7 +13,7 @@ def test_canonical_registry_accounts_for_all_companies_and_stays_disabled() -> N
     assert audit.reconciled is True
     assert audit.registry_total == 330
     assert audit.enabled_count == 0
-    assert audit.by_status == {"proposed": 323, "reviewed": 5, "unsupported": 2}
+    assert audit.by_status == {"proposed": 322, "reviewed": 6, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 25,
         "darwinbox": 4,
@@ -77,3 +77,27 @@ def test_oracle_cloud_sources_use_verified_public_hosts_and_date_strategy() -> N
     )
     assert all(source.date_strategy.verified_as_publication for source in oracle_sources.values())
     assert all(source.enabled is False for source in oracle_sources.values())
+
+
+def test_successfactors_mapping_and_moodys_correction_are_explicit() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    sources = {entry.source.company_id: entry.source for entry in registry.entries}
+    sap = sources["sap"]
+    moodys = sources["moody-s"]
+
+    assert sap.adapter_type.value == "successfactors"
+    assert sap.adapter_parameters == {
+        "host": "jobs.sap.com",
+        "category_path": "/go/SAP-Jobs-in-India/851201/",
+    }
+    assert sap.status.value == "reviewed"
+    assert sap.identity_strategy.value == "external_id"
+    assert sap.date_strategy.field_name == "datePosted"
+    assert sap.date_strategy.basis.value == "published"
+    assert sap.date_strategy.verified_as_publication is True
+    assert sap.enabled is False
+
+    assert moodys.adapter_type.value == "search_only"
+    assert moodys.adapter_parameters == {"search_url": "https://careers.moodys.com/en/search-jobs"}
+    assert moodys.exception_reason is not None
+    assert "returning-applicant login" in moodys.exception_reason
