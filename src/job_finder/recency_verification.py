@@ -9,7 +9,7 @@ from dataclasses import asdict, dataclass
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
-from job_finder.adapters.base import AdapterRegistry
+from job_finder.adapters.base import AdapterRegistry, JobSourceAdapter
 from job_finder.core.company_registry import CompanySourceRegistry
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.recency import (
@@ -24,7 +24,12 @@ from job_finder.core.recency import (
     build_date_coverage_report,
 )
 from job_finder.core.search_profile import SearchProfile
-from job_finder.core.source_contracts import AdapterOutcome, IdentityStrategy
+from job_finder.core.source_contracts import (
+    AdapterOutcome,
+    AdapterResult,
+    CompanySource,
+    IdentityStrategy,
+)
 from job_finder.normalization.jobs import normalize_job
 
 
@@ -39,6 +44,7 @@ class CompanyRecencyRecord:
     adapter_type: str
     outcome: str
     complete: bool
+    attempt_count: int
     page_count: int
     listing_count: int
     valid_identity_count: int
@@ -76,6 +82,7 @@ class RecencyVerificationReport:
     scan_at: str
     boundary: str
     window_days: int
+    source_retry_count: int
     registry_version: str
     profile_id: str
     profile_version: str
@@ -109,6 +116,7 @@ class RecencyVerificationReport:
             "scan_at": self.scan_at,
             "boundary": self.boundary,
             "window_days": self.window_days,
+            "source_retry_count": self.source_retry_count,
             "registry_version": self.registry_version,
             "profile_id": self.profile_id,
             "profile_version": self.profile_version,
@@ -138,6 +146,7 @@ class _PendingCompanyRecord:
     adapter_type: str
     outcome: str
     complete: bool
+    attempt_count: int
     page_count: int
     valid_identity_count: int
     valid_url_count: int
@@ -153,12 +162,15 @@ def measure_enabled_recency(
     *,
     scan_at: datetime | None = None,
     generated_at: datetime | None = None,
+    source_retry_count: int = 2,
 ) -> RecencyVerificationReport:
     """List and normalize every enabled source without detail fetches or LLM calls."""
     if scan_at is not None and scan_at.tzinfo is None:
         raise ValueError("scan_at must be timezone-aware")
     if generated_at is not None and generated_at.tzinfo is None:
         raise ValueError("generated_at must be timezone-aware")
+    if source_retry_count < 0:
+        raise ValueError("source_retry_count cannot be negative")
 
     entries = sorted(
         (entry for entry in registry.entries if entry.source.enabled),
@@ -167,13 +179,27 @@ def measure_enabled_recency(
     pending_records: list[_PendingCompanyRecord] = []
     for entry in entries:
         source = entry.source
-        result = adapters.resolve(source).list_jobs(source)
+        result, attempt_count = _list_with_retry(
+            adapters.resolve(source),
+            source,
+            source_retry_count=source_retry_count,
+        )
         if result.outcome is AdapterOutcome.SUCCESS:
             normalized_jobs = tuple(
                 normalize_job(job, location_policy=profile.location) for job in result.jobs
             )
         else:
             normalized_jobs = ()
+        exception_categories = list(
+            dict.fromkeys(diagnostic.category for diagnostic in result.diagnostics)
+        )
+        if attempt_count > 1:
+            retry_category = (
+                "source_retry_succeeded"
+                if result.outcome in {AdapterOutcome.SUCCESS, AdapterOutcome.EMPTY}
+                else "source_retry_exhausted"
+            )
+            exception_categories.insert(0, retry_category)
         pending_records.append(
             _PendingCompanyRecord(
                 company_id=source.company_id,
@@ -183,14 +209,13 @@ def measure_enabled_recency(
                 adapter_type=source.adapter_type.value,
                 outcome=result.outcome.value,
                 complete=result.complete,
+                attempt_count=attempt_count,
                 page_count=result.page_count,
                 valid_identity_count=sum(
                     _has_valid_identity(job, source.identity_strategy) for job in normalized_jobs
                 ),
                 valid_url_count=len(normalized_jobs),
-                exception_categories=tuple(
-                    dict.fromkeys(diagnostic.category for diagnostic in result.diagnostics)
-                ),
+                exception_categories=tuple(exception_categories),
                 normalized_jobs=normalized_jobs,
                 publication_date_verified=(
                     source.date_strategy.verified_as_publication
@@ -248,6 +273,7 @@ def measure_enabled_recency(
             timespec="seconds"
         ),
         window_days=profile.recency_window_days,
+        source_retry_count=source_retry_count,
         registry_version=registry.registry_version,
         profile_id=profile.profile_id,
         profile_version=profile.version,
@@ -279,6 +305,25 @@ def write_recency_report(report: RecencyVerificationReport, path: Path) -> None:
 
 def _local_now() -> datetime:
     return datetime.now().astimezone()
+
+
+def _list_with_retry(
+    adapter: JobSourceAdapter,
+    source: CompanySource,
+    *,
+    source_retry_count: int,
+) -> tuple[AdapterResult, int]:
+    retryable_outcomes = {
+        AdapterOutcome.PARTIAL,
+        AdapterOutcome.FAILED,
+        AdapterOutcome.SUSPICIOUS,
+    }
+    result = adapter.list_jobs(source)
+    attempt_count = 1
+    while result.outcome in retryable_outcomes and attempt_count <= source_retry_count:
+        result = adapter.list_jobs(source)
+        attempt_count += 1
+    return result, attempt_count
 
 
 def _observation(
@@ -334,6 +379,7 @@ def _complete_company_record(
         adapter_type=pending.adapter_type,
         outcome=pending.outcome,
         complete=pending.complete,
+        attempt_count=pending.attempt_count,
         page_count=pending.page_count,
         listing_count=len(observations),
         valid_identity_count=pending.valid_identity_count,
@@ -441,6 +487,7 @@ def _company_as_json(record: CompanyRecencyRecord) -> dict[str, object]:
         "adapter_type": record.adapter_type,
         "outcome": record.outcome,
         "complete": record.complete,
+        "attempt_count": record.attempt_count,
         "page_count": record.page_count,
         "listing_count": record.listing_count,
         "valid_identity_count": record.valid_identity_count,

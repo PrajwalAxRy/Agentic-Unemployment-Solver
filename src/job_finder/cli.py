@@ -85,6 +85,12 @@ def build_parser() -> argparse.ArgumentParser:
         default=Path("reports/recency_measurement.json"),
     )
     measure.add_argument("--timeout", type=float, default=15.0)
+    measure.add_argument(
+        "--source-retries",
+        type=int,
+        default=2,
+        help="Retry an incomplete full-source scan this many times (default: 2).",
+    )
     return parser
 
 
@@ -133,7 +139,12 @@ def _measure_recency(args: argparse.Namespace) -> int:
     registry = load_company_registry(args.registry)
     profile = load_search_profile(args.profile)
     client = BoundedHttpClient(policy=HttpPolicy(timeout_seconds=args.timeout))
-    report = measure_enabled_recency(registry, _runtime_adapters(client), profile)
+    report = measure_enabled_recency(
+        registry,
+        _runtime_adapters(client),
+        profile,
+        source_retry_count=args.source_retries,
+    )
     write_recency_report(report, args.output)
     classes = ",".join(f"{key.value}={value}" for key, value in report.company_class_counts.items())
     evidence = ",".join(f"{key}={value}" for key, value in asdict(report.listing_counts).items())

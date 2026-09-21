@@ -69,3 +69,4 @@ def test_cli_accepts_full_registry_recency_measurement() -> None:
     assert args.command == "measure-recency"
     assert str(args.profile) == "config\\search_profile.toml"
     assert str(args.output) == "reports\\test_recency.json"
+    assert args.source_retries == 2

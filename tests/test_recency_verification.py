@@ -151,6 +151,40 @@ class CompletionBoundaryAdapter:
         return AdapterResult(1, company_source, AdapterOutcome.SUCCESS, jobs, 1, True, ())
 
 
+@dataclass
+class RetryOnceAdapter:
+    call_count: int = 0
+    adapter_type: AdapterType = AdapterType.ASHBY
+
+    def list_jobs(self, company_source: CompanySource) -> AdapterResult:
+        self.call_count += 1
+        if self.call_count == 1:
+            diagnostic = AdapterDiagnostic(
+                category="invalid_json",
+                severity=DiagnosticSeverity.ERROR,
+                message="transient invalid response",
+                context={},
+            )
+            return AdapterResult(
+                1,
+                company_source,
+                AdapterOutcome.FAILED,
+                (),
+                1,
+                False,
+                (diagnostic,),
+            )
+        jobs = (
+            job(
+                company_source.company_id,
+                "recovered",
+                value=SCAN_AT - timedelta(days=1),
+                raw="2026-09-19T12:00:00Z",
+            ),
+        )
+        return AdapterResult(1, company_source, AdapterOutcome.SUCCESS, jobs, 1, True, ())
+
+
 def registry() -> CompanySourceRegistry:
     return CompanySourceRegistry(
         schema_version=1,
@@ -249,3 +283,27 @@ def test_default_scan_boundary_is_captured_after_listing(
     assert report.scan_at == SCAN_AT.isoformat(timespec="seconds")
     assert report.decision_counts.inside_window == 1
     assert report.decision_counts.invalid == 0
+
+
+def test_measurement_retries_a_transient_incomplete_source_scan() -> None:
+    company_source = source("transient")
+    single_registry = CompanySourceRegistry(
+        schema_version=1,
+        registry_version="test",
+        generated_at=SCAN_AT,
+        discovery_batch_id="test",
+        entries=(CompanyRegistryEntry(1, "P1", None, company_source),),
+    )
+    adapter = RetryOnceAdapter()
+
+    report = measure_enabled_recency(
+        single_registry,
+        AdapterRegistry([adapter]),
+        load_search_profile(Path("config/search_profile.toml")),
+        scan_at=SCAN_AT,
+    )
+
+    assert adapter.call_count == 2
+    assert report.healthy is True
+    assert report.companies[0].attempt_count == 2
+    assert report.companies[0].exception_categories == ("source_retry_succeeded",)
