@@ -156,4 +156,25 @@ unverified source field is publication time.
 The user approved option 4, including the recommended hybrid policy, on 2026-09-22. The decision
 is represented by search-profile version `1.1.0`; its fixtures and boundary tests cover updated
 dates and forward-only `first_seen` aging. The post-decision full-registry validation is recorded
-below once completed.
+below.
+
+## Post-decision validation
+
+The required read-only full-registry rerun completed successfully at
+`2026-09-22T02:04:01+05:30` under profile version `1.1.0` and profile hash
+`b3da10cf2d1e6b762c1f6c3a24a71fcba93e6f80615fabe525103eb9f1a1569d`.
+
+- Enabled companies: 86; outcomes: `{"empty": 2, "success": 84}`.
+- Observed listings: 25,952; valid identities and canonical URLs: 25,952 each.
+- Evidence: 15,981 reliable (61.58%), 9,906 uncertain (38.17%), zero invalid, and 65 missing
+  (0.25%).
+- Decisions: 2,432 inside the strict window, 13,549 outside, 9,971 uncertain, and zero invalid.
+- Company coverage classes remained 49 all-reliable, five mixed, 30 no-reliable, two no-listings,
+  and zero unassessed.
+- Bank of America recovered on the third bounded whole-source attempt. No source remained failed,
+  partial, blocked, suspicious, or unassessed.
+- The initial baseline still has zero persisted `first_seen` values; Phase 7 persistence will make
+  forward-only aging available without retroactively dating baseline listings.
+
+The ignored sanitized evidence is `reports/phase5_recency_hybrid.json`. The approved hybrid policy
+therefore passes the Phase 5 completion gate, and Phase 6 may begin.

@@ -2,12 +2,11 @@
 
 ## Current status
 
-- Active phase: Phase 5 — Normalization and recency
-- Status: Phases 0–4 complete; H1, H2, H4, and H5 approved. Phase 5's hybrid policy is encoded
-  and fixture-covered; its required post-decision, 86-company read-only recency remeasurement is
-  in progress.
-- Pending human checkpoint: none in Phase 5. Do not begin Phase 6 until the post-decision
-  full-registry report passes and is recorded.
+- Active phase: Phase 6 — Role and location filters
+- Status: Phases 0–5 complete; H1, H2, H4, and H5 approved. The H5 hybrid policy is encoded,
+  fixture-covered, and validated by the required post-decision 86-company recency rerun.
+- Pending human checkpoint: H6, after complete-registry filtering and the stratified retained and
+  rejected sample report are ready for review.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -174,6 +173,12 @@
 - All 86 validated adapter mappings are enabled. The registry still reconciles all IDs, names,
   priorities, and source ranks; the other 244 records remain explicitly disabled.
 - Repository validation passes with 262 tests, strict mypy, and Ruff checks at checkpoint H5.
+- H5 option 4 was approved on 2026-09-22 and recorded as search-profile version `1.1.0`.
+- The post-decision full-registry recency run passed all 86 enabled companies: 84 successful, two
+  valid empty, 25,952 listings, 25,952 valid identities and URLs, and zero invalid dates or
+  unassessed companies. Evidence was 15,981 reliable, 9,906 uncertain, and 65 missing; decisions
+  were 2,432 inside, 13,549 outside, and 9,971 uncertain. Bank of America recovered on its third
+  bounded attempt.
 
 ## Relevant Phase 2 commits
 
@@ -326,7 +331,6 @@
 
 ## Resume point
 
-STOP at mandatory checkpoint H5. Await the user's choice of option 1, 2, 3, or 4 in
-`docs/reviews/h5_date_coverage_review.md`. After the decision, record it in the search profile and
-affected adapter date strategies, add policy fixtures and boundary tests, rerun the complete
-86-company recency report, and finish Phase 5 before starting Phase 6.
+Implement Phase 6 role and India-location filtering, run it across the complete recent and
+uncertain candidate set, produce the required stratified sample review, and stop at mandatory
+checkpoint H6 for the user's corrections or approval.
