@@ -177,11 +177,33 @@ def test_detail_retrieval_preserves_identity_and_adds_description() -> None:
     assert transport.calls[1][1]["Referer"] == listing.canonical_url
 
 
-def test_inconsistent_total_repeated_page_and_page_limit_are_suspicious() -> None:
+def test_inventory_total_change_is_visible_and_pagination_continues() -> None:
     changed = json.loads((FIXTURES / "page_2.json").read_text(encoding="utf-8"))
     changed["items"][0]["TotalJobsCount"] = 4
-    inconsistent, _ = adapter_for([fixture("page_1.json"), response(json.dumps(changed).encode())])
-    assert inconsistent.list_jobs(source()).diagnostics[-1].category == "inconsistent_total"
+    adapter, _ = adapter_for([fixture("page_1.json"), response(json.dumps(changed).encode())])
+
+    result = adapter.list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert result.page_count == 2
+    assert result.diagnostics[0].category == "inventory_total_changed"
+
+
+def test_short_nonterminal_page_advances_by_requested_limit() -> None:
+    short = json.loads((FIXTURES / "page_1.json").read_text(encoding="utf-8"))
+    short["items"][0]["requisitionList"] = short["items"][0]["requisitionList"][:1]
+    adapter, transport = adapter_for([response(json.dumps(short).encode()), fixture("page_2.json")])
+
+    result = adapter.list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert [item.external_job_id for item in result.jobs] == ["1001", "1003"]
+    assert result.diagnostics[-1].category == "short_page"
+    second_query = parse_qs(urlsplit(transport.calls[1][0]).query)
+    assert second_query["finder"] == ["findReqs;siteNumber=CX_TEST,limit=2,offset=2"]
+
+
+def test_repeated_page_and_page_limit_are_suspicious() -> None:
 
     repeated_payload = json.loads((FIXTURES / "page_1.json").read_text(encoding="utf-8"))
     repeated_payload["items"][0]["Offset"] = 2

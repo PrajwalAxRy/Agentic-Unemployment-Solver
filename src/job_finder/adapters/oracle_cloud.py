@@ -25,7 +25,7 @@ from job_finder.core.source_contracts import (
     DiagnosticSeverity,
 )
 
-DEFAULT_PAGE_SIZE = 100
+DEFAULT_PAGE_SIZE = 200
 DEFAULT_MAX_PAGES = 100
 API_ROOT = "/hcmRestApi/resources/latest"
 LIST_RESOURCE = "recruitingCEJobRequisitions"
@@ -56,6 +56,13 @@ class OracleCloudAdapter:
 
     def list_jobs(self, source: CompanySource) -> AdapterResult:
         parameters = _oracle_parameters(source)
+        return self._list_snapshot(source, parameters)
+
+    def _list_snapshot(
+        self,
+        source: CompanySource,
+        parameters: Mapping[str, str],
+    ) -> AdapterResult:
         jobs: list[NormalizedJob] = []
         diagnostics: list[AdapterDiagnostic] = []
         seen_ids: set[str] = set()
@@ -66,9 +73,11 @@ class OracleCloudAdapter:
         missing_date_count = 0
         missing_location_count = 0
         page_count = 0
+        next_offset = 0
 
         for page_index in range(self._max_pages):
-            endpoint = _list_endpoint(parameters, self._page_size, raw_job_count)
+            page_offset = next_offset
+            endpoint = _list_endpoint(parameters, self._page_size, page_offset)
             try:
                 response = self._client.get(
                     endpoint,
@@ -92,7 +101,7 @@ class OracleCloudAdapter:
                     payload,
                     site_number=parameters["site_number"],
                     requested_limit=self._page_size,
-                    requested_offset=raw_job_count,
+                    requested_offset=page_offset,
                 )
             except (ValueError, json.JSONDecodeError, UnicodeDecodeError) as error:
                 diagnostics.append(
@@ -116,15 +125,16 @@ class OracleCloudAdapter:
             elif total != expected_total:
                 diagnostics.append(
                     _diagnostic(
-                        "inconsistent_total",
-                        DiagnosticSeverity.ERROR,
-                        "Oracle Cloud total changed during pagination.",
+                        "inventory_total_changed",
+                        DiagnosticSeverity.WARNING,
+                        "Oracle Cloud inventory total changed during pagination; continued "
+                        "through the latest reported offset range.",
                         page_index=page_index,
                         expected=expected_total,
                         observed=total,
                     )
                 )
-                return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_count, diagnostics)
+                expected_total = total
 
             page_ids = tuple(_raw_id(raw) for raw in raw_jobs)
             if raw_jobs and page_ids in seen_pages:
@@ -139,7 +149,7 @@ class OracleCloudAdapter:
                 return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_count, diagnostics)
             seen_pages.add(page_ids)
 
-            if raw_job_count + len(raw_jobs) > expected_total:
+            if page_offset + len(raw_jobs) > expected_total:
                 diagnostics.append(
                     _diagnostic(
                         "collection_exceeds_total",
@@ -147,11 +157,11 @@ class OracleCloudAdapter:
                         "Oracle Cloud returned more jobs than the first-page total.",
                         page_index=page_index,
                         expected=expected_total,
-                        observed=raw_job_count + len(raw_jobs),
+                        observed=page_offset + len(raw_jobs),
                     )
                 )
                 return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_count, diagnostics)
-            if not raw_jobs and raw_job_count < expected_total:
+            if not raw_jobs and page_offset < expected_total:
                 diagnostics.append(
                     _diagnostic(
                         "premature_empty_page",
@@ -159,7 +169,7 @@ class OracleCloudAdapter:
                         "Oracle Cloud returned an empty page before reaching its reported total.",
                         page_index=page_index,
                         expected=expected_total,
-                        observed=raw_job_count,
+                        observed=page_offset,
                     )
                 )
                 return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_count, diagnostics)
@@ -201,20 +211,22 @@ class OracleCloudAdapter:
                 jobs.append(job)
 
             raw_job_count += len(raw_jobs)
-            if raw_job_count == expected_total:
+            next_offset += self._page_size
+            if next_offset >= expected_total:
                 break
             if len(raw_jobs) < self._page_size:
                 diagnostics.append(
                     _diagnostic(
-                        "incomplete_pagination",
-                        DiagnosticSeverity.ERROR,
-                        "Oracle Cloud returned a short page before reaching its reported total.",
+                        "short_page",
+                        DiagnosticSeverity.WARNING,
+                        "Oracle Cloud returned a short nonterminal page; pagination continued "
+                        "using the requested offset range.",
                         page_index=page_index,
+                        offset=page_offset,
                         expected=expected_total,
-                        observed=raw_job_count,
+                        observed=len(raw_jobs),
                     )
                 )
-                return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_count, diagnostics)
         else:
             diagnostics.append(
                 _diagnostic(
