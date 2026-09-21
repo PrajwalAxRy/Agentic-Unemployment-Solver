@@ -14,6 +14,7 @@ from job_finder.adapters.eightfold import EightfoldAdapter
 from job_finder.adapters.greenhouse import GreenhouseAdapter
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
 from job_finder.adapters.lever import LeverAdapter
+from job_finder.adapters.oracle_cloud import OracleCloudAdapter
 from job_finder.adapters.smartrecruiters import SmartRecruitersAdapter
 from job_finder.adapters.workday import WorkdayAdapter
 from job_finder.core.company_registry import load_company_registry
@@ -42,6 +43,7 @@ def build_parser() -> argparse.ArgumentParser:
             AdapterType.EIGHTFOLD.value,
             AdapterType.GREENHOUSE.value,
             AdapterType.LEVER.value,
+            AdapterType.ORACLE_CLOUD.value,
             AdapterType.SMARTRECRUITERS.value,
             AdapterType.WORKDAY.value,
         ),
@@ -77,6 +79,7 @@ def _verify_sources(args: argparse.Namespace) -> int:
             EightfoldAdapter(client),
             GreenhouseAdapter(client),
             LeverAdapter(client),
+            OracleCloudAdapter(client),
             SmartRecruitersAdapter(client),
             WorkdayAdapter(client),
         ]

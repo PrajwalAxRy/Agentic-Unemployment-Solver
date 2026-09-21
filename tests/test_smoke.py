@@ -36,3 +36,9 @@ def test_cli_accepts_eightfold_source_verification() -> None:
     args = build_parser().parse_args(["verify-sources", "--adapter", "eightfold"])
 
     assert args.adapter == "eightfold"
+
+
+def test_cli_accepts_oracle_cloud_source_verification() -> None:
+    args = build_parser().parse_args(["verify-sources", "--adapter", "oracle_cloud"])
+
+    assert args.adapter == "oracle_cloud"

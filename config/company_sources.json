@@ -3224,6 +3224,7 @@
       "careers_url": "https://jobs.uber.com/en/jobs/?query=&uclick_id=0ceb75d7-8b7c-4dce-8de6-24c0a903b261",
       "adapter_type": "oracle_cloud",
       "adapter_parameters": {
+        "host": "iaziqy.fa.ocs.oraclecloud.com",
         "site_number": "UberCareers"
       },
       "identity_strategy": "unresolved",
@@ -6763,6 +6764,7 @@
       "careers_url": "https://www.jpmorganchase.com/careers/explore-opportunities",
       "adapter_type": "oracle_cloud",
       "adapter_parameters": {
+        "host": "jpmc.fa.oraclecloud.com",
         "site_number": "CX_1001"
       },
       "identity_strategy": "unresolved",
