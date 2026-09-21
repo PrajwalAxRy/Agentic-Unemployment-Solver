@@ -71,6 +71,9 @@ class ListingDateObservation:
     raw_date_text: str | None
     job_url: str
     first_seen_at: datetime | None
+    decision: RecencyDecision = RecencyDecision.UNCERTAIN
+    reason: str = ""
+    normalized_date: str | None = None
 
     def __post_init__(self) -> None:
         if not self.company_id.strip():
@@ -134,6 +137,20 @@ class EvidenceCounts:
 
 
 @dataclass(frozen=True, slots=True)
+class DecisionCounts:
+    """Listing counts for rolling-window and measurement-pool decisions."""
+
+    inside_window: int = 0
+    outside_window: int = 0
+    uncertain: int = 0
+    invalid: int = 0
+
+    @property
+    def total(self) -> int:
+        return self.inside_window + self.outside_window + self.uncertain + self.invalid
+
+
+@dataclass(frozen=True, slots=True)
 class CompanyDateCoverage:
     """Computed date-coverage result for one enabled company."""
 
@@ -142,6 +159,7 @@ class CompanyDateCoverage:
     adapter_type: str
     coverage_class: CompanyDateCoverageClass
     listing_counts: EvidenceCounts
+    decision_counts: DecisionCounts
     first_seen_available_count: int
 
 
@@ -153,6 +171,7 @@ class AdapterDateCoverage:
     company_count: int
     company_class_counts: Mapping[CompanyDateCoverageClass, int]
     listing_counts: EvidenceCounts
+    decision_counts: DecisionCounts
     first_seen_available_count: int
 
 
@@ -166,6 +185,7 @@ class DateCoverageReport:
     company_class_percentages: Mapping[CompanyDateCoverageClass, float]
     listing_counts: EvidenceCounts
     listing_percentages: Mapping[str, float]
+    decision_counts: DecisionCounts
     by_adapter: Mapping[str, AdapterDateCoverage]
     first_seen_available_count: int
 
@@ -277,6 +297,46 @@ def assess_recency(
     )
 
 
+def assess_listing_recency(
+    value: datetime | date | None,
+    *,
+    raw_date_text: str | None,
+    basis: DateBasis,
+    scan_at: datetime,
+    window_days: int,
+    uncertainty_mode: DateUncertaintyMode,
+    publication_date_verified: bool,
+) -> RecencyAssessment:
+    """Assess a listing while distinguishing missing from unparseable raw date evidence."""
+    base = assess_recency(
+        value,
+        basis=basis,
+        scan_at=scan_at,
+        window_days=window_days,
+        uncertainty_mode=uncertainty_mode,
+        publication_date_verified=publication_date_verified,
+    )
+    if value is not None or raw_date_text is None or not raw_date_text.strip():
+        return base
+    if basis is DateBasis.PUBLISHED and publication_date_verified:
+        return RecencyAssessment(
+            decision=RecencyDecision.INVALID,
+            evidence_status=DateEvidenceStatus.INVALID,
+            date_basis=basis,
+            boundary=base.boundary,
+            measurement_pool=True,
+            reason="verified publication field contains an unparseable value",
+        )
+    return RecencyAssessment(
+        decision=RecencyDecision.UNCERTAIN,
+        evidence_status=DateEvidenceStatus.UNCERTAIN,
+        date_basis=basis,
+        boundary=base.boundary,
+        measurement_pool=True,
+        reason="unparsed non-publication date evidence remains uncertain",
+    )
+
+
 def build_date_coverage_report(
     company_inputs: Iterable[CompanyDateCoverageInput],
 ) -> DateCoverageReport:
@@ -312,6 +372,9 @@ def build_date_coverage_report(
             listing_counts=_sum_evidence_counts(
                 company.listing_counts for company in adapter_companies
             ),
+            decision_counts=_sum_decision_counts(
+                company.decision_counts for company in adapter_companies
+            ),
             first_seen_available_count=sum(
                 company.first_seen_available_count for company in adapter_companies
             ),
@@ -324,6 +387,7 @@ def build_date_coverage_report(
         company_class_percentages=class_percentages,
         listing_counts=listing_counts,
         listing_percentages=listing_counts.percentages(),
+        decision_counts=_sum_decision_counts(company.decision_counts for company in companies),
         by_adapter=by_adapter,
         first_seen_available_count=sum(company.first_seen_available_count for company in companies),
     )
@@ -352,6 +416,7 @@ def _company_coverage(item: CompanyDateCoverageInput) -> CompanyDateCoverage:
         adapter_type=item.adapter_type,
         coverage_class=coverage_class,
         listing_counts=listing_counts,
+        decision_counts=_decision_counts(item.observations),
         first_seen_available_count=sum(
             observation.first_seen_at is not None for observation in item.observations
         ),
@@ -375,4 +440,24 @@ def _sum_evidence_counts(counts: Iterable[EvidenceCounts]) -> EvidenceCounts:
         uncertain=sum(item.uncertain for item in items),
         invalid=sum(item.invalid for item in items),
         missing=sum(item.missing for item in items),
+    )
+
+
+def _decision_counts(observations: Iterable[ListingDateObservation]) -> DecisionCounts:
+    counter = Counter(observation.decision for observation in observations)
+    return DecisionCounts(
+        inside_window=counter[RecencyDecision.INSIDE_WINDOW],
+        outside_window=counter[RecencyDecision.OUTSIDE_WINDOW],
+        uncertain=counter[RecencyDecision.UNCERTAIN],
+        invalid=counter[RecencyDecision.INVALID],
+    )
+
+
+def _sum_decision_counts(counts: Iterable[DecisionCounts]) -> DecisionCounts:
+    items = tuple(counts)
+    return DecisionCounts(
+        inside_window=sum(item.inside_window for item in items),
+        outside_window=sum(item.outside_window for item in items),
+        uncertain=sum(item.uncertain for item in items),
+        invalid=sum(item.invalid for item in items),
     )
