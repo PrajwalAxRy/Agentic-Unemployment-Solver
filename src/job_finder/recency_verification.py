@@ -142,7 +142,8 @@ class _PendingCompanyRecord:
     valid_identity_count: int
     valid_url_count: int
     exception_categories: tuple[str, ...]
-    observations: tuple[ListingDateObservation, ...]
+    normalized_jobs: tuple[NormalizedJob, ...]
+    publication_date_verified: bool
 
 
 def measure_enabled_recency(
@@ -154,18 +155,15 @@ def measure_enabled_recency(
     generated_at: datetime | None = None,
 ) -> RecencyVerificationReport:
     """List and normalize every enabled source without detail fetches or LLM calls."""
-    effective_scan_at = scan_at or datetime.now().astimezone()
-    if effective_scan_at.tzinfo is None:
+    if scan_at is not None and scan_at.tzinfo is None:
         raise ValueError("scan_at must be timezone-aware")
-    timestamp = generated_at or effective_scan_at
-    if timestamp.tzinfo is None:
+    if generated_at is not None and generated_at.tzinfo is None:
         raise ValueError("generated_at must be timezone-aware")
 
     entries = sorted(
         (entry for entry in registry.entries if entry.source.enabled),
         key=lambda entry: entry.source_rank,
     )
-    coverage_inputs: list[CompanyDateCoverageInput] = []
     pending_records: list[_PendingCompanyRecord] = []
     for entry in entries:
         source = entry.source
@@ -174,38 +172,8 @@ def measure_enabled_recency(
             normalized_jobs = tuple(
                 normalize_job(job, location_policy=profile.location) for job in result.jobs
             )
-            observations = tuple(
-                _observation(
-                    job,
-                    publication_date_verified=(
-                        source.date_strategy.verified_as_publication
-                        and source.date_strategy.basis is DateBasis.PUBLISHED
-                        and job.date_basis is DateBasis.PUBLISHED
-                    ),
-                    profile=profile,
-                    scan_at=effective_scan_at,
-                )
-                for job in normalized_jobs
-            )
-            assessment = SourceAssessment.OBSERVED
         else:
             normalized_jobs = ()
-            observations = ()
-            assessment = (
-                SourceAssessment.NO_LISTINGS
-                if result.outcome is AdapterOutcome.EMPTY
-                else SourceAssessment.UNASSESSED
-            )
-
-        coverage_inputs.append(
-            CompanyDateCoverageInput(
-                company_id=source.company_id,
-                company_name=source.company_name,
-                adapter_type=source.adapter_type.value,
-                assessment=assessment,
-                observations=observations,
-            )
-        )
         pending_records.append(
             _PendingCompanyRecord(
                 company_id=source.company_id,
@@ -223,6 +191,39 @@ def measure_enabled_recency(
                 exception_categories=tuple(
                     dict.fromkeys(diagnostic.category for diagnostic in result.diagnostics)
                 ),
+                normalized_jobs=normalized_jobs,
+                publication_date_verified=(
+                    source.date_strategy.verified_as_publication
+                    and source.date_strategy.basis is DateBasis.PUBLISHED
+                ),
+            )
+        )
+
+    # Use one completion-time boundary for a live run. A listing can be published while a long
+    # registry scan is in progress and must not become falsely "future" relative to the start.
+    effective_scan_at = scan_at or _local_now()
+    timestamp = generated_at or effective_scan_at
+    observations_by_company: dict[str, tuple[ListingDateObservation, ...]] = {}
+    coverage_inputs: list[CompanyDateCoverageInput] = []
+    for pending in pending_records:
+        observations = tuple(
+            _observation(
+                job,
+                publication_date_verified=(
+                    pending.publication_date_verified and job.date_basis is DateBasis.PUBLISHED
+                ),
+                profile=profile,
+                scan_at=effective_scan_at,
+            )
+            for job in pending.normalized_jobs
+        )
+        observations_by_company[pending.company_id] = observations
+        coverage_inputs.append(
+            CompanyDateCoverageInput(
+                company_id=pending.company_id,
+                company_name=pending.company_name,
+                adapter_type=pending.adapter_type,
+                assessment=_source_assessment(pending.outcome),
                 observations=observations,
             )
         )
@@ -230,7 +231,11 @@ def measure_enabled_recency(
     coverage = build_date_coverage_report(coverage_inputs)
     coverage_by_company = {company.company_id: company for company in coverage.companies}
     records = tuple(
-        _complete_company_record(pending, coverage_by_company[pending.company_id])
+        _complete_company_record(
+            pending,
+            coverage_by_company[pending.company_id],
+            observations_by_company[pending.company_id],
+        )
         for pending in pending_records
     )
     adapter_summaries = _adapter_summaries(records)
@@ -270,6 +275,10 @@ def write_recency_report(report: RecencyVerificationReport, path: Path) -> None:
         json.dumps(report.as_json(), indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
+
+
+def _local_now() -> datetime:
+    return datetime.now().astimezone()
 
 
 def _observation(
@@ -315,6 +324,7 @@ def _has_valid_identity(job: NormalizedJob, strategy: IdentityStrategy) -> bool:
 def _complete_company_record(
     pending: _PendingCompanyRecord,
     coverage: CompanyDateCoverage,
+    observations: tuple[ListingDateObservation, ...],
 ) -> CompanyRecencyRecord:
     return CompanyRecencyRecord(
         company_id=pending.company_id,
@@ -325,7 +335,7 @@ def _complete_company_record(
         outcome=pending.outcome,
         complete=pending.complete,
         page_count=pending.page_count,
-        listing_count=len(pending.observations),
+        listing_count=len(observations),
         valid_identity_count=pending.valid_identity_count,
         valid_url_count=pending.valid_url_count,
         coverage_class=coverage.coverage_class,
@@ -333,8 +343,16 @@ def _complete_company_record(
         decision_counts=coverage.decision_counts,
         first_seen_available_count=coverage.first_seen_available_count,
         exception_categories=pending.exception_categories,
-        observations=pending.observations,
+        observations=observations,
     )
+
+
+def _source_assessment(outcome: str) -> SourceAssessment:
+    if outcome == AdapterOutcome.SUCCESS.value:
+        return SourceAssessment.OBSERVED
+    if outcome == AdapterOutcome.EMPTY.value:
+        return SourceAssessment.NO_LISTINGS
+    return SourceAssessment.UNASSESSED
 
 
 def _adapter_summaries(

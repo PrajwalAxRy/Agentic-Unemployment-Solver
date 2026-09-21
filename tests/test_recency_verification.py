@@ -7,6 +7,9 @@ from dataclasses import asdict, dataclass
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 
+import pytest
+
+import job_finder.recency_verification as recency_verification
 from job_finder.adapters.base import AdapterRegistry
 from job_finder.core.company_registry import CompanyRegistryEntry, CompanySourceRegistry
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
@@ -130,6 +133,24 @@ class StubAdapter:
         return AdapterResult(1, company_source, AdapterOutcome.SUCCESS, jobs, 1, True, ())
 
 
+@dataclass(frozen=True)
+class CompletionBoundaryAdapter:
+    clock_calls: list[datetime]
+    adapter_type: AdapterType = AdapterType.ASHBY
+
+    def list_jobs(self, company_source: CompanySource) -> AdapterResult:
+        assert self.clock_calls == []
+        jobs = (
+            job(
+                company_source.company_id,
+                "during-scan",
+                value=SCAN_AT - timedelta(minutes=1),
+                raw="2026-09-20T11:59:00Z",
+            ),
+        )
+        return AdapterResult(1, company_source, AdapterOutcome.SUCCESS, jobs, 1, True, ())
+
+
 def registry() -> CompanySourceRegistry:
     return CompanySourceRegistry(
         schema_version=1,
@@ -197,3 +218,34 @@ def test_report_writer_retains_public_evidence_without_descriptions(tmp_path: Pa
     assert payload["companies"][0]["observations"][0]["job_url"].endswith("?jobId=inside")
     assert payload["companies"][0]["observations"][2]["raw_date_text"] == "not-a-date"
     assert payload["companies"][0]["observations"][2]["evidence_status"] == "invalid"
+
+
+def test_default_scan_boundary_is_captured_after_listing(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    clock_calls: list[datetime] = []
+
+    def completed_at() -> datetime:
+        clock_calls.append(SCAN_AT)
+        return SCAN_AT
+
+    monkeypatch.setattr(recency_verification, "_local_now", completed_at)
+    company_source = source("during-scan")
+    single_registry = CompanySourceRegistry(
+        schema_version=1,
+        registry_version="test",
+        generated_at=SCAN_AT,
+        discovery_batch_id="test",
+        entries=(CompanyRegistryEntry(1, "P1", None, company_source),),
+    )
+
+    report = measure_enabled_recency(
+        single_registry,
+        AdapterRegistry([CompletionBoundaryAdapter(clock_calls)]),
+        load_search_profile(Path("config/search_profile.toml")),
+    )
+
+    assert clock_calls == [SCAN_AT]
+    assert report.scan_at == SCAN_AT.isoformat(timespec="seconds")
+    assert report.decision_counts.inside_window == 1
+    assert report.decision_counts.invalid == 0
