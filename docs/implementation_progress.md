@@ -5,7 +5,7 @@
 - Active phase: Phase 4 — Adapter coverage
 - Status: Phases 0–3 complete; H1, H2, and H4 approved; Ashby, Greenhouse, Lever, Workday,
   Darwinbox, Eightfold, and SmartRecruiters adapter groups passed. Oracle Cloud is next.
-- Pending human checkpoint: None; continue with SmartRecruiters validation.
+- Pending human checkpoint: None; continue with Oracle Cloud validation.
 - No source is enabled. All 330 canonical companies remain in first-release accounting.
 
 ## Completed gates
