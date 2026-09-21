@@ -119,9 +119,7 @@ def test_multiple_pages_map_identity_location_url_and_uncertain_date() -> None:
     assert result.jobs[0].external_job_id == "755958684099"
     assert result.jobs[0].location_normalized == ("bangalore", "karnataka", "india")
     assert result.jobs[1].location_normalized == ("singapore", "remote")
-    assert result.jobs[0].canonical_url == (
-        "https://example.eightfold.ai/careers/job/755958684099"
-    )
+    assert result.jobs[0].canonical_url == ("https://example.eightfold.ai/careers/job/755958684099")
     assert result.jobs[0].published_at is not None
     assert result.jobs[0].published_at_raw == "1788998400"
     assert result.jobs[0].date_basis is DateBasis.UNKNOWN

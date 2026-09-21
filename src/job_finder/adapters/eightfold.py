@@ -69,10 +69,7 @@ class EightfoldAdapter:
         page_count = 0
 
         for page_index in range(self._max_pages):
-            endpoint = (
-                _api_base(tenant)
-                + f"/jobs?start={raw_job_count}&num={self._page_size}"
-            )
+            endpoint = _api_base(tenant) + f"/jobs?start={raw_job_count}&num={self._page_size}"
             try:
                 response = self._client.get(
                     endpoint,
@@ -461,9 +458,7 @@ def _locations(job: Mapping[object, object]) -> list[str]:
     raw_locations = job.get("locations")
     if isinstance(raw_locations, list):
         locations = [
-            item.strip()
-            for item in raw_locations
-            if isinstance(item, str) and item.strip()
+            item.strip() for item in raw_locations if isinstance(item, str) and item.strip()
         ]
         if locations:
             return locations

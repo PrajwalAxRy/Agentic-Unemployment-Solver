@@ -96,9 +96,7 @@ def test_workday_job_url_skips_locale_to_find_site() -> None:
 
 
 def test_eightfold_url_produces_public_listing_endpoint() -> None:
-    adapter, parameters, endpoint, mode = infer_adapter(
-        "https://example.eightfold.ai/careers"
-    )
+    adapter, parameters, endpoint, mode = infer_adapter("https://example.eightfold.ai/careers")
 
     assert adapter == "eightfold"
     assert parameters == {"tenant": "example"}
