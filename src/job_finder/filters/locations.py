@@ -110,9 +110,10 @@ def filter_location(
             work_modes=work_modes,
         )
 
-    if _has_unqualified_remote_alternative(
-        location_original
-    ) and policy.accept_unqualified_remote_alternative:
+    if (
+        _has_unqualified_remote_alternative(location_original)
+        and policy.accept_unqualified_remote_alternative
+    ):
         return LocationFilterResult(
             decision=LocationDecision.PASS,
             reason_code="unqualified_remote_alternative",
@@ -249,17 +250,13 @@ def _is_missing(
     return all(value in _MISSING_LOCATION_VALUES for value in normalized_locations)
 
 
-def _has_ambiguous_geography(
-    normalized_locations: tuple[str, ...], raw_normalized: str
-) -> bool:
+def _has_ambiguous_geography(normalized_locations: tuple[str, ...], raw_normalized: str) -> bool:
     return "remote" in raw_normalized.split() or _has_ambiguous_region_scope(
         normalized_locations, raw_normalized
     )
 
 
-def _has_ambiguous_region_scope(
-    normalized_locations: tuple[str, ...], raw_normalized: str
-) -> bool:
+def _has_ambiguous_region_scope(normalized_locations: tuple[str, ...], raw_normalized: str) -> bool:
     values = {*normalized_locations, raw_normalized}
     return any(
         value == region or value in {f"remote {region}", f"{region} remote"}

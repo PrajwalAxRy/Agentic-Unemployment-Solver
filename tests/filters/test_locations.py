@@ -18,9 +18,7 @@ PROFILE = load_search_profile(Path("config/search_profile.toml"))
         for example in load_policy_examples(Path("config/search_policy_examples.toml")).location
     ],
 )
-def test_every_approved_location_example(
-    location: str | None, expected: LocationDecision
-) -> None:
+def test_every_approved_location_example(location: str | None, expected: LocationDecision) -> None:
     result = filter_location(location, policy=PROFILE.location)
 
     assert result.decision is expected
