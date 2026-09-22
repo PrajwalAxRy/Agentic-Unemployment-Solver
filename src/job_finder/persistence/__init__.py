@@ -13,6 +13,7 @@ from job_finder.persistence.identity import (
     build_fallback_fingerprint,
     job_identity,
 )
+from job_finder.persistence.locking import ScanAlreadyRunningError, ScanLock
 from job_finder.persistence.repository import (
     EvaluationPreparation,
     EvaluationStatus,
@@ -30,6 +31,8 @@ __all__ = [
     "JobRecord",
     "JobStateRepository",
     "ObservationResult",
+    "ScanAlreadyRunningError",
+    "ScanLock",
     "build_fallback_fingerprint",
     "current_schema_version",
     "migrate_database",
