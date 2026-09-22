@@ -137,7 +137,7 @@ def test_h5_review_records_full_registry_date_coverage_and_approved_decision() -
 def test_h6_review_has_required_samples_and_coverage() -> None:
     review = Path("docs/reviews/h6_filter_review.md").read_text(encoding="utf-8")
 
-    assert "**STOP — Human checkpoint H6: awaiting role and location sample review**" in review
+    assert "**Complete — Human checkpoint H6: role and location filtering approved" in review
     assert "Listings observed: 25,960" in review
     assert "| K20 |" in review
     assert "| X20 |" in review
@@ -145,6 +145,7 @@ def test_h6_review_has_required_samples_and_coverage() -> None:
     assert review.count("| X01 |") == 1
     assert review.count("| L01 |") == 1
     assert "structured_india_location_code" in review
+    assert "explicitly approved H6 on 2026-09-22 without row-labelled corrections" in review
     for family in (
         "agents_and_tooling",
         "ai_software_and_product_engineering",

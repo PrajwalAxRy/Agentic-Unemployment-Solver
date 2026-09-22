@@ -2,11 +2,10 @@
 
 ## Current status
 
-- Active phase: Phase 6 — Role and location filters
-- Status: Phases 0–5 complete; H1, H2, H4, and H5 approved. Phase 6 implementation and its
-  complete-registry live validation are complete, with final approval pending at H6.
-- Pending human checkpoint: H6. The stratified retained, rejected, and location-review sample
-  report is ready at `docs/reviews/h6_filter_review.md`.
+- Active phase: Phase 7 — Duplicate persistence
+- Status: Phases 0–6 complete; H1, H2, H4, H5, and H6 approved. Phase 7 is ready to begin.
+- Pending human checkpoint: none. H7 applies only if progress requires a destructive action on
+  real job-history state; Phase 7 development and tests must use disposable state.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -203,6 +202,8 @@
   19 review rows with unique correction labels.
 - Repository validation passes at the H6 stop with 323 tests, strict mypy, and Ruff formatting and
   lint checks.
+- H6 was explicitly approved without row-labelled corrections on 2026-09-22. Search-profile
+  version `1.1.0` and the report's recorded profile hash are the approved Phase 6 baseline.
 
 ## Relevant Phase 2 commits
 
@@ -366,7 +367,6 @@
 
 ## Resume point
 
-Await explicit H6 approval or row-labelled corrections from
-`docs/reviews/h6_filter_review.md`. Convert any corrections into shared policy regressions, rerun
-the complete filter report, and commit the approved profile before beginning Phase 7. Do not begin
-persistence while H6 is unresolved.
+Begin Phase 7 duplicate persistence with versioned database migrations and disposable test state.
+Implement and commit the planned persistence slices in order; trigger H7 only if a destructive
+operation on real job-history state becomes necessary.

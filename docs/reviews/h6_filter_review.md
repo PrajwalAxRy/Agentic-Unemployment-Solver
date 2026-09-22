@@ -2,7 +2,7 @@
 
 ## Checkpoint status
 
-**STOP — Human checkpoint H6: awaiting role and location sample review**
+**Complete — Human checkpoint H6: role and location filtering approved on 2026-09-22.**
 
 Generated from `2026-09-22T03:08:13+05:30` under profile `1.1.0` (`b3da10cf2d1e6b762c1f6c3a24a71fcba93e6f80615fabe525103eb9f1a1569d`). The complete sanitized report is `reports/phase6_filter_verification.json`.
 
@@ -122,3 +122,10 @@ Glean, Harvey, Kognitos, Cartesia, Doxel, Deeptune, Jumio, Observe.AI, Pure Stor
 ## Review requested
 
 For every disputed row, reply with its row label and one of `should include`, `should exclude`, or `uncertain`, plus any missing target title or location vocabulary. Rows not disputed will be treated as approved after an explicit H6 approval.
+
+## Decision
+
+The user explicitly approved H6 on 2026-09-22 without row-labelled corrections. The reviewed
+results, including the conditional-description lane and visible location-review outcomes, are the
+approved Phase 6 baseline for search-profile version `1.1.0`. No vocabulary or policy change was
+required, so the profile content and hash remain those used to generate this report.

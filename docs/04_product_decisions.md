@@ -54,6 +54,17 @@ Boundary rules:
 
 A title such as `Senior Machine Learning Engineer` must not be deterministically rejected before the LLM reads the description. The actual minimum experience and scope control the decision. Phase 1 must add more labelled examples, and Phase 8 must validate them against real descriptions.
 
+## Role and location filtering approval
+
+Human checkpoint H6 was approved on 2026-09-22 without row-labelled corrections. The complete
+registry validation and stratified review sample therefore approve the deterministic role and
+India-location behavior in search-profile version `1.1.0` as the Phase 6 baseline.
+
+Generic engineering and data-science titles remain in the conditional-description lane rather
+than being presented as final matches. Missing or unresolved locations remain visible for review,
+and roles explicitly restricted to non-India locations remain excluded. The approved review
+evidence is recorded in `docs/reviews/h6_filter_review.md`.
+
 ## Publication-date uncertainty
 
 The H5 review approved the documented hybrid policy on 2026-09-22. Strict ten-day results use
