@@ -120,6 +120,7 @@ def test_unchanged_second_pass_produces_zero_new_identities(tmp_path: Path) -> N
     assert report.healthy is True
     assert report.initial_identity_count == 0
     assert report.final_identity_count == 2
+    assert report.expected_pass_count == 2
     assert report.passes[0].new_identity_count == 2
     assert report.passes[1].new_identity_count == 0
     assert report.passes[1].existing_identity_count == 2
@@ -141,3 +142,32 @@ def test_second_pass_inventory_change_remains_visible_for_investigation(tmp_path
     assert report.passes[1].new_identity_count == 1
     assert report.passes[1].new_identities[0].title == "Machine Learning Engineer"
     assert second_pass_new_companies(report) == {"example": 1}
+
+
+def test_existing_validation_state_can_run_one_clean_continuation_pass(tmp_path: Path) -> None:
+    database = tmp_path / "jobs.sqlite3"
+    lock = tmp_path / "scan.lock"
+    profile = load_search_profile(Path("config/search_profile.toml"))
+    first = verify_persistence(
+        _registry(),
+        AdapterRegistry([StableAdapter()]),
+        profile,
+        database_path=database,
+        lock_path=lock,
+    )
+
+    continuation = verify_persistence(
+        _registry(),
+        AdapterRegistry([StableAdapter()]),
+        profile,
+        database_path=database,
+        lock_path=lock,
+        require_empty=False,
+        pass_count=1,
+    )
+
+    assert first.final_identity_count == 2
+    assert continuation.healthy is True
+    assert continuation.initial_identity_count == 2
+    assert continuation.final_identity_count == 2
+    assert continuation.passes[0].new_identity_count == 0

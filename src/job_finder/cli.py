@@ -172,6 +172,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     persistence.add_argument("--timeout", type=float, default=15.0)
     persistence.add_argument("--source-retries", type=int, default=2)
+    persistence.add_argument("--passes", type=int, choices=(1, 2), default=2)
     persistence.add_argument(
         "--allow-existing",
         action="store_true",
@@ -334,6 +335,7 @@ def _verify_persistence(args: argparse.Namespace) -> int:
         lock_path=args.lock,
         source_retry_count=args.source_retries,
         require_empty=not args.allow_existing,
+        pass_count=args.passes,
     )
     write_persistence_report(report, args.output)
     for item in report.passes:

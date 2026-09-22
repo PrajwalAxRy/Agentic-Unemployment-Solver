@@ -70,14 +70,16 @@ class PersistenceVerificationReport:
     profile_hash: str
     initial_identity_count: int
     final_identity_count: int
+    expected_pass_count: int
     passes: tuple[PersistencePassRecord, ...]
 
     @property
     def healthy(self) -> bool:
         return (
-            len(self.passes) == 2
+            len(self.passes) == self.expected_pass_count
             and all(item.source_healthy for item in self.passes)
-            and self.passes[1].new_identity_count == 0
+            and bool(self.passes)
+            and self.passes[-1].new_identity_count == 0
         )
 
     def as_json(self) -> dict[str, object]:
@@ -89,6 +91,7 @@ class PersistenceVerificationReport:
             "profile_hash": self.profile_hash,
             "initial_identity_count": self.initial_identity_count,
             "final_identity_count": self.final_identity_count,
+            "expected_pass_count": self.expected_pass_count,
             "healthy": self.healthy,
             "passes": [
                 {
@@ -110,8 +113,13 @@ def verify_persistence(
     lock_path: Path,
     source_retry_count: int = 2,
     require_empty: bool = True,
+    pass_count: int = 2,
 ) -> PersistenceVerificationReport:
     """Run the complete filtered pipeline twice and compare stable identities."""
+    if pass_count < 1:
+        raise ValueError("pass_count must be at least one")
+    if require_empty and pass_count < 2:
+        raise ValueError("fresh persistence validation requires at least two passes")
     pass_records: list[PersistencePassRecord] = []
     with ScanLock(lock_path), migrated_database(database_path) as connection:
         repository = JobStateRepository(connection)
@@ -121,7 +129,7 @@ def verify_persistence(
                 "persistence validation requires a fresh database; "
                 f"found {initial_count} existing identities"
             )
-        for pass_number in (1, 2):
+        for pass_number in range(1, pass_count + 1):
             filter_report = verify_filters(
                 registry,
                 adapters,
@@ -144,6 +152,7 @@ def verify_persistence(
         profile_hash=profile.content_hash,
         initial_identity_count=initial_count,
         final_identity_count=final_count,
+        expected_pass_count=pass_count,
         passes=tuple(pass_records),
     )
 
