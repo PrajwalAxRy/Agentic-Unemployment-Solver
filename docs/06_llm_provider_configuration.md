@@ -88,7 +88,7 @@ After configuration, verify authentication and model routing:
 uv run --locked job-finder check-llm
 ```
 
-The connectivity command makes one Chat Completion capped at one output token and prints only
-variable names, provider name, and model IDs. It never prints the key, prompt response, or request
-headers. If access fails, request the necessary AMD gateway entitlement through the approved
-corporate process.
+The connectivity command makes one minimal Chat Completion capped at 16 output tokens, the lowest
+limit confirmed to work with the AMD gateway, and prints only variable names, provider name, and
+model IDs. It never prints the key, prompt response, or request headers. If access fails, request
+the necessary AMD gateway entitlement through the approved corporate process.

@@ -176,13 +176,13 @@ def check_gateway_connectivity(
     *,
     client: Any | None = None,
 ) -> ConnectivityResult:
-    """Verify gateway authentication and model routing with a one-token completion."""
+    """Verify gateway authentication and model routing with a minimal completion."""
     gateway = client or _gateway_client(settings)
     try:
         completion = gateway.chat.completions.create(
             model=settings.model,
             messages=[{"role": "user", "content": "Reply OK."}],
-            max_tokens=1,
+            max_tokens=16,
         )
     except OpenAIError as error:
         raise GatewayProviderError("AMD LLM gateway connectivity check failed") from error

@@ -102,7 +102,7 @@ def test_sdk_client_uses_gateway_key_for_bearer_and_subscription_header(
     )
 
 
-def test_connectivity_uses_one_token_chat_completion() -> None:
+def test_connectivity_uses_gateway_compatible_chat_completion_limit() -> None:
     settings = load_gateway_settings(environment=configured_environment())
     client, create = fake_client(completion())
 
@@ -111,7 +111,7 @@ def test_connectivity_uses_one_token_chat_completion() -> None:
     create.assert_called_once_with(
         model="gpt-5.6-luna",
         messages=[{"role": "user", "content": "Reply OK."}],
-        max_tokens=1,
+        max_tokens=16,
     )
     assert result.provider == "amd-llm-gateway"
     assert result.returned_model_id == "gpt-5.6-luna"
