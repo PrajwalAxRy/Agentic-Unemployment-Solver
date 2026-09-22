@@ -2,8 +2,8 @@
 
 ## Current status
 
-- Active phase: Phase 7 — Duplicate persistence
-- Status: Phases 0–6 complete; H1, H2, H4, H5, and H6 approved. Phase 7 is ready to begin.
+- Active phase: Phase 8 — LLM seniority evaluation
+- Status: Phases 0–7 complete; H1, H2, H4, H5, and H6 approved. Phase 8 is ready to begin.
 - Pending human checkpoint: none. H7 applies only if progress requires a destructive action on
   real job-history state; Phase 7 development and tests must use disposable state.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
@@ -204,6 +204,21 @@
   lint checks.
 - H6 was explicitly approved without row-labelled corrections on 2026-09-22. Search-profile
   version `1.1.0` and the report's recorded profile hash are the approved Phase 6 baseline.
+- Phase 7 added versioned SQLite migrations, stable source-aware job keys, transactional pending
+  and completed evaluation state, cache invalidation, an operating-system scan lock, and guarded
+  inspection, backup, restore, and reset commands.
+- The live persistence history accumulated 336 stable identities, all using external requisition
+  IDs. No live URL or fallback fingerprint was needed; fixture regressions cover those lower-priority
+  strategies and prevent accidental merges.
+- Live validation exposed Workday overlap during active inventory drift. A regression preceded the
+  shared fix: every requested offset is fetched, each unique job is retained once, and overlap is a
+  warning only when the source also reports inventory drift.
+- The final Phase 7 complete-registry continuation passed all 86 sources with 84 successful and two
+  valid-empty outcomes, 26,051 listings, 333 retained candidates, and zero new identities against
+  the 336-record disposable history.
+- A documented disposable-state backup and restore preserved all 336 records and schema version 1.
+  No real history was modified, so H7 was not triggered.
+- Repository validation passes at Phase 7 completion with 356 tests, strict mypy, and Ruff checks.
 
 ## Relevant Phase 2 commits
 
@@ -304,6 +319,18 @@
 - `39b46fa` — complete-registry filter verification and H6 report generation
 - `3760094` — live location regressions and selective detail resolution
 
+## Relevant Phase 7 commits
+
+- `6d868af` — versioned job-state database migrations
+- `5e2d852` — stable source-aware job identity mapping
+- `7833680` — transactional pending and completed evaluation state
+- `4eef485` — cross-process scan lock
+- `0685b4b` — guarded state maintenance commands
+- `1960345` — two-pass full-registry persistence verifier
+- `d2c6ccf` — per-source drift evidence and continuation support
+- `d7d3483` — clean single-pass continuation gate
+- `3ff0355` — drift-aware Workday overlap handling
+
 ## Review artifacts
 
 - H1 search policy review: `docs/reviews/h1_search_policy_review.md`
@@ -324,6 +351,7 @@
 - Phase 4 adapter coverage completion: `docs/reviews/phase4_adapter_coverage_completion.md`
 - H5 publication-date coverage review: `docs/reviews/h5_date_coverage_review.md`
 - H6 role and location filter review: `docs/reviews/h6_filter_review.md`
+- Phase 7 duplicate-persistence validation: `docs/reviews/phase7_persistence_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -367,6 +395,6 @@
 
 ## Resume point
 
-Begin Phase 7 duplicate persistence with versioned database migrations and disposable test state.
-Implement and commit the planned persistence slices in order; trigger H7 only if a destructive
-operation on real job-history state becomes necessary.
+Begin Phase 8 by defining the structured seniority taxonomy and response schema from the approved
+under-five-years examples. Continue with a mocked evaluator before any live provider request, then
+build the labelled evaluation set and stop at H9 with the required quality report.

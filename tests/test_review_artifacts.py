@@ -158,3 +158,17 @@ def test_h6_review_has_required_samples_and_coverage() -> None:
         "retrieval_search_and_rag",
     ):
         assert family in review
+
+
+def test_phase7_review_records_clean_full_registry_idempotency_gate() -> None:
+    review = Path("docs/reviews/phase7_persistence_validation.md").read_text(encoding="utf-8")
+
+    assert "**Passed on 2026-09-23.**" in review
+    assert "all 86 enabled" in review
+    assert "26,051 listings" in review
+    assert "333 candidates" in review
+    assert "zero new identities" in review
+    assert "84 successful and two" in review
+    assert "336 identities" in review
+    assert "conditional checkpoint H7 was not" in review
+    assert "356 tests" in review
