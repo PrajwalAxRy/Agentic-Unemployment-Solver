@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "set_version": "1.0.0",
+  "profile_id": "india-ai-ml-under-five-years",
+  "examples": [
+    {
+      "id": "seniority-01",
+      "title": "Machine Learning Engineer",
+      "description": "Build and deploy machine-learning services. Candidates must have 1-2 years of relevant ML experience and strong Python skills.",
+      "expected_match": true,
+      "expected_level": "entry",
+      "human_rationale": "Every eligible value is below five years.",
+      "important_evidence": "1-2 years of relevant ML experience"
+    },
+    {
+      "id": "seniority-02",
+      "title": "Software Engineer, AI Platform",
+      "description": "Develop reliable AI platform services. Requires 2+ years of software engineering experience and production Python knowledge.",
+      "expected_match": true,
+      "expected_level": "mid",
+      "human_rationale": "The required minimum is below five years.",
+      "important_evidence": "2+ years of software engineering experience"
+    },
+    {
+      "id": "seniority-03",
+      "title": "ML Engineer",
+      "description": "Own production model pipelines and monitoring. You need 4+ years building production ML systems.",
+      "expected_match": true,
+      "expected_level": "mid",
+      "human_rationale": "A candidate with four years is eligible.",
+      "important_evidence": "4+ years building production ML systems"
+    },
+    {
+      "id": "seniority-04",
+      "title": "Senior ML Engineer",
+      "description": "Lead model deployment projects. Five or more years of relevant professional experience is required.",
+      "expected_match": false,
+      "expected_level": "senior",
+      "human_rationale": "The required minimum is five years.",
+      "important_evidence": "Five or more years of relevant professional experience is required"
+    },
+    {
+      "id": "seniority-05",
+      "title": "Applied AI Engineer",
+      "description": "Create retrieval and evaluation systems. We require 3-5 years of experience in applied machine learning.",
+      "expected_match": true,
+      "expected_level": "mid",
+      "human_rationale": "The inclusive range permits candidates with three or four years.",
+      "important_evidence": "3-5 years of experience"
+    },
+    {
+      "id": "seniority-06",
+      "title": "Senior AI Engineer",
+      "description": "Design and operate large-scale AI services. Applicants must bring 5-7 years of professional engineering experience.",
+      "expected_match": false,
+      "expected_level": "senior",
+      "human_rationale": "No value below five satisfies the required range.",
+      "important_evidence": "5-7 years of professional engineering experience"
+    },
+    {
+      "id": "seniority-07",
+      "title": "Lead Machine Learning Engineer",
+      "description": "Lead delivery across multiple ML services. At least 7 years total engineering experience is required, including 3 years in ML.",
+      "expected_match": false,
+      "expected_level": "lead",
+      "human_rationale": "The total required professional experience is at least seven years.",
+      "important_evidence": "At least 7 years total engineering experience"
+    },
+    {
+      "id": "seniority-08",
+      "title": "Machine Learning Engineer",
+      "description": "Build ranking models and APIs. Two years of relevant experience is required; five years is preferred.",
+      "expected_match": true,
+      "expected_level": "mid",
+      "human_rationale": "A preferred qualification does not override the lower required minimum.",
+      "important_evidence": "Two years of relevant experience is required"
+    },
+    {
+      "id": "seniority-09",
+      "title": "AI Platform Engineer",
+      "description": "Develop model-serving infrastructure. Four years of engineering experience is required; 6+ years is strongly preferred.",
+      "expected_match": true,
+      "expected_level": "mid",
+      "human_rationale": "A four-year candidate satisfies the requirement despite the preference.",
+      "important_evidence": "Four years of engineering experience is required"
+    },
+    {
+      "id": "seniority-10",
+      "title": "Data Scientist",
+      "description": "Train forecasting and language models. Eligibility is a bachelor's degree plus 3 years of experience, or a master's degree plus 1 year.",
+      "expected_match": true,
+      "expected_level": "mid",
+      "human_rationale": "Both explicit alternative paths permit fewer than five years.",
+      "important_evidence": "a master's degree plus 1 year"
+    },
+    {
+      "id": "seniority-11",
+      "title": "Research Scientist",
+      "description": "Research efficient foundation models. Candidates need 5+ years of industry experience, or a PhD in a relevant field with no industry-experience minimum.",
+      "expected_match": true,
+      "expected_level": "unknown",
+      "human_rationale": "At least one explicit eligibility path permits fewer than five years.",
+      "important_evidence": "a PhD in a relevant field with no industry-experience minimum"
+    },
+    {
+      "id": "seniority-12",
+      "title": "Graduate AI Engineer",
+      "description": "Join a mentored team building AI features. New graduates and candidates with internship experience are welcome.",
+      "expected_match": true,
+      "expected_level": "entry",
+      "human_rationale": "The role explicitly welcomes early-career candidates.",
+      "important_evidence": "New graduates and candidates with internship experience are welcome"
+    },
+    {
+      "id": "seniority-13",
+      "title": "Senior Machine Learning Engineer",
+      "description": "Build and maintain recommendation models. The role requires 3+ years of relevant professional experience.",
+      "expected_match": true,
+      "expected_level": "senior",
+      "human_rationale": "The description minimum controls; the senior title alone does not exclude.",
+      "important_evidence": "requires 3+ years of relevant professional experience"
+    },
+    {
+      "id": "seniority-14",
+      "title": "Junior AI Engineer",
+      "description": "Own architecture for a critical model platform. Applicants must have 6+ years of professional software engineering experience.",
+      "expected_match": false,
+      "expected_level": "junior",
+      "human_rationale": "The description minimum controls; a junior title does not include.",
+      "important_evidence": "6+ years of professional software engineering experience"
+    },
+    {
+      "id": "seniority-15",
+      "title": "ML Software Engineer",
+      "description": "The qualifications section requires 3+ years of engineering experience. A later mandatory requirements section says candidates must have 8+ years of professional experience.",
+      "expected_match": "uncertain",
+      "expected_level": "unknown",
+      "human_rationale": "Conflicting mandatory minimums require manual review.",
+      "important_evidence": "requires 3+ years of engineering experience"
+    },
+    {
+      "id": "seniority-16",
+      "title": "Software Engineer, AI",
+      "description": "Own one bounded AI service with design guidance and regular mentoring. No minimum years of experience are stated.",
+      "expected_match": true,
+      "expected_level": "entry",
+      "human_rationale": "The described scope is clearly compatible with early-career execution.",
+      "important_evidence": "with design guidance and regular mentoring"
+    },
+    {
+      "id": "seniority-17",
+      "title": "Principal AI Architect",
+      "description": "Set organization-wide AI architecture, manage multiple engineering teams, and own long-range technical strategy. No years requirement is stated.",
+      "expected_match": "uncertain",
+      "expected_level": "principal",
+      "human_rationale": "Strong senior scope exists, but no explicit eligibility boundary proves exclusion.",
+      "important_evidence": "Set organization-wide AI architecture"
+    },
+    {
+      "id": "seniority-18",
+      "title": "AI Engineer",
+      "description": "Build scalable AI systems and collaborate with product teams. The posting contains no years, level, ownership boundary, or early-career language.",
+      "expected_match": "uncertain",
+      "expected_level": "unknown",
+      "human_rationale": "There is insufficient seniority evidence.",
+      "important_evidence": "Build scalable AI systems"
+    },
+    {
+      "id": "seniority-19",
+      "title": "Machine Learning Engineer",
+      "description": "Our company has 10 years of ML experience and serves global customers. Build production models with the team; no candidate experience requirement is provided.",
+      "expected_match": "uncertain",
+      "expected_level": "unknown",
+      "human_rationale": "The number describes the company, not candidate eligibility.",
+      "important_evidence": "Our company has 10 years of ML experience"
+    },
+    {
+      "id": "seniority-20",
+      "title": "Applied Scientist",
+      "description": "Develop and evaluate language models. Applicants may have up to 5 years of relevant professional experience.",
+      "expected_match": true,
+      "expected_level": "mid",
+      "human_rationale": "The stated range permits candidates below five years.",
+      "important_evidence": "up to 5 years of relevant professional experience"
+    }
+  ]
+}
