@@ -29,6 +29,12 @@ from job_finder.filter_verification import (
     write_filter_report,
     write_filter_review,
 )
+from job_finder.matching.openai_client import (
+    OpenAIProviderError,
+    check_openai_connectivity,
+    configuration_presence,
+    load_openai_settings,
+)
 from job_finder.persistence.maintenance import (
     backup_state,
     inspect_state,
@@ -178,6 +184,16 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Continue a disposable validation database instead of requiring it to be empty.",
     )
+    llm = subparsers.add_parser(
+        "check-llm",
+        help="Check redacted LLM configuration and optionally verify model access.",
+    )
+    llm.add_argument("--dotenv", type=Path, default=Path(".env"))
+    llm.add_argument(
+        "--presence-only",
+        action="store_true",
+        help="Report configured and missing variable names without making a network request.",
+    )
     return parser
 
 
@@ -194,6 +210,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _maintain_state(args)
     if args.command == "verify-persistence":
         return _verify_persistence(args)
+    if args.command == "check-llm":
+        return _check_llm(args)
     return 0
 
 
@@ -355,3 +373,23 @@ def _verify_persistence(args: argparse.Namespace) -> int:
     )
     print(f"Wrote sanitized persistence report to {args.output}")
     return 0 if report.healthy else 2
+
+
+def _check_llm(args: argparse.Namespace) -> int:
+    presence = configuration_presence(dotenv_path=args.dotenv)
+    print(f"configured={','.join(presence.configured) or 'none'}")
+    print(f"missing={','.join(presence.missing) or 'none'}")
+    if not presence.complete:
+        return 2
+    if args.presence_only:
+        return 0
+    try:
+        result = check_openai_connectivity(load_openai_settings(dotenv_path=args.dotenv))
+    except OpenAIProviderError as error:
+        print(f"connectivity=failed error={error}")
+        return 2
+    print(
+        f"connectivity=ok provider={result.provider} "
+        f"configured_model={result.configured_model} returned_model={result.returned_model_id}"
+    )
+    return 0

@@ -6,6 +6,7 @@ import pytest
 
 import job_finder
 from job_finder.cli import build_parser, main
+from job_finder.matching.openai_client import REQUIRED_ENVIRONMENT_VARIABLES
 
 
 def test_package_imports_with_version() -> None:
@@ -97,3 +98,18 @@ def test_cli_accepts_two_pass_persistence_verification() -> None:
     assert str(args.output) == "reports\\phase7_persistence_verification.json"
     assert args.allow_existing is True
     assert args.passes == 1
+
+
+def test_cli_reports_only_missing_llm_variable_names(
+    tmp_path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    for name in REQUIRED_ENVIRONMENT_VARIABLES:
+        monkeypatch.delenv(name, raising=False)
+
+    exit_code = main(["check-llm", "--presence-only", "--dotenv", str(tmp_path / "absent.env")])
+
+    output = capsys.readouterr().out
+    assert exit_code == 2
+    assert "configured=none" in output
+    assert "OPENAI_API_KEY" in output
+    assert "Bearer" not in output
