@@ -5,8 +5,8 @@
 - Active phase: Phase 8 — LLM seniority evaluation
 - Status: Phases 0–7 complete; H1, H2, H4, H5, and H6 approved. The mocked Phase 8 gate passes.
 - Pending human checkpoint: H8 — configure the live LLM provider. Required variables are absent;
-  copy `.env.example` to ignored `.env`, configure the approved OpenAI API project locally, and
-  reply `configured`. Do not paste the API key into chat.
+  copy `.env.example` to ignored `.env`, add the corporate `LLM_GATEWAY_KEY` locally, and reply
+  `configured`. Do not paste the key into chat.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -230,12 +230,13 @@
 - SQLite schema version 2 records model policy. Completed decisions are reused only when job key,
   description hash, search-profile version, prompt version, and model policy all match. Automated
   tests prove that old, role-rejected, and location-rejected jobs never call the model.
-- H8 recommends the OpenAI Responses API with `gpt-6-luna`, low reasoning, strict Structured
-  Outputs, and `store=false`. The official endpoint is fixed in code; `.env.example` contains only
-  placeholders and non-secret policy settings, while `.env` and variants remain ignored.
+- H8 uses AMD's OpenAI-compatible Unified LLM gateway at the user-supplied corporate endpoint,
+  with `LLM_GATEWAY_KEY` in both the SDK API-key field and `Ocp-Apim-Subscription-Key` header.
+  The initial model is `gpt-5.6-luna`; requests use Chat Completions with strict JSON Schema plus
+  mandatory local validation. `.env` and variants remain ignored.
 - The redacted H8 presence check found none of the required variables configured. It printed only
   variable names. No live provider request was made, and no credential or response was logged.
-- Repository validation passes at H8 with 396 tests, strict mypy, and Ruff checks.
+- Repository validation passes at H8 with 397 tests, strict mypy, and Ruff checks.
 
 ## Relevant Phase 2 commits
 
@@ -355,7 +356,8 @@
 - `a3e1c75` — versioned provider-neutral evaluator and mocked retry tests
 - `1f13a46` — model-policy-aware decision cache integration
 - `a1d663e` — sanitized aggregate request and token usage reporting
-- `a0d7803` — guarded OpenAI provider configuration and redacted connectivity command
+- `a0d7803` — initial guarded live-provider configuration and redacted connectivity command
+- `29bb0b2` — AMD Unified LLM gateway Chat Completions integration
 
 ## Review artifacts
 
