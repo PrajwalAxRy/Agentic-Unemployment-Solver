@@ -26,6 +26,7 @@ from job_finder.core.source_contracts import (
     Confidence,
     DateStrategy,
     DetailStrategy,
+    DiagnosticSeverity,
     IdentityStrategy,
     SourceStatus,
 )
@@ -207,6 +208,27 @@ def test_active_inventory_total_drift_remains_complete_and_visible(
     assert result.complete is True
     assert len(result.jobs) == totals[1]
     assert "inventory_total_changed" in {diagnostic.category for diagnostic in result.diagnostics}
+
+
+def test_active_inventory_overlap_retains_each_unique_job_once() -> None:
+    first = json.loads((FIXTURES / "healthy_page_1.json").read_text(encoding="utf-8"))
+    second = json.loads((FIXTURES / "healthy_page_2.json").read_text(encoding="utf-8"))
+    first["total"] = 3
+    duplicate = dict(first["jobPostings"][1])
+    second["total"] = 4
+    second["jobPostings"] = [duplicate, second["jobPostings"][0]]
+    adapter, _ = adapter_for(
+        [response(json.dumps(first).encode()), response(json.dumps(second).encode())]
+    )
+
+    result = adapter.list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert result.complete is True
+    assert [job.external_job_id for job in result.jobs] == ["R100", "R101", "R102"]
+    diagnostics = {item.category: item for item in result.diagnostics}
+    assert diagnostics["inventory_total_changed"].severity is DiagnosticSeverity.WARNING
+    assert diagnostics["duplicate_job_id"].severity is DiagnosticSeverity.WARNING
 
 
 def test_identifier_only_workday_placeholder_is_accounted_without_becoming_a_job() -> None:

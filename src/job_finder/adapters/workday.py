@@ -61,6 +61,7 @@ class WorkdayAdapter:
         expected_total: int | None = None
         raw_job_count = 0
         parse_error_count = 0
+        duplicate_count = 0
         missing_location_count = 0
         relative_date_count = 0
         missing_date_count = 0
@@ -262,22 +263,8 @@ class WorkdayAdapter:
                     continue
                 identity = job.external_job_id or job.canonical_url
                 if identity in seen_keys:
-                    diagnostics.append(
-                        _diagnostic(
-                            "duplicate_job_id",
-                            DiagnosticSeverity.ERROR,
-                            "Workday pagination returned a duplicate job identity.",
-                            page_index=page_index,
-                            job_index=job_index,
-                        )
-                    )
-                    return _result(
-                        source,
-                        AdapterOutcome.SUSPICIOUS,
-                        jobs,
-                        page_count,
-                        diagnostics,
-                    )
+                    duplicate_count += 1
+                    continue
                 seen_keys.add(identity)
                 if job.source_metadata.get("listing_location_missing") is True:
                     missing_location_count += 1
@@ -317,6 +304,33 @@ class WorkdayAdapter:
                     count=relative_date_count,
                 )
             )
+        if duplicate_count:
+            diagnostics.append(
+                _diagnostic(
+                    "duplicate_job_id",
+                    (
+                        DiagnosticSeverity.WARNING
+                        if inventory_total_changed
+                        else DiagnosticSeverity.ERROR
+                    ),
+                    (
+                        "Workday active-inventory pagination repeated job IDs; each unique "
+                        "listing was retained once after all requested offsets were fetched."
+                        if inventory_total_changed
+                        else "Workday pagination returned duplicate job IDs without a reported "
+                        "inventory change."
+                    ),
+                    count=duplicate_count,
+                )
+            )
+            if not inventory_total_changed:
+                return _result(
+                    source,
+                    AdapterOutcome.SUSPICIOUS,
+                    jobs,
+                    page_count,
+                    diagnostics,
+                )
         if missing_location_count:
             diagnostics.append(
                 _diagnostic(
