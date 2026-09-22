@@ -70,3 +70,20 @@ def test_cli_accepts_full_registry_recency_measurement() -> None:
     assert str(args.profile) == "config\\search_profile.toml"
     assert str(args.output) == "reports\\test_recency.json"
     assert args.source_retries == 2
+
+
+def test_cli_state_reset_requires_backup_and_confirmation() -> None:
+    args = build_parser().parse_args(
+        [
+            "state",
+            "reset",
+            "--backup",
+            "state/jobs-before-reset.sqlite3",
+            "--confirm-database",
+            r"C:\resolved\state\jobs.sqlite3",
+        ]
+    )
+
+    assert args.state_command == "reset"
+    assert str(args.database) == "state\\jobs.sqlite3"
+    assert str(args.backup) == "state\\jobs-before-reset.sqlite3"

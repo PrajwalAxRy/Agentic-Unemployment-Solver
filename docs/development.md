@@ -62,3 +62,27 @@ The following locations are intentionally local:
 
 Only the placeholder files in `reports/` and `state/` are tracked. Never use a generated database
 or live report as a fixture; create sanitized fixture data under `tests/fixtures/` instead.
+
+## Local state maintenance
+
+Inspect state without displaying descriptions or evaluation evidence:
+
+```powershell
+uv run --locked job-finder state inspect --database state/jobs.sqlite3
+```
+
+Create a verified backup. The output path must not already exist:
+
+```powershell
+uv run --locked job-finder state backup --database state/jobs.sqlite3 --output state/backups/jobs-YYYYMMDD.sqlite3
+```
+
+Restore a backup to a new path. Restore never overwrites an existing database:
+
+```powershell
+uv run --locked job-finder state restore --backup state/backups/jobs-YYYYMMDD.sqlite3 --output state/restored-jobs.sqlite3
+```
+
+Reset is destructive and is not part of a normal scan. It first creates and verifies the requested
+backup, then requires `--confirm-database` to exactly equal the absolute path printed by the
+inspection command. Checkpoint H7 approval is required before resetting real job-history state.

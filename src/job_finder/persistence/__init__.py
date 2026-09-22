@@ -14,6 +14,13 @@ from job_finder.persistence.identity import (
     job_identity,
 )
 from job_finder.persistence.locking import ScanAlreadyRunningError, ScanLock
+from job_finder.persistence.maintenance import (
+    StateSummary,
+    backup_state,
+    inspect_state,
+    reset_state,
+    restore_state,
+)
 from job_finder.persistence.repository import (
     EvaluationPreparation,
     EvaluationStatus,
@@ -33,10 +40,15 @@ __all__ = [
     "ObservationResult",
     "ScanAlreadyRunningError",
     "ScanLock",
+    "StateSummary",
+    "backup_state",
     "build_fallback_fingerprint",
     "current_schema_version",
+    "inspect_state",
+    "job_identity",
     "migrate_database",
     "migrated_database",
     "open_database",
-    "job_identity",
+    "reset_state",
+    "restore_state",
 ]

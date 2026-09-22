@@ -29,6 +29,12 @@ from job_finder.filter_verification import (
     write_filter_report,
     write_filter_review,
 )
+from job_finder.persistence.maintenance import (
+    backup_state,
+    inspect_state,
+    reset_state,
+    restore_state,
+)
 from job_finder.recency_verification import measure_enabled_recency, write_recency_report
 from job_finder.verification import (
     verify_adapter_sources,
@@ -115,6 +121,29 @@ def build_parser() -> argparse.ArgumentParser:
     )
     filter_jobs.add_argument("--timeout", type=float, default=15.0)
     filter_jobs.add_argument("--source-retries", type=int, default=2)
+    state = subparsers.add_parser(
+        "state",
+        help="Inspect or maintain the local job-history database.",
+    )
+    state_subparsers = state.add_subparsers(dest="state_command", required=True)
+    state_inspect = state_subparsers.add_parser("inspect", help="Show schema and record counts.")
+    state_inspect.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
+    state_backup = state_subparsers.add_parser("backup", help="Create a new verified backup.")
+    state_backup.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
+    state_backup.add_argument("--output", type=Path, required=True)
+    state_restore = state_subparsers.add_parser(
+        "restore",
+        help="Restore a backup to a new path without overwriting existing state.",
+    )
+    state_restore.add_argument("--backup", type=Path, required=True)
+    state_restore.add_argument("--output", type=Path, required=True)
+    state_reset = state_subparsers.add_parser(
+        "reset",
+        help="Back up and clear existing state after exact path confirmation.",
+    )
+    state_reset.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
+    state_reset.add_argument("--backup", type=Path, required=True)
+    state_reset.add_argument("--confirm-database", required=True)
     return parser
 
 
@@ -127,6 +156,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _measure_recency(args)
     if args.command == "filter-jobs":
         return _filter_jobs(args)
+    if args.command == "state":
+        return _maintain_state(args)
     return 0
 
 
@@ -227,3 +258,30 @@ def _filter_jobs(args: argparse.Namespace) -> int:
     print(f"Wrote sanitized filter report to {args.output}")
     print(f"Wrote H6 review artifact to {args.review_output}")
     return 0 if report.healthy else 2
+
+
+def _maintain_state(args: argparse.Namespace) -> int:
+    if args.state_command == "inspect":
+        summary = inspect_state(args.database)
+    elif args.state_command == "backup":
+        summary = backup_state(args.database, args.output)
+    elif args.state_command == "restore":
+        summary = restore_state(args.backup, args.output)
+    elif args.state_command == "reset":
+        before, summary = reset_state(
+            args.database,
+            args.backup,
+            confirmation=args.confirm_database,
+        )
+        print(
+            f"backup={before.database_path} records={before.job_count} "
+            f"schema={before.schema_version}"
+        )
+    else:  # pragma: no cover - argparse constrains state commands.
+        raise ValueError(f"unknown state command: {args.state_command}")
+    print(
+        f"database={summary.database_path} schema={summary.schema_version} "
+        f"records={summary.job_count} pending={summary.pending_count} "
+        f"completed={summary.completed_count} failed={summary.failed_count}"
+    )
+    return 0
