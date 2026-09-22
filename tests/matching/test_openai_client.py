@@ -74,9 +74,12 @@ def test_environment_overrides_dotenv_and_loads_limits(tmp_path: Path) -> None:
     assert "test-secret" not in repr(settings)
 
 
-def test_missing_configuration_error_contains_names_not_values() -> None:
+def test_missing_configuration_error_contains_names_not_values(tmp_path: Path) -> None:
     with pytest.raises(GatewayProviderError, match="JOB_FINDER_LLM_MODEL") as captured:
-        load_gateway_settings(environment={"LLM_GATEWAY_KEY": "secret"})
+        load_gateway_settings(
+            environment={"LLM_GATEWAY_KEY": "secret"},
+            dotenv_path=tmp_path / ".env",
+        )
 
     assert "secret" not in str(captured.value)
 
