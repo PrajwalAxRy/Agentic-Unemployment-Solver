@@ -19,6 +19,7 @@ from job_finder.matching.evaluator import (
     UsageSnapshot,
 )
 from job_finder.matching.prompt import SeniorityPrompt, load_seniority_prompt
+from job_finder.matching.reporting import LLMUsageReport, summarize_usage, write_usage_report
 from job_finder.matching.seniority import (
     RESPONSE_JSON_SCHEMA,
     DetectedLevel,
@@ -46,6 +47,7 @@ __all__ = [
     "EvaluationOutcome",
     "LLMRequest",
     "LLMResponse",
+    "LLMUsageReport",
     "ModelPolicy",
     "SeniorityDecision",
     "SeniorityMatch",
@@ -63,4 +65,6 @@ __all__ = [
     "load_seniority_prompt",
     "parse_seniority_response",
     "seniority_decision_from_mapping",
+    "summarize_usage",
+    "write_usage_report",
 ]
