@@ -8,6 +8,7 @@ from job_finder.matching.evaluation_set import (
 from job_finder.matching.evaluator import (
     EvaluationDisposition,
     EvaluationOutcome,
+    LLMProviderError,
     LLMRequest,
     LLMResponse,
     ModelPolicy,
@@ -47,6 +48,7 @@ __all__ = [
     "EvaluationOutcome",
     "LLMRequest",
     "LLMResponse",
+    "LLMProviderError",
     "LLMUsageReport",
     "ModelPolicy",
     "SeniorityDecision",

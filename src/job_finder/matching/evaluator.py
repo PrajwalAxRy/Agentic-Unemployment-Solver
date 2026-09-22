@@ -58,6 +58,10 @@ class SeniorityLLMClient(Protocol):
     def complete(self, request: LLMRequest, policy: ModelPolicy) -> LLMResponse: ...
 
 
+class LLMProviderError(RuntimeError):
+    """A sanitized provider failure that live validation may retain for review."""
+
+
 @dataclass(frozen=True, slots=True)
 class UsageLimits:
     """Hard per-run request and token ceilings."""

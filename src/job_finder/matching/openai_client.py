@@ -10,7 +10,13 @@ from typing import Any
 
 from openai import OpenAI, OpenAIError
 
-from job_finder.matching.evaluator import LLMRequest, LLMResponse, ModelPolicy, UsageLimits
+from job_finder.matching.evaluator import (
+    LLMProviderError,
+    LLMRequest,
+    LLMResponse,
+    ModelPolicy,
+    UsageLimits,
+)
 
 DEFAULT_GATEWAY_BASE_URL = "https://llm-api.amd.com/Unified/v1"
 REQUIRED_ENVIRONMENT_VARIABLES = (
@@ -24,7 +30,7 @@ REQUIRED_ENVIRONMENT_VARIABLES = (
 )
 
 
-class GatewayProviderError(RuntimeError):
+class GatewayProviderError(LLMProviderError):
     """A sanitized gateway configuration, transport, or response error."""
 
 

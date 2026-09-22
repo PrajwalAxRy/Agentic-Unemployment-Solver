@@ -6,6 +6,7 @@ import argparse
 import json
 from collections.abc import Sequence
 from dataclasses import asdict
+from datetime import datetime
 from pathlib import Path
 
 from job_finder import __version__
@@ -29,12 +30,16 @@ from job_finder.filter_verification import (
     write_filter_report,
     write_filter_review,
 )
+from job_finder.matching.evaluation_set import load_seniority_evaluation_set
+from job_finder.matching.evaluator import SeniorityEvaluator, UsageBudget
 from job_finder.matching.openai_client import (
+    AmdGatewayClient,
     GatewayProviderError,
     check_gateway_connectivity,
     configuration_presence,
     load_gateway_settings,
 )
+from job_finder.matching.prompt import load_seniority_prompt
 from job_finder.persistence.maintenance import (
     backup_state,
     inspect_state,
@@ -47,6 +52,17 @@ from job_finder.persistence_verification import (
     write_persistence_report,
 )
 from job_finder.recency_verification import measure_enabled_recency, write_recency_report
+from job_finder.seniority_validation import (
+    Phase8ValidationReport,
+    collect_live_candidates,
+    quality_metrics,
+    recollect_live_candidates,
+    retained_role_counts,
+    run_live_candidate_batch,
+    run_reviewed_evaluation_set,
+    write_h9_review,
+    write_phase8_validation_report,
+)
 from job_finder.verification import (
     verify_adapter_sources,
     verify_enabled_sources,
@@ -194,6 +210,43 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Report configured and missing variable names without making a network request.",
     )
+    validate_seniority = subparsers.add_parser(
+        "validate-seniority",
+        help="Run the reviewed seniority set and a bounded unseen public-job batch.",
+    )
+    validate_seniority.add_argument(
+        "--registry", type=Path, default=Path("config/company_sources.json")
+    )
+    validate_seniority.add_argument(
+        "--profile", type=Path, default=Path("config/search_profile.toml")
+    )
+    validate_seniority.add_argument(
+        "--evaluation-set",
+        type=Path,
+        default=Path("config/seniority_evaluation_set.json"),
+    )
+    validate_seniority.add_argument(
+        "--prompt", type=Path, default=Path("config/seniority_prompt.toml")
+    )
+    validate_seniority.add_argument("--dotenv", type=Path, default=Path(".env"))
+    validate_seniority.add_argument(
+        "--output",
+        type=Path,
+        default=Path("reports/phase8_seniority_validation.json"),
+    )
+    validate_seniority.add_argument(
+        "--review-output",
+        type=Path,
+        default=Path("docs/reviews/h9_seniority_quality_review.md"),
+    )
+    validate_seniority.add_argument("--live-limit", type=int, default=8)
+    validate_seniority.add_argument(
+        "--reuse-live-from",
+        type=Path,
+        help="Refresh the exact live sample from a prior generated Phase 8 report.",
+    )
+    validate_seniority.add_argument("--timeout", type=float, default=15.0)
+    validate_seniority.add_argument("--source-retries", type=int, default=2)
     return parser
 
 
@@ -212,6 +265,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _verify_persistence(args)
     if args.command == "check-llm":
         return _check_llm(args)
+    if args.command == "validate-seniority":
+        return _validate_seniority(args)
     return 0
 
 
@@ -393,3 +448,125 @@ def _check_llm(args: argparse.Namespace) -> int:
         f"configured_model={result.configured_model} returned_model={result.returned_model_id}"
     )
     return 0
+
+
+def _validate_seniority(args: argparse.Namespace) -> int:
+    if not 1 <= args.live_limit <= 20:
+        raise ValueError("--live-limit must be between 1 and 20")
+    registry = load_company_registry(args.registry)
+    profile = load_search_profile(args.profile)
+    evaluation_set = load_seniority_evaluation_set(args.evaluation_set)
+    prompt = load_seniority_prompt(args.prompt)
+    settings = load_gateway_settings(dotenv_path=args.dotenv)
+    budget = UsageBudget(settings.usage_limits)
+    evaluator = SeniorityEvaluator(
+        client=AmdGatewayClient(settings),
+        prompt=prompt,
+        model_policy=settings.model_policy,
+        budget=budget,
+    )
+    client = BoundedHttpClient(policy=HttpPolicy(timeout_seconds=args.timeout))
+    adapters = _runtime_adapters(client)
+
+    reviewed = run_reviewed_evaluation_set(
+        evaluation_set,
+        evaluator,
+        target_description=profile.seniority.description,
+    )
+    if args.reuse_live_from is not None:
+        reused, candidates, collection_issues = recollect_live_candidates(
+            args.reuse_live_from,
+            registry,
+            adapters,
+            profile,
+            source_retry_count=args.source_retries,
+        )
+        if args.live_limit != reused.live_candidate_limit:
+            raise ValueError(
+                "--live-limit must match the reused report's live_candidate_limit "
+                f"({reused.live_candidate_limit})"
+            )
+        filter_scan_at = reused.filter_scan_at
+        enabled_company_count = reused.enabled_company_count
+        source_outcomes = reused.source_outcomes
+        source_healthy = reused.source_healthy
+        retained_count = reused.retained_candidate_count
+        explicit_count = reused.explicit_candidate_count
+        conditional_count = reused.conditional_candidate_count
+    else:
+        filter_report = verify_filters(
+            registry,
+            adapters,
+            profile,
+            source_retry_count=args.source_retries,
+        )
+        candidates, collection_issues = collect_live_candidates(
+            filter_report,
+            registry,
+            adapters,
+            profile,
+            limit=args.live_limit,
+        )
+        retained_count, explicit_count, conditional_count = retained_role_counts(filter_report)
+        filter_scan_at = filter_report.scan_at
+        enabled_company_count = filter_report.enabled_company_count
+        source_outcomes = filter_report.outcome_counts
+        source_healthy = filter_report.healthy
+    live = run_live_candidate_batch(
+        candidates,
+        evaluator,
+        target_description=profile.seniority.description,
+    )
+    report = Phase8ValidationReport(
+        schema_version=1,
+        generated_at=datetime.now().astimezone().isoformat(timespec="seconds"),
+        registry_version=registry.registry_version,
+        profile_id=profile.profile_id,
+        profile_version=profile.version,
+        profile_hash=profile.content_hash,
+        evaluation_set_version=evaluation_set.set_version,
+        prompt_version=prompt.prompt_version,
+        model_policy=settings.model_policy.cache_key,
+        filter_scan_at=filter_scan_at,
+        enabled_company_count=enabled_company_count,
+        source_outcomes=source_outcomes,
+        source_healthy=source_healthy,
+        retained_candidate_count=retained_count,
+        explicit_candidate_count=explicit_count,
+        conditional_candidate_count=conditional_count,
+        live_candidate_limit=args.live_limit,
+        collection_issues=collection_issues,
+        reviewed_cases=reviewed,
+        live_cases=live,
+        quality=quality_metrics(reviewed),
+        usage=budget.snapshot,
+    )
+    write_phase8_validation_report(report, args.output)
+    write_h9_review(report, args.review_output)
+    print(
+        f"reviewed={report.quality.total_count} "
+        f"agreement={report.quality.decision_agreement_count} "
+        f"accuracy={report.quality.decision_accuracy_percent:.2f}% "
+        f"invalid={report.quality.invalid_count} "
+        f"threshold_passed={str(report.quality.recommended_threshold_passed).lower()}"
+    )
+    print(
+        f"live={len(report.live_cases)} requested={report.live_candidate_limit} "
+        f"requests={report.usage.request_count} "
+        f"input_tokens={report.usage.measured_input_tokens} "
+        f"output_tokens={report.usage.measured_output_tokens}"
+    )
+    print(
+        f"companies={report.enabled_company_count} "
+        f"source_healthy={str(report.source_healthy).lower()} "
+        f"outcomes={json.dumps(dict(report.source_outcomes), sort_keys=True)}"
+    )
+    print(f"Wrote generated validation evidence to {args.output}")
+    print(f"Wrote H9 review artifact to {args.review_output}")
+    return (
+        0
+        if report.quality.recommended_threshold_passed
+        and report.source_healthy
+        and len(report.live_cases) == report.live_candidate_limit
+        else 2
+    )

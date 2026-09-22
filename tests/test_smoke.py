@@ -100,6 +100,24 @@ def test_cli_accepts_two_pass_persistence_verification() -> None:
     assert args.passes == 1
 
 
+def test_cli_accepts_guarded_seniority_validation() -> None:
+    args = build_parser().parse_args(
+        [
+            "validate-seniority",
+            "--live-limit",
+            "6",
+            "--reuse-live-from",
+            "reports/prior.json",
+        ]
+    )
+
+    assert args.command == "validate-seniority"
+    assert args.live_limit == 6
+    assert str(args.reuse_live_from) == "reports\\prior.json"
+    assert str(args.evaluation_set) == "config\\seniority_evaluation_set.json"
+    assert str(args.review_output) == "docs\\reviews\\h9_seniority_quality_review.md"
+
+
 def test_cli_reports_only_missing_llm_variable_names(
     tmp_path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
