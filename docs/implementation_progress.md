@@ -3,9 +3,10 @@
 ## Current status
 
 - Active phase: Phase 8 — LLM seniority evaluation
-- Status: Phases 0–7 complete; H1, H2, H4, H5, and H6 approved. Phase 8 is ready to begin.
-- Pending human checkpoint: none. H7 applies only if progress requires a destructive action on
-  real job-history state; Phase 7 development and tests must use disposable state.
+- Status: Phases 0–7 complete; H1, H2, H4, H5, and H6 approved. The mocked Phase 8 gate passes.
+- Pending human checkpoint: H8 — configure the live LLM provider. Required variables are absent;
+  copy `.env.example` to ignored `.env`, configure the approved OpenAI API project locally, and
+  reply `configured`. Do not paste the API key into chat.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -219,6 +220,22 @@
 - A documented disposable-state backup and restore preserved all 336 records and schema version 1.
   No real history was modified, so H7 was not triggered.
 - Repository validation passes at Phase 7 completion with 356 tests, strict mypy, and Ruff checks.
+- Phase 8 defines the under-five seniority taxonomy, strict JSON response schema, versioned prompt,
+  and a 20-case reviewed synthetic evaluation set covering explicit years, alternatives, title/scope
+  conflicts, ambiguity, management, and irrelevant dates.
+- The provider-neutral evaluator requires verbatim description evidence, retries malformed or
+  non-verbatim output once, preserves genuine uncertainty, and routes repeated invalid output to
+  manual review. Per-run request/input/output ceilings and sanitized aggregate usage reporting are
+  enforced and tested.
+- SQLite schema version 2 records model policy. Completed decisions are reused only when job key,
+  description hash, search-profile version, prompt version, and model policy all match. Automated
+  tests prove that old, role-rejected, and location-rejected jobs never call the model.
+- H8 recommends the OpenAI Responses API with `gpt-6-luna`, low reasoning, strict Structured
+  Outputs, and `store=false`. The official endpoint is fixed in code; `.env.example` contains only
+  placeholders and non-secret policy settings, while `.env` and variants remain ignored.
+- The redacted H8 presence check found none of the required variables configured. It printed only
+  variable names. No live provider request was made, and no credential or response was logged.
+- Repository validation passes at H8 with 396 tests, strict mypy, and Ruff checks.
 
 ## Relevant Phase 2 commits
 
@@ -331,6 +348,15 @@
 - `d7d3483` — clean single-pass continuation gate
 - `3ff0355` — drift-aware Workday overlap handling
 
+## Relevant Phase 8 commits
+
+- `6ba4399` — strict seniority taxonomy and response schema
+- `40a0a78` — reviewed 20-case seniority evaluation set
+- `a3e1c75` — versioned provider-neutral evaluator and mocked retry tests
+- `1f13a46` — model-policy-aware decision cache integration
+- `a1d663e` — sanitized aggregate request and token usage reporting
+- `a0d7803` — guarded OpenAI provider configuration and redacted connectivity command
+
 ## Review artifacts
 
 - H1 search policy review: `docs/reviews/h1_search_policy_review.md`
@@ -352,6 +378,7 @@
 - H5 publication-date coverage review: `docs/reviews/h5_date_coverage_review.md`
 - H6 role and location filter review: `docs/reviews/h6_filter_review.md`
 - Phase 7 duplicate-persistence validation: `docs/reviews/phase7_persistence_validation.md`
+- H8 live-provider configuration: `docs/06_llm_provider_configuration.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -395,6 +422,7 @@
 
 ## Resume point
 
-Begin Phase 8 by defining the structured seniority taxonomy and response schema from the approved
-under-five-years examples. Continue with a mocked evaluator before any live provider request, then
-build the labelled evaluation set and stop at H9 with the required quality report.
+Stop at H8. After the user replies `configured`, run the redacted connectivity check. Continue only
+if the configured variables are present and the model metadata request succeeds. Then run the
+reviewed evaluation set and a limited unseen candidate batch, produce the required H9 quality and
+usage report, and stop for threshold and uncertainty-policy approval.

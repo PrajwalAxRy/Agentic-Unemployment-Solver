@@ -172,3 +172,19 @@ def test_phase7_review_records_clean_full_registry_idempotency_gate() -> None:
     assert "336 identities" in review
     assert "conditional checkpoint H7 was not" in review
     assert "356 tests" in review
+
+
+def test_h8_configuration_documents_redacted_provider_setup() -> None:
+    guide = Path("docs/06_llm_provider_configuration.md").read_text(encoding="utf-8")
+    example = Path(".env.example").read_text(encoding="utf-8")
+    ignore = Path(".gitignore").read_text(encoding="utf-8")
+
+    assert "`gpt-6-luna`" in guide
+    assert "`reasoning.effort=low`" in guide
+    assert "USD 0.15" in guide
+    assert "job-finder check-llm --presence-only" in guide
+    assert "job-finder check-llm" in guide
+    assert "Do not commit `.env`" in guide
+    assert "OPENAI_API_KEY=\n" in example
+    assert "JOB_FINDER_LLM_MAX_REQUESTS=500" in example
+    assert ".env\n" in ignore
