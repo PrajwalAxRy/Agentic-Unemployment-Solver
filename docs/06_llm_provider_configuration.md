@@ -92,3 +92,28 @@ The connectivity command makes one minimal Chat Completion capped at 16 output t
 limit confirmed to work with the AMD gateway, and prints only variable names, provider name, and
 model IDs. It never prints the key, prompt response, or request headers. If access fails, request
 the necessary AMD gateway entitlement through the approved corporate process.
+
+## H9 guarded quality validation
+
+Run the reviewed evaluation set, complete deterministic company gate, and bounded unseen batch:
+
+```powershell
+uv run --locked job-finder validate-seniority --live-limit 8
+```
+
+The command writes generated machine-readable evidence to the ignored
+`reports/phase8_seniority_validation.json` and the human checkpoint artifact to
+`docs/reviews/h9_seniority_quality_review.md`. Console output contains only aggregate counts and
+token usage.
+
+After a prompt-only correction, refresh the exact selected public jobs while reusing the completed
+full-registry coverage evidence:
+
+```powershell
+uv run --locked job-finder validate-seniority --live-limit 8 `
+  --reuse-live-from reports/phase8_seniority_validation.json
+```
+
+Reuse does not skip model evaluation. It reruns the complete reviewed set, reloads each selected
+job from its approved source adapter, retrieves its current public description, and evaluates the
+same URLs under the current prompt and model policy.

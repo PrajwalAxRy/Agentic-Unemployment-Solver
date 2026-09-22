@@ -188,3 +188,18 @@ def test_h8_configuration_documents_redacted_provider_setup() -> None:
     assert "LLM_GATEWAY_KEY=\n" in example
     assert "JOB_FINDER_LLM_MAX_REQUESTS=500" in example
     assert ".env\n" in ignore
+
+
+def test_h9_review_records_quality_gate_and_live_evidence() -> None:
+    review = Path("docs/reviews/h9_seniority_quality_review.md").read_text(encoding="utf-8")
+
+    assert "**STOP — Human checkpoint H9" in review
+    assert "prompt `1.0.1`" in review
+    assert "Exact decision agreement: 20/20 (100.00%)" in review
+    assert "invalid/manual-review outcomes: 0" in review
+    assert "False acceptances: 0; false rejections: 0; ambiguity errors: 0" in review
+    assert 'source outcomes: `{"empty": 2, "success": 84}`; healthy: `true`' in review
+    assert "Limited live batch: 8 decisions" in review
+    assert "All eight live decisions were reviewed" in review
+    assert "Completed decisions with locally verified verbatim description evidence: 28" in review
+    assert "approve H9 threshold and uncertainty policy" in review

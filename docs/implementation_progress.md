@@ -2,12 +2,11 @@
 
 ## Current status
 
-- Active phase: Phase 8 — LLM seniority evaluation, after H8 provider configuration
+- Active phase: Phase 8 — STOP at human checkpoint H9
 - Status: Phases 0–7 complete; H1, H2, H4, H5, and H6 approved; H8 connectivity verified. The
-  mocked Phase 8 gate and guarded live gateway check pass.
-- Pending human checkpoint: H9, not yet reached. Run the reviewed evaluation set and a limited
-  unseen candidate batch, produce the quality and usage report, and then stop for threshold and
-  uncertainty-policy approval.
+  reviewed evaluation set and limited unseen live batch pass the recommended H9 quality gate.
+- Pending human checkpoint: H9 reached. Await approval of the recommended quality threshold and
+  uncertainty policy, or case-labelled corrections, before completing Phase 8 or starting Phase 9.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -245,9 +244,26 @@
   16-token minimum. The corrected redacted command passed on 2026-09-23 with provider
   `amd-llm-gateway`, configured model `gpt-5.6-luna`, and returned model
   `gpt-5.6-luna-2026-07-09`. No credential, prompt response, or request header was printed or
-  logged. H8 provider configuration and connectivity are complete; no reviewed or unseen live
-  evaluations have been sent yet.
-- Repository validation passes at H8 with 397 tests, strict mypy, and Ruff checks.
+  logged. H8 provider configuration and connectivity are complete.
+- The guarded Phase 8 validator ran the 20-case reviewed set and a full-registry deterministic
+  sampling gate. All 86 enabled sources were healthy (84 successful and two valid empty), with 333
+  retained role/location candidates: 115 explicit target roles and 218 conditional-description
+  candidates. Conditional-description candidates were not sent to the seniority model because the
+  Phase 9 orchestration must first apply their separate deterministic substantive-AI-work check.
+- Prompt `1.0.0` initially achieved 18/20 agreement but produced one repeated non-verbatim evidence
+  failure and treated a clearly early-career bounded/mentored role as uncertain. Both disagreements
+  were already reviewed regression cases. Shared prompt `1.0.1` now encodes the approved no-years
+  early-career rule and requires one contiguous exact evidence excerpt; no company-specific rule
+  was added.
+- Prompt `1.0.1` achieved 20/20 exact `seniority_match` agreement, 20/20 valid schema-and-evidence
+  results, zero false acceptances, zero false rejections, and zero ambiguity errors. Detected-level
+  agreement was 15/20 and remains diagnostic rather than release-controlling.
+- The same eight public jobs were refreshed through their approved adapters and reviewed in full:
+  one match, six rejections, and one appropriate uncertainty. Every decision included locally
+  verified verbatim evidence; no invalid result or systematic defect remained. The final guarded
+  run used 28 requests, 18,523 measured input tokens, and 3,715 measured output tokens. No monetary
+  estimate is available for the corporate gateway.
+- Repository validation passes at H9 with 406 tests, strict mypy, and Ruff checks.
 
 ## Relevant Phase 2 commits
 
@@ -370,6 +386,8 @@
 - `a0d7803` — initial guarded live-provider configuration and redacted connectivity command
 - `29bb0b2` — AMD Unified LLM gateway Chat Completions integration
 - `59c9625` — gateway-compatible guarded connectivity limit
+- `70c2eaa` — guarded reviewed-set and unseen-batch validation workflow
+- `b758042` — approved early-career boundary and contiguous-evidence prompt correction
 
 ## Review artifacts
 
@@ -393,6 +411,7 @@
 - H6 role and location filter review: `docs/reviews/h6_filter_review.md`
 - Phase 7 duplicate-persistence validation: `docs/reviews/phase7_persistence_validation.md`
 - H8 live-provider configuration: `docs/06_llm_provider_configuration.md`
+- H9 seniority quality review: `docs/reviews/h9_seniority_quality_review.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -433,10 +452,12 @@
   deeper source-family work, and 59 are conflicts.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
   official careers pages as manual fallbacks.
+- Phase 9 must implement the approved deterministic substantive-AI-work description gate before
+  any of the 218 current conditional-title candidates may reach seniority evaluation.
 
 ## Resume point
 
-Resume within Phase 8 after H8. The configured variables are present and the corrected redacted
-connectivity check passes with `gpt-5.6-luna`. Next run the reviewed evaluation set and a limited
-unseen candidate batch, produce the required H9 quality and usage report, and stop for threshold
-and uncertainty-policy approval.
+Stop at H9. Review `docs/reviews/h9_seniority_quality_review.md`. Resume only after the user replies
+`approve H9 threshold and uncertainty policy`, or supplies case-labelled corrections. After
+approval, record the decision, rerun the approved baseline if labels change, commit the Phase 8
+approval separately from prompt changes, and begin Phase 9 manual scan orchestration.
