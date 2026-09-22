@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pytest
 
+import job_finder.persistence.database as database_module
 from job_finder.persistence.database import (
     CURRENT_SCHEMA_VERSION,
     current_schema_version,
@@ -60,6 +61,47 @@ def test_existing_version_zero_database_is_upgraded(tmp_path: Path) -> None:
         assert connection.execute("SELECT COUNT(*) FROM jobs").fetchone()[0] == 0
     finally:
         connection.close()
+
+
+def test_version_one_database_adds_model_policy_without_losing_jobs(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    connection = open_database(tmp_path / "jobs.sqlite3")
+    try:
+        monkeypatch.setattr(database_module, "CURRENT_SCHEMA_VERSION", 1)
+        migrate_database(connection)
+        connection.execute(
+            """
+            INSERT INTO jobs (
+                job_key, company_id, source_type, canonical_url, fallback_fingerprint,
+                first_seen_at, last_seen_at, profile_version, evaluation_status,
+                created_at, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                "job-key",
+                "company",
+                "greenhouse",
+                "https://example.com/jobs/1",
+                "fallback",
+                "2026-09-22T00:00:00+00:00",
+                "2026-09-22T00:00:00+00:00",
+                "1.1.0",
+                "pending",
+                "2026-09-22T00:00:00+00:00",
+                "2026-09-22T00:00:00+00:00",
+            ),
+        )
+
+        monkeypatch.setattr(database_module, "CURRENT_SCHEMA_VERSION", 2)
+        assert migrate_database(connection) == 2
+        row = connection.execute(
+            "SELECT job_key, model_policy FROM jobs WHERE job_key = 'job-key'"
+        ).fetchone()
+    finally:
+        connection.close()
+
+    assert tuple(row) == ("job-key", None)
 
 
 def test_newer_database_version_is_rejected_without_changes(tmp_path: Path) -> None:

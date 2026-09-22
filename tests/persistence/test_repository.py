@@ -14,6 +14,7 @@ from job_finder.persistence.database import migrated_database
 from job_finder.persistence.repository import EvaluationStatus, JobStateRepository
 
 OBSERVED_AT = datetime(2026, 9, 22, 4, 0, tzinfo=UTC)
+MODEL_POLICY = "test:stub:1"
 
 
 def make_job(
@@ -72,6 +73,7 @@ def test_completed_result_is_reused_for_same_versions_and_description(tmp_path: 
             detailed,
             profile_version="1.1.0",
             prompt_version="1.0.0",
+            model_policy=MODEL_POLICY,
         )
         completed = repository.complete_evaluation(
             observation.record.job_key,
@@ -81,6 +83,7 @@ def test_completed_result_is_reused_for_same_versions_and_description(tmp_path: 
             detailed,
             profile_version="1.1.0",
             prompt_version="1.0.0",
+            model_policy=MODEL_POLICY,
         )
 
         assert preparation.needs_evaluation is True
@@ -104,13 +107,19 @@ def test_description_change_invalidates_evaluation_but_not_identity(tmp_path: Pa
         observed = repository.observe_listing(
             make_job(), observed_at=OBSERVED_AT, profile_version="1.1.0"
         )
-        repository.prepare_evaluation(first_detail, profile_version="1.1.0", prompt_version="1.0.0")
+        repository.prepare_evaluation(
+            first_detail,
+            profile_version="1.1.0",
+            prompt_version="1.0.0",
+            model_policy=MODEL_POLICY,
+        )
         repository.complete_evaluation(observed.record.job_key, {"seniority_match": True})
 
         changed = repository.prepare_evaluation(
             changed_detail,
             profile_version="1.1.0",
             prompt_version="1.0.0",
+            model_policy=MODEL_POLICY,
         )
 
         assert changed.record.job_key == observed.record.job_key
@@ -134,13 +143,19 @@ def test_version_change_invalidates_cached_evaluation(
         observed = repository.observe_listing(
             make_job(), observed_at=OBSERVED_AT, profile_version="1.1.0"
         )
-        repository.prepare_evaluation(detailed, profile_version="1.1.0", prompt_version="1.0.0")
+        repository.prepare_evaluation(
+            detailed,
+            profile_version="1.1.0",
+            prompt_version="1.0.0",
+            model_policy=MODEL_POLICY,
+        )
         repository.complete_evaluation(observed.record.job_key, {"seniority_match": True})
 
         changed = repository.prepare_evaluation(
             detailed,
             profile_version=profile_version,
             prompt_version=prompt_version,
+            model_policy=MODEL_POLICY,
         )
 
         assert changed.needs_evaluation is True
@@ -168,7 +183,12 @@ def test_profile_change_during_observation_marks_completed_job_pending(tmp_path:
         observed = repository.observe_listing(
             make_job(), observed_at=OBSERVED_AT, profile_version="1.1.0"
         )
-        repository.prepare_evaluation(detailed, profile_version="1.1.0", prompt_version="1.0.0")
+        repository.prepare_evaluation(
+            detailed,
+            profile_version="1.1.0",
+            prompt_version="1.0.0",
+            model_policy=MODEL_POLICY,
+        )
         repository.complete_evaluation(observed.record.job_key, {"seniority_match": True})
 
         changed = repository.observe_listing(
@@ -183,6 +203,33 @@ def test_profile_change_during_observation_marks_completed_job_pending(tmp_path:
         assert changed.record.seniority_result is None
 
 
+def test_model_policy_change_invalidates_cached_evaluation(tmp_path: Path) -> None:
+    detailed = make_job(description="Two years of experience required.")
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        repository = JobStateRepository(connection)
+        observed = repository.observe_listing(
+            make_job(), observed_at=OBSERVED_AT, profile_version="1.1.0"
+        )
+        repository.prepare_evaluation(
+            detailed,
+            profile_version="1.1.0",
+            prompt_version="1.0.0",
+            model_policy=MODEL_POLICY,
+        )
+        repository.complete_evaluation(observed.record.job_key, {"seniority_match": True})
+
+        changed = repository.prepare_evaluation(
+            detailed,
+            profile_version="1.1.0",
+            prompt_version="1.0.0",
+            model_policy="test:new-model:1",
+        )
+
+        assert changed.needs_evaluation is True
+        assert changed.record.model_policy == "test:new-model:1"
+        assert changed.record.evaluation_status is EvaluationStatus.PENDING
+
+
 def test_completion_requires_prepared_pending_evaluation(tmp_path: Path) -> None:
     with migrated_database(tmp_path / "jobs.sqlite3") as connection:
         repository = JobStateRepository(connection)
@@ -190,5 +237,7 @@ def test_completion_requires_prepared_pending_evaluation(tmp_path: Path) -> None
             make_job(), observed_at=OBSERVED_AT, profile_version="1.1.0"
         )
 
-        with pytest.raises(ValueError, match="missing description or prompt"):
+        with pytest.raises(
+            ValueError, match="missing description, prompt version, or model policy"
+        ):
             repository.complete_evaluation(observed.record.job_key, {"seniority_match": True})

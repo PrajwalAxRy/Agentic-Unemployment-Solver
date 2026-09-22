@@ -28,10 +28,20 @@ from job_finder.matching.seniority import (
     parse_seniority_response,
     seniority_decision_from_mapping,
 )
+from job_finder.matching.service import (
+    CachedEvaluationDisposition,
+    CachedEvaluationResult,
+    CachedSeniorityEvaluationService,
+    CandidateEligibility,
+)
 
 __all__ = [
     "RESPONSE_JSON_SCHEMA",
     "DetectedLevel",
+    "CachedEvaluationDisposition",
+    "CachedEvaluationResult",
+    "CachedSeniorityEvaluationService",
+    "CandidateEligibility",
     "EvaluationDisposition",
     "EvaluationOutcome",
     "LLMRequest",

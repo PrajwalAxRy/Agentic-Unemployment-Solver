@@ -37,6 +37,7 @@ class JobRecord:
     description_hash: str | None
     profile_version: str
     prompt_version: str | None
+    model_policy: str | None
     evaluation_status: EvaluationStatus
     seniority_result: Mapping[str, object] | None
 
@@ -121,6 +122,7 @@ class JobStateRepository:
                         external_job_id = ?, canonical_url = ?, fallback_fingerprint = ?,
                         last_seen_at = ?, profile_version = ?,
                         prompt_version = CASE WHEN ? THEN NULL ELSE prompt_version END,
+                        model_policy = CASE WHEN ? THEN NULL ELSE model_policy END,
                         evaluation_status = CASE WHEN ? THEN 'pending' ELSE evaluation_status END,
                         seniority_result_json = CASE
                             WHEN ? THEN NULL ELSE seniority_result_json END,
@@ -133,6 +135,7 @@ class JobStateRepository:
                         identity.fallback_fingerprint,
                         observed_text,
                         version,
+                        invalidate,
                         invalidate,
                         invalidate,
                         invalidate,
@@ -159,12 +162,14 @@ class JobStateRepository:
         *,
         profile_version: str,
         prompt_version: str,
+        model_policy: str,
     ) -> EvaluationPreparation:
         """Reuse a matching completed decision or atomically mark the job pending."""
         if job.description is None or job.description_hash is None:
             raise ValueError("evaluation preparation requires a description and description_hash")
         version = _required_text(profile_version, "profile_version")
         prompt = _required_text(prompt_version, "prompt_version")
+        policy = _required_text(model_policy, "model_policy")
         identity = job_identity(job)
         now = _utc_now_text()
 
@@ -179,17 +184,19 @@ class JobStateRepository:
                 and existing["description_hash"] == job.description_hash
                 and existing["profile_version"] == version
                 and existing["prompt_version"] == prompt
+                and existing["model_policy"] == policy
             )
             if not reusable:
                 self._connection.execute(
                     """
                     UPDATE jobs SET
                         description_hash = ?, profile_version = ?, prompt_version = ?,
+                        model_policy = ?,
                         evaluation_status = 'pending', seniority_result_json = NULL,
                         updated_at = ?
                     WHERE job_key = ?
                     """,
-                    (job.description_hash, version, prompt, now, identity.job_key),
+                    (job.description_hash, version, prompt, policy, now, identity.job_key),
                 )
             self._connection.commit()
         except BaseException:
@@ -225,8 +232,14 @@ class JobStateRepository:
                 raise KeyError(f"unknown job_key: {key}")
             if existing["evaluation_status"] != EvaluationStatus.PENDING:
                 raise ValueError("only a pending evaluation can be completed")
-            if existing["description_hash"] is None or existing["prompt_version"] is None:
-                raise ValueError("pending evaluation is missing description or prompt version")
+            if (
+                existing["description_hash"] is None
+                or existing["prompt_version"] is None
+                or existing["model_policy"] is None
+            ):
+                raise ValueError(
+                    "pending evaluation is missing description, prompt version, or model policy"
+                )
             self._connection.execute(
                 """
                 UPDATE jobs SET evaluation_status = 'completed',
@@ -302,6 +315,7 @@ def _record_from_row(row: sqlite3.Row) -> JobRecord:
         ),
         profile_version=str(row["profile_version"]),
         prompt_version=(str(row["prompt_version"]) if row["prompt_version"] is not None else None),
+        model_policy=(str(row["model_policy"]) if row["model_policy"] is not None else None),
         evaluation_status=EvaluationStatus(str(row["evaluation_status"])),
         seniority_result=result,
     )

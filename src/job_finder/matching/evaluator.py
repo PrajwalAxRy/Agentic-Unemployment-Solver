@@ -173,6 +173,16 @@ class SeniorityEvaluator:
         self._model_policy = model_policy
         self._budget = budget
 
+    @property
+    def prompt_version(self) -> str:
+        """Return the version used for cache invalidation and reporting."""
+        return self._prompt.prompt_version
+
+    @property
+    def model_policy(self) -> str:
+        """Return the stable provider/model policy cache key."""
+        return self._model_policy.cache_key
+
     def evaluate(
         self,
         *,

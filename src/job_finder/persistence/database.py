@@ -8,7 +8,7 @@ from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 
-CURRENT_SCHEMA_VERSION = 1
+CURRENT_SCHEMA_VERSION = 2
 
 _MIGRATIONS: dict[int, tuple[str, ...]] = {
     1: (
@@ -40,6 +40,7 @@ _MIGRATIONS: dict[int, tuple[str, ...]] = {
         "CREATE INDEX jobs_company_source_idx ON jobs (company_id, source_type)",
         "CREATE INDEX jobs_evaluation_status_idx ON jobs (evaluation_status)",
     ),
+    2: ("ALTER TABLE jobs ADD COLUMN model_policy TEXT",),
 }
 
 

@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
-from job_finder.persistence.database import migrated_database
+from job_finder.persistence.database import CURRENT_SCHEMA_VERSION, migrated_database
 from job_finder.persistence.maintenance import (
     backup_state,
     inspect_state,
@@ -51,7 +51,7 @@ def test_inspection_reports_content_free_counts(tmp_path: Path) -> None:
     summary = inspect_state(database)
 
     assert summary.database_path == database.resolve()
-    assert summary.schema_version == 1
+    assert summary.schema_version == CURRENT_SCHEMA_VERSION
     assert summary.job_count == 1
     assert summary.pending_count == 1
 
