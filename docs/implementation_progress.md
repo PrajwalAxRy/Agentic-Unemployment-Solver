@@ -2,13 +2,12 @@
 
 ## Current status
 
-- Active phase: Phase 8 — LLM seniority evaluation
-- Status: Phases 0–7 complete; H1, H2, H4, H5, and H6 approved. The mocked Phase 8 gate passes.
-- Pending human checkpoint: H8 — restore live LLM provider connectivity. The required variables are
-  present, but two redacted connectivity attempts on 2026-09-23 returned
-  `AMD LLM gateway connectivity check failed`. Confirm through the approved corporate gateway
-  process that the local `LLM_GATEWAY_KEY` is active and entitled to use `gpt-5.6-luna`, update the
-  ignored `.env` if necessary, and reply `configured`. Do not paste the key into chat.
+- Active phase: Phase 8 — LLM seniority evaluation, after H8 provider configuration
+- Status: Phases 0–7 complete; H1, H2, H4, H5, and H6 approved; H8 connectivity verified. The
+  mocked Phase 8 gate and guarded live gateway check pass.
+- Pending human checkpoint: H9, not yet reached. Run the reviewed evaluation set and a limited
+  unseen candidate batch, produce the quality and usage report, and then stop for threshold and
+  uncertainty-policy approval.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -238,13 +237,16 @@
   mandatory local validation. `.env` and variants remain ignored.
 - The redacted H8 presence check found none of the required variables configured. It printed only
   variable names. No live provider request was made, and no credential or response was logged.
-- After the user configured the required variables, the redacted H8 connectivity command confirmed
-  that none were missing but the one-token live request failed with the sanitized error
-  `AMD LLM gateway connectivity check failed`. No credential, prompt response, or request header was
-  printed or logged, and live evaluation remains blocked pending key or model entitlement.
-- After the user reconfirmed configuration, a second guarded one-token attempt failed with the same
-  sanitized error. Configuration presence alone therefore does not establish authentication or
-  model entitlement; no reviewed or unseen live evaluations have been sent.
+- After the user configured the required variables, two redacted H8 connectivity attempts reached
+  the gateway but returned HTTP 400. A guarded diagnosis established that the key authenticated,
+  the account could list 82 models, and `gpt-5.6-luna` was available. The failure was caused by the
+  check's one-token output cap, not by the credential or model entitlement.
+- A regression test now requires the connectivity request to use the AMD gateway's confirmed
+  16-token minimum. The corrected redacted command passed on 2026-09-23 with provider
+  `amd-llm-gateway`, configured model `gpt-5.6-luna`, and returned model
+  `gpt-5.6-luna-2026-07-09`. No credential, prompt response, or request header was printed or
+  logged. H8 provider configuration and connectivity are complete; no reviewed or unseen live
+  evaluations have been sent yet.
 - Repository validation passes at H8 with 397 tests, strict mypy, and Ruff checks.
 
 ## Relevant Phase 2 commits
@@ -367,6 +369,7 @@
 - `a1d663e` — sanitized aggregate request and token usage reporting
 - `a0d7803` — initial guarded live-provider configuration and redacted connectivity command
 - `29bb0b2` — AMD Unified LLM gateway Chat Completions integration
+- `59c9625` — gateway-compatible guarded connectivity limit
 
 ## Review artifacts
 
@@ -433,9 +436,7 @@
 
 ## Resume point
 
-Stop at H8. The configured variables are present, but two redacted connectivity requests failed.
-After the user confirms through the approved corporate gateway process that `LLM_GATEWAY_KEY` is
-active and entitled to use `gpt-5.6-luna` and replies `configured`, rerun the redacted connectivity
-check. Continue only if it succeeds. Then run the reviewed evaluation set and a limited unseen
-candidate batch, produce the required H9 quality and usage report, and stop for threshold and
-uncertainty-policy approval.
+Resume within Phase 8 after H8. The configured variables are present and the corrected redacted
+connectivity check passes with `gpt-5.6-luna`. Next run the reviewed evaluation set and a limited
+unseen candidate batch, produce the required H9 quality and usage report, and stop for threshold
+and uncertainty-policy approval.
