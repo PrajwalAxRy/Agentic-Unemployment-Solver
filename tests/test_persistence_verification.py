@@ -123,6 +123,8 @@ def test_unchanged_second_pass_produces_zero_new_identities(tmp_path: Path) -> N
     assert report.passes[0].new_identity_count == 2
     assert report.passes[1].new_identity_count == 0
     assert report.passes[1].existing_identity_count == 2
+    assert report.passes[1].source_outcomes == {"success": 1}
+    assert report.passes[1].source_issues == ()
     assert second_pass_new_companies(report) == {}
 
 

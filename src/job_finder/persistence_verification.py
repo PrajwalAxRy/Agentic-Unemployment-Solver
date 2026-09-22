@@ -32,12 +32,25 @@ class NewIdentityRecord:
 
 
 @dataclass(frozen=True, slots=True)
+class SourceIssueRecord:
+    """Sanitized source outcome that prevented a fully healthy pass."""
+
+    company_id: str
+    company_name: str
+    adapter_type: str
+    outcome: str
+    exception_categories: tuple[str, ...]
+
+
+@dataclass(frozen=True, slots=True)
 class PersistencePassRecord:
     """Identity counts observed during one complete collection and filter pass."""
 
     pass_number: int
     scan_at: str
     source_healthy: bool
+    source_outcomes: Mapping[str, int]
+    source_issues: tuple[SourceIssueRecord, ...]
     listing_count: int
     retained_count: int
     observed_identity_count: int
@@ -81,6 +94,7 @@ class PersistenceVerificationReport:
                 {
                     **asdict(item),
                     "new_identities": [asdict(identity) for identity in item.new_identities],
+                    "source_issues": [asdict(issue) for issue in item.source_issues],
                 }
                 for item in self.passes
             ],
@@ -167,6 +181,18 @@ def persist_retained_candidates(
         pass_number=pass_number,
         scan_at=report.scan_at,
         source_healthy=report.healthy,
+        source_outcomes=dict(report.outcome_counts),
+        source_issues=tuple(
+            SourceIssueRecord(
+                company_id=company.company_id,
+                company_name=company.company_name,
+                adapter_type=company.adapter_type,
+                outcome=company.outcome,
+                exception_categories=company.exception_categories,
+            )
+            for company in report.companies
+            if company.outcome not in {"success", "empty"}
+        ),
         listing_count=report.listing_count,
         retained_count=len(retained),
         observed_identity_count=len(retained),

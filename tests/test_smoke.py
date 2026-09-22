@@ -90,8 +90,9 @@ def test_cli_state_reset_requires_backup_and_confirmation() -> None:
 
 
 def test_cli_accepts_two_pass_persistence_verification() -> None:
-    args = build_parser().parse_args(["verify-persistence"])
+    args = build_parser().parse_args(["verify-persistence", "--allow-existing"])
 
     assert args.command == "verify-persistence"
     assert str(args.database) == "state\\phase7_validation.sqlite3"
     assert str(args.output) == "reports\\phase7_persistence_verification.json"
+    assert args.allow_existing is True

@@ -172,6 +172,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     persistence.add_argument("--timeout", type=float, default=15.0)
     persistence.add_argument("--source-retries", type=int, default=2)
+    persistence.add_argument(
+        "--allow-existing",
+        action="store_true",
+        help="Continue a disposable validation database instead of requiring it to be empty.",
+    )
     return parser
 
 
@@ -328,14 +333,21 @@ def _verify_persistence(args: argparse.Namespace) -> int:
         database_path=args.database,
         lock_path=args.lock,
         source_retry_count=args.source_retries,
+        require_empty=not args.allow_existing,
     )
     write_persistence_report(report, args.output)
     for item in report.passes:
         print(
             f"pass={item.pass_number} listings={item.listing_count} "
             f"retained={item.retained_count} new={item.new_identity_count} "
-            f"existing={item.existing_identity_count} healthy={item.source_healthy}"
+            f"existing={item.existing_identity_count} healthy={item.source_healthy} "
+            f"outcomes={json.dumps(item.source_outcomes, sort_keys=True)}"
         )
+        for issue in item.source_issues:
+            print(
+                f"source_issue company={issue.company_id} adapter={issue.adapter_type} "
+                f"outcome={issue.outcome} exceptions={','.join(issue.exception_categories)}"
+            )
     print(
         f"second_pass_new_companies={json.dumps(second_pass_new_companies(report), sort_keys=True)}"
     )
