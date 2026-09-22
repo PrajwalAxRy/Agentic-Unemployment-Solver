@@ -35,6 +35,11 @@ from job_finder.persistence.maintenance import (
     reset_state,
     restore_state,
 )
+from job_finder.persistence_verification import (
+    second_pass_new_companies,
+    verify_persistence,
+    write_persistence_report,
+)
 from job_finder.recency_verification import measure_enabled_recency, write_recency_report
 from job_finder.verification import (
     verify_adapter_sources,
@@ -144,6 +149,29 @@ def build_parser() -> argparse.ArgumentParser:
     state_reset.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
     state_reset.add_argument("--backup", type=Path, required=True)
     state_reset.add_argument("--confirm-database", required=True)
+    persistence = subparsers.add_parser(
+        "verify-persistence",
+        help="Run two full filtered passes against disposable state and verify idempotency.",
+    )
+    persistence.add_argument("--registry", type=Path, default=Path("config/company_sources.json"))
+    persistence.add_argument("--profile", type=Path, default=Path("config/search_profile.toml"))
+    persistence.add_argument(
+        "--database",
+        type=Path,
+        default=Path("state/phase7_validation.sqlite3"),
+    )
+    persistence.add_argument(
+        "--lock",
+        type=Path,
+        default=Path("state/phase7_validation.lock"),
+    )
+    persistence.add_argument(
+        "--output",
+        type=Path,
+        default=Path("reports/phase7_persistence_verification.json"),
+    )
+    persistence.add_argument("--timeout", type=float, default=15.0)
+    persistence.add_argument("--source-retries", type=int, default=2)
     return parser
 
 
@@ -158,6 +186,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _filter_jobs(args)
     if args.command == "state":
         return _maintain_state(args)
+    if args.command == "verify-persistence":
+        return _verify_persistence(args)
     return 0
 
 
@@ -285,3 +315,29 @@ def _maintain_state(args: argparse.Namespace) -> int:
         f"completed={summary.completed_count} failed={summary.failed_count}"
     )
     return 0
+
+
+def _verify_persistence(args: argparse.Namespace) -> int:
+    registry = load_company_registry(args.registry)
+    profile = load_search_profile(args.profile)
+    client = BoundedHttpClient(policy=HttpPolicy(timeout_seconds=args.timeout))
+    report = verify_persistence(
+        registry,
+        _runtime_adapters(client),
+        profile,
+        database_path=args.database,
+        lock_path=args.lock,
+        source_retry_count=args.source_retries,
+    )
+    write_persistence_report(report, args.output)
+    for item in report.passes:
+        print(
+            f"pass={item.pass_number} listings={item.listing_count} "
+            f"retained={item.retained_count} new={item.new_identity_count} "
+            f"existing={item.existing_identity_count} healthy={item.source_healthy}"
+        )
+    print(
+        f"second_pass_new_companies={json.dumps(second_pass_new_companies(report), sort_keys=True)}"
+    )
+    print(f"Wrote sanitized persistence report to {args.output}")
+    return 0 if report.healthy else 2

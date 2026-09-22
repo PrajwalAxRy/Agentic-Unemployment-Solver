@@ -55,6 +55,7 @@ class FilterListingRecord:
     role: RoleFilterResult
     location: LocationFilterResult | None
     final_decision: FinalFilterDecision
+    normalized_job: NormalizedJob
 
 
 @dataclass(frozen=True, slots=True)
@@ -301,6 +302,7 @@ def verify_filters(
                     role=role,
                     location=location,
                     final_decision=final,
+                    normalized_job=filtered_job,
                 )
             )
         listings.extend(company_listings)
