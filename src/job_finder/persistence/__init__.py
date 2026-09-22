@@ -13,11 +13,23 @@ from job_finder.persistence.identity import (
     build_fallback_fingerprint,
     job_identity,
 )
+from job_finder.persistence.repository import (
+    EvaluationPreparation,
+    EvaluationStatus,
+    JobRecord,
+    JobStateRepository,
+    ObservationResult,
+)
 
 __all__ = [
     "CURRENT_SCHEMA_VERSION",
+    "EvaluationPreparation",
+    "EvaluationStatus",
     "JobIdentity",
     "JobIdentityStrategy",
+    "JobRecord",
+    "JobStateRepository",
+    "ObservationResult",
     "build_fallback_fingerprint",
     "current_schema_version",
     "migrate_database",
