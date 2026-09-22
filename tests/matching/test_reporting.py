@@ -46,7 +46,7 @@ def outcome(
             measured_input_tokens=90 * attempts,
             measured_output_tokens=20 * attempts,
         ),
-        prompt_version="1.0.0",
+        prompt_version="1.0.1",
         model_policy="test:stub:1",
     )
 
@@ -70,7 +70,7 @@ def test_usage_summary_counts_outcomes_retries_and_tokens() -> None:
     assert report.request_count == 6
     assert report.measured_input_tokens == 540
     assert report.measured_output_tokens == 120
-    assert report.prompt_versions == ("1.0.0",)
+    assert report.prompt_versions == ("1.0.1",)
     assert report.model_policies == ("test:stub:1",)
 
 

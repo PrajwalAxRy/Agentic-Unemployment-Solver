@@ -20,11 +20,18 @@ def test_approved_prompt_loads_and_renders_all_inputs() -> None:
         target_description="Open to candidates with fewer than five years.",
     )
 
-    assert prompt.prompt_version == "1.0.0"
+    assert prompt.prompt_version == "1.0.1"
     assert "3+ years of experience" in rendered
     assert "Machine Learning Engineer" in rendered
     assert "fewer than five years" in rendered
-    assert "Evidence must be a short verbatim excerpt" in prompt.system_prompt
+    assert "one short, contiguous verbatim excerpt" in prompt.system_prompt
+
+
+def test_prompt_covers_early_career_scope_and_contiguous_evidence_regressions() -> None:
+    prompt = load_seniority_prompt(ROOT / "config" / "seniority_prompt.toml")
+
+    assert "bounded ownership performed with design guidance" in prompt.system_prompt
+    assert "never join or paraphrase separate excerpts" in prompt.system_prompt
 
 
 def test_prompt_rejects_blank_render_fields() -> None:

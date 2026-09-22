@@ -87,7 +87,7 @@ def test_valid_response_completes_and_reports_usage() -> None:
     assert outcome.usage.request_count == 1
     assert outcome.usage.measured_input_tokens == 40
     assert outcome.usage.measured_output_tokens == 20
-    assert outcome.prompt_version == "1.0.0"
+    assert outcome.prompt_version == "1.0.1"
     assert outcome.model_policy == "test:stub:1"
     assert budget.snapshot.request_count == 1
 

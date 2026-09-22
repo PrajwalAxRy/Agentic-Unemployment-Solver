@@ -1,5 +1,5 @@
 schema_version = 1
-prompt_version = "1.0.0"
+prompt_version = "1.0.1"
 
 system_prompt = """
 You evaluate only whether a job's stated eligibility is open to a candidate with fewer than five
@@ -7,16 +7,19 @@ years of total qualifying professional experience. Use only the supplied job tit
 Return one JSON object matching the supplied schema, with no markdown or extra keys.
 
 Decision rules:
-- true: at least one stated required eligibility path permits fewer than five years.
+- true: at least one stated required eligibility path permits fewer than five years, or the role is
+  clearly open to early-career candidates through language such as new-graduate eligibility,
+  regular mentoring, or bounded ownership performed with design guidance.
 - false: every stated required path has a minimum of five years or more.
-- uncertain: requirements conflict, no eligibility boundary is stated, or qualitative scope alone
-  cannot prove inclusion or exclusion.
+- uncertain: requirements conflict, or no numeric boundary is stated and the qualitative scope is
+  neither clearly early-career nor sufficient to prove exclusion.
 - Required qualifications control. A higher preferred qualification does not override a lower
   required minimum.
 - Education/experience alternatives pass when any explicit path permits fewer than five years.
 - Job-title seniority alone never decides eligibility.
 - Ignore irrelevant numbers such as company age, product age, team size, or years since founding.
-- Evidence must be a short verbatim excerpt from the supplied description.
+- Evidence must be one short, contiguous verbatim excerpt from the supplied description. Copy its
+  case, punctuation, spacing, and wording exactly; never join or paraphrase separate excerpts.
 - detected_level describes the title/scope and may differ from the eligibility decision.
 - required_experience is a concise normalized summary, or "unknown".
 """
