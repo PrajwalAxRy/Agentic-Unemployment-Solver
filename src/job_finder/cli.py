@@ -30,10 +30,10 @@ from job_finder.filter_verification import (
     write_filter_review,
 )
 from job_finder.matching.openai_client import (
-    OpenAIProviderError,
-    check_openai_connectivity,
+    GatewayProviderError,
+    check_gateway_connectivity,
     configuration_presence,
-    load_openai_settings,
+    load_gateway_settings,
 )
 from job_finder.persistence.maintenance import (
     backup_state,
@@ -384,8 +384,8 @@ def _check_llm(args: argparse.Namespace) -> int:
     if args.presence_only:
         return 0
     try:
-        result = check_openai_connectivity(load_openai_settings(dotenv_path=args.dotenv))
-    except OpenAIProviderError as error:
+        result = check_gateway_connectivity(load_gateway_settings(dotenv_path=args.dotenv))
+    except GatewayProviderError as error:
         print(f"connectivity=failed error={error}")
         return 2
     print(

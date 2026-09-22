@@ -179,12 +179,12 @@ def test_h8_configuration_documents_redacted_provider_setup() -> None:
     example = Path(".env.example").read_text(encoding="utf-8")
     ignore = Path(".gitignore").read_text(encoding="utf-8")
 
-    assert "`gpt-6-luna`" in guide
-    assert "`reasoning.effort=low`" in guide
-    assert "USD 0.15" in guide
+    assert "`gpt-5.6-luna`" in guide
+    assert "https://llm-api.amd.com/Unified/v1" in guide
+    assert "`Ocp-Apim-Subscription-Key`" in guide
     assert "job-finder check-llm --presence-only" in guide
     assert "job-finder check-llm" in guide
     assert "Do not commit `.env`" in guide
-    assert "OPENAI_API_KEY=\n" in example
+    assert "LLM_GATEWAY_KEY=\n" in example
     assert "JOB_FINDER_LLM_MAX_REQUESTS=500" in example
     assert ".env\n" in ignore

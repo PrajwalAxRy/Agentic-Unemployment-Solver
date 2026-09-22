@@ -111,5 +111,5 @@ def test_cli_reports_only_missing_llm_variable_names(
     output = capsys.readouterr().out
     assert exit_code == 2
     assert "configured=none" in output
-    assert "OPENAI_API_KEY" in output
+    assert "LLM_GATEWAY_KEY" in output
     assert "Bearer" not in output

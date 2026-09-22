@@ -1,35 +1,31 @@
-"""Minimal OpenAI Responses API adapter with redacted configuration checks."""
+"""AMD Unified LLM gateway adapter using the OpenAI-compatible Python client."""
 
 from __future__ import annotations
 
-import json
 import os
-from collections.abc import Callable, Mapping
-from dataclasses import dataclass
+from collections.abc import Mapping
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, cast
-from urllib.error import HTTPError, URLError
-from urllib.parse import quote
-from urllib.request import Request, urlopen
+from typing import Any
+
+from openai import OpenAI, OpenAIError
 
 from job_finder.matching.evaluator import LLMRequest, LLMResponse, ModelPolicy, UsageLimits
 
-DEFAULT_OPENAI_BASE_URL = "https://api.openai.com/v1"
+DEFAULT_GATEWAY_BASE_URL = "https://llm-api.amd.com/Unified/v1"
 REQUIRED_ENVIRONMENT_VARIABLES = (
-    "OPENAI_API_KEY",
+    "LLM_GATEWAY_KEY",
     "JOB_FINDER_LLM_MODEL",
-    "JOB_FINDER_LLM_REASONING_EFFORT",
     "JOB_FINDER_LLM_POLICY_VERSION",
     "JOB_FINDER_LLM_MAX_REQUESTS",
     "JOB_FINDER_LLM_MAX_ESTIMATED_INPUT_TOKENS",
     "JOB_FINDER_LLM_MAX_OUTPUT_TOKENS",
     "JOB_FINDER_LLM_MAX_OUTPUT_TOKENS_PER_REQUEST",
 )
-_ALLOWED_REASONING_EFFORTS = frozenset({"none", "low", "medium", "high", "xhigh", "max"})
 
 
-class OpenAIProviderError(RuntimeError):
-    """A sanitized OpenAI configuration, transport, or response error."""
+class GatewayProviderError(RuntimeError):
+    """A sanitized gateway configuration, transport, or response error."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -45,13 +41,12 @@ class ConfigurationPresence:
 
 
 @dataclass(frozen=True, slots=True)
-class OpenAIProviderSettings:
-    """Validated live-provider settings loaded from environment variables."""
+class AmdGatewaySettings:
+    """Validated AMD gateway settings loaded from environment variables."""
 
-    api_key: str
+    api_key: str = field(repr=False)
     base_url: str
     model: str
-    reasoning_effort: str
     policy_version: str
     timeout_seconds: float
     usage_limits: UsageLimits
@@ -59,22 +54,19 @@ class OpenAIProviderSettings:
     @property
     def model_policy(self) -> ModelPolicy:
         return ModelPolicy(
-            provider="openai",
+            provider="amd-llm-gateway",
             model=self.model,
-            policy_version=f"reasoning-{self.reasoning_effort}-v{self.policy_version}",
+            policy_version=f"v{self.policy_version}",
         )
 
 
 @dataclass(frozen=True, slots=True)
 class ConnectivityResult:
-    """Non-secret evidence that authentication and model access succeeded."""
+    """Non-secret evidence that gateway authentication and inference succeeded."""
 
     provider: str
     configured_model: str
     returned_model_id: str
-
-
-UrlOpen = Callable[..., Any]
 
 
 def configuration_presence(
@@ -91,34 +83,27 @@ def configuration_presence(
     return ConfigurationPresence(configured=configured, missing=missing)
 
 
-def load_openai_settings(
+def load_gateway_settings(
     *,
     environment: Mapping[str, str] | None = None,
     dotenv_path: Path = Path(".env"),
-) -> OpenAIProviderSettings:
-    """Load live settings without mutating the process environment."""
+) -> AmdGatewaySettings:
+    """Load gateway settings without mutating the process environment."""
     values = _merged_environment(environment, dotenv_path)
     presence = configuration_presence(environment=values, dotenv_path=Path("__absent__.env"))
     if presence.missing:
-        raise OpenAIProviderError(
+        raise GatewayProviderError(
             "missing required environment variables: " + ", ".join(presence.missing)
         )
-    reasoning_effort = _required(values, "JOB_FINDER_LLM_REASONING_EFFORT").lower()
-    if reasoning_effort not in _ALLOWED_REASONING_EFFORTS:
-        raise OpenAIProviderError(
-            "JOB_FINDER_LLM_REASONING_EFFORT must be one of: "
-            + ", ".join(sorted(_ALLOWED_REASONING_EFFORTS))
-        )
-    timeout_seconds = _positive_float(
-        values.get("JOB_FINDER_LLM_TIMEOUT_SECONDS", "30"), "JOB_FINDER_LLM_TIMEOUT_SECONDS"
-    )
-    return OpenAIProviderSettings(
-        api_key=_required(values, "OPENAI_API_KEY"),
-        base_url=DEFAULT_OPENAI_BASE_URL,
+    return AmdGatewaySettings(
+        api_key=_required(values, "LLM_GATEWAY_KEY"),
+        base_url=DEFAULT_GATEWAY_BASE_URL,
         model=_required(values, "JOB_FINDER_LLM_MODEL"),
-        reasoning_effort=reasoning_effort,
         policy_version=_required(values, "JOB_FINDER_LLM_POLICY_VERSION"),
-        timeout_seconds=timeout_seconds,
+        timeout_seconds=_positive_float(
+            values.get("JOB_FINDER_LLM_TIMEOUT_SECONDS", "30"),
+            "JOB_FINDER_LLM_TIMEOUT_SECONDS",
+        ),
         usage_limits=UsageLimits(
             max_requests=_positive_int(values, "JOB_FINDER_LLM_MAX_REQUESTS"),
             max_estimated_input_tokens=_positive_int(
@@ -132,81 +117,92 @@ def load_openai_settings(
     )
 
 
-class OpenAIResponsesClient:
-    """Synchronous structured-output client for the OpenAI Responses API."""
+class AmdGatewayClient:
+    """Provider-neutral evaluator adapter backed by AMD gateway Chat Completions."""
 
     def __init__(
         self,
-        settings: OpenAIProviderSettings,
+        settings: AmdGatewaySettings,
         *,
-        opener: UrlOpen = urlopen,
+        client: Any | None = None,
     ) -> None:
         self._settings = settings
-        self._opener = opener
+        self._client = client or _gateway_client(settings)
 
     def complete(self, request: LLMRequest, policy: ModelPolicy) -> LLMResponse:
-        """Submit one non-stored structured response and return measured usage."""
+        """Submit one strict Chat Completion and return measured gateway usage."""
         if policy != self._settings.model_policy:
-            raise OpenAIProviderError("requested model policy does not match provider settings")
-        payload = {
-            "model": self._settings.model,
-            "input": [
-                {"role": "system", "content": request.system_prompt},
-                {"role": "user", "content": request.user_prompt},
-            ],
-            "reasoning": {"effort": self._settings.reasoning_effort},
-            "max_output_tokens": request.max_output_tokens,
-            "store": False,
-            "text": {
-                "format": {
+            raise GatewayProviderError("requested model policy does not match gateway settings")
+        try:
+            completion = self._client.chat.completions.create(
+                model=self._settings.model,
+                messages=[
+                    {"role": "system", "content": request.system_prompt},
+                    {"role": "user", "content": request.user_prompt},
+                ],
+                response_format={
                     "type": "json_schema",
-                    "name": "seniority_decision",
-                    "strict": True,
-                    "schema": request.response_schema,
-                }
-            },
-        }
-        response = _request_json(
-            Request(
-                f"{self._settings.base_url}/responses",
-                data=json.dumps(payload).encode("utf-8"),
-                headers=_headers(self._settings.api_key),
-                method="POST",
-            ),
-            timeout_seconds=self._settings.timeout_seconds,
-            opener=self._opener,
-        )
-        usage = _mapping(response.get("usage"), "response.usage")
+                    "json_schema": {
+                        "name": "seniority_decision",
+                        "strict": True,
+                        "schema": dict(request.response_schema),
+                    },
+                },
+                max_tokens=request.max_output_tokens,
+            )
+        except OpenAIError as error:
+            raise GatewayProviderError("AMD LLM gateway request failed") from error
+
+        if not completion.choices:
+            raise GatewayProviderError("AMD LLM gateway returned no completion choices")
+        content = completion.choices[0].message.content
+        if not isinstance(content, str) or not content.strip():
+            raise GatewayProviderError("AMD LLM gateway returned no completion text")
+        usage = completion.usage
+        if usage is None:
+            raise GatewayProviderError("AMD LLM gateway returned no token usage")
         return LLMResponse(
-            content=_output_text(response),
-            input_tokens=_non_negative_int(usage.get("input_tokens"), "usage.input_tokens"),
-            output_tokens=_non_negative_int(usage.get("output_tokens"), "usage.output_tokens"),
+            content=content,
+            input_tokens=_non_negative_int(usage.prompt_tokens, "usage.prompt_tokens"),
+            output_tokens=_non_negative_int(
+                usage.completion_tokens,
+                "usage.completion_tokens",
+            ),
         )
 
 
-def check_openai_connectivity(
-    settings: OpenAIProviderSettings,
+def check_gateway_connectivity(
+    settings: AmdGatewaySettings,
     *,
-    opener: UrlOpen = urlopen,
+    client: Any | None = None,
 ) -> ConnectivityResult:
-    """Verify authentication and configured-model access without generating tokens."""
-    model_id = quote(settings.model, safe="")
-    response = _request_json(
-        Request(
-            f"{settings.base_url}/models/{model_id}",
-            headers=_headers(settings.api_key),
-            method="GET",
-        ),
-        timeout_seconds=settings.timeout_seconds,
-        opener=opener,
-    )
-    returned_id = response.get("id")
-    if not isinstance(returned_id, str) or not returned_id.strip():
-        raise OpenAIProviderError("connectivity response did not contain a model ID")
+    """Verify gateway authentication and model routing with a one-token completion."""
+    gateway = client or _gateway_client(settings)
+    try:
+        completion = gateway.chat.completions.create(
+            model=settings.model,
+            messages=[{"role": "user", "content": "Reply OK."}],
+            max_tokens=1,
+        )
+    except OpenAIError as error:
+        raise GatewayProviderError("AMD LLM gateway connectivity check failed") from error
+    returned_model = completion.model
+    if not isinstance(returned_model, str) or not returned_model.strip():
+        raise GatewayProviderError("gateway connectivity response did not contain a model ID")
     return ConnectivityResult(
-        provider="openai",
+        provider="amd-llm-gateway",
         configured_model=settings.model,
-        returned_model_id=returned_id,
+        returned_model_id=returned_model,
+    )
+
+
+def _gateway_client(settings: AmdGatewaySettings) -> OpenAI:
+    return OpenAI(
+        base_url=settings.base_url,
+        api_key=settings.api_key,
+        default_headers={"Ocp-Apim-Subscription-Key": settings.api_key},
+        timeout=settings.timeout_seconds,
+        max_retries=0,
     )
 
 
@@ -230,11 +226,11 @@ def _load_dotenv(path: Path) -> dict[str, str]:
         if line.startswith("export "):
             line = line[7:].lstrip()
         if "=" not in line:
-            raise OpenAIProviderError(f"invalid .env assignment on line {line_number}")
+            raise GatewayProviderError(f"invalid .env assignment on line {line_number}")
         name, raw_value = line.split("=", maxsplit=1)
         name = name.strip()
         if not name or not name.replace("_", "a").isalnum():
-            raise OpenAIProviderError(f"invalid .env variable name on line {line_number}")
+            raise GatewayProviderError(f"invalid .env variable name on line {line_number}")
         value = raw_value.strip()
         if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
             value = value[1:-1]
@@ -242,64 +238,10 @@ def _load_dotenv(path: Path) -> dict[str, str]:
     return values
 
 
-def _request_json(
-    request: Request,
-    *,
-    timeout_seconds: float,
-    opener: UrlOpen,
-) -> Mapping[str, object]:
-    try:
-        with opener(request, timeout=timeout_seconds) as response:
-            raw = response.read()
-    except HTTPError as error:
-        raise OpenAIProviderError(f"OpenAI API returned HTTP {error.code}") from error
-    except (TimeoutError, URLError) as error:
-        raise OpenAIProviderError("OpenAI API connection failed") from error
-    try:
-        parsed = json.loads(raw)
-    except (json.JSONDecodeError, UnicodeDecodeError) as error:
-        raise OpenAIProviderError("OpenAI API returned invalid JSON") from error
-    return _mapping(parsed, "response")
-
-
-def _output_text(response: Mapping[str, object]) -> str:
-    output = response.get("output")
-    if not isinstance(output, list):
-        raise OpenAIProviderError("OpenAI response.output must be an array")
-    for item in output:
-        if not isinstance(item, Mapping) or item.get("type") != "message":
-            continue
-        content = item.get("content")
-        if not isinstance(content, list):
-            continue
-        for part in content:
-            if isinstance(part, Mapping) and part.get("type") == "output_text":
-                text = part.get("text")
-                if isinstance(text, str) and text.strip():
-                    return text
-            if isinstance(part, Mapping) and part.get("type") == "refusal":
-                raise OpenAIProviderError("OpenAI model refused the seniority evaluation")
-    raise OpenAIProviderError("OpenAI response did not contain output text")
-
-
-def _headers(api_key: str) -> dict[str, str]:
-    return {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-        "User-Agent": "job-finder/0.1 public-job-discovery",
-    }
-
-
-def _mapping(value: object, path: str) -> Mapping[str, object]:
-    if not isinstance(value, Mapping):
-        raise OpenAIProviderError(f"{path} must be an object")
-    return cast(Mapping[str, object], value)
-
-
 def _required(values: Mapping[str, str], name: str) -> str:
     value = values.get(name, "").strip()
     if not value:
-        raise OpenAIProviderError(f"{name} must be configured")
+        raise GatewayProviderError(f"{name} must be configured")
     return value
 
 
@@ -308,9 +250,9 @@ def _positive_int(values: Mapping[str, str], name: str) -> int:
     try:
         value = int(raw)
     except ValueError as error:
-        raise OpenAIProviderError(f"{name} must be a positive integer") from error
+        raise GatewayProviderError(f"{name} must be a positive integer") from error
     if value <= 0:
-        raise OpenAIProviderError(f"{name} must be a positive integer")
+        raise GatewayProviderError(f"{name} must be a positive integer")
     return value
 
 
@@ -318,13 +260,13 @@ def _positive_float(raw: str, name: str) -> float:
     try:
         value = float(raw)
     except ValueError as error:
-        raise OpenAIProviderError(f"{name} must be a positive number") from error
+        raise GatewayProviderError(f"{name} must be a positive number") from error
     if value <= 0:
-        raise OpenAIProviderError(f"{name} must be a positive number")
+        raise GatewayProviderError(f"{name} must be a positive number")
     return value
 
 
 def _non_negative_int(value: object, path: str) -> int:
     if not isinstance(value, int) or isinstance(value, bool) or value < 0:
-        raise OpenAIProviderError(f"{path} must be a non-negative integer")
+        raise GatewayProviderError(f"{path} must be a non-negative integer")
     return value
