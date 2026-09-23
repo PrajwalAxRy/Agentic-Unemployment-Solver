@@ -53,6 +53,12 @@ from job_finder.persistence_verification import (
     write_persistence_report,
 )
 from job_finder.recency_verification import measure_enabled_recency, write_recency_report
+from job_finder.repair import (
+    build_repair_request,
+    load_and_validate_repair_proposal,
+    load_repair_request,
+    write_repair_artifact,
+)
 from job_finder.reporting.scan_report import write_scan_markdown
 from job_finder.scan import (
     SCAN_REPORT_SCHEMA_VERSION,
@@ -288,6 +294,28 @@ def build_parser() -> argparse.ArgumentParser:
     )
     scan.add_argument("--timeout", type=float, default=15.0)
     scan.add_argument("--source-retries", type=int, default=2)
+    repair = subparsers.add_parser(
+        "repair",
+        help="Build or validate inactive source-repair artifacts without applying changes.",
+    )
+    repair_subparsers = repair.add_subparsers(dest="repair_command", required=True)
+    repair_request = repair_subparsers.add_parser(
+        "build-request",
+        help="Build a sanitized evidence request for one unhealthy source.",
+    )
+    repair_request.add_argument(
+        "--registry", type=Path, default=Path("config/company_sources.json")
+    )
+    repair_request.add_argument("--verification", type=Path, required=True)
+    repair_request.add_argument("--company-id", required=True)
+    repair_request.add_argument("--output", type=Path, required=True)
+    repair_validate = repair_subparsers.add_parser(
+        "validate-proposal",
+        help="Validate an LLM repair proposal and preserve it as inactive.",
+    )
+    repair_validate.add_argument("--request", type=Path, required=True)
+    repair_validate.add_argument("--proposal", type=Path, required=True)
+    repair_validate.add_argument("--output", type=Path, required=True)
     return parser
 
 
@@ -310,6 +338,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _validate_seniority(args)
     if args.command == "scan":
         return _scan(args)
+    if args.command == "repair":
+        return _repair(args)
     return 0
 
 
@@ -682,3 +712,29 @@ def _scan(args: argparse.Namespace) -> int:
     print(f"Wrote machine-readable report to {args.json_output}")
     print(f"Wrote human-readable report to {args.markdown_output}")
     return report.outcome.exit_code
+
+
+def _repair(args: argparse.Namespace) -> int:
+    """Build or validate repair evidence without mutating active configuration."""
+    if args.repair_command == "build-request":
+        request = build_repair_request(
+            load_company_registry(args.registry),
+            args.verification,
+            company_id=args.company_id,
+        )
+        write_repair_artifact(request, args.output)
+        print(
+            f"proposal_id={request.proposal_id} company={request.company_id} "
+            f"status=inactive output={args.output}"
+        )
+        return 0
+    if args.repair_command == "validate-proposal":
+        request = load_repair_request(args.request)
+        proposal = load_and_validate_repair_proposal(request, args.proposal)
+        write_repair_artifact(proposal, args.output)
+        print(
+            f"proposal_id={proposal.proposal_id} company={proposal.company_id} "
+            f"status={proposal.activation_status} output={args.output}"
+        )
+        return 0
+    raise ValueError(f"unknown repair command: {args.repair_command}")
