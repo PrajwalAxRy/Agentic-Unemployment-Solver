@@ -646,7 +646,10 @@ def _company_accounting(
             enabled=entry.source.enabled,
             status=entry.source.status.value,
             adapter_type=entry.source.adapter_type.value,
-            exception_reason=entry.source.exception_reason,
+            exception_reason=(
+                entry.source.exception_reason
+                or (entry.source.notes if not entry.source.enabled else None)
+            ),
         )
         for entry in sorted(registry.entries, key=lambda item: item.source_rank)
     )

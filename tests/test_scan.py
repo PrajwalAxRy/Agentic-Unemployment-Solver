@@ -10,7 +10,11 @@ from pathlib import Path
 
 from job_finder.adapters.base import AdapterRegistry
 from job_finder.adapters.http_client import HttpFailureCategory, HttpRequestError
-from job_finder.core.company_registry import CompanyRegistryEntry, CompanySourceRegistry
+from job_finder.core.company_registry import (
+    CompanyRegistryEntry,
+    CompanySourceRegistry,
+    load_company_registry,
+)
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.search_profile import load_search_profile
 from job_finder.core.source_contracts import (
@@ -46,6 +50,7 @@ from job_finder.scan import (
     SCAN_REPORT_SCHEMA_VERSION,
     ScanOutcome,
     ScanReport,
+    _company_accounting,
     process_filter_report,
     run_manual_scan,
     write_scan_report,
@@ -345,6 +350,14 @@ def test_scan_outcome_exit_statuses_follow_the_declared_contract() -> None:
     assert ScanOutcome.COMPLETE.exit_code == 0
     assert ScanOutcome.PARTIAL.exit_code == 2
     assert ScanOutcome.FAILED.exit_code == 3
+
+
+def test_complete_registry_accounting_gives_every_disabled_company_a_reason() -> None:
+    accounting = _company_accounting(load_company_registry(ROOT / "config/company_sources.json"))
+
+    assert len(accounting) == 330
+    assert sum(not item.enabled for item in accounting) == 244
+    assert all(item.enabled or item.exception_reason for item in accounting)
 
 
 def test_healthy_empty_run_clearly_reports_no_new_matches(tmp_path: Path) -> None:
