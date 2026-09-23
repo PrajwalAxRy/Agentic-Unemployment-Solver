@@ -238,3 +238,53 @@ def test_h10_review_records_full_registry_evidence_and_usability_approval() -> N
     assert "Zero new identities, 311 suppressed duplicates" in review
     assert "zero disabled rows without an explanation" in review
     assert "Reply `usable`" in review
+
+
+def test_phase10_runbook_documents_resilience_and_guarded_repair() -> None:
+    runbook = Path("docs/08_source_resilience_and_repair.md").read_text(encoding="utf-8")
+
+    for category in (
+        "temporary_availability",
+        "rate_limit",
+        "configuration_error",
+        "source_moved",
+        "schema_change",
+        "parser_defect",
+        "access_restriction",
+        "unsupported_source",
+    ):
+        assert category in runbook
+    assert "result_count_collapse" in runbook
+    assert "future_publication_date" in runbook
+    assert "stale_publication_dates" in runbook
+    assert "verify-sources" in runbook
+    assert "--all-enabled" in runbook
+    assert "repair build-request" in runbook
+    assert "repair validate-proposal" in runbook
+    assert "repair test-proposal" in runbook
+    assert "The repair system has no activation command" in runbook
+    assert "approve <proposal-id>" in runbook
+
+
+def test_h11_review_records_exact_inactive_sap_repair_evidence() -> None:
+    review = Path("docs/reviews/phase10_h11_sap_repair.md").read_text(encoding="utf-8")
+
+    assert "STOP — Human checkpoint H11" in review
+    assert "repair-1ddc97abb012ee26" in review
+    assert "Proposal status: `inactive`" in review
+    assert '"https://jobs.sap.com/go/SAP-Jobs-in-India/851201/"' in review
+    assert '"https://careers.sap.com/go/SAP-Jobs-in-India/851201/"' in review
+    assert '"host": "jobs.sap.com"' in review
+    assert '"host": "careers.sap.com"' in review
+    assert "47 unique jobs across two pages" in review
+    assert "requisition `1280449101`" in review
+    assert "82 succeeded, two" in review
+    assert "no false failure category" in review
+    assert "Clipboard Health (Ashby, 36 jobs)" in review
+    assert "Freshworks" in review and "125 jobs on two pages" in review
+    assert "external transient" in review
+    assert "rather than 21 simultaneous source regressions" in review
+    assert "461 tests" in review
+    assert "The active registry remains unchanged" in review
+    assert "approve repair-1ddc97abb012ee26" in review
+    assert "reject repair-1ddc97abb012ee26: <optional reason>" in review

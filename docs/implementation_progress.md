@@ -4,9 +4,10 @@
 
 - Active phase: Phase 10 — resilience and repair evidence
 - Status: Phases 0–9 complete; H1, H2, H4, H5, H6, H9, and H10 approved; H8 connectivity
-  verified. Phase 10 resilience-gap assessment is next.
-- Pending human checkpoint: none. H11 applies only if a tested live repair proposal is ready for
-  activation.
+  verified. Phase 10 implementation, drills, and live evidence are complete through an inactive
+  SAP repair proposal.
+- Pending human checkpoint: **H11** for proposal `repair-1ddc97abb012ee26`. The exact two-field
+  SAP host repair is tested but has not changed active configuration.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -299,6 +300,33 @@
   H10 stop.
 - H10 was explicitly approved as `usable` on 2026-09-23. The user confirmed that the command,
   report, and runbook made the seven required usability answers clear, completing Phase 9.
+- Phase 10 adds stable source failure categories, cross-adapter result-count and publication-date
+  anomalies, sanitized schema-v2 verification reports, historical baselines, and bounded source
+  retries. Failed or suspicious peers cannot appear healthy and do not hide healthy results.
+- Targeted verification supports one company, one adapter family, or all enabled sources. It now
+  emits one flushed progress line per company while leaving job-history state untouched.
+- Explicit drills cover login and CAPTCHA pages, removed fields, content-type changes, repeated
+  pagination, timeout, rate limiting, count collapse, peer isolation, future dates, unavailable
+  LLM service, and database lock contention. Diagnostic tests prove configured secrets, messages,
+  response bodies, cookies, and credential-like URL query values are not saved.
+- The guarded repair workflow creates a deterministic sanitized request, validates an inactive
+  exact-diff proposal, and tests supported fields in an immutable in-memory registry. It has no
+  activation operation and fails closed on stale values, mismatched IDs/versions, sensitive data,
+  duplicate paths, other companies, or unsupported fields.
+- The all-enabled live verifier accounted for all 86 enabled companies. It found SAP's configured
+  host incompatible with the SuccessFactors parser and retained Quantbox Research as a separate
+  reviewed stale-publication-date anomaly. Healthy peers remained usable.
+- A post-classifier full rerun confirmed Quantbox has no failure category, then encountered one
+  external connectivity event across 21 consecutive unrelated sources after 65 completed results.
+  All were retained as `temporary_availability`, not healthy empty results. Immediate checks in
+  fresh processes recovered Ashby, Greenhouse, SmartRecruiters, and Darwinbox sources; SAP again
+  reached its host and reproduced `unsupported_schema`.
+- Inactive SAP proposal `repair-1ddc97abb012ee26` changes only the official category host from
+  `jobs.sap.com` to `careers.sap.com`. The exact in-memory preview returned 47 complete jobs on two
+  pages, and representative detail `1280449101` matched identity, location, `datePosted`, and
+  description. The active registry remains unchanged pending H11.
+- Repository validation passes with 461 tests, strict mypy, Ruff formatting, and Ruff lint at the
+  H11 stop.
 
 ## Relevant Phase 2 commits
 
@@ -443,6 +471,16 @@
 - `b063434` — flushed long-running progress output
 - `1cfe0bc` — explicit reasons for every disabled company
 
+## Relevant Phase 10 commits
+
+- `6afaf3e` — source anomaly detection and failure taxonomy
+- `f74c56c` — guarded inactive source repair proposals
+- `9807e28` — sanitized source diagnostic reports
+- `7ab51cd` — explicit source failure drills
+- `d9ea6b8` — immutable testing of inactive repair proposals
+- `577d9a0` — separation of source anomalies from failure causes
+- `a3b6a3a` — visible bounded source-verification progress
+
 ## Review artifacts
 
 - H1 search policy review: `docs/reviews/h1_search_policy_review.md`
@@ -467,6 +505,8 @@
 - H8 live-provider configuration: `docs/06_llm_provider_configuration.md`
 - H9 seniority quality review: `docs/reviews/h9_seniority_quality_review.md`
 - H10 manual-scan usability review: `docs/reviews/h10_usability_review.md`
+- Phase 10 source resilience and repair runbook: `docs/08_source_resilience_and_repair.md`
+- H11 SAP repair review: `docs/reviews/phase10_h11_sap_repair.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -511,10 +551,19 @@
   three Barclays jobs for which the gateway repeatedly returned no completion text. They remain
   explicit review rows; the three provider outcomes are pending and all nine technical outcomes
   are retried by a later scan rather than being silently suppressed or promoted to matches.
+- SAP's active `jobs.sap.com` category now returns a page schema incompatible with the
+  SuccessFactors adapter. Tested proposal `repair-1ddc97abb012ee26` restores the same official
+  category on `careers.sap.com`, but it remains inactive until H11 approval.
+- Quantbox Research exposes eight active public jobs whose `first_published` values are all old
+  while their `updated_at` values remain current. It stays visible as a reviewed
+  `stale_publication_dates` anomaly, not an inferred schema failure.
 
 ## Resume point
 
-Begin Phase 10 by auditing the existing source-health, anomaly, diagnostic, verification, failure-
-drill, and guarded-repair behavior against the authoritative phase deliverables. Implement and
-commit each missing behavior separately. Trigger H11 only before activating a tested repair against
-the real registry, adapter configuration, or source logic.
+Stop at H11. Review `docs/reviews/phase10_h11_sap_repair.md` and wait for exactly
+`approve repair-1ddc97abb012ee26` or
+`reject repair-1ddc97abb012ee26: <optional reason>`. Do not change active SAP configuration before
+approval. If approved, apply only the reviewed two-field diff, add its registry regression, rerun
+the SAP and complete SuccessFactors validations plus all enabled sources, inspect and commit the
+focused repair, record H11, and complete the Phase 10 gate. If rejected, record the disposition and
+leave active configuration unchanged.
