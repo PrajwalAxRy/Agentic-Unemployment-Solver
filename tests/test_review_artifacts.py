@@ -203,3 +203,18 @@ def test_h9_review_records_quality_gate_and_live_evidence() -> None:
     assert "Limited live batch: 8 decisions" in review
     assert "All eight live decisions were reviewed" in review
     assert "Completed decisions with locally verified verbatim description evidence: 28" in review
+
+
+def test_manual_scan_runbook_documents_outcomes_state_and_h10_review() -> None:
+    runbook = Path("docs/07_scan_runbook.md").read_text(encoding="utf-8")
+
+    assert "uv run --locked job-finder scan" in runbook
+    assert "reports/latest_scan.md" in runbook
+    assert "reports/latest_scan.json" in runbook
+    assert "Zero matching" in runbook
+    assert "Exit status is `0`" in runbook
+    assert "state inspect" in runbook
+    assert "state backup" in runbook
+    assert "state restore" in runbook
+    assert "H10 usability checklist" in runbook
+    assert "Where are state inspection, backup, restore, and reset instructions?" in runbook

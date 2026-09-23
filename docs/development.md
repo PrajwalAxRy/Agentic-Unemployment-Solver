@@ -49,7 +49,18 @@ uv run --locked python -m job_finder --version
 
 `config/settings.example.toml` is the tracked non-secret Phase 0 configuration. `.env.example`
 contains only non-secret placeholders. Do not commit `.env` or any variant containing credentials.
-Provider variables will be added only after the mocked LLM integration passes in Phase 8.
+Provider variables are documented in `.env.example` and `docs/06_llm_provider_configuration.md`.
+
+## Manual scan
+
+After configuring the provider variables, run the complete pipeline once with:
+
+```powershell
+uv run --locked job-finder scan
+```
+
+See `docs/07_scan_runbook.md` for output paths, exit statuses, report interpretation, repeat-run
+behavior, and troubleshooting.
 
 ## Generated files
 
