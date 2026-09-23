@@ -193,7 +193,8 @@ def test_h8_configuration_documents_redacted_provider_setup() -> None:
 def test_h9_review_records_quality_gate_and_live_evidence() -> None:
     review = Path("docs/reviews/h9_seniority_quality_review.md").read_text(encoding="utf-8")
 
-    assert "**STOP — Human checkpoint H9" in review
+    assert "**APPROVED — Human checkpoint H9 completed on 2026-09-23.**" in review
+    assert "approved the recommended first-release threshold and uncertainty policy" in review
     assert "prompt `1.0.1`" in review
     assert "Exact decision agreement: 20/20 (100.00%)" in review
     assert "invalid/manual-review outcomes: 0" in review
@@ -202,4 +203,3 @@ def test_h9_review_records_quality_gate_and_live_evidence() -> None:
     assert "Limited live batch: 8 decisions" in review
     assert "All eight live decisions were reviewed" in review
     assert "Completed decisions with locally verified verbatim description evidence: 28" in review
-    assert "approve H9 threshold and uncertainty policy" in review

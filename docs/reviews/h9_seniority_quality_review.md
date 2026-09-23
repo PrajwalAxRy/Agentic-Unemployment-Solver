@@ -2,7 +2,7 @@
 
 ## Checkpoint status
 
-**STOP — Human checkpoint H9: awaiting seniority threshold and uncertainty-policy approval.**
+**APPROVED — Human checkpoint H9 completed on 2026-09-23.**
 
 Generated `2026-09-23T03:24:16+05:30` with model policy `amd-llm-gateway:gpt-5.6-luna:v1`, prompt `1.0.1`, evaluation set `1.0.0`, and search profile `1.1.0` (`b3da10cf2d1e6b762c1f6c3a24a71fcba93e6f80615fabe525103eb9f1a1569d`).
 
@@ -114,4 +114,6 @@ candidate refresh completed at the report generation time above.
 
 ## Review requested
 
-Review the expected and actual decisions, evidence excerpts, and linked live job descriptions. Reply `approve H9 threshold and uncertainty policy`, or list corrections by case ID with the expected label (`true`, `false`, or `uncertain`).
+The user approved the recommended first-release threshold and uncertainty policy without
+case-labelled corrections on 2026-09-23. Prompt `1.0.1`, evaluation set `1.0.0`, and the metrics in
+this artifact are the approved Phase 8 baseline.

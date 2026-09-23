@@ -54,6 +54,23 @@ Boundary rules:
 
 A title such as `Senior Machine Learning Engineer` must not be deterministically rejected before the LLM reads the description. The actual minimum experience and scope control the decision. Phase 1 must add more labelled examples, and Phase 8 must validate them against real descriptions.
 
+### Seniority quality threshold and uncertainty policy
+
+Human checkpoint H9 was approved on 2026-09-23. The first-release seniority quality gate requires:
+
+- At least 90% exact agreement on the reviewed `seniority_match` labels.
+- 100% schema-valid results with locally verified verbatim evidence.
+- Zero false acceptances and zero false rejections in the reviewed evaluation set.
+- Every labelled ambiguous case to remain `uncertain`.
+
+Detected-level agreement is diagnostic and does not control eligibility. An `uncertain` or invalid
+result must appear in the dedicated manual-review section and must never be promoted to a match.
+The system may re-evaluate such a result only after its description, search profile, seniority
+prompt, or model policy changes. The approved prompt `1.0.1` baseline passed with 20/20 exact
+eligibility decisions, valid verbatim evidence for all 20 results, and no false acceptance, false
+rejection, or ambiguity error. The supporting evidence is recorded in
+`docs/reviews/h9_seniority_quality_review.md`.
+
 ## Role and location filtering approval
 
 Human checkpoint H6 was approved on 2026-09-22 without row-labelled corrections. The complete

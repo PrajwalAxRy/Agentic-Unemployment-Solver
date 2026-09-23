@@ -2,11 +2,11 @@
 
 ## Current status
 
-- Active phase: Phase 8 — STOP at human checkpoint H9
-- Status: Phases 0–7 complete; H1, H2, H4, H5, and H6 approved; H8 connectivity verified. The
-  reviewed evaluation set and limited unseen live batch pass the recommended H9 quality gate.
-- Pending human checkpoint: H9 reached. Await approval of the recommended quality threshold and
-  uncertainty policy, or case-labelled corrections, before completing Phase 8 or starting Phase 9.
+- Active phase: Phase 9 — manual trigger and report
+- Status: Phases 0–8 complete; H1, H2, H4, H5, H6, and H9 approved; H8 connectivity verified.
+  Phase 9 manual scan orchestration is in progress.
+- Pending human checkpoint: None. The next mandatory stop is H10 after the end-to-end command,
+  report, runbook, automated tests, and full-registry two-run validation are complete.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -264,6 +264,14 @@
   run used 28 requests, 18,523 measured input tokens, and 3,715 measured output tokens. No monetary
   estimate is available for the corporate gateway.
 - Repository validation passes at H9 with 406 tests, strict mypy, and Ruff checks.
+- H9 was explicitly approved without case-labelled corrections on 2026-09-23. The first-release
+  gate is at least 90% exact `seniority_match` agreement, 100% schema-valid results with locally
+  verified verbatim evidence, zero false acceptances, zero false rejections, and preservation of
+  every labelled ambiguous case as `uncertain`.
+- `Uncertain` and invalid seniority results must remain in the dedicated manual-review section and
+  must never be promoted to matches. Re-evaluation requires a changed description, profile,
+  prompt, or model policy. Prompt `1.0.1` and evaluation set `1.0.0` are the approved Phase 8
+  baseline.
 
 ## Relevant Phase 2 commits
 
@@ -457,7 +465,8 @@
 
 ## Resume point
 
-Stop at H9. Review `docs/reviews/h9_seniority_quality_review.md`. Resume only after the user replies
-`approve H9 threshold and uncertainty policy`, or supplies case-labelled corrections. After
-approval, record the decision, rerun the approved baseline if labels change, commit the Phase 8
-approval separately from prompt changes, and begin Phase 9 manual scan orchestration.
+Continue Phase 9 manual scan orchestration. Implement the deterministic substantive-AI-work
+description gate for conditional-title candidates before seniority evaluation, then complete the
+manual command, reports, run metrics, runbook, automated tests, and deliberate fresh-state plus
+immediate-rerun full-registry validation. Stop at H10 with the exact runbook, representative
+report, and usability-review questions.
