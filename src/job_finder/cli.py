@@ -368,6 +368,7 @@ def _verify_sources(args: argparse.Namespace) -> int:
             adapters,
             baseline=baseline,
             source_retry_count=args.source_retries,
+            progress=_print_progress,
         )
     else:
         report = verify_adapter_sources(
@@ -377,6 +378,7 @@ def _verify_sources(args: argparse.Namespace) -> int:
             company_ids=args.company_id,
             baseline=baseline,
             source_retry_count=args.source_retries,
+            progress=_print_progress,
         )
     write_verification_report(report, args.output)
     for record in report.records:
@@ -763,6 +765,7 @@ def _repair(args: argparse.Namespace) -> int:
             source.adapter_type,
             company_ids=(source.company_id,),
             source_retry_count=args.source_retries,
+            progress=_print_progress,
         )
         write_verification_report(report, args.output)
         record = report.records[0]

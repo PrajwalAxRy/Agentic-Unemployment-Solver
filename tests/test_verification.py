@@ -188,6 +188,23 @@ def test_enabled_verification_selects_only_enabled_sources_in_registry_order() -
     assert [record.company_id for record in report.records] == ["two"]
 
 
+def test_verification_reports_one_bounded_progress_message_per_source() -> None:
+    messages: list[str] = []
+
+    verify_adapter_sources(
+        registry(),
+        AdapterRegistry([StubAshbyAdapter()]),
+        AdapterType.ASHBY,
+        generated_at=datetime(2026, 9, 20, 10, tzinfo=UTC),
+        progress=messages.append,
+    )
+
+    assert messages == [
+        "phase=source_verification progress=1/2 company=one outcome=success jobs=1",
+        "phase=source_verification progress=2/2 company=two outcome=success jobs=1",
+    ]
+
+
 @dataclass(frozen=True)
 class EmptyAshbyAdapter:
     adapter_type: AdapterType = AdapterType.ASHBY
@@ -311,11 +328,13 @@ def test_adapter_diagnostics_map_to_stable_failure_categories(
 
 
 def test_missing_adapter_is_contained_as_configuration_error() -> None:
+    messages: list[str] = []
     report = verify_adapter_sources(
         registry(),
         AdapterRegistry(),
         AdapterType.ASHBY,
         generated_at=datetime(2026, 9, 20, 10, tzinfo=UTC),
+        progress=messages.append,
     )
 
     assert report.outcome_counts == {"failed": 2}
@@ -323,6 +342,8 @@ def test_missing_adapter_is_contained_as_configuration_error() -> None:
         FailureCategory.CONFIGURATION_ERROR.value: 2,
     }
     assert all(record.exception_categories == ("configuration_error",) for record in report.records)
+    assert len(messages) == 2
+    assert all("outcome=failed jobs=0" in message for message in messages)
 
 
 def test_future_and_uniformly_stale_publication_dates_are_suspicious() -> None:

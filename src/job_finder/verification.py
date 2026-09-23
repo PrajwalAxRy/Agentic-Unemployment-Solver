@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import re
 from collections import Counter
-from collections.abc import Iterable, Mapping
+from collections.abc import Callable, Iterable, Mapping
 from dataclasses import asdict, dataclass
 from datetime import date, datetime, timedelta
 from enum import StrEnum
@@ -133,6 +133,7 @@ def verify_adapter_sources(
     generated_at: datetime | None = None,
     baseline: VerificationBaseline | None = None,
     source_retry_count: int = 0,
+    progress: Callable[[str], None] | None = None,
 ) -> SourceVerificationReport:
     """Run a bounded listing check for every selected source in one adapter family."""
     requested_ids = tuple(company_ids)
@@ -165,6 +166,7 @@ def verify_adapter_sources(
         generated_at=generated_at,
         baseline=baseline,
         source_retry_count=source_retry_count,
+        progress=progress,
     )
 
 
@@ -175,6 +177,7 @@ def verify_enabled_sources(
     generated_at: datetime | None = None,
     baseline: VerificationBaseline | None = None,
     source_retry_count: int = 0,
+    progress: Callable[[str], None] | None = None,
 ) -> SourceVerificationReport:
     """Run one listing verification across every enabled source in registry order."""
     entries = [entry for entry in registry.entries if entry.source.enabled]
@@ -187,6 +190,7 @@ def verify_enabled_sources(
         generated_at=generated_at,
         baseline=baseline,
         source_retry_count=source_retry_count,
+        progress=progress,
     )
 
 
@@ -199,6 +203,7 @@ def _verify_entries(
     generated_at: datetime | None,
     baseline: VerificationBaseline | None,
     source_retry_count: int,
+    progress: Callable[[str], None] | None,
 ) -> SourceVerificationReport:
     if source_retry_count < 0:
         raise ValueError("source_retry_count cannot be negative")
@@ -206,7 +211,8 @@ def _verify_entries(
     if timestamp.tzinfo is None:
         raise ValueError("generated_at must be timezone-aware")
     records: list[SourceVerificationRecord] = []
-    for entry in entries:
+    entry_count = len(entries)
+    for entry_index, entry in enumerate(entries, start=1):
         try:
             adapter = adapters.resolve(entry.source)
             result, attempt_count = list_jobs_with_retry(
@@ -215,45 +221,40 @@ def _verify_entries(
                 retry_count=source_retry_count,
             )
         except AdapterConfigurationError:
-            records.append(
-                _exception_record(
-                    entry,
-                    registry,
-                    category=FailureCategory.CONFIGURATION_ERROR,
-                    exception_category="configuration_error",
-                )
+            record = _exception_record(
+                entry,
+                registry,
+                category=FailureCategory.CONFIGURATION_ERROR,
+                exception_category="configuration_error",
             )
-            continue
         except Exception:  # noqa: BLE001 - one broken adapter must not hide healthy peers.
-            records.append(
-                _exception_record(
-                    entry,
-                    registry,
-                    category=FailureCategory.PARSER_DEFECT,
-                    exception_category="unexpected_adapter_error",
-                )
+            record = _exception_record(
+                entry,
+                registry,
+                category=FailureCategory.PARSER_DEFECT,
+                exception_category="unexpected_adapter_error",
             )
-            continue
-
-        dates = Counter(job.date_basis.value for job in result.jobs)
-        anomalies = _source_anomalies(
-            result.jobs,
-            current_count=len(result.jobs),
-            previous_count=(
-                baseline.job_counts.get(entry.source.company_id) if baseline is not None else None
-            ),
-            generated_at=timestamp,
-            result_outcome=result.outcome,
-        )
-        outcome = AdapterOutcome.SUSPICIOUS if anomalies else result.outcome
-        complete = False if anomalies else result.complete
-        failures = set(_failure_categories(result.diagnostics, outcome=result.outcome))
-        exceptions = list(
-            dict.fromkeys(_sanitized_category(item.category) for item in result.diagnostics)
-        )
-        exceptions.extend(item.value for item in anomalies if item.value not in exceptions)
-        records.append(
-            SourceVerificationRecord(
+        else:
+            dates = Counter(job.date_basis.value for job in result.jobs)
+            anomalies = _source_anomalies(
+                result.jobs,
+                current_count=len(result.jobs),
+                previous_count=(
+                    baseline.job_counts.get(entry.source.company_id)
+                    if baseline is not None
+                    else None
+                ),
+                generated_at=timestamp,
+                result_outcome=result.outcome,
+            )
+            outcome = AdapterOutcome.SUSPICIOUS if anomalies else result.outcome
+            complete = False if anomalies else result.complete
+            failures = set(_failure_categories(result.diagnostics, outcome=result.outcome))
+            exceptions = list(
+                dict.fromkeys(_sanitized_category(item.category) for item in result.diagnostics)
+            )
+            exceptions.extend(item.value for item in anomalies if item.value not in exceptions)
+            record = SourceVerificationRecord(
                 company_id=entry.source.company_id,
                 company_name=entry.source.company_name,
                 source_rank=entry.source_rank,
@@ -282,7 +283,12 @@ def _verify_entries(
                     if (sanitized := _sanitized_public_url(job.canonical_url)) is not None
                 ),
             )
-        )
+        records.append(record)
+        if progress is not None:
+            progress(
+                f"phase=source_verification progress={entry_index}/{entry_count} "
+                f"company={record.company_id} outcome={record.outcome} jobs={record.job_count}"
+            )
     outcomes = Counter(record.outcome for record in records)
     failure_counts = Counter(
         category for record in records for category in record.failure_categories
