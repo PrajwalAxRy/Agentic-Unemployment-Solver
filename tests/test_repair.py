@@ -14,6 +14,7 @@ from job_finder.repair import (
     RepairRequest,
     build_repair_request,
     load_repair_request,
+    preview_registry_with_proposal,
     validate_repair_proposal,
     write_repair_artifact,
 )
@@ -180,3 +181,37 @@ def test_healthy_verification_cannot_generate_repair_request(tmp_path: Path) -> 
             verification,
             company_id="glean",
         )
+
+
+def test_inactive_proposal_preview_never_mutates_the_active_registry(tmp_path: Path) -> None:
+    registry = load_company_registry(ROOT / "config" / "company_sources.json")
+    request = build_request(tmp_path)
+    proposal = validate_repair_proposal(request, proposal_payload(request.proposal_id))
+
+    preview = preview_registry_with_proposal(registry, request, proposal)
+    active_source = next(
+        item.source for item in registry.entries if item.source.company_id == "glean"
+    )
+    preview_source = next(
+        item.source for item in preview.entries if item.source.company_id == "glean"
+    )
+
+    assert active_source.adapter_parameters["board_token"] == "gleanwork"
+    assert preview_source.adapter_parameters["board_token"] == "glean-public"
+    assert registry.registry_version == "0.2.0-phase4"
+    assert preview.registry_version.endswith("-preview")
+
+
+def test_inactive_preview_rejects_a_stale_before_value(tmp_path: Path) -> None:
+    registry = load_company_registry(ROOT / "config" / "company_sources.json")
+    request = build_request(tmp_path)
+    raw = proposal_payload(request.proposal_id)
+    changes = raw["changes"]
+    assert isinstance(changes, list)
+    change = changes[0]
+    assert isinstance(change, dict)
+    change["before"] = "stale-board-name"
+    proposal = validate_repair_proposal(request, raw)
+
+    with pytest.raises(ValueError, match="does not match active value"):
+        preview_registry_with_proposal(registry, request, proposal)

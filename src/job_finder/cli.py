@@ -57,6 +57,7 @@ from job_finder.repair import (
     build_repair_request,
     load_and_validate_repair_proposal,
     load_repair_request,
+    preview_registry_with_proposal,
     write_repair_artifact,
 )
 from job_finder.reporting.scan_report import write_scan_markdown
@@ -316,6 +317,16 @@ def build_parser() -> argparse.ArgumentParser:
     repair_validate.add_argument("--request", type=Path, required=True)
     repair_validate.add_argument("--proposal", type=Path, required=True)
     repair_validate.add_argument("--output", type=Path, required=True)
+    repair_test = repair_subparsers.add_parser(
+        "test-proposal",
+        help="Verify an inactive configuration proposal in memory without editing the registry.",
+    )
+    repair_test.add_argument("--registry", type=Path, default=Path("config/company_sources.json"))
+    repair_test.add_argument("--request", type=Path, required=True)
+    repair_test.add_argument("--proposal", type=Path, required=True)
+    repair_test.add_argument("--output", type=Path, required=True)
+    repair_test.add_argument("--timeout", type=float, default=15.0)
+    repair_test.add_argument("--source-retries", type=int, default=2)
     return parser
 
 
@@ -737,4 +748,28 @@ def _repair(args: argparse.Namespace) -> int:
             f"status={proposal.activation_status} output={args.output}"
         )
         return 0
+    if args.repair_command == "test-proposal":
+        registry = load_company_registry(args.registry)
+        request = load_repair_request(args.request)
+        proposal = load_and_validate_repair_proposal(request, args.proposal)
+        preview = preview_registry_with_proposal(registry, request, proposal)
+        source = next(
+            item.source for item in preview.entries if item.source.company_id == request.company_id
+        )
+        client = BoundedHttpClient(policy=HttpPolicy(timeout_seconds=args.timeout))
+        report = verify_adapter_sources(
+            preview,
+            _runtime_adapters(client),
+            source.adapter_type,
+            company_ids=(source.company_id,),
+            source_retry_count=args.source_retries,
+        )
+        write_verification_report(report, args.output)
+        record = report.records[0]
+        print(
+            f"proposal_id={proposal.proposal_id} company={proposal.company_id} "
+            f"status=inactive outcome={record.outcome} jobs={record.job_count} "
+            f"pages={record.page_count} output={args.output}"
+        )
+        return 0 if report.healthy else 2
     raise ValueError(f"unknown repair command: {args.repair_command}")

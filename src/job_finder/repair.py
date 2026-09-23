@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 from collections.abc import Mapping
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from enum import StrEnum
 from pathlib import Path
 from urllib.parse import parse_qsl, urlsplit
@@ -325,6 +325,77 @@ def load_and_validate_repair_proposal(
     return validate_repair_proposal(
         request,
         _load_json_object(proposal_path, "repair proposal"),
+    )
+
+
+def preview_registry_with_proposal(
+    registry: CompanySourceRegistry,
+    request: RepairRequest,
+    proposal: RepairProposal,
+) -> CompanySourceRegistry:
+    """Apply reviewed configuration fields in memory for bounded tests only."""
+    if proposal.activation_status != "inactive":
+        raise ValueError("only inactive proposals may be previewed")
+    if proposal.proposal_id != request.proposal_id or proposal.company_id != request.company_id:
+        raise ValueError("repair proposal does not match the request")
+    if registry.registry_version != request.registry_version:
+        raise ValueError("active registry version does not match the repair request")
+    entry_index = next(
+        (
+            index
+            for index, item in enumerate(registry.entries)
+            if item.source.company_id == request.company_id
+        ),
+        None,
+    )
+    if entry_index is None:
+        raise ValueError(f"company_id is not present in active registry: {request.company_id}")
+
+    entry = registry.entries[entry_index]
+    source = entry.source
+    parameters = dict(source.adapter_parameters)
+    careers_url = source.careers_url
+    seen_paths: set[str] = set()
+    prefix = f"sources[{request.company_id}]."
+    for change in proposal.changes:
+        if change.path in seen_paths:
+            raise ValueError(f"repair proposal repeats change path: {change.path}")
+        seen_paths.add(change.path)
+        if not change.path.startswith(prefix):
+            raise ValueError("repair change path targets a different company")
+        suffix = change.path[len(prefix) :]
+        if suffix == "careers_url":
+            if careers_url != change.before or change.after is None:
+                raise ValueError("careers_url change does not match the active registry")
+            _require_public_url(change.after, "proposed careers_url")
+            careers_url = change.after
+            continue
+        parameter_prefix = "adapter_parameters."
+        if suffix.startswith(parameter_prefix):
+            key = suffix[len(parameter_prefix) :]
+            if not key or "." in key:
+                raise ValueError("adapter parameter change path is invalid")
+            if parameters.get(key) != change.before or change.after is None:
+                raise ValueError(f"adapter parameter change does not match active value: {key}")
+            _reject_sensitive(key, "proposed adapter parameter")
+            _reject_sensitive(change.after, f"proposed adapter parameter {key}")
+            parameters[key] = change.after
+            continue
+        raise ValueError(
+            "inactive preview supports only careers_url and adapter_parameters changes"
+        )
+
+    preview_source = replace(
+        source,
+        careers_url=careers_url,
+        adapter_parameters=parameters,
+    )
+    preview_entries = list(registry.entries)
+    preview_entries[entry_index] = replace(entry, source=preview_source)
+    return replace(
+        registry,
+        registry_version=f"{registry.registry_version}+{proposal.proposal_id}-preview",
+        entries=tuple(preview_entries),
     )
 
 
