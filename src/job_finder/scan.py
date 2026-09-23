@@ -363,10 +363,6 @@ def process_filter_report(
         if detailed is None:
             counts.detail_failure += 1
             counts.review += 1
-            repository.fail_evaluation(
-                observation.record.job_key,
-                _failure_result("description_unavailable", evaluator),
-            )
             if reportable:
                 reviews.append(
                     _review(row, "description_unavailable", "full description is unavailable")
@@ -494,7 +490,7 @@ def _needs_processing(
             or record.model_policy != evaluator.model_policy
         )
     result = record.seniority_result or {}
-    if result.get("reason_code") == "llm_provider_failure":
+    if result.get("reason_code") in {"description_unavailable", "llm_provider_failure"}:
         return True
     return result.get("pipeline_disposition") == "manual_review" and (
         result.get("prompt_version") != evaluator.prompt_version

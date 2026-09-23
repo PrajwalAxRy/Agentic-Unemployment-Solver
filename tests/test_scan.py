@@ -9,6 +9,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from job_finder.adapters.base import AdapterRegistry
+from job_finder.adapters.http_client import HttpFailureCategory, HttpRequestError
 from job_finder.core.company_registry import CompanyRegistryEntry, CompanySourceRegistry
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.search_profile import load_search_profile
@@ -32,6 +33,7 @@ from job_finder.matching.evaluator import (
     LLMResponse,
     ModelPolicy,
     SeniorityEvaluator,
+    SeniorityLLMClient,
     UsageBudget,
     UsageLimits,
 )
@@ -97,7 +99,7 @@ def job(
     company_id: str,
     identifier: str,
     title: str,
-    description: str,
+    description: str | None,
     *,
     uncertain_date: bool = False,
 ) -> NormalizedJob:
@@ -115,7 +117,9 @@ def job(
         DateBasis.UNKNOWN if uncertain_date else DateBasis.PUBLISHED,
         f"https://jobs.example.com/{company_id}/{identifier}",
         description,
-        hashlib.sha256(description.encode("utf-8")).hexdigest(),
+        hashlib.sha256(description.encode("utf-8")).hexdigest()
+        if description is not None
+        else None,
     )
 
 
@@ -156,6 +160,26 @@ class StubAdapter:
 
 
 @dataclass
+class RetryingDetailAdapter(StubAdapter):
+    details: dict[str, NormalizedJob] = field(default_factory=dict)
+    failures_remaining: int = 1
+    detail_requests: int = 0
+
+    def get_job_detail(
+        self, company_source: CompanySource, listing: NormalizedJob
+    ) -> NormalizedJob:
+        self.detail_requests += 1
+        if self.failures_remaining:
+            self.failures_remaining -= 1
+            raise HttpRequestError(
+                HttpFailureCategory.TIMEOUT,
+                "sanitized transient detail failure",
+                retryable=True,
+            )
+        return self.details[listing.external_job_id or ""]
+
+
+@dataclass
 class StubLLMClient:
     contents: list[str]
     requests: list[LLMRequest] = field(default_factory=list)
@@ -186,7 +210,7 @@ def decision(match: bool | str, *, evidence: str = "3+ years of experience") -> 
     )
 
 
-def evaluator(client: StubLLMClient) -> SeniorityEvaluator:
+def evaluator(client: SeniorityLLMClient) -> SeniorityEvaluator:
     return SeniorityEvaluator(
         client=client,
         prompt=load_seniority_prompt(ROOT / "config" / "seniority_prompt.toml"),
@@ -429,6 +453,35 @@ def test_provider_failure_remains_pending_and_recovers_on_unchanged_run(tmp_path
     assert [item.category for item in first.review_candidates] == ["llm_provider_failure"]
     assert len(failed_client.requests) == 1
     assert len(second.matching_jobs) == 1
+    assert len(second_client.requests) == 1
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        records = connection.execute("SELECT evaluation_status FROM jobs").fetchall()
+    assert [row[0] for row in records] == [EvaluationStatus.COMPLETED.value]
+
+
+def test_description_failure_remains_pending_and_recovers_on_unchanged_run(tmp_path: Path) -> None:
+    company = source("healthy")
+    listing = job("healthy", "REQ-1", "Machine Learning Engineer", None)
+    detailed = job(
+        "healthy",
+        "REQ-1",
+        "Machine Learning Engineer",
+        "Candidates need 3+ years of experience.",
+    )
+    adapter = RetryingDetailAdapter(
+        {"healthy": (listing,)},
+        details={"REQ-1": detailed},
+    )
+    test_registry = registry(company)
+
+    first = process(tmp_path, test_registry, adapter, evaluator(StubLLMClient([])))
+    second_client = StubLLMClient([decision(True)])
+    second = process(tmp_path, test_registry, adapter, evaluator(second_client))
+
+    assert first.matching_jobs == ()
+    assert [item.category for item in first.review_candidates] == ["description_unavailable"]
+    assert len(second.matching_jobs) == 1
+    assert adapter.detail_requests == 2
     assert len(second_client.requests) == 1
     with migrated_database(tmp_path / "jobs.sqlite3") as connection:
         records = connection.execute("SELECT evaluation_status FROM jobs").fetchall()
