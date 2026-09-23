@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 
 import job_finder
@@ -116,6 +118,17 @@ def test_cli_accepts_guarded_seniority_validation() -> None:
     assert str(args.reuse_live_from) == "reports\\prior.json"
     assert str(args.evaluation_set) == "config\\seniority_evaluation_set.json"
     assert str(args.review_output) == "docs\\reviews\\h9_seniority_quality_review.md"
+
+
+def test_scan_parser_defaults() -> None:
+    args = build_parser().parse_args(["scan"])
+
+    assert args.command == "scan"
+    assert args.database == Path("state/jobs.sqlite3")
+    assert args.lock == Path("state/scan.lock")
+    assert args.json_output == Path("reports/latest_scan.json")
+    assert args.markdown_output == Path("reports/latest_scan.md")
+    assert args.source_retries == 2
 
 
 def test_cli_reports_only_missing_llm_variable_names(

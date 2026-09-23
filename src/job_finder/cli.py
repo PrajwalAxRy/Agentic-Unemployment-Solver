@@ -52,6 +52,8 @@ from job_finder.persistence_verification import (
     write_persistence_report,
 )
 from job_finder.recency_verification import measure_enabled_recency, write_recency_report
+from job_finder.reporting.scan_report import write_scan_markdown
+from job_finder.scan import ScanOutcome, run_manual_scan, write_scan_report
 from job_finder.seniority_validation import (
     Phase8ValidationReport,
     collect_live_candidates,
@@ -247,6 +249,28 @@ def build_parser() -> argparse.ArgumentParser:
     )
     validate_seniority.add_argument("--timeout", type=float, default=15.0)
     validate_seniority.add_argument("--source-retries", type=int, default=2)
+    scan = subparsers.add_parser(
+        "scan",
+        help="Run the complete job-discovery pipeline once and write local reports.",
+    )
+    scan.add_argument("--registry", type=Path, default=Path("config/company_sources.json"))
+    scan.add_argument("--profile", type=Path, default=Path("config/search_profile.toml"))
+    scan.add_argument("--prompt", type=Path, default=Path("config/seniority_prompt.toml"))
+    scan.add_argument("--dotenv", type=Path, default=Path(".env"))
+    scan.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
+    scan.add_argument("--lock", type=Path, default=Path("state/scan.lock"))
+    scan.add_argument(
+        "--json-output",
+        type=Path,
+        default=Path("reports/latest_scan.json"),
+    )
+    scan.add_argument(
+        "--markdown-output",
+        type=Path,
+        default=Path("reports/latest_scan.md"),
+    )
+    scan.add_argument("--timeout", type=float, default=15.0)
+    scan.add_argument("--source-retries", type=int, default=2)
     return parser
 
 
@@ -267,6 +291,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _check_llm(args)
     if args.command == "validate-seniority":
         return _validate_seniority(args)
+    if args.command == "scan":
+        return _scan(args)
     return 0
 
 
@@ -570,3 +596,58 @@ def _validate_seniority(args: argparse.Namespace) -> int:
         and len(report.live_cases) == report.live_candidate_limit
         else 2
     )
+
+
+def _scan(args: argparse.Namespace) -> int:
+    """Run one user-facing manual scan and write both report formats."""
+    try:
+        registry = load_company_registry(args.registry)
+        profile = load_search_profile(args.profile)
+        prompt = load_seniority_prompt(args.prompt)
+        settings = load_gateway_settings(dotenv_path=args.dotenv)
+        evaluator = SeniorityEvaluator(
+            client=AmdGatewayClient(settings),
+            prompt=prompt,
+            model_policy=settings.model_policy,
+            budget=UsageBudget(settings.usage_limits),
+        )
+        client = BoundedHttpClient(policy=HttpPolicy(timeout_seconds=args.timeout))
+        print(
+            f"Starting scan with registry={registry.registry_version} "
+            f"profile={profile.version} prompt={prompt.prompt_version}"
+        )
+        report = run_manual_scan(
+            registry,
+            _runtime_adapters(client),
+            profile,
+            evaluator,
+            database_path=args.database,
+            lock_path=args.lock,
+            source_retry_count=args.source_retries,
+        )
+    except (GatewayProviderError, RuntimeError, ValueError) as error:
+        print(f"scan=failed error={error}")
+        return 3
+
+    write_scan_report(report, args.json_output)
+    write_scan_markdown(report, args.markdown_output)
+    print(
+        f"scan={report.outcome.value} companies={report.metrics.attempted_company_count} "
+        f"successful={report.metrics.successful_company_count} "
+        f"empty={report.metrics.valid_empty_company_count} "
+        f"failed={report.metrics.failed_company_count} listings={report.metrics.listing_count}"
+    )
+    print(
+        f"new_identities={report.metrics.new_identity_count} "
+        f"duplicates={report.metrics.duplicate_suppressed_count} "
+        f"strict_matches={len(report.matching_jobs)} "
+        f"date_uncertain_matches={len(report.date_uncertain_jobs)} "
+        f"reviews={len(report.review_candidates)}"
+    )
+    print(f"Wrote machine-readable report to {args.json_output}")
+    print(f"Wrote human-readable report to {args.markdown_output}")
+    return {
+        ScanOutcome.COMPLETE: 0,
+        ScanOutcome.PARTIAL: 2,
+        ScanOutcome.FAILED: 3,
+    }[report.outcome]
