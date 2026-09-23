@@ -110,6 +110,33 @@ for real history, the H7 human-checkpoint protocol in the execution plan.
 Generated reports and state are ignored by Git. Do not stage them, cached responses, diagnostics,
 or `.env`.
 
+## How to answer the H10 review
+
+Open `reports/latest_scan.md` after the command finishes and use this map:
+
+| Question | Exact place to look | What to report |
+|---|---|---|
+| Was coverage complete, partial, or failed? | The first bold sentence and **Coverage and run summary** | Copy the run outcome. `Complete` with zero matches is still successful. |
+| Which jobs are new strict matches? | **New matching jobs** | List the company and job title, or write `none`. |
+| Which matches have uncertain publication dates? | **Date-uncertain matching candidates** | List these separately. They are not strict ten-day matches. |
+| Why was each job included or sent to review? | For matches, read **Seniority evidence** and **Why it matched**. For reviews, read **Review category** and **Reason / evidence**. | Summarize those cells; do not infer from the title alone. |
+| Which companies had source problems? | **Source failures** | List the companies there, or write `none`. The separate **Unsupported and blocked sources** table records known release limitations rather than failures in this run. |
+| Where are the full JSON results? | The terminal line beginning `Wrote machine-readable report to` | With defaults, the path is `reports/latest_scan.json`. |
+| Where are state backup/reset instructions? | **State safety** in this runbook | Inspection, backup, and restore commands are shown there. Reset is guarded by the H7 protocol because it can destroy real history. |
+
+You can reply using this template:
+
+```text
+Coverage:
+New strict matches:
+Date-uncertain matches:
+Inclusion/review reasons clear: yes/no
+Source problems:
+Full JSON path:
+State safety instructions found: yes/no
+Usability result: usable / confusing at ...
+```
+
 ## H10 usability checklist
 
 After following this runbook, a reviewer should be able to answer:

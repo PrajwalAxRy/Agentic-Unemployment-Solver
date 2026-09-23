@@ -20,6 +20,27 @@ def render_scan_markdown(report: ScanReport) -> str:
         "",
         _outcome_message(report),
         "",
+        "## How to answer the seven review questions",
+        "",
+        "| Question | Where to look | How to answer |",
+        "|---|---|---|",
+        "| Coverage status | The bold sentence above and **Coverage and run summary** | "
+        "Report `complete`, `partial`, or `failed`. |",
+        "| New strict matches | **New matching jobs** | List its jobs, or answer `none` when "
+        "the section says there are no new matches. |",
+        "| Matches with uncertain dates | **Date-uncertain matching candidates** | List its "
+        "jobs separately; these are not strict ten-day results. |",
+        "| Why a job is shown | Match tables: **Seniority evidence** and **Why it matched**; "
+        "review table: **Review category** and **Reason / evidence** | Use those cells, not the "
+        "job title alone. |",
+        "| Companies with source problems | **Source failures** | List those companies. "
+        "**Unsupported and blocked sources** are known release limitations, not failures of this "
+        "run. |",
+        "| Full JSON results | The terminal's `Wrote machine-readable report to ...` line | "
+        "The default is `reports/latest_scan.json`. |",
+        "| State safety instructions | `docs/07_scan_runbook.md`, **State safety** | This section "
+        "contains inspect, backup, restore, and guarded-reset guidance. |",
+        "",
         "## New matching jobs",
         "",
         *_matching_table(report.matching_jobs),
@@ -112,8 +133,9 @@ def _matching_table(items: tuple[MatchingJobRecord, ...]) -> list[str]:
     if not items:
         return ["No new matching jobs in this section."]
     lines = [
-        "| Company | Job | Location | Date (basis) | First seen | Seniority evidence | Link |",
-        "|---|---|---|---|---|---|---|",
+        "| Company | Job | Location | Date (basis) | First seen | Seniority evidence | "
+        "Why it matched | Link |",
+        "|---|---|---|---|---|---|---|---|",
     ]
     for item in items:
         source_date = item.publication_date or item.raw_date_text or "Unavailable"
@@ -127,6 +149,7 @@ def _matching_table(items: tuple[MatchingJobRecord, ...]) -> list[str]:
                     f"{_markdown(source_date)} ({item.date_basis})",
                     _markdown(item.first_seen_at),
                     _markdown(item.seniority_evidence),
+                    _markdown(item.seniority_reason),
                     f"[open job]({item.canonical_url})",
                 )
             )

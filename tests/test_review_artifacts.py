@@ -220,6 +220,10 @@ def test_manual_scan_runbook_documents_outcomes_state_and_h10_review() -> None:
     assert "Where are state inspection, backup, restore, and reset instructions?" in runbook
     assert "bounded progress" in runbook
     assert "pending and is retried" in runbook
+    assert "How to answer the H10 review" in runbook
+    assert "Exact place to look" in runbook
+    assert "Inclusion/review reasons clear: yes/no" in runbook
+    assert "The separate **Unsupported and blocked sources** table" in runbook
 
 
 def test_h10_review_records_full_registry_evidence_and_exact_user_action() -> None:
