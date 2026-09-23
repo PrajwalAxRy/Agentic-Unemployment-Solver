@@ -145,6 +145,20 @@ class JobviteDetailStub:
         )
 
 
+@dataclass(frozen=True)
+class UncertainDateStub:
+    adapter_type: AdapterType = AdapterType.ASHBY
+
+    def list_jobs(self, company_source: CompanySource) -> AdapterResult:
+        listing = replace(
+            job("uncertain", "AI Engineer", "Bengaluru, India"),
+            published_at=None,
+            published_at_raw="2 days ago",
+            date_basis=DateBasis.UNKNOWN,
+        )
+        return AdapterResult(1, company_source, AdapterOutcome.SUCCESS, (listing,), 1, True, ())
+
+
 def test_filter_report_reconciles_every_reduction_stage() -> None:
     report = verify_filters(
         registry(),
@@ -241,3 +255,37 @@ def test_jobvite_detail_date_is_applied_after_role_and_location_pass() -> None:
     assert report.final_counts == {}
     assert report.recency_excluded_count == 1
     assert report.detail_fetch_count == 1
+
+
+def test_uncertain_date_uses_first_seen_only_for_forward_aging() -> None:
+    company_source = replace(
+        source(),
+        date_strategy=DateStrategy("relative", DateBasis.UNKNOWN, False, "test"),
+    )
+    test_registry = CompanySourceRegistry(
+        1,
+        "test",
+        SCAN_AT,
+        "test",
+        (CompanyRegistryEntry(1, "P1", None, company_source),),
+    )
+    recent = verify_filters(
+        test_registry,
+        AdapterRegistry([UncertainDateStub()]),
+        load_search_profile(Path("config/search_profile.toml")),
+        scan_at=SCAN_AT,
+        first_seen_lookup=lambda _: SCAN_AT - timedelta(days=2),
+    )
+    old = verify_filters(
+        test_registry,
+        AdapterRegistry([UncertainDateStub()]),
+        load_search_profile(Path("config/search_profile.toml")),
+        scan_at=SCAN_AT,
+        first_seen_lookup=lambda _: SCAN_AT - timedelta(days=11),
+    )
+
+    assert recent.uncertain_candidate_count == 1
+    assert recent.strict_recent_count == 0
+    assert recent.final_counts == {"retained": 1}
+    assert old.uncertain_candidate_count == 0
+    assert old.recency_excluded_count == 1

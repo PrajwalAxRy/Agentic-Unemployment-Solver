@@ -176,6 +176,7 @@ def verify_filters(
     scan_at: datetime | None = None,
     generated_at: datetime | None = None,
     source_retry_count: int = 2,
+    first_seen_lookup: Callable[[NormalizedJob], datetime | None] | None = None,
 ) -> FilterVerificationReport:
     """Collect and filter every enabled source without detail or LLM requests."""
     if scan_at is not None and scan_at.tzinfo is None:
@@ -221,20 +222,23 @@ def verify_filters(
         detail_fetch_count = 0
         detail_failure_count = 0
         for job in item.jobs:
+            publication_verified = (
+                item.source.date_strategy.verified_as_publication
+                and job.date_basis is DateBasis.PUBLISHED
+            )
+            first_seen_at = first_seen_lookup(job) if first_seen_lookup is not None else None
+            use_first_seen = first_seen_at is not None and not publication_verified
             assessment = assess_listing_recency(
-                job.published_at,
-                raw_date_text=job.published_at_raw,
-                basis=job.date_basis,
+                first_seen_at if use_first_seen else job.published_at,
+                raw_date_text=None if use_first_seen else job.published_at_raw,
+                basis=DateBasis.FIRST_SEEN if use_first_seen else job.date_basis,
                 scan_at=effective_scan_at,
                 window_days=profile.recency_window_days,
                 uncertainty_mode=profile.date_uncertainty_mode,
-                publication_date_verified=(
-                    item.source.date_strategy.verified_as_publication
-                    and job.date_basis is DateBasis.PUBLISHED
-                ),
+                publication_date_verified=publication_verified,
             )
             if assessment.decision is RecencyDecision.INSIDE_WINDOW:
-                section = CandidateSection.STRICT
+                section = CandidateSection.UNCERTAIN if use_first_seen else CandidateSection.STRICT
             elif assessment.decision is RecencyDecision.UNCERTAIN:
                 section = CandidateSection.UNCERTAIN
             else:
