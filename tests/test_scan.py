@@ -37,6 +37,7 @@ from job_finder.matching.evaluator import (
 from job_finder.matching.prompt import load_seniority_prompt
 from job_finder.persistence.database import migrated_database
 from job_finder.persistence.repository import EvaluationStatus, JobStateRepository
+from job_finder.reporting.scan_report import render_scan_markdown, write_scan_markdown
 from job_finder.scan import (
     ScanOutcome,
     ScanReport,
@@ -234,7 +235,9 @@ def test_healthy_match_report_reconciles_and_second_run_suppresses_duplicate(
     second_client = StubLLMClient([])
     second = process(tmp_path, test_registry, adapter, evaluator(second_client))
     output = tmp_path / "scan.json"
+    markdown_output = tmp_path / "scan.md"
     write_scan_report(first, output)
+    write_scan_markdown(first, markdown_output)
 
     assert first.outcome is ScanOutcome.COMPLETE
     assert len(first.matching_jobs) == 1
@@ -245,6 +248,10 @@ def test_healthy_match_report_reconciles_and_second_run_suppresses_duplicate(
     assert first.metrics.new_identity_count == 1
     assert first.metrics.seniority_match_count == 1
     assert "Confidential marker" not in output.read_text(encoding="utf-8")
+    markdown = markdown_output.read_text(encoding="utf-8")
+    assert "complete enabled-source coverage" in markdown
+    assert "## New matching jobs" in markdown
+    assert "3+ years of experience" in markdown
     assert second.matching_jobs == ()
     assert second.metrics.new_identity_count == 0
     assert second.metrics.duplicate_suppressed_count == 1
@@ -287,6 +294,23 @@ def test_complete_source_failure_has_failed_outcome(tmp_path: Path) -> None:
     assert report.matching_jobs == ()
     assert report.metrics.failed_company_count == 1
     assert report.metrics.successful_company_count == 0
+    assert "no enabled source completed successfully" in render_scan_markdown(report)
+
+
+def test_healthy_empty_run_clearly_reports_no_new_matches(tmp_path: Path) -> None:
+    company = source("empty")
+    report = process(
+        tmp_path,
+        registry(company),
+        StubAdapter({}),
+        evaluator(StubLLMClient([])),
+    )
+
+    markdown = render_scan_markdown(report)
+    assert report.outcome is ScanOutcome.COMPLETE
+    assert report.metrics.valid_empty_company_count == 1
+    assert "No new matching jobs." in markdown
+    assert "No enabled source failed." in markdown
 
 
 def test_uncertain_date_match_and_seniority_uncertainty_are_separate(
