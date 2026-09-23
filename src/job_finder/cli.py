@@ -71,6 +71,7 @@ from job_finder.seniority_validation import (
     write_phase8_validation_report,
 )
 from job_finder.verification import (
+    load_verification_baseline,
     verify_adapter_sources,
     verify_enabled_sources,
     write_verification_report,
@@ -119,6 +120,17 @@ def build_parser() -> argparse.ArgumentParser:
         default=Path("reports/source_verification.json"),
     )
     verify.add_argument("--timeout", type=float, default=15.0)
+    verify.add_argument(
+        "--source-retries",
+        type=int,
+        default=2,
+        help="Retry an incomplete full-source scan this many times (default: 2).",
+    )
+    verify.add_argument(
+        "--baseline",
+        type=Path,
+        help="Prior sanitized verification JSON used to detect result-count collapse.",
+    )
     measure = subparsers.add_parser(
         "measure-recency",
         help="Normalize all enabled listings and measure ten-day date coverage.",
@@ -306,16 +318,24 @@ def _verify_sources(args: argparse.Namespace) -> int:
     policy = HttpPolicy(timeout_seconds=args.timeout)
     client = BoundedHttpClient(policy=policy)
     adapters = _runtime_adapters(client)
+    baseline = load_verification_baseline(args.baseline) if args.baseline is not None else None
     if args.all_enabled:
         if args.company_id:
             raise ValueError("--company-id cannot be combined with --all-enabled")
-        report = verify_enabled_sources(registry, adapters)
+        report = verify_enabled_sources(
+            registry,
+            adapters,
+            baseline=baseline,
+            source_retry_count=args.source_retries,
+        )
     else:
         report = verify_adapter_sources(
             registry,
             adapters,
             AdapterType(args.adapter),
             company_ids=args.company_id,
+            baseline=baseline,
+            source_retry_count=args.source_retries,
         )
     write_verification_report(report, args.output)
     for record in report.records:
@@ -326,7 +346,9 @@ def _verify_sources(args: argparse.Namespace) -> int:
         print(
             f"{record.company_name}: outcome={record.outcome} jobs={record.job_count} "
             f"pages={record.page_count} missing={record.missing_field_count} "
-            f"dates={dates or 'none'} exceptions={exceptions}"
+            f"attempts={record.attempt_count} dates={dates or 'none'} exceptions={exceptions} "
+            f"failures={','.join(record.failure_categories) or 'none'} "
+            f"anomalies={','.join(record.anomaly_categories) or 'none'}"
         )
     print(f"Wrote sanitized verification report to {args.output}")
     return 0 if report.healthy else 2
