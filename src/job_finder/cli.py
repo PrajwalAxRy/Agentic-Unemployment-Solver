@@ -56,7 +56,6 @@ from job_finder.recency_verification import measure_enabled_recency, write_recen
 from job_finder.reporting.scan_report import write_scan_markdown
 from job_finder.scan import (
     SCAN_REPORT_SCHEMA_VERSION,
-    ScanOutcome,
     run_manual_scan,
     write_scan_report,
 )
@@ -654,8 +653,4 @@ def _scan(args: argparse.Namespace) -> int:
     )
     print(f"Wrote machine-readable report to {args.json_output}")
     print(f"Wrote human-readable report to {args.markdown_output}")
-    return {
-        ScanOutcome.COMPLETE: 0,
-        ScanOutcome.PARTIAL: 2,
-        ScanOutcome.FAILED: 3,
-    }[report.outcome]
+    return report.outcome.exit_code

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import dataclass, field, replace
+from dataclasses import asdict, dataclass, field, replace
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
@@ -36,6 +36,7 @@ from job_finder.matching.evaluator import (
 )
 from job_finder.matching.prompt import load_seniority_prompt
 from job_finder.persistence.database import migrated_database
+from job_finder.persistence.identity import job_identity
 from job_finder.persistence.repository import EvaluationStatus, JobStateRepository
 from job_finder.reporting.scan_report import render_scan_markdown, write_scan_markdown
 from job_finder.scan import (
@@ -258,6 +259,14 @@ def test_healthy_match_report_reconciles_and_second_run_suppresses_duplicate(
     assert second.metrics.duplicate_suppressed_count == 1
     assert second.metrics.llm_cache_hit_count == 1
     assert second_client.requests == []
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        stored = JobStateRepository(connection).get(
+            job_identity(adapter.jobs["healthy"][0]).job_key
+        )
+    assert stored is not None
+    assert stored.canonical_url == first.matching_jobs[0].canonical_url
+    assert stored.seniority_result is not None
+    assert stored.seniority_result["evidence"] == first.matching_jobs[0].seniority_evidence
 
 
 def test_partial_source_failure_preserves_healthy_results(tmp_path: Path) -> None:
@@ -296,6 +305,12 @@ def test_complete_source_failure_has_failed_outcome(tmp_path: Path) -> None:
     assert report.metrics.failed_company_count == 1
     assert report.metrics.successful_company_count == 0
     assert "no enabled source completed successfully" in render_scan_markdown(report)
+
+
+def test_scan_outcome_exit_statuses_follow_the_declared_contract() -> None:
+    assert ScanOutcome.COMPLETE.exit_code == 0
+    assert ScanOutcome.PARTIAL.exit_code == 2
+    assert ScanOutcome.FAILED.exit_code == 3
 
 
 def test_healthy_empty_run_clearly_reports_no_new_matches(tmp_path: Path) -> None:
@@ -418,7 +433,7 @@ def test_manual_scan_persists_completed_run_metrics(tmp_path: Path) -> None:
     assert report.outcome is ScanOutcome.COMPLETE
     assert report.schema_version == SCAN_REPORT_SCHEMA_VERSION
     assert row[0] == "completed"
-    assert json.loads(row[1])["seniority_match_count"] == 1
+    assert json.loads(row[1]) == asdict(report.metrics)
 
 
 def test_manual_scan_reports_bounded_phase_progress(tmp_path: Path) -> None:

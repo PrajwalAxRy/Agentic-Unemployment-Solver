@@ -54,6 +54,15 @@ class ScanOutcome(StrEnum):
     PARTIAL = "partial"
     FAILED = "failed"
 
+    @property
+    def exit_code(self) -> int:
+        """Return the documented process exit status for this run outcome."""
+        return {
+            ScanOutcome.COMPLETE: 0,
+            ScanOutcome.PARTIAL: 2,
+            ScanOutcome.FAILED: 3,
+        }[self]
+
 
 @dataclass(frozen=True, slots=True)
 class CompanyAccountingRecord:
