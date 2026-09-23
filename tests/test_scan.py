@@ -27,6 +27,7 @@ from job_finder.core.source_contracts import (
 )
 from job_finder.filter_verification import FilterVerificationReport, verify_filters
 from job_finder.matching.evaluator import (
+    LLMProviderError,
     LLMRequest,
     LLMResponse,
     ModelPolicy,
@@ -162,6 +163,15 @@ class StubLLMClient:
     def complete(self, request: LLMRequest, policy: ModelPolicy) -> LLMResponse:
         self.requests.append(request)
         return LLMResponse(self.contents.pop(0), input_tokens=50, output_tokens=20)
+
+
+@dataclass
+class FailingLLMClient:
+    requests: list[LLMRequest] = field(default_factory=list)
+
+    def complete(self, request: LLMRequest, policy: ModelPolicy) -> LLMResponse:
+        self.requests.append(request)
+        raise LLMProviderError("sanitized transient provider failure")
 
 
 def decision(match: bool | str, *, evidence: str = "3+ years of experience") -> str:
@@ -397,6 +407,32 @@ def test_conditional_title_without_ai_work_is_terminal_without_llm(tmp_path: Pat
     with migrated_database(tmp_path / "jobs.sqlite3") as connection:
         records = connection.execute("SELECT evaluation_status FROM jobs").fetchall()
     assert [row[0] for row in records] == [EvaluationStatus.FAILED.value]
+
+
+def test_provider_failure_remains_pending_and_recovers_on_unchanged_run(tmp_path: Path) -> None:
+    company = source("healthy")
+    listing = job(
+        "healthy",
+        "REQ-1",
+        "Machine Learning Engineer",
+        "Candidates need 3+ years of experience.",
+    )
+    adapter = StubAdapter({"healthy": (listing,)})
+    test_registry = registry(company)
+    failed_client = FailingLLMClient()
+
+    first = process(tmp_path, test_registry, adapter, evaluator(failed_client))
+    second_client = StubLLMClient([decision(True)])
+    second = process(tmp_path, test_registry, adapter, evaluator(second_client))
+
+    assert first.matching_jobs == ()
+    assert [item.category for item in first.review_candidates] == ["llm_provider_failure"]
+    assert len(failed_client.requests) == 1
+    assert len(second.matching_jobs) == 1
+    assert len(second_client.requests) == 1
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        records = connection.execute("SELECT evaluation_status FROM jobs").fetchall()
+    assert [row[0] for row in records] == [EvaluationStatus.COMPLETED.value]
 
 
 def test_manual_scan_persists_completed_run_metrics(tmp_path: Path) -> None:

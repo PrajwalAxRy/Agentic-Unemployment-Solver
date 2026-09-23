@@ -413,13 +413,6 @@ def process_filter_report(
             )
         except LLMProviderError as error:
             counts.review += 1
-            repository.fail_evaluation(
-                observation.record.job_key,
-                {
-                    **_failure_result("llm_provider_failure", evaluator),
-                    "error": str(error),
-                },
-            )
             if reportable:
                 reviews.append(_review(row, "llm_provider_failure", str(error)))
             continue
@@ -501,6 +494,8 @@ def _needs_processing(
             or record.model_policy != evaluator.model_policy
         )
     result = record.seniority_result or {}
+    if result.get("reason_code") == "llm_provider_failure":
+        return True
     return result.get("pipeline_disposition") == "manual_review" and (
         result.get("prompt_version") != evaluator.prompt_version
         or result.get("model_policy") != evaluator.model_policy
