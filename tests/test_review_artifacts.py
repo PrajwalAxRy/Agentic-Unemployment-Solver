@@ -218,3 +218,18 @@ def test_manual_scan_runbook_documents_outcomes_state_and_h10_review() -> None:
     assert "state restore" in runbook
     assert "H10 usability checklist" in runbook
     assert "Where are state inspection, backup, restore, and reset instructions?" in runbook
+    assert "bounded progress" in runbook
+    assert "pending and is retried" in runbook
+
+
+def test_h10_review_records_full_registry_evidence_and_exact_user_action() -> None:
+    review = Path("docs/reviews/h10_usability_review.md").read_text(encoding="utf-8")
+
+    assert "STOP — Human checkpoint H10 requires the user's usability review" in review
+    assert "uv run --locked job-finder scan" in review
+    assert "reports/latest_scan.md" in review
+    assert "reports/phase9_scan_postfix.md" in review
+    assert "84 successful, two verified empty, and zero failed sources" in review
+    assert "Zero new identities, 311 suppressed duplicates" in review
+    assert "zero disabled rows without an explanation" in review
+    assert "Reply `usable`" in review

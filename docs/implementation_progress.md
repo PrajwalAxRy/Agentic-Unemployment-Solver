@@ -4,9 +4,10 @@
 
 - Active phase: Phase 9 — manual trigger and report
 - Status: Phases 0–8 complete; H1, H2, H4, H5, H6, and H9 approved; H8 connectivity verified.
-  Phase 9 manual scan orchestration is in progress.
-- Pending human checkpoint: None. The next mandatory stop is H10 after the end-to-end command,
-  report, runbook, automated tests, and full-registry two-run validation are complete.
+  Phase 9 implementation and full-registry validation are complete; work is stopped at H10.
+- Pending human checkpoint: H10 usability review. The user must follow the runbook, trigger the
+  command, answer the seven usability questions, and reply `usable` or identify confusion before
+  Phase 9 can be marked complete.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -272,6 +273,31 @@
   must never be promoted to matches. Re-evaluation requires a changed description, profile,
   prompt, or model policy. Prompt `1.0.1` and evaluation set `1.0.0` are the approved Phase 8
   baseline.
+- Phase 9 implements the deterministic substantive-AI-work description gate for generic titles,
+  end-to-end locked orchestration, schema-version display, bounded flushed progress, durable run
+  metrics, human and machine reports, declared exit statuses, and the manual runbook.
+- Unchanged completed decisions, H9 uncertain/invalid outcomes, and deterministic description
+  rejects are terminal until their policy inputs change. Transient provider and description-fetch
+  failures remain visible and retryable; live regressions prove that recovered attempts do not
+  repeat prior matches or completed LLM decisions.
+- The deliberate fresh-state scan accounted for all 330 companies and all 86 enabled sources. It
+  preserved healthy results but correctly returned `partial` when Workday had one transient
+  malformed-page failure. A targeted Workday verification passed immediately afterward.
+- The same-state recovery scan completed with 84 successful and two valid-empty sources, 26,062
+  listings, 335 retained candidates, three genuine new Workday identities, 332 suppressed
+  duplicates, and exactly three new LLM evaluations. It reported two new date-uncertain matches.
+- The unchanged retry-validation scan completed with zero new identities and zero repeated matches.
+  It retried 16 technical outcomes, recovered seven valid decisions, and left only explicit
+  provider or unavailable-description review rows for later retry.
+- The definitive post-fix scan completed with 84 successful and two valid-empty sources, zero
+  source failures, 26,020 listings, 321 retained candidates, zero new identities, 311 suppressed
+  duplicates, zero new matches, zero successful LLM re-evaluations, and 166 completed cache hits.
+  All 330 company-accounting rows were present; all 244 disabled rows had a nonempty reason.
+- The disposable Phase 9 state contains 335 identities: 171 completed, 161 deterministic/terminal
+  failures, and three pending provider retries. All four scan-run rows completed durably. No real
+  job-history database was reset or replaced, so H7 was not triggered.
+- Repository validation passes with 435 tests, strict mypy, Ruff formatting, and Ruff lint at the
+  H10 stop.
 
 ## Relevant Phase 2 commits
 
@@ -396,6 +422,25 @@
 - `59c9625` — gateway-compatible guarded connectivity limit
 - `70c2eaa` — guarded reviewed-set and unseen-batch validation workflow
 - `b758042` — approved early-career boundary and contiguous-evidence prompt correction
+- `6b427e2` — approved H9 threshold and uncertainty policy
+
+## Relevant Phase 9 commits
+
+- `d07b513` — deterministic substantive-AI-work description gate
+- `a93c2bf` — durable manual-scan run metrics
+- `9d71103` — terminal review and deterministic outcome persistence
+- `e30ba60` — persisted first-seen aging for uncertain dates
+- `23dd043` — end-to-end manual scan orchestration
+- `3299298` — human-readable scan report
+- `3d5c01f` — manual scan command
+- `0c7c85c` — scan runbook and troubleshooting
+- `2e61261` — bounded scan progress
+- `fc9f520` — scan schema-version display
+- `e28ac68` — persisted-report and exit-status contract tests
+- `7224d43` — retryable transient provider failures
+- `8e41ab8` — retryable transient description failures
+- `b063434` — flushed long-running progress output
+- `1cfe0bc` — explicit reasons for every disabled company
 
 ## Review artifacts
 
@@ -420,6 +465,7 @@
 - Phase 7 duplicate-persistence validation: `docs/reviews/phase7_persistence_validation.md`
 - H8 live-provider configuration: `docs/06_llm_provider_configuration.md`
 - H9 seniority quality review: `docs/reviews/h9_seniority_quality_review.md`
+- H10 manual-scan usability review: `docs/reviews/h10_usability_review.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -460,13 +506,14 @@
   deeper source-family work, and 59 are conflicts.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
   official careers pages as manual fallbacks.
-- Phase 9 must implement the approved deterministic substantive-AI-work description gate before
-  any of the 218 current conditional-title candidates may reach seniority evaluation.
+- The definitive Phase 9 report contains six jobs whose public descriptions remain unavailable and
+  three Barclays jobs for which the gateway repeatedly returned no completion text. They remain
+  explicit review rows; the three provider outcomes are pending and all nine technical outcomes
+  are retried by a later scan rather than being silently suppressed or promoted to matches.
 
 ## Resume point
 
-Continue Phase 9 manual scan orchestration. Implement the deterministic substantive-AI-work
-description gate for conditional-title candidates before seniority evaluation, then complete the
-manual command, reports, run metrics, runbook, automated tests, and deliberate fresh-state plus
-immediate-rerun full-registry validation. Stop at H10 with the exact runbook, representative
-report, and usability-review questions.
+Stop at H10. Ask the user to follow `docs/07_scan_runbook.md`, run
+`uv run --locked job-finder scan`, review `reports/latest_scan.md`, answer the seven questions in
+`docs/reviews/h10_usability_review.md`, and reply `usable` or list where the interface became
+confusing. Do not begin Phase 10 until H10 is explicitly approved.

@@ -26,6 +26,9 @@ From the repository root:
 uv run --locked job-finder scan
 ```
 
+The current 86-source validation takes tens of minutes (about 42 minutes in the Phase 9 baseline),
+depending on public-source and LLM response times. Keep the terminal open while progress advances.
+
 Default local outputs:
 
 - `reports/latest_scan.md` — concise report for a person.
@@ -33,9 +36,10 @@ Default local outputs:
 - `state/jobs.sqlite3` — durable identity, evaluation, and aggregate run state.
 - `state/scan.lock` — overlap protection held only while a scan is running.
 
-The terminal prints registry/profile/prompt versions, source coverage, listing counts, new and
-duplicate identity counts, result-section counts, and both report paths. It does not print the
-gateway key, descriptions, prompts, headers, or model responses.
+The terminal prints registry/profile/prompt and report/state schema versions, then bounded progress
+for source collection, deterministic filtering, and candidate evaluation. The final summary shows
+source coverage, listing counts, new and duplicate identity counts, result-section counts, and both
+report paths. It does not print the gateway key, descriptions, prompts, headers, or model responses.
 
 ## Interpret the result
 
@@ -99,6 +103,9 @@ for real history, the H7 human-checkpoint protocol in the execution plan.
   preserves the failed run record and does not claim complete coverage.
 - A candidate appears under review: use its direct job link and the recorded reason/evidence. An
   uncertain or invalid seniority result is never promoted to a match.
+- `llm_provider_failure` or a transient description-fetch failure: the affected candidate stays
+  pending and is retried by the next scan; completed decisions and terminal policy outcomes are
+  still reused without another LLM request.
 
 Generated reports and state are ignored by Git. Do not stage them, cached responses, diagnostics,
 or `.env`.
