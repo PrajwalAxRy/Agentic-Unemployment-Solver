@@ -624,6 +624,7 @@ def _scan(args: argparse.Namespace) -> int:
             database_path=args.database,
             lock_path=args.lock,
             source_retry_count=args.source_retries,
+            progress=print,
         )
     except (GatewayProviderError, RuntimeError, ValueError) as error:
         print(f"scan=failed error={error}")

@@ -177,6 +177,7 @@ def verify_filters(
     generated_at: datetime | None = None,
     source_retry_count: int = 2,
     first_seen_lookup: Callable[[NormalizedJob], datetime | None] | None = None,
+    progress: Callable[[str], None] | None = None,
 ) -> FilterVerificationReport:
     """Collect and filter every enabled source without detail or LLM requests."""
     if scan_at is not None and scan_at.tzinfo is None:
@@ -187,10 +188,12 @@ def verify_filters(
         raise ValueError("source_retry_count cannot be negative")
 
     pending: list[_PendingCompany] = []
-    for entry in sorted(
+    enabled_entries = sorted(
         (item for item in registry.entries if item.source.enabled),
         key=lambda item: item.source_rank,
-    ):
+    )
+    enabled_count = len(enabled_entries)
+    for source_index, entry in enumerate(enabled_entries, start=1):
         source = entry.source
         result, attempts = list_jobs_with_retry(
             adapters.resolve(source), source, retry_count=source_retry_count
@@ -211,12 +214,18 @@ def verify_filters(
                 jobs=jobs,
             )
         )
+        if progress is not None:
+            progress(
+                f"phase=source_collection progress={source_index}/{enabled_count} "
+                f"company={source.company_id} outcome={result.outcome.value} "
+                f"listings={len(jobs)}"
+            )
 
     effective_scan_at = scan_at or datetime.now().astimezone()
     timestamp = generated_at or effective_scan_at
     listings: list[FilterListingRecord] = []
     companies: list[CompanyFilterRecord] = []
-    for item in pending:
+    for filter_index, item in enumerate(pending, start=1):
         company_listings: list[FilterListingRecord] = []
         recency_excluded_count = 0
         detail_fetch_count = 0
@@ -319,6 +328,18 @@ def verify_filters(
                 detail_failure_count,
             )
         )
+        if progress is not None:
+            retained_count = sum(
+                row.final_decision is FinalFilterDecision.RETAINED for row in company_listings
+            )
+            review_count = sum(
+                row.final_decision is FinalFilterDecision.REVIEW for row in company_listings
+            )
+            progress(
+                f"phase=deterministic_filter progress={filter_index}/{enabled_count} "
+                f"company={item.source.company_id} retained={retained_count} "
+                f"reviews={review_count}"
+            )
 
     role_counts = Counter(row.role.decision.value for row in listings)
     role_reasons = Counter(

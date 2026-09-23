@@ -417,3 +417,39 @@ def test_manual_scan_persists_completed_run_metrics(tmp_path: Path) -> None:
     assert report.outcome is ScanOutcome.COMPLETE
     assert row[0] == "completed"
     assert json.loads(row[1])["seniority_match_count"] == 1
+
+
+def test_manual_scan_reports_bounded_phase_progress(tmp_path: Path) -> None:
+    now = datetime.now(UTC)
+    company = source("healthy")
+    listing = replace(
+        job(
+            "healthy",
+            "REQ-1",
+            "Machine Learning Engineer",
+            "Candidates need 3+ years of experience.",
+        ),
+        published_at=now - timedelta(days=1),
+        published_at_raw=(now - timedelta(days=1)).isoformat(),
+    )
+    messages: list[str] = []
+
+    report = run_manual_scan(
+        registry(company),
+        AdapterRegistry([StubAdapter({"healthy": (listing,)})]),
+        PROFILE,
+        evaluator(StubLLMClient([decision(True)])),
+        database_path=tmp_path / "state" / "jobs.sqlite3",
+        lock_path=tmp_path / "state" / "scan.lock",
+        source_retry_count=0,
+        started_at=now,
+        run_id="run-progress",
+        progress=messages.append,
+    )
+
+    assert report.outcome is ScanOutcome.COMPLETE
+    assert messages[0] == "phase=source_collection status=started companies=1"
+    assert any("phase=source_collection progress=1/1" in message for message in messages)
+    assert any("phase=deterministic_filter progress=1/1" in message for message in messages)
+    assert any("phase=candidate_evaluation progress=1/1" in message for message in messages)
+    assert messages[-1] == ("phase=candidate_evaluation status=complete observed=1 evaluated=1")

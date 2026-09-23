@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 from collections import Counter
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from dataclasses import asdict, dataclass
 from datetime import UTC, date, datetime
 from enum import StrEnum
@@ -216,6 +216,7 @@ def run_manual_scan(
     source_retry_count: int = 2,
     started_at: datetime | None = None,
     run_id: str | None = None,
+    progress: Callable[[str], None] | None = None,
 ) -> ScanReport:
     """Run every pipeline layer under one lock and persist sanitized run metrics."""
     start = started_at or datetime.now().astimezone()
@@ -234,13 +235,27 @@ def run_manual_scan(
             model_policy=evaluator.model_policy,
         )
         try:
+            if progress is not None:
+                progress(
+                    "phase=source_collection status=started "
+                    f"companies={sum(entry.source.enabled for entry in registry.entries)}"
+                )
             filtered = verify_filters(
                 registry,
                 adapters,
                 profile,
                 source_retry_count=source_retry_count,
                 first_seen_lookup=lambda job: _first_seen(jobs, job),
+                progress=progress,
             )
+            retained_count = sum(
+                row.final_decision is FinalFilterDecision.RETAINED for row in filtered.listings
+            )
+            if progress is not None:
+                progress(
+                    "phase=deterministic_filter status=complete "
+                    f"listings={filtered.listing_count} retained={retained_count}"
+                )
             report = process_filter_report(
                 filtered,
                 registry,
@@ -251,6 +266,7 @@ def run_manual_scan(
                 run_id=identifier,
                 started_at=start,
                 completed_at=None,
+                progress=progress,
             )
             completed = _aware_from_iso(report.completed_at)
             runs.finish(
@@ -259,6 +275,12 @@ def run_manual_scan(
                 status=_run_status(report.outcome),
                 metrics=asdict(report.metrics),
             )
+            if progress is not None:
+                progress(
+                    "phase=candidate_evaluation status=complete "
+                    f"observed={report.metrics.observed_identity_count} "
+                    f"evaluated={report.metrics.llm_evaluated_count}"
+                )
             return report
         except BaseException as error:
             completed = datetime.now().astimezone()
@@ -282,6 +304,7 @@ def process_filter_report(
     run_id: str,
     started_at: datetime,
     completed_at: datetime | None,
+    progress: Callable[[str], None] | None = None,
 ) -> ScanReport:
     """Process one deterministic filter result through description, cache, and LLM stages."""
     sources = {entry.source.company_id: entry.source for entry in registry.entries}
@@ -291,10 +314,24 @@ def process_filter_report(
     counts = _ProcessingCounts(review=len(reviews))
     observed_at = _aware_from_iso(filtered.scan_at)
     service = CachedSeniorityEvaluationService(repository=repository, evaluator=evaluator)
+    retained_total = sum(
+        row.final_decision is FinalFilterDecision.RETAINED for row in filtered.listings
+    )
+    retained_index = 0
+    if progress is not None:
+        progress(f"phase=candidate_evaluation status=started retained={retained_total}")
 
     for row in filtered.listings:
         if row.final_decision is not FinalFilterDecision.RETAINED:
             continue
+        retained_index += 1
+        if progress is not None and (
+            retained_index == 1 or retained_index % 10 == 0 or retained_index == retained_total
+        ):
+            progress(
+                f"phase=candidate_evaluation progress={retained_index}/{retained_total} "
+                f"company={row.company_id}"
+            )
         source = sources[row.company_id]
         prior = repository.get(job_identity(row.normalized_job).job_key)
         observation = repository.observe_listing(
