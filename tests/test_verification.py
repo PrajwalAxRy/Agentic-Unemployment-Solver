@@ -231,7 +231,7 @@ def test_historical_count_collapse_is_suspicious_not_healthy_empty() -> None:
     assert report.anomaly_counts == {SourceAnomaly.RESULT_COUNT_COLLAPSE.value: 1}
     collapsed = next(record for record in report.records if record.company_id == "one")
     assert collapsed.complete is False
-    assert collapsed.failure_categories == (FailureCategory.SCHEMA_CHANGE.value,)
+    assert collapsed.failure_categories == ()
     assert collapsed.exception_categories == (SourceAnomaly.RESULT_COUNT_COLLAPSE.value,)
 
 
@@ -360,6 +360,8 @@ def test_future_and_uniformly_stale_publication_dates_are_suspicious() -> None:
         SourceAnomaly.FUTURE_PUBLICATION_DATE.value: 1,
         SourceAnomaly.STALE_PUBLICATION_DATES.value: 1,
     }
+    assert report.failure_category_counts == {}
+    assert all(record.failure_categories == () for record in report.records)
 
 
 def test_baseline_loader_keeps_only_valid_unique_counts(tmp_path: Path) -> None:

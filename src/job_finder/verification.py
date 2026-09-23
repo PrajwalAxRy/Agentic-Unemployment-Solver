@@ -248,8 +248,6 @@ def _verify_entries(
         outcome = AdapterOutcome.SUSPICIOUS if anomalies else result.outcome
         complete = False if anomalies else result.complete
         failures = set(_failure_categories(result.diagnostics, outcome=result.outcome))
-        if anomalies:
-            failures.add(FailureCategory.SCHEMA_CHANGE)
         exceptions = list(
             dict.fromkeys(_sanitized_category(item.category) for item in result.diagnostics)
         )
