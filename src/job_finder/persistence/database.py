@@ -8,7 +8,7 @@ from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 
-CURRENT_SCHEMA_VERSION = 2
+CURRENT_SCHEMA_VERSION = 3
 
 _MIGRATIONS: dict[int, tuple[str, ...]] = {
     1: (
@@ -41,6 +41,27 @@ _MIGRATIONS: dict[int, tuple[str, ...]] = {
         "CREATE INDEX jobs_evaluation_status_idx ON jobs (evaluation_status)",
     ),
     2: ("ALTER TABLE jobs ADD COLUMN model_policy TEXT",),
+    3: (
+        """
+        CREATE TABLE scan_runs (
+            run_id TEXT PRIMARY KEY,
+            started_at TEXT NOT NULL,
+            completed_at TEXT,
+            status TEXT NOT NULL
+                CHECK (status IN ('running', 'completed', 'partial', 'failed')),
+            registry_version TEXT NOT NULL,
+            profile_version TEXT NOT NULL,
+            prompt_version TEXT NOT NULL,
+            model_policy TEXT NOT NULL,
+            metrics_json TEXT,
+            CHECK (
+                (status = 'running' AND completed_at IS NULL AND metrics_json IS NULL)
+                OR (status != 'running' AND completed_at IS NOT NULL AND metrics_json IS NOT NULL)
+            )
+        )
+        """,
+        "CREATE INDEX scan_runs_started_at_idx ON scan_runs (started_at)",
+    ),
 }
 
 

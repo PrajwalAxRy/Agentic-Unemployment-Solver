@@ -28,7 +28,7 @@ def test_fresh_database_migrates_to_current_version(tmp_path: Path) -> None:
         }
 
     assert database_path.is_file()
-    assert {"jobs", "schema_migrations"} <= tables
+    assert {"jobs", "scan_runs", "schema_migrations"} <= tables
 
 
 def test_migration_is_idempotent(tmp_path: Path) -> None:
