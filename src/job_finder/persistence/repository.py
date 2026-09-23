@@ -112,15 +112,16 @@ class JobStateRepository:
                 first_seen_at = _parse_timestamp(str(existing["first_seen_at"]))
                 if observed_at.astimezone(UTC) < first_seen_at:
                     raise ValueError("observed_at cannot precede a job's first_seen_at")
-                invalidate = (
-                    str(existing["profile_version"]) != version
-                    or str(existing["evaluation_status"]) != EvaluationStatus.COMPLETED
+                invalidate = str(existing["profile_version"]) != version or (
+                    job.description_hash is not None
+                    and existing["description_hash"] != job.description_hash
                 )
                 self._connection.execute(
                     """
                     UPDATE jobs SET
                         external_job_id = ?, canonical_url = ?, fallback_fingerprint = ?,
-                        last_seen_at = ?, profile_version = ?,
+                        last_seen_at = ?, description_hash = COALESCE(?, description_hash),
+                        profile_version = ?,
                         prompt_version = CASE WHEN ? THEN NULL ELSE prompt_version END,
                         model_policy = CASE WHEN ? THEN NULL ELSE model_policy END,
                         evaluation_status = CASE WHEN ? THEN 'pending' ELSE evaluation_status END,
@@ -134,6 +135,7 @@ class JobStateRepository:
                         identity.canonical_url,
                         identity.fallback_fingerprint,
                         observed_text,
+                        job.description_hash,
                         version,
                         invalidate,
                         invalidate,
@@ -153,7 +155,7 @@ class JobStateRepository:
         return ObservationResult(
             record=record,
             is_new=is_new,
-            needs_evaluation=record.evaluation_status is not EvaluationStatus.COMPLETED,
+            needs_evaluation=record.evaluation_status is EvaluationStatus.PENDING,
         )
 
     def prepare_evaluation(
@@ -213,17 +215,7 @@ class JobStateRepository:
     ) -> JobRecord:
         """Atomically complete a pending evaluation with JSON-safe structured output."""
         key = _required_text(job_key, "job_key")
-        try:
-            result_json = json.dumps(
-                result,
-                ensure_ascii=False,
-                separators=(",", ":"),
-                sort_keys=True,
-            )
-        except (TypeError, ValueError) as error:
-            raise ValueError("seniority result must be JSON-compatible") from error
-        if not isinstance(json.loads(result_json), dict):
-            raise ValueError("seniority result must be a JSON object")
+        result_json = _json_object(result, "seniority result")
 
         self._connection.execute("BEGIN IMMEDIATE")
         try:
@@ -243,6 +235,35 @@ class JobStateRepository:
             self._connection.execute(
                 """
                 UPDATE jobs SET evaluation_status = 'completed',
+                    seniority_result_json = ?, updated_at = ?
+                WHERE job_key = ?
+                """,
+                (result_json, _utc_now_text(), key),
+            )
+            self._connection.commit()
+        except BaseException:
+            self._connection.rollback()
+            raise
+        return self.require(key)
+
+    def fail_evaluation(
+        self,
+        job_key: str,
+        result: Mapping[str, object],
+    ) -> JobRecord:
+        """Persist a terminal non-match or manual-review result until inputs change."""
+        key = _required_text(job_key, "job_key")
+        result_json = _json_object(result, "evaluation failure result")
+        self._connection.execute("BEGIN IMMEDIATE")
+        try:
+            existing = self._select(key)
+            if existing is None:
+                raise KeyError(f"unknown job_key: {key}")
+            if existing["evaluation_status"] != EvaluationStatus.PENDING:
+                raise ValueError("only a pending evaluation can fail")
+            self._connection.execute(
+                """
+                UPDATE jobs SET evaluation_status = 'failed',
                     seniority_result_json = ?, updated_at = ?
                 WHERE job_key = ?
                 """,
@@ -347,3 +368,18 @@ def _parse_timestamp(value: str) -> datetime:
 
 def _utc_now_text() -> str:
     return datetime.now(UTC).isoformat()
+
+
+def _json_object(result: Mapping[str, object], path: str) -> str:
+    try:
+        result_json = json.dumps(
+            result,
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        )
+    except (TypeError, ValueError) as error:
+        raise ValueError(f"{path} must be JSON-compatible") from error
+    if not isinstance(json.loads(result_json), dict):
+        raise ValueError(f"{path} must be a JSON object")
+    return result_json

@@ -203,6 +203,57 @@ def test_profile_change_during_observation_marks_completed_job_pending(tmp_path:
         assert changed.record.seniority_result is None
 
 
+def test_failed_result_is_terminal_until_description_changes(tmp_path: Path) -> None:
+    first_detail = make_job(description="Build conventional payment APIs.")
+    changed_detail = make_job(description="Build and deploy machine learning models.")
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        repository = JobStateRepository(connection)
+        observed = repository.observe_listing(
+            first_detail, observed_at=OBSERVED_AT, profile_version="1.1.0"
+        )
+        failed = repository.fail_evaluation(
+            observed.record.job_key,
+            {"pipeline_disposition": "role_rejected", "reason_code": "no_ai_topic"},
+        )
+        unchanged = repository.observe_listing(
+            first_detail,
+            observed_at=OBSERVED_AT + timedelta(minutes=1),
+            profile_version="1.1.0",
+        )
+        changed = repository.observe_listing(
+            changed_detail,
+            observed_at=OBSERVED_AT + timedelta(minutes=2),
+            profile_version="1.1.0",
+        )
+
+        assert failed.evaluation_status is EvaluationStatus.FAILED
+        assert unchanged.needs_evaluation is False
+        assert unchanged.record.evaluation_status is EvaluationStatus.FAILED
+        assert changed.needs_evaluation is True
+        assert changed.record.evaluation_status is EvaluationStatus.PENDING
+        assert changed.record.seniority_result is None
+
+
+def test_failed_result_becomes_pending_after_profile_change(tmp_path: Path) -> None:
+    job = make_job(description="Build conventional payment APIs.")
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        repository = JobStateRepository(connection)
+        observed = repository.observe_listing(job, observed_at=OBSERVED_AT, profile_version="1.1.0")
+        repository.fail_evaluation(
+            observed.record.job_key,
+            {"pipeline_disposition": "manual_review"},
+        )
+
+        changed = repository.observe_listing(
+            job,
+            observed_at=OBSERVED_AT + timedelta(minutes=1),
+            profile_version="1.2.0",
+        )
+
+        assert changed.needs_evaluation is True
+        assert changed.record.evaluation_status is EvaluationStatus.PENDING
+
+
 def test_model_policy_change_invalidates_cached_evaluation(tmp_path: Path) -> None:
     detailed = make_job(description="Two years of experience required.")
     with migrated_database(tmp_path / "jobs.sqlite3") as connection:

@@ -99,11 +99,21 @@ class CachedSeniorityEvaluationService:
             target_description=target_description,
         )
         if outcome.disposition is EvaluationDisposition.MANUAL_REVIEW:
+            record = self._repository.fail_evaluation(
+                preparation.record.job_key,
+                {
+                    "pipeline_disposition": "manual_review",
+                    "reason_code": "invalid_seniority_output",
+                    "errors": list(outcome.errors),
+                    "prompt_version": outcome.prompt_version,
+                    "model_policy": outcome.model_policy,
+                },
+            )
             return CachedEvaluationResult(
                 disposition=CachedEvaluationDisposition.MANUAL_REVIEW,
                 eligibility=eligibility,
                 decision=None,
-                record=preparation.record,
+                record=record,
                 evaluation=outcome,
             )
 

@@ -147,7 +147,7 @@ def test_unchanged_completed_job_uses_cache_without_second_call(tmp_path: Path) 
     assert len(client.requests) == 1
 
 
-def test_repeated_invalid_output_remains_pending_for_manual_review(tmp_path: Path) -> None:
+def test_repeated_invalid_output_is_terminal_manual_review(tmp_path: Path) -> None:
     listing = make_job()
     detailed = replace(
         listing,
@@ -172,6 +172,8 @@ def test_repeated_invalid_output_remains_pending_for_manual_review(tmp_path: Pat
 
     assert result.disposition is CachedEvaluationDisposition.MANUAL_REVIEW
     assert len(client.requests) == 2
-    assert len(pending) == 1
-    assert pending[0].evaluation_status is EvaluationStatus.PENDING
-    assert pending[0].seniority_result is None
+    assert pending == ()
+    assert result.record is not None
+    assert result.record.evaluation_status is EvaluationStatus.FAILED
+    assert result.record.seniority_result is not None
+    assert result.record.seniority_result["pipeline_disposition"] == "manual_review"
