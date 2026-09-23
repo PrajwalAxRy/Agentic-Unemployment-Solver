@@ -381,3 +381,53 @@ def test_baseline_loader_keeps_only_valid_unique_counts(tmp_path: Path) -> None:
 
     assert baseline.generated_at == "2026-09-19T10:00:00+00:00"
     assert baseline.job_counts == {"one": 25, "two": 0}
+
+
+def test_diagnostic_report_redacts_unsafe_categories_context_and_url_credentials(
+    tmp_path: Path,
+) -> None:
+    @dataclass(frozen=True)
+    class UnsafeDiagnosticAdapter:
+        adapter_type: AdapterType = AdapterType.ASHBY
+
+        def list_jobs(self, company_source: CompanySource) -> AdapterResult:
+            listing = replace(
+                job(company_source),
+                canonical_url=(
+                    f"https://jobs.example.com/{company_source.company_id}/job"
+                    "?job_id=42&access_token=do-not-retain"
+                ),
+            )
+            return AdapterResult(
+                1,
+                company_source,
+                AdapterOutcome.PARTIAL,
+                (listing,),
+                1,
+                False,
+                (
+                    AdapterDiagnostic(
+                        "api_key=do-not-retain",
+                        DiagnosticSeverity.ERROR,
+                        "Authorization: do-not-retain",
+                        {"cookie": "do-not-retain"},
+                    ),
+                ),
+            )
+
+    report = verify_adapter_sources(
+        registry(),
+        AdapterRegistry([UnsafeDiagnosticAdapter()]),
+        AdapterType.ASHBY,
+        generated_at=datetime(2026, 9, 20, 10, tzinfo=UTC),
+    )
+    output = tmp_path / "diagnostics.json"
+    write_verification_report(report, output)
+    text = output.read_text(encoding="utf-8")
+
+    assert "do-not-retain" not in text
+    assert "Authorization" not in text
+    assert '"cookie"' not in text
+    assert "redacted_diagnostic_category" in text
+    assert "job_id=42" in text
+    assert "access_token" not in text

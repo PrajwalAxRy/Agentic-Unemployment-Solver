@@ -8,7 +8,7 @@ from collections.abc import Mapping
 from dataclasses import asdict, dataclass
 from enum import StrEnum
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import parse_qsl, urlsplit
 
 from job_finder.core.company_registry import CompanySourceRegistry
 
@@ -467,6 +467,8 @@ def _require_public_url(value: str, path: str) -> None:
         raise ValueError(f"{path} must be a public HTTP or HTTPS URL")
     if parsed.username is not None or parsed.password is not None:
         raise ValueError(f"{path} must not contain credentials")
+    for key, _ in parse_qsl(parsed.query, keep_blank_values=True):
+        _reject_sensitive(key, f"{path} query parameter")
 
 
 def _safe_string_mapping(value: Mapping[str, object], path: str) -> dict[str, str]:

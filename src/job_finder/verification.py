@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import json
+import re
 from collections import Counter
 from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
 from datetime import date, datetime, timedelta
 from enum import StrEnum
 from pathlib import Path
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from job_finder.adapters.base import (
     AdapterConfigurationError,
@@ -29,6 +31,19 @@ _COLLAPSE_RATIO = 0.20
 _FUTURE_DATE_TOLERANCE = timedelta(days=1)
 _STALE_DATE_AGE = timedelta(days=365)
 _STALE_DATE_MINIMUM_COUNT = 5
+_SAFE_CATEGORY = re.compile(r"[a-z][a-z0-9_]{0,63}\Z")
+_SENSITIVE_URL_KEY_MARKERS = (
+    "api_key",
+    "apikey",
+    "auth",
+    "cookie",
+    "credential",
+    "password",
+    "secret",
+    "session",
+    "signature",
+    "token",
+)
 
 
 class FailureCategory(StrEnum):
@@ -235,7 +250,9 @@ def _verify_entries(
         failures = set(_failure_categories(result.diagnostics, outcome=result.outcome))
         if anomalies:
             failures.add(FailureCategory.SCHEMA_CHANGE)
-        exceptions = list(dict.fromkeys(item.category for item in result.diagnostics))
+        exceptions = list(
+            dict.fromkeys(_sanitized_category(item.category) for item in result.diagnostics)
+        )
         exceptions.extend(item.value for item in anomalies if item.value not in exceptions)
         records.append(
             SourceVerificationRecord(
@@ -261,7 +278,11 @@ def _verify_entries(
                 failure_categories=tuple(sorted(item.value for item in failures)),
                 anomaly_categories=tuple(item.value for item in anomalies),
                 attempt_count=attempt_count,
-                sample_job_urls=tuple(job.canonical_url for job in result.jobs[:3]),
+                sample_job_urls=tuple(
+                    sanitized
+                    for job in result.jobs[:3]
+                    if (sanitized := _sanitized_public_url(job.canonical_url)) is not None
+                ),
             )
         )
     outcomes = Counter(record.outcome for record in records)
@@ -446,6 +467,37 @@ def _status_code(context: Mapping[str, str]) -> int | None:
         return int(raw)
     except ValueError:
         return None
+
+
+def _sanitized_category(value: str) -> str:
+    normalized = value.strip().casefold()
+    if not _SAFE_CATEGORY.fullmatch(normalized):
+        return "redacted_diagnostic_category"
+    if any(marker in normalized for marker in _SENSITIVE_URL_KEY_MARKERS):
+        return "redacted_diagnostic_category"
+    return normalized
+
+
+def _sanitized_public_url(value: str) -> str | None:
+    parsed = urlsplit(value)
+    if parsed.scheme not in {"http", "https"} or not parsed.hostname:
+        return None
+    if parsed.username is not None or parsed.password is not None:
+        return None
+    query = [
+        (key, item)
+        for key, item in parse_qsl(parsed.query, keep_blank_values=True)
+        if not any(marker in key.casefold() for marker in _SENSITIVE_URL_KEY_MARKERS)
+    ]
+    try:
+        port = parsed.port
+    except ValueError:
+        return None
+    include_port = port is not None and not (
+        (parsed.scheme == "http" and port == 80) or (parsed.scheme == "https" and port == 443)
+    )
+    netloc = f"{parsed.hostname}:{port}" if include_port else parsed.hostname
+    return urlunsplit((parsed.scheme, netloc or "", parsed.path or "/", urlencode(query), ""))
 
 
 def write_verification_report(report: SourceVerificationReport, path: Path) -> None:
