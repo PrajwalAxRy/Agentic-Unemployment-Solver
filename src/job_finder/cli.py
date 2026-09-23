@@ -603,6 +603,11 @@ def _validate_seniority(args: argparse.Namespace) -> int:
     )
 
 
+def _print_progress(message: str) -> None:
+    """Keep long-running scan progress visible even when stdout is redirected."""
+    print(message, flush=True)
+
+
 def _scan(args: argparse.Namespace) -> int:
     """Run one user-facing manual scan and write both report formats."""
     try:
@@ -620,7 +625,8 @@ def _scan(args: argparse.Namespace) -> int:
         print(
             f"Starting scan with registry={registry.registry_version} "
             f"profile={profile.version} prompt={prompt.prompt_version} "
-            f"report_schema={SCAN_REPORT_SCHEMA_VERSION} state_schema={CURRENT_SCHEMA_VERSION}"
+            f"report_schema={SCAN_REPORT_SCHEMA_VERSION} state_schema={CURRENT_SCHEMA_VERSION}",
+            flush=True,
         )
         report = run_manual_scan(
             registry,
@@ -630,7 +636,7 @@ def _scan(args: argparse.Namespace) -> int:
             database_path=args.database,
             lock_path=args.lock,
             source_retry_count=args.source_retries,
-            progress=print,
+            progress=_print_progress,
         )
     except (GatewayProviderError, RuntimeError, ValueError) as error:
         print(f"scan=failed error={error}")
