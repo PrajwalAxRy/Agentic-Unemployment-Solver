@@ -226,10 +226,11 @@ def test_manual_scan_runbook_documents_outcomes_state_and_h10_review() -> None:
     assert "The separate **Unsupported and blocked sources** table" in runbook
 
 
-def test_h10_review_records_full_registry_evidence_and_exact_user_action() -> None:
+def test_h10_review_records_full_registry_evidence_and_usability_approval() -> None:
     review = Path("docs/reviews/h10_usability_review.md").read_text(encoding="utf-8")
 
-    assert "STOP — Human checkpoint H10 requires the user's usability review" in review
+    assert "APPROVED — Human checkpoint H10 completed on 2026-09-23" in review
+    assert "replied `usable`" in review
     assert "uv run --locked job-finder scan" in review
     assert "reports/latest_scan.md" in review
     assert "reports/phase9_scan_postfix.md" in review

@@ -2,12 +2,11 @@
 
 ## Current status
 
-- Active phase: Phase 9 — manual trigger and report
-- Status: Phases 0–8 complete; H1, H2, H4, H5, H6, and H9 approved; H8 connectivity verified.
-  Phase 9 implementation and full-registry validation are complete; work is stopped at H10.
-- Pending human checkpoint: H10 usability review. The user must follow the runbook, trigger the
-  command, answer the seven usability questions, and reply `usable` or identify confusion before
-  Phase 9 can be marked complete.
+- Active phase: Phase 10 — resilience and repair evidence
+- Status: Phases 0–9 complete; H1, H2, H4, H5, H6, H9, and H10 approved; H8 connectivity
+  verified. Phase 10 resilience-gap assessment is next.
+- Pending human checkpoint: none. H11 applies only if a tested live repair proposal is ready for
+  activation.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -298,6 +297,8 @@
   job-history database was reset or replaced, so H7 was not triggered.
 - Repository validation passes with 435 tests, strict mypy, Ruff formatting, and Ruff lint at the
   H10 stop.
+- H10 was explicitly approved as `usable` on 2026-09-23. The user confirmed that the command,
+  report, and runbook made the seven required usability answers clear, completing Phase 9.
 
 ## Relevant Phase 2 commits
 
@@ -513,7 +514,7 @@
 
 ## Resume point
 
-Stop at H10. Ask the user to follow `docs/07_scan_runbook.md`, run
-`uv run --locked job-finder scan`, review `reports/latest_scan.md`, answer the seven questions in
-`docs/reviews/h10_usability_review.md`, and reply `usable` or list where the interface became
-confusing. Do not begin Phase 10 until H10 is explicitly approved.
+Begin Phase 10 by auditing the existing source-health, anomaly, diagnostic, verification, failure-
+drill, and guarded-repair behavior against the authoritative phase deliverables. Implement and
+commit each missing behavior separately. Trigger H11 only before activating a tested repair against
+the real registry, adapter configuration, or source logic.

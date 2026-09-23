@@ -2,11 +2,12 @@
 
 ## Checkpoint status
 
-**STOP — Human checkpoint H10 requires the user's usability review.**
+**APPROVED — Human checkpoint H10 completed on 2026-09-23.**
 
-Phase 9 implementation and technical validation are complete. This checkpoint tests whether a
-person who did not implement the command can follow the runbook and correctly interpret the
-result. It is not an approval of new search, date, or seniority policy.
+The user followed the usability instructions and replied `usable`. Phase 9 implementation,
+technical validation, and the required human review are complete. This approval confirms that a
+person who did not implement the command can follow the runbook and interpret the result; it does
+not change the approved search, date, or seniority policies.
 
 ## Known-good technical evidence
 
