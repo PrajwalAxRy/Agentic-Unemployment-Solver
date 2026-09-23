@@ -44,6 +44,8 @@ from job_finder.persistence.locking import ScanLock
 from job_finder.persistence.repository import EvaluationStatus, JobRecord, JobStateRepository
 from job_finder.persistence.runs import ScanRunRepository, ScanRunStatus
 
+SCAN_REPORT_SCHEMA_VERSION = 1
+
 
 class ScanOutcome(StrEnum):
     """Overall scan outcome used by reports and process exit codes."""
@@ -444,7 +446,7 @@ def process_filter_report(
     source_failures = _source_failures(filtered)
     metrics = _metrics(filtered, accounting, source_failures, counts)
     return ScanReport(
-        schema_version=1,
+        schema_version=SCAN_REPORT_SCHEMA_VERSION,
         run_id=run_id,
         started_at=started_at.isoformat(),
         completed_at=finish.isoformat(),

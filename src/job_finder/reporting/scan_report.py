@@ -59,7 +59,8 @@ def render_scan_markdown(report: ScanReport) -> str:
         f"{len(report.review_candidates)} |",
         f"| Duration | {report.duration_seconds:.3f} seconds |",
         "",
-        f"Registry `{report.registry_version}`; profile `{report.profile_version}` "
+        f"Report schema `{report.schema_version}`; registry `{report.registry_version}`; "
+        f"profile `{report.profile_version}` "
         f"(`{report.profile_hash}`); prompt `{report.prompt_version}`; model policy "
         f"`{report.model_policy}`.",
         "",

@@ -39,6 +39,7 @@ from job_finder.persistence.database import migrated_database
 from job_finder.persistence.repository import EvaluationStatus, JobStateRepository
 from job_finder.reporting.scan_report import render_scan_markdown, write_scan_markdown
 from job_finder.scan import (
+    SCAN_REPORT_SCHEMA_VERSION,
     ScanOutcome,
     ScanReport,
     process_filter_report,
@@ -415,6 +416,7 @@ def test_manual_scan_persists_completed_run_metrics(tmp_path: Path) -> None:
         ).fetchone()
 
     assert report.outcome is ScanOutcome.COMPLETE
+    assert report.schema_version == SCAN_REPORT_SCHEMA_VERSION
     assert row[0] == "completed"
     assert json.loads(row[1])["seniority_match_count"] == 1
 

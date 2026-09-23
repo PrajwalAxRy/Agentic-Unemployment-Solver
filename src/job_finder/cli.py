@@ -40,6 +40,7 @@ from job_finder.matching.openai_client import (
     load_gateway_settings,
 )
 from job_finder.matching.prompt import load_seniority_prompt
+from job_finder.persistence.database import CURRENT_SCHEMA_VERSION
 from job_finder.persistence.maintenance import (
     backup_state,
     inspect_state,
@@ -53,7 +54,12 @@ from job_finder.persistence_verification import (
 )
 from job_finder.recency_verification import measure_enabled_recency, write_recency_report
 from job_finder.reporting.scan_report import write_scan_markdown
-from job_finder.scan import ScanOutcome, run_manual_scan, write_scan_report
+from job_finder.scan import (
+    SCAN_REPORT_SCHEMA_VERSION,
+    ScanOutcome,
+    run_manual_scan,
+    write_scan_report,
+)
 from job_finder.seniority_validation import (
     Phase8ValidationReport,
     collect_live_candidates,
@@ -614,7 +620,8 @@ def _scan(args: argparse.Namespace) -> int:
         client = BoundedHttpClient(policy=HttpPolicy(timeout_seconds=args.timeout))
         print(
             f"Starting scan with registry={registry.registry_version} "
-            f"profile={profile.version} prompt={prompt.prompt_version}"
+            f"profile={profile.version} prompt={prompt.prompt_version} "
+            f"report_schema={SCAN_REPORT_SCHEMA_VERSION} state_schema={CURRENT_SCHEMA_VERSION}"
         )
         report = run_manual_scan(
             registry,
