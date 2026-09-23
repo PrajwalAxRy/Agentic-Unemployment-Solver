@@ -187,6 +187,11 @@ class SeniorityEvaluator:
         """Return the stable provider/model policy cache key."""
         return self._model_policy.cache_key
 
+    @property
+    def usage(self) -> UsageSnapshot:
+        """Return aggregate sanitized usage for the current process run."""
+        return self._budget.snapshot
+
     def evaluate(
         self,
         *,
