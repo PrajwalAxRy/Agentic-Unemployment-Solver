@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import http.client
 import json
 import time
 import urllib.error
@@ -339,6 +340,12 @@ class UrllibTransport:
             raise HttpRequestError(
                 HttpFailureCategory.TIMEOUT,
                 "request timed out",
+                retryable=True,
+            ) from error
+        except (http.client.RemoteDisconnected, ConnectionError) as error:
+            raise HttpRequestError(
+                HttpFailureCategory.NETWORK_ERROR,
+                "network connection closed",
                 retryable=True,
             ) from error
         except urllib.error.URLError as error:

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import http.client
+import urllib.request
 from collections.abc import Mapping
 from pathlib import Path
 
@@ -14,6 +16,7 @@ from job_finder.adapters.http_client import (
     HttpPolicy,
     HttpRequestError,
     HttpResponse,
+    UrllibTransport,
 )
 
 
@@ -266,3 +269,31 @@ def test_non_public_or_credential_bearing_urls_are_rejected(url: str) -> None:
         )
 
     assert not transport.calls
+
+
+def test_remote_disconnect_is_a_retryable_sanitized_network_error(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class DisconnectingOpener:
+        def open(self, request: object, *, timeout: float) -> None:
+            del request, timeout
+            raise http.client.RemoteDisconnected("remote end closed connection")
+
+    monkeypatch.setattr(
+        urllib.request,
+        "build_opener",
+        lambda *handlers: DisconnectingOpener(),
+    )
+
+    with pytest.raises(HttpRequestError) as raised:
+        UrllibTransport().get(
+            "https://jobs.example.com/api",
+            headers={"User-Agent": "job-finder/test"},
+            timeout_seconds=1,
+            max_response_bytes=100,
+            max_redirects=1,
+        )
+
+    assert raised.value.category is HttpFailureCategory.NETWORK_ERROR
+    assert raised.value.retryable is True
+    assert "remote end closed connection" not in str(raised.value)
