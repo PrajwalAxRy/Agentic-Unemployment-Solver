@@ -1,6 +1,6 @@
 schema_version = 1
 profile_id = "india-ai-ml-under-five-years"
-version = "1.1.1"
+version = "1.1.2"
 
 [recency]
 window_days = 10
@@ -307,6 +307,17 @@ incidental_only_terms = [
   "use coding assistants",
   "collaborate with the ai team",
   "cloud artificial intelligence machine learning mobile",
+  "java full stack developer aws ai",
+  "ai coding assist tools",
+  "ai-assisted development",
+  "ai for tech tools copilot llm",
+  "ai for tech tools such as copilot llm",
+  "ai tools and platform or product development",
+  "ai-assisted software development tools",
+  "ai productivity tools for coding testing and documentation",
+  "ai productivity tools like co-pilot llm",
+  "ai-generated outputs",
+  "responsible ai use",
 ]
 
 [location]

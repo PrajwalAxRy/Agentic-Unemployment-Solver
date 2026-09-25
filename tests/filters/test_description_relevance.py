@@ -69,6 +69,22 @@ def test_generic_technology_taxonomy_does_not_make_payment_development_ai_work()
     assert result.reason_code == "incidental_ai_only"
 
 
+def test_ai_coding_assistants_do_not_make_full_stack_development_ai_work() -> None:
+    result = evaluate_substantive_ai_work(
+        "As a Software Engineer II - Java Full Stack Developer + AWS + AI, you design and "
+        "deliver conventional software components. Leverage enterprise-authorized AI coding "
+        "assist tools to improve code quality. Apply knowledge of AI-assisted development and "
+        "automation capabilities. Be proficient in using AI for tech tools such as Copilot, LLM, "
+        "and Claude Code. Hands-on experience in Java, frontend, AWS, AI tools, and platform or "
+        "product development is required. Use AI productivity tools for coding, testing, and "
+        "documentation while validating AI-generated outputs and following responsible AI use.",
+        policy=POLICY,
+    )
+
+    assert result.decision is DescriptionRelevanceDecision.REJECT
+    assert result.reason_code == "incidental_ai_only"
+
+
 def test_topic_without_substantive_action_is_rejected() -> None:
     result = evaluate_substantive_ai_work(
         "The team supports machine learning customers and answers platform questions.",
