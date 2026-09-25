@@ -7863,10 +7863,10 @@
       "company_id": "sap",
       "company_name": "SAP",
       "status": "enabled",
-      "careers_url": "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/",
+      "careers_url": "https://careers.sap.com/go/SAP-Jobs-in-India/851201/",
       "adapter_type": "successfactors",
       "adapter_parameters": {
-        "host": "jobs.sap.com",
+        "host": "careers.sap.com",
         "category_path": "/go/SAP-Jobs-in-India/851201/"
       },
       "identity_strategy": "external_id",

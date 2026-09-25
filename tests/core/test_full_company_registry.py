@@ -86,8 +86,9 @@ def test_successfactors_mapping_and_moodys_correction_are_explicit() -> None:
     moodys = sources["moody-s"]
 
     assert sap.adapter_type.value == "successfactors"
+    assert sap.careers_url == "https://careers.sap.com/go/SAP-Jobs-in-India/851201/"
     assert sap.adapter_parameters == {
-        "host": "jobs.sap.com",
+        "host": "careers.sap.com",
         "category_path": "/go/SAP-Jobs-in-India/851201/",
     }
     assert sap.status.value == "enabled"
