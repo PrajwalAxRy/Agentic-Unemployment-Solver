@@ -79,7 +79,7 @@ def test_valid_profile_loads() -> None:
 def test_approved_search_profile_loads() -> None:
     profile = load_search_profile(Path("config/search_profile.toml"))
 
-    assert profile.version == "1.1.0"
+    assert profile.version == "1.1.1"
     assert profile.date_uncertainty_mode is DateUncertaintyMode.HYBRID
     assert len(profile.role_families) == 8
     assert "software engineer" in profile.conditional_description.title_terms

@@ -58,6 +58,17 @@ def test_use_of_ai_tools_is_incidental() -> None:
     assert result.reason_code == "incidental_ai_only"
 
 
+def test_generic_technology_taxonomy_does_not_make_payment_development_ai_work() -> None:
+    result = evaluate_substantive_ai_work(
+        "Knowledge may span cloud, artificial intelligence, machine learning, mobile, and other "
+        "technical disciplines. You will develop Tandem payment applications with COBOL.",
+        policy=POLICY,
+    )
+
+    assert result.decision is DescriptionRelevanceDecision.REJECT
+    assert result.reason_code == "incidental_ai_only"
+
+
 def test_topic_without_substantive_action_is_rejected() -> None:
     result = evaluate_substantive_ai_work(
         "The team supports machine learning customers and answers platform questions.",

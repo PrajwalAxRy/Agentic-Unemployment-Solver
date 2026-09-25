@@ -1,6 +1,6 @@
 schema_version = 1
 profile_id = "india-ai-ml-under-five-years"
-profile_version = "1.1.0"
+profile_version = "1.1.1"
 
 [[role]]
 id = "role-01"

@@ -1,6 +1,6 @@
 schema_version = 1
 profile_id = "india-ai-ml-under-five-years"
-version = "1.1.0"
+version = "1.1.1"
 
 [recency]
 window_days = 10
@@ -306,6 +306,7 @@ incidental_only_terms = [
   "use ai tools",
   "use coding assistants",
   "collaborate with the ai team",
+  "cloud artificial intelligence machine learning mobile",
 ]
 
 [location]
