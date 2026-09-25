@@ -292,3 +292,26 @@ def test_h11_review_records_approved_sap_repair_and_final_evidence() -> None:
     assert "83 sources succeeded, two" in review
     assert "zero failure categories" in review
     assert "parent of repair commit `4c4b2c8`" in review
+
+
+def test_phase11_pilot_log_records_clean_first_day_and_h12_stop() -> None:
+    review = Path("docs/reviews/phase11_pilot_log.md").read_text(encoding="utf-8")
+
+    assert "clean first pilot day completed on 2026-09-25" in review
+    assert "STOP at Human checkpoint H12" in review
+    assert "Only 2026-09-25 has been covered" in review
+    assert "`run the next pilot scan`" in review
+    assert "`0.2.0-phase4`" in review
+    assert "version `1.1.2`" in review
+    assert "`2161d0e0bfd5410848493d02bec6fca63e601988`" in review
+    assert "393 records: 24 pending, 193 completed, and 176" in review
+    assert "`scan-20260925T135115Z-dc5432db`" in review
+    assert "`scan-20260925T144452Z-39d54451`" in review
+    assert "Zero new identities; 311 completed duplicates suppressed" in review
+    assert "`210786170` nor `210788786`" in review
+    assert "`Data Scientist Associate` (`210794862`)" in review
+    assert "84 successful sources, Deeptune and Rapido as the two valid-empty" in review
+    assert "`d0ba02e`" in review
+    assert "`719976e`" in review
+    assert "`2161d0e`" in review
+    assert "strict mypy, and 465 tests" in review

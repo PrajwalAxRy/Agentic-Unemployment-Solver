@@ -4,8 +4,10 @@
 
 - Active phase: Phase 11 — full-registry pilot
 - Status: Phases 0–10 complete; H1, H2, H4, H5, H6, H9, H10, and H11 approved; H8 connectivity
-  verified. The release-candidate pilot is next.
-- Pending human checkpoint: H12 after the first clean Phase 11 pilot run.
+  verified. The first clean pilot day and final-profile immediate duplicate check passed on
+  2026-09-25.
+- Pending human checkpoint: H12. A later calendar-day pilot scan is required; the exact resume
+  instruction is `run the next pilot scan`.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -482,6 +484,36 @@
 - `a3b6a3a` — visible bounded source-verification progress
 - `4c4b2c8` — approved SAP source-host repair and registry regression
 
+## Phase 11 pilot evidence and commits
+
+- The pilot started from the documented existing schema-3 state with 326 records and did not reset
+  duplicate history. Verified local backups were retained before the first run and before post-fix
+  scans.
+- The first full run on 2026-09-25 accounted for all 330 companies and completed all 86 enabled
+  sources: 84 successful, Deeptune and Rapido valid-empty, and zero failed. It observed 26,116
+  listings and displayed eight matches for review.
+- Review found JPMorganChase Tandem payments development incorrectly admitted by a generic AI
+  technology list. `d0ba02e` added the regression and profile `1.1.1` rejection.
+- A post-fix scan exposed an uncaught `RemoteDisconnected` at Palo Alto Networks. `719976e` added
+  retryable, sanitized containment. The failed scan was durably closed and did not mutate job
+  state; three later full scans collected Palo Alto Networks successfully.
+- The `1.1.1` immediate rerun suppressed 304 completed decisions but found a new conventional
+  Java/AWS full-stack role centered on AI coding assistants. `2161d0e` added a high-fidelity
+  regression and final profile `1.1.2`.
+- Final-profile run `scan-20260925T135115Z-dc5432db` completed with 84 successful, two valid-empty,
+  and zero failed sources; 26,120 listings; 13,380 recency candidates; 1,352 role candidates; 332
+  retained candidates; one reviewed valid strict match; no date-uncertain match; and 36 explicit
+  review rows. Both fixed false-positive IDs were absent.
+- Immediate rerun `scan-20260925T144452Z-39d54451` completed with zero new identities, 311
+  suppressed duplicates, zero repeated strict or date-uncertain matches, 169 LLM cache hits, and
+  zero failed sources. This passes the duplicate release metric but does not count as a second
+  calendar-day pilot.
+- Final state after the rerun has 393 records: 24 pending, 193 completed, and 176 failed. Pending
+  and failed technical outcomes remain visible and retryable.
+- `d0ba02e` — reject generic AI technology-list false positives
+- `719976e` — contain remote source disconnects
+- `2161d0e` — reject conventional AI coding-assistant roles
+
 ## Review artifacts
 
 - H1 search policy review: `docs/reviews/h1_search_policy_review.md`
@@ -508,6 +540,7 @@
 - H10 manual-scan usability review: `docs/reviews/h10_usability_review.md`
 - Phase 10 source resilience and repair runbook: `docs/08_source_resilience_and_repair.md`
 - H11 SAP repair review: `docs/reviews/phase10_h11_sap_repair.md`
+- Phase 11 full-registry pilot log: `docs/reviews/phase11_pilot_log.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -558,11 +591,15 @@
 - Quantbox Research exposes eight active public jobs whose `first_published` values are all old
   while their `updated_at` values remain current. It stays visible as a reviewed
   `stale_publication_dates` anomaly, not an inferred schema failure.
+- The first clean Phase 11 pilot date is 2026-09-25. Same-day immediate reruns pass duplicate
+  suppression but do not satisfy the required different-day evidence. H12 remains pending.
+- Current pilot review rows include visible Bank of America detail-location gaps, unavailable
+  descriptions, intermittent AMD gateway no-completion responses, missing locations, and seniority
+  uncertainty. None is silently promoted to a match.
 
 ## Resume point
 
-Begin Phase 11 by recording a release-candidate configuration snapshot and inspecting the existing
-normal job-history state without resetting it. Run the first dated full-registry pilot scan, review
-every source exception and new match plus samples of deterministic rejections and uncertainties,
-record the complete pilot metrics and Git state, and commit the pilot log. Then stop at H12 if a
-different-day pilot run is still required; do not simulate elapsed time.
+STOP at H12. The first clean pilot day covered 2026-09-25 and the final profile `1.1.2` immediate
+rerun passed duplicate suppression. On a later calendar day, preserve normal job-history state,
+verify the release-candidate identifiers in `docs/reviews/phase11_pilot_log.md`, and resume only
+when the user says `run the next pilot scan`. Do not simulate elapsed time.
