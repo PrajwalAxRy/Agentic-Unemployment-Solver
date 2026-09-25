@@ -266,12 +266,14 @@ def test_phase10_runbook_documents_resilience_and_guarded_repair() -> None:
     assert "approve <proposal-id>" in runbook
 
 
-def test_h11_review_records_exact_inactive_sap_repair_evidence() -> None:
+def test_h11_review_records_approved_sap_repair_and_final_evidence() -> None:
     review = Path("docs/reviews/phase10_h11_sap_repair.md").read_text(encoding="utf-8")
 
-    assert "STOP — Human checkpoint H11" in review
+    assert "APPROVED — Human checkpoint H11 completed on 2026-09-25" in review
     assert "repair-1ddc97abb012ee26" in review
-    assert "Proposal status: `inactive`" in review
+    assert "Proposal status: `approved and applied`" in review
+    assert "the user replied `approve repair-1ddc97abb012ee26`" in review
+    assert "Repair commit: `4c4b2c8`" in review
     assert '"https://jobs.sap.com/go/SAP-Jobs-in-India/851201/"' in review
     assert '"https://careers.sap.com/go/SAP-Jobs-in-India/851201/"' in review
     assert '"host": "jobs.sap.com"' in review
@@ -285,6 +287,8 @@ def test_h11_review_records_exact_inactive_sap_repair_evidence() -> None:
     assert "external transient" in review
     assert "rather than 21 simultaneous source regressions" in review
     assert "461 tests" in review
-    assert "The active registry remains unchanged" in review
-    assert "approve repair-1ddc97abb012ee26" in review
-    assert "reject repair-1ddc97abb012ee26: <optional reason>" in review
+    assert "48 jobs across two pages" in review
+    assert "26,193" in review and "660 pages" in review
+    assert "83 sources succeeded, two" in review
+    assert "zero failure categories" in review
+    assert "parent of repair commit `4c4b2c8`" in review

@@ -2,16 +2,18 @@
 
 ## Checkpoint status
 
-**STOP — Human checkpoint H11: explicit approval or rejection required.**
+**APPROVED — Human checkpoint H11 completed on 2026-09-25.**
 
 - Proposal ID: `repair-1ddc97abb012ee26`
-- Proposal status: `inactive`
+- Proposal status: `approved and applied`
 - Affected company: SAP only (`company_id=sap`)
 - Change type: `source_url`
 - Confidence: high
-- Recommendation: approve the exact two-field repair below.
+- Decision: the user replied `approve repair-1ddc97abb012ee26`.
+- Repair commit: `4c4b2c8` (`data: repair SAP source host`)
 
-The active registry remains unchanged. The repair tooling cannot activate this proposal.
+The repair tooling did not activate the proposal. The exact reviewed diff was applied through the
+normal configuration workflow after approval and pinned by a registry regression.
 
 ## Observed failure
 
@@ -29,7 +31,7 @@ SAP's official `careers.sap.com` host still serves the identical India category 
 SuccessFactors inventory. No authentication, CAPTCHA bypass, session reuse, or access-control
 workaround is involved.
 
-## Exact inactive diff
+## Exact approved diff
 
 ```diff
 - "careers_url": "https://jobs.sap.com/go/SAP-Jobs-in-India/851201/"
@@ -71,6 +73,10 @@ The proposal artifacts are ignored local diagnostics:
 - `diagnostics/repair_proposals/sap.validated.json`
 - `reports/phase10_sap_proposal_verification.json`
 
+After approval, the active mapping passed targeted SAP and complete SuccessFactors verification
+with 48 jobs across two pages, complete in one attempt, and no failure or anomaly. The increase
+from 47 to 48 is normal live-inventory movement and does not change the reviewed source mapping.
+
 ## Full-registry review
 
 The first pre-repair all-enabled run accounted for all 86 enabled companies: 82 succeeded, two
@@ -92,21 +98,21 @@ rather than 21 simultaneous source regressions and does not change the SAP repai
 Healthy sources remain usable when a peer fails. The verifier writes every record and returns a
 nonzero status without changing job history or active configuration.
 
+The final post-repair all-enabled verification accounted for all 86 enabled companies and 26,193
+jobs across 660 pages: 83 sources succeeded, two were valid empty inventories, and Quantbox was
+the one reviewed suspicious source. There were zero failure categories. SAP succeeded with 48
+jobs across two pages and no anomaly.
+
 ## Rollback
 
 If the approved host later fails validation, revert only SAP's `careers_url` and
 `adapter_parameters.host` to `jobs.sap.com`, then rerun targeted SAP, complete SuccessFactors, and
-all-enabled verification. Git retains the current two old values, so rollback is exact and
-recoverable.
+all-enabled verification. The parent of repair commit `4c4b2c8` retains the two old values, so
+rollback remains exact and recoverable.
 
-## Required decision
+## Decision record
 
-Reply exactly one of:
-
-- `approve repair-1ddc97abb012ee26`
-- `reject repair-1ddc97abb012ee26: <optional reason>`
-
-Approval authorizes only the two reviewed SAP field changes. After approval, the change will be
-applied normally, regression-tested, validated against SAP, the complete SuccessFactors group,
-and all enabled sources, then committed as a focused repair. Rejection leaves the active registry
-unchanged and records the disposition.
+H11 authorized only the two reviewed SAP field changes. Those changes were applied normally,
+regression-tested, validated against SAP, the complete SuccessFactors group, and all enabled
+sources, and committed as a focused repair. No adapter code, other company configuration, or
+job-history state changed.

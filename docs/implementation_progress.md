@@ -2,12 +2,10 @@
 
 ## Current status
 
-- Active phase: Phase 10 — resilience and repair evidence
-- Status: Phases 0–9 complete; H1, H2, H4, H5, H6, H9, and H10 approved; H8 connectivity
-  verified. Phase 10 implementation, drills, and live evidence are complete through an inactive
-  SAP repair proposal.
-- Pending human checkpoint: **H11** for proposal `repair-1ddc97abb012ee26`. The exact two-field
-  SAP host repair is tested but has not changed active configuration.
+- Active phase: Phase 11 — full-registry pilot
+- Status: Phases 0–10 complete; H1, H2, H4, H5, H6, H9, H10, and H11 approved; H8 connectivity
+  verified. The release-candidate pilot is next.
+- Pending human checkpoint: H12 after the first clean Phase 11 pilot run.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -321,12 +319,14 @@
   All were retained as `temporary_availability`, not healthy empty results. Immediate checks in
   fresh processes recovered Ashby, Greenhouse, SmartRecruiters, and Darwinbox sources; SAP again
   reached its host and reproduced `unsupported_schema`.
-- Inactive SAP proposal `repair-1ddc97abb012ee26` changes only the official category host from
-  `jobs.sap.com` to `careers.sap.com`. The exact in-memory preview returned 47 complete jobs on two
-  pages, and representative detail `1280449101` matched identity, location, `datePosted`, and
-  description. The active registry remains unchanged pending H11.
+- SAP proposal `repair-1ddc97abb012ee26` changed only the official category host from
+  `jobs.sap.com` to `careers.sap.com`. H11 was explicitly approved on 2026-09-25, the exact diff
+  was applied in `4c4b2c8`, and the registry regression pins both reviewed values.
+- Post-approval targeted SAP and complete SuccessFactors checks each passed with 48 jobs across two
+  pages. The final all-enabled verification accounted for all 86 enabled companies, 26,193 jobs,
+  and 660 pages: 83 success, two valid empty, zero failures, and one reviewed Quantbox anomaly.
 - Repository validation passes with 461 tests, strict mypy, Ruff formatting, and Ruff lint at the
-  H11 stop.
+  Phase 10 completion gate. Phase 10 is complete.
 
 ## Relevant Phase 2 commits
 
@@ -480,6 +480,7 @@
 - `d9ea6b8` — immutable testing of inactive repair proposals
 - `577d9a0` — separation of source anomalies from failure causes
 - `a3b6a3a` — visible bounded source-verification progress
+- `4c4b2c8` — approved SAP source-host repair and registry regression
 
 ## Review artifacts
 
@@ -551,19 +552,17 @@
   three Barclays jobs for which the gateway repeatedly returned no completion text. They remain
   explicit review rows; the three provider outcomes are pending and all nine technical outcomes
   are retried by a later scan rather than being silently suppressed or promoted to matches.
-- SAP's active `jobs.sap.com` category now returns a page schema incompatible with the
-  SuccessFactors adapter. Tested proposal `repair-1ddc97abb012ee26` restores the same official
-  category on `careers.sap.com`, but it remains inactive until H11 approval.
+- SAP's former `jobs.sap.com` category returned a page schema incompatible with the SuccessFactors
+  adapter. H11-approved repair `repair-1ddc97abb012ee26` moved the same official category to
+  `careers.sap.com`; post-repair targeted, adapter-group, and all-enabled checks pass.
 - Quantbox Research exposes eight active public jobs whose `first_published` values are all old
   while their `updated_at` values remain current. It stays visible as a reviewed
   `stale_publication_dates` anomaly, not an inferred schema failure.
 
 ## Resume point
 
-Stop at H11. Review `docs/reviews/phase10_h11_sap_repair.md` and wait for exactly
-`approve repair-1ddc97abb012ee26` or
-`reject repair-1ddc97abb012ee26: <optional reason>`. Do not change active SAP configuration before
-approval. If approved, apply only the reviewed two-field diff, add its registry regression, rerun
-the SAP and complete SuccessFactors validations plus all enabled sources, inspect and commit the
-focused repair, record H11, and complete the Phase 10 gate. If rejected, record the disposition and
-leave active configuration unchanged.
+Begin Phase 11 by recording a release-candidate configuration snapshot and inspecting the existing
+normal job-history state without resetting it. Run the first dated full-registry pilot scan, review
+every source exception and new match plus samples of deterministic rejections and uncertainties,
+record the complete pilot metrics and Git state, and commit the pilot log. Then stop at H12 if a
+different-day pilot run is still required; do not simulate elapsed time.
