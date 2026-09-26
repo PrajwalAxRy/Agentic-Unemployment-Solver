@@ -1,10 +1,11 @@
 # Phase 11 full-registry pilot log
 
-Status: **clean first pilot day completed on 2026-09-25; STOP at Human checkpoint H12.**
+Status: **clean second pilot day completed on 2026-09-26; STOP at Human checkpoint H12.**
 
-Only 2026-09-25 has been covered. The same-day reruns below prove duplicate behavior but do not
-count as another pilot day. The normal job-history database was preserved throughout. Return on a
-later calendar day and say `run the next pilot scan` to continue the multi-day pilot.
+The pilot has covered 2026-09-25 and 2026-09-26. Same-day reruns prove duplicate behavior but do
+not count as another pilot day. The normal job-history database was preserved throughout. The
+execution plan requires scans on several different days, so one final later-day scan remains.
+Return on a later calendar day and say `run the next pilot scan` to continue the pilot.
 
 ## Release-candidate configuration snapshot
 
@@ -48,22 +49,29 @@ blocked, or unsupported companies.
 - After the final immediate rerun, state contains 393 records: 24 pending, 193 completed, and 176
   failed. Pending and failed technical outcomes remain eligible for retry; completed decisions are
   versioned and suppress repeat display.
+- Before the 2026-09-26 scan, a verified local backup and restore check preserved all 393 records
+  at `state/backups/phase11_2026-09-26_pre_scan.sqlite3` and
+  `state/backups/phase11_2026-09-26_pre_scan_restore_check.sqlite3`.
+- After the 2026-09-26 scan, state still contains 393 records: 22 pending, 195 completed, and 176
+  failed. Two retryable provider outcomes reached terminal uncertain decisions; no new identity was
+  added.
 - No normal pilot run restored, reset, or replaced the database. Checkpoint H7 was not triggered.
 
 The local databases, reports, and backups remain ignored and must not be committed.
 
 ## Run chronology
 
-All times below are Asia/Calcutta on 2026-09-25.
+All times below are Asia/Calcutta on the listed date.
 
-| Run | Profile | Time | Status | Sources success / empty / failed | Listings | New / duplicate-suppressed | Strict / uncertain / review | Duration |
-|---|---:|---|---|---:|---:|---:|---:|---:|
-| `scan-20260925T035057Z-f8166432` | `1.1.0` | 09:20:57–09:48:28 | complete | 84 / 2 / 0 | 26,116 | 45 / 282 | 4 / 4 / 52 | 1,650.665 s |
-| `scan-20260925T042319Z-82cd2e17` | `1.1.1` | 09:53:19–17:36:14 | failed | stopped during source collection | — | — | — | 7 h 42 m 55 s |
-| `scan-20260925T120833Z-f16f049a` | `1.1.1` | 17:38:33–18:41:08 | complete | 84 / 2 / 0 | 26,142 | 20 / 0 | 0 / 0 / 40 | 3,755.766 s |
-| `scan-20260925T131248Z-a0c866e6` | `1.1.1` | 18:42:48–19:16:44 | complete rerun | 84 / 2 / 0 | 26,136 | 1 / 304 | 1 / 0 / 47 | 2,036.683 s |
-| `scan-20260925T135115Z-dc5432db` | `1.1.2` | 19:21:15–20:12:49 | complete | 84 / 2 / 0 | 26,120 | 1 / 0 | 1 / 0 / 36 | 3,093.963 s |
-| `scan-20260925T144452Z-39d54451` | `1.1.2` | 20:14:52–20:47:03 | complete rerun | 84 / 2 / 0 | 26,114 | 0 / 311 | 0 / 0 / 42 | 1,930.679 s |
+| Run | Date | Profile | Time | Status | Sources success / empty / failed | Listings | New / duplicate-suppressed | Strict / uncertain / review | Duration |
+|---|---|---:|---|---|---:|---:|---:|---:|---:|
+| `scan-20260925T035057Z-f8166432` | 2026-09-25 | `1.1.0` | 09:20:57–09:48:28 | complete | 84 / 2 / 0 | 26,116 | 45 / 282 | 4 / 4 / 52 | 1,650.665 s |
+| `scan-20260925T042319Z-82cd2e17` | 2026-09-25 | `1.1.1` | 09:53:19–17:36:14 | failed | stopped during source collection | — | — | — | 7 h 42 m 55 s |
+| `scan-20260925T120833Z-f16f049a` | 2026-09-25 | `1.1.1` | 17:38:33–18:41:08 | complete | 84 / 2 / 0 | 26,142 | 20 / 0 | 0 / 0 / 40 | 3,755.766 s |
+| `scan-20260925T131248Z-a0c866e6` | 2026-09-25 | `1.1.1` | 18:42:48–19:16:44 | complete rerun | 84 / 2 / 0 | 26,136 | 1 / 304 | 1 / 0 / 47 | 2,036.683 s |
+| `scan-20260925T135115Z-dc5432db` | 2026-09-25 | `1.1.2` | 19:21:15–20:12:49 | complete | 84 / 2 / 0 | 26,120 | 1 / 0 | 1 / 0 / 36 | 3,093.963 s |
+| `scan-20260925T144452Z-39d54451` | 2026-09-25 | `1.1.2` | 20:14:52–20:47:03 | complete rerun | 84 / 2 / 0 | 26,114 | 0 / 311 | 0 / 0 / 42 | 1,930.679 s |
+| `scan-20260926T000739Z-2cef6bde` | 2026-09-26 | `1.1.2` | 05:37:39–06:01:50 | complete | 84 / 2 / 0 | 26,194 | 0 / 303 | 0 / 0 / 34 | 1,450.330 s |
 
 The failed `1.1.1` attempt was durably closed as `failed`; it did not mutate job state because it
 stopped before filtering and evaluation. It is retained in the chronology rather than being
@@ -76,6 +84,7 @@ Ignored local report artifacts:
 - `reports/phase11_pilot_2026-09-25_postfix_rerun.json`
 - `reports/phase11_pilot_2026-09-25_postfix_v112.json`
 - `reports/phase11_pilot_2026-09-25_v112_rerun.json`
+- `reports/phase11_pilot_2026-09-26.json`
 
 Each successful run also has a same-basename Markdown report.
 
@@ -164,6 +173,31 @@ Live source inventories changed slightly between same-day runs. The duplicate ga
 passes because the final-profile rerun found zero new identities and displayed no completed match
 again.
 
+### Second clean day (`1.1.2`, 2026-09-26)
+
+- The frozen configuration identifiers and all three tracked configuration hashes matched the
+  release-candidate snapshot before the run. Commit `2161d0e` remained an ancestor of `HEAD`; the
+  only tracked changes after it were pilot documentation and its artifact-contract test.
+- `scan-20260926T000739Z-2cef6bde` accounted for all 330 companies: 84 successful sources,
+  Deeptune and Rapido valid-empty, 244 disabled or deferred companies, and zero failed sources.
+- The run observed 26,194 listings, 13,383 recency candidates, 1,316 role candidates, and 314
+  retained candidates. It found zero new identities, suppressed 303 completed duplicates, and
+  displayed no strict or date-uncertain match.
+- Candidate evaluation reused 171 cached decisions, made two live evaluations for retryable
+  outcomes, and used three gateway requests with 2,918 measured input and 505 measured output
+  tokens.
+- All 34 review rows were inspected: 21 `detail_location_unavailable`, eight
+  `description_unavailable`, two `missing_location`, two `seniority_uncertain`, and one
+  `llm_provider_failure`. None was promoted to a match.
+- Two Barclays gateway failures from the final 2026-09-25 rerun resolved to explicit
+  `seniority_uncertain` decisions. One JPMorganChase no-completion outcome remains retryable. One
+  additional Bank of America listing entered the known detail-location review lane, while nine
+  former review rows were absent from the current live/recency candidate set.
+- Both saved incidental-AI false-positive IDs remained absent from every displayed section. No
+  new false positive, false negative, source exception, or systematic filter defect was found.
+- State remained at 393 identities and moved from 24 pending / 193 completed / 176 failed to 22
+  pending / 195 completed / 176 failed as the two retryable evaluations resolved.
+
 ## Defects and regression history
 
 1. `d0ba02e` — added a regression and rejected generic AI technology lists that made Tandem
@@ -185,7 +219,11 @@ strict mypy, and 465 tests.
 - Every completed full run had 84 successful sources, Deeptune and Rapido as the two valid-empty
   sources, and zero failed sources.
 - Duplicate behavior passes on the unchanged final profile: zero new identities, 311 suppressed
-  duplicates, and no repeated match.
+  duplicates on the immediate rerun; the next-day run also found zero new identities, suppressed
+  303 completed duplicates, and displayed no repeated match.
+- Two clean calendar days, 2026-09-25 and 2026-09-26, now pass complete source coverage and
+  duplicate behavior. A third later-day run remains before release review because the execution
+  plan requires scans on several different days.
 - Reviewed role/location samples have no remaining systematic defect after the two incidental-AI
   regressions. Seniority quality remains governed by the H9-approved threshold.
 - Uncertain publication dates, locations, descriptions, provider failures, and seniority outcomes
@@ -211,9 +249,10 @@ Known release limitations remain explicit:
 
 ## H12 stop decision
 
-The first clean pilot day and the same-day duplicate check pass. Phase 11 is not yet complete
-because only 2026-09-25 has been covered; the execution plan requires real scans on different
-calendar days. Do not alter time, publication dates, or state to simulate another day.
+The first and second clean pilot days, 2026-09-25 and 2026-09-26, pass. Phase 11 is not yet
+complete because the execution plan requires scans on several different days; one final later-day
+run remains before the H13 release review. Do not alter time, publication dates, or state to
+simulate another day.
 
 **STOP — Human checkpoint H12.** Return on a later calendar day and say
 `run the next pilot scan`. The next run must preserve `state/jobs.sqlite3`, verify the unchanged

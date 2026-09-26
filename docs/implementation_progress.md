@@ -4,10 +4,11 @@
 
 - Active phase: Phase 11 — full-registry pilot
 - Status: Phases 0–10 complete; H1, H2, H4, H5, H6, H9, H10, and H11 approved; H8 connectivity
-  verified. The first clean pilot day and final-profile immediate duplicate check passed on
-  2026-09-25.
-- Pending human checkpoint: H12. A later calendar-day pilot scan is required; the exact resume
-  instruction is `run the next pilot scan`.
+  verified. Clean final-profile pilot scans passed on 2026-09-25 and 2026-09-26, and the
+  2026-09-25 immediate duplicate check passed.
+- Pending human checkpoint: H12. One final later calendar-day pilot scan is required to satisfy
+  the plan's several-different-days gate; the exact resume instruction is
+  `run the next pilot scan`.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -508,8 +509,16 @@
   suppressed duplicates, zero repeated strict or date-uncertain matches, 169 LLM cache hits, and
   zero failed sources. This passes the duplicate release metric but does not count as a second
   calendar-day pilot.
-- Final state after the rerun has 393 records: 24 pending, 193 completed, and 176 failed. Pending
-  and failed technical outcomes remain visible and retryable.
+- Second-day run `scan-20260926T000739Z-2cef6bde` completed with 84 successful, two valid-empty,
+  and zero failed sources; 26,194 listings; 13,383 recency candidates; 1,316 role candidates; 314
+  retained candidates; zero new identities; 303 suppressed duplicates; no strict or uncertain
+  match; and 34 reviewed, visible exception rows.
+- All second-day review rows were inspected: 21 detail-location gaps, eight unavailable
+  descriptions, two missing locations, two seniority uncertainties, and one retryable gateway
+  failure. Two prior gateway failures resolved to explicit seniority uncertainty; no row was
+  silently promoted and no new systematic defect was found.
+- Final state after the second-day run has 393 records: 22 pending, 195 completed, and 176 failed.
+  Pending and failed technical outcomes remain visible and retryable.
 - `d0ba02e` — reject generic AI technology-list false positives
 - `719976e` — contain remote source disconnects
 - `2161d0e` — reject conventional AI coding-assistant roles
@@ -591,15 +600,15 @@
 - Quantbox Research exposes eight active public jobs whose `first_published` values are all old
   while their `updated_at` values remain current. It stays visible as a reviewed
   `stale_publication_dates` anomaly, not an inferred schema failure.
-- The first clean Phase 11 pilot date is 2026-09-25. Same-day immediate reruns pass duplicate
-  suppression but do not satisfy the required different-day evidence. H12 remains pending.
+- Clean Phase 11 pilot dates now cover 2026-09-25 and 2026-09-26. The execution plan requires
+  scans on several different days, so one final later-day run remains and H12 stays pending.
 - Current pilot review rows include visible Bank of America detail-location gaps, unavailable
   descriptions, intermittent AMD gateway no-completion responses, missing locations, and seniority
   uncertainty. None is silently promoted to a match.
 
 ## Resume point
 
-STOP at H12. The first clean pilot day covered 2026-09-25 and the final profile `1.1.2` immediate
-rerun passed duplicate suppression. On a later calendar day, preserve normal job-history state,
-verify the release-candidate identifiers in `docs/reviews/phase11_pilot_log.md`, and resume only
-when the user says `run the next pilot scan`. Do not simulate elapsed time.
+STOP at H12. Clean final-profile pilot days covered 2026-09-25 and 2026-09-26, and the `1.1.2`
+immediate rerun passed duplicate suppression. On a later calendar day, preserve normal job-history
+state, verify the release-candidate identifiers in `docs/reviews/phase11_pilot_log.md`, and resume
+only when the user says `run the next pilot scan`. Do not simulate elapsed time.
