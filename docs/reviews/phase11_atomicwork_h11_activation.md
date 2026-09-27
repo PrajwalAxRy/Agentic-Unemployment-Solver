@@ -2,16 +2,18 @@
 
 ## Checkpoint status
 
-**STOP — Human checkpoint H11. The adapter is implemented and validated; active configuration is
-unchanged.**
+**APPROVED — Human checkpoint H11 completed on 2026-09-28. The exact reviewed repair is active and
+all post-change gates pass.**
 
 - Proposal ID: `repair-067463ff973ca40d`
-- Proposal status: `implemented; inactive pending approval`
+- Proposal status: `approved and applied`
 - Affected company: Atomicwork only (`company_id=atomicwork`)
 - Change type: custom-adapter activation
 - Confidence: high
 - Implementation commit: `fc9734c` (`feat: add Atomicwork Webflow adapter`)
+- Activation commit: `d462aa9` (`data: activate Atomicwork Webflow source`)
 - H4 decision: `build Atomicwork custom adapter`, approved 2026-09-28
+- H11 decision: the user replied `approve repair-067463ff973ca40d` on 2026-09-28
 
 ## Observed failure and bounded repair
 
@@ -31,11 +33,11 @@ matching Webflow detail pages. The implementation is deliberately company-specif
 The old Greenhouse Apply targets embedded in some current detail pages are retained only as
 diagnostic metadata. The adapter does not follow them or present them as canonical job URLs.
 
-## Exact proposed active-registry diff
+## Exact approved active-registry diff
 
-Approval authorizes only the following Atomicwork record change plus its registry regression
-assertions. It does not authorize changes to another company, the search profile, or job-history
-state.
+The approval authorized only the following Atomicwork record change plus its registry regression
+assertions. It did not authorize changes to another company, the search profile, or job-history
+state. Commit `d462aa9` applies exactly this diff.
 
 ```diff
 -      "careers_url": "https://job-boards.greenhouse.io/atomicwork",
@@ -126,30 +128,59 @@ Two official details were then fetched through the adapter:
 Both details preserved their path identity and unknown date basis. The ignored sanitized verifier
 output is `reports/phase11_atomicwork_custom_inactive.json`.
 
+## Post-approval validation
+
+The active source passed every required gate on 2026-09-28:
+
+- targeted custom-adapter verification: Atomicwork succeeded in one attempt with six jobs across
+  two pages, zero missing required fields, and six explicit unknown publication dates;
+- remaining Greenhouse group verification: 23 healthy sources succeeded and Quantbox Research
+  retained its already-reviewed `stale_publication_dates` anomaly, with no failure category;
+- all-enabled verification: 83 sources succeeded, Deeptune and Rapido were valid-empty, Quantbox
+  Research remained suspicious only for that known anomaly, and there were zero failed sources;
+- the all-enabled verifier observed 26,118 jobs across 658 pages and Atomicwork contributed six
+  jobs across two pages; and
+- complete repository validation passed Ruff format, Ruff lint, strict mypy across 90 source
+  files, and 477 tests.
+
+The ignored verifier artifacts are:
+
+- `reports/phase11_atomicwork_custom_active.json`;
+- `reports/phase11_all_enabled_post_atomicwork.json`.
+
+The preserved-state full scan `scan-20260927T193726Z-8c89b1a8` then completed on 2026-09-28 with
+84 successful sources, two valid-empty sources, zero failed sources, and 26,118 listings. Its 28
+review rows were manually inspected. Atomicwork's one new identity, Backend Engineer
+`4062696008`, had a complete public description and was correctly rejected as `no_ai_topic`: the
+role is conventional backend/platform work and only the employer mission mentions AI automation.
+No Atomicwork item was silently omitted or promoted to a match.
+
 ## State and rollback
 
-The schema-3 job-history database currently contains 394 records: 22 pending, 195 completed, and
-177 failed. A read-only query again confirmed zero Atomicwork records, so activation requires no
-identity migration and does not trigger H7.
+Immediately before activation, the schema-3 job-history database contained 394 records: 22
+pending, 195 completed, and 177 failed. A read-only query again confirmed zero Atomicwork records,
+so activation required no identity migration and did not trigger H7.
+
+Before the post-activation scan, the same 394-record state was backed up and restore-verified at
+`state/backups/phase11_2026-09-28_post_atomicwork_pre_scan.sqlite3` and
+`state/backups/phase11_2026-09-28_post_atomicwork_pre_scan_restore_check.sqlite3`. The completed
+scan left 395 records: 21 pending, 196 completed, and 178 failed. The new Atomicwork identity is a
+terminal deterministic role rejection; no destructive state operation occurred.
 
 If activation fails its post-change gates, revert only the Atomicwork registry record to the exact
 Greenhouse values shown above. The custom adapter code can remain dormant without affecting other
 sources. The activation commit will provide a single focused Git rollback point.
 
-After approval, the required gates are:
+The completed post-approval gates were:
 
 1. registry regression and complete repository validation;
 2. targeted Atomicwork custom-adapter verification;
 3. complete remaining Greenhouse and custom-adapter group verification;
 4. all-enabled source verification; and
-5. a preserved-state full scan before the pilot can return to H12.
+5. a preserved-state full scan before release review.
 
-## Recommendation and required response
+## Resolution
 
-Approve activation. The adapter is narrow, public, fail-closed, fixture-covered, and live-verified;
-leaving the retired Greenhouse mapping active guarantees another partial scan.
-
-Reply with exactly one of:
-
-- `approve repair-067463ff973ca40d`
-- `reject repair-067463ff973ca40d: <reason>`
+H11 is complete. The approved adapter is narrow, public, fail-closed, fixture-covered, and
+live-verified. Its active mapping restored complete source coverage and the third clean pilot day
+without changing any other company, search policy, or pre-existing identity.

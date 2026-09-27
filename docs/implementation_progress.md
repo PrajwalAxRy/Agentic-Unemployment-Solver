@@ -4,12 +4,12 @@
 
 - Active phase: Phase 11 — full-registry pilot
 - Status: Phases 0–10 complete; earlier H1, H2, H4, H5, H6, H9, H10, and H11 decisions remain
-  recorded; H8 connectivity is verified. Clean final-profile pilot scans passed on 2026-09-25 and
-  2026-09-26. The 2026-09-27 attempt was partial because Atomicwork's Greenhouse source moved. H4
-  approved a bounded Atomicwork Webflow adapter on 2026-09-28; implementation, fixtures, repository
-  validation, and inactive live validation now pass.
-- Pending human checkpoint: H11 approval for `repair-067463ff973ca40d`. Review
-  `docs/reviews/phase11_atomicwork_h11_activation.md`; active configuration remains unchanged.
+  recorded; H8 connectivity is verified. Clean final-profile pilot scans passed on 2026-09-25,
+  2026-09-26, and 2026-09-28. The 2026-09-27 partial attempt correctly exposed Atomicwork's moved
+  source; H4 approved the bounded adapter and H11 approved exact activation request
+  `repair-067463ff973ca40d` on 2026-09-28. All post-change and release-readiness gates pass.
+- Pending human checkpoint: H13 first-release approval. Review
+  `docs/reviews/phase11_h13_release_readiness.md`. Proposed tag: `v0.1.0`; no tag has been created.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -527,18 +527,25 @@
 - Atomicwork exhausted bounded retries in both the scan and a targeted verifier. Its former
   Greenhouse API returns 404, while the official Atomicwork site and current public sitemap expose
   six Webflow job pages. This is a `source_moved` coverage defect, not an empty board.
-- Sanitized request `repair-067463ff973ca40d` is inactive. The recommended H4 disposition is to
-  build a bounded custom adapter. The user approved that option on 2026-09-28. Commit `fc9734c`
-  added the adapter, eight focused tests, and the runtime dispatcher path.
-- Inactive verification passed in one attempt with six jobs across two pages, zero missing fields,
-  listing/sitemap agreement, and six explicit unknown dates. Two official detail pages matched
-  their identities and exposed substantive descriptions. Full validation passes Ruff format,
-  Ruff lint, strict mypy across 90 source files, and 475 tests.
-- The exact registry activation diff, rollback, post-change gates, and required H11 response are in
-  `docs/reviews/phase11_atomicwork_h11_activation.md`. Active configuration remains unchanged.
-- State after the partial run has 394 records: 22 pending, 195 completed, and 177 failed. There are
-  zero persisted Atomicwork candidates, so its source-type change currently needs no state
-  migration.
+- Sanitized request `repair-067463ff973ca40d` was approved at H11. The user first selected the
+  bounded custom adapter on 2026-09-28. Commit `fc9734c` added the adapter, eight focused tests,
+  and the runtime dispatcher path; commit `d462aa9` activated exactly the reviewed registry diff.
+- Inactive and active verification passed in one attempt with six jobs across two pages, zero
+  missing fields, listing/sitemap agreement, and six explicit unknown dates. The post-activation
+  Greenhouse group had no failure category; all-enabled verification recorded 83 success, two
+  valid-empty, one known Quantbox Research anomaly, and zero failed sources across 26,118 jobs.
+- The exact registry activation diff, approval, rollback, and completed post-change gates are in
+  `docs/reviews/phase11_atomicwork_h11_activation.md`. Full post-activation validation passes Ruff
+  format, Ruff lint, strict mypy across 90 source files, and 477 tests.
+- Third clean run `scan-20260927T193726Z-8c89b1a8` completed on 2026-09-28 with 84 successful,
+  two valid-empty, and zero failed sources; 26,118 listings; 12,683 recency candidates; 1,247 role
+  candidates; 293 retained candidates; one new identity; 287 suppressed duplicates; no displayed
+  match; and 28 inspected review rows.
+- Atomicwork Backend Engineer `4062696008` was the new identity. Its full official description
+  confirmed conventional backend/platform work; deterministic `no_ai_topic` rejection is correct.
+  No false positive, false negative, source exception, or systematic filter defect was found.
+- The 394-record state was backed up and restore-verified before the scan. State now has 395
+  records: 21 pending, 196 completed, and 178 failed. No reset, replacement, or migration occurred.
 - `d0ba02e` — reject generic AI technology-list false positives
 - `719976e` — contain remote source disconnects
 - `2161d0e` — reject conventional AI coding-assistant roles
@@ -573,6 +580,8 @@
 - Phase 11 Atomicwork coverage review: `docs/reviews/phase11_atomicwork_coverage_review.md`
 - Phase 11 Atomicwork H11 activation review:
   `docs/reviews/phase11_atomicwork_h11_activation.md`
+- Phase 11 H13 release-readiness review:
+  `docs/reviews/phase11_h13_release_readiness.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -623,18 +632,15 @@
 - Quantbox Research exposes eight active public jobs whose `first_published` values are all old
   while their `updated_at` values remain current. It stays visible as a reviewed
   `stale_publication_dates` anomaly, not an inferred schema failure.
-- Clean Phase 11 pilot dates now cover 2026-09-25 and 2026-09-26. The execution plan requires
-  scans on several different days. The 2026-09-27 attempt was partial because Atomicwork moved
-  from its verified Greenhouse board to official Webflow pages, so H12 cannot resume until the H4
-  coverage disposition is approved and implemented.
+- Clean Phase 11 pilot dates cover 2026-09-25, 2026-09-26, and 2026-09-28. The 2026-09-27 attempt
+  remains partial failure-visibility evidence because Atomicwork moved from Greenhouse to official
+  Webflow pages. The approved custom adapter restored complete coverage on the third clean day.
 - Current pilot review rows include visible Bank of America detail-location gaps, unavailable
   descriptions, intermittent AMD gateway no-completion responses, missing locations, and seniority
   uncertainty. None is silently promoted to a match.
 
 ## Resume point
 
-STOP at H11. The Atomicwork custom adapter is implemented and inactive validation passes. Review
-`docs/reviews/phase11_atomicwork_h11_activation.md` and reply
-`approve repair-067463ff973ca40d` or `reject repair-067463ff973ca40d: <reason>`. Active
-configuration is unchanged; do not resume H12 until the exact reviewed diff is approved, applied,
-and validated.
+STOP at H13. Release evidence is complete and no tag has been created. Review
+`docs/reviews/phase11_h13_release_readiness.md` and choose `approve release, create tag v0.1.0`,
+`approve release, no tag`, or `do not release: <reason>`.

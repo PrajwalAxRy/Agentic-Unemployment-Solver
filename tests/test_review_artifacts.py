@@ -294,24 +294,27 @@ def test_h11_review_records_approved_sap_repair_and_final_evidence() -> None:
     assert "parent of repair commit `4c4b2c8`" in review
 
 
-def test_phase11_pilot_log_records_partial_third_day_and_activation_stop() -> None:
+def test_phase11_pilot_log_records_third_clean_day_and_release_stop() -> None:
     review = Path("docs/reviews/phase11_pilot_log.md").read_text(encoding="utf-8")
 
-    assert "third-day attempt partial on 2026-09-27" in review
-    assert "STOP at Human\ncheckpoint H11 for activation" in review
-    assert "2026-09-25 and 2026-09-26" in review
+    assert "third clean pilot day passed on 2026-09-28" in review
+    assert "STOP at Human\ncheckpoint H13" in review
+    assert "2026-09-25, 2026-09-26, and 2026-09-28" in review
     assert "`0.2.0-phase4`" in review
     assert "version `1.1.2`" in review
-    assert "`2161d0e0bfd5410848493d02bec6fca63e601988`" in review
+    assert "`d462aa976b4a16cdf69803c426c7cb03451a3f51`" in review
     assert "394 records: 22 pending, 195 completed, and 177" in review
+    assert "395 records: 21 pending, 196\n  completed, and 178 failed" in review
     assert "`scan-20260925T135115Z-dc5432db`" in review
     assert "`scan-20260925T144452Z-39d54451`" in review
     assert "`scan-20260926T000739Z-2cef6bde`" in review
     assert "`scan-20260927T173616Z-6766cac6`" in review
+    assert "`scan-20260927T193726Z-8c89b1a8`" in review
     assert "Zero new identities; 311 completed duplicates suppressed" in review
     assert "zero new identities, suppressed 303 completed duplicates" in review
     assert "All 34 review rows were inspected" in review
     assert "All 29 review rows were inspected" in review
+    assert "All 28 review rows were inspected" in review
     assert "`repair-067463ff973ca40d`" in review
     assert "`210786170` nor `210788786`" in review
     assert "`Data Scientist Associate` (`210794862`)" in review
@@ -320,38 +323,66 @@ def test_phase11_pilot_log_records_partial_third_day_and_activation_stop() -> No
     assert "`719976e`" in review
     assert "`2161d0e`" in review
     assert "`fc9734c`" in review
-    assert "strict mypy, and 465 tests" in review
+    assert "`d462aa9`" in review
+    assert "strict mypy across 90 source files, and 477 tests" in review
 
 
 def test_phase11_atomicwork_review_records_custom_adapter_approval() -> None:
     review = Path("docs/reviews/phase11_atomicwork_coverage_review.md").read_text(encoding="utf-8")
 
-    assert "H4 approved custom-adapter work on 2026-09-28" in review
+    assert "H4 approved custom-adapter work and H11 approved activation on 2026-09-28" in review
     assert "The user selected `build Atomicwork custom adapter`" in review
-    assert "requires the plan's H11 approval" in review
+    assert "`approve repair-067463ff973ca40d` at H11" in review
     assert "`repair-067463ff973ca40d`" in review
     assert "`source_moved`" in review
     assert "returns HTTP 404" in review
     assert "exactly the same six" in review
-    assert "active configuration remains unchanged at H11" in review
+    assert "activation commit `d462aa9`" in review
     assert "zero persisted Atomicwork candidate records" in review
-    assert "`build Atomicwork custom adapter`" in review
-    assert "`mark Atomicwork unsupported for first release`" in review
+    assert "post-activation 2026-09-28 scan completed with zero failed sources" in review
 
 
-def test_phase11_atomicwork_h11_review_is_exact_and_inactive() -> None:
+def test_phase11_atomicwork_h11_review_records_approved_activation() -> None:
     review = Path("docs/reviews/phase11_atomicwork_h11_activation.md").read_text(encoding="utf-8")
 
-    assert "STOP — Human checkpoint H11" in review
+    assert "APPROVED — Human checkpoint H11 completed on 2026-09-28" in review
     assert "`repair-067463ff973ca40d`" in review
     assert "`fc9734c`" in review
+    assert "Activation commit: `d462aa9`" in review
+    assert "the user replied `approve repair-067463ff973ca40d`" in review
     assert '"adapter_type": "greenhouse"' in review
     assert '"adapter_type": "custom"' in review
     assert '"adapter_key": "atomicwork_webflow"' in review
     assert '"basis": "unknown"' in review
-    assert "active configuration is\nunchanged" in review
     assert "six unique jobs" in review
     assert "pytest: 474 passed" in review
-    assert "zero Atomicwork records" in review
-    assert "`approve repair-067463ff973ca40d`" in review
-    assert "`reject repair-067463ff973ca40d: <reason>`" in review
+    assert "83 sources succeeded" in review
+    assert "zero failed sources" in review
+    assert "26,118 jobs across 658 pages" in review
+    assert "`scan-20260927T193726Z-8c89b1a8`" in review
+    assert "395 records: 21 pending, 196 completed, and 178 failed" in review
+
+
+def test_phase11_h13_review_records_complete_release_evidence() -> None:
+    review = Path("docs/reviews/phase11_h13_release_readiness.md").read_text(encoding="utf-8")
+
+    assert "STOP — Human checkpoint H13" in review
+    assert "Release recommendation: **approve the first release**" in review
+    assert "Proposed tag: `v0.1.0`" in review
+    assert "No tag has been created" in review
+    assert "2026-09-25" in review and "2026-09-26" in review and "2026-09-28" in review
+    assert "Registry accounting | Pass" in review
+    assert "Duplicate behavior | Pass" in review
+    assert "Role and location quality | Pass" in review
+    assert "Seniority quality | Pass" in review
+    assert "Uncertainty | Pass" in review
+    assert "Failure visibility | Pass" in review
+    assert "Operability | Pass" in review
+    assert "Repository quality | Pass" in review
+    assert "Quantbox Research" in review
+    assert "NVIDIA and PayPal" in review
+    assert "complete pytest suite: 478 passed" in review
+    assert "clean Git status at the H13 handoff" in review
+    assert "`approve release, create tag v0.1.0`" in review
+    assert "`approve release, no tag`" in review
+    assert "`do not release: <reason>`" in review

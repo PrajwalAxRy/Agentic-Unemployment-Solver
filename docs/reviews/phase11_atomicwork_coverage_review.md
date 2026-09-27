@@ -1,7 +1,7 @@
 # Phase 11 Atomicwork coverage exception review
 
-Status: **H4 approved custom-adapter work on 2026-09-28. Implementation and inactive validation
-passed; active configuration remains unchanged at H11.**
+Status: **H4 approved custom-adapter work and H11 approved activation on 2026-09-28. The active
+repair and all post-change gates pass.**
 
 Review date: 2026-09-27 (Asia/Calcutta)
 
@@ -11,13 +11,12 @@ Sanitized repair-request ID: `repair-067463ff973ca40d`
 
 ## Recorded H4 decision
 
-The user selected `build Atomicwork custom adapter`. This authorizes the bounded implementation,
-fixtures, tests, and inactive live validation described in option 1. It does not activate the
-registry change: the exact tested registry diff still requires the plan's H11 approval before it
-can replace the last known configuration.
+The user selected `build Atomicwork custom adapter`. This authorized the bounded implementation,
+fixtures, tests, and inactive live validation described in option 1. After reviewing the exact
+tested registry diff, the user then replied `approve repair-067463ff973ca40d` at H11.
 
-Implementation commit `fc9734c` and the complete activation evidence are recorded in
-`phase11_atomicwork_h11_activation.md`.
+Implementation commit `fc9734c`, activation commit `d462aa9`, and the complete post-activation
+evidence are recorded in `phase11_atomicwork_h11_activation.md`.
 
 ## Observed failure
 
@@ -63,14 +62,14 @@ control was bypassed.
 This is a real source redesign, not a temporary network event. Search-engine copies of the old
 27-job Greenhouse inventory are stale and are not suitable runtime evidence.
 
-## Why an unapproved config-only repair is unsafe
+## Why a config-only repair would have been unsafe
 
 The guarded repair overlay may change only `careers_url` and `adapter_parameters`. Pointing the
 existing Greenhouse adapter at Atomicwork's Webflow page would misclassify HTML as a Greenhouse
 JSON board and would not establish complete inventory, identity, detail, or date behavior.
 
-The active registry therefore remains exactly as last approved. No generated proposal or web
-evidence has changed `config/company_sources.json`.
+The registry was not changed until the bounded adapter, fixtures, inactive validation, exact diff,
+and rollback were reviewed. H11 then authorized only that tested Atomicwork record change.
 
 ## Option 1 — build a bounded custom adapter (recommended)
 
@@ -119,14 +118,9 @@ automated enabled coverage from 86 to 85 sources but keeps all 330 canonical com
 accounted for. It requires explicit approval because Atomicwork is a P1 company and was previously
 supported.
 
-## Recommendation and required response
+## Decision resolution
 
-Choose option 1. The official source is public, small, same-origin, and exposes the fields needed
-for a bounded adapter; preserving automated P1 coverage is worth the focused work. The missing
-publication date and broken employer Apply link will remain explicit limitations rather than being
-silently repaired or inferred.
-
-Reply with exactly one of:
-
-- `build Atomicwork custom adapter`
-- `mark Atomicwork unsupported for first release`
+Option 1 was selected and completed. The official source is public, small, same-origin, and exposes
+the fields needed for the bounded adapter. The missing publication date and broken employer Apply
+link remain explicit limitations rather than being silently repaired or inferred. The
+post-activation 2026-09-28 scan completed with zero failed sources.

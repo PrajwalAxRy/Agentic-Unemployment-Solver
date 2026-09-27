@@ -1,12 +1,13 @@
 # Phase 11 full-registry pilot log
 
-Status: **third-day attempt partial on 2026-09-27; Atomicwork adapter built; STOP at Human
-checkpoint H11 for activation.**
+Status: **third clean pilot day passed on 2026-09-28; release evidence is ready; STOP at Human
+checkpoint H13.**
 
-The pilot has covered 2026-09-25 and 2026-09-26. Same-day reruns prove duplicate behavior but do
-not count as another pilot day. The 2026-09-27 attempt does not count as the third clean day because
-Atomicwork's former Greenhouse source moved. The normal job-history database was preserved. Resolve
-the activation checkpoint in `phase11_atomicwork_h11_activation.md` before resuming H12.
+The pilot has clean runs on 2026-09-25, 2026-09-26, and 2026-09-28. Same-day reruns prove duplicate
+behavior but do not count as another pilot day. The 2026-09-27 attempt remains valid failure-
+visibility evidence but is not counted because Atomicwork's former Greenhouse source moved. H11
+approved the bounded custom adapter, the normal job-history database was preserved, and the next
+decision is the H13 first-release checkpoint.
 
 ## Release-candidate configuration snapshot
 
@@ -14,7 +15,7 @@ The final configuration used for the clean run and immediate duplicate check is:
 
 | Item | Value |
 |---|---|
-| Git commit | `2161d0e0bfd5410848493d02bec6fca63e601988` |
+| Git commit | `d462aa976b4a16cdf69803c426c7cb03451a3f51` |
 | Package / adapter implementation | `job-finder 0.1.0` |
 | Registry | `0.2.0-phase4` |
 | Search profile | `india-ai-ml-under-five-years` version `1.1.2` |
@@ -28,16 +29,16 @@ The final configuration used for the clean run and immediate duplicate check is:
 Tracked configuration SHA-256 values:
 
 - `config/company_sources.json`:
-  `DA5F812385568EBC41091003A46CF0C0A166EBCA66F99F06A0E5645048D3A249`
+  `650863FB65733673819583DC4ECB664A1700A28108BA98C743313F2C31FF2119`
 - `config/search_profile.toml`:
   `84C9C8C091A15F9CEEF6F13EB058A41BFC205F13F2507F194DF39C87C142A604`
 - `config/seniority_prompt.toml`:
   `1DBD10716EADD2A3B2173556AA90A950A6C9CFE524034ED045EEECCB35FCCEB6`
 
-The 86 enabled sources use the reviewed implementations for Ashby (25), Darwinbox (4),
-Eightfold (1), Greenhouse (25), Jobvite (1), Lever (11), Oracle Cloud (2), SmartRecruiters (3),
-SuccessFactors (1), and Workday (13). The registry also accounts for all 244 disabled, deferred,
-blocked, or unsupported companies.
+The 86 enabled sources use the reviewed implementations for Ashby (25), custom (1), Darwinbox
+(4), Eightfold (1), Greenhouse (24), Jobvite (1), Lever (11), Oracle Cloud (2), SmartRecruiters
+(3), SuccessFactors (1), and Workday (13). The registry also accounts for all 244 disabled,
+deferred, blocked, or unsupported companies.
 
 ## State baseline and safety
 
@@ -62,6 +63,12 @@ blocked, or unsupported companies.
 - The partial attempt added one JPMorganChase identity with a visible terminal technical outcome.
   State now contains 394 records: 22 pending, 195 completed, and 177 failed. Atomicwork has no
   persisted candidate records, so no state migration is currently required by its source change.
+- Before the 2026-09-28 post-activation scan, a verified local backup and restore check preserved
+  all 394 records at `state/backups/phase11_2026-09-28_post_atomicwork_pre_scan.sqlite3` and
+  `state/backups/phase11_2026-09-28_post_atomicwork_pre_scan_restore_check.sqlite3`.
+- The third clean scan added one Atomicwork identity and left 395 records: 21 pending, 196
+  completed, and 178 failed. The Atomicwork item is a terminal deterministic `no_ai_topic`
+  rejection; no state was reset, replaced, or migrated.
 - No normal pilot run restored, reset, or replaced the database. Checkpoint H7 was not triggered.
 
 The local databases, reports, and backups remain ignored and must not be committed.
@@ -80,6 +87,7 @@ All times below are Asia/Calcutta on the listed date.
 | `scan-20260925T144452Z-39d54451` | 2026-09-25 | `1.1.2` | 20:14:52–20:47:03 | complete rerun | 84 / 2 / 0 | 26,114 | 0 / 311 | 0 / 0 / 42 | 1,930.679 s |
 | `scan-20260926T000739Z-2cef6bde` | 2026-09-26 | `1.1.2` | 05:37:39–06:01:50 | complete | 84 / 2 / 0 | 26,194 | 0 / 303 | 0 / 0 / 34 | 1,450.330 s |
 | `scan-20260927T173616Z-6766cac6` | 2026-09-27 | `1.1.2` | 23:06:16–23:33:03 | partial | 83 / 2 / 1 | 26,125 | 1 / 288 | 0 / 0 / 29 | 1,607.311 s |
+| `scan-20260927T193726Z-8c89b1a8` | 2026-09-28 | `1.1.2` | 01:07:26–01:32:30 | complete | 84 / 2 / 0 | 26,118 | 1 / 287 | 0 / 0 / 28 | 1,504.092 s |
 
 The failed `1.1.1` attempt was durably closed as `failed`; it did not mutate job state because it
 stopped before filtering and evaluation. It is retained in the chronology rather than being
@@ -95,6 +103,9 @@ Ignored local report artifacts:
 - `reports/phase11_pilot_2026-09-26.json`
 - `reports/phase11_pilot_2026-09-27.json`
 - `reports/phase11_atomicwork_2026-09-27_targeted.json`
+- `reports/phase11_atomicwork_custom_active.json`
+- `reports/phase11_all_enabled_post_atomicwork.json`
+- `reports/phase11_pilot_2026-09-28_post_atomicwork.json`
 
 Each successful run also has a same-basename Markdown report.
 
@@ -227,7 +238,38 @@ again.
   sitemap, while the former Greenhouse API returns 404. This attempt is preserved as valid failure
   visibility evidence but does not count as the third clean pilot day.
 - Sanitized request `repair-067463ff973ca40d` and the coverage choices are documented in
-  `docs/reviews/phase11_atomicwork_coverage_review.md`. Active configuration is unchanged.
+  `docs/reviews/phase11_atomicwork_coverage_review.md`. It was subsequently approved at H11.
+
+### Third clean day (`1.1.2`, 2026-09-28)
+
+- H11-approved commit `d462aa9` activated only Atomicwork's tested custom adapter. The search
+  profile and seniority prompt hashes remained unchanged, and the 394-record state was backed up
+  and restore-verified before the scan.
+- Targeted Atomicwork verification succeeded in one attempt with six jobs across two pages, zero
+  missing required fields, and six explicit unknown publication dates. The remaining Greenhouse
+  group had no failure category.
+- The final all-enabled verifier accounted for all 86 active sources: 83 success, Deeptune and
+  Rapido valid-empty, Quantbox Research suspicious only for its reviewed
+  `stale_publication_dates` anomaly, and zero failed sources. It observed 26,118 jobs across 658
+  pages.
+- `scan-20260927T193726Z-8c89b1a8` accounted for all 330 companies: 84 successful sources, two
+  valid-empty sources, 244 explicitly disabled or deferred companies, and zero failed sources.
+- The run observed 26,118 listings, 12,683 recency candidates, 1,247 role candidates, and 293
+  retained candidates. It found one new identity, suppressed 287 completed duplicates, and
+  displayed no strict or date-uncertain match.
+- Six descriptions were requested and four remained unavailable. One conditional role was
+  deterministically rejected; one candidate reached the LLM; 164 cached evaluations were reused.
+  There were zero seniority matches, zero seniority rejections, and 28 review outcomes.
+- All 28 review rows were inspected: 21 `detail_location_unavailable`, four
+  `description_unavailable`, two `missing_location`, and one `seniority_uncertain`. The uncertain
+  JPMorganChase role has one path requiring five-plus years and another without a numeric minimum,
+  so the visible uncertainty is correct.
+- Atomicwork's new Backend Engineer identity `4062696008` had a complete official description and
+  was correctly rejected as `no_ai_topic`. Its Java/Python/AWS/database/API duties are generic
+  backend/platform work; the only AI reference is the employer's mission statement.
+- The run made one gateway request, measured 1,013 input and 285 output tokens, and completed in
+  1,504.092 seconds. No false positive, false negative, source exception, or systematic filter
+  defect was found.
 
 ## Defects and regression history
 
@@ -240,21 +282,21 @@ again.
    coding assistants and productivity tools; profile `1.1.2`. The exact live job now returns
    `incidental_ai_only`.
 
-Focused tests passed after each fix. The final repository gate passed Ruff formatting, Ruff lint,
-strict mypy, and 465 tests.
+Focused tests passed after each fix. The post-activation repository gate passed Ruff formatting,
+Ruff lint, strict mypy across 90 source files, and 477 tests.
 
 ## Coverage, quality, and limitations
 
 - Registry accounting passes: all 330 canonical companies are successful, valid-empty, disabled,
   unsupported, blocked, or otherwise deferred with an explicit reason.
 - Every completed full run had 84 successful sources, Deeptune and Rapido as the two valid-empty
-  sources, and zero failed sources.
+  sources, and zero failed sources. Quantbox Research's reviewed anomaly remains visible in the
+  stricter source verifier without becoming a false source failure.
 - Duplicate behavior passes on the unchanged final profile: zero new identities, 311 suppressed
   duplicates on the immediate rerun; the next-day run also found zero new identities, suppressed
   303 completed duplicates, and displayed no repeated match.
-- Two clean calendar days, 2026-09-25 and 2026-09-26, now pass complete source coverage and
-  duplicate behavior. A third later-day run remains before release review because the execution
-  plan requires scans on several different days.
+- Three clean calendar days, 2026-09-25, 2026-09-26, and 2026-09-28, pass complete source coverage
+  and duplicate behavior. The multi-day pilot evidence is complete.
 - Reviewed role/location samples have no remaining systematic defect after the two incidental-AI
   regressions. Seniority quality remains governed by the H9-approved threshold.
 - Uncertain publication dates, locations, descriptions, provider failures, and seniority outcomes
@@ -283,14 +325,15 @@ Known release limitations remain explicit:
 The first and second clean pilot days, 2026-09-25 and 2026-09-26, still pass. The 2026-09-27
 attempt is correctly retained as partial and does not satisfy the final different-day gate.
 Atomicwork is a P1 company whose public source changed from Greenhouse to official Webflow pages.
-The user selected `build Atomicwork custom adapter` on 2026-09-28. Commit `fc9734c` added the
-bounded adapter and eight fixture tests. Inactive verification found six jobs, complete matching
-listing and sitemap inventories, zero missing fields, and explicit unknown dates. The active
-registry is still unchanged.
+The user selected `build Atomicwork custom adapter` and then approved exact activation request
+`repair-067463ff973ca40d` on 2026-09-28. Implementation commit `fc9734c` added the bounded adapter
+and eight fixture tests; activation commit `d462aa9` changed only the reviewed registry record.
+Targeted, adapter-group, all-enabled, repository, backup/restore, and preserved-state scan gates all
+pass.
 
-## STOP — Human checkpoint H11: approve Atomicwork activation
+## STOP — Human checkpoint H13: approve the first release
 
-Review `docs/reviews/phase11_atomicwork_h11_activation.md`. Reply
-`approve repair-067463ff973ca40d` to apply the exact tested Atomicwork registry diff, or
-`reject repair-067463ff973ca40d: <reason>`. Do not resume H12 or change active source configuration
-until this decision is recorded.
+The multi-day pilot is complete. Review `docs/reviews/phase11_h13_release_readiness.md` for the
+release metrics, exceptions, limitations, validation results, Git status, recommendation, and
+proposed tag. Do not create a release tag or describe the system as released without explicit H13
+approval.
