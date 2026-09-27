@@ -1,11 +1,11 @@
 # Phase 11 full-registry pilot log
 
-Status: **clean second pilot day completed on 2026-09-26; STOP at Human checkpoint H12.**
+Status: **third-day attempt partial on 2026-09-27; STOP at Human checkpoint H4 for Atomicwork.**
 
 The pilot has covered 2026-09-25 and 2026-09-26. Same-day reruns prove duplicate behavior but do
-not count as another pilot day. The normal job-history database was preserved throughout. The
-execution plan requires scans on several different days, so one final later-day scan remains.
-Return on a later calendar day and say `run the next pilot scan` to continue the pilot.
+not count as another pilot day. The 2026-09-27 attempt does not count as the third clean day because
+Atomicwork's former Greenhouse source moved. The normal job-history database was preserved. Resolve
+the coverage exception in `phase11_atomicwork_coverage_review.md` before resuming H12.
 
 ## Release-candidate configuration snapshot
 
@@ -55,6 +55,12 @@ blocked, or unsupported companies.
 - After the 2026-09-26 scan, state still contains 393 records: 22 pending, 195 completed, and 176
   failed. Two retryable provider outcomes reached terminal uncertain decisions; no new identity was
   added.
+- Before the 2026-09-27 attempt, a verified local backup and restore check preserved all 393
+  records at `state/backups/phase11_2026-09-27_pre_scan.sqlite3` and
+  `state/backups/phase11_2026-09-27_pre_scan_restore_check.sqlite3`.
+- The partial attempt added one JPMorganChase identity with a visible terminal technical outcome.
+  State now contains 394 records: 22 pending, 195 completed, and 177 failed. Atomicwork has no
+  persisted candidate records, so no state migration is currently required by its source change.
 - No normal pilot run restored, reset, or replaced the database. Checkpoint H7 was not triggered.
 
 The local databases, reports, and backups remain ignored and must not be committed.
@@ -72,6 +78,7 @@ All times below are Asia/Calcutta on the listed date.
 | `scan-20260925T135115Z-dc5432db` | 2026-09-25 | `1.1.2` | 19:21:15–20:12:49 | complete | 84 / 2 / 0 | 26,120 | 1 / 0 | 1 / 0 / 36 | 3,093.963 s |
 | `scan-20260925T144452Z-39d54451` | 2026-09-25 | `1.1.2` | 20:14:52–20:47:03 | complete rerun | 84 / 2 / 0 | 26,114 | 0 / 311 | 0 / 0 / 42 | 1,930.679 s |
 | `scan-20260926T000739Z-2cef6bde` | 2026-09-26 | `1.1.2` | 05:37:39–06:01:50 | complete | 84 / 2 / 0 | 26,194 | 0 / 303 | 0 / 0 / 34 | 1,450.330 s |
+| `scan-20260927T173616Z-6766cac6` | 2026-09-27 | `1.1.2` | 23:06:16–23:33:03 | partial | 83 / 2 / 1 | 26,125 | 1 / 288 | 0 / 0 / 29 | 1,607.311 s |
 
 The failed `1.1.1` attempt was durably closed as `failed`; it did not mutate job state because it
 stopped before filtering and evaluation. It is retained in the chronology rather than being
@@ -85,6 +92,8 @@ Ignored local report artifacts:
 - `reports/phase11_pilot_2026-09-25_postfix_v112.json`
 - `reports/phase11_pilot_2026-09-25_v112_rerun.json`
 - `reports/phase11_pilot_2026-09-26.json`
+- `reports/phase11_pilot_2026-09-27.json`
+- `reports/phase11_atomicwork_2026-09-27_targeted.json`
 
 Each successful run also has a same-basename Markdown report.
 
@@ -198,6 +207,27 @@ again.
 - State remained at 393 identities and moved from 24 pending / 193 completed / 176 failed to 22
   pending / 195 completed / 176 failed as the two retryable evaluations resolved.
 
+### Third-day partial attempt (`1.1.2`, 2026-09-27)
+
+- Frozen configuration identifiers and hashes matched before the run. State was backed up and
+  restore-verified without reset or replacement.
+- `scan-20260927T173616Z-6766cac6` accounted for all 330 companies but finished `partial`: 83
+  successful sources, Deeptune and Rapido valid-empty, Atomicwork failed, and 244 companies
+  remained explicitly disabled or deferred.
+- Healthy sources produced 26,125 listings, 12,896 recency candidates, 1,268 role candidates, and
+  295 retained candidates. The run found one new identity, suppressed 288 completed duplicates,
+  and displayed no strict or uncertain-date match.
+- All 29 review rows were inspected: 21 `detail_location_unavailable`, five
+  `description_unavailable`, two `missing_location`, and one `llm_provider_failure`. None was
+  promoted to a match.
+- Atomicwork alone exhausted three source attempts with `http_error`; the targeted verifier then
+  reproduced the failure across three more attempts and categorized it as `source_moved`.
+- First-party inspection found six current official Webflow job pages and a matching public
+  sitemap, while the former Greenhouse API returns 404. This attempt is preserved as valid failure
+  visibility evidence but does not count as the third clean pilot day.
+- Sanitized request `repair-067463ff973ca40d` and the coverage choices are documented in
+  `docs/reviews/phase11_atomicwork_coverage_review.md`. Active configuration is unchanged.
+
 ## Defects and regression history
 
 1. `d0ba02e` — added a regression and rejected generic AI technology lists that made Tandem
@@ -247,14 +277,15 @@ Known release limitations remain explicit:
 - Quantbox Research's eight old `first_published` values remain a reviewed
   `stale_publication_dates` anomaly rather than a hidden failure.
 
-## H12 stop decision
+## CONDITIONAL STOP — Human checkpoint H4: Atomicwork coverage exception
 
-The first and second clean pilot days, 2026-09-25 and 2026-09-26, pass. Phase 11 is not yet
-complete because the execution plan requires scans on several different days; one final later-day
-run remains before the H13 release review. Do not alter time, publication dates, or state to
-simulate another day.
+The first and second clean pilot days, 2026-09-25 and 2026-09-26, still pass. The 2026-09-27
+attempt is correctly retained as partial and does not satisfy the final different-day gate.
+Atomicwork is a P1 company whose public source changed from Greenhouse to official Webflow pages.
+Continuing now requires an explicit coverage disposition.
 
-**STOP — Human checkpoint H12.** Return on a later calendar day and say
-`run the next pilot scan`. The next run must preserve `state/jobs.sqlite3`, verify the unchanged
-configuration identifiers above, review every new match and source exception, update this log, and
-commit the result.
+**STOP — Human checkpoint H4.** Review
+`docs/reviews/phase11_atomicwork_coverage_review.md` and reply either
+`build Atomicwork custom adapter` (recommended) or
+`mark Atomicwork unsupported for first release`. Do not resume H12 or change active source
+configuration until this decision is recorded.

@@ -3,12 +3,12 @@
 ## Current status
 
 - Active phase: Phase 11 — full-registry pilot
-- Status: Phases 0–10 complete; H1, H2, H4, H5, H6, H9, H10, and H11 approved; H8 connectivity
-  verified. Clean final-profile pilot scans passed on 2026-09-25 and 2026-09-26, and the
-  2026-09-25 immediate duplicate check passed.
-- Pending human checkpoint: H12. One final later calendar-day pilot scan is required to satisfy
-  the plan's several-different-days gate; the exact resume instruction is
-  `run the next pilot scan`.
+- Status: Phases 0–10 complete; earlier H1, H2, H4, H5, H6, H9, H10, and H11 decisions remain
+  recorded; H8 connectivity is verified. Clean final-profile pilot scans passed on 2026-09-25 and
+  2026-09-26. The 2026-09-27 attempt was partial because Atomicwork's Greenhouse source moved.
+- Pending human checkpoint: conditional H4 coverage exception for Atomicwork. Review
+  `docs/reviews/phase11_atomicwork_coverage_review.md` and choose custom-adapter work or an
+  unsupported first-release disposition before H12 resumes.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -519,6 +519,19 @@
   silently promoted and no new systematic defect was found.
 - Final state after the second-day run has 393 records: 22 pending, 195 completed, and 176 failed.
   Pending and failed technical outcomes remain visible and retryable.
+- Third-day attempt `scan-20260927T173616Z-6766cac6` finished `partial` with 83 successful, two
+  valid-empty, and one failed source; 26,125 listings; 12,896 recency candidates; 1,268 role
+  candidates; 295 retained candidates; one new identity; 288 suppressed duplicates; no match;
+  and 29 inspected review rows.
+- Atomicwork exhausted bounded retries in both the scan and a targeted verifier. Its former
+  Greenhouse API returns 404, while the official Atomicwork site and current public sitemap expose
+  six Webflow job pages. This is a `source_moved` coverage defect, not an empty board.
+- Sanitized request `repair-067463ff973ca40d` is inactive. The recommended H4 disposition is to
+  build a bounded custom adapter, then return to H11 for exact activation approval after fixture
+  and live validation. Active configuration remains unchanged.
+- State after the partial run has 394 records: 22 pending, 195 completed, and 177 failed. There are
+  zero persisted Atomicwork candidates, so its source-type change currently needs no state
+  migration.
 - `d0ba02e` — reject generic AI technology-list false positives
 - `719976e` — contain remote source disconnects
 - `2161d0e` — reject conventional AI coding-assistant roles
@@ -550,6 +563,7 @@
 - Phase 10 source resilience and repair runbook: `docs/08_source_resilience_and_repair.md`
 - H11 SAP repair review: `docs/reviews/phase10_h11_sap_repair.md`
 - Phase 11 full-registry pilot log: `docs/reviews/phase11_pilot_log.md`
+- Phase 11 Atomicwork coverage review: `docs/reviews/phase11_atomicwork_coverage_review.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -601,14 +615,17 @@
   while their `updated_at` values remain current. It stays visible as a reviewed
   `stale_publication_dates` anomaly, not an inferred schema failure.
 - Clean Phase 11 pilot dates now cover 2026-09-25 and 2026-09-26. The execution plan requires
-  scans on several different days, so one final later-day run remains and H12 stays pending.
+  scans on several different days. The 2026-09-27 attempt was partial because Atomicwork moved
+  from its verified Greenhouse board to official Webflow pages, so H12 cannot resume until the H4
+  coverage disposition is approved and implemented.
 - Current pilot review rows include visible Bank of America detail-location gaps, unavailable
   descriptions, intermittent AMD gateway no-completion responses, missing locations, and seniority
   uncertainty. None is silently promoted to a match.
 
 ## Resume point
 
-STOP at H12. Clean final-profile pilot days covered 2026-09-25 and 2026-09-26, and the `1.1.2`
-immediate rerun passed duplicate suppression. On a later calendar day, preserve normal job-history
-state, verify the release-candidate identifiers in `docs/reviews/phase11_pilot_log.md`, and resume
-only when the user says `run the next pilot scan`. Do not simulate elapsed time.
+STOP at conditional H4. Atomicwork's source moved during the third-day attempt. Review
+`docs/reviews/phase11_atomicwork_coverage_review.md` and reply either
+`build Atomicwork custom adapter` (recommended) or
+`mark Atomicwork unsupported for first release`. Active configuration is unchanged; do not resume
+H12 until the approved disposition is implemented and validated.
