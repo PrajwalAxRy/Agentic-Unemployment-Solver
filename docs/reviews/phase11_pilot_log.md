@@ -1,11 +1,12 @@
 # Phase 11 full-registry pilot log
 
-Status: **third-day attempt partial on 2026-09-27; STOP at Human checkpoint H4 for Atomicwork.**
+Status: **third-day attempt partial on 2026-09-27; Atomicwork adapter built; STOP at Human
+checkpoint H11 for activation.**
 
 The pilot has covered 2026-09-25 and 2026-09-26. Same-day reruns prove duplicate behavior but do
 not count as another pilot day. The 2026-09-27 attempt does not count as the third clean day because
 Atomicwork's former Greenhouse source moved. The normal job-history database was preserved. Resolve
-the coverage exception in `phase11_atomicwork_coverage_review.md` before resuming H12.
+the activation checkpoint in `phase11_atomicwork_h11_activation.md` before resuming H12.
 
 ## Release-candidate configuration snapshot
 
@@ -277,15 +278,19 @@ Known release limitations remain explicit:
 - Quantbox Research's eight old `first_published` values remain a reviewed
   `stale_publication_dates` anomaly rather than a hidden failure.
 
-## CONDITIONAL STOP — Human checkpoint H4: Atomicwork coverage exception
+## Completed conditional H4: Atomicwork coverage exception
 
 The first and second clean pilot days, 2026-09-25 and 2026-09-26, still pass. The 2026-09-27
 attempt is correctly retained as partial and does not satisfy the final different-day gate.
 Atomicwork is a P1 company whose public source changed from Greenhouse to official Webflow pages.
-Continuing now requires an explicit coverage disposition.
+The user selected `build Atomicwork custom adapter` on 2026-09-28. Commit `fc9734c` added the
+bounded adapter and eight fixture tests. Inactive verification found six jobs, complete matching
+listing and sitemap inventories, zero missing fields, and explicit unknown dates. The active
+registry is still unchanged.
 
-**STOP — Human checkpoint H4.** Review
-`docs/reviews/phase11_atomicwork_coverage_review.md` and reply either
-`build Atomicwork custom adapter` (recommended) or
-`mark Atomicwork unsupported for first release`. Do not resume H12 or change active source
-configuration until this decision is recorded.
+## STOP — Human checkpoint H11: approve Atomicwork activation
+
+Review `docs/reviews/phase11_atomicwork_h11_activation.md`. Reply
+`approve repair-067463ff973ca40d` to apply the exact tested Atomicwork registry diff, or
+`reject repair-067463ff973ca40d: <reason>`. Do not resume H12 or change active source configuration
+until this decision is recorded.

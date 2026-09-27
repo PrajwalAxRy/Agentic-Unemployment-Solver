@@ -294,11 +294,11 @@ def test_h11_review_records_approved_sap_repair_and_final_evidence() -> None:
     assert "parent of repair commit `4c4b2c8`" in review
 
 
-def test_phase11_pilot_log_records_partial_third_day_and_coverage_stop() -> None:
+def test_phase11_pilot_log_records_partial_third_day_and_activation_stop() -> None:
     review = Path("docs/reviews/phase11_pilot_log.md").read_text(encoding="utf-8")
 
     assert "third-day attempt partial on 2026-09-27" in review
-    assert "STOP at Human checkpoint H4 for Atomicwork" in review
+    assert "STOP at Human\ncheckpoint H11 for activation" in review
     assert "2026-09-25 and 2026-09-26" in review
     assert "`0.2.0-phase4`" in review
     assert "version `1.1.2`" in review
@@ -319,6 +319,7 @@ def test_phase11_pilot_log_records_partial_third_day_and_coverage_stop() -> None
     assert "`d0ba02e`" in review
     assert "`719976e`" in review
     assert "`2161d0e`" in review
+    assert "`fc9734c`" in review
     assert "strict mypy, and 465 tests" in review
 
 
@@ -332,7 +333,25 @@ def test_phase11_atomicwork_review_records_custom_adapter_approval() -> None:
     assert "`source_moved`" in review
     assert "returns HTTP 404" in review
     assert "exactly the same six" in review
-    assert "configuration remains unchanged pending H11" in review
+    assert "active configuration remains unchanged at H11" in review
     assert "zero persisted Atomicwork candidate records" in review
     assert "`build Atomicwork custom adapter`" in review
     assert "`mark Atomicwork unsupported for first release`" in review
+
+
+def test_phase11_atomicwork_h11_review_is_exact_and_inactive() -> None:
+    review = Path("docs/reviews/phase11_atomicwork_h11_activation.md").read_text(encoding="utf-8")
+
+    assert "STOP — Human checkpoint H11" in review
+    assert "`repair-067463ff973ca40d`" in review
+    assert "`fc9734c`" in review
+    assert '"adapter_type": "greenhouse"' in review
+    assert '"adapter_type": "custom"' in review
+    assert '"adapter_key": "atomicwork_webflow"' in review
+    assert '"basis": "unknown"' in review
+    assert "active configuration is\nunchanged" in review
+    assert "six unique jobs" in review
+    assert "pytest: 474 passed" in review
+    assert "zero Atomicwork records" in review
+    assert "`approve repair-067463ff973ca40d`" in review
+    assert "`reject repair-067463ff973ca40d: <reason>`" in review

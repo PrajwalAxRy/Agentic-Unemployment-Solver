@@ -1,7 +1,7 @@
 # Phase 11 Atomicwork coverage exception review
 
-Status: **H4 approved custom-adapter work on 2026-09-28. Implementation is in progress; active
-configuration remains unchanged pending H11.**
+Status: **H4 approved custom-adapter work on 2026-09-28. Implementation and inactive validation
+passed; active configuration remains unchanged at H11.**
 
 Review date: 2026-09-27 (Asia/Calcutta)
 
@@ -15,6 +15,9 @@ The user selected `build Atomicwork custom adapter`. This authorizes the bounded
 fixtures, tests, and inactive live validation described in option 1. It does not activate the
 registry change: the exact tested registry diff still requires the plan's H11 approval before it
 can replace the last known configuration.
+
+Implementation commit `fc9734c` and the complete activation evidence are recorded in
+`phase11_atomicwork_h11_activation.md`.
 
 ## Observed failure
 

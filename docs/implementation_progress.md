@@ -6,10 +6,10 @@
 - Status: Phases 0–10 complete; earlier H1, H2, H4, H5, H6, H9, H10, and H11 decisions remain
   recorded; H8 connectivity is verified. Clean final-profile pilot scans passed on 2026-09-25 and
   2026-09-26. The 2026-09-27 attempt was partial because Atomicwork's Greenhouse source moved. H4
-  approved a bounded Atomicwork Webflow adapter on 2026-09-28; implementation and inactive
-  validation are in progress.
-- Pending human checkpoint: none during implementation. After fixture and live validation, stop at
-  H11 with the exact Atomicwork activation diff; do not change the active registry before approval.
+  approved a bounded Atomicwork Webflow adapter on 2026-09-28; implementation, fixtures, repository
+  validation, and inactive live validation now pass.
+- Pending human checkpoint: H11 approval for `repair-067463ff973ca40d`. Review
+  `docs/reviews/phase11_atomicwork_h11_activation.md`; active configuration remains unchanged.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -528,8 +528,14 @@
   Greenhouse API returns 404, while the official Atomicwork site and current public sitemap expose
   six Webflow job pages. This is a `source_moved` coverage defect, not an empty board.
 - Sanitized request `repair-067463ff973ca40d` is inactive. The recommended H4 disposition is to
-  build a bounded custom adapter, then return to H11 for exact activation approval after fixture
-  and live validation. Active configuration remains unchanged.
+  build a bounded custom adapter. The user approved that option on 2026-09-28. Commit `fc9734c`
+  added the adapter, eight focused tests, and the runtime dispatcher path.
+- Inactive verification passed in one attempt with six jobs across two pages, zero missing fields,
+  listing/sitemap agreement, and six explicit unknown dates. Two official detail pages matched
+  their identities and exposed substantive descriptions. Full validation passes Ruff format,
+  Ruff lint, strict mypy across 90 source files, and 475 tests.
+- The exact registry activation diff, rollback, post-change gates, and required H11 response are in
+  `docs/reviews/phase11_atomicwork_h11_activation.md`. Active configuration remains unchanged.
 - State after the partial run has 394 records: 22 pending, 195 completed, and 177 failed. There are
   zero persisted Atomicwork candidates, so its source-type change currently needs no state
   migration.
@@ -565,6 +571,8 @@
 - H11 SAP repair review: `docs/reviews/phase10_h11_sap_repair.md`
 - Phase 11 full-registry pilot log: `docs/reviews/phase11_pilot_log.md`
 - Phase 11 Atomicwork coverage review: `docs/reviews/phase11_atomicwork_coverage_review.md`
+- Phase 11 Atomicwork H11 activation review:
+  `docs/reviews/phase11_atomicwork_h11_activation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -625,8 +633,8 @@
 
 ## Resume point
 
-STOP at conditional H4. Atomicwork's source moved during the third-day attempt. Review
-`docs/reviews/phase11_atomicwork_coverage_review.md` and reply either
-`build Atomicwork custom adapter` (recommended) or
-`mark Atomicwork unsupported for first release`. Active configuration is unchanged; do not resume
-H12 until the approved disposition is implemented and validated.
+STOP at H11. The Atomicwork custom adapter is implemented and inactive validation passes. Review
+`docs/reviews/phase11_atomicwork_h11_activation.md` and reply
+`approve repair-067463ff973ca40d` or `reject repair-067463ff973ca40d: <reason>`. Active
+configuration is unchanged; do not resume H12 until the exact reviewed diff is approved, applied,
+and validated.
