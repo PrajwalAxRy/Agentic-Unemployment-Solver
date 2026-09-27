@@ -2,20 +2,27 @@
 
 ## Current status
 
-- Active phase: Phase 11 complete — first release approved
-- Status: Phases 0–10 complete; earlier H1, H2, H4, H5, H6, H9, H10, and H11 decisions remain
-  recorded; H8 connectivity is verified. Clean final-profile pilot scans passed on 2026-09-25,
-  2026-09-26, and 2026-09-28. The 2026-09-27 partial attempt correctly exposed Atomicwork's moved
-  source; H4 approved the bounded adapter and H11 approved exact activation request
-  `repair-067463ff973ca40d` on 2026-09-28. All post-change and release-readiness gates pass. H13
-  approved the first release and annotated tag `v0.1.0` on 2026-09-28.
-- Pending human checkpoint: none. The first-release decision is recorded in
-  `docs/reviews/phase11_h13_release_readiness.md`.
+- Active phase: Phase 12 — post-release `search_only` source discovery
+- Status: First release `v0.1.0` remains approved and unchanged. A discovery-only expansion has
+  completed Stages 1–7 for all 238 current `search_only` companies. All 53 P1, 82 P2, and 103 P3
+  records have a decision row. The resulting routes are 34 existing-adapter candidates, 14 new
+  reusable-family candidates, 114 deterministic custom candidates, 35 endpoint-replay cases,
+  four verified-empty monitors, 18 monitored/manual cases, and 19 identity-safe rediscovery cases.
+  No source was activated and no runtime or registry behavior changed.
+- Pending human checkpoint: Phase 12 Stage 7 consolidated coverage-plan review. The user must
+  approve specific implementation packages before adapter or registry implementation begins.
+- Active review artifact: `docs/reviews/phase12_search_only_discovery.md`.
+- Company ledger: `docs/reviews/phase12_search_only_company_dossiers.md` (238/238 accounted).
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
 ## Completed gates
 
+- Phase 12 Stages 1–7 reconciled all 238 `search_only` records, refreshed bounded public probes and
+  ATS fingerprints, browser-reviewed every company, corrected stale/wrong identities, assigned one
+  implementation route per company, and produced the Stage 7 package/ledger. The available browser
+  did not provide durable screenshot or DevTools-network export artifacts, so sources whose public
+  endpoint could not be independently proven are explicitly queued as `RD` rather than inferred.
 - Repository instructions, design, implementation guide, phased plan, product decisions, and data
   provenance documentation read in full.
 - Canonical seed validated: 330 rows, unique IDs/names/ranks, contiguous source order, and priority
