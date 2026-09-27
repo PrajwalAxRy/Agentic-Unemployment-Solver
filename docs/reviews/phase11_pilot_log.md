@@ -1,7 +1,7 @@
 # Phase 11 full-registry pilot log
 
-Status: **third clean pilot day passed on 2026-09-28; release evidence is ready; STOP at Human
-checkpoint H13.**
+Status: **third clean pilot day passed on 2026-09-28; H13 approved the first release and annotated
+tag `v0.1.0`.**
 
 The pilot has clean runs on 2026-09-25, 2026-09-26, and 2026-09-28. Same-day reruns prove duplicate
 behavior but do not count as another pilot day. The 2026-09-27 attempt remains valid failure-
@@ -331,9 +331,9 @@ and eight fixture tests; activation commit `d462aa9` changed only the reviewed r
 Targeted, adapter-group, all-enabled, repository, backup/restore, and preserved-state scan gates all
 pass.
 
-## STOP — Human checkpoint H13: approve the first release
+## Completed Human checkpoint H13: first release approved
 
-The multi-day pilot is complete. Review `docs/reviews/phase11_h13_release_readiness.md` for the
-release metrics, exceptions, limitations, validation results, Git status, recommendation, and
-proposed tag. Do not create a release tag or describe the system as released without explicit H13
-approval.
+The multi-day pilot is complete. The user replied `approve release, create tag v0.1.0` on
+2026-09-28 after reviewing `docs/reviews/phase11_h13_release_readiness.md`. The accepted release
+metrics, exceptions, limitations, validation results, and Git status remain recorded there. The
+release-decision commit is the target of the approved annotated tag.

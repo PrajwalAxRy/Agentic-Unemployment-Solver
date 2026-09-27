@@ -294,11 +294,11 @@ def test_h11_review_records_approved_sap_repair_and_final_evidence() -> None:
     assert "parent of repair commit `4c4b2c8`" in review
 
 
-def test_phase11_pilot_log_records_third_clean_day_and_release_stop() -> None:
+def test_phase11_pilot_log_records_third_clean_day_and_release_approval() -> None:
     review = Path("docs/reviews/phase11_pilot_log.md").read_text(encoding="utf-8")
 
     assert "third clean pilot day passed on 2026-09-28" in review
-    assert "STOP at Human\ncheckpoint H13" in review
+    assert "H13 approved the first release and annotated\ntag `v0.1.0`" in review
     assert "2026-09-25, 2026-09-26, and 2026-09-28" in review
     assert "`0.2.0-phase4`" in review
     assert "version `1.1.2`" in review
@@ -366,10 +366,11 @@ def test_phase11_atomicwork_h11_review_records_approved_activation() -> None:
 def test_phase11_h13_review_records_complete_release_evidence() -> None:
     review = Path("docs/reviews/phase11_h13_release_readiness.md").read_text(encoding="utf-8")
 
-    assert "STOP — Human checkpoint H13" in review
+    assert "APPROVED — Human checkpoint H13 completed on 2026-09-28" in review
     assert "Release recommendation: **approve the first release**" in review
     assert "Proposed tag: `v0.1.0`" in review
-    assert "No tag has been created" in review
+    assert "the user replied `approve release, create tag v0.1.0`" in review
+    assert "Tag status: approved and created" in review
     assert "2026-09-25" in review and "2026-09-26" in review and "2026-09-28" in review
     assert "Registry accounting | Pass" in review
     assert "Duplicate behavior | Pass" in review
@@ -383,6 +384,4 @@ def test_phase11_h13_review_records_complete_release_evidence() -> None:
     assert "NVIDIA and PayPal" in review
     assert "complete pytest suite: 478 passed" in review
     assert "clean Git status at the H13 handoff" in review
-    assert "`approve release, create tag v0.1.0`" in review
-    assert "`approve release, no tag`" in review
-    assert "`do not release: <reason>`" in review
+    assert "Phase 11 and the first release are complete" in review

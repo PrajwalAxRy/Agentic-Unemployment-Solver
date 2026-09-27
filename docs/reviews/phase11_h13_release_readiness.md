@@ -2,8 +2,8 @@
 
 ## Checkpoint status
 
-**STOP — Human checkpoint H13. Release evidence is complete; explicit approval is required before
-the system is described as released or a tag is created.**
+**APPROVED — Human checkpoint H13 completed on 2026-09-28. The first release is approved and the
+annotated `v0.1.0` tag is authorized.**
 
 - Review date: 2026-09-28 (Asia/Calcutta)
 - Release candidate: `job-finder 0.1.0`
@@ -15,8 +15,13 @@ the system is described as released or a tag is created.**
 - Report schema: `1`
 - Python: CPython `3.12`
 - Release recommendation: **approve the first release**
+- H13 decision: the user replied `approve release, create tag v0.1.0`
+- Release status: approved
+- Tag status: approved and created from the validated release-decision commit
 
-No tag has been created.
+The approval accepts the explicit source exceptions and known limitations recorded below. It does
+not expand first-release scope to scheduling, notifications, additional adapters, or lifecycle
+tracking.
 
 ## Release-candidate identity
 
@@ -158,17 +163,13 @@ Final checks pass:
 - clean Git status at the H13 handoff, with no report, state, backup, secret, provenance workbook,
   or unrelated user file staged or modified.
 
-## Recommendation and required response
+## Release decision
 
-Approve the first release. The release metrics pass, the three clean pilot dates establish
-multi-day stability, the moved-source workflow behaved safely, and the remaining limitations are
-visible and bounded. `v0.1.0` matches the package version and is the proposed optional annotated
-release tag.
+The user approved the first release and creation of annotated tag `v0.1.0` on 2026-09-28. The
+release metrics pass, the three clean pilot dates establish multi-day stability, the moved-source
+workflow behaved safely, and the accepted limitations are visible and bounded. `v0.1.0` matches
+the package version.
 
-Reply with exactly one of:
-
-- `approve release, create tag v0.1.0`
-- `approve release, no tag`
-- `do not release: <reason>`
-
-Do not create a tag or describe the system as released before explicit approval.
+After this decision was recorded, the canonical validation suite was rerun, the release records
+were committed, the working tree was confirmed clean, and the specifically authorized annotated
+tag was created from that commit. Phase 11 and the first release are complete.

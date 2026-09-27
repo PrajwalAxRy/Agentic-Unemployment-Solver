@@ -2,14 +2,15 @@
 
 ## Current status
 
-- Active phase: Phase 11 — full-registry pilot
+- Active phase: Phase 11 complete — first release approved
 - Status: Phases 0–10 complete; earlier H1, H2, H4, H5, H6, H9, H10, and H11 decisions remain
   recorded; H8 connectivity is verified. Clean final-profile pilot scans passed on 2026-09-25,
   2026-09-26, and 2026-09-28. The 2026-09-27 partial attempt correctly exposed Atomicwork's moved
   source; H4 approved the bounded adapter and H11 approved exact activation request
-  `repair-067463ff973ca40d` on 2026-09-28. All post-change and release-readiness gates pass.
-- Pending human checkpoint: H13 first-release approval. Review
-  `docs/reviews/phase11_h13_release_readiness.md`. Proposed tag: `v0.1.0`; no tag has been created.
+  `repair-067463ff973ca40d` on 2026-09-28. All post-change and release-readiness gates pass. H13
+  approved the first release and annotated tag `v0.1.0` on 2026-09-28.
+- Pending human checkpoint: none. The first-release decision is recorded in
+  `docs/reviews/phase11_h13_release_readiness.md`.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 
@@ -641,6 +642,7 @@
 
 ## Resume point
 
-STOP at H13. Release evidence is complete and no tag has been created. Review
-`docs/reviews/phase11_h13_release_readiness.md` and choose `approve release, create tag v0.1.0`,
-`approve release, no tag`, or `do not release: <reason>`.
+The first release is complete. Future work begins from the explicitly deferred post-release scope:
+scheduling, notifications, add-company workflow, lifecycle tracking, automatic-repair maturity,
+and additional source coverage. Preserve the released `v0.1.0` behavior and follow the phased
+checkpoint protocol for any scope expansion.
