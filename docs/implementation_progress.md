@@ -5,10 +5,11 @@
 - Active phase: Phase 11 — full-registry pilot
 - Status: Phases 0–10 complete; earlier H1, H2, H4, H5, H6, H9, H10, and H11 decisions remain
   recorded; H8 connectivity is verified. Clean final-profile pilot scans passed on 2026-09-25 and
-  2026-09-26. The 2026-09-27 attempt was partial because Atomicwork's Greenhouse source moved.
-- Pending human checkpoint: conditional H4 coverage exception for Atomicwork. Review
-  `docs/reviews/phase11_atomicwork_coverage_review.md` and choose custom-adapter work or an
-  unsupported first-release disposition before H12 resumes.
+  2026-09-26. The 2026-09-27 attempt was partial because Atomicwork's Greenhouse source moved. H4
+  approved a bounded Atomicwork Webflow adapter on 2026-09-28; implementation and inactive
+  validation are in progress.
+- Pending human checkpoint: none during implementation. After fixture and live validation, stop at
+  H11 with the exact Atomicwork activation diff; do not change the active registry before approval.
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
   first-release accounting, including 244 disabled backlog or unsupported records.
 

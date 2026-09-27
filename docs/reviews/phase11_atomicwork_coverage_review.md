@@ -1,10 +1,20 @@
 # Phase 11 Atomicwork coverage exception review
 
-Status: **STOP — Human checkpoint H4. Active configuration is unchanged.**
+Status: **H4 approved custom-adapter work on 2026-09-28. Implementation is in progress; active
+configuration remains unchanged pending H11.**
 
 Review date: 2026-09-27 (Asia/Calcutta)
 
+Decision date: 2026-09-28 (Asia/Calcutta)
+
 Sanitized repair-request ID: `repair-067463ff973ca40d`
+
+## Recorded H4 decision
+
+The user selected `build Atomicwork custom adapter`. This authorizes the bounded implementation,
+fixtures, tests, and inactive live validation described in option 1. It does not activate the
+registry change: the exact tested registry diff still requires the plan's H11 approval before it
+can replace the last known configuration.
 
 ## Observed failure
 

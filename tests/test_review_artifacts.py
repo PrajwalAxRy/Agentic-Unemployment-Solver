@@ -322,15 +322,17 @@ def test_phase11_pilot_log_records_partial_third_day_and_coverage_stop() -> None
     assert "strict mypy, and 465 tests" in review
 
 
-def test_phase11_atomicwork_review_records_safe_coverage_choices() -> None:
+def test_phase11_atomicwork_review_records_custom_adapter_approval() -> None:
     review = Path("docs/reviews/phase11_atomicwork_coverage_review.md").read_text(encoding="utf-8")
 
-    assert "STOP — Human checkpoint H4" in review
+    assert "H4 approved custom-adapter work on 2026-09-28" in review
+    assert "The user selected `build Atomicwork custom adapter`" in review
+    assert "requires the plan's H11 approval" in review
     assert "`repair-067463ff973ca40d`" in review
     assert "`source_moved`" in review
     assert "returns HTTP 404" in review
     assert "exactly the same six" in review
-    assert "Active configuration is unchanged" in review
+    assert "active\n+configuration remains unchanged pending H11" in review
     assert "zero persisted Atomicwork candidate records" in review
     assert "`build Atomicwork custom adapter`" in review
     assert "`mark Atomicwork unsupported for first release`" in review
