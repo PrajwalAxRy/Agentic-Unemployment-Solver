@@ -3,6 +3,22 @@
 Fixtures preserve the public source's response shape while keeping examples small, deterministic,
 and free of credentials, cookies, or full production payloads.
 
+## Atomicwork Webflow
+
+- `atomicwork/healthy.html` and `healthy_sitemap.xml`: two same-origin Webflow collection rows
+  reconciled with the official public sitemap.
+- `atomicwork/empty.html` and `empty_sitemap.xml`: the explicit Webflow empty-collection shape and
+  a sitemap without detail pages.
+- `atomicwork/malformed.html`: a collection row missing its required title.
+- `atomicwork/duplicate.html`: two rows that resolve to the same path-derived external ID.
+- `atomicwork/off_origin.html`: an application row whose detail link leaves the approved origin.
+- `atomicwork/detail.html`: the official detail-page structure for title, location, rich-text
+  description, and the separately retained legacy application URL.
+
+The adapter treats the official detail URL as canonical, derives identity from its `/careers/`
+path, and keeps publication evidence unknown because the source exposes no trustworthy posting
+date.
+
 ## Ashby
 
 - `ashby/healthy.json`: two representative listings, including secondary locations and the

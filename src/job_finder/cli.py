@@ -11,6 +11,7 @@ from pathlib import Path
 
 from job_finder import __version__
 from job_finder.adapters.ashby import AshbyAdapter
+from job_finder.adapters.atomicwork import AtomicworkWebflowAdapter
 from job_finder.adapters.base import AdapterRegistry
 from job_finder.adapters.darwinbox import DarwinboxAdapter
 from job_finder.adapters.eightfold import EightfoldAdapter
@@ -426,6 +427,7 @@ def _measure_recency(args: argparse.Namespace) -> int:
 def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
     return AdapterRegistry(
         [
+            AtomicworkWebflowAdapter(client),
             AshbyAdapter(client),
             DarwinboxAdapter(client),
             EightfoldAdapter(client),
