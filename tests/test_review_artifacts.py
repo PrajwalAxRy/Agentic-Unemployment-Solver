@@ -332,7 +332,7 @@ def test_phase11_atomicwork_review_records_custom_adapter_approval() -> None:
     assert "`source_moved`" in review
     assert "returns HTTP 404" in review
     assert "exactly the same six" in review
-    assert "active\n+configuration remains unchanged pending H11" in review
+    assert "configuration remains unchanged pending H11" in review
     assert "zero persisted Atomicwork candidate records" in review
     assert "`build Atomicwork custom adapter`" in review
     assert "`mark Atomicwork unsupported for first release`" in review
