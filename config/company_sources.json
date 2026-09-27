@@ -1031,33 +1031,33 @@
       "company_id": "atomicwork",
       "company_name": "Atomicwork",
       "status": "enabled",
-      "careers_url": "https://job-boards.greenhouse.io/atomicwork",
-      "adapter_type": "greenhouse",
+      "careers_url": "https://www.atomicwork.com/company/careers",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "board_token": "atomicwork"
+        "adapter_key": "atomicwork_webflow"
       },
       "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": "first_published",
-        "basis": "published",
-        "verified_as_publication": true,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": null,
+        "basis": "unknown",
+        "verified_as_publication": false,
+        "notes": "Official Webflow listing and detail pages expose no trustworthy publication date."
       },
-      "detail_strategy": "listing_payload",
+      "detail_strategy": "detail_page",
       "enabled": true,
       "confidence": "high",
       "evidence": [
-        "https://job-boards.greenhouse.io/atomicwork",
-        "https://boards-api.greenhouse.io/v1/boards/atomicwork/jobs",
-        "https://docs.greenhouse.io/job-board.html",
-        "https://boards-api.greenhouse.io/v1/boards/atomicwork/jobs?content=true"
+        "https://www.atomicwork.com/company/careers",
+        "https://www.atomicwork.com/sitemap.xml",
+        "https://www.atomicwork.com/careers/4062696008",
+        "https://www.atomicwork.com/careers/4417546008-5ddb5"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Greenhouse public Job Board API passed full adapter-group validation; jobs without first_published retain updated_at separately for H5.",
+      "notes": "H4-approved bounded Atomicwork Webflow adapter; listing and sitemap inventories must agree; publication dates remain unknown; legacy Greenhouse Apply targets are not canonical.",
       "source_rank": 33,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T00:38:13+05:30"
     },
     {
       "schema_version": 1,

@@ -104,6 +104,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--adapter",
         choices=(
             AdapterType.ASHBY.value,
+            AdapterType.CUSTOM.value,
             AdapterType.DARWINBOX.value,
             AdapterType.EIGHTFOLD.value,
             AdapterType.GREENHOUSE.value,

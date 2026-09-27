@@ -16,9 +16,10 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
     assert audit.by_status == {"enabled": 86, "proposed": 242, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 25,
+        "custom": 1,
         "darwinbox": 4,
         "eightfold": 1,
-        "greenhouse": 25,
+        "greenhouse": 24,
         "jobvite": 1,
         "lever": 11,
         "oracle_cloud": 2,
@@ -117,3 +118,21 @@ def test_jobvite_source_uses_verified_board_identity_and_detail_date() -> None:
     assert sima.date_strategy.verified_as_publication is True
     assert sima.detail_strategy.value == "detail_page"
     assert sima.enabled is True
+
+
+def test_atomicwork_uses_approved_webflow_adapter_and_unknown_dates() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    atomicwork = next(
+        entry.source for entry in registry.entries if entry.source.company_id == "atomicwork"
+    )
+
+    assert atomicwork.adapter_type.value == "custom"
+    assert atomicwork.careers_url == "https://www.atomicwork.com/company/careers"
+    assert atomicwork.adapter_parameters == {"adapter_key": "atomicwork_webflow"}
+    assert atomicwork.status.value == "enabled"
+    assert atomicwork.identity_strategy.value == "external_id"
+    assert atomicwork.date_strategy.field_name is None
+    assert atomicwork.date_strategy.basis.value == "unknown"
+    assert atomicwork.date_strategy.verified_as_publication is False
+    assert atomicwork.detail_strategy.value == "detail_page"
+    assert atomicwork.enabled is True

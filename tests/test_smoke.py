@@ -29,6 +29,12 @@ def test_cli_accepts_workday_source_verification() -> None:
     assert args.adapter == "workday"
 
 
+def test_cli_accepts_custom_source_verification() -> None:
+    args = build_parser().parse_args(["verify-sources", "--adapter", "custom"])
+
+    assert args.adapter == "custom"
+
+
 def test_cli_accepts_darwinbox_source_verification() -> None:
     args = build_parser().parse_args(["verify-sources", "--adapter", "darwinbox"])
 
