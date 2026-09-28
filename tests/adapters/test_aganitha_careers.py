@@ -130,15 +130,15 @@ def test_incomplete_empty_mismatch_and_redirect_fail_closed() -> None:
     empty, _ = adapter_for([response(b"<html><body><h1>Careers</h1></body></html>")])
     assert empty.list_jobs(source()).outcome is AdapterOutcome.FAILED
 
-    mismatch_detail = (FIXTURES / "detail_one.html").read_text(encoding="utf-8").replace(
-        "Jr Full Stack Developer", "Different Role"
+    mismatch_detail = (
+        (FIXTURES / "detail_one.html")
+        .read_text(encoding="utf-8")
+        .replace("Jr Full Stack Developer", "Different Role")
     )
     mismatch, _ = adapter_for([fixture("listing.html"), response(mismatch_detail.encode())])
     assert mismatch.list_jobs(source()).outcome is AdapterOutcome.FAILED
 
-    redirected, _ = adapter_for(
-        [fixture("listing.html", final_url="https://example.com/careers")]
-    )
+    redirected, _ = adapter_for([fixture("listing.html", final_url="https://example.com/careers")])
     assert redirected.list_jobs(source()).outcome is AdapterOutcome.FAILED
 
 

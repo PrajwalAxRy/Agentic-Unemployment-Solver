@@ -500,19 +500,13 @@ def _canonical_detail_url(value: str) -> tuple[str, str]:
 
 def _normalized_lines(parts: Iterable[str]) -> list[str]:
     text = "".join(parts).replace("\r", "")
-    return [
-        normalized
-        for line in text.splitlines()
-        if (normalized := _normalize_whitespace(line))
-    ]
+    return [normalized for line in text.splitlines() if (normalized := _normalize_whitespace(line))]
 
 
 def _normalized_locations(value: str) -> tuple[str, ...]:
     result = tuple(
         dict.fromkeys(
-            _normalize_text(piece)
-            for piece in re.split(r"[,|;/]", value)
-            if piece.strip()
+            _normalize_text(piece) for piece in re.split(r"[,|;/]", value) if piece.strip()
         )
     )
     return result or ("location unavailable",)

@@ -165,8 +165,10 @@ def test_total_mismatch_malformed_date_duplicate_and_redirect_fail_closed() -> N
 def test_detail_schema_and_source_configuration_are_strict() -> None:
     adapter, _ = adapter_for([listing_response(), detail_response()])
     job = adapter.list_jobs(source()).jobs[0]
-    bad_detail = (FIXTURES / "detail.html").read_text(encoding="utf-8").replace(
-        "Responsibilities", "Overview"
+    bad_detail = (
+        (FIXTURES / "detail.html")
+        .read_text(encoding="utf-8")
+        .replace("Responsibilities", "Overview")
     )
     broken, _ = adapter_for([response(bad_detail.encode(), content_type="text/html")])
     with pytest.raises(ValueError, match="Responsibilities"):

@@ -377,9 +377,7 @@ def _normalized_lines(parts: Iterable[str]) -> list[str]:
 def _normalized_locations(value: str) -> tuple[str, ...]:
     return tuple(
         dict.fromkeys(
-            _normalize_text(piece)
-            for piece in re.split(r"[,|;/]", value)
-            if piece.strip()
+            _normalize_text(piece) for piece in re.split(r"[,|;/]", value) if piece.strip()
         )
     )
 

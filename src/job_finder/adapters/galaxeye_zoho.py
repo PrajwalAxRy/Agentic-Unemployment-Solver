@@ -149,6 +149,7 @@ class GalaxEyeZohoAdapter:
             complete=True,
         )
 
+
 def _validate_source(source: CompanySource) -> None:
     parameters = require_source_configuration(
         source,
@@ -319,11 +320,7 @@ def _local_name(tag: str) -> str:
 
 def _normalized_lines(parts: Iterable[str]) -> list[str]:
     text = "".join(parts).replace("\r", "")
-    return [
-        normalized
-        for line in text.splitlines()
-        if (normalized := _normalize_whitespace(line))
-    ]
+    return [normalized for line in text.splitlines() if (normalized := _normalize_whitespace(line))]
 
 
 def _normalized_locations(value: str) -> tuple[str, ...]:
