@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-b1",
+  "registry_version": "0.3.0-phase12-b2",
   "generated_at": "2026-09-28T12:00:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
@@ -6979,33 +6979,34 @@
       "schema_version": 1,
       "company_id": "payu",
       "company_name": "PayU",
-      "status": "proposed",
-      "careers_url": "https://payu.hire.trakstar.com/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://careers.payu.in/PayU/go/_/514880/",
+      "adapter_type": "successfactors",
       "adapter_parameters": {
-        "search_url": "https://payu.hire.trakstar.com/"
+        "host": "careers.payu.in",
+        "category_path": "/PayU/go/_/514880/"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "datePosted",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Public detail pages expose schema.org datePosted and a matching visible posted date."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://payu.hire.trakstar.com/",
-        "https://payu.hire.trakstar.com/",
-        "https://payu.hire.trakstar.com/"
+        "https://corporate.payu.in/careers",
+        "https://careers.payu.in/PayU/go/_/514880/",
+        "https://careers.payu.in/PayU/job/Gurgaon-AI-Engineer/53413680/"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package B corrected the stale Trakstar hint to PayU's official SuccessFactors board; complete validation enumerated 130 jobs across six pages and checked first, middle, and final details.",
       "source_rank": 218,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T13:12:27+05:30"
     },
     {
       "schema_version": 1,

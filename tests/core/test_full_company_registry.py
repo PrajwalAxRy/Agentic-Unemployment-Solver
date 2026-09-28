@@ -12,8 +12,8 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 109
-    assert audit.by_status == {"enabled": 109, "proposed": 219, "unsupported": 2}
+    assert audit.enabled_count == 110
+    assert audit.by_status == {"enabled": 110, "proposed": 218, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 26,
         "custom": 1,
@@ -24,9 +24,9 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "jobvite": 1,
         "lever": 12,
         "oracle_cloud": 3,
-        "search_only": 215,
+        "search_only": 214,
         "smartrecruiters": 4,
-        "successfactors": 1,
+        "successfactors": 2,
         "unsupported": 2,
         "unresolved": 4,
         "workday": 21,
@@ -107,7 +107,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-b1"
+    assert registry.registry_version == "0.3.0-phase12-b2"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -143,6 +143,21 @@ def test_phase12_package_b_freshteam_cohort_uses_verified_public_boards() -> Non
         assert source.detail_strategy.value == "detail_page"
         assert source.date_strategy.field_name == "datePosted"
         assert source.date_strategy.verified_as_publication is True
+
+
+def test_phase12_package_b_corrects_payu_to_its_official_successfactors_board() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    payu = next(entry.source for entry in registry.entries if entry.source.company_id == "payu")
+
+    assert payu.enabled is True
+    assert payu.adapter_type.value == "successfactors"
+    assert payu.adapter_parameters == {
+        "host": "careers.payu.in",
+        "category_path": "/PayU/go/_/514880/",
+    }
+    assert payu.identity_strategy.value == "external_id"
+    assert payu.date_strategy.field_name == "datePosted"
+    assert payu.date_strategy.verified_as_publication is True
 
 
 def test_cerebras_uses_case_sensitive_verified_ashby_board_name() -> None:
