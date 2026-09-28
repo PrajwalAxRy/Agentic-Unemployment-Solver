@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import hashlib
+import html
 import json
 import re
 from collections.abc import Mapping
 from dataclasses import replace
 from datetime import UTC, datetime
+from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import quote, urlsplit
 
@@ -277,10 +279,32 @@ def _detail_description(payload: Mapping[object, object]) -> str | None:
     sections = job_ad.get("sections")
     if not isinstance(sections, Mapping):
         return None
-    text = "\n\n".join(
-        value.strip() for value in sections.values() if isinstance(value, str) and value.strip()
-    )
+    parts: list[str] = []
+    for value in sections.values():
+        raw_text: object = value.get("text") if isinstance(value, Mapping) else value
+        if isinstance(raw_text, str) and raw_text.strip():
+            text = _plain_text(raw_text)
+            if text:
+                parts.append(text)
+    text = "\n\n".join(parts)
     return text or None
+
+
+class _VisibleTextParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.parts: list[str] = []
+
+    def handle_data(self, data: str) -> None:
+        if data.strip():
+            self.parts.append(data.strip())
+
+
+def _plain_text(value: str) -> str:
+    parser = _VisibleTextParser()
+    parser.feed(html.unescape(value))
+    parser.close()
+    return re.sub(r"\s+", " ", " ".join(parser.parts)).strip()
 
 
 def _canonical_url(value: object, external_id: str) -> str:

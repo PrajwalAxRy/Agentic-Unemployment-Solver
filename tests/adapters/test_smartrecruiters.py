@@ -160,7 +160,18 @@ def test_detail_description_preserves_listing_identity() -> None:
             response(
                 {
                     "id": "one",
-                    "jobAd": {"sections": {"jobDescription": "Build reliable ML systems."}},
+                    "jobAd": {
+                        "sections": {
+                            "companyDescription": {
+                                "title": "Company Description",
+                                "text": "<p>Build useful software.</p>",
+                            },
+                            "jobDescription": {
+                                "title": "Job Description",
+                                "text": "<p>Build <strong>reliable ML</strong> systems.</p>",
+                            },
+                        }
+                    },
                 }
             ),
         ]
@@ -171,7 +182,7 @@ def test_detail_description_preserves_listing_identity() -> None:
     detailed = adapter.get_job_detail(source(), listing)
     assert detailed.external_job_id == listing.external_job_id
     assert detailed.canonical_url == listing.canonical_url
-    assert detailed.description == "Build reliable ML systems."
+    assert detailed.description == "Build useful software.\n\nBuild reliable ML systems."
     assert detailed.description_hash is not None
 
 
