@@ -469,3 +469,25 @@ def test_phase12_package_c_cohort3_records_official_source_replacements() -> Non
     assert "`4066604`" in review
     assert "`224052a`" in review
     assert "Packages D and E still require explicit approval" in review
+
+
+def test_phase12_package_c_cohort5_records_activation_and_fail_closed_evidence() -> None:
+    review = Path("docs/reviews/phase12_package_c_cohort5_validation.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "4 official deterministic sources activated; 1 candidate failed closed" in review
+    assert "Atlassian, GitLab, Qure.ai, and Airbnb" in review
+    assert "LinkedIn remains disabled and `search_only`" in review
+    assert "`atlassian_careers_inventory`" in review
+    assert "`qure_zoho_embedded`" in review
+    assert "`airbnb_careers_pages`" in review
+    assert "129 enabled and 201 disabled" in review
+    assert "195 remaining `search_only`" in review
+    assert "38,071 jobs across 947 pages" in review
+    assert "125 successful, three verified empty, one known suspicious source" in review
+    assert "216 jobs across 22 pages" in review
+    assert "563 passed" in review
+    assert "`d2ff2c1`" in review
+    assert "`2674ebb`" in review
+    assert "Packages D and E still require explicit approval" in review

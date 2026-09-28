@@ -16,17 +16,31 @@
   Squarepoint Capital replaced stale third-party registry URLs and were activated.
   Package C cohort 4 is complete: Altimate.ai reused its official Ashby board, while Aganitha,
   GalaxEye, and Gnani.ai activated through new deterministic custom adapters.
+  Package C cohort 5 is complete: Atlassian, GitLab, Qure.ai, and Airbnb were activated after
+  browser-assisted discovery and deterministic public-request replay; LinkedIn failed closed
+  because its official route exposed only a partial sign-in-overlaid company-jobs feed.
   Package C continues P1/P2 before P3. Packages D and E remain unapproved.
 - Pending human checkpoint: none for the approved Package A/B/C implementation work. Any Package D
   endpoint-replay activation or Package E empty/manual/identity/LLM-fallback work requires a later
   explicit approval.
-- Active review artifact: `docs/reviews/phase12_package_c_cohort4_validation.md`.
+- Active review artifact: `docs/reviews/phase12_package_c_cohort5_validation.md`.
 - Company ledger: `docs/reviews/phase12_search_only_company_dossiers.md` (238/238 accounted).
-- The 125 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
-  including 205 disabled backlog or unsupported records.
+- The 129 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
+  including 201 disabled backlog or unsupported records.
 
 ## Completed gates
 
+- Phase 12 Package C cohort 5 used local Playwright Chromium for discovery and screenshot review,
+  then independently replayed every selected request without browser state. Atlassian's same-origin
+  inventory produced 285 distinct jobs after 15 consistent portal variants were collapsed;
+  GitLab's official Greenhouse board produced 198 jobs; Qure.ai's embedded Zoho collection
+  produced 14 jobs; and Airbnb's public FacetWP contract produced 158 jobs across 16 pages with
+  three representative live detail checks. LinkedIn failed closed because no complete bounded
+  public inventory was proved. The 129-source sweep observed 38,071 jobs across 947 pages: 124
+  success, three valid empty, the known Quantbox stale-date anomaly, and one transient Millennium
+  duplicate. Millennium then passed an independent first-attempt retry with 216 jobs across 22
+  pages. Effective health is 125 success, three valid empty, one known suspicious source, and no
+  persistent failed, blocked, or partial source. The complete suite passed with 563 tests.
 - Phase 12 Package C cohort 4 activated Altimate.ai through its officially linked Ashby board and
   added deterministic adapters for Aganitha's server-rendered careers pages, GalaxEye's officially
   linked Zoho Recruit RSS feed, and Gnani.ai's public careers API and detail pages. Their targeted
@@ -676,6 +690,8 @@
   `docs/reviews/phase12_package_c_cohort3_validation.md`
 - Phase 12 Package C cohort 4 validation:
   `docs/reviews/phase12_package_c_cohort4_validation.md`
+- Phase 12 Package C cohort 5 validation:
+  `docs/reviews/phase12_package_c_cohort5_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -696,8 +712,10 @@
   retrieval before deterministic location filtering.
 - All 141 observed Darwinbox jobs use uncertain `job_posting_on` evidence; the date values are
   retained but not promoted to publication timestamps before H5.
-- All 225 observed Millennium Management jobs use uncertain Eightfold `t_create` evidence. NVIDIA
-  and PayPal are excluded from automated listing/date coverage as approved unsupported sources.
+- The current isolated Millennium Management check returned 216 jobs across 22 pages with uncertain
+  Eightfold `t_create` evidence. A transient duplicate during the 129-source sweep failed closed,
+  then did not reproduce on the independent first-attempt retry. NVIDIA and PayPal are excluded
+  from automated listing/date coverage as approved unsupported sources.
 - Of 7,911 observed Oracle Cloud jobs, 7,672 have decidable documented `PostedDate` evidence and
   239 date-only values overlap the exact ten-day timestamp boundary. The JPMorganChase board can
   change totals during a scan and return short or overlapping pages; those behaviors remain
@@ -712,8 +730,8 @@
 - Seventeen Bank of America multi-location candidates could not retrieve their public Workday
   details during the Phase 6 scan and remain explicit H6 location-review rows. Two SAP detail-date
   fetches failed and remain explicit uncertain-date candidates under the approved hybrid policy.
-- 199 records remain `search_only`. Phase 12 Packages A, B, and the first four Package C cohorts
-  removed 39 live-validated mappings: 21 in Package A, six in Package B, and 12 in Package C.
+- 195 records remain `search_only`. Phase 12 Packages A, B, and the first five Package C cohorts
+  removed 43 live-validated mappings: 21 in Package A, six in Package B, and 16 in Package C.
   Failed candidates remain in this count pending later approved deterministic handling or a
   Package D/E decision.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
@@ -739,6 +757,6 @@
 
 The first release remains complete. Continue the explicitly approved Package C P1/P2
 deterministic custom-source backlog from
-`docs/reviews/phase12_package_c_cohort4_validation.md`. Packages D and E remain unapproved.
+`docs/reviews/phase12_package_c_cohort5_validation.md`. Packages D and E remain unapproved.
 Preserve the released `v0.1.0` behavior and follow the phased checkpoint protocol for any further
 scope expansion.
