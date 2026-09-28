@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-c2",
-  "generated_at": "2026-09-28T17:30:00+05:30",
+  "registry_version": "0.3.0-phase12-c3",
+  "generated_at": "2026-09-28T20:00:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -743,32 +743,32 @@
       "schema_version": 1,
       "company_id": "apple",
       "company_name": "Apple",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.apple.com/en-us/search?location=india-INDC",
-      "adapter_type": "search_only",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://jobs.apple.com/en-us/search?location=india-INDC"
+        "adapter_key": "apple_jobs_india"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "postDateInGMT",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Ordinary REQ jobs expose verified publication timestamps; managed PIPE role timestamps are unstable and remain unknown per normalized job."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://jobs.apple.com/en-us/search?location=india-INDC",
         "https://jobs.apple.com/en-us/search?location=india-INDC"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package C full live validation passed on 2026-09-28: 169 unique jobs across nine count-reconciled pages; 161 REQ publication timestamps and eight explicitly unknown evergreen PIPE dates; five distributed detail pages parsed completely.",
       "source_rank": 24,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T20:00:00+05:30"
     },
     {
       "schema_version": 1,

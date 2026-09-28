@@ -12,11 +12,11 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 115
-    assert audit.by_status == {"enabled": 115, "proposed": 213, "unsupported": 2}
+    assert audit.enabled_count == 116
+    assert audit.by_status == {"enabled": 116, "proposed": 212, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 26,
-        "custom": 3,
+        "custom": 4,
         "darwinbox": 4,
         "eightfold": 1,
         "freshteam": 2,
@@ -26,7 +26,7 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "oracle_cloud": 3,
         "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 209,
+        "search_only": 208,
         "sensehq": 1,
         "smartrecruiters": 4,
         "successfactors": 2,
@@ -110,7 +110,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-c2"
+    assert registry.registry_version == "0.3.0-phase12-c3"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -346,3 +346,19 @@ def test_google_uses_count_checked_india_search_with_deferred_details() -> None:
     assert google.date_strategy.verified_as_publication is False
     assert google.detail_strategy.value == "detail_page"
     assert google.enabled is True
+
+
+def test_apple_uses_count_checked_hydration_with_mixed_date_evidence() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    apple = next(entry.source for entry in registry.entries if entry.source.company_id == "apple")
+
+    assert apple.adapter_type.value == "custom"
+    assert apple.careers_url == "https://jobs.apple.com/en-us/search?location=india-INDC"
+    assert apple.adapter_parameters == {"adapter_key": "apple_jobs_india"}
+    assert apple.status.value == "enabled"
+    assert apple.identity_strategy.value == "external_id"
+    assert apple.date_strategy.field_name == "postDateInGMT"
+    assert apple.date_strategy.basis.value == "published"
+    assert apple.date_strategy.verified_as_publication is True
+    assert apple.detail_strategy.value == "detail_page"
+    assert apple.enabled is True
