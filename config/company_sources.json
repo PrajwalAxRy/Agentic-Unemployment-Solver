@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-b5",
-  "generated_at": "2026-09-28T13:42:20+05:30",
+  "registry_version": "0.3.0-phase12-c1",
+  "generated_at": "2026-09-28T15:27:48+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -712,32 +712,32 @@
       "schema_version": 1,
       "company_id": "amazon-aws",
       "company_name": "Amazon / AWS",
-      "status": "proposed",
-      "careers_url": "https://aws.amazon.com/careers/life-at-aws-empowering-women-and-non-binary-employees-to-thrive-at-Amazon-and-AWS/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://www.amazon.jobs/en/search?country=IND&sort=recent",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://aws.amazon.com/careers/life-at-aws-empowering-women-and-non-binary-employees-to-thrive-at-Amazon-and-AWS/"
+        "adapter_key": "amazon_jobs_india"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "posted_date",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Amazon Jobs public India search labels this field as the posted date."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "low",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://aws.amazon.com/careers/life-at-aws-empowering-women-and-non-binary-employees-to-thrive-at-Amazon-and-AWS/",
-        "https://aws.amazon.com/careers/life-at-aws-empowering-women-and-non-binary-employees-to-thrive-at-Amazon-and-AWS/"
+        "https://www.amazon.jobs/en/search?country=IND&sort=recent",
+        "https://aws.amazon.com/careers/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Candidate is a regional editorial careers page, not a complete India job inventory.",
-      "notes": "Automated quality audit rejected this source for enablement.",
+      "exception_reason": null,
+      "notes": "Package C production-path validation retrieved 2,369 unique India jobs over 24 stable pages, with full descriptions and published dates for every row; AWS business-category evidence is preserved per job.",
       "source_rank": 23,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-28T15:27:48+05:30"
     },
     {
       "schema_version": 1,

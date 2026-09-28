@@ -12,11 +12,11 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 113
-    assert audit.by_status == {"enabled": 113, "proposed": 215, "unsupported": 2}
+    assert audit.enabled_count == 114
+    assert audit.by_status == {"enabled": 114, "proposed": 214, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 26,
-        "custom": 1,
+        "custom": 2,
         "darwinbox": 4,
         "eightfold": 1,
         "freshteam": 2,
@@ -26,7 +26,7 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "oracle_cloud": 3,
         "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 211,
+        "search_only": 210,
         "sensehq": 1,
         "smartrecruiters": 4,
         "successfactors": 2,
@@ -110,7 +110,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-b5"
+    assert registry.registry_version == "0.3.0-phase12-c1"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -310,3 +310,21 @@ def test_atomicwork_uses_approved_webflow_adapter_and_unknown_dates() -> None:
     assert atomicwork.date_strategy.verified_as_publication is False
     assert atomicwork.detail_strategy.value == "detail_page"
     assert atomicwork.enabled is True
+
+
+def test_amazon_aws_uses_complete_india_search_with_full_listing_payloads() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    amazon = next(
+        entry.source for entry in registry.entries if entry.source.company_id == "amazon-aws"
+    )
+
+    assert amazon.adapter_type.value == "custom"
+    assert amazon.careers_url == "https://www.amazon.jobs/en/search?country=IND&sort=recent"
+    assert amazon.adapter_parameters == {"adapter_key": "amazon_jobs_india"}
+    assert amazon.status.value == "enabled"
+    assert amazon.identity_strategy.value == "external_id"
+    assert amazon.date_strategy.field_name == "posted_date"
+    assert amazon.date_strategy.basis.value == "published"
+    assert amazon.date_strategy.verified_as_publication is True
+    assert amazon.detail_strategy.value == "listing_payload"
+    assert amazon.enabled is True
