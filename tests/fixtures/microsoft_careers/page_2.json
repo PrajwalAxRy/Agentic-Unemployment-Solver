@@ -1,0 +1,24 @@
+{
+  "data": {
+    "count": 2,
+    "positions": [
+      {
+        "id": 1970393556957999,
+        "displayJobId": "200047999",
+        "atsJobId": "200047999",
+        "name": "Software Engineer II, AI Platform",
+        "locations": ["Bengaluru, Karnataka, India"],
+        "standardizedLocations": ["IN"],
+        "postedTs": 1786162961,
+        "department": "Engineering",
+        "positionUrl": "/careers/job/1970393556957999",
+        "workLocationOption": "hybrid",
+        "locationFlexibility": "Hybrid"
+      }
+    ],
+    "sortBy": "relevance"
+  },
+  "error": {"message": "", "body": ""},
+  "metadata": null,
+  "status": 200
+}

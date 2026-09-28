@@ -1,0 +1,24 @@
+{
+  "data": {
+    "count": 2,
+    "positions": [
+      {
+        "id": 1970393556957363,
+        "displayJobId": "200047138",
+        "atsJobId": "200047138",
+        "name": "Design Verification Engineer- Senior / Principal",
+        "locations": ["India, Multiple Locations, Multiple Locations"],
+        "standardizedLocations": ["IN"],
+        "postedTs": 1786076561,
+        "department": "Engineering",
+        "positionUrl": "/careers/job/1970393556957363",
+        "workLocationOption": "onsite",
+        "locationFlexibility": "On-site"
+      }
+    ],
+    "sortBy": "relevance"
+  },
+  "error": {"message": "", "body": ""},
+  "metadata": null,
+  "status": 200
+}

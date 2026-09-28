@@ -1,0 +1,23 @@
+{
+  "data": {
+    "id": 1970393556957363,
+    "displayJobId": "200047138",
+    "atsJobId": "200047138",
+    "name": "Design Verification Engineer- Senior / Principal",
+    "locations": ["India, Multiple Locations, Multiple Locations"],
+    "standardizedLocations": ["IN"],
+    "postedTs": 1786076561,
+    "department": "Engineering",
+    "positionUrl": "/careers/job/1970393556957363",
+    "publicUrl": "https://apply.careers.microsoft.com/careers/job/1970393556957363",
+    "workLocationOption": "onsite",
+    "jobDescription": "<h2>Overview</h2><p>Build verification systems for Microsoft silicon.</p><h2>Qualifications</h2><ul><li>3+ years of relevant engineering experience.</li><li>Experience with SystemVerilog.</li></ul><h2>Responsibilities</h2><p>Design and verify complex systems.</p>",
+    "efcustomTextEmploymentType": "Full-Time",
+    "efcustomTextRequiredTravel": "0-25%",
+    "efcustomTextRoletype": "Individual Contributor",
+    "efcustomTextWorkSite": "Up to 50% work from home"
+  },
+  "error": {"message": "", "body": ""},
+  "metadata": null,
+  "status": 200
+}

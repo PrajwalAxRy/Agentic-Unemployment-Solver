@@ -23,6 +23,7 @@ from job_finder.adapters.greenhouse import GreenhouseAdapter
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
 from job_finder.adapters.jobvite import JobviteAdapter
 from job_finder.adapters.lever import LeverAdapter
+from job_finder.adapters.microsoft_careers import MicrosoftCareersAdapter
 from job_finder.adapters.oracle_cloud import OracleCloudAdapter
 from job_finder.adapters.recruiterflow import RecruiterflowAdapter
 from job_finder.adapters.rippling import RipplingAdapter
@@ -444,6 +445,7 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
                     AmazonJobsAdapter(client),
                     AtomicworkWebflowAdapter(client),
                     GoogleCareersAdapter(client),
+                    MicrosoftCareersAdapter(client),
                 ]
             ),
             AshbyAdapter(client),
