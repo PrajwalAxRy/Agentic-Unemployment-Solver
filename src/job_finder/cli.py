@@ -28,6 +28,7 @@ from job_finder.adapters.gnani_careers import GnaniCareersAdapter
 from job_finder.adapters.google_careers import GoogleCareersAdapter
 from job_finder.adapters.greenhouse import GreenhouseAdapter
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
+from job_finder.adapters.intuit_careers import IntuitCareersAdapter
 from job_finder.adapters.jobvite import JobviteAdapter
 from job_finder.adapters.lever import LeverAdapter
 from job_finder.adapters.microsoft_careers import MicrosoftCareersAdapter
@@ -41,6 +42,7 @@ from job_finder.adapters.smartrecruiters import SmartRecruitersAdapter
 from job_finder.adapters.stripe_careers import StripeCareersAdapter
 from job_finder.adapters.successfactors import SuccessFactorsAdapter
 from job_finder.adapters.swiggy_careers import SwiggyCareersAdapter
+from job_finder.adapters.twilio_careers import TwilioCareersAdapter
 from job_finder.adapters.workday import WorkdayAdapter
 from job_finder.core.company_registry import load_company_registry
 from job_finder.core.search_profile import load_search_profile
@@ -463,11 +465,13 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
                     GalaxEyeZohoAdapter(client),
                     GnaniCareersAdapter(client),
                     GoogleCareersAdapter(client),
+                    IntuitCareersAdapter(client),
                     MicrosoftCareersAdapter(client),
                     PageUpXmlFeedAdapter(client),
                     QureCareersAdapter(client),
                     StripeCareersAdapter(client),
                     SwiggyCareersAdapter(client),
+                    TwilioCareersAdapter(client),
                 ]
             ),
             AshbyAdapter(client),

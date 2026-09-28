@@ -1,0 +1,32 @@
+{
+  "status": 200,
+  "error": {"message": "", "body": ""},
+  "data": {
+    "count": 3,
+    "positions": [
+      {
+        "id": 1099556260796,
+        "displayJobId": "51132",
+        "name": "Senior Manager, Developer Evangelism Americas",
+        "locations": ["Remote - US"],
+        "department": "Marketing",
+        "creationTs": 1790193817,
+        "atsJobId": "3560628",
+        "positionUrl": "/careers/job/1099556260796",
+        "workLocationOption": "remote_local"
+      },
+      {
+        "id": 1099556257903,
+        "displayJobId": "50787",
+        "name": "Technical Support Expert 2",
+        "locations": ["Remote - Colombia"],
+        "department": "Customer Support",
+        "creationTs": 1790177560,
+        "atsJobId": "3560289",
+        "positionUrl": "/careers/job/1099556257903",
+        "workLocationOption": "remote_local"
+      }
+    ]
+  },
+  "metadata": null
+}

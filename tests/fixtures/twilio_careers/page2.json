@@ -1,0 +1,21 @@
+{
+  "status": 200,
+  "error": {"message": "", "body": ""},
+  "data": {
+    "count": 3,
+    "positions": [
+      {
+        "id": 1099556257602,
+        "displayJobId": "51082",
+        "name": "Executive Business Partner",
+        "locations": ["Remote - US"],
+        "department": "People Team",
+        "creationTs": 1790100000,
+        "atsJobId": "3559000",
+        "positionUrl": "/careers/job/1099556257602",
+        "workLocationOption": "remote_local"
+      }
+    ]
+  },
+  "metadata": null
+}

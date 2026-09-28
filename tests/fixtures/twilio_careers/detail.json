@@ -1,0 +1,19 @@
+{
+  "status": 200,
+  "error": {"message": "", "body": ""},
+  "data": {
+    "id": 1099556260796,
+    "displayJobId": "51132",
+    "name": "Senior Manager, Developer Evangelism Americas",
+    "locations": ["Remote - US"],
+    "department": "Marketing",
+    "creationTs": 1790193817,
+    "atsJobId": "3560628",
+    "positionUrl": "/careers/job/1099556260796",
+    "publicUrl": "https://jobs.twilio.com/careers/job/1099556260796",
+    "efcustomTextPostDate": ["2026-09-23"],
+    "workLocationOption": "remote_local",
+    "jobDescription": "<div><p>Lead Twilio's developer evangelism strategy across the Americas and help developers build reliable communications products.</p><p>Partner with product, marketing, and engineering leaders while coaching a distributed team of developer advocates.</p></div>"
+  },
+  "metadata": null
+}
