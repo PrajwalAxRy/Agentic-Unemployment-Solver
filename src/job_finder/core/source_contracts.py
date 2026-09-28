@@ -42,6 +42,7 @@ class AdapterType(StrEnum):
     TALEO = "taleo"
     JOBVITE = "jobvite"
     DARWINBOX = "darwinbox"
+    FRESHTEAM = "freshteam"
     GENERIC_STRUCTURED = "generic_structured"
     SEARCH_ONLY = "search_only"
     CUSTOM = "custom"
@@ -199,6 +200,7 @@ _REQUIRED_ADAPTER_PARAMETERS: Mapping[AdapterType, tuple[str, ...]] = {
     AdapterType.TALEO: ("organization",),
     AdapterType.JOBVITE: ("company",),
     AdapterType.DARWINBOX: ("tenant",),
+    AdapterType.FRESHTEAM: ("account",),
     AdapterType.GENERIC_STRUCTURED: ("listing_url",),
     AdapterType.SEARCH_ONLY: ("search_url",),
     AdapterType.CUSTOM: ("adapter_key",),

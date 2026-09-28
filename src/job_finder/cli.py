@@ -15,6 +15,7 @@ from job_finder.adapters.atomicwork import AtomicworkWebflowAdapter
 from job_finder.adapters.base import AdapterRegistry
 from job_finder.adapters.darwinbox import DarwinboxAdapter
 from job_finder.adapters.eightfold import EightfoldAdapter
+from job_finder.adapters.freshteam import FreshteamAdapter
 from job_finder.adapters.greenhouse import GreenhouseAdapter
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
 from job_finder.adapters.jobvite import JobviteAdapter
@@ -107,6 +108,7 @@ def build_parser() -> argparse.ArgumentParser:
             AdapterType.CUSTOM.value,
             AdapterType.DARWINBOX.value,
             AdapterType.EIGHTFOLD.value,
+            AdapterType.FRESHTEAM.value,
             AdapterType.GREENHOUSE.value,
             AdapterType.JOBVITE.value,
             AdapterType.LEVER.value,
@@ -432,6 +434,7 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
             AshbyAdapter(client),
             DarwinboxAdapter(client),
             EightfoldAdapter(client),
+            FreshteamAdapter(client),
             GreenhouseAdapter(client),
             JobviteAdapter(client),
             LeverAdapter(client),
