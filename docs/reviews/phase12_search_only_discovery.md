@@ -3,12 +3,14 @@
 ## Status
 
 Stages 1–7 are complete for the 238 companies whose release registry entry uses
-`search_only`. This is a discovery and planning result only. It does not change the 86 enabled
-sources, the four `unresolved` records, the two H4-approved `unsupported` records, runtime
-dispatch, or the `v0.1.0` release baseline.
+`search_only`. This discovery result did not change the 86 enabled sources, the four `unresolved`
+records, the two H4-approved `unsupported` records, runtime dispatch, or the `v0.1.0` release
+baseline.
 
-The human checkpoint is now open. Implementation must not begin until the user approves one or
-more packages in this report.
+The user approved Packages A, B, and C on 2026-09-28. Package C approval covers all priorities,
+with P1/P2 implemented before P3. Packages D and E remain unapproved and must not be activated.
+Implementation evidence and registry changes will be recorded in separate package/cohort review
+artifacts.
 
 ## Frozen baseline and accounting
 
@@ -161,8 +163,8 @@ Before any source is enabled, require adapter fixtures, focused tests, an indepe
 representative detail checks, bounded full-company validation, date-coverage measurement, and a
 registry diff review. A successful HTTP response alone is not evidence of complete job inventory.
 
-## STOP — Human checkpoint: approve implementation packages
+## Human checkpoint disposition
 
-Stages 1–7 are complete. Review the company ledger and choose which packages to implement. The
-recommended order is Package A, then B, then P1/P2 portions of C, followed by D. Package E should
-remain visible backlog/monitoring work unless the user explicitly approves an LLM fallback pilot.
+Approved on 2026-09-28: Package A, Package B, and Package C (all priorities, implemented P1/P2
+before P3). Package D and Package E remain pending and may not be activated without a later
+explicit approval.

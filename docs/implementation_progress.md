@@ -2,15 +2,14 @@
 
 ## Current status
 
-- Active phase: Phase 12 — post-release `search_only` source discovery
-- Status: First release `v0.1.0` remains approved and unchanged. A discovery-only expansion has
-  completed Stages 1–7 for all 238 current `search_only` companies. All 53 P1, 82 P2, and 103 P3
-  records have a decision row. The resulting routes are 34 existing-adapter candidates, 14 new
-  reusable-family candidates, 114 deterministic custom candidates, 35 endpoint-replay cases,
-  four verified-empty monitors, 18 monitored/manual cases, and 19 identity-safe rediscovery cases.
-  No source was activated and no runtime or registry behavior changed.
-- Pending human checkpoint: Phase 12 Stage 7 consolidated coverage-plan review. The user must
-  approve specific implementation packages before adapter or registry implementation begins.
+- Active phase: Phase 12 — Package A existing-adapter implementation
+- Status: First release `v0.1.0` remains approved and unchanged. Phase 12 Stages 1–7 account for
+  all 238 current `search_only` companies. On 2026-09-28 the user approved Packages A, B, and C,
+  covering 34 existing-adapter candidates, 14 new reusable-family candidates, and 114 deterministic
+  custom candidates. Package C will proceed P1/P2 before P3. Packages D and E remain unapproved.
+- Pending human checkpoint: none for the approved Package A/B/C implementation work. Any Package D
+  endpoint-replay activation or Package E empty/manual/identity/LLM-fallback work requires a later
+  explicit approval.
 - Active review artifact: `docs/reviews/phase12_search_only_discovery.md`.
 - Company ledger: `docs/reviews/phase12_search_only_company_dossiers.md` (238/238 accounted).
 - The 86 validated adapter sources are enabled. All 330 canonical companies remain in
