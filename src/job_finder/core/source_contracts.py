@@ -44,6 +44,7 @@ class AdapterType(StrEnum):
     DARWINBOX = "darwinbox"
     FRESHTEAM = "freshteam"
     RIPPLING = "rippling"
+    SENSEHQ = "sensehq"
     GENERIC_STRUCTURED = "generic_structured"
     SEARCH_ONLY = "search_only"
     CUSTOM = "custom"
@@ -203,6 +204,7 @@ _REQUIRED_ADAPTER_PARAMETERS: Mapping[AdapterType, tuple[str, ...]] = {
     AdapterType.DARWINBOX: ("tenant",),
     AdapterType.FRESHTEAM: ("account",),
     AdapterType.RIPPLING: ("board_slug",),
+    AdapterType.SENSEHQ: ("career_subdomain",),
     AdapterType.GENERIC_STRUCTURED: ("listing_url",),
     AdapterType.SEARCH_ONLY: ("search_url",),
     AdapterType.CUSTOM: ("adapter_key",),

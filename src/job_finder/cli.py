@@ -22,6 +22,7 @@ from job_finder.adapters.jobvite import JobviteAdapter
 from job_finder.adapters.lever import LeverAdapter
 from job_finder.adapters.oracle_cloud import OracleCloudAdapter
 from job_finder.adapters.rippling import RipplingAdapter
+from job_finder.adapters.sensehq import SenseHqAdapter
 from job_finder.adapters.smartrecruiters import SmartRecruitersAdapter
 from job_finder.adapters.successfactors import SuccessFactorsAdapter
 from job_finder.adapters.workday import WorkdayAdapter
@@ -115,6 +116,7 @@ def build_parser() -> argparse.ArgumentParser:
             AdapterType.LEVER.value,
             AdapterType.ORACLE_CLOUD.value,
             AdapterType.RIPPLING.value,
+            AdapterType.SENSEHQ.value,
             AdapterType.SMARTRECRUITERS.value,
             AdapterType.SUCCESSFACTORS.value,
             AdapterType.WORKDAY.value,
@@ -442,6 +444,7 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
             LeverAdapter(client),
             OracleCloudAdapter(client),
             RipplingAdapter(client),
+            SenseHqAdapter(client),
             SmartRecruitersAdapter(client),
             SuccessFactorsAdapter(client),
             WorkdayAdapter(client),
