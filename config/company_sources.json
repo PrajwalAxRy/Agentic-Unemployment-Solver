@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-c9",
-  "generated_at": "2026-09-29T00:30:00+05:30",
+  "registry_version": "0.3.0-phase12-c10",
+  "generated_at": "2026-09-29T01:02:14+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -4057,32 +4057,32 @@
       "schema_version": 1,
       "company_id": "aganitha",
       "company_name": "Aganitha",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://www.aganitha.ai/careers/",
-      "adapter_type": "search_only",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://www.aganitha.ai/careers/"
+        "adapter_key": "aganitha_careers_index"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": null,
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "The official careers inventory exposes no verified job-publication date."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://www.aganitha.ai/careers/",
-        "https://www.aganitha.ai/careers/"
+        "https://www.aganitha.ai/careers/jr-full-stack-developer/"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "The official accordion inventory and bounded metadata-detail pass returned nine stable jobs; all nine deferred descriptions passed live retrieval. Publication dates remain explicitly unknown.",
       "source_rank": 126,
       "priority": "P2",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T01:02:14+05:30"
     },
     {
       "schema_version": 1,
@@ -4789,63 +4789,65 @@
       "schema_version": 1,
       "company_id": "galaxeye",
       "company_name": "GalaxEye",
-      "status": "proposed",
-      "careers_url": "https://galaxeye.space/job-portal",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://careers.galaxeye.space/jobs/Careers",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://galaxeye.space/job-portal"
+        "adapter_key": "galaxeye_zoho_rss"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "pubDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "The officially linked Zoho Recruit RSS feed exposes its publication date."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://galaxeye.space/job-portal",
-        "https://galaxeye.space/job-portal"
+        "https://careers.galaxeye.space/jobs/Careers",
+        "https://galaxeye-pranitgalaxeyespace.zohorecruit.in/jobs/Careers/rss"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "The official portal links to a complete Zoho Recruit RSS collection; live validation returned 69 unique jobs with locations, publication dates, and full descriptions.",
       "source_rank": 149,
       "priority": "P2",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T01:02:14+05:30"
     },
     {
       "schema_version": 1,
       "company_id": "gnani-ai",
       "company_name": "Gnani.ai",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://careers.gnani.ai/",
-      "adapter_type": "search_only",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://careers.gnani.ai/"
+        "adapter_key": "gnani_careers_api"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "positionPublishDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "The public careers API exposes its position publication date."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://careers.gnani.ai/",
-        "https://careers.gnani.ai/"
+        "https://careers.gnani.ai/api/jobs",
+        "https://careers.gnani.ai/apply/Acc-Sal-Koc-2026-09-28-142"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "The public API returned a complete 36-job collection, and all 36 server-rendered detail pages passed full-description retrieval.",
       "source_rank": 150,
       "priority": "P2",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T01:02:14+05:30"
     },
     {
       "schema_version": 1,

@@ -12,11 +12,11 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 122
-    assert audit.by_status == {"enabled": 122, "proposed": 206, "unsupported": 2}
+    assert audit.enabled_count == 125
+    assert audit.by_status == {"enabled": 125, "proposed": 203, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 27,
-        "custom": 8,
+        "custom": 11,
         "darwinbox": 4,
         "eightfold": 1,
         "freshteam": 2,
@@ -26,7 +26,7 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "oracle_cloud": 3,
         "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 202,
+        "search_only": 199,
         "sensehq": 1,
         "smartrecruiters": 4,
         "successfactors": 2,
@@ -110,7 +110,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-c9"
+    assert registry.registry_version == "0.3.0-phase12-c10"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -222,11 +222,10 @@ def test_phase12_package_c_third_cohort_replaces_third_party_sources() -> None:
     assert squarepoint.detail_strategy.value == "listing_payload"
 
 
-def test_phase12_package_c_fourth_cohort_activates_altimate_ashby_board() -> None:
+def test_phase12_package_c_fourth_cohort_activates_validated_sources() -> None:
     registry = load_company_registry(Path("config/company_sources.json"))
-    altimate = next(
-        entry.source for entry in registry.entries if entry.source.company_id == "altimate-ai"
-    )
+    sources = {entry.source.company_id: entry.source for entry in registry.entries}
+    altimate = sources["altimate-ai"]
 
     assert altimate.enabled is True
     assert altimate.status.value == "enabled"
@@ -238,6 +237,29 @@ def test_phase12_package_c_fourth_cohort_activates_altimate_ashby_board() -> Non
     assert altimate.date_strategy.basis.value == "published"
     assert altimate.date_strategy.verified_as_publication is True
     assert altimate.detail_strategy.value == "listing_payload"
+
+    aganitha = sources["aganitha"]
+    assert aganitha.enabled is True
+    assert aganitha.adapter_type.value == "custom"
+    assert aganitha.adapter_parameters == {"adapter_key": "aganitha_careers_index"}
+    assert aganitha.date_strategy.basis.value == "unknown"
+    assert aganitha.detail_strategy.value == "detail_page"
+
+    galaxeye = sources["galaxeye"]
+    assert galaxeye.enabled is True
+    assert galaxeye.adapter_type.value == "custom"
+    assert galaxeye.adapter_parameters == {"adapter_key": "galaxeye_zoho_rss"}
+    assert galaxeye.date_strategy.field_name == "pubDate"
+    assert galaxeye.date_strategy.verified_as_publication is True
+    assert galaxeye.detail_strategy.value == "listing_payload"
+
+    gnani = sources["gnani-ai"]
+    assert gnani.enabled is True
+    assert gnani.adapter_type.value == "custom"
+    assert gnani.adapter_parameters == {"adapter_key": "gnani_careers_api"}
+    assert gnani.date_strategy.field_name == "positionPublishDate"
+    assert gnani.date_strategy.verified_as_publication is True
+    assert gnani.detail_strategy.value == "detail_page"
 
 
 def test_phase12_package_b_corrects_payu_to_its_official_successfactors_board() -> None:
