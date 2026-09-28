@@ -116,6 +116,17 @@ def test_phase4_coverage_review_records_reconciled_full_registry_gate() -> None:
     assert "Phase 4 is complete" in review
 
 
+def test_phase12_package_a_review_records_activation_and_full_registry_gate() -> None:
+    review = Path("docs/reviews/phase12_package_a_validation.md").read_text(encoding="utf-8")
+
+    assert "21 existing-adapter sources activated; 13 candidates failed closed" in review
+    assert "6,113 current listings over 209 fetched pages" in review
+    assert "103 successful, three verified empty, one" in review
+    assert "32,198 observed listings over 867 fetched pages" in review
+    assert "No Package A source was failed, blocked, partial, or suspicious" in review
+    assert "Package D and\nPackage E remain unapproved" in review
+
+
 def test_h5_review_records_full_registry_date_coverage_and_approved_decision() -> None:
     review = Path("docs/reviews/h5_date_coverage_review.md").read_text(encoding="utf-8")
 

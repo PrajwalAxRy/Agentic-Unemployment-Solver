@@ -12,6 +12,9 @@ with P1/P2 implemented before P3. Packages D and E remain unapproved and must no
 Implementation evidence and registry changes will be recorded in separate package/cohort review
 artifacts.
 
+Package A is complete. Twenty-one candidates passed their activation gates and 13 failed closed;
+see `phase12_package_a_validation.md`. Package B is now active.
+
 ## Frozen baseline and accounting
 
 - Baseline commit: `7818f8bbb7cf4871af769e5ad60ae220c2a1d5e2` (`v0.1.0`).

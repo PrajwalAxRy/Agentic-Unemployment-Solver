@@ -2,21 +2,32 @@
 
 ## Current status
 
-- Active phase: Phase 12 — Package A existing-adapter implementation
+- Active phase: Phase 12 — Package B reusable-family implementation
 - Status: First release `v0.1.0` remains approved and unchanged. Phase 12 Stages 1–7 account for
   all 238 current `search_only` companies. On 2026-09-28 the user approved Packages A, B, and C,
   covering 34 existing-adapter candidates, 14 new reusable-family candidates, and 114 deterministic
-  custom candidates. Package C will proceed P1/P2 before P3. Packages D and E remain unapproved.
+  custom candidates. Package A is complete: 21 candidates passed and were activated; 13 failed
+  closed and remain disabled. Package C will proceed P1/P2 before P3. Packages D and E remain
+  unapproved.
 - Pending human checkpoint: none for the approved Package A/B/C implementation work. Any Package D
   endpoint-replay activation or Package E empty/manual/identity/LLM-fallback work requires a later
   explicit approval.
-- Active review artifact: `docs/reviews/phase12_search_only_discovery.md`.
+- Active review artifact: `docs/reviews/phase12_package_a_validation.md`.
 - Company ledger: `docs/reviews/phase12_search_only_company_dossiers.md` (238/238 accounted).
-- The 86 validated adapter sources are enabled. All 330 canonical companies remain in
-  first-release accounting, including 244 disabled backlog or unsupported records.
+- The 107 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
+  including 223 disabled backlog or unsupported records.
 
 ## Completed gates
 
+- Phase 12 Package A activated 21/34 live-validated existing-adapter candidates: nine Greenhouse,
+  eight Workday, and one each for Lever, Ashby, Oracle Cloud, and SmartRecruiters. The other 13
+  failed closed on stale mappings, contradictory empty results, unresolved parameters, shared-host
+  incompatibility, or access controls. Full-registry verification accounted for all 107 enabled
+  sources with 103 successful, three verified empty, the known Quantbox stale-date anomaly, and no
+  failed, blocked, or partial source across 32,198 listings and 867 pages.
+- SmartRecruiters' current structured `jobAd.sections.*.text` description schema was captured as a
+  failing regression, fixed in the shared adapter, and revalidated against Renesas before
+  activation.
 - Phase 12 Stages 1–7 reconciled all 238 `search_only` records, refreshed bounded public probes and
   ATS fingerprints, browser-reviewed every company, corrected stale/wrong identities, assigned one
   implementation route per company, and produced the Stage 7 package/ledger. The available browser
@@ -589,6 +600,7 @@
   `docs/reviews/phase11_atomicwork_h11_activation.md`
 - Phase 11 H13 release-readiness review:
   `docs/reviews/phase11_h13_release_readiness.md`
+- Phase 12 Package A validation: `docs/reviews/phase12_package_a_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -625,8 +637,9 @@
 - Seventeen Bank of America multi-location candidates could not retrieve their public Workday
   details during the Phase 6 scan and remain explicit H6 location-review rows. Two SAP detail-date
   fetches failed and remain explicit uncertain-date candidates under the approved hybrid policy.
-- 238 records remain `search_only`; 179 are verified official pages needing custom adapters or
-  deeper source-family work, and 59 are conflicts.
+- 217 records remain `search_only`. Phase 12 Package A removed 21 live-validated mappings; the 13
+  failed Package A candidates remain in this count pending approved Package B/C handling or a later
+  Package D/E decision.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
   official careers pages as manual fallbacks.
 - The definitive Phase 9 report contains six jobs whose public descriptions remain unavailable and
