@@ -12,11 +12,11 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 116
-    assert audit.by_status == {"enabled": 116, "proposed": 212, "unsupported": 2}
+    assert audit.enabled_count == 119
+    assert audit.by_status == {"enabled": 119, "proposed": 209, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 26,
-        "custom": 4,
+        "custom": 7,
         "darwinbox": 4,
         "eightfold": 1,
         "freshteam": 2,
@@ -26,7 +26,7 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "oracle_cloud": 3,
         "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 208,
+        "search_only": 205,
         "sensehq": 1,
         "smartrecruiters": 4,
         "successfactors": 2,
@@ -110,7 +110,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-c3"
+    assert registry.registry_version == "0.3.0-phase12-c6"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -146,6 +146,51 @@ def test_phase12_package_b_freshteam_cohort_uses_verified_public_boards() -> Non
         assert source.detail_strategy.value == "detail_page"
         assert source.date_strategy.field_name == "datePosted"
         assert source.date_strategy.verified_as_publication is True
+
+
+def test_phase12_package_c_second_cohort_activates_verified_custom_sources() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    sources = {entry.source.company_id: entry.source for entry in registry.entries}
+
+    stripe = sources["stripe"]
+    assert stripe.enabled is True
+    assert stripe.status.value == "enabled"
+    assert stripe.adapter_type.value == "custom"
+    assert stripe.adapter_parameters == {"adapter_key": "stripe_careers_index"}
+    assert stripe.identity_strategy.value == "external_id"
+    assert stripe.date_strategy.field_name == "datePosted"
+    assert stripe.date_strategy.basis.value == "published"
+    assert stripe.date_strategy.verified_as_publication is True
+    assert stripe.detail_strategy.value == "detail_page"
+
+    for company_id, publisher, feed_url in (
+        (
+            "servicenow",
+            "ServiceNow",
+            "https://careers.servicenow.com/jobs/xml/?rss=true",
+        ),
+        ("coupang", "Coupang", "https://www.coupang.jobs/en/jobs/xml/?rss=true"),
+    ):
+        source = sources[company_id]
+        assert source.enabled is True
+        assert source.status.value == "enabled"
+        assert source.adapter_type.value == "custom"
+        assert source.adapter_parameters == {
+            "adapter_key": "pageup_xml_feed",
+            "feed_url": feed_url,
+            "publisher": publisher,
+        }
+        assert source.identity_strategy.value == "external_id"
+        assert source.date_strategy.field_name == "date"
+        assert source.date_strategy.basis.value == "published"
+        assert source.date_strategy.verified_as_publication is True
+        assert source.detail_strategy.value == "listing_payload"
+
+    flipkart = sources["flipkart"]
+    assert flipkart.enabled is False
+    assert flipkart.status.value == "proposed"
+    assert flipkart.adapter_type.value == "search_only"
+    assert flipkart.exception_reason is not None
 
 
 def test_phase12_package_b_corrects_payu_to_its_official_successfactors_board() -> None:

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-c3",
-  "generated_at": "2026-09-28T20:00:00+05:30",
+  "registry_version": "0.3.0-phase12-c6",
+  "generated_at": "2026-09-28T21:30:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -1693,35 +1693,32 @@
       "schema_version": 1,
       "company_id": "stripe",
       "company_name": "Stripe",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://stripe.com/careers/search",
-      "adapter_type": "search_only",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://stripe.com/careers/search"
+        "adapter_key": "stripe_careers_index"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "datePosted",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Verified from matching JobPosting JSON-LD on the public detail page."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://stripe.com/careers/listing/solutions-architect-india/8042913",
-        "https://stripe.com/careers/listing/solutions-architect-india/8042913",
-        "https://stripe.com/jobs/search",
         "https://stripe.com/careers/search",
-        "https://stripe.com/careers/search"
+        "https://stripe.com/careers/listing/solutions-architect-india/8042913"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Replaced one job detail with Stripe's complete job search.",
+      "notes": "Phase 12 Package C validated the complete embedded public job index, stable Greenhouse IDs, canonical detail URLs, and representative detail descriptions/dates.",
       "source_rank": 53,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T21:30:00+05:30"
     },
     {
       "schema_version": 1,
@@ -1926,32 +1923,34 @@
       "schema_version": 1,
       "company_id": "servicenow",
       "company_name": "ServiceNow",
-      "status": "proposed",
-      "careers_url": "https://careers.servicenow.com/locations/apj/india/?page=3",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://careers.servicenow.com/jobs/",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://careers.servicenow.com/locations/apj/india/?page=3"
+        "adapter_key": "pageup_xml_feed",
+        "feed_url": "https://careers.servicenow.com/jobs/xml/?rss=true",
+        "publisher": "ServiceNow"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "date",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Verified RFC 2822 publication timestamps from the official public XML export."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://careers.servicenow.com/locations/apj/india/?page=3",
-        "https://careers.servicenow.com/locations/apj/india/?page=3"
+        "https://careers.servicenow.com/locations/apj/india/",
+        "https://careers.servicenow.com/jobs/xml/?rss=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package C validated the official complete public XML export with full descriptions, stable API job IDs, canonical job URLs, and publication dates.",
       "source_rank": 60,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T21:30:00+05:30"
     },
     {
       "schema_version": 1,
@@ -2024,32 +2023,35 @@
       "schema_version": 1,
       "company_id": "coupang",
       "company_name": "Coupang",
-      "status": "proposed",
-      "careers_url": "https://www.coupang.jobs/en/locations/bengaluru/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://www.coupang.jobs/en/jobs/",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://www.coupang.jobs/en/locations/bengaluru/"
+        "adapter_key": "pageup_xml_feed",
+        "feed_url": "https://www.coupang.jobs/en/jobs/xml/?rss=true",
+        "publisher": "Coupang"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "date",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Verified RFC 2822 publication timestamps from the official public XML export."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://www.coupang.jobs/en/locations/bengaluru/",
-        "https://www.coupang.jobs/en/locations/bengaluru/"
+        "https://www.coupang.jobs/en/jobs/xml/?rss=true",
+        "https://www.coupang.jobs/en/jobs/8098130/%EC%BF%A0%ED%8C%A1%ED%92%80%ED%95%84%EB%A8%BC%ED%8A%B8%EC%84%9C%EB%B9%84%EC%8A%A4-principal-industrial-engineer-inbound-process-innovation/"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package C validated the official complete public XML export with full descriptions, stable API job IDs, canonical job URLs including percent-encoded Unicode slugs, and publication dates.",
       "source_rank": 63,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T21:30:00+05:30"
     },
     {
       "schema_version": 1,
@@ -2405,11 +2407,11 @@
         "https://www.flipkartcareers.com/jobslist"
       ],
       "low_confidence_approved": false,
-      "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "exception_reason": "The official jobs-list page currently exposes no functional job-detail URLs or machine-readable public inventory; keep disabled pending a source change or a separately approved browser-only fallback.",
+      "notes": "Phase 12 Package C rendered the official page showing 69 openings, but its job rows had no detail links and the inline showMore action only displayed a placeholder alert. Failed closed as search-only.",
       "source_rank": 74,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T21:30:00+05:30"
     },
     {
       "schema_version": 1,
