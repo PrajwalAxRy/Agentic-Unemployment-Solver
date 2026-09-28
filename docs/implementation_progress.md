@@ -14,17 +14,27 @@
   failed closed because its official jobs page exposes no deterministic inventory contract.
   Package C cohort 3 is complete: official deterministic sources for D. E. Shaw India and
   Squarepoint Capital replaced stale third-party registry URLs and were activated.
+  Package C cohort 4 is complete: Altimate.ai reused its official Ashby board, while Aganitha,
+  GalaxEye, and Gnani.ai activated through new deterministic custom adapters.
   Package C continues P1/P2 before P3. Packages D and E remain unapproved.
 - Pending human checkpoint: none for the approved Package A/B/C implementation work. Any Package D
   endpoint-replay activation or Package E empty/manual/identity/LLM-fallback work requires a later
   explicit approval.
-- Active review artifact: `docs/reviews/phase12_package_c_cohort3_validation.md`.
+- Active review artifact: `docs/reviews/phase12_package_c_cohort4_validation.md`.
 - Company ledger: `docs/reviews/phase12_search_only_company_dossiers.md` (238/238 accounted).
-- The 121 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
-  including 209 disabled backlog or unsupported records.
+- The 125 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
+  including 205 disabled backlog or unsupported records.
 
 ## Completed gates
 
+- Phase 12 Package C cohort 4 activated Altimate.ai through its officially linked Ashby board and
+  added deterministic adapters for Aganitha's server-rendered careers pages, GalaxEye's officially
+  linked Zoho Recruit RSS feed, and Gnani.ai's public careers API and detail pages. Their targeted
+  production gates returned 5, 9, 69, and 36 jobs with no missing required fields. All four also
+  passed inside the 125-source sweep before a later 38-source transient network-failure tail.
+  Independent retries passed for affected Ashby, Workday, and Oracle Cloud representatives; the
+  known Quantbox stale-date anomaly reproduced independently. The complete suite passed with 552
+  tests.
 - Phase 12 Package C cohort 3 replaced third-party D. E. Shaw India and Squarepoint registry
   sources with official deterministic inventories. D. E. Shaw's new custom adapter emits 78 public
   regular jobs while explicitly excluding 407 internal jobs; Squarepoint's official JavaScript
@@ -664,6 +674,8 @@
   `docs/reviews/phase12_package_c_cohort2_validation.md`
 - Phase 12 Package C cohort 3 validation:
   `docs/reviews/phase12_package_c_cohort3_validation.md`
+- Phase 12 Package C cohort 4 validation:
+  `docs/reviews/phase12_package_c_cohort4_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -700,8 +712,8 @@
 - Seventeen Bank of America multi-location candidates could not retrieve their public Workday
   details during the Phase 6 scan and remain explicit H6 location-review rows. Two SAP detail-date
   fetches failed and remain explicit uncertain-date candidates under the approved hybrid policy.
-- 203 records remain `search_only`. Phase 12 Packages A, B, and the first three Package C cohorts
-  removed 35 live-validated mappings: 21 in Package A, six in Package B, and eight in Package C.
+- 199 records remain `search_only`. Phase 12 Packages A, B, and the first four Package C cohorts
+  removed 39 live-validated mappings: 21 in Package A, six in Package B, and 12 in Package C.
   Failed candidates remain in this count pending later approved deterministic handling or a
   Package D/E decision.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
@@ -727,6 +739,6 @@
 
 The first release remains complete. Continue the explicitly approved Package C P1/P2
 deterministic custom-source backlog from
-`docs/reviews/phase12_package_c_cohort3_validation.md`. Packages D and E remain unapproved.
+`docs/reviews/phase12_package_c_cohort4_validation.md`. Packages D and E remain unapproved.
 Preserve the released `v0.1.0` behavior and follow the phased checkpoint protocol for any further
 scope expansion.

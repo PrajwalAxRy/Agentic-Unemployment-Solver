@@ -20,8 +20,9 @@ adapter was implemented and validated in isolation, but the source remains disab
 production command hit the upstream rolling request quota; see
 `phase12_package_c_cohort1_validation.md`. Cohort 2 activated Stripe, ServiceNow, and Coupang while
 Flipkart failed closed; cohort 3 activated official deterministic sources for D. E. Shaw India and
-Squarepoint Capital. See `phase12_package_c_cohort2_validation.md` and
-`phase12_package_c_cohort3_validation.md`.
+Squarepoint Capital; and cohort 4 activated Altimate.ai, Aganitha, GalaxEye, and Gnani.ai. See
+`phase12_package_c_cohort2_validation.md`, `phase12_package_c_cohort3_validation.md`, and
+`phase12_package_c_cohort4_validation.md`.
 
 ## Frozen baseline and accounting
 
