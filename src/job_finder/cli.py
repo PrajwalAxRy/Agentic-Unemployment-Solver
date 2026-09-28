@@ -18,6 +18,7 @@ from job_finder.adapters.custom import CustomAdapterRouter
 from job_finder.adapters.darwinbox import DarwinboxAdapter
 from job_finder.adapters.eightfold import EightfoldAdapter
 from job_finder.adapters.freshteam import FreshteamAdapter
+from job_finder.adapters.google_careers import GoogleCareersAdapter
 from job_finder.adapters.greenhouse import GreenhouseAdapter
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
 from job_finder.adapters.jobvite import JobviteAdapter
@@ -442,6 +443,7 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
                 [
                     AmazonJobsAdapter(client),
                     AtomicworkWebflowAdapter(client),
+                    GoogleCareersAdapter(client),
                 ]
             ),
             AshbyAdapter(client),
