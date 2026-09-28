@@ -11,9 +11,11 @@ from pathlib import Path
 
 from job_finder import __version__
 from job_finder.adapters.aganitha_careers import AganithaCareersAdapter
+from job_finder.adapters.airbnb_careers import AirbnbCareersAdapter
 from job_finder.adapters.amazon_jobs import AmazonJobsAdapter
 from job_finder.adapters.apple_jobs import AppleJobsAdapter
 from job_finder.adapters.ashby import AshbyAdapter
+from job_finder.adapters.atlassian_careers import AtlassianCareersAdapter
 from job_finder.adapters.atomicwork import AtomicworkWebflowAdapter
 from job_finder.adapters.base import AdapterRegistry
 from job_finder.adapters.custom import CustomAdapterRouter
@@ -31,6 +33,7 @@ from job_finder.adapters.lever import LeverAdapter
 from job_finder.adapters.microsoft_careers import MicrosoftCareersAdapter
 from job_finder.adapters.oracle_cloud import OracleCloudAdapter
 from job_finder.adapters.pageup_xml_feed import PageUpXmlFeedAdapter
+from job_finder.adapters.qure_careers import QureCareersAdapter
 from job_finder.adapters.recruiterflow import RecruiterflowAdapter
 from job_finder.adapters.rippling import RipplingAdapter
 from job_finder.adapters.sensehq import SenseHqAdapter
@@ -450,8 +453,10 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
             CustomAdapterRouter(
                 [
                     AganithaCareersAdapter(client),
+                    AirbnbCareersAdapter(client),
                     AmazonJobsAdapter(client),
                     AppleJobsAdapter(client),
+                    AtlassianCareersAdapter(client),
                     AtomicworkWebflowAdapter(client),
                     DeshawIndiaAdapter(client),
                     GalaxEyeZohoAdapter(client),
@@ -459,6 +464,7 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
                     GoogleCareersAdapter(client),
                     MicrosoftCareersAdapter(client),
                     PageUpXmlFeedAdapter(client),
+                    QureCareersAdapter(client),
                     StripeCareersAdapter(client),
                 ]
             ),

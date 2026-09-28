@@ -1,0 +1,56 @@
+[
+  {
+    "portalJobPost": {
+      "portalId": 242,
+      "portalUrl": "https://careers-apac-atlassian.icims.com/jobs/1001/ml-engineer/job",
+      "id": 1001,
+      "updatedDate": "2026-09-28 10:30 AM"
+    },
+    "id": 1001,
+    "portalId": 242,
+    "title": "Machine Learning Engineer",
+    "locations": ["Bengaluru - India - Bengaluru, 560071 India"],
+    "category": "Engineering",
+    "overview": "<p>Build production machine-learning services for Atlassian customers and internal product teams.</p>",
+    "responsibilities": "<p>Design reliable model-serving systems, evaluation pipelines, and monitoring for deployed AI features.</p>",
+    "qualifications": "<p>Experience building Python services and operating machine-learning workloads in production.</p>",
+    "applyUrl": "https://careers-apac-atlassian.icims.com/jobs/1001/ml-engineer/job?mode=apply",
+    "compensation": null
+  },
+  {
+    "portalJobPost": {
+      "portalId": 242,
+      "portalUrl": "https://careers-apac-atlassian.icims.com/jobs/1001/ml-engineer/job",
+      "id": 1001,
+      "updatedDate": "2026-09-28 10:30 AM"
+    },
+    "id": 1001,
+    "portalId": 242,
+    "title": "Machine Learning Engineer",
+    "locations": ["Remote - India - Remote"],
+    "category": "Engineering",
+    "overview": "<p>Build production machine-learning services for Atlassian customers and internal product teams.</p>",
+    "responsibilities": "<p>Design reliable model-serving systems, evaluation pipelines, and monitoring for deployed AI features.</p>",
+    "qualifications": "<p>Experience building Python services and operating machine-learning workloads in production.</p>",
+    "applyUrl": "https://careers-apac-atlassian.icims.com/jobs/1001/ml-engineer/job?mode=apply",
+    "compensation": null
+  },
+  {
+    "portalJobPost": {
+      "portalId": 111,
+      "portalUrl": "https://globalcareers-atlassian.icims.com/jobs/1002/research-scientist/job",
+      "id": 1002,
+      "updatedDate": "2026-09-27 09:15 PM"
+    },
+    "id": 1002,
+    "portalId": 111,
+    "title": "Research Scientist",
+    "locations": [],
+    "category": "Data, Analytics & Research",
+    "overview": "<p>Develop research prototypes that improve intelligent collaboration experiences across Atlassian products.</p>",
+    "responsibilities": "<p>Run controlled experiments, publish clear findings, and partner with engineering teams on deployment.</p>",
+    "qualifications": "<p>Strong machine-learning research background with evidence of rigorous empirical evaluation.</p>",
+    "applyUrl": "https://globalcareers-atlassian.icims.com/jobs/1002/research-scientist/job?mode=apply",
+    "compensation": "<p>Compensation varies by approved hiring location.</p>"
+  }
+]
