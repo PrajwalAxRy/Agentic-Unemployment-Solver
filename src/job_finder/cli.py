@@ -10,6 +10,7 @@ from datetime import datetime
 from pathlib import Path
 
 from job_finder import __version__
+from job_finder.adapters.aganitha_careers import AganithaCareersAdapter
 from job_finder.adapters.amazon_jobs import AmazonJobsAdapter
 from job_finder.adapters.apple_jobs import AppleJobsAdapter
 from job_finder.adapters.ashby import AshbyAdapter
@@ -20,6 +21,8 @@ from job_finder.adapters.darwinbox import DarwinboxAdapter
 from job_finder.adapters.deshaw_india import DeshawIndiaAdapter
 from job_finder.adapters.eightfold import EightfoldAdapter
 from job_finder.adapters.freshteam import FreshteamAdapter
+from job_finder.adapters.galaxeye_zoho import GalaxEyeZohoAdapter
+from job_finder.adapters.gnani_careers import GnaniCareersAdapter
 from job_finder.adapters.google_careers import GoogleCareersAdapter
 from job_finder.adapters.greenhouse import GreenhouseAdapter
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
@@ -446,10 +449,13 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
         [
             CustomAdapterRouter(
                 [
+                    AganithaCareersAdapter(client),
                     AmazonJobsAdapter(client),
                     AppleJobsAdapter(client),
                     AtomicworkWebflowAdapter(client),
                     DeshawIndiaAdapter(client),
+                    GalaxEyeZohoAdapter(client),
+                    GnaniCareersAdapter(client),
                     GoogleCareersAdapter(client),
                     MicrosoftCareersAdapter(client),
                     PageUpXmlFeedAdapter(client),
