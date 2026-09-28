@@ -20,13 +20,16 @@ from job_finder.repair import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
+ACTIVE_REGISTRY_VERSION = load_company_registry(
+    ROOT / "config" / "company_sources.json"
+).registry_version
 
 
 def verification_payload() -> dict[str, object]:
     return {
         "schema_version": 2,
         "generated_at": "2026-09-23T12:00:00+05:30",
-        "registry_version": "0.2.0-phase4",
+        "registry_version": ACTIVE_REGISTRY_VERSION,
         "adapter_type": "greenhouse",
         "baseline_generated_at": "2026-09-22T12:00:00+05:30",
         "company_count": 1,
@@ -40,7 +43,7 @@ def verification_payload() -> dict[str, object]:
                 "source_rank": 1,
                 "priority": "P1",
                 "adapter_type": "greenhouse",
-                "configuration_version": "0.2.0-phase4",
+                "configuration_version": ACTIVE_REGISTRY_VERSION,
                 "outcome": "suspicious",
                 "complete": False,
                 "job_count": 0,
@@ -198,7 +201,7 @@ def test_inactive_proposal_preview_never_mutates_the_active_registry(tmp_path: P
 
     assert active_source.adapter_parameters["board_token"] == "gleanwork"
     assert preview_source.adapter_parameters["board_token"] == "glean-public"
-    assert registry.registry_version == "0.2.0-phase4"
+    assert registry.registry_version == ACTIVE_REGISTRY_VERSION
     assert preview.registry_version.endswith("-preview")
 
 

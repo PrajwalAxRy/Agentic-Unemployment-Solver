@@ -12,24 +12,120 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 86
-    assert audit.by_status == {"enabled": 86, "proposed": 242, "unsupported": 2}
+    assert audit.enabled_count == 107
+    assert audit.by_status == {"enabled": 107, "proposed": 221, "unsupported": 2}
     assert audit.by_adapter == {
-        "ashby": 25,
+        "ashby": 26,
         "custom": 1,
         "darwinbox": 4,
         "eightfold": 1,
-        "greenhouse": 24,
+        "greenhouse": 33,
         "jobvite": 1,
-        "lever": 11,
-        "oracle_cloud": 2,
-        "search_only": 238,
-        "smartrecruiters": 3,
+        "lever": 12,
+        "oracle_cloud": 3,
+        "search_only": 217,
+        "smartrecruiters": 4,
         "successfactors": 1,
         "unsupported": 2,
         "unresolved": 4,
-        "workday": 13,
+        "workday": 21,
     }
+
+
+def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    sources = {entry.source.company_id: entry.source for entry in registry.entries}
+    expected = {
+        "rubrik": ("greenhouse", {"board_token": "rubrik"}),
+        "cockroach-labs": ("greenhouse", {"board_token": "cockroachlabs"}),
+        "falconx": ("greenhouse", {"board_token": "falconx"}),
+        "okta": ("greenhouse", {"board_token": "okta"}),
+        "nk-securities": ("greenhouse", {"board_token": "nksecuritiesresearch"}),
+        "aqr-capital-management": ("greenhouse", {"board_token": "india"}),
+        "coinbase": ("greenhouse", {"board_token": "coinbase"}),
+        "compass": ("greenhouse", {"board_token": "compassindia"}),
+        "crunchyroll": ("greenhouse", {"board_token": "crunchyroll"}),
+        "cred": ("lever", {"site": "cred"}),
+        "testgorilla": ("ashby", {"board_name": "testgorilla"}),
+        "slack": (
+            "workday",
+            {"host": "salesforce.wd12.myworkdayjobs.com", "tenant": "salesforce", "site": "Slack"},
+        ),
+        "broadcom": (
+            "workday",
+            {
+                "host": "broadcom.wd1.myworkdayjobs.com",
+                "tenant": "broadcom",
+                "site": "External_Career",
+            },
+        ),
+        "quantiphi": (
+            "workday",
+            {
+                "host": "quantiphi.wd1.myworkdayjobs.com",
+                "tenant": "quantiphi",
+                "site": "Careers_at_Quantiphi",
+            },
+        ),
+        "mastercard": (
+            "workday",
+            {
+                "host": "mastercard.wd1.myworkdayjobs.com",
+                "tenant": "mastercard",
+                "site": "CorporateCareers",
+            },
+        ),
+        "kla": (
+            "workday",
+            {"host": "kla.wd1.myworkdayjobs.com", "tenant": "kla", "site": "Search"},
+        ),
+        "marvell": (
+            "workday",
+            {
+                "host": "marvell.wd1.myworkdayjobs.com",
+                "tenant": "marvell",
+                "site": "MarvellCareers",
+            },
+        ),
+        "aptiv": (
+            "workday",
+            {"host": "aptiv.wd5.myworkdayjobs.com", "tenant": "aptiv", "site": "APTIV_CAREERS"},
+        ),
+        "browserstack": (
+            "workday",
+            {
+                "host": "browserstack.wd3.myworkdayjobs.com",
+                "tenant": "browserstack",
+                "site": "External",
+            },
+        ),
+        "texas-instruments": (
+            "oracle_cloud",
+            {"host": "edbz.fa.us2.oraclecloud.com", "site_number": "CX"},
+        ),
+        "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
+    }
+
+    assert registry.registry_version == "0.3.0-phase12-a1"
+    for company_id, (adapter_type, parameters) in expected.items():
+        source = sources[company_id]
+        assert source.enabled is True
+        assert source.status.value == "enabled"
+        assert source.adapter_type.value == adapter_type
+        assert source.adapter_parameters == parameters
+
+    for company_id in (
+        "salesforce",
+        "qualcomm",
+        "navan",
+        "opendoor",
+        "thoughtspot",
+        "eightfold-ai",
+        "morgan-stanley",
+        "games24x7",
+    ):
+        assert sources[company_id].enabled is False
+        assert sources[company_id].adapter_type.value == "search_only"
 
 
 def test_cerebras_uses_case_sensitive_verified_ashby_board_name() -> None:

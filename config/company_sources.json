@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.2.0-phase4",
-  "generated_at": "2026-09-21T14:40:00+05:30",
+  "registry_version": "0.3.0-phase12-a1",
+  "generated_at": "2026-09-28T12:00:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -463,32 +463,33 @@
       "schema_version": 1,
       "company_id": "rubrik",
       "company_name": "Rubrik",
-      "status": "proposed",
-      "careers_url": "https://www.rubrik.com/company/careers?gh_src=2c3b02b81us",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://job-boards.greenhouse.io/rubrik",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.rubrik.com/company/careers?gh_src=2c3b02b81us"
+        "board_token": "rubrik"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.rubrik.com/company/careers?gh_src=2c3b02b81us",
-        "https://www.rubrik.com/company/careers?gh_src=2c3b02b81us"
+        "https://job-boards.greenhouse.io/rubrik",
+        "https://boards-api.greenhouse.io/v1/boards/rubrik/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 15,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -553,33 +554,34 @@
       "schema_version": 1,
       "company_id": "slack",
       "company_name": "Slack",
-      "status": "proposed",
-      "careers_url": "https://slack.com/intl/en-in/careers",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://salesforce.wd12.myworkdayjobs.com/Slack",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://slack.com/intl/en-in/careers"
+        "host": "salesforce.wd12.myworkdayjobs.com",
+        "tenant": "salesforce",
+        "site": "Slack"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Relative Workday postedOn labels remain uncertain under the approved hybrid date policy."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://join.slack.com/careers",
-        "https://slack.com/intl/en-in/careers",
-        "https://slack.com/intl/en-in/careers"
+        "https://salesforce.wd12.myworkdayjobs.com/Slack",
+        "https://salesforce.wd12.myworkdayjobs.com/wday/cxs/salesforce/Slack/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 18,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -901,64 +903,66 @@
       "schema_version": 1,
       "company_id": "broadcom",
       "company_name": "Broadcom",
-      "status": "proposed",
-      "careers_url": "https://www.broadcom.com/company/careers",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://broadcom.wd1.myworkdayjobs.com/External_Career",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://www.broadcom.com/company/careers"
+        "host": "broadcom.wd1.myworkdayjobs.com",
+        "tenant": "broadcom",
+        "site": "External_Career"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Relative Workday postedOn labels remain uncertain under the approved hybrid date policy."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.broadcom.com/company/careers",
-        "https://www.broadcom.com/company/careers",
-        "https://www.broadcom.com/company/careers"
+        "https://broadcom.wd1.myworkdayjobs.com/External_Career",
+        "https://broadcom.wd1.myworkdayjobs.com/wday/cxs/broadcom/External_Career/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 29,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
       "company_id": "cockroach-labs",
       "company_name": "Cockroach Labs",
-      "status": "proposed",
-      "careers_url": "https://www.cockroachlabs.com/careers/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://job-boards.greenhouse.io/cockroachlabs",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.cockroachlabs.com/careers/"
+        "board_token": "cockroachlabs"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.cockroachlabs.com/careers/",
-        "https://www.cockroachlabs.com/careers/"
+        "https://job-boards.greenhouse.io/cockroachlabs",
+        "https://boards-api.greenhouse.io/v1/boards/cockroachlabs/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 30,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -1656,32 +1660,33 @@
       "schema_version": 1,
       "company_id": "falconx",
       "company_name": "FalconX",
-      "status": "proposed",
-      "careers_url": "https://www.falconx.io/open-roles",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://job-boards.greenhouse.io/falconx",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.falconx.io/open-roles"
+        "board_token": "falconx"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.falconx.io/open-roles",
-        "https://www.falconx.io/open-roles"
+        "https://job-boards.greenhouse.io/falconx",
+        "https://boards-api.greenhouse.io/v1/boards/falconx/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 52,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -2084,32 +2089,33 @@
       "schema_version": 1,
       "company_id": "okta",
       "company_name": "Okta",
-      "status": "proposed",
-      "careers_url": "https://www.okta.com/company/careers/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://job-boards.greenhouse.io/okta",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.okta.com/company/careers/"
+        "board_token": "okta"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.okta.com/company/careers/",
-        "https://www.okta.com/company/careers/"
+        "https://job-boards.greenhouse.io/okta",
+        "https://boards-api.greenhouse.io/v1/boards/okta/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 65,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -2797,32 +2803,33 @@
       "schema_version": 1,
       "company_id": "nk-securities",
       "company_name": "NK Securities",
-      "status": "proposed",
-      "careers_url": "https://www.nksecurities.com/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://job-boards.eu.greenhouse.io/nksecuritiesresearch",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.nksecurities.com/"
+        "board_token": "nksecuritiesresearch"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "low",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.nksecurities.com/",
-        "https://www.nksecurities.com/"
+        "https://job-boards.eu.greenhouse.io/nksecuritiesresearch",
+        "https://boards-api.greenhouse.io/v1/boards/nksecuritiesresearch/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Company homepage does not expose a verified enumerable careers source.",
-      "notes": "Automated quality audit rejected this source for enablement.",
+      "exception_reason": null,
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 87,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -3021,33 +3028,32 @@
       "schema_version": 1,
       "company_id": "cred",
       "company_name": "CRED",
-      "status": "proposed",
-      "careers_url": "https://careers.cred.club/openings",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://jobs.lever.co/cred",
+      "adapter_type": "lever",
       "adapter_parameters": {
-        "search_url": "https://careers.cred.club/openings"
+        "site": "cred"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "createdAt",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Lever createdAt remains uncertain under the approved hybrid date policy."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://careers.cred.club/openings",
-        "https://careers.cred.club/openings",
-        "https://careers.cred.club/openings"
+        "https://jobs.lever.co/cred",
+        "https://api.lever.co/v0/postings/cred?mode=json"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 94,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -3638,33 +3644,34 @@
       "schema_version": 1,
       "company_id": "quantiphi",
       "company_name": "Quantiphi",
-      "status": "proposed",
-      "careers_url": "https://quantiphi.com/careers/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://quantiphi.wd1.myworkdayjobs.com/Careers_at_Quantiphi",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://quantiphi.com/careers/"
+        "host": "quantiphi.wd1.myworkdayjobs.com",
+        "tenant": "quantiphi",
+        "site": "Careers_at_Quantiphi"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Relative Workday postedOn labels remain uncertain under the approved hybrid date policy."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://quantiphi.com/careers/",
-        "https://quantiphi.com/careers/",
-        "https://quantiphi.com/careers/"
+        "https://quantiphi.wd1.myworkdayjobs.com/Careers_at_Quantiphi",
+        "https://quantiphi.wd1.myworkdayjobs.com/wday/cxs/quantiphi/Careers_at_Quantiphi/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 113,
       "priority": "P2",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -3702,32 +3709,33 @@
       "schema_version": 1,
       "company_id": "aqr-capital-management",
       "company_name": "AQR Capital Management",
-      "status": "proposed",
-      "careers_url": "https://www.aqr.com/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://job-boards.greenhouse.io/india",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.aqr.com/"
+        "board_token": "india"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "low",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "http://www.aqr.com",
-        "https://www.aqr.com/"
+        "https://job-boards.greenhouse.io/india",
+        "https://boards-api.greenhouse.io/v1/boards/india/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Company homepage was found, but no complete careers inventory was verified.",
-      "notes": "Automated quality audit rejected this source for enablement.",
+      "exception_reason": null,
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 115,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -6836,33 +6844,34 @@
       "schema_version": 1,
       "company_id": "mastercard",
       "company_name": "Mastercard",
-      "status": "proposed",
-      "careers_url": "https://careers.mastercard.com/us/en/mumbai-india",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://mastercard.wd1.myworkdayjobs.com/CorporateCareers",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://careers.mastercard.com/us/en/mumbai-india"
+        "host": "mastercard.wd1.myworkdayjobs.com",
+        "tenant": "mastercard",
+        "site": "CorporateCareers"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Relative Workday postedOn labels remain uncertain under the approved hybrid date policy."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://careers.mastercard.com/us/en/mumbai-india",
-        "https://careers.mastercard.com/us/en/mumbai-india",
-        "https://careers.mastercard.com/us/en/mumbai-india"
+        "https://mastercard.wd1.myworkdayjobs.com/CorporateCareers",
+        "https://mastercard.wd1.myworkdayjobs.com/wday/cxs/mastercard/CorporateCareers/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 214,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -7353,96 +7362,97 @@
       "schema_version": 1,
       "company_id": "coinbase",
       "company_name": "Coinbase",
-      "status": "proposed",
-      "careers_url": "https://www.coinbase.com/en-in/careers/positions?location=remote+india",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://job-boards.greenhouse.io/coinbase",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.coinbase.com/en-in/careers/positions?location=remote+india"
+        "board_token": "coinbase"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.coinbase.com/careers/positions?location=remote+india",
-        "https://www.coinbase.com/en-in/careers/positions?location=remote+india"
+        "https://job-boards.greenhouse.io/coinbase",
+        "https://boards-api.greenhouse.io/v1/boards/coinbase/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 230,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
       "company_id": "compass",
       "company_name": "Compass",
-      "status": "proposed",
-      "careers_url": "https://www.compass.com/careers/?gh_board=compassindia",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://job-boards.greenhouse.io/compassindia",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.compass.com/careers/?gh_board=compassindia"
+        "board_token": "compassindia"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.compass.com/careers/?gh_board=compassindia",
-        "https://www.compass.com/careers/?gh_board=compassindia"
+        "https://job-boards.greenhouse.io/compassindia",
+        "https://boards-api.greenhouse.io/v1/boards/compassindia/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 231,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
       "company_id": "crunchyroll",
       "company_name": "Crunchyroll",
-      "status": "proposed",
-      "careers_url": "https://www.crunchyroll.com/about/jobs",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://job-boards.greenhouse.io/crunchyroll",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.crunchyroll.com/about/jobs"
+        "board_token": "crunchyroll"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.crunchyroll.com/pt-br/about/jobs?locations=berlin",
-        "https://www.crunchyroll.com/pt-br/about/jobs?locations=berlin",
-        "https://www.crunchyroll.com/about/jobs",
-        "https://www.crunchyroll.com/about/jobs"
+        "https://job-boards.greenhouse.io/crunchyroll",
+        "https://boards-api.greenhouse.io/v1/boards/crunchyroll/jobs?content=true",
+        "https://docs.greenhouse.io/job-board.html"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Replaced a Brazil-localized URL with the global official jobs page.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 232,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -8024,33 +8034,33 @@
       "schema_version": 1,
       "company_id": "testgorilla",
       "company_name": "TestGorilla",
-      "status": "proposed",
-      "careers_url": "https://www.testgorilla.com/careers/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://jobs.ashbyhq.com/testgorilla",
+      "adapter_type": "ashby",
       "adapter_parameters": {
-        "search_url": "https://www.testgorilla.com/careers/"
+        "board_name": "testgorilla"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "publishedAt",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Ashby publishedAt is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.testgorilla.com/careers/",
-        "https://www.testgorilla.com/careers/",
-        "https://www.testgorilla.com/careers/"
+        "https://jobs.ashbyhq.com/testgorilla",
+        "https://api.ashbyhq.com/posting-api/job-board/testgorilla",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 251,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -8320,32 +8330,34 @@
       "schema_version": 1,
       "company_id": "kla",
       "company_name": "KLA",
-      "status": "proposed",
-      "careers_url": "https://klaindustries.com/career-opportunities/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://kla.wd1.myworkdayjobs.com/Search",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://klaindustries.com/career-opportunities/"
+        "host": "kla.wd1.myworkdayjobs.com",
+        "tenant": "kla",
+        "site": "Search"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Relative Workday postedOn labels remain uncertain under the approved hybrid date policy."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "low",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://klaindustries.com/career-opportunities/",
-        "https://klaindustries.com/career-opportunities/"
+        "https://kla.wd1.myworkdayjobs.com/Search",
+        "https://kla.wd1.myworkdayjobs.com/wday/cxs/kla/Search/jobs"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Search result belonged to KLA Industries, not KLA semiconductor.",
-      "notes": "Automated quality audit rejected this source for enablement.",
+      "exception_reason": null,
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 260,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -8382,33 +8394,34 @@
       "schema_version": 1,
       "company_id": "marvell",
       "company_name": "Marvell",
-      "status": "proposed",
-      "careers_url": "https://www.marvell.com/company/careers.html",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://marvell.wd1.myworkdayjobs.com/MarvellCareers",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://www.marvell.com/company/careers.html"
+        "host": "marvell.wd1.myworkdayjobs.com",
+        "tenant": "marvell",
+        "site": "MarvellCareers"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Relative Workday postedOn labels remain uncertain under the approved hybrid date policy."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.marvell.com/company/careers.html",
-        "https://www.marvell.com/company/careers.html",
-        "https://www.marvell.com/company/careers.html"
+        "https://marvell.wd1.myworkdayjobs.com/MarvellCareers",
+        "https://marvell.wd1.myworkdayjobs.com/wday/cxs/marvell/MarvellCareers/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 262,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -8513,33 +8526,32 @@
       "schema_version": 1,
       "company_id": "renesas",
       "company_name": "Renesas",
-      "status": "proposed",
-      "careers_url": "https://jobs.renesas.com/india",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://jobs.smartrecruiters.com/RenesasElectronics",
+      "adapter_type": "smartrecruiters",
       "adapter_parameters": {
-        "search_url": "https://jobs.renesas.com/india"
+        "company_identifier": "RenesasElectronics"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "releasedDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "SmartRecruiters releasedDate is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://jobs.renesas.com/india",
-        "https://jobs.renesas.com/india",
-        "https://jobs.renesas.com/india"
+        "https://jobs.smartrecruiters.com/RenesasElectronics",
+        "https://api.smartrecruiters.com/v1/companies/RenesasElectronics/postings"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 266,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -8576,32 +8588,33 @@
       "schema_version": 1,
       "company_id": "texas-instruments",
       "company_name": "Texas Instruments",
-      "status": "proposed",
-      "careers_url": "https://edbz.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/jobs?country=IN&location=India",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://edbz.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/jobs",
+      "adapter_type": "oracle_cloud",
       "adapter_parameters": {
-        "search_url": "https://edbz.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/jobs?country=IN&location=India"
+        "host": "edbz.fa.us2.oraclecloud.com",
+        "site_number": "CX"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "PostedDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Oracle Cloud PostedDate is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://edbz.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions?country=IN&location=India",
-        "https://edbz.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/jobs?country=IN&location=India"
+        "https://edbz.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/jobs",
+        "https://edbz.fa.us2.oraclecloud.com/hcmRestApi/resources/latest/recruitingCEJobRequisitions"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 268,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -8638,32 +8651,34 @@
       "schema_version": 1,
       "company_id": "aptiv",
       "company_name": "Aptiv",
-      "status": "proposed",
-      "careers_url": "https://www.aptiv.com/en/jobs/working-here/global-locations/india",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://aptiv.wd5.myworkdayjobs.com/APTIV_CAREERS",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://www.aptiv.com/en/jobs/working-here/global-locations/india"
+        "host": "aptiv.wd5.myworkdayjobs.com",
+        "tenant": "aptiv",
+        "site": "APTIV_CAREERS"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Relative Workday postedOn labels remain uncertain under the approved hybrid date policy."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.aptiv.com/en/jobs/working-here/global-locations/india",
-        "https://www.aptiv.com/en/jobs/working-here/global-locations/india"
+        "https://aptiv.wd5.myworkdayjobs.com/APTIV_CAREERS",
+        "https://aptiv.wd5.myworkdayjobs.com/wday/cxs/aptiv/APTIV_CAREERS/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 270,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -9393,33 +9408,34 @@
       "schema_version": 1,
       "company_id": "browserstack",
       "company_name": "BrowserStack",
-      "status": "proposed",
-      "careers_url": "https://www.browserstack.com/careers",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://browserstack.wd3.myworkdayjobs.com/External",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://www.browserstack.com/careers"
+        "host": "browserstack.wd3.myworkdayjobs.com",
+        "tenant": "browserstack",
+        "site": "External"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Relative Workday postedOn labels remain uncertain under the approved hybrid date policy."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.browserstack.com/careers",
-        "https://www.browserstack.com/careers",
-        "https://www.browserstack.com/careers"
+        "https://browserstack.wd3.myworkdayjobs.com/External",
+        "https://browserstack.wd3.myworkdayjobs.com/wday/cxs/browserstack/External/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package A public inventory and representative detail validation passed on 2026-09-28.",
       "source_rank": 294,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T12:00:00+05:30"
     },
     {
       "schema_version": 1,
