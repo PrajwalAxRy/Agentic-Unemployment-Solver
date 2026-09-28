@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-b4",
-  "generated_at": "2026-09-28T12:00:00+05:30",
+  "registry_version": "0.3.0-phase12-b5",
+  "generated_at": "2026-09-28T13:42:20+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -9541,32 +9541,32 @@
       "schema_version": 1,
       "company_id": "coinswitch",
       "company_name": "CoinSwitch",
-      "status": "proposed",
-      "careers_url": "https://coinswitch.co/ventures",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://recruiterflow.com/coinswitch/jobs",
+      "adapter_type": "recruiterflow",
       "adapter_parameters": {
-        "search_url": "https://coinswitch.co/ventures"
+        "board_slug": "coinswitch"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "datePosted",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Public detail pages expose schema.org JobPosting datePosted."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "low",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://coinswitch.co/ventures",
-        "https://coinswitch.co/ventures"
+        "https://recruiterflow.com/coinswitch/jobs",
+        "https://www.linkedin.com/company/coinswitch/jobs"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Ventures page is not the CoinSwitch employee careers inventory.",
-      "notes": "Automated quality audit rejected this source for enablement.",
+      "exception_reason": null,
+      "notes": "Package B live validation retrieved six unique jobs and all six full details; repeated department, group, and location views agreed exactly.",
       "source_rank": 298,
       "priority": "P3",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-28T13:42:20+05:30"
     },
     {
       "schema_version": 1,

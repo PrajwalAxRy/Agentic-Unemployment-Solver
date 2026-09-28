@@ -12,8 +12,8 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 112
-    assert audit.by_status == {"enabled": 112, "proposed": 216, "unsupported": 2}
+    assert audit.enabled_count == 113
+    assert audit.by_status == {"enabled": 113, "proposed": 215, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 26,
         "custom": 1,
@@ -24,8 +24,9 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "jobvite": 1,
         "lever": 12,
         "oracle_cloud": 3,
+        "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 212,
+        "search_only": 211,
         "sensehq": 1,
         "smartrecruiters": 4,
         "successfactors": 2,
@@ -109,7 +110,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-b4"
+    assert registry.registry_version == "0.3.0-phase12-b5"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -185,6 +186,24 @@ def test_phase12_package_b_activates_groww_sensehq_with_uncertain_creation_date(
     assert groww.date_strategy.field_name == "created_on"
     assert groww.date_strategy.basis.value == "unknown"
     assert groww.date_strategy.verified_as_publication is False
+
+
+def test_phase12_package_b_activates_coinswitch_recruiterflow_with_detail_dates() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    coinswitch = next(
+        entry.source for entry in registry.entries if entry.source.company_id == "coinswitch"
+    )
+
+    assert coinswitch.enabled is True
+    assert coinswitch.status.value == "enabled"
+    assert coinswitch.careers_url == "https://recruiterflow.com/coinswitch/jobs"
+    assert coinswitch.adapter_type.value == "recruiterflow"
+    assert coinswitch.adapter_parameters == {"board_slug": "coinswitch"}
+    assert coinswitch.identity_strategy.value == "external_id"
+    assert coinswitch.detail_strategy.value == "detail_page"
+    assert coinswitch.date_strategy.field_name == "datePosted"
+    assert coinswitch.date_strategy.basis.value == "published"
+    assert coinswitch.date_strategy.verified_as_publication is True
 
 
 def test_cerebras_uses_case_sensitive_verified_ashby_board_name() -> None:
