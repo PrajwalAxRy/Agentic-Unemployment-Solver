@@ -1,0 +1,29 @@
+{
+  "error": null,
+  "hits": 2,
+  "jobs": [
+    {
+      "id": "81264de6-1b48-491f-a191-cbec296949a2",
+      "id_icims": "10561102",
+      "title": "Controls Technician, Controls Deployment & Service India",
+      "job_path": "/en/jobs/10561102/controls-technician-controls-deployment-service-india",
+      "country_code": "IND",
+      "location": "IN, TS, Hyderabad",
+      "normalized_location": "Hyderabad, Telangana, IND",
+      "locations": [
+        "{\"normalizedStateName\":\"Telangana\",\"normalizedCountryCode\":\"IND\",\"normalizedCountryName\":\"India\",\"normalizedLocation\":\"Hyderabad, Telangana, IND\",\"type\":\"ONSITE\"}"
+      ],
+      "posted_date": "September 28, 2026",
+      "description": "<p>Operate automation systems for AWS data centers.</p><p>Partner with engineering teams.</p>",
+      "basic_qualifications": "<ul><li>2+ years of relevant work experience</li></ul>",
+      "preferred_qualifications": "<p>Experience in data center engineering</p>",
+      "business_category": "aws",
+      "company_name": "ADSIPL - Telangana",
+      "job_category": "Operations, IT, & Support Engineering",
+      "job_family": "Tech Ops Engineering",
+      "job_schedule_type": "full-time",
+      "source_system": "JobCreator",
+      "url_next_step": "https://account.amazon.jobs/jobs/10561102/apply"
+    }
+  ]
+}

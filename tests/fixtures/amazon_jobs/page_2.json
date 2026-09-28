@@ -1,0 +1,29 @@
+{
+  "error": null,
+  "hits": 2,
+  "jobs": [
+    {
+      "id": "edc3b6c5-b58a-4f1b-8883-365e00b64279",
+      "id_icims": "SF260123206",
+      "title": "Applied Scientist II, RBS Tech",
+      "job_path": "/en/jobs/SF260123206/applied-scientist-ii-rbs_tech",
+      "country_code": "IND",
+      "location": "IN, KA, Bengaluru",
+      "normalized_location": "Bengaluru, Karnataka, IND",
+      "locations": [
+        "{\"normalizedStateName\":\"Karnataka\",\"normalizedCountryCode\":\"IND\",\"normalizedCountryName\":\"India\",\"normalizedLocation\":\"Bengaluru, Karnataka, IND\",\"type\":\"ONSITE\"}"
+      ],
+      "posted_date": "September  9, 2026",
+      "description": "<p>Develop scalable generative AI and machine-learning solutions.</p>",
+      "basic_qualifications": "<p>PhD, or Master's degree with relevant applied research experience.</p>",
+      "preferred_qualifications": "<p>Strong machine-learning fundamentals.</p>",
+      "business_category": "cx-and-business-trends",
+      "company_name": "ADCI - BLR 14 SEZ",
+      "job_category": "Applied Science",
+      "job_family": "Applied Science",
+      "job_schedule_type": "full-time",
+      "source_system": "JobCreator",
+      "url_next_step": "https://account.amazon.jobs/jobs/10561089/apply"
+    }
+  ]
+}
