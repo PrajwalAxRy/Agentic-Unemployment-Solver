@@ -12,21 +12,21 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 119
-    assert audit.by_status == {"enabled": 119, "proposed": 209, "unsupported": 2}
+    assert audit.enabled_count == 121
+    assert audit.by_status == {"enabled": 121, "proposed": 207, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 26,
-        "custom": 7,
+        "custom": 8,
         "darwinbox": 4,
         "eightfold": 1,
         "freshteam": 2,
-        "greenhouse": 33,
+        "greenhouse": 34,
         "jobvite": 1,
         "lever": 12,
         "oracle_cloud": 3,
         "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 205,
+        "search_only": 203,
         "sensehq": 1,
         "smartrecruiters": 4,
         "successfactors": 2,
@@ -110,7 +110,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-c6"
+    assert registry.registry_version == "0.3.0-phase12-c8"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -191,6 +191,35 @@ def test_phase12_package_c_second_cohort_activates_verified_custom_sources() -> 
     assert flipkart.status.value == "proposed"
     assert flipkart.adapter_type.value == "search_only"
     assert flipkart.exception_reason is not None
+
+
+def test_phase12_package_c_third_cohort_replaces_third_party_sources() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    sources = {entry.source.company_id: entry.source for entry in registry.entries}
+
+    deshaw = sources["d-e-shaw-india"]
+    assert deshaw.enabled is True
+    assert deshaw.status.value == "enabled"
+    assert deshaw.careers_url == "https://www.deshawindia.com/careers"
+    assert deshaw.adapter_type.value == "custom"
+    assert deshaw.adapter_parameters == {"adapter_key": "deshaw_india_index"}
+    assert deshaw.identity_strategy.value == "external_id"
+    assert deshaw.date_strategy.field_name is None
+    assert deshaw.date_strategy.basis.value == "unknown"
+    assert deshaw.date_strategy.verified_as_publication is False
+    assert deshaw.detail_strategy.value == "listing_payload"
+
+    squarepoint = sources["squarepoint-capital"]
+    assert squarepoint.enabled is True
+    assert squarepoint.status.value == "enabled"
+    assert squarepoint.careers_url == ("https://www.squarepoint-capital.com/open-opportunities")
+    assert squarepoint.adapter_type.value == "greenhouse"
+    assert squarepoint.adapter_parameters == {"board_token": "squarepointcapital"}
+    assert squarepoint.identity_strategy.value == "external_id"
+    assert squarepoint.date_strategy.field_name == "first_published"
+    assert squarepoint.date_strategy.basis.value == "published"
+    assert squarepoint.date_strategy.verified_as_publication is True
+    assert squarepoint.detail_strategy.value == "listing_payload"
 
 
 def test_phase12_package_b_corrects_payu_to_its_official_successfactors_board() -> None:

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-c6",
-  "generated_at": "2026-09-28T21:30:00+05:30",
+  "registry_version": "0.3.0-phase12-c8",
+  "generated_at": "2026-09-28T23:00:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -2678,32 +2678,32 @@
       "schema_version": 1,
       "company_id": "d-e-shaw-india",
       "company_name": "D. E. Shaw India",
-      "status": "proposed",
-      "careers_url": "https://www.grapevine.in/tal/jobs/c3ee6a7b-6614-4312-903a-d0d944f99e03",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://www.deshawindia.com/careers",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://www.grapevine.in/tal/jobs/c3ee6a7b-6614-4312-903a-d0d944f99e03"
+        "adapter_key": "deshaw_india_index"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": null,
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "The official public regular-jobs contract exposes no publication timestamp."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "low",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.grapevine.in/tal/jobs/c3ee6a7b-6614-4312-903a-d0d944f99e03",
-        "https://www.grapevine.in/tal/jobs/c3ee6a7b-6614-4312-903a-d0d944f99e03"
+        "https://www.deshawindia.com/careers",
+        "https://www.deshawindia.com/careers/lead-tech-python-infra-7337"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Candidate redirected to a third-party job copy and no official source was verified.",
-      "notes": "Automated quality audit rejected this source for enablement.",
+      "exception_reason": null,
+      "notes": "Phase 12 Package C replaced the third-party copy with the official complete server-rendered regular-jobs index. The separate internal-jobs array is deliberately excluded.",
       "source_rank": 83,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-28T23:00:00+05:30"
     },
     {
       "schema_version": 1,
@@ -3900,32 +3900,32 @@
       "schema_version": 1,
       "company_id": "squarepoint-capital",
       "company_name": "Squarepoint Capital",
-      "status": "proposed",
-      "careers_url": "https://www.efinancialcareers.ch/en/jobs/applications/at-squarepoint-capital",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://www.squarepoint-capital.com/open-opportunities",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.efinancialcareers.ch/en/jobs/applications/at-squarepoint-capital"
+        "board_token": "squarepointcapital"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is preferred; missing values retain explicit updated-date fallback evidence."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "low",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.efinancialcareers.ch/en/jobs/applications/at-squarepoint-capital",
-        "https://www.efinancialcareers.ch/en/jobs/applications/at-squarepoint-capital"
+        "https://www.squarepoint-capital.com/open-opportunities",
+        "https://boards-api.greenhouse.io/v1/boards/squarepointcapital/jobs?content=true"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Candidate was a third-party finance job page; official careers inventory remains unverified.",
-      "notes": "Automated quality audit rejected this source for enablement.",
+      "exception_reason": null,
+      "notes": "Phase 12 Package C replaced the third-party page with Squarepoint's official careers inventory, whose public JavaScript explicitly uses the standard Greenhouse board API.",
       "source_rank": 121,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-28T23:00:00+05:30"
     },
     {
       "schema_version": 1,
