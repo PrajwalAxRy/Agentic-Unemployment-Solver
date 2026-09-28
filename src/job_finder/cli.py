@@ -11,6 +11,7 @@ from pathlib import Path
 
 from job_finder import __version__
 from job_finder.adapters.amazon_jobs import AmazonJobsAdapter
+from job_finder.adapters.apple_jobs import AppleJobsAdapter
 from job_finder.adapters.ashby import AshbyAdapter
 from job_finder.adapters.atomicwork import AtomicworkWebflowAdapter
 from job_finder.adapters.base import AdapterRegistry
@@ -443,6 +444,7 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
             CustomAdapterRouter(
                 [
                     AmazonJobsAdapter(client),
+                    AppleJobsAdapter(client),
                     AtomicworkWebflowAdapter(client),
                     GoogleCareersAdapter(client),
                     MicrosoftCareersAdapter(client),
