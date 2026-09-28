@@ -8,18 +8,29 @@
   covering 34 existing-adapter candidates, 14 new reusable-family candidates, and 114 deterministic
   custom candidates. Package A is complete: 21 candidates passed and were activated; 13 failed
   closed. Package B is complete: six candidates passed and were activated; eight failed closed.
-  Package C will proceed P1/P2 before P3. Packages D and E remain unapproved.
+  Package C cohort 1 is complete: Amazon / AWS, Google, and Apple were activated; Microsoft's
+  adapter was implemented but the source failed closed on the production rate-limit gate. Package
+  C continues P1/P2 before P3. Packages D and E remain unapproved.
 - Pending human checkpoint: none for the approved Package A/B/C implementation work. Any Package D
   endpoint-replay activation or Package E empty/manual/identity/LLM-fallback work requires a later
   explicit approval.
-- Active review artifact: `docs/reviews/phase12_package_b_validation.md`; the next artifact will
-  record the first Package C cohort.
+- Active review artifact: `docs/reviews/phase12_package_c_cohort1_validation.md`.
 - Company ledger: `docs/reviews/phase12_search_only_company_dossiers.md` (238/238 accounted).
-- The 113 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
-  including 217 disabled backlog or unsupported records.
+- The 116 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
+  including 214 disabled backlog or unsupported records.
 
 ## Completed gates
 
+- Phase 12 Package C cohort 1 assessed Amazon / AWS, Google, Apple, and Microsoft. Amazon / AWS,
+  Google, and Apple passed independent public replay, fixture, pagination, detail, date-evidence,
+  focused, full-registry, and repository gates and were activated. Their current all-enabled counts
+  are 2,374, 261, and 169 jobs. Microsoft's adapter passed a 233-job, 24-page isolated listing run
+  and three public details, but a later production command hit the upstream host-wide rolling quota
+  after 50 jobs. Microsoft remains disabled and `search_only` until a clean post-cooldown production
+  gate passes; no quota was bypassed. The all-enabled sweep covered 116 sources and its two
+  invalid-JSON failures, Glean and Zeta Global, both passed first-attempt isolated retries. The
+  final health disposition is 112 successful, three verified empty, the known Quantbox anomaly,
+  and no persistent failed, blocked, or partial source. The complete suite passed with 526 tests.
 - Phase 12 Package B assessed all 14 reusable-family candidates. Locus and Haptik activated through
   the new Freshteam adapter, Sanas through Rippling, Groww through SenseHQ, CoinSwitch through
   Recruiterflow, and PayU through the existing SuccessFactors adapter after a branded-category-path

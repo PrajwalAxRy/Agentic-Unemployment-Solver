@@ -139,6 +139,21 @@ def test_phase12_package_b_review_records_activation_and_full_registry_gate() ->
     assert "Packages D and E remain unapproved" in review
 
 
+def test_phase12_package_c_cohort1_records_activation_and_failed_closed_source() -> None:
+    review = Path("docs/reviews/phase12_package_c_cohort1_validation.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "3 deterministic custom sources activated; 1 candidate failed closed" in review
+    assert "activated cohort accounts for **2,804 current listings**" in review
+    assert "233 unique jobs over 24 pages" in review
+    assert "registry entry remains disabled and `search_only`" in review
+    assert "112 successful, three verified empty" in review
+    assert "Amazon / AWS, Google, and Apple all passed" in review
+    assert "pytest\nreported **526 passed**" in review
+    assert "Packages D and E remain\nunapproved" in review
+
+
 def test_h5_review_records_full_registry_date_coverage_and_approved_decision() -> None:
     review = Path("docs/reviews/h5_date_coverage_review.md").read_text(encoding="utf-8")
 

@@ -15,7 +15,10 @@ artifacts.
 Package A is complete. Twenty-one candidates passed their activation gates and 13 failed closed;
 see `phase12_package_a_validation.md`. Package B is also complete: six reusable-family sources
 were activated and eight candidates failed closed; see `phase12_package_b_validation.md`.
-Package C is now active.
+Package C is active. Its first cohort activated Amazon / AWS, Google, and Apple. Microsoft's custom
+adapter was implemented and validated in isolation, but the source remains disabled after the final
+production command hit the upstream rolling request quota; see
+`phase12_package_c_cohort1_validation.md`.
 
 ## Frozen baseline and accounting
 
