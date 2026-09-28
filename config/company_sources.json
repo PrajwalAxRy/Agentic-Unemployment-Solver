@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-b3",
+  "registry_version": "0.3.0-phase12-b4",
   "generated_at": "2026-09-28T12:00:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
@@ -9731,32 +9731,33 @@
       "schema_version": 1,
       "company_id": "groww",
       "company_name": "Groww",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://groww.sensehq.com/careers",
-      "adapter_type": "search_only",
+      "adapter_type": "sensehq",
       "adapter_parameters": {
-        "search_url": "https://groww.sensehq.com/careers"
+        "career_subdomain": "groww"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "created_on",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "SenseHQ exposes created_on epoch milliseconds; creation is retained as uncertain rather than treated as publication."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
+        "https://groww.in/careers",
         "https://groww.sensehq.com/careers",
-        "https://groww.sensehq.com/careers"
+        "https://groww.sensehq.com/careers/jobs/54777"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package B validated all 17 jobs using SenseHQ's count-checked page/pageSize contract. Sixteen carry full listing descriptions; one source-empty description remains visible and measurable.",
       "source_rank": 304,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T13:30:52+05:30"
     },
     {
       "schema_version": 1,

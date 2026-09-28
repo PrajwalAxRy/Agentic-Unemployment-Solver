@@ -12,8 +12,8 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 111
-    assert audit.by_status == {"enabled": 111, "proposed": 217, "unsupported": 2}
+    assert audit.enabled_count == 112
+    assert audit.by_status == {"enabled": 112, "proposed": 216, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 26,
         "custom": 1,
@@ -25,7 +25,8 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "lever": 12,
         "oracle_cloud": 3,
         "rippling": 1,
-        "search_only": 213,
+        "search_only": 212,
+        "sensehq": 1,
         "smartrecruiters": 4,
         "successfactors": 2,
         "unsupported": 2,
@@ -108,7 +109,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-b3"
+    assert registry.registry_version == "0.3.0-phase12-b4"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -171,6 +172,19 @@ def test_phase12_package_b_activates_sanas_rippling_with_uncertain_creation_date
     assert sanas.date_strategy.field_name == "createdOn"
     assert sanas.date_strategy.basis.value == "unknown"
     assert sanas.date_strategy.verified_as_publication is False
+
+
+def test_phase12_package_b_activates_groww_sensehq_with_uncertain_creation_date() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    groww = next(entry.source for entry in registry.entries if entry.source.company_id == "groww")
+
+    assert groww.enabled is True
+    assert groww.adapter_type.value == "sensehq"
+    assert groww.adapter_parameters == {"career_subdomain": "groww"}
+    assert groww.detail_strategy.value == "listing_payload"
+    assert groww.date_strategy.field_name == "created_on"
+    assert groww.date_strategy.basis.value == "unknown"
+    assert groww.date_strategy.verified_as_publication is False
 
 
 def test_cerebras_uses_case_sensitive_verified_ashby_board_name() -> None:
