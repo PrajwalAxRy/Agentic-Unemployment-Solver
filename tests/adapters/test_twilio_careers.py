@@ -128,9 +128,7 @@ def test_changed_total_duplicate_and_redirect_fail_closed() -> None:
     duplicate, _ = adapter_for([response("page1.json"), raw_response(page2)])
     assert duplicate.list_jobs(source()).outcome is AdapterOutcome.SUSPICIOUS
 
-    redirected, _ = adapter_for(
-        [response("page1.json", final_url="https://example.com/api/jobs")]
-    )
+    redirected, _ = adapter_for([response("page1.json", final_url="https://example.com/api/jobs")])
     assert redirected.list_jobs(source()).outcome is AdapterOutcome.FAILED
 
 

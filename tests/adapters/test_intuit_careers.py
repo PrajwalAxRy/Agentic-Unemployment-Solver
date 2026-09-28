@@ -123,9 +123,7 @@ def test_count_duplicate_and_redirect_fail_closed() -> None:
     duplicate, _ = adapter_for([raw_response(duplicate_document.encode())])
     assert duplicate.list_jobs(source()).outcome is AdapterOutcome.SUSPICIOUS
 
-    redirected, _ = adapter_for(
-        [response("page1.html", final_url="https://jobs.intuit.com/")]
-    )
+    redirected, _ = adapter_for([response("page1.html", final_url="https://jobs.intuit.com/")])
     assert redirected.list_jobs(source()).outcome is AdapterOutcome.FAILED
 
 
@@ -133,12 +131,8 @@ def test_detail_schema_and_source_configuration_are_strict() -> None:
     adapter, _ = adapter_for([response("page1.html")])
     job = adapter.list_jobs(source()).jobs[0]
     document = (FIXTURES / "detail.html").read_text(encoding="utf-8")
-    wrong_country = document.replace(
-        '"addressCountry":"India"', '"addressCountry":"US"'
-    )
-    broken, _ = adapter_for(
-        [raw_response(wrong_country.encode())]
-    )
+    wrong_country = document.replace('"addressCountry":"India"', '"addressCountry":"US"')
+    broken, _ = adapter_for([raw_response(wrong_country.encode())])
     with pytest.raises(ValueError, match="Bengaluru filter location"):
         broken.get_job_detail(source(), job)
 

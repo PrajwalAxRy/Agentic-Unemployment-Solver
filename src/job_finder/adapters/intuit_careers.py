@@ -382,9 +382,7 @@ def _detail_locations(value: object) -> list[str]:
 
 def _is_bengaluru_india(location: str) -> bool:
     normalized = _normalize_text(location)
-    return "india" in normalized and any(
-        city in normalized for city in ("bengaluru", "bangalore")
-    )
+    return "india" in normalized and any(city in normalized for city in ("bengaluru", "bangalore"))
 
 
 class _ListingParser(HTMLParser):
@@ -415,9 +413,7 @@ class _ListingParser(HTMLParser):
             if per_page != _PAGE_SIZE:
                 raise ValueError("Intuit records-per-page changed from 15.")
         elif tag == "input" and "pagination-current" in classes:
-            self.total_pages = _positive_text_int(
-                values.get("max"), "Intuit total pages"
-            )
+            self.total_pages = _positive_text_int(values.get("max"), "Intuit total pages")
         elif tag == "h1":
             self._heading_depth += 1
             self._heading_parts = []
@@ -479,9 +475,7 @@ def _listing_row(
 ) -> _ListingRow:
     if href is None or title is None:
         raise ValueError("Intuit listing row omitted its URL or title.")
-    canonical_url = (
-        href if href.startswith("https://") else f"https://{_HOST}{href}"
-    )
+    canonical_url = href if href.startswith("https://") else f"https://{_HOST}{href}"
     external_id = _external_id(canonical_url)
     if not title.strip() or not location.strip():
         raise ValueError("Intuit listing row omitted its title or location.")
@@ -593,11 +587,7 @@ def _optional_string(value: object) -> str | None:
 
 def _normalized_locations(value: str) -> tuple[str, ...]:
     return tuple(
-        dict.fromkeys(
-            _normalize_text(part)
-            for part in re.split(r"[,|;/]", value)
-            if part.strip()
-        )
+        dict.fromkeys(_normalize_text(part) for part in re.split(r"[,|;/]", value) if part.strip())
     )
 
 

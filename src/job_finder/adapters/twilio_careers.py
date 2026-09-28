@@ -254,9 +254,7 @@ class TwilioCareersAdapter:
         if public_url != job.canonical_url:
             raise ValueError("Twilio detail public URL did not match the listing.")
 
-        description = _plain_text(
-            _required_string(detail, "jobDescription", "Twilio detail")
-        )
+        description = _plain_text(_required_string(detail, "jobDescription", "Twilio detail"))
         if len(description) < 80:
             raise ValueError("Twilio detail description normalized to insufficient text.")
         published_raw, published_at = _published_date(detail.get("efcustomTextPostDate"))
@@ -308,16 +306,11 @@ def _validate_listing_job(source: CompanySource, job: NormalizedJob) -> None:
 
 
 def _search_url(start: int) -> str:
-    return (
-        f"{TWILIO_API_ROOT}/search?domain=twilio.com&query=&location=&start={start}&&hl=en"
-    )
+    return f"{TWILIO_API_ROOT}/search?domain=twilio.com&query=&location=&start={start}&&hl=en"
 
 
 def _detail_url(external_id: str) -> str:
-    return (
-        f"{TWILIO_API_ROOT}/position_details?position_id={external_id}"
-        "&domain=twilio.com&hl=en"
-    )
+    return f"{TWILIO_API_ROOT}/position_details?position_id={external_id}&domain=twilio.com&hl=en"
 
 
 def _canonical_url(external_id: str) -> str:
