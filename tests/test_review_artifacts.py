@@ -446,3 +446,26 @@ def test_phase12_package_c_cohort2_records_activation_and_failed_closed_evidence
     assert "`1c58608`" in review
     assert "`f667fc6`" in review
     assert "Packages D and E still require explicit approval" in review
+
+
+def test_phase12_package_c_cohort3_records_official_source_replacements() -> None:
+    review = Path("docs/reviews/phase12_package_c_cohort3_validation.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "2 official deterministic sources activated" in review
+    assert "D. E. Shaw India and Squarepoint Capital" in review
+    assert "separate 407-job\ninternal collection" in review
+    assert "`deshaw_india_index`" in review
+    assert "board token `squarepointcapital`" in review
+    assert "78 jobs, 1 page, 1 attempt" in review
+    assert "88 jobs, 1 page, 1 attempt" in review
+    assert "121 enabled and 209 disabled" in review
+    assert "203 remaining `search_only`" in review
+    assert "Workday's\npublic board changed during the run" in review
+    assert "117 successful, three verified empty, one suspicious" in review
+    assert "37,434 jobs across 932 pages" in review
+    assert "541 passed" in review
+    assert "`4066604`" in review
+    assert "`224052a`" in review
+    assert "Packages D and E still require explicit approval" in review
