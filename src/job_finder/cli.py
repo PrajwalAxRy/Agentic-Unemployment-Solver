@@ -40,6 +40,7 @@ from job_finder.adapters.sensehq import SenseHqAdapter
 from job_finder.adapters.smartrecruiters import SmartRecruitersAdapter
 from job_finder.adapters.stripe_careers import StripeCareersAdapter
 from job_finder.adapters.successfactors import SuccessFactorsAdapter
+from job_finder.adapters.swiggy_careers import SwiggyCareersAdapter
 from job_finder.adapters.workday import WorkdayAdapter
 from job_finder.core.company_registry import load_company_registry
 from job_finder.core.search_profile import load_search_profile
@@ -466,6 +467,7 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
                     PageUpXmlFeedAdapter(client),
                     QureCareersAdapter(client),
                     StripeCareersAdapter(client),
+                    SwiggyCareersAdapter(client),
                 ]
             ),
             AshbyAdapter(client),

@@ -1,0 +1,40 @@
+{
+  "hrXmlModel": null,
+  "requesterTitle": null,
+  "reqDetailsBOList": [
+    {
+      "reqId": 28894,
+      "reqTitle": "Sales Manager II",
+      "designation": "Sales Manager II",
+      "location": "Kolkata",
+      "locationAddress": "Kolkata",
+      "locationList": [{"address": "Kolkata", "office": "Kolkata"}],
+      "jdDisplay": "<div><h2>About the role</h2><p>Own local market growth, build durable restaurant partnerships, and use operational data to improve customer outcomes.</p><h2>What you will do</h2><ul><li>Lead territory planning and execution.</li><li>Work across product and operations teams.</li></ul></div>",
+      "approvedOn": "2026-09-09T04:43:38.697+0000",
+      "buName": "Food MarketPlace",
+      "careerStream": "Sales",
+      "employmentType": "full_time",
+      "expMin": 2.0,
+      "expMax": 4.0,
+      "statusId": 3,
+      "totalPositions": 1
+    },
+    {
+      "reqId": 28829,
+      "reqTitle": "Key Account Manager I",
+      "designation": "Key Account Manager I",
+      "location": "Bangalore",
+      "locationAddress": "Bangalore",
+      "locationList": [{"address": "Bangalore", "office": "Bangalore"}],
+      "jdDisplay": "<div><h2>Role purpose</h2><p>Manage strategic partner accounts and translate business opportunities into measurable, reliable marketplace improvements.</p><h2>Responsibilities</h2><p>Analyze performance, coordinate launches, and communicate clearly with internal and external stakeholders.</p></div>",
+      "approvedOn": "2026-09-08T11:20:15.120+0000",
+      "buName": "Swiggy Assure",
+      "careerStream": "Business",
+      "employmentType": "full_time",
+      "expMin": 1.0,
+      "expMax": 3.0,
+      "statusId": 3,
+      "totalPositions": 2
+    }
+  ]
+}
