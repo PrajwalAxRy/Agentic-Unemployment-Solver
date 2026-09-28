@@ -58,6 +58,7 @@ class AtomicworkWebflowAdapter:
     """Retrieve Atomicwork's official Webflow inventory and deferred job details."""
 
     adapter_type = AdapterType.CUSTOM
+    adapter_key = ATOMICWORK_ADAPTER_KEY
 
     def __init__(self, client: BoundedHttpClient | None = None) -> None:
         self._client = client or BoundedHttpClient()
