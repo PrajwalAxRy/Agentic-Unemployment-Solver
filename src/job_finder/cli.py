@@ -17,6 +17,7 @@ from job_finder.adapters.atomicwork import AtomicworkWebflowAdapter
 from job_finder.adapters.base import AdapterRegistry
 from job_finder.adapters.custom import CustomAdapterRouter
 from job_finder.adapters.darwinbox import DarwinboxAdapter
+from job_finder.adapters.deshaw_india import DeshawIndiaAdapter
 from job_finder.adapters.eightfold import EightfoldAdapter
 from job_finder.adapters.freshteam import FreshteamAdapter
 from job_finder.adapters.google_careers import GoogleCareersAdapter
@@ -448,6 +449,7 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
                     AmazonJobsAdapter(client),
                     AppleJobsAdapter(client),
                     AtomicworkWebflowAdapter(client),
+                    DeshawIndiaAdapter(client),
                     GoogleCareersAdapter(client),
                     MicrosoftCareersAdapter(client),
                     PageUpXmlFeedAdapter(client),
