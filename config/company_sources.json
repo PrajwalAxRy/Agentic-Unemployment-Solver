@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-c11",
-  "generated_at": "2026-09-29T02:25:55+05:30",
+  "registry_version": "0.3.0-phase12-c12",
+  "generated_at": "2026-09-29T03:54:43+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -1793,32 +1793,33 @@
       "schema_version": 1,
       "company_id": "intuit",
       "company_name": "Intuit",
-      "status": "proposed",
-      "careers_url": "https://www.intuit.com/in/careers/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://jobs.intuit.com/location/bengaluru-jobs/27595/1269750-1267701-1277333/4",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://www.intuit.com/in/careers/"
+        "adapter_key": "intuit_bengaluru_pages"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "JobPosting.datePosted",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "The public detail JSON-LD datePosted field is verified publication evidence."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://www.intuit.com/in/careers/",
-        "https://www.intuit.com/in/careers/"
+        "https://jobs.intuit.com/location/bengaluru-jobs/27595/1269750-1267701-1277333/4",
+        "https://jobs.intuit.com/job/bengaluru/sr-staff-software-engineer/27595/101248711776"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package C cohort 6 validated the official 29-job Bengaluru facet over two count-reconciled pages; the facet preserves India eligibility for rows displayed as Multiple Locations, and three representative JobPosting details passed.",
       "source_rank": 56,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T03:54:43+05:30"
     },
     {
       "schema_version": 1,
@@ -2124,33 +2125,33 @@
       "schema_version": 1,
       "company_id": "twilio",
       "company_name": "Twilio",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.twilio.com/careers?domain=twilio.com&hl=en",
-      "adapter_type": "search_only",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://jobs.twilio.com/careers?domain=twilio.com&hl=en"
+        "adapter_key": "twilio_public_careers_api"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "efcustomTextPostDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "The branded careers UI labels this detail field Date posted."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://jobs.twilio.com/careers?domain=twilio.com&hl=en",
-        "https://jobs.twilio.com/careers?domain=twilio.com&hl=en",
-        "https://jobs.twilio.com/careers?domain=twilio.com&hl=en"
+        "https://jobs.twilio.com/api/pcsx/search?domain=twilio.com&query=&location=&start=0&&hl=en",
+        "https://jobs.twilio.com/api/pcsx/position_details?position_id=1099556260796&domain=twilio.com&hl=en"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package C cohort 6 validated all 131 public jobs over 14 count-reconciled API pages and three distributed details with full descriptions and visible publication dates.",
       "source_rank": 66,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T03:54:43+05:30"
     },
     {
       "schema_version": 1,
@@ -2344,11 +2345,11 @@
         "https://www.weareroku.com/bengaluru"
       ],
       "low_confidence_approved": false,
-      "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "exception_reason": "The official global inventory is count-reconciled, but public detail pages require an AWS WAF browser challenge; the listing pages contain no full descriptions, so the source remains disabled under the no-bypass policy.",
+      "notes": "Phase 12 Package C cohort 6 verified 242 listings over nine server-rendered pages and 29 Bengaluru listings, then failed closed when bounded detail retrieval encountered the site's access-control challenge.",
       "source_rank": 72,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T03:54:43+05:30"
     },
     {
       "schema_version": 1,
@@ -2417,63 +2418,65 @@
       "schema_version": 1,
       "company_id": "meesho",
       "company_name": "Meesho",
-      "status": "proposed",
-      "careers_url": "https://www.meesho.io/jobs?i=true",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://jobs.lever.co/meesho",
+      "adapter_type": "lever",
       "adapter_parameters": {
-        "search_url": "https://www.meesho.io/jobs?i=true"
+        "site": "meesho"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "createdAt",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Lever createdAt is retained as uncertain creation evidence."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://www.meesho.io/jobs?i=true",
-        "https://www.meesho.io/jobs?i=true"
+        "https://jobs.lever.co/meesho",
+        "https://api.lever.co/v0/postings/meesho?mode=json&skip=0&limit=100"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package C cohort 6 confirmed that Meesho's official page uses the public Lever board; all 56 jobs passed with full descriptions and locations.",
       "source_rank": 75,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T03:54:43+05:30"
     },
     {
       "schema_version": 1,
       "company_id": "phonepe",
       "company_name": "PhonePe",
-      "status": "proposed",
-      "careers_url": "https://www.phonepe.com/careers/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://jobs.smartrecruiters.com/PHONEPELIMITED",
+      "adapter_type": "smartrecruiters",
       "adapter_parameters": {
-        "search_url": "https://www.phonepe.com/careers/"
+        "company_identifier": "PHONEPELIMITED"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "releasedDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "SmartRecruiters releasedDate is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.phonepe.com/careers/",
-        "https://www.phonepe.com/careers/"
+        "https://www.phonepe.com/careers/job-openings/",
+        "https://jobs.smartrecruiters.com/PHONEPELIMITED",
+        "https://api.smartrecruiters.com/v1/companies/PHONEPELIMITED/postings"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package C cohort 6 confirmed PhonePe's official openings page links the public SmartRecruiters board; all 85 jobs and three representative full details passed.",
       "source_rank": 76,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T03:54:43+05:30"
     },
     {
       "schema_version": 1,
@@ -2513,32 +2516,33 @@
       "schema_version": 1,
       "company_id": "swiggy",
       "company_name": "Swiggy",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://careers.swiggy.com/",
-      "adapter_type": "search_only",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://careers.swiggy.com/"
+        "adapter_key": "swiggy_mynexthire_inventory"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "approvedOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "MyNextHire requisition approval time is not verified publication evidence."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://careers.swiggy.com/",
-        "https://careers.swiggy.com/"
+        "https://swiggy.mynexthire.com/employer/jobs/careers",
+        "https://swiggy.mynexthire.com/employer/careers/reqlist/get"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package C cohort 6 validated the complete 84-job public MyNextHire collection, browser-proven canonical requisition routes, and all inline descriptions; one terse official description remains visible and measured.",
       "source_rank": 78,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T03:54:43+05:30"
     },
     {
       "schema_version": 1,
@@ -2935,32 +2939,34 @@
       "schema_version": 1,
       "company_id": "tower-research-capital",
       "company_name": "Tower Research Capital",
-      "status": "proposed",
-      "careers_url": "https://tower-research.com/careers/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://job-boards.greenhouse.io/towerresearchcapital",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://tower-research.com/careers/"
+        "board_token": "towerresearchcapital"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://tower-research.com/careers/",
-        "https://tower-research.com/careers/"
+        "https://tower-research.com/roles/",
+        "https://job-boards.greenhouse.io/towerresearchcapital",
+        "https://boards-api.greenhouse.io/v1/boards/towerresearchcapital/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package C cohort 6 confirmed the official roles page embeds Tower's public Greenhouse board; all 91 jobs passed with full descriptions, with two explicit updated-date fallbacks.",
       "source_rank": 91,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T03:54:43+05:30"
     },
     {
       "schema_version": 1,

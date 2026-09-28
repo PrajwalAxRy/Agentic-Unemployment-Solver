@@ -12,23 +12,23 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 129
-    assert audit.by_status == {"enabled": 129, "proposed": 199, "unsupported": 2}
+    assert audit.enabled_count == 135
+    assert audit.by_status == {"enabled": 135, "proposed": 193, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 27,
-        "custom": 14,
+        "custom": 17,
         "darwinbox": 4,
         "eightfold": 1,
         "freshteam": 2,
-        "greenhouse": 35,
+        "greenhouse": 36,
         "jobvite": 1,
-        "lever": 12,
+        "lever": 13,
         "oracle_cloud": 3,
         "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 195,
+        "search_only": 189,
         "sensehq": 1,
-        "smartrecruiters": 4,
+        "smartrecruiters": 5,
         "successfactors": 2,
         "unsupported": 2,
         "unresolved": 4,
@@ -110,7 +110,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-c11"
+    assert registry.registry_version == "0.3.0-phase12-c12"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -302,6 +302,62 @@ def test_phase12_package_c_fifth_cohort_activates_validated_p1_sources() -> None
     assert linkedin.enabled is False
     assert linkedin.adapter_type.value == "search_only"
     assert linkedin.exception_reason is not None
+
+
+def test_phase12_package_c_sixth_cohort_activates_six_validated_p1_sources() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    sources = {entry.source.company_id: entry.source for entry in registry.entries}
+
+    intuit = sources["intuit"]
+    assert intuit.enabled is True
+    assert intuit.adapter_type.value == "custom"
+    assert intuit.adapter_parameters == {"adapter_key": "intuit_bengaluru_pages"}
+    assert intuit.date_strategy.field_name == "JobPosting.datePosted"
+    assert intuit.date_strategy.verified_as_publication is True
+    assert intuit.detail_strategy.value == "detail_page"
+
+    twilio = sources["twilio"]
+    assert twilio.enabled is True
+    assert twilio.adapter_type.value == "custom"
+    assert twilio.adapter_parameters == {"adapter_key": "twilio_public_careers_api"}
+    assert twilio.date_strategy.field_name == "efcustomTextPostDate"
+    assert twilio.date_strategy.verified_as_publication is True
+    assert twilio.detail_strategy.value == "detail_endpoint"
+
+    meesho = sources["meesho"]
+    assert meesho.enabled is True
+    assert meesho.adapter_type.value == "lever"
+    assert meesho.adapter_parameters == {"site": "meesho"}
+    assert meesho.date_strategy.field_name == "createdAt"
+    assert meesho.date_strategy.basis.value == "unknown"
+
+    phonepe = sources["phonepe"]
+    assert phonepe.enabled is True
+    assert phonepe.adapter_type.value == "smartrecruiters"
+    assert phonepe.adapter_parameters == {"company_identifier": "PHONEPELIMITED"}
+    assert phonepe.date_strategy.field_name == "releasedDate"
+    assert phonepe.detail_strategy.value == "detail_endpoint"
+
+    swiggy = sources["swiggy"]
+    assert swiggy.enabled is True
+    assert swiggy.adapter_type.value == "custom"
+    assert swiggy.adapter_parameters == {"adapter_key": "swiggy_mynexthire_inventory"}
+    assert swiggy.date_strategy.field_name == "approvedOn"
+    assert swiggy.date_strategy.basis.value == "unknown"
+    assert swiggy.detail_strategy.value == "listing_payload"
+
+    tower = sources["tower-research-capital"]
+    assert tower.enabled is True
+    assert tower.adapter_type.value == "greenhouse"
+    assert tower.adapter_parameters == {"board_token": "towerresearchcapital"}
+    assert tower.date_strategy.field_name == "first_published"
+    assert tower.detail_strategy.value == "listing_payload"
+
+    roku = sources["roku"]
+    assert roku.enabled is False
+    assert roku.adapter_type.value == "search_only"
+    assert roku.exception_reason is not None
+    assert "AWS WAF" in roku.exception_reason
 
 
 def test_phase12_package_b_corrects_payu_to_its_official_successfactors_board() -> None:
