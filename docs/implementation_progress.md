@@ -10,17 +10,27 @@
   closed. Package B is complete: six candidates passed and were activated; eight failed closed.
   Package C cohort 1 is complete: Amazon / AWS, Google, and Apple were activated; Microsoft's
   adapter was implemented but the source failed closed on the production rate-limit gate. Package
-  C continues P1/P2 before P3. Packages D and E remain unapproved.
+  C cohort 2 is also complete: Stripe, ServiceNow, and Coupang were activated, while Flipkart
+  failed closed because its official jobs page exposes no deterministic inventory contract.
+  Package C continues P1/P2 before P3. Packages D and E remain unapproved.
 - Pending human checkpoint: none for the approved Package A/B/C implementation work. Any Package D
   endpoint-replay activation or Package E empty/manual/identity/LLM-fallback work requires a later
   explicit approval.
-- Active review artifact: `docs/reviews/phase12_package_c_cohort1_validation.md`.
+- Active review artifact: `docs/reviews/phase12_package_c_cohort2_validation.md`.
 - Company ledger: `docs/reviews/phase12_search_only_company_dossiers.md` (238/238 accounted).
-- The 116 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
-  including 214 disabled backlog or unsupported records.
+- The 119 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
+  including 211 disabled backlog or unsupported records.
 
 ## Completed gates
 
+- Phase 12 Package C cohort 2 assessed Stripe, ServiceNow, Coupang, and Flipkart. Stripe's complete
+  server-rendered index and deferred public details passed; ServiceNow and Coupang activated through
+  a new shared same-host PageUp XML adapter; and Flipkart failed closed because the rendered page
+  exposes neither usable job links nor a machine-readable inventory. Targeted production gates
+  passed in one attempt with 653, 685, and 702 jobs and zero missing fields. The all-enabled sweep
+  covered 119 sources and 37,260 jobs across 929 pages: 115 successful, three verified empty, the
+  known Quantbox anomaly, and no failed, blocked, or partial source. The complete suite passed with
+  535 tests.
 - Phase 12 Package C cohort 1 assessed Amazon / AWS, Google, Apple, and Microsoft. Amazon / AWS,
   Google, and Apple passed independent public replay, fixture, pagination, detail, date-evidence,
   focused, full-registry, and repository gates and were activated. Their current all-enabled counts
@@ -637,6 +647,10 @@
   `docs/reviews/phase11_h13_release_readiness.md`
 - Phase 12 Package A validation: `docs/reviews/phase12_package_a_validation.md`
 - Phase 12 Package B validation: `docs/reviews/phase12_package_b_validation.md`
+- Phase 12 Package C cohort 1 validation:
+  `docs/reviews/phase12_package_c_cohort1_validation.md`
+- Phase 12 Package C cohort 2 validation:
+  `docs/reviews/phase12_package_c_cohort2_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -673,8 +687,9 @@
 - Seventeen Bank of America multi-location candidates could not retrieve their public Workday
   details during the Phase 6 scan and remain explicit H6 location-review rows. Two SAP detail-date
   fetches failed and remain explicit uncertain-date candidates under the approved hybrid policy.
-- 211 records remain `search_only`. Phase 12 Packages A and B removed 27 live-validated mappings;
-  their 21 failed candidates remain in this count pending approved Package C handling or a later
+- 205 records remain `search_only`. Phase 12 Packages A, B, and the first two Package C cohorts
+  removed 33 live-validated mappings: 21 in Package A, six in Package B, and six in Package C.
+  Failed candidates remain in this count pending later approved deterministic handling or a
   Package D/E decision.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
   official careers pages as manual fallbacks.
@@ -697,7 +712,8 @@
 
 ## Resume point
 
-The first release is complete. Future work begins from the explicitly deferred post-release scope:
-scheduling, notifications, add-company workflow, lifecycle tracking, automatic-repair maturity,
-and additional source coverage. Preserve the released `v0.1.0` behavior and follow the phased
-checkpoint protocol for any scope expansion.
+The first release remains complete. Continue the explicitly approved Package C P1/P2
+deterministic custom-source backlog from
+`docs/reviews/phase12_package_c_cohort2_validation.md`. Packages D and E remain unapproved.
+Preserve the released `v0.1.0` behavior and follow the phased checkpoint protocol for any further
+scope expansion.

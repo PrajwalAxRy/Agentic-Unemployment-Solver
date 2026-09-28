@@ -423,3 +423,26 @@ def test_phase11_h13_review_records_complete_release_evidence() -> None:
     assert "complete pytest suite: 478 passed" in review
     assert "clean Git status at the H13 handoff" in review
     assert "Phase 11 and the first release are complete" in review
+
+
+def test_phase12_package_c_cohort2_records_activation_and_failed_closed_evidence() -> None:
+    review = Path("docs/reviews/phase12_package_c_cohort2_validation.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "3 deterministic custom sources activated; 1 candidate failed closed" in review
+    assert "Stripe, ServiceNow, and Coupang" in review
+    assert "Flipkart remains disabled" in review
+    assert "`pageup_xml_feed`" in review
+    assert "`stripe_careers_index`" in review
+    assert "percent-encoded Korean Coupang slug" in review
+    assert "unapproved redirect regression" in review
+    assert "119 enabled and 211 disabled" in review
+    assert "205 remaining `search_only`" in review
+    assert "37,260 jobs across 929 pages" in review
+    assert "115 sources\nsucceeded, three were verified empty, and one was suspicious" in review
+    assert "no failed, blocked, or\npartial sources" in review
+    assert "535 passed" in review
+    assert "`1c58608`" in review
+    assert "`f667fc6`" in review
+    assert "Packages D and E still require explicit approval" in review
