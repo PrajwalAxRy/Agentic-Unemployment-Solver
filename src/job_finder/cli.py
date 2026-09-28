@@ -26,10 +26,12 @@ from job_finder.adapters.jobvite import JobviteAdapter
 from job_finder.adapters.lever import LeverAdapter
 from job_finder.adapters.microsoft_careers import MicrosoftCareersAdapter
 from job_finder.adapters.oracle_cloud import OracleCloudAdapter
+from job_finder.adapters.pageup_xml_feed import PageUpXmlFeedAdapter
 from job_finder.adapters.recruiterflow import RecruiterflowAdapter
 from job_finder.adapters.rippling import RipplingAdapter
 from job_finder.adapters.sensehq import SenseHqAdapter
 from job_finder.adapters.smartrecruiters import SmartRecruitersAdapter
+from job_finder.adapters.stripe_careers import StripeCareersAdapter
 from job_finder.adapters.successfactors import SuccessFactorsAdapter
 from job_finder.adapters.workday import WorkdayAdapter
 from job_finder.core.company_registry import load_company_registry
@@ -448,6 +450,8 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
                     AtomicworkWebflowAdapter(client),
                     GoogleCareersAdapter(client),
                     MicrosoftCareersAdapter(client),
+                    PageUpXmlFeedAdapter(client),
+                    StripeCareersAdapter(client),
                 ]
             ),
             AshbyAdapter(client),
