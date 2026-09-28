@@ -12,27 +12,27 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 135
-    assert audit.by_status == {"enabled": 135, "proposed": 193, "unsupported": 2}
+    assert audit.enabled_count == 143
+    assert audit.by_status == {"enabled": 143, "proposed": 185, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 27,
-        "custom": 17,
+        "custom": 20,
         "darwinbox": 4,
         "eightfold": 1,
         "freshteam": 2,
-        "greenhouse": 36,
+        "greenhouse": 39,
         "jobvite": 1,
         "lever": 13,
         "oracle_cloud": 3,
         "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 189,
+        "search_only": 181,
         "sensehq": 1,
         "smartrecruiters": 5,
         "successfactors": 2,
         "unsupported": 2,
         "unresolved": 4,
-        "workday": 21,
+        "workday": 23,
     }
 
 
@@ -110,7 +110,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-c12"
+    assert registry.registry_version == "0.3.0-phase12-c16"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -119,7 +119,6 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         assert source.adapter_parameters == parameters
 
     for company_id in (
-        "salesforce",
         "qualcomm",
         "navan",
         "opendoor",
@@ -358,6 +357,77 @@ def test_phase12_package_c_sixth_cohort_activates_six_validated_p1_sources() -> 
     assert roku.adapter_type.value == "search_only"
     assert roku.exception_reason is not None
     assert "AWS WAF" in roku.exception_reason
+
+
+def test_phase12_package_c_seventh_cohort_activates_eight_verified_sources() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    sources = {entry.source.company_id: entry.source for entry in registry.entries}
+
+    for company_id, board_token in (
+        ("moloco", "moloco"),
+        ("inmobi", "inmobi"),
+        ("truefoundry", "truefoundry"),
+    ):
+        source = sources[company_id]
+        assert source.enabled is True
+        assert source.status.value == "enabled"
+        assert source.adapter_type.value == "greenhouse"
+        assert source.adapter_parameters == {"board_token": board_token}
+        assert source.identity_strategy.value == "external_id"
+        assert source.date_strategy.field_name == "first_published"
+        assert source.date_strategy.verified_as_publication is True
+        assert source.detail_strategy.value == "listing_payload"
+
+    for company_id, host, tenant, site in (
+        (
+            "salesforce",
+            "salesforce.wd12.myworkdayjobs.com",
+            "salesforce",
+            "External_Career_Site",
+        ),
+        ("postman", "postman.wd108.myworkdayjobs.com", "postman", "careers"),
+    ):
+        source = sources[company_id]
+        assert source.enabled is True
+        assert source.status.value == "enabled"
+        assert source.adapter_type.value == "workday"
+        assert source.adapter_parameters == {"host": host, "tenant": tenant, "site": site}
+        assert source.identity_strategy.value == "external_id"
+        assert source.date_strategy.field_name == "postedOn"
+        assert source.date_strategy.basis.value == "unknown"
+        assert source.date_strategy.verified_as_publication is False
+        assert source.detail_strategy.value == "detail_endpoint"
+
+    booking = sources["booking-com"]
+    assert booking.enabled is True
+    assert booking.status.value == "enabled"
+    assert booking.careers_url == "https://jobs.booking.com/booking/jobs"
+    assert booking.adapter_type.value == "custom"
+    assert booking.adapter_parameters == {"adapter_key": "booking_jibe_inventory"}
+    assert booking.identity_strategy.value == "external_id"
+    assert booking.date_strategy.field_name == "posted_date"
+    assert booking.date_strategy.basis.value == "published"
+    assert booking.date_strategy.verified_as_publication is True
+    assert booking.detail_strategy.value == "listing_payload"
+
+    navi = sources["navi"]
+    assert navi.enabled is True
+    assert navi.careers_url == "https://navi.com/careers/jobs"
+    assert navi.adapter_type.value == "custom"
+    assert navi.adapter_parameters == {"adapter_key": "navi_public_careers_api"}
+    assert navi.date_strategy.field_name == "PublishedDate"
+    assert navi.date_strategy.verified_as_publication is True
+    assert navi.detail_strategy.value == "listing_payload"
+
+    quadeye = sources["quadeye"]
+    assert quadeye.enabled is True
+    assert quadeye.careers_url == "https://www.quadeye.com/jobs"
+    assert quadeye.adapter_type.value == "custom"
+    assert quadeye.adapter_parameters == {"adapter_key": "quadeye_zoho_proxy"}
+    assert quadeye.date_strategy.field_name == "Date_Opened"
+    assert quadeye.date_strategy.basis.value == "unknown"
+    assert quadeye.date_strategy.verified_as_publication is False
+    assert quadeye.detail_strategy.value == "listing_payload"
 
 
 def test_phase12_package_b_corrects_payu_to_its_official_successfactors_board() -> None:

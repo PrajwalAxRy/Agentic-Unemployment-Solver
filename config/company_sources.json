@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-c12",
-  "generated_at": "2026-09-29T03:54:43+05:30",
+  "registry_version": "0.3.0-phase12-c16",
+  "generated_at": "2026-09-29T11:15:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -370,63 +370,67 @@
       "schema_version": 1,
       "company_id": "moloco",
       "company_name": "Moloco",
-      "status": "proposed",
-      "careers_url": "https://www.moloco.com/company/careers",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://job-boards.greenhouse.io/moloco",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.moloco.com/company/careers"
+        "board_token": "moloco"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is preferred; missing values retain explicit updated-date fallback evidence."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://www.moloco.com/company/careers",
-        "https://www.moloco.com/company/careers"
+        "https://job-boards.greenhouse.io/moloco",
+        "https://boards-api.greenhouse.io/v1/boards/moloco/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 browser discovery found Moloco's official careers page linked to its public Greenhouse board; the complete API returned 39 jobs in the pre-activation gate.",
       "source_rank": 12,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T09:20:00+05:30"
     },
     {
       "schema_version": 1,
       "company_id": "postman",
       "company_name": "Postman",
-      "status": "proposed",
-      "careers_url": "https://www.postman.com/company/careers/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://postman.wd108.myworkdayjobs.com/careers",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://www.postman.com/company/careers/"
+        "host": "postman.wd108.myworkdayjobs.com",
+        "tenant": "postman",
+        "site": "careers"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Relative Workday postedOn labels remain uncertain under the approved hybrid date policy."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://www.postman.com/company/careers/",
-        "https://www.postman.com/company/careers/"
+        "https://postman.wd108.myworkdayjobs.com/careers",
+        "https://postman.wd108.myworkdayjobs.com/wday/cxs/postman/careers/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 browser discovery proved Postman's official open-positions page links to this Workday board; the complete API and three representative details passed live validation.",
       "source_rank": 13,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T09:20:00+05:30"
     },
     {
       "schema_version": 1,
@@ -774,32 +778,33 @@
       "schema_version": 1,
       "company_id": "inmobi",
       "company_name": "InMobi",
-      "status": "proposed",
-      "careers_url": "https://www.inmobi.com/company/careers",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://job-boards.greenhouse.io/inmobi",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.inmobi.com/company/careers"
+        "board_token": "inmobi"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is preferred; missing values retain explicit updated-date fallback evidence."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://www.inmobi.com/company/careers",
-        "https://www.inmobi.com/company/careers"
+        "https://job-boards.greenhouse.io/inmobi",
+        "https://boards-api.greenhouse.io/v1/boards/inmobi/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 browser discovery tied InMobi's official openings to the public InMobi Greenhouse board; its complete API returned 72 jobs in the pre-activation gate.",
       "source_rank": 25,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T09:20:00+05:30"
     },
     {
       "schema_version": 1,
@@ -1564,33 +1569,34 @@
       "schema_version": 1,
       "company_id": "truefoundry",
       "company_name": "TrueFoundry",
-      "status": "proposed",
-      "careers_url": "https://www.truefoundry.com/careers",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://app.careerpuck.com/job-board/truefoundry",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://www.truefoundry.com/careers"
+        "board_token": "truefoundry"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is preferred; missing values retain explicit updated-date fallback evidence."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://www.truefoundry.com/careers",
-        "https://www.truefoundry.com/careers",
-        "https://www.truefoundry.com/careers"
+        "https://app.careerpuck.com/job-board/truefoundry",
+        "https://api.careerpuck.com/v1/public/job-boards/truefoundry",
+        "https://boards-api.greenhouse.io/v1/boards/truefoundry/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "TrueFoundry's official careers page links its CareerPuck board; CareerPuck identifies Greenhouse as the ATS and the direct complete Greenhouse API returned the same 23 public jobs.",
       "source_rank": 49,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T09:40:00+05:30"
     },
     {
       "schema_version": 1,
@@ -1856,34 +1862,35 @@
       "schema_version": 1,
       "company_id": "salesforce",
       "company_name": "Salesforce",
-      "status": "proposed",
-      "careers_url": "https://www.salesforce.com/company/careers/locations/japac/japan/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://salesforce.wd12.myworkdayjobs.com/External_Career_Site",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://www.salesforce.com/company/careers/locations/japac/japan/"
+        "host": "salesforce.wd12.myworkdayjobs.com",
+        "tenant": "salesforce",
+        "site": "External_Career_Site"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Relative Workday postedOn labels remain uncertain under the approved hybrid date policy."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "low",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://careers.salesforce.com/en/our-locations/asia-pacific/india/",
-        "https://www.salesforce.com/company/careers/locations/japac/japan/",
-        "https://careers.salesforce.com/en/our-locations/asia-pacific/india/",
-        "https://www.salesforce.com/company/careers/locations/japac/japan/"
+        "https://salesforce.wd12.myworkdayjobs.com/External_Career_Site",
+        "https://salesforce.wd12.myworkdayjobs.com/wday/cxs/salesforce/External_Career_Site/jobs"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Official India careers URL redirected the bounded probe to a Japan page; India inventory remains unverified.",
-      "notes": "Automated quality audit rejected this source for enablement.",
+      "exception_reason": null,
+      "notes": "Phase 12 browser rediscovery replaced the stale Japan redirect with Salesforce's official public Workday board; the complete API and representative details passed live validation.",
       "source_rank": 58,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-29T09:20:00+05:30"
     },
     {
       "schema_version": 1,
@@ -1992,33 +1999,33 @@
       "schema_version": 1,
       "company_id": "booking-com",
       "company_name": "Booking.com",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://jobs.booking.com/booking/jobs",
-      "adapter_type": "search_only",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://jobs.booking.com/booking/jobs"
+        "adapter_key": "booking_jibe_inventory"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "posted_date",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "The public Jibe response's posted_date matches its underlying iCIMS primary posted-site date."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://jobs.booking.com/",
         "https://jobs.booking.com/booking/jobs",
-        "https://jobs.booking.com/booking/jobs"
+        "https://jobs.booking.com/api/jobs?page=1&sortBy=relevance&descending=false&internal=false&tags1=Booking.com%20Company%20Hierarchy%7CTransport%20Company%20Hierarchy"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 browser discovery and cookie-free replay proved the public Jibe API, company hierarchy filter, exact totals, bounded pagination, inline descriptions, canonical URLs, and publication timestamps.",
       "source_rank": 62,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T10:15:00+05:30"
     },
     {
       "schema_version": 1,
@@ -2842,32 +2849,33 @@
       "schema_version": 1,
       "company_id": "quadeye",
       "company_name": "Quadeye",
-      "status": "proposed",
-      "careers_url": "https://www.quadeye.com/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://www.quadeye.com/jobs",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://www.quadeye.com/"
+        "adapter_key": "quadeye_zoho_proxy"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "Date_Opened",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Zoho Recruit Date_Opened is retained as uncertain evidence and is not promoted to a publication date."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "low",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://www.quadeye.com/",
-        "https://www.quadeye.com/"
+        "https://www.quadeye.com/jobs",
+        "https://www.quadeye.com/api/zoho-recruit/job-openings"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Company homepage does not expose a verified enumerable careers source.",
-      "notes": "Automated quality audit rejected this source for enablement.",
+      "exception_reason": null,
+      "notes": "Phase 12 browser discovery proved Quadeye's official jobs page is rendered from its same-origin public Zoho Recruit proxy; all active published records include stable IDs, locations, descriptions, and browser-matching detail routes.",
       "source_rank": 88,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-29T11:15:00+05:30"
     },
     {
       "schema_version": 1,
@@ -3068,32 +3076,33 @@
       "schema_version": 1,
       "company_id": "navi",
       "company_name": "Navi",
-      "status": "proposed",
-      "careers_url": "https://navi.com/careers",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://navi.com/careers/jobs",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://navi.com/careers"
+        "adapter_key": "navi_public_careers_api"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "PublishedDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "The official Navi careers API explicitly labels this timestamp PublishedDate."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://navi.com/careers",
-        "https://navi.com/careers"
+        "https://navi.com/careers/jobs",
+        "https://navi.com/api/careers/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 browser discovery and independent replay proved Navi's official count-reconciled public API, stable UUIDs, TurboHire detail URLs, locations, inline descriptions, and publication timestamps.",
       "source_rank": 95,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T10:45:00+05:30"
     },
     {
       "schema_version": 1,

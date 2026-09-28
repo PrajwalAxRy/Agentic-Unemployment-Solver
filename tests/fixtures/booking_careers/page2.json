@@ -1,0 +1,26 @@
+{
+  "totalCount": 11,
+  "count": 11,
+  "jobs": [
+    {
+      "data": {
+        "slug": "30011",
+        "req_id": "30011",
+        "client_code": "workingatbooking",
+        "title": "Site Reliability Engineer",
+        "description": "<p>Improve the reliability of global travel services.</p>",
+        "full_location": "Bengaluru, India",
+        "posted_date": "2026-09-18T08:00:00+05:30",
+        "apply_url": "https://external-workingatbooking.icims.com/jobs/30011/login",
+        "internal": false,
+        "searchable": true,
+        "department": "Engineering",
+        "category": ["Engineering"],
+        "employment_type": "Full-time",
+        "meta_data": {
+          "canonical_url": "https://jobs.booking.com/booking/jobs/30011?lang=en-us"
+        }
+      }
+    }
+  ]
+}

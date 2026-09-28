@@ -1,0 +1,206 @@
+{
+  "totalCount": 11,
+  "count": 11,
+  "jobs": [
+    {
+      "data": {
+        "slug": "30001",
+        "req_id": "30001",
+        "client_code": "workingatbooking",
+        "title": "Machine Learning Engineer",
+        "description": "<p>Build production machine-learning systems.</p><ul><li>Train models.</li><li>Evaluate reliability.</li></ul>",
+        "full_location": "Bengaluru, India",
+        "posted_date": "2026-09-28T10:00:00+05:30",
+        "apply_url": "https://external-workingatbooking.icims.com/jobs/30001/login",
+        "internal": false,
+        "searchable": true,
+        "department": "Engineering",
+        "category": ["Engineering", "Data Science"],
+        "employment_type": "Full-time",
+        "meta_data": {
+          "canonical_url": "https://jobs.booking.com/booking/jobs/30001?lang=en-us"
+        }
+      }
+    },
+    {
+      "data": {
+        "slug": "30002",
+        "req_id": "30002",
+        "client_code": "workingatbooking",
+        "title": "Data Engineer",
+        "description": "<p>Build reliable data products.</p>",
+        "full_location": "Amsterdam, Netherlands",
+        "posted_date": "2026-09-27T09:00:00+02:00",
+        "apply_url": "https://external-workingatbooking.icims.com/jobs/30002/login",
+        "internal": false,
+        "searchable": true,
+        "department": "Engineering",
+        "category": ["Engineering"],
+        "employment_type": "Full-time",
+        "meta_data": {
+          "canonical_url": "https://jobs.booking.com/booking/jobs/30002?lang=en-us"
+        }
+      }
+    },
+    {
+      "data": {
+        "slug": "30003",
+        "req_id": "30003",
+        "client_code": "workingatbooking",
+        "title": "Software Engineer",
+        "description": "<p>Develop customer-facing services.</p>",
+        "full_location": "London, United Kingdom",
+        "posted_date": "2026-09-26T08:00:00+01:00",
+        "apply_url": "https://external-workingatbooking.icims.com/jobs/30003/login",
+        "internal": false,
+        "searchable": true,
+        "department": "Engineering",
+        "category": ["Engineering"],
+        "employment_type": "Full-time",
+        "meta_data": {
+          "canonical_url": "https://jobs.booking.com/booking/jobs/30003?lang=en-us"
+        }
+      }
+    },
+    {
+      "data": {
+        "slug": "30004",
+        "req_id": "30004",
+        "client_code": "workingatbooking",
+        "title": "Product Manager",
+        "description": "<p>Lead a travel platform product.</p>",
+        "full_location": "Amsterdam, Netherlands",
+        "posted_date": "2026-09-25T08:00:00+02:00",
+        "apply_url": "https://external-workingatbooking.icims.com/jobs/30004/login",
+        "internal": false,
+        "searchable": true,
+        "department": "Product",
+        "category": ["Product"],
+        "employment_type": "Full-time",
+        "meta_data": {
+          "canonical_url": "https://jobs.booking.com/booking/jobs/30004?lang=en-us"
+        }
+      }
+    },
+    {
+      "data": {
+        "slug": "30005",
+        "req_id": "30005",
+        "client_code": "workingatbooking",
+        "title": "Security Engineer",
+        "description": "<p>Secure distributed travel systems.</p>",
+        "full_location": "Manchester, United Kingdom",
+        "posted_date": "2026-09-24T08:00:00+01:00",
+        "apply_url": "https://external-workingatbooking.icims.com/jobs/30005/login",
+        "internal": false,
+        "searchable": true,
+        "department": "Security",
+        "category": ["Engineering"],
+        "employment_type": "Full-time",
+        "meta_data": {
+          "canonical_url": "https://jobs.booking.com/booking/jobs/30005?lang=en-us"
+        }
+      }
+    },
+    {
+      "data": {
+        "slug": "30006",
+        "req_id": "30006",
+        "client_code": "workingatbooking",
+        "title": "Analytics Engineer",
+        "description": "<p>Build trusted analytics datasets.</p>",
+        "full_location": "Bengaluru, India",
+        "posted_date": "2026-09-23T08:00:00+05:30",
+        "apply_url": "https://external-workingatbooking.icims.com/jobs/30006/login",
+        "internal": false,
+        "searchable": true,
+        "department": "Data",
+        "category": ["Data Science"],
+        "employment_type": "Full-time",
+        "meta_data": {
+          "canonical_url": "https://jobs.booking.com/booking/jobs/30006?lang=en-us"
+        }
+      }
+    },
+    {
+      "data": {
+        "slug": "30007",
+        "req_id": "30007",
+        "client_code": "workingatbooking",
+        "title": "Engineering Manager",
+        "description": "<p>Lead a platform engineering team.</p>",
+        "full_location": "Amsterdam, Netherlands",
+        "posted_date": "2026-09-22T08:00:00+02:00",
+        "apply_url": "https://external-workingatbooking.icims.com/jobs/30007/login",
+        "internal": false,
+        "searchable": true,
+        "department": "Engineering",
+        "category": ["Leadership"],
+        "employment_type": "Full-time",
+        "meta_data": {
+          "canonical_url": "https://jobs.booking.com/booking/jobs/30007?lang=en-us"
+        }
+      }
+    },
+    {
+      "data": {
+        "slug": "30008",
+        "req_id": "30008",
+        "client_code": "workingatbooking",
+        "title": "Account Manager",
+        "description": "<p>Support accommodation partners.</p>",
+        "full_location": "Athens, Greece",
+        "posted_date": "2026-09-21T08:00:00+03:00",
+        "apply_url": "https://external-workingatbooking.icims.com/jobs/30008/login",
+        "internal": false,
+        "searchable": true,
+        "department": "Commercial",
+        "category": ["Business Development"],
+        "employment_type": "Full-time",
+        "meta_data": {
+          "canonical_url": "https://jobs.booking.com/booking/jobs/30008?lang=en-us"
+        }
+      }
+    },
+    {
+      "data": {
+        "slug": "30009",
+        "req_id": "30009",
+        "client_code": "workingatbooking",
+        "title": "UX Designer",
+        "description": "<p>Design accessible travel experiences.</p>",
+        "full_location": "Amsterdam, Netherlands",
+        "posted_date": "2026-09-20T08:00:00+02:00",
+        "apply_url": "https://external-workingatbooking.icims.com/jobs/30009/login",
+        "internal": false,
+        "searchable": true,
+        "department": "Design",
+        "category": ["Design"],
+        "employment_type": "Full-time",
+        "meta_data": {
+          "canonical_url": "https://jobs.booking.com/booking/jobs/30009?lang=en-us"
+        }
+      }
+    },
+    {
+      "data": {
+        "slug": "30010",
+        "req_id": "30010",
+        "client_code": "workingatbooking",
+        "title": "Technical Program Manager",
+        "description": "<p>Coordinate complex engineering programs.</p>",
+        "full_location": "Singapore, Singapore",
+        "posted_date": "2026-09-19T08:00:00+08:00",
+        "apply_url": "https://external-workingatbooking.icims.com/jobs/30010/login",
+        "internal": false,
+        "searchable": true,
+        "department": "Engineering",
+        "category": ["Product"],
+        "employment_type": "Full-time",
+        "meta_data": {
+          "canonical_url": "https://jobs.booking.com/booking/jobs/30010?lang=en-us"
+        }
+      }
+    }
+  ]
+}

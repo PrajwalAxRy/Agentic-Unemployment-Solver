@@ -1,0 +1,35 @@
+{
+  "Total": 2,
+  "FilteredCount": 2,
+  "FiltersData": {},
+  "Jobs": [
+    {
+      "JobId": "2f237a6a-b440-47ef-9a78-c340d8ee3415",
+      "JobCode": "NL-94749",
+      "JobTitle": "Machine Learning Engineer",
+      "JobDescription": "<p>Build production ML systems.</p>",
+      "JobDescriptionV2": "<p>Build production ML systems.</p><ul><li>Train models.</li><li>Evaluate reliability.</li></ul>",
+      "Department": "Gen AI",
+      "Location": "[{\"Address\":\"Bengaluru, Karnataka, India\",\"PlaceId\":null}]",
+      "JobType": "Full Time",
+      "CompanyName": "Navi Limited",
+      "CompanyUrl": "http://navi.com/",
+      "ApplyUrl": "https://navi.turbohire.co/job/publicjobs/2f237a6a-b440-47ef-9a78-c340d8ee3415?utm_source=CareerPage",
+      "PublishedDate": "2026-09-28T06:38:13.6571657Z"
+    },
+    {
+      "JobId": "3ed417ae-a668-49cc-914d-518d8d3f0b23",
+      "JobCode": "NL-94750",
+      "JobTitle": "Analytics Engineer",
+      "JobDescription": "<p>Build analytics data products.</p>",
+      "JobDescriptionV2": "<p>Build analytics data products for financial services.</p>",
+      "Department": "Analytics",
+      "Location": "[{\"Address\":\"Bangalore, Karnataka, India\",\"PlaceId\":null},{\"Address\":\"Delhi, India\",\"PlaceId\":null}]",
+      "JobType": "Full Time",
+      "CompanyName": "Navi",
+      "CompanyUrl": "http://navi.com/",
+      "ApplyUrl": "https://navi.turbohire.co/job/publicjobs/3ed417ae-a668-49cc-914d-518d8d3f0b23?utm_source=CareerPage",
+      "PublishedDate": "2026-09-27T05:55:51.4631953Z"
+    }
+  ]
+}

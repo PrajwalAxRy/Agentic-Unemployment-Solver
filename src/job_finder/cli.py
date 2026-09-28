@@ -18,6 +18,7 @@ from job_finder.adapters.ashby import AshbyAdapter
 from job_finder.adapters.atlassian_careers import AtlassianCareersAdapter
 from job_finder.adapters.atomicwork import AtomicworkWebflowAdapter
 from job_finder.adapters.base import AdapterRegistry
+from job_finder.adapters.booking_careers import BookingCareersAdapter
 from job_finder.adapters.custom import CustomAdapterRouter
 from job_finder.adapters.darwinbox import DarwinboxAdapter
 from job_finder.adapters.deshaw_india import DeshawIndiaAdapter
@@ -32,8 +33,10 @@ from job_finder.adapters.intuit_careers import IntuitCareersAdapter
 from job_finder.adapters.jobvite import JobviteAdapter
 from job_finder.adapters.lever import LeverAdapter
 from job_finder.adapters.microsoft_careers import MicrosoftCareersAdapter
+from job_finder.adapters.navi_careers import NaviCareersAdapter
 from job_finder.adapters.oracle_cloud import OracleCloudAdapter
 from job_finder.adapters.pageup_xml_feed import PageUpXmlFeedAdapter
+from job_finder.adapters.quadeye_careers import QuadeyeCareersAdapter
 from job_finder.adapters.qure_careers import QureCareersAdapter
 from job_finder.adapters.recruiterflow import RecruiterflowAdapter
 from job_finder.adapters.rippling import RipplingAdapter
@@ -461,13 +464,16 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
                     AppleJobsAdapter(client),
                     AtlassianCareersAdapter(client),
                     AtomicworkWebflowAdapter(client),
+                    BookingCareersAdapter(client),
                     DeshawIndiaAdapter(client),
                     GalaxEyeZohoAdapter(client),
                     GnaniCareersAdapter(client),
                     GoogleCareersAdapter(client),
                     IntuitCareersAdapter(client),
                     MicrosoftCareersAdapter(client),
+                    NaviCareersAdapter(client),
                     PageUpXmlFeedAdapter(client),
+                    QuadeyeCareersAdapter(client),
                     QureCareersAdapter(client),
                     StripeCareersAdapter(client),
                     SwiggyCareersAdapter(client),

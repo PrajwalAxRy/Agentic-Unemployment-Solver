@@ -1,0 +1,32 @@
+{
+  "success": true,
+  "cached": false,
+  "data": [
+    {
+      "id": "199893000003455803",
+      "Job_Opening_ID": "ZR_48_JOB",
+      "Posting_Title": "Quantitative Researcher",
+      "Job_Opening_Name": "Quantitative Researcher",
+      "Job_Location": ["New York", "Chicago"],
+      "Date_Opened": "2026-09-08",
+      "Publish": true,
+      "Job_Opening_Status": "On-Hold",
+      "Job_Description": "Research and develop quantitative trading strategies using large-scale market datasets.",
+      "Job_Type": "Full time",
+      "Work_Experience": "Mid Level (1 to 4 Years)"
+    },
+    {
+      "id": "199893000002926019",
+      "Job_Opening_ID": "ZR_45_JOB",
+      "Posting_Title": "Linux Engineer - L2/ L3",
+      "Job_Opening_Name": "Linux Engineer - L2/ L3",
+      "Job_Location": ["Gurugram"],
+      "Date_Opened": "2026-07-21",
+      "Publish": true,
+      "Job_Opening_Status": "In-progress",
+      "Job_Description": "Support and optimize Linux systems in a production trading environment.",
+      "Job_Type": "Full time",
+      "Work_Experience": "Mid Level"
+    }
+  ]
+}

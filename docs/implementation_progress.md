@@ -2,7 +2,7 @@
 
 ## Current status
 
-- Active phase: Phase 12 — Package C deterministic custom-source implementation
+- Active phase: Phase 12 — remaining deterministic integrations and approved Package D/E review
 - Status: First release `v0.1.0` remains approved and unchanged. Phase 12 Stages 1–7 account for
   all 238 current `search_only` companies. On 2026-09-28 the user approved Packages A, B, and C,
   covering 34 existing-adapter candidates, 14 new reusable-family candidates, and 114 deterministic
@@ -19,16 +19,33 @@
   Package C cohort 5 is complete: Atlassian, GitLab, Qure.ai, and Airbnb were activated after
   browser-assisted discovery and deterministic public-request replay; LinkedIn failed closed
   because its official route exposed only a partial sign-in-overlaid company-jobs feed.
-  Package C continues P1/P2 before P3. Packages D and E remain unapproved.
-- Pending human checkpoint: none for the approved Package A/B/C implementation work. Any Package D
-  endpoint-replay activation or Package E empty/manual/identity/LLM-fallback work requires a later
-  explicit approval.
-- Active review artifact: `docs/reviews/phase12_package_c_cohort5_validation.md`.
+  Package C cohort 6 activated Intuit, Twilio, Meesho, PhonePe, Swiggy, and Tower Research Capital;
+  Roku failed closed behind AWS WAF. Cohort 7 activated Salesforce, Moloco, InMobi, Postman,
+  TrueFoundry, Booking.com, Navi, and Quadeye. The user approved continuing the remaining Package C
+  backlog and then evaluating Packages D and E on 2026-09-29; all existing fail-closed and no-bypass
+  gates still apply.
+- Pending human checkpoint: none for the currently approved Phase 12 integration and audit work.
+- Active review artifact: `docs/reviews/phase12_package_c_cohort7_validation.md`.
 - Company ledger: `docs/reviews/phase12_search_only_company_dossiers.md` (238/238 accounted).
-- The 129 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
-  including 201 disabled backlog or unsupported records.
+- The 143 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
+  including 187 disabled backlog or unsupported records.
 
 ## Completed gates
+
+- Phase 12 Package C cohort 7 activated Salesforce, Moloco, InMobi, Postman, TrueFoundry,
+  Booking.com, Navi, and Quadeye. Five reused existing Workday/Greenhouse adapters and three added
+  deterministic source-specific adapters. Targeted production gates covered 1,865 jobs across 94
+  pages. Navi's official `Navi Limited` identity variant and Quadeye's published `On-Hold` workflow
+  status were both captured as regression fixtures before their successful full-source retries.
+  Booking.com reconciled 94 jobs across ten pages; Navi returned 41; and Quadeye returned 26 while
+  retaining uncertain `Date_Opened` evidence. The registry now enables 143 sources and the suite
+  contains 584 tests.
+- Phase 12 Package C cohort 6 activated Intuit, Twilio, Meesho, PhonePe, Swiggy, and Tower Research
+  Capital while Roku failed closed because its detail pages returned AWS WAF challenges. Targeted
+  gates covered 476 jobs. The 135-source sweep retrieved 38,117 jobs across 986 pages: 130 success,
+  three verified empty, and two suspicious sources. Quantbox's known stale-date anomaly reproduced;
+  Coupang repeatedly returned a duplicate `apijobid` after 53 normalized rows and remains visible
+  as suspicious pending raw-feed comparison. The complete suite passed with 574 tests.
 
 - Phase 12 Package C cohort 5 used local Playwright Chromium for discovery and screenshot review,
   then independently replayed every selected request without browser state. Atlassian's same-origin
@@ -692,6 +709,10 @@
   `docs/reviews/phase12_package_c_cohort4_validation.md`
 - Phase 12 Package C cohort 5 validation:
   `docs/reviews/phase12_package_c_cohort5_validation.md`
+- Phase 12 Package C cohort 6 validation:
+  `docs/reviews/phase12_package_c_cohort6_validation.md`
+- Phase 12 Package C cohort 7 validation:
+  `docs/reviews/phase12_package_c_cohort7_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -730,10 +751,10 @@
 - Seventeen Bank of America multi-location candidates could not retrieve their public Workday
   details during the Phase 6 scan and remain explicit H6 location-review rows. Two SAP detail-date
   fetches failed and remain explicit uncertain-date candidates under the approved hybrid policy.
-- 195 records remain `search_only`. Phase 12 Packages A, B, and the first five Package C cohorts
-  removed 43 live-validated mappings: 21 in Package A, six in Package B, and 16 in Package C.
-  Failed candidates remain in this count pending later approved deterministic handling or a
-  Package D/E decision.
+- 181 records remain `search_only`. Phase 12 Packages A, B, and the first seven Package C cohorts
+  removed 57 live-validated mappings: 21 in Package A, six in Package B, and 30 in Package C.
+  Failed candidates remain explicit in this count while the approved deterministic, endpoint
+  replay, empty-state, manual, and identity-repair lanes continue.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
   official careers pages as manual fallbacks.
 - The definitive Phase 9 report contains six jobs whose public descriptions remain unavailable and
@@ -755,8 +776,8 @@
 
 ## Resume point
 
-The first release remains complete. Continue the explicitly approved Package C P1/P2
-deterministic custom-source backlog from
-`docs/reviews/phase12_package_c_cohort5_validation.md`. Packages D and E remain unapproved.
-Preserve the released `v0.1.0` behavior and follow the phased checkpoint protocol for any further
-scope expansion.
+The first release remains complete. Continue the remaining deterministic P1/P2 backlog from
+`docs/reviews/phase12_package_c_cohort7_validation.md`, then evaluate the user-approved Package D
+and E lanes under the same public-source, no-bypass, and fail-closed activation gates. Preserve the
+released `v0.1.0` behavior and follow the phased checkpoint protocol for any further scope
+expansion.

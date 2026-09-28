@@ -491,3 +491,39 @@ def test_phase12_package_c_cohort5_records_activation_and_fail_closed_evidence()
     assert "`d2ff2c1`" in review
     assert "`2674ebb`" in review
     assert "Packages D and E still require explicit approval" in review
+
+
+def test_phase12_package_c_cohort6_records_activation_and_sweep_anomalies() -> None:
+    review = Path("docs/reviews/phase12_package_c_cohort6_validation.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "6 official deterministic sources activated; 1 candidate failed closed" in review
+    assert "Intuit, Twilio, Roku, Meesho, PhonePe, Swiggy, and Tower Research Capital" in review
+    assert "Roku remains disabled" in review
+    assert "135 enabled and 195 disabled" in review
+    assert "38,117 jobs across 986 pages" in review
+    assert (
+        "130 succeeded, three returned their verified empty state, and two were suspicious"
+        in review
+    )
+    assert "Coupang's public PageUp feed" in review
+    assert "574 passed" in review
+    assert "Packages D and E on\n2026-09-29" in review
+
+
+def test_phase12_package_c_cohort7_records_eight_deterministic_activations() -> None:
+    review = Path("docs/reviews/phase12_package_c_cohort7_validation.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "8 official deterministic sources activated" in review
+    assert "Salesforce, Moloco," in review
+    assert "InMobi, Postman, TrueFoundry, Booking.com, Navi, and Quadeye" in review
+    assert "`booking_jibe_inventory`" in review
+    assert "`navi_public_careers_api`" in review
+    assert "`quadeye_zoho_proxy`" in review
+    assert "1,865 jobs across 94 pages" in review
+    assert "143 enabled and 187 disabled" in review
+    assert "181 remaining `search_only`" in review
+    assert "584 tests" in review

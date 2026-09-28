@@ -8,9 +8,10 @@ records, the two H4-approved `unsupported` records, runtime dispatch, or the `v0
 baseline.
 
 The user approved Packages A, B, and C on 2026-09-28. Package C approval covers all priorities,
-with P1/P2 implemented before P3. Packages D and E remain unapproved and must not be activated.
-Implementation evidence and registry changes will be recorded in separate package/cohort review
-artifacts.
+with P1/P2 implemented before P3. On 2026-09-29 the user approved continuing through the remaining
+companies and then evaluating Packages D and E. The existing public-source, no-bypass,
+completeness, and fail-closed gates remain mandatory. Implementation evidence and registry changes
+are recorded in separate package/cohort review artifacts.
 
 Package A is complete. Twenty-one candidates passed their activation gates and 13 failed closed;
 see `phase12_package_a_validation.md`. Package B is also complete: six reusable-family sources
@@ -21,9 +22,13 @@ production command hit the upstream rolling request quota; see
 `phase12_package_c_cohort1_validation.md`. Cohort 2 activated Stripe, ServiceNow, and Coupang while
 Flipkart failed closed; cohort 3 activated official deterministic sources for D. E. Shaw India and
 Squarepoint Capital; cohort 4 activated Altimate.ai, Aganitha, GalaxEye, and Gnani.ai; and cohort 5
-activated Atlassian, GitLab, Qure.ai, and Airbnb while LinkedIn failed closed. See
+activated Atlassian, GitLab, Qure.ai, and Airbnb while LinkedIn failed closed; cohort 6 activated
+Intuit, Twilio, Meesho, PhonePe, Swiggy, and Tower Research Capital while Roku failed closed; and
+cohort 7 activated Salesforce, Moloco, InMobi, Postman, TrueFoundry, Booking.com, Navi, and
+Quadeye. See
 `phase12_package_c_cohort2_validation.md`, `phase12_package_c_cohort3_validation.md`,
-`phase12_package_c_cohort4_validation.md`, and `phase12_package_c_cohort5_validation.md`.
+`phase12_package_c_cohort4_validation.md`, `phase12_package_c_cohort5_validation.md`,
+`phase12_package_c_cohort6_validation.md`, and `phase12_package_c_cohort7_validation.md`.
 
 ## Frozen baseline and accounting
 
@@ -179,5 +184,6 @@ registry diff review. A successful HTTP response alone is not evidence of comple
 ## Human checkpoint disposition
 
 Approved on 2026-09-28: Package A, Package B, and Package C (all priorities, implemented P1/P2
-before P3). Package D and Package E remain pending and may not be activated without a later
-explicit approval.
+before P3). Approved on 2026-09-29: continue the remaining companies and evaluate Package D and
+Package E. Approval does not waive any source-identity, completeness, validation, access-control,
+or human-checkpoint requirement.
