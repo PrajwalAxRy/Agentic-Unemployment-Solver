@@ -12,21 +12,21 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 125
-    assert audit.by_status == {"enabled": 125, "proposed": 203, "unsupported": 2}
+    assert audit.enabled_count == 129
+    assert audit.by_status == {"enabled": 129, "proposed": 199, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 27,
-        "custom": 11,
+        "custom": 14,
         "darwinbox": 4,
         "eightfold": 1,
         "freshteam": 2,
-        "greenhouse": 34,
+        "greenhouse": 35,
         "jobvite": 1,
         "lever": 12,
         "oracle_cloud": 3,
         "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 199,
+        "search_only": 195,
         "sensehq": 1,
         "smartrecruiters": 4,
         "successfactors": 2,
@@ -110,7 +110,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-c10"
+    assert registry.registry_version == "0.3.0-phase12-c11"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -260,6 +260,48 @@ def test_phase12_package_c_fourth_cohort_activates_validated_sources() -> None:
     assert gnani.date_strategy.field_name == "positionPublishDate"
     assert gnani.date_strategy.verified_as_publication is True
     assert gnani.detail_strategy.value == "detail_page"
+
+
+def test_phase12_package_c_fifth_cohort_activates_validated_p1_sources() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    sources = {entry.source.company_id: entry.source for entry in registry.entries}
+
+    atlassian = sources["atlassian"]
+    assert atlassian.enabled is True
+    assert atlassian.adapter_type.value == "custom"
+    assert atlassian.adapter_parameters == {"adapter_key": "atlassian_careers_inventory"}
+    assert atlassian.date_strategy.field_name == "portalJobPost.updatedDate"
+    assert atlassian.date_strategy.basis.value == "unknown"
+    assert atlassian.detail_strategy.value == "listing_payload"
+
+    gitlab = sources["gitlab"]
+    assert gitlab.enabled is True
+    assert gitlab.adapter_type.value == "greenhouse"
+    assert gitlab.adapter_parameters == {"board_token": "gitlab"}
+    assert gitlab.date_strategy.field_name == "first_published"
+    assert gitlab.date_strategy.verified_as_publication is True
+    assert gitlab.detail_strategy.value == "listing_payload"
+
+    qure = sources["qure-ai"]
+    assert qure.enabled is True
+    assert qure.adapter_type.value == "custom"
+    assert qure.adapter_parameters == {"adapter_key": "qure_zoho_embedded"}
+    assert qure.date_strategy.field_name == "Date_Opened"
+    assert qure.date_strategy.basis.value == "unknown"
+    assert qure.detail_strategy.value == "listing_payload"
+
+    airbnb = sources["airbnb"]
+    assert airbnb.enabled is True
+    assert airbnb.adapter_type.value == "custom"
+    assert airbnb.adapter_parameters == {"adapter_key": "airbnb_careers_pages"}
+    assert airbnb.date_strategy.field_name == "WebPage.datePublished"
+    assert airbnb.date_strategy.basis.value == "unknown"
+    assert airbnb.detail_strategy.value == "detail_page"
+
+    linkedin = sources["linkedin"]
+    assert linkedin.enabled is False
+    assert linkedin.adapter_type.value == "search_only"
+    assert linkedin.exception_reason is not None
 
 
 def test_phase12_package_b_corrects_payu_to_its_official_successfactors_board() -> None:

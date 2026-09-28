@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-c10",
-  "generated_at": "2026-09-29T01:02:14+05:30",
+  "registry_version": "0.3.0-phase12-c11",
+  "generated_at": "2026-09-29T02:25:55+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -240,33 +240,32 @@
       "schema_version": 1,
       "company_id": "atlassian",
       "company_name": "Atlassian",
-      "status": "proposed",
-      "careers_url": "https://www.atlassian.com/company/careers",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://www.atlassian.com/company/careers/all-jobs",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://www.atlassian.com/company/careers"
+        "adapter_key": "atlassian_careers_inventory"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "portalJobPost.updatedDate",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "The public inventory exposes an iCIMS update date, not a verified publication timestamp."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.atlassian.com/company/careers",
-        "https://www.atlassian.com/company/careers",
-        "https://www.atlassian.com/company/careers"
+        "https://www.atlassian.com/company/careers/all-jobs",
+        "https://www.atlassian.com/endpoint/careers/listings"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package C cohort 5 validated the complete public inventory, collapsed consistent portal variants by ID, and preserved four explicit unavailable locations.",
       "source_rank": 8,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T02:25:55+05:30"
     },
     {
       "schema_version": 1,
@@ -524,32 +523,33 @@
       "schema_version": 1,
       "company_id": "gitlab",
       "company_name": "GitLab",
-      "status": "proposed",
-      "careers_url": "https://about.gitlab.com/jobs/all-jobs/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://job-boards.greenhouse.io/gitlab",
+      "adapter_type": "greenhouse",
       "adapter_parameters": {
-        "search_url": "https://about.gitlab.com/jobs/all-jobs/"
+        "board_token": "gitlab"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "first_published",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Greenhouse first_published is the approved publication field."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://about.gitlab.com/jobs/all-jobs/",
-        "https://about.gitlab.com/jobs/all-jobs/"
+        "https://job-boards.greenhouse.io/gitlab",
+        "https://boards-api.greenhouse.io/v1/boards/gitlab/jobs?content=true"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package C cohort 5 confirmed the official careers page's public Greenhouse board and complete content-bearing API inventory.",
       "source_rank": 17,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T02:25:55+05:30"
     },
     {
       "schema_version": 1,
@@ -1286,14 +1286,14 @@
       "confidence": "medium",
       "evidence": [
         "https://careers.linkedin.com/",
-        "https://careers.linkedin.com/"
+        "https://www.linkedin.com/company/linkedin/jobs/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "exception_reason": "Phase 12 Package C cohort 5: the official careers search routes to a sign-in-overlaid public company feed that exposes only a partial recent-job view; no complete bounded public inventory contract was proven.",
+      "notes": "Keep search_only. Browser inspection confirmed visible recent roles but not a complete deterministic inventory suitable for activation.",
       "source_rank": 40,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T02:25:55+05:30"
     },
     {
       "schema_version": 1,
@@ -1466,32 +1466,32 @@
       "schema_version": 1,
       "company_id": "qure-ai",
       "company_name": "Qure.ai",
-      "status": "proposed",
-      "careers_url": "https://jobs.qure.ai/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://career.qure.ai/jobs/Careers",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://jobs.qure.ai/"
+        "adapter_key": "qure_zoho_embedded"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "Date_Opened",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Zoho Date_Opened is retained but is not verified as a publication timestamp."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://jobs.qure.ai/",
-        "https://jobs.qure.ai/"
+        "https://career.qure.ai/jobs/Careers"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Phase 12 Package C cohort 5 validated the 14-row embedded Zoho inventory, full descriptions, stable IDs, rendered URL-slug rule, and visible workflow-flagged rows.",
       "source_rank": 46,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T02:25:55+05:30"
     },
     {
       "schema_version": 1,
@@ -1630,32 +1630,32 @@
       "schema_version": 1,
       "company_id": "airbnb",
       "company_name": "Airbnb",
-      "status": "proposed",
+      "status": "enabled",
       "careers_url": "https://careers.airbnb.com/positions/",
-      "adapter_type": "search_only",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://careers.airbnb.com/positions/"
+        "adapter_key": "airbnb_careers_pages"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "WebPage.datePublished",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "The detail-page WebPage date is retained but is not verified as the job publication date."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://careers.airbnb.com/positions",
-        "https://careers.airbnb.com/positions/"
+        "https://careers.airbnb.com/positions/",
+        "https://careers.airbnb.com/positions/?_paged=2"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package C cohort 5 validated the public FacetWP preload and JSON pagination contract; whole-source retries handle fail-closed inventory drift, and representative detail pages passed.",
       "source_rank": 51,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T02:25:55+05:30"
     },
     {
       "schema_version": 1,
