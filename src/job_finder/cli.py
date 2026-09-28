@@ -21,6 +21,7 @@ from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
 from job_finder.adapters.jobvite import JobviteAdapter
 from job_finder.adapters.lever import LeverAdapter
 from job_finder.adapters.oracle_cloud import OracleCloudAdapter
+from job_finder.adapters.recruiterflow import RecruiterflowAdapter
 from job_finder.adapters.rippling import RipplingAdapter
 from job_finder.adapters.sensehq import SenseHqAdapter
 from job_finder.adapters.smartrecruiters import SmartRecruitersAdapter
@@ -115,6 +116,7 @@ def build_parser() -> argparse.ArgumentParser:
             AdapterType.JOBVITE.value,
             AdapterType.LEVER.value,
             AdapterType.ORACLE_CLOUD.value,
+            AdapterType.RECRUITERFLOW.value,
             AdapterType.RIPPLING.value,
             AdapterType.SENSEHQ.value,
             AdapterType.SMARTRECRUITERS.value,
@@ -443,6 +445,7 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
             JobviteAdapter(client),
             LeverAdapter(client),
             OracleCloudAdapter(client),
+            RecruiterflowAdapter(client),
             RipplingAdapter(client),
             SenseHqAdapter(client),
             SmartRecruitersAdapter(client),
