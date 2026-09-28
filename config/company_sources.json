@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-c8",
-  "generated_at": "2026-09-28T23:00:00+05:30",
+  "registry_version": "0.3.0-phase12-c9",
+  "generated_at": "2026-09-29T00:30:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -4122,32 +4122,34 @@
       "schema_version": 1,
       "company_id": "altimate-ai",
       "company_name": "Altimate.ai",
-      "status": "proposed",
-      "careers_url": "https://altimate.ai/company",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://jobs.ashbyhq.com/altimate",
+      "adapter_type": "ashby",
       "adapter_parameters": {
-        "search_url": "https://altimate.ai/company"
+        "board_name": "altimate"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "publishedAt",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Ashby's public job-posting API exposes the publication timestamp."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "low",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://altimate.ai/company",
-        "https://altimate.ai/company"
+        "https://jobs.ashbyhq.com/altimate",
+        "https://api.ashbyhq.com/posting-api/job-board/altimate",
+        "https://developers.ashbyhq.com/docs/public-job-posting-api"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "Company page does not expose a verified careers inventory.",
-      "notes": "Automated quality audit rejected this source for enablement.",
+      "exception_reason": null,
+      "notes": "The official company page links directly to the complete public Ashby board; live validation returned five complete jobs with stable IDs, descriptions, and publication dates.",
       "source_rank": 128,
       "priority": "P2",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-29T00:30:00+05:30"
     },
     {
       "schema_version": 1,

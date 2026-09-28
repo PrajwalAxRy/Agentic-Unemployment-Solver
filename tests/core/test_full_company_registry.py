@@ -12,10 +12,10 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 121
-    assert audit.by_status == {"enabled": 121, "proposed": 207, "unsupported": 2}
+    assert audit.enabled_count == 122
+    assert audit.by_status == {"enabled": 122, "proposed": 206, "unsupported": 2}
     assert audit.by_adapter == {
-        "ashby": 26,
+        "ashby": 27,
         "custom": 8,
         "darwinbox": 4,
         "eightfold": 1,
@@ -26,7 +26,7 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "oracle_cloud": 3,
         "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 203,
+        "search_only": 202,
         "sensehq": 1,
         "smartrecruiters": 4,
         "successfactors": 2,
@@ -110,7 +110,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-c8"
+    assert registry.registry_version == "0.3.0-phase12-c9"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -220,6 +220,24 @@ def test_phase12_package_c_third_cohort_replaces_third_party_sources() -> None:
     assert squarepoint.date_strategy.basis.value == "published"
     assert squarepoint.date_strategy.verified_as_publication is True
     assert squarepoint.detail_strategy.value == "listing_payload"
+
+
+def test_phase12_package_c_fourth_cohort_activates_altimate_ashby_board() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    altimate = next(
+        entry.source for entry in registry.entries if entry.source.company_id == "altimate-ai"
+    )
+
+    assert altimate.enabled is True
+    assert altimate.status.value == "enabled"
+    assert altimate.careers_url == "https://jobs.ashbyhq.com/altimate"
+    assert altimate.adapter_type.value == "ashby"
+    assert altimate.adapter_parameters == {"board_name": "altimate"}
+    assert altimate.identity_strategy.value == "external_id"
+    assert altimate.date_strategy.field_name == "publishedAt"
+    assert altimate.date_strategy.basis.value == "published"
+    assert altimate.date_strategy.verified_as_publication is True
+    assert altimate.detail_strategy.value == "listing_payload"
 
 
 def test_phase12_package_b_corrects_payu_to_its_official_successfactors_board() -> None:
