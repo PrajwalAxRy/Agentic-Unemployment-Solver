@@ -2,23 +2,32 @@
 
 ## Current status
 
-- Active phase: Phase 12 — Package B reusable-family implementation
+- Active phase: Phase 12 — Package C deterministic custom-source implementation
 - Status: First release `v0.1.0` remains approved and unchanged. Phase 12 Stages 1–7 account for
   all 238 current `search_only` companies. On 2026-09-28 the user approved Packages A, B, and C,
   covering 34 existing-adapter candidates, 14 new reusable-family candidates, and 114 deterministic
   custom candidates. Package A is complete: 21 candidates passed and were activated; 13 failed
-  closed and remain disabled. Package C will proceed P1/P2 before P3. Packages D and E remain
-  unapproved.
+  closed. Package B is complete: six candidates passed and were activated; eight failed closed.
+  Package C will proceed P1/P2 before P3. Packages D and E remain unapproved.
 - Pending human checkpoint: none for the approved Package A/B/C implementation work. Any Package D
   endpoint-replay activation or Package E empty/manual/identity/LLM-fallback work requires a later
   explicit approval.
-- Active review artifact: `docs/reviews/phase12_package_a_validation.md`.
+- Active review artifact: `docs/reviews/phase12_package_b_validation.md`; the next artifact will
+  record the first Package C cohort.
 - Company ledger: `docs/reviews/phase12_search_only_company_dossiers.md` (238/238 accounted).
-- The 107 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
-  including 223 disabled backlog or unsupported records.
+- The 113 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
+  including 217 disabled backlog or unsupported records.
 
 ## Completed gates
 
+- Phase 12 Package B assessed all 14 reusable-family candidates. Locus and Haptik activated through
+  the new Freshteam adapter, Sanas through Rippling, Groww through SenseHQ, CoinSwitch through
+  Recruiterflow, and PayU through the existing SuccessFactors adapter after a branded-category-path
+  regression fix. The other eight candidates failed closed because deterministic completeness,
+  current official ownership, a replayable public endpoint, or an explicit empty-state contract
+  could not be proven. Full-registry verification accounted for all 113 enabled sources with 109
+  successful, three verified empty, the known Quantbox anomaly, and no failed, blocked, or partial
+  source across 32,379 listings and 880 pages. The complete test suite passed with 502 tests.
 - Phase 12 Package A activated 21/34 live-validated existing-adapter candidates: nine Greenhouse,
   eight Workday, and one each for Lever, Ashby, Oracle Cloud, and SmartRecruiters. The other 13
   failed closed on stale mappings, contradictory empty results, unresolved parameters, shared-host
@@ -504,6 +513,21 @@
 - `a3b6a3a` — visible bounded source-verification progress
 - `4c4b2c8` — approved SAP source-host repair and registry regression
 
+## Relevant Phase 12 commits
+
+- `54d129b` — current SmartRecruiters structured-description support
+- `67098b2` — Package A validated source activations
+- `ab6f260` — Freshteam adapter
+- `a90e022` — Locus and Haptik activations
+- `a98b038` — branded SuccessFactors category support
+- `edbeadd` — PayU activation
+- `3a1a126` — Rippling adapter
+- `ecf46c8` — Sanas activation
+- `1acde06` — SenseHQ adapter
+- `c45966c` — Groww activation
+- `30d98f4` — Recruiterflow adapter
+- `8596dd3` — CoinSwitch activation
+
 ## Phase 11 pilot evidence and commits
 
 - The pilot started from the documented existing schema-3 state with 326 records and did not reset
@@ -601,6 +625,7 @@
 - Phase 11 H13 release-readiness review:
   `docs/reviews/phase11_h13_release_readiness.md`
 - Phase 12 Package A validation: `docs/reviews/phase12_package_a_validation.md`
+- Phase 12 Package B validation: `docs/reviews/phase12_package_b_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -637,8 +662,8 @@
 - Seventeen Bank of America multi-location candidates could not retrieve their public Workday
   details during the Phase 6 scan and remain explicit H6 location-review rows. Two SAP detail-date
   fetches failed and remain explicit uncertain-date candidates under the approved hybrid policy.
-- 217 records remain `search_only`. Phase 12 Package A removed 21 live-validated mappings; the 13
-  failed Package A candidates remain in this count pending approved Package B/C handling or a later
+- 211 records remain `search_only`. Phase 12 Packages A and B removed 27 live-validated mappings;
+  their 21 failed candidates remain in this count pending approved Package C handling or a later
   Package D/E decision.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
   official careers pages as manual fallbacks.

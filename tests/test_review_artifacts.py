@@ -127,6 +127,18 @@ def test_phase12_package_a_review_records_activation_and_full_registry_gate() ->
     assert "Package D and\nPackage E remain unapproved" in review
 
 
+def test_phase12_package_b_review_records_activation_and_full_registry_gate() -> None:
+    review = Path("docs/reviews/phase12_package_b_validation.md").read_text(encoding="utf-8")
+
+    assert "6 reusable-family sources activated; 8 candidates failed closed" in review
+    assert "activated cohort accounts for 185 current listings" in review
+    assert "109 successful, three verified empty, one" in review
+    assert "32,379 observed listings over 880 fetched pages" in review
+    assert "Every Package B source succeeded" in review
+    assert "pytest reported **502 passed**" in review
+    assert "Packages D and E remain unapproved" in review
+
+
 def test_h5_review_records_full_registry_date_coverage_and_approved_decision() -> None:
     review = Path("docs/reviews/h5_date_coverage_review.md").read_text(encoding="utf-8")
 

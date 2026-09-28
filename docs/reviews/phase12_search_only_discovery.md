@@ -13,7 +13,9 @@ Implementation evidence and registry changes will be recorded in separate packag
 artifacts.
 
 Package A is complete. Twenty-one candidates passed their activation gates and 13 failed closed;
-see `phase12_package_a_validation.md`. Package B is now active.
+see `phase12_package_a_validation.md`. Package B is also complete: six reusable-family sources
+were activated and eight candidates failed closed; see `phase12_package_b_validation.md`.
+Package C is now active.
 
 ## Frozen baseline and accounting
 
