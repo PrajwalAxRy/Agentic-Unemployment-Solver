@@ -12,18 +12,19 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 107
-    assert audit.by_status == {"enabled": 107, "proposed": 221, "unsupported": 2}
+    assert audit.enabled_count == 109
+    assert audit.by_status == {"enabled": 109, "proposed": 219, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 26,
         "custom": 1,
         "darwinbox": 4,
         "eightfold": 1,
+        "freshteam": 2,
         "greenhouse": 33,
         "jobvite": 1,
         "lever": 12,
         "oracle_cloud": 3,
-        "search_only": 217,
+        "search_only": 215,
         "smartrecruiters": 4,
         "successfactors": 1,
         "unsupported": 2,
@@ -106,7 +107,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-a1"
+    assert registry.registry_version == "0.3.0-phase12-b1"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -126,6 +127,22 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
     ):
         assert sources[company_id].enabled is False
         assert sources[company_id].adapter_type.value == "search_only"
+
+
+def test_phase12_package_b_freshteam_cohort_uses_verified_public_boards() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    sources = {entry.source.company_id: entry.source for entry in registry.entries}
+
+    for company_id, account in (("locus", "locus"), ("jio-platforms-haptik", "haptik")):
+        source = sources[company_id]
+        assert source.enabled is True
+        assert source.status.value == "enabled"
+        assert source.adapter_type.value == "freshteam"
+        assert source.adapter_parameters == {"account": account}
+        assert source.identity_strategy.value == "external_id"
+        assert source.detail_strategy.value == "detail_page"
+        assert source.date_strategy.field_name == "datePosted"
+        assert source.date_strategy.verified_as_publication is True
 
 
 def test_cerebras_uses_case_sensitive_verified_ashby_board_name() -> None:

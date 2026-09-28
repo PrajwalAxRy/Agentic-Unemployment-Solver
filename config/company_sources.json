@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-a1",
+  "registry_version": "0.3.0-phase12-b1",
   "generated_at": "2026-09-28T12:00:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
@@ -5068,32 +5068,33 @@
       "schema_version": 1,
       "company_id": "locus",
       "company_name": "Locus",
-      "status": "proposed",
-      "careers_url": "https://dynamiclink.locus-dev.com/careers/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://locus.freshteam.com/jobs",
+      "adapter_type": "freshteam",
       "adapter_parameters": {
-        "search_url": "https://dynamiclink.locus-dev.com/careers/"
+        "account": "locus"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "datePosted",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Freshteam JobPosting JSON-LD datePosted on each public detail page."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://dynamiclink.locus-dev.com/careers/",
-        "https://dynamiclink.locus-dev.com/careers/"
+        "https://locus.freshteam.com/jobs",
+        "https://locus.freshteam.com/jobs/QBdFZljpx03q/software-development-engineer-3",
+        "https://developers.freshteam.com/api/#job_postings"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package B Freshteam adapter validated all nine visible jobs and every detail page; one transient detail timeout passed a bounded retry.",
       "source_rank": 158,
       "priority": "P2",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T13:06:27+05:30"
     },
     {
       "schema_version": 1,
@@ -9818,33 +9819,33 @@
       "schema_version": 1,
       "company_id": "jio-platforms-haptik",
       "company_name": "Jio Platforms / Haptik",
-      "status": "proposed",
-      "careers_url": "https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://haptik.freshteam.com/jobs",
+      "adapter_type": "freshteam",
       "adapter_parameters": {
-        "search_url": "https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid"
+        "account": "haptik"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "datePosted",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Freshteam JobPosting JSON-LD datePosted on each public detail page."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid",
-        "https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid",
+        "https://www.haptik.ai/careers",
+        "https://haptik.freshteam.com/jobs",
         "https://haptik.freshteam.com/jobs/HVivFopqkiC1/voice-ai-engineer-hybrid"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package B Freshteam adapter validated all sixteen visible jobs and every detail page; one transient detail timeout passed a bounded retry.",
       "source_rank": 307,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T13:06:27+05:30"
     },
     {
       "schema_version": 1,
