@@ -109,6 +109,26 @@ def test_count_checked_pagination_maps_identity_location_url_and_unknown_listing
     assert "/851201/2/?" in transport.calls[1]
 
 
+def test_branded_category_prefix_is_preserved_across_pagination() -> None:
+    adapter, transport = adapter_for([fixture("page_1.html"), fixture("page_2.html")])
+    payu = replace(
+        source(),
+        company_id="payu",
+        company_name="PayU",
+        careers_url="https://careers.payu.in/PayU/go/_/514880/",
+        adapter_parameters={
+            "host": "careers.payu.in",
+            "category_path": "/PayU/go/_/514880/",
+        },
+    )
+
+    result = adapter.list_jobs(payu)
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert result.complete is True
+    assert "/PayU/go/_/514880/2/?" in transport.calls[1]
+
+
 def test_detail_page_supplies_published_date_description_and_preserves_identity() -> None:
     adapter, _ = adapter_for(
         [fixture("page_1.html"), fixture("page_2.html"), fixture("detail.html")]

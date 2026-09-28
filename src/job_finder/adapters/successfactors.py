@@ -25,7 +25,8 @@ from job_finder.core.source_contracts import (
 
 DEFAULT_PAGE_SIZE = 25
 DEFAULT_MAX_PAGES = 100
-_CATEGORY_PATH = re.compile(r"/go/[A-Za-z0-9._~%()+@-]+/[0-9]+/")
+_PATH_SEGMENT = r"[A-Za-z0-9._~%()+@-]+"
+_CATEGORY_PATH = re.compile(rf"/(?:{_PATH_SEGMENT}/)?go/{_PATH_SEGMENT}/[0-9]+/")
 _JOB_ID_PATH = re.compile(r"/([0-9]+)/?$")
 _RESULT_RANGE = re.compile(
     r"Results\s+([0-9][0-9,]*)\s*[\u2013\u2014-]\s*([0-9][0-9,]*)\s+of\s+([0-9][0-9,]*)",
@@ -547,7 +548,9 @@ def _successfactors_parameters(source: CompanySource) -> tuple[str, str]:
     if careers_host is None or careers_host.lower() != host:
         raise ValueError("SuccessFactors host must match the configured careers URL.")
     if not _CATEGORY_PATH.fullmatch(category_path):
-        raise ValueError("SuccessFactors category_path must be a public /go/<name>/<id>/ path.")
+        raise ValueError(
+            "SuccessFactors category_path must be a public /[brand/]go/<name>/<id>/ path."
+        )
     if not urlsplit(source.careers_url or "").path.startswith(category_path):
         raise ValueError("SuccessFactors category_path must match the configured careers URL.")
     return host, category_path
