@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-b2",
+  "registry_version": "0.3.0-phase12-b3",
   "generated_at": "2026-09-28T12:00:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
@@ -305,32 +305,33 @@
       "schema_version": 1,
       "company_id": "sanas",
       "company_name": "Sanas",
-      "status": "proposed",
-      "careers_url": "https://www.sanas.ai/careers",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://ats.rippling.com/sanas/jobs",
+      "adapter_type": "rippling",
       "adapter_parameters": {
-        "search_url": "https://www.sanas.ai/careers"
+        "board_slug": "sanas"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "createdOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Rippling exposes createdOn on public details; it is retained as uncertain because creation is not verified publication."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://www.sanas.ai/careers",
-        "https://www.sanas.ai/careers"
+        "https://ats.rippling.com/sanas/jobs",
+        "https://ats.rippling.com/sanas/jobs/cf4c5d3f-f79a-40d1-a27c-852e5f9c854f"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 Package B validated exact one-page collection metadata and all seven public Rippling details. Corporate careers links confirm the official board; createdOn remains uncertain date evidence.",
       "source_rank": 10,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-28T13:21:32+05:30"
     },
     {
       "schema_version": 1,

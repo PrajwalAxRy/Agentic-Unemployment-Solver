@@ -12,8 +12,8 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 110
-    assert audit.by_status == {"enabled": 110, "proposed": 218, "unsupported": 2}
+    assert audit.enabled_count == 111
+    assert audit.by_status == {"enabled": 111, "proposed": 217, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 26,
         "custom": 1,
@@ -24,7 +24,8 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "jobvite": 1,
         "lever": 12,
         "oracle_cloud": 3,
-        "search_only": 214,
+        "rippling": 1,
+        "search_only": 213,
         "smartrecruiters": 4,
         "successfactors": 2,
         "unsupported": 2,
@@ -107,7 +108,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-b2"
+    assert registry.registry_version == "0.3.0-phase12-b3"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -158,6 +159,18 @@ def test_phase12_package_b_corrects_payu_to_its_official_successfactors_board() 
     assert payu.identity_strategy.value == "external_id"
     assert payu.date_strategy.field_name == "datePosted"
     assert payu.date_strategy.verified_as_publication is True
+
+
+def test_phase12_package_b_activates_sanas_rippling_with_uncertain_creation_date() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    sanas = next(entry.source for entry in registry.entries if entry.source.company_id == "sanas")
+
+    assert sanas.enabled is True
+    assert sanas.adapter_type.value == "rippling"
+    assert sanas.adapter_parameters == {"board_slug": "sanas"}
+    assert sanas.date_strategy.field_name == "createdOn"
+    assert sanas.date_strategy.basis.value == "unknown"
+    assert sanas.date_strategy.verified_as_publication is False
 
 
 def test_cerebras_uses_case_sensitive_verified_ashby_board_name() -> None:
