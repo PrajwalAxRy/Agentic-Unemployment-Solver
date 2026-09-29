@@ -8,13 +8,16 @@ from pathlib import Path
 import pytest
 
 from job_finder.adapters.base import AdapterConfigurationError
+from job_finder.adapters.errors import DetailIdentityMismatch
 from job_finder.adapters.google_careers import (
     GOOGLE_CAREERS_ADAPTER_KEY,
     GOOGLE_CAREERS_URL,
     GoogleCareersAdapter,
+    _normalize_text,
 )
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy, HttpResponse
 from job_finder.core.job_contracts import DateBasis
+from job_finder.core.search_profile import load_search_profile
 from job_finder.core.source_contracts import (
     AdapterOutcome,
     AdapterType,
@@ -25,6 +28,7 @@ from job_finder.core.source_contracts import (
     IdentityStrategy,
     SourceStatus,
 )
+from job_finder.normalization.jobs import normalize_job, normalize_title
 
 FIXTURES = Path(__file__).parents[1] / "fixtures" / "google_careers"
 
@@ -198,3 +202,119 @@ def test_invalid_source_configuration_is_rejected_before_network() -> None:
     with pytest.raises(AdapterConfigurationError, match="requires careers_url"):
         adapter.list_jobs(replace(source(), careers_url="https://google.com/careers"))
     assert transport.calls == []
+
+
+# ---------------------------------------------------------------------------
+# Regression tests for the title-normalization identity bug (to_change.md 1.2, 1.3, 9.5)
+# ---------------------------------------------------------------------------
+#
+# The pre-existing detail test fed get_job_detail a *raw* listing straight from
+# list_jobs(). Production never does that: scan.py normalizes every listing through
+# normalize_job() first, and normalize_job strips punctuation from the title. The adapter's
+# identity guard then compared its own punctuation-preserving _normalize_text against the
+# already-stripped title_normalized, so every title containing a comma, hyphen, slash or
+# parenthesis failed -- which is most real AI/ML titles. It hit 78/78 Google rows.
+#
+# The old test passed only because its fixture title ("Machine Learning Engineer") happens
+# to contain no punctuation at all, so both normalizers agreed. These tests exercise the
+# real call path and parametrize over the exact cases reproduced in the 1.2 table.
+
+
+_PUNCTUATION_BUG = (
+    "to_change.md 1.2: adapters/google_careers.py:296 compares its own punctuation-keeping "
+    "_normalize_text against job.title_normalized, which normalization/jobs.py has already "
+    "punctuation-stripped. Fixed in Phase 1 by deleting the local copies and importing the "
+    "shared module. strict=True so these flip to failures the moment the fix lands and the "
+    "xfail markers become wrong."
+)
+
+
+def _fixture_html(name: str, *, title: str) -> HttpResponse:
+    """Return a fixture with its job title replaced, to vary punctuation."""
+    html = (FIXTURES / name).read_text(encoding="utf-8")
+    replaced = html.replace("Machine Learning Engineer", title)
+    assert replaced != html, f"fixture {name} did not contain the expected placeholder title"
+    return HttpResponse("", "", 200, "text/html", 0, replaced.encode("utf-8"))
+
+
+_PUNCTUATED = pytest.mark.xfail(reason=_PUNCTUATION_BUG, strict=True)
+
+
+@pytest.mark.parametrize(
+    "title",
+    [
+        pytest.param("Senior ML Engineer, Ads", id="comma", marks=_PUNCTUATED),
+        pytest.param("Staff Engineer (AI/ML)", id="parentheses-and-slash", marks=_PUNCTUATED),
+        pytest.param("ML Engineer II", id="no-punctuation-control"),
+        pytest.param(
+            "Software Engineer III, Machine Learning - Search",
+            id="comma-and-hyphen",
+            marks=_PUNCTUATED,
+        ),
+    ],
+)
+def test_detail_identity_survives_normalization_for_punctuated_titles(title: str) -> None:
+    """get_job_detail must accept a listing that has been through normalize_job().
+
+    This is the call path scan.py actually uses. Before the fix, every id except
+    ``no-punctuation-control`` raised on the title identity guard.
+    """
+    profile = load_search_profile(Path("config/search_profile.toml"))
+    listing_adapter, _ = adapter_for(
+        [_fixture_html("page_1.html", title=title), fixture("page_2.html")]
+    )
+    listed = listing_adapter.list_jobs(source()).jobs[0]
+
+    # The transformation the old test skipped.
+    normalized = normalize_job(listed, location_policy=profile.location)
+
+    detail_adapter, transport = adapter_for([_fixture_html("detail.html", title=title)])
+    detailed = detail_adapter.get_job_detail(source(), normalized)
+
+    assert detailed.title_original == title
+    assert detailed.external_job_id == normalized.external_job_id
+    assert detailed.canonical_url == normalized.canonical_url
+    assert detailed.description is not None
+    assert transport.calls == [normalized.canonical_url]
+
+
+def test_detail_title_mismatch_raises_identity_mismatch_not_bare_value_error() -> None:
+    """A genuine mismatch must be diagnosable as such.
+
+    Asserting on the specific type matters: the original bug was invisible because a
+    title-guard failure and a 403 both surfaced as an unexplained ValueError. Asserting
+    ValueError here would let the test pass for the wrong reason again (9.5).
+    """
+    profile = load_search_profile(Path("config/search_profile.toml"))
+    listing_adapter, _ = adapter_for(
+        [_fixture_html("page_1.html", title="ML Engineer II"), fixture("page_2.html")]
+    )
+    listed = listing_adapter.list_jobs(source()).jobs[0]
+    normalized = normalize_job(listed, location_policy=profile.location)
+
+    # Detail page genuinely advertises a different role.
+    detail_adapter, _ = adapter_for([_fixture_html("detail.html", title="Product Manager II")])
+
+    with pytest.raises(DetailIdentityMismatch, match="title does not match"):
+        detail_adapter.get_job_detail(source(), normalized)
+
+
+@pytest.mark.xfail(reason=_PUNCTUATION_BUG, strict=True)
+def test_shared_and_adapter_normalization_agree_on_punctuated_titles() -> None:
+    """Pin the root cause directly.
+
+    ``to_change.md`` 1.2 reproduced the bug as a table of titles where the shared
+    normalizer and the adapter's local copy disagreed. Any future divergence between the
+    two should fail here, at the cause, rather than 78 rows downstream.
+    """
+    for title in (
+        "Senior ML Engineer, Ads",
+        "Staff Engineer (AI/ML)",
+        "ML Engineer II",
+        "Software Engineer III, Machine Learning - Search",
+        "Data Scientist, Search & Discovery",
+    ):
+        assert _normalize_text(title) == normalize_title(title), (
+            f"adapter-local and shared normalization disagree for {title!r}; "
+            "this is the exact divergence that broke 78/78 Google rows"
+        )
