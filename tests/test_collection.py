@@ -171,9 +171,11 @@ def test_filter_report_reconciles_every_reduction_stage() -> None:
     assert report.listing_count == 5
     assert report.strict_recent_count == 4
     assert report.recency_excluded_count == 1
+    # 2.2: no title may grant a pass or skip the relevance gate, so explicit_pass is no
+    # longer reachable from a title. Every surviving title is conditional and the LLM
+    # decides domain from the description. final_counts is unchanged.
     assert report.role_counts == {
-        "conditional_description": 1,
-        "explicit_pass": 2,
+        "conditional_description": 3,
         "reject": 1,
     }
     # Location now runs before title (to_change.md 2.1), so every recency-eligible row

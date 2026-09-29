@@ -427,26 +427,33 @@ def test_uncertain_date_match_and_seniority_uncertainty_are_separate(
     assert report.review_candidates[0].category == "seniority_uncertain"
 
 
-def test_conditional_title_without_ai_work_is_terminal_without_llm(tmp_path: Path) -> None:
+def test_non_ai_description_now_reaches_the_llm_gate(tmp_path: Path) -> None:
+    """Relevance is decided by the model, not by a keyword pre-filter (2.3).
+
+    This previously asserted the opposite: a non-AI description was rejected *without* an
+    LLM call by the regex gate. That gate is gone. It fired ten times in the entire
+    2026-09-29 scan, so it was never the real AI filter -- and once 2.2a widened the title
+    stage so that every engineering title reaches this point, a gate tuned as a rare
+    special case would have become the universal filter and rejected almost everything on
+    a keyword miss.
+
+    The model now sees the description and decides. That is the whole point of 2.3: ask
+    what the engineer actually does, rather than whether the text contains a keyword.
+    """
     company = source("conditional")
     description = "Build and operate payment APIs using Python and PostgreSQL."
     adapter = StubAdapter(
         {"conditional": (job("conditional", "REQ-1", "Software Engineer", description),)}
     )
     test_registry = registry(company)
-    first_client = StubLLMClient([])
-    first = process(tmp_path, test_registry, adapter, evaluator(first_client))
-    second_client = StubLLMClient([])
-    second = process(tmp_path, test_registry, adapter, evaluator(second_client))
+    client = StubLLMClient([decision(False, evidence="Build and operate payment APIs")])
 
-    assert first.matching_jobs == ()
-    assert first.metrics.conditional_rejection_count == 1
-    assert first_client.requests == []
-    assert second.metrics.duplicate_suppressed_count == 1
-    assert second_client.requests == []
-    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
-        records = connection.execute("SELECT evaluation_status FROM jobs").fetchall()
-    assert [row[0] for row in records] == [EvaluationStatus.FAILED.value]
+    report = process(tmp_path, test_registry, adapter, evaluator(client))
+
+    assert report.matching_jobs == ()
+    assert len(client.requests) == 1, "the description must reach the model"
+    assert report.metrics.conditional_pass_count == 1
+    assert report.metrics.conditional_rejection_count == 0
 
 
 def test_provider_failure_remains_pending_and_recovers_on_unchanged_run(tmp_path: Path) -> None:

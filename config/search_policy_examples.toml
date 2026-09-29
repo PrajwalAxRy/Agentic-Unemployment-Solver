@@ -2,16 +2,26 @@ schema_version = 1
 profile_id = "india-ai-ml-under-five-years"
 profile_version = "1.1.2"
 
+# Role expectations updated for to_change.md 2.2 / 2.2a. The title stage is now a
+# non-engineering blocklist: it decides *discipline* only, and no title may grant a pass or
+# skip the description gate. So "explicit_pass" is no longer reachable from a title --
+# every surviving title is "conditional_description" and the LLM relevance gate decides
+# domain from the description.
+#
+# Verified at the swap: every title that previously passed still survives. Two that the old
+# allowlist wrongly rejected now pass (role-12 MCP Engineer, role-14 CV Engineer) -- both
+# are real engineering roles, and that recall gain is the point of the change.
+
 [[role]]
 id = "role-01"
 title = "Senior Machine Learning Engineer"
-expected = "explicit_pass"
+expected = "conditional_description"
 reason = "Target family; seniority is deferred to the LLM."
 
 [[role]]
 id = "role-02"
 title = "AI Solutions Engineer"
-expected = "explicit_pass"
+expected = "conditional_description"
 reason = "Explicit AI engineering title."
 
 [[role]]
@@ -23,7 +33,7 @@ reason = "Commercial sales exclusion takes precedence."
 [[role]]
 id = "role-04"
 title = "Staff Data Scientist – Graph Neural Networks & Predictive AI"
-expected = "explicit_pass"
+expected = "conditional_description"
 reason = "Explicit ML technique and AI qualifier."
 
 [[role]]
@@ -41,13 +51,13 @@ reason = "Description must confirm substantive AI or ML product or systems work.
 [[role]]
 id = "role-07"
 title = "Senior Software Engineer, AI Agents"
-expected = "explicit_pass"
+expected = "conditional_description"
 reason = "Generic engineering title has an explicit target qualifier."
 
 [[role]]
 id = "role-08"
 title = "Backend Engineer - Search"
-expected = "explicit_pass"
+expected = "conditional_description"
 reason = "Explicit search-system qualifier."
 
 [[role]]
@@ -59,7 +69,7 @@ reason = "Product-manager exclusion takes precedence."
 [[role]]
 id = "role-10"
 title = "Engineering Manager, Machine Learning Platform"
-expected = "explicit_pass"
+expected = "conditional_description"
 reason = "Target family; description-based seniority remains separate."
 
 [[role]]
@@ -71,20 +81,20 @@ reason = "Human evaluation role rather than evaluation-systems engineering."
 [[role]]
 id = "role-12"
 title = "MCP Engineer"
-expected = "reject"
-reason = "MCP is ambiguous without AI, agent, LLM, or Model Context Protocol context."
+expected = "conditional_description"
+reason = "Engineering function word present. Ambiguity about what MCP means is exactly what the description gate is for (2.2a tier 2)."
 
 [[role]]
 id = "role-13"
 title = "Computer Vision Engineer"
-expected = "explicit_pass"
+expected = "conditional_description"
 reason = "Established machine-learning subfield."
 
 [[role]]
 id = "role-14"
 title = "CV Engineer"
-expected = "reject"
-reason = "CV alone is ambiguous."
+expected = "conditional_description"
+reason = "Engineering function word present; computer vision vs curriculum vitae is a description question, not a title one."
 
 [[location]]
 id = "location-01"

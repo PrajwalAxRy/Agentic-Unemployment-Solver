@@ -1,6 +1,8 @@
-"""Regression suite for the generous title filter.
+"""Corpus regression suite for the title classifier (to_change.md 2.2a).
 
-Run:  python3 prototypes/test_title_filter.py
+Promoted from prototypes/ into the test suite when the classifier was integrated, so the
+validation that justified the design keeps running on every change rather than only when
+someone remembers to invoke a script.
 
 Three layers:
   1. Hand-written cases — every one derives from a real bug found during review.
@@ -11,14 +13,14 @@ Three layers:
 """
 
 import json
-import os
-import sys
+from pathlib import Path
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from title_filter import classify  # noqa: E402
+import pytest
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)
+from job_finder.filters.title_classifier import classify
+
+ROOT = Path(__file__).resolve().parents[2]
+CORPORA = ROOT / "tests" / "fixtures" / "title_corpora"
 
 # --- Layer 1: hand-written cases -------------------------------------------
 # Each entry documents a bug that was actually found and fixed.
@@ -115,59 +117,77 @@ CASES = [
 
 # Words implying an engineering role; used to detect false negatives in bulk data.
 ENGINEERING_SIGNALS = (
-    "engineer", "developer", " scientist", "architect", "sde ",
-    "programmer", "machine learning", "analytics", "data analyst",
+    "engineer",
+    "developer",
+    " scientist",
+    "architect",
+    "sde ",
+    "programmer",
+    "machine learning",
+    "analytics",
+    "data analyst",
 )
 
 
-def run() -> int:
-    failures = 0
-
-    print("=" * 62)
-    print("Layer 1: hand-written cases")
-    bad = [(t, e, classify(t)) for t, e in CASES if classify(t)[0] != e]
-    print(f"  {len(CASES) - len(bad)}/{len(CASES)} correct")
-    for title, expected, got in bad:
-        print(f"    WANT {expected:6s} GOT {got[0]:6s} [{got[1]}/{got[2]}]  {title}")
-    failures += len(bad)
-
-    print("\nLayer 2: live corpora — false-negative check")
-    for name, fname in (("Amazon India", "raw_titles.json"), ("Greenhouse", "gh_titles.json")):
-        path = os.path.join(HERE, fname)
-        if not os.path.exists(path):
-            print(f"  {name}: SKIPPED (missing {fname})")
-            continue
-        titles = [x["title"] for x in json.load(open(path))]
-        results = [(t, classify(t)) for t in titles]
-        passed = [r for r in results if r[1][0] == "pass"]
-        fn = [
-            (t, v) for t, v in results
-            if v[0] == "reject" and any(w in (" " + t.lower() + " ") for w in ENGINEERING_SIGNALS)
-        ]
-        pct = 100 * len(passed) // len(results)
-        print(f"  {name}: pass {len(passed)}/{len(results)} ({pct}%)  false-negatives {len(fn)}")
-        for t, v in fn[:10]:
-            print(f"    FN: {t[:66]}  [{v[2]}]")
-        failures += len(fn)
-
-    print("\nLayer 3: regression vs the real 2026-09-29 scan")
-    report = os.path.join(ROOT, "reports", "latest_scan.json")
-    if os.path.exists(report):
-        d = json.load(open(report))
-        known = [r["title"] for r in d["review_candidates"]]
-        known += [r["title"] for r in d["matching_jobs"] + d["date_uncertain_jobs"]]
-        regressions = [(t, classify(t)) for t in known if classify(t)[0] != "pass"]
-        print(f"  {len(known) - len(regressions)}/{len(known)} still pass")
-        for t, v in regressions:
-            print(f"    REGRESSION: {t[:66]}  [{v[1]}/{v[2]}]")
-        failures += len(regressions)
-    else:
-        print("  SKIPPED (no reports/latest_scan.json)")
-
-    print("=" * 62)
-    print("ALL CHECKS PASSED" if failures == 0 else f"{failures} FAILURE(S)")
-    return 1 if failures else 0
+@pytest.mark.parametrize(("title", "expected"), CASES, ids=[t for t, _ in CASES])
+def test_hand_written_case(title: str, expected: str) -> None:
+    """Every case derives from a real bug found during adversarial review."""
+    decision, reason_code, matched = classify(title)
+    assert decision == expected, f"{title!r} -> {decision} via {reason_code} ({matched})"
 
 
-if __name__ == "__main__":
-    sys.exit(run())
+@pytest.mark.parametrize(
+    ("name", "filename", "minimum_pass_rate"),
+    [
+        ("Amazon India", "amazon_india_titles.json", 70),
+        ("Greenhouse", "greenhouse_titles.json", 60),
+    ],
+)
+def test_live_corpus_has_no_false_negatives(
+    name: str, filename: str, minimum_pass_rate: int
+) -> None:
+    """Zero engineering roles wrongly rejected across ~2,400 real titles.
+
+    A false negative here is invisible in production -- the job is never fetched, never
+    seen, never counted. A false positive costs one skim. That asymmetry is why this
+    asserts zero false negatives but only a floor on the pass rate.
+    """
+    titles = [item["title"] for item in json.loads((CORPORA / filename).read_text("utf-8"))]
+    results = [(title, classify(title)) for title in titles]
+
+    false_negatives = [
+        (title, verdict)
+        for title, verdict in results
+        if verdict[0] == "reject"
+        and any(signal in f" {title.lower()} " for signal in ENGINEERING_SIGNALS)
+    ]
+    assert not false_negatives, (
+        f"{name}: {len(false_negatives)} engineering titles wrongly rejected, "
+        f"first few: {false_negatives[:5]}"
+    )
+
+    passed = sum(1 for _, verdict in results if verdict[0] == "pass")
+    pass_rate = 100 * passed // len(results)
+    assert pass_rate >= minimum_pass_rate, (
+        f"{name} pass rate fell to {pass_rate}% (floor {minimum_pass_rate}%); "
+        "a sharp drop means the filter has become strict again"
+    )
+
+
+def test_no_regression_against_the_real_scan() -> None:
+    """Every title that passed the OLD stricter filter must still pass.
+
+    This is the guard against over-correction: the obvious way to break a filter rewrite
+    is to fix the false positives and quietly lose the true ones.
+    """
+    report_path = ROOT / "reports" / "latest_scan.json"
+    if not report_path.exists():  # pragma: no cover - depends on local artifacts
+        pytest.skip("reports/latest_scan.json is not present")
+
+    report = json.loads(report_path.read_text("utf-8"))
+    known = [row["title"] for row in report["review_candidates"]]
+    known += [row["title"] for row in report["matching_jobs"] + report["date_uncertain_jobs"]]
+
+    regressions = [(title, classify(title)) for title in known if classify(title)[0] != "pass"]
+
+    assert not regressions, f"{len(regressions)} titles regressed: {regressions[:5]}"

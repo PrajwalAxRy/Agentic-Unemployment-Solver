@@ -26,11 +26,6 @@ from job_finder.core.company_registry import CompanySourceRegistry
 from job_finder.core.job_contracts import NormalizedJob
 from job_finder.core.search_profile import SearchProfile
 from job_finder.core.source_contracts import AdapterOutcome, CompanySource
-from job_finder.filters.description_relevance import (
-    DescriptionRelevanceDecision,
-    DescriptionRelevanceResult,
-    evaluate_substantive_ai_work,
-)
 from job_finder.filters.roles import RoleDecision
 from job_finder.matching.evaluator import LLMProviderError, SeniorityEvaluator, UsageSnapshot
 from job_finder.matching.seniority import SeniorityDecision
@@ -386,29 +381,16 @@ def process_filter_report(
             prompt_version=evaluator.prompt_version,
             model_policy=evaluator.model_policy,
         )
-        relevance: DescriptionRelevanceResult | None = None
+        # The regex relevance gate that used to run here has been removed (to_change.md
+        # 2.3). It fired ten times in the entire 2026-09-29 scan -- it was never the real
+        # AI filter, title substring matching was. Keeping it while 2.2a widens the title
+        # stage would have been actively harmful: every row now reaches this point, so a
+        # gate tuned as a rare special case would become the universal filter and reject
+        # almost everything on a keyword miss.
+        #
+        # Relevance is now one of the three judgments in the merged LLM call (2.5), which
+        # sees the description and can tell a team name from the actual work.
         if row.role.decision is RoleDecision.CONDITIONAL_DESCRIPTION:
-            relevance = evaluate_substantive_ai_work(
-                detailed.description,
-                policy=profile.conditional_description,
-            )
-            if relevance.decision is not DescriptionRelevanceDecision.PASS:
-                counts.conditional_reject += 1
-                repository.fail_evaluation(
-                    observation.record.job_key,
-                    _relevance_failure(relevance, evaluator),
-                )
-                if relevance.decision is DescriptionRelevanceDecision.REVIEW and reportable:
-                    counts.review += 1
-                    reviews.append(
-                        _review(
-                            row,
-                            relevance.reason_code,
-                            relevance.reason,
-                            evidence=relevance.evidence,
-                        )
-                    )
-                continue
             counts.conditional_pass += 1
 
         try:
@@ -664,26 +646,6 @@ def _failure_result(reason_code: str, evaluator: SeniorityEvaluator) -> dict[str
     return {
         "pipeline_disposition": "manual_review",
         "reason_code": reason_code,
-        "prompt_version": evaluator.prompt_version,
-        "model_policy": evaluator.model_policy,
-    }
-
-
-def _relevance_failure(
-    relevance: DescriptionRelevanceResult,
-    evaluator: SeniorityEvaluator,
-) -> dict[str, object]:
-    return {
-        "pipeline_disposition": (
-            "role_rejected"
-            if relevance.decision is DescriptionRelevanceDecision.REJECT
-            else "manual_review"
-        ),
-        "reason_code": relevance.reason_code,
-        "reason": relevance.reason,
-        "evidence": relevance.evidence,
-        "matched_topic": relevance.matched_topic,
-        "matched_action": relevance.matched_action,
         "prompt_version": evaluator.prompt_version,
         "model_policy": evaluator.model_policy,
     }

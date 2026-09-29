@@ -41,19 +41,77 @@ def test_exclusion_takes_precedence_over_target_terms() -> None:
     ],
 )
 def test_common_variants_and_multi_role_titles_pass(title: str) -> None:
+    """These survive the title stage -- but as conditional, never as an outright pass.
+
+    2.2: no title may grant a pass or skip the relevance gate. The family label is still
+    attached for reporting, it just no longer decides anything.
+    """
     result = filter_role(title, profile=PROFILE)
 
-    assert result.decision is RoleDecision.EXPLICIT_PASS
+    assert result.decision is RoleDecision.CONDITIONAL_DESCRIPTION
     assert result.family_id is not None
 
 
-def test_ambiguous_abbreviations_do_not_pass() -> None:
-    assert filter_role("CV Engineer", profile=PROFILE).decision is RoleDecision.REJECT
-    assert filter_role("MCP Engineer", profile=PROFILE).decision is RoleDecision.REJECT
+def test_no_title_can_skip_the_description_gate() -> None:
+    """The single most important property of the new title stage (2.2).
+
+    'DevOps Engineer II, Ads AI Core Infra' is the row that motivated this: under the old
+    policy a bare 'AI' token anywhere granted an unconditional pass, so a pure DevOps role
+    in a team called 'Ads AI Core Infra' skipped the description check entirely.
+    """
+    for title in (
+        "Senior Machine Learning Engineer",
+        "DevOps Engineer II, Ads AI Core Infra",
+        "Staff Data Scientist - Graph Neural Networks & Predictive AI",
+        "Backend Engineer - Search",
+    ):
+        result = filter_role(title, profile=PROFILE)
+        assert result.decision is not RoleDecision.EXPLICIT_PASS, (
+            f"{title!r} skipped the relevance gate; no title may do that"
+        )
 
 
-def test_mcp_with_agent_context_passes() -> None:
+def test_engineering_abbreviations_now_reach_the_description_gate() -> None:
+    """Recall gain from 2.2a: the old allowlist rejected these outright.
+
+    Whether 'CV' means computer vision or curriculum vitae, and what 'MCP' refers to, are
+    description questions. Rejecting them on the title guaranteed a silent false negative,
+    and a false negative here is invisible while a false positive costs one skim.
+    """
+    assert (
+        filter_role("CV Engineer", profile=PROFILE).decision is RoleDecision.CONDITIONAL_DESCRIPTION
+    )
+    assert (
+        filter_role("MCP Engineer", profile=PROFILE).decision
+        is RoleDecision.CONDITIONAL_DESCRIPTION
+    )
+
+
+def test_mcp_with_agent_context_keeps_its_family_label() -> None:
     result = filter_role("AI Agent MCP Engineer", profile=PROFILE)
 
-    assert result.decision is RoleDecision.EXPLICIT_PASS
+    assert result.decision is RoleDecision.CONDITIONAL_DESCRIPTION
     assert result.family_id == "agents_and_tooling"
+
+
+def test_non_engineering_functions_are_still_rejected() -> None:
+    """The blocklist half: reject functions, not domains (2.2a)."""
+    for title in ("Recruiting Coordinator", "Account Executive", "Warehouse Associate"):
+        assert filter_role(title, profile=PROFILE).decision is RoleDecision.REJECT, title
+
+
+def test_domain_words_do_not_reject_engineering_roles() -> None:
+    """2.2a's serious failure mode: domain-vs-function confusion.
+
+    Every one of these is a real title that a naive blocklist rejected on a business-domain
+    word. The engineering-function check must take precedence over the blocklist.
+    """
+    for title in (
+        "Software Dev Engineer II, AWS Healthcare AI",
+        "Software Dev Engineer II, Amazon Marketing Cloud",
+        "Software Development Engineer, Amazon Customer Service",
+        "Security Engineer, Security for Employee and Legal Systems",
+        "Machine Learning Engineer, Prime Video Ads CX",
+        "Software Development Engineer II, Enterprise Engineering",
+    ):
+        assert filter_role(title, profile=PROFILE).decision is not RoleDecision.REJECT, title
