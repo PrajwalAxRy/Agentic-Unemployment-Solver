@@ -29,6 +29,7 @@ from job_finder.adapters.gnani_careers import GnaniCareersAdapter
 from job_finder.adapters.google_careers import GoogleCareersAdapter
 from job_finder.adapters.greenhouse import GreenhouseAdapter
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
+from job_finder.adapters.index_exchange import IndexExchangeCareersAdapter
 from job_finder.adapters.intuit_careers import IntuitCareersAdapter
 from job_finder.adapters.jobvite import JobviteAdapter
 from job_finder.adapters.lever import LeverAdapter
@@ -471,6 +472,7 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
                     GnaniCareersAdapter(client),
                     GoogleCareersAdapter(client),
                     IntuitCareersAdapter(client),
+                    IndexExchangeCareersAdapter(client),
                     MicrosoftCareersAdapter(client),
                     NaviCareersAdapter(client),
                     PageUpXmlFeedAdapter(client),

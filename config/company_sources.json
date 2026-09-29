@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-c17",
-  "generated_at": "2026-09-29T15:00:00+05:30",
+  "registry_version": "0.3.0-phase12-c18",
+  "generated_at": "2026-09-29T18:05:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -2300,32 +2300,32 @@
       "schema_version": 1,
       "company_id": "index-exchange",
       "company_name": "Index Exchange",
-      "status": "proposed",
-      "careers_url": "https://www.indexexchange.com/careers/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://www.indexexchange.com/careers/opportunities/",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://www.indexexchange.com/careers/"
+        "adapter_key": "index_exchange_official_inventory"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
         "field_name": null,
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "The official listing exposes stable Gem external IDs but no verified publication timestamp."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://www.indexexchange.com/careers/",
-        "https://www.indexexchange.com/careers/"
+        "https://www.indexexchange.com/careers/opportunities/",
+        "https://jobs.gem.com/index-exchange/am9icG9zdDoB-_XBK5jhTnSDdt6VoFsF"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 browser discovery and direct replay proved the official 30-row inventory, 29 unique jobs after one valid multi-location collapse, and representative full Gem details.",
       "source_rank": 71,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T17:55:00+05:30"
     },
     {
       "schema_version": 1,
@@ -7036,33 +7036,35 @@
       "schema_version": 1,
       "company_id": "s-and-p-global",
       "company_name": "S&P Global",
-      "status": "proposed",
-      "careers_url": "https://careers.spglobal.com/jobs/locations",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://spgi.wd5.myworkdayjobs.com/SPGI_Careers",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://careers.spglobal.com/jobs/locations"
+        "host": "spgi.wd5.myworkdayjobs.com",
+        "tenant": "spgi",
+        "site": "SPGI_Careers"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Workday relative postedOn evidence is retained but remains unverified."
       },
       "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://careers.spglobal.com/jobs/locations",
-        "https://careers.spglobal.com/jobs/locations",
-        "https://careers.spglobal.com/jobs/locations"
+        "https://spgi.wd5.myworkdayjobs.com/SPGI_Careers",
+        "https://spgi.wd5.myworkdayjobs.com/wday/cxs/spgi/SPGI_Careers/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 official-site discovery proved the linked S&P Global Workday tenant; first-attempt validation enumerated 270 jobs across 14 pages and retrieved first, middle, and final details.",
       "source_rank": 219,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T18:05:00+05:30"
     },
     {
       "schema_version": 1,

@@ -12,11 +12,11 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 144
-    assert audit.by_status == {"enabled": 144, "proposed": 184, "unsupported": 2}
+    assert audit.enabled_count == 146
+    assert audit.by_status == {"enabled": 146, "proposed": 182, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 27,
-        "custom": 21,
+        "custom": 22,
         "darwinbox": 4,
         "eightfold": 1,
         "freshteam": 2,
@@ -26,13 +26,13 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "oracle_cloud": 3,
         "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 180,
+        "search_only": 178,
         "sensehq": 1,
         "smartrecruiters": 5,
         "successfactors": 2,
         "unsupported": 2,
         "unresolved": 4,
-        "workday": 23,
+        "workday": 24,
     }
 
 
@@ -110,7 +110,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-c17"
+    assert registry.registry_version == "0.3.0-phase12-c18"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -449,6 +449,39 @@ def test_phase12_package_c_eighth_cohort_activates_shared_host_pcsx_source() -> 
     assert source.date_strategy.basis.value == "unknown"
     assert source.date_strategy.verified_as_publication is False
     assert source.detail_strategy.value == "detail_endpoint"
+
+
+def test_phase12_package_c_ninth_cohort_activates_index_exchange_inventory() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    source = next(
+        entry.source for entry in registry.entries if entry.source.company_id == "index-exchange"
+    )
+
+    assert source.enabled is True
+    assert source.status.value == "enabled"
+    assert source.careers_url == "https://www.indexexchange.com/careers/opportunities/"
+    assert source.adapter_type.value == "custom"
+    assert source.adapter_parameters == {"adapter_key": "index_exchange_official_inventory"}
+    assert source.identity_strategy.value == "external_id"
+    assert source.date_strategy.field_name is None
+    assert source.date_strategy.basis.value == "unknown"
+    assert source.detail_strategy.value == "detail_page"
+
+    sp_global = next(
+        entry.source for entry in registry.entries if entry.source.company_id == "s-and-p-global"
+    )
+    assert sp_global.enabled is True
+    assert sp_global.status.value == "enabled"
+    assert sp_global.careers_url == "https://spgi.wd5.myworkdayjobs.com/SPGI_Careers"
+    assert sp_global.adapter_type.value == "workday"
+    assert sp_global.adapter_parameters == {
+        "host": "spgi.wd5.myworkdayjobs.com",
+        "tenant": "spgi",
+        "site": "SPGI_Careers",
+    }
+    assert sp_global.identity_strategy.value == "external_id"
+    assert sp_global.date_strategy.field_name == "postedOn"
+    assert sp_global.date_strategy.basis.value == "unknown"
 
 
 def test_phase12_package_b_corrects_payu_to_its_official_successfactors_board() -> None:

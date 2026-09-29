@@ -24,15 +24,22 @@
   TrueFoundry, Booking.com, Navi, and Quadeye. The user approved continuing the remaining Package C
   backlog and then evaluating Packages D and E on 2026-09-29; all existing fail-closed and no-bypass
   gates still apply. Cohort 8 activated Eightfold AI through its public PCSx listing/detail
-  contract.
+  contract. Cohort 9 activated Index Exchange from its count-reconciled official table and public
+  Gem details, plus S&P Global from its officially linked Workday tenant.
 - Pending human checkpoint: none for the currently approved Phase 12 integration and audit work.
-- Active review artifact: `docs/reviews/phase12_package_c_cohort8_validation.md`.
+- Active review artifact: `docs/reviews/phase12_package_c_cohort9_validation.md`.
 - Company ledger: `docs/reviews/phase12_search_only_company_dossiers.md` (238/238 accounted).
-- The 144 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
-  including 186 disabled backlog or unsupported records.
+- The 146 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
+  including 184 disabled backlog or unsupported records.
 
 ## Completed gates
 
+- Phase 12 Package C cohort 9 activated Index Exchange from its official count-bearing careers
+  table and public Gem detail pages. The first-attempt gate reconciled 30 rows to 29 unique jobs,
+  including one valid two-location posting and three Bengaluru jobs. Representative descriptions
+  contained 7,595 and 7,469 normalized characters. S&P Global also passed in one attempt with 270
+  jobs across 14 Workday pages and three substantial representative descriptions. Dates remain
+  explicitly unknown. The registry now enables 146 sources.
 - Phase 12 Package C cohort 8 activated Eightfold AI through the public PCSx contract discovered
   on its official branded page. The complete gate returned 59 unique jobs across six pages and
   three representative detail calls returned substantial descriptions with matching identities.
@@ -721,6 +728,8 @@
   `docs/reviews/phase12_package_c_cohort7_validation.md`
 - Phase 12 Package C cohort 8 validation:
   `docs/reviews/phase12_package_c_cohort8_validation.md`
+- Phase 12 Package C cohort 9 validation:
+  `docs/reviews/phase12_package_c_cohort9_validation.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -759,8 +768,8 @@
 - Seventeen Bank of America multi-location candidates could not retrieve their public Workday
   details during the Phase 6 scan and remain explicit H6 location-review rows. Two SAP detail-date
   fetches failed and remain explicit uncertain-date candidates under the approved hybrid policy.
-- 180 records remain `search_only`. Phase 12 Packages A, B, and the first eight Package C cohorts
-  removed 58 live-validated mappings: 21 in Package A, six in Package B, and 31 in Package C.
+- 178 records remain `search_only`. Phase 12 Packages A, B, and the first nine Package C cohorts
+  removed 60 live-validated mappings: 21 in Package A, six in Package B, and 33 in Package C.
   Failed candidates remain explicit in this count while the approved deterministic, endpoint
   replay, empty-state, manual, and identity-repair lanes continue.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
@@ -785,7 +794,7 @@
 ## Resume point
 
 The first release remains complete. Continue the remaining deterministic P1/P2 backlog from
-`docs/reviews/phase12_package_c_cohort8_validation.md`, then evaluate the user-approved Package D
+`docs/reviews/phase12_package_c_cohort9_validation.md`, then evaluate the user-approved Package D
 and E lanes under the same public-source, no-bypass, and fail-closed activation gates. Preserve the
 released `v0.1.0` behavior and follow the phased checkpoint protocol for any further scope
 expansion.

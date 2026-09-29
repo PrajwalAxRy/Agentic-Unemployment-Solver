@@ -540,3 +540,17 @@ def test_phase12_package_c_cohort8_records_shared_host_pcsx_activation() -> None
     assert "unknown-basis evidence" in review
     assert "Pagination stops only" in review
     assert "Eightfold AI is enabled" in review
+
+
+def test_phase12_package_c_cohort9_records_index_exchange_activation() -> None:
+    review = Path("docs/reviews/phase12_package_c_cohort9_validation.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "30 declared table rows and 29 unique jobs" in review
+    assert "Three current jobs are in Bengaluru" in review
+    assert "270 unique jobs across 14 Workday pages" in review
+    assert "Multi-location collapse" in review
+    assert "No API credential" in review
+    assert "Index Exchange is enabled" in review
+    assert "S&P Global is enabled" in review
