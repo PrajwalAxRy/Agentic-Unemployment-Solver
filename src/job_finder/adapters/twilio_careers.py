@@ -17,6 +17,7 @@ from job_finder.adapters.base import (
     request_failure_diagnostic,
     require_source_configuration,
 )
+from job_finder.adapters.errors import DetailContentMissing, DetailIdentityMismatch
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.source_contracts import (
@@ -231,32 +232,34 @@ class TwilioCareersAdapter:
                 referer=job.canonical_url,
             )
         except HttpRequestError as error:
-            raise ValueError(f"Twilio detail request failed: {error.category.value}") from error
+            raise DetailContentMissing(
+                f"Twilio detail request failed: {error.category.value}"
+            ) from error
         if response.final_url != endpoint:
-            raise ValueError("Twilio detail API redirected.")
+            raise DetailIdentityMismatch("Twilio detail API redirected.")
         try:
             payload: Any = json.loads(response.body)
             detail = _response_data(payload, "Twilio detail response")
         except (json.JSONDecodeError, UnicodeDecodeError, ValueError) as error:
-            raise ValueError("Twilio detail response schema was invalid.") from error
+            raise DetailContentMissing("Twilio detail response schema was invalid.") from error
 
         observed_id = str(_positive_int(detail.get("id"), "Twilio detail id"))
         if observed_id != external_id:
-            raise ValueError("Twilio detail ID did not match the listing.")
+            raise DetailIdentityMismatch("Twilio detail ID did not match the listing.")
         title = _required_string(detail, "name", "Twilio detail")
         if _normalize_text(title) != job.title_normalized:
-            raise ValueError("Twilio detail title did not match the listing.")
+            raise DetailIdentityMismatch("Twilio detail title did not match the listing.")
         locations = _locations(detail)
         if _normalized_locations(locations) != job.location_normalized:
-            raise ValueError("Twilio detail locations did not match the listing.")
+            raise DetailIdentityMismatch("Twilio detail locations did not match the listing.")
         _validate_position_path(detail.get("positionUrl"), external_id)
         public_url = _required_string(detail, "publicUrl", "Twilio detail")
         if public_url != job.canonical_url:
-            raise ValueError("Twilio detail public URL did not match the listing.")
+            raise DetailIdentityMismatch("Twilio detail public URL did not match the listing.")
 
         description = _plain_text(_required_string(detail, "jobDescription", "Twilio detail"))
         if len(description) < 80:
-            raise ValueError("Twilio detail description normalized to insufficient text.")
+            raise DetailContentMissing("Twilio detail description normalized to insufficient text.")
         published_raw, published_at = _published_date(detail.get("efcustomTextPostDate"))
         return NormalizedJob(
             schema_version=1,

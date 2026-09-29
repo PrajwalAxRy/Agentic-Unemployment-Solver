@@ -15,6 +15,7 @@ from job_finder.adapters.base import (
     request_failure_diagnostic,
     require_source_configuration,
 )
+from job_finder.adapters.errors import DetailContentMissing, DetailIdentityMismatch
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
@@ -272,12 +273,12 @@ class AppleJobsAdapter:
         """Retrieve one Apple detail hydration payload and cross-check listing identity."""
         _validate_source(source)
         if job.company_id != source.company_id or job.source_type != self.adapter_type.value:
-            raise ValueError("Apple detail job does not match the configured source.")
+            raise DetailIdentityMismatch("Apple detail job does not match the configured source.")
         if job.external_job_id is None:
-            raise ValueError("Apple detail retrieval requires an external job ID.")
+            raise DetailContentMissing("Apple detail retrieval requires an external job ID.")
         canonical_url, detail_identifier = _canonical_detail_url(job.canonical_url)
         if canonical_url != job.canonical_url:
-            raise ValueError("Apple detail URL is not canonical.")
+            raise DetailIdentityMismatch("Apple detail URL is not canonical.")
 
         response = self._client.get(
             job.canonical_url,
@@ -293,45 +294,51 @@ class AppleJobsAdapter:
             )
         response_url, response_identifier = _canonical_detail_url(response.final_url)
         if response_url != job.canonical_url or response_identifier != detail_identifier:
-            raise ValueError("Apple detail response URL does not match the listing.")
+            raise DetailIdentityMismatch("Apple detail response URL does not match the listing.")
 
         detail = _loader_value(document, "jobDetails")
         request_url = _required_string(detail, "requestUrl", "Apple detail data")
         request_canonical, request_identifier = _canonical_detail_url(request_url)
         if request_canonical != job.canonical_url or request_identifier != detail_identifier:
-            raise ValueError("Apple detail hydration requestUrl does not match the listing.")
+            raise DetailIdentityMismatch(
+                "Apple detail hydration requestUrl does not match the listing."
+            )
         canonical_links = _canonical_links(detail.get("metaLinks"))
         if canonical_links != {job.canonical_url}:
-            raise ValueError(
+            raise DetailIdentityMismatch(
                 "Apple detail hydration must expose exactly one matching canonical URL."
             )
         data = _required_mapping(detail.get("jobsData"), "Apple jobsData")
         position_id = _required_string(data, "positionId", "Apple jobsData")
         if position_id != job.source_metadata.get("position_id"):
-            raise ValueError("Apple detail position ID does not match the listing.")
+            raise DetailIdentityMismatch("Apple detail position ID does not match the listing.")
         if not detail_identifier.startswith(position_id):
-            raise ValueError("Apple detail URL identifier does not match its position ID.")
+            raise DetailIdentityMismatch(
+                "Apple detail URL identifier does not match its position ID."
+            )
         managed_pipeline = job.source_metadata.get("managed_pipeline_role") is True
         if managed_pipeline:
             detail_internal_id = _required_string(data, "id", "Apple jobsData")
             if detail_internal_id != job.external_job_id:
-                raise ValueError("Apple pipeline detail ID does not match the listing.")
+                raise DetailIdentityMismatch("Apple pipeline detail ID does not match the listing.")
         else:
             job_number = _required_string(data, "jobNumber", "Apple jobsData")
             if job_number != job.external_job_id:
-                raise ValueError("Apple detail jobNumber does not match the listing.")
+                raise DetailIdentityMismatch("Apple detail jobNumber does not match the listing.")
         title = _required_string(data, "postingTitle", "Apple jobsData")
         if _normalize_text(title) != job.title_normalized:
-            raise ValueError("Apple detail title does not match the listing.")
+            raise DetailIdentityMismatch("Apple detail title does not match the listing.")
         slug = _required_string(data, "transformedPostingTitle", "Apple jobsData")
         if not job.canonical_url.endswith(f"/{slug}"):
-            raise ValueError("Apple detail title slug does not match the listing URL.")
+            raise DetailIdentityMismatch("Apple detail title slug does not match the listing URL.")
         if job.date_basis is DateBasis.PUBLISHED:
             detail_date = _published_datetime(
                 _required_string(data, "postDateInGMT", "Apple jobsData")
             )
             if detail_date != job.published_at:
-                raise ValueError("Apple detail publication timestamp does not match the listing.")
+                raise DetailIdentityMismatch(
+                    "Apple detail publication timestamp does not match the listing."
+                )
         locations = _location_text(data.get("locations"))
         description = _detail_description(data)
         metadata = dict(job.source_metadata)

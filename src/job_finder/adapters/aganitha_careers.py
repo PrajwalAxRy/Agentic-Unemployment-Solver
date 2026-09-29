@@ -14,6 +14,7 @@ from job_finder.adapters.base import (
     request_failure_diagnostic,
     require_source_configuration,
 )
+from job_finder.adapters.errors import DetailContentMissing, DetailIdentityMismatch
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
@@ -222,11 +223,13 @@ class AganithaCareersAdapter:
         _validate_job(source, job)
         detail = self._fetch_detail(job.canonical_url, include_description=True)
         if _normalize_text(detail.title) != job.title_normalized:
-            raise ValueError("Aganitha detail title changed after listing discovery.")
+            raise DetailIdentityMismatch("Aganitha detail title changed after listing discovery.")
         if _normalize_text(detail.location) != _normalize_text(job.location_original):
-            raise ValueError("Aganitha detail location changed after listing discovery.")
+            raise DetailIdentityMismatch(
+                "Aganitha detail location changed after listing discovery."
+            )
         if detail.description is None:
-            raise ValueError("Aganitha detail description was unavailable.")
+            raise DetailContentMissing("Aganitha detail description was unavailable.")
         return replace(
             job,
             description=detail.description,

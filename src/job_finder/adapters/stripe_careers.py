@@ -17,6 +17,7 @@ from job_finder.adapters.base import (
     request_failure_diagnostic,
     require_source_configuration,
 )
+from job_finder.adapters.errors import DetailContentMissing, DetailIdentityMismatch
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
@@ -192,10 +193,10 @@ class StripeCareersAdapter:
         """Retrieve one Stripe detail page and preserve the listing identity."""
         _validate_source(source)
         if job.company_id != source.company_id or job.source_type != AdapterType.CUSTOM.value:
-            raise ValueError("Stripe detail job does not match the configured source.")
+            raise DetailIdentityMismatch("Stripe detail job does not match the configured source.")
         canonical_url, slug, external_id = _canonical_detail_url(job.canonical_url)
         if canonical_url != job.canonical_url or external_id != job.external_job_id:
-            raise ValueError("Stripe detail URL identity does not match the listing.")
+            raise DetailIdentityMismatch("Stripe detail URL identity does not match the listing.")
 
         response = self._client.get(
             canonical_url,
@@ -211,7 +212,7 @@ class StripeCareersAdapter:
             )
         response_url, response_slug, response_id = _canonical_detail_url(response.final_url)
         if response_url != canonical_url or response_slug != slug or response_id != external_id:
-            raise ValueError("Stripe detail response URL does not match the listing.")
+            raise DetailIdentityMismatch("Stripe detail response URL does not match the listing.")
 
         payload = _next_data(document)
         props = _required_mapping(payload.get("props"), "Stripe props")
@@ -221,9 +222,11 @@ class StripeCareersAdapter:
         detail_slug = _required_string(detail, "slug", "Stripe detail listing")
         detail_title = _required_string(detail, "title", "Stripe detail listing")
         if detail_id != external_id or detail_slug != slug:
-            raise ValueError("Stripe detail payload identity does not match the listing.")
+            raise DetailIdentityMismatch(
+                "Stripe detail payload identity does not match the listing."
+            )
         if _normalize_text(detail_title) != job.title_normalized:
-            raise ValueError("Stripe detail title does not match the listing title.")
+            raise DetailIdentityMismatch("Stripe detail title does not match the listing title.")
         detail_location_indices = tuple(
             _index_list(detail.get("locationIndices"), "Stripe detail locationIndices")
         )
@@ -231,13 +234,13 @@ class StripeCareersAdapter:
         if not isinstance(listing_location_indices, tuple) or any(
             not isinstance(item, int) for item in listing_location_indices
         ):
-            raise ValueError("Stripe listing metadata omitted valid location indices.")
+            raise DetailContentMissing("Stripe listing metadata omitted valid location indices.")
         if detail_location_indices != listing_location_indices:
-            raise ValueError("Stripe detail locations do not match the listing.")
+            raise DetailIdentityMismatch("Stripe detail locations do not match the listing.")
         content_markdown = _required_string(detail, "contentMarkdown", "Stripe detail listing")
         description = _plain_markdown(content_markdown)
         if not description:
-            raise ValueError("Stripe detail description normalized to empty text.")
+            raise DetailContentMissing("Stripe detail description normalized to empty text.")
         date_raw = _job_posting_date(document, external_id, detail_title, canonical_url)
         published_at = _iso_datetime(date_raw, "Stripe datePosted")
         metadata = dict(job.source_metadata)

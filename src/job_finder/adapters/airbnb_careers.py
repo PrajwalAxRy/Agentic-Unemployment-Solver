@@ -18,6 +18,7 @@ from job_finder.adapters.base import (
     request_failure_diagnostic,
     require_source_configuration,
 )
+from job_finder.adapters.errors import DetailContentMissing, DetailIdentityMismatch
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
@@ -355,7 +356,7 @@ class AirbnbCareersAdapter:
             referer=AIRBNB_CAREERS_URL,
         )
         if response.final_url != job.canonical_url:
-            raise ValueError("Airbnb detail redirected outside its canonical URL.")
+            raise DetailIdentityMismatch("Airbnb detail redirected outside its canonical URL.")
         document = response.body.decode("utf-8")
         if is_access_block_html(document):
             raise HttpRequestError(
@@ -368,13 +369,13 @@ class AirbnbCareersAdapter:
         parser.close()
         detail = parser.data(job.canonical_url)
         if _normalize_text(detail.title) != job.title_normalized:
-            raise ValueError("Airbnb detail title does not match the listing.")
+            raise DetailIdentityMismatch("Airbnb detail title does not match the listing.")
         if _normalize_text(detail.location) != _normalize_text(job.location_original):
-            raise ValueError("Airbnb detail location does not match the listing.")
+            raise DetailIdentityMismatch("Airbnb detail location does not match the listing.")
         try:
             webpage_date = datetime.fromisoformat(detail.webpage_date_published).date()
         except ValueError as error:
-            raise ValueError("Airbnb WebPage datePublished is invalid.") from error
+            raise DetailContentMissing("Airbnb WebPage datePublished is invalid.") from error
         return replace(
             job,
             published_at=webpage_date,

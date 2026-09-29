@@ -14,6 +14,7 @@ from job_finder.adapters.base import (
     request_failure_diagnostic,
     require_source_configuration,
 )
+from job_finder.adapters.errors import DetailContentMissing, DetailIdentityMismatch
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
@@ -268,10 +269,14 @@ class GoogleCareersAdapter:
         """Retrieve one official Google detail page without changing its identity."""
         _validate_source(source)
         if job.company_id != source.company_id or job.source_type != self.adapter_type.value:
-            raise ValueError("Google Careers detail job does not match the configured source.")
+            raise DetailIdentityMismatch(
+                "Google Careers detail job does not match the configured source."
+            )
         canonical_url, external_id = _canonical_detail_url(job.canonical_url)
         if canonical_url != job.canonical_url or external_id != job.external_job_id:
-            raise ValueError("Google Careers detail URL identity does not match the listing.")
+            raise DetailIdentityMismatch(
+                "Google Careers detail URL identity does not match the listing."
+            )
 
         response = self._client.get(
             job.canonical_url,
@@ -287,17 +292,21 @@ class GoogleCareersAdapter:
             )
         response_url, response_id = _canonical_detail_url(response.final_url)
         if response_url != job.canonical_url or response_id != job.external_job_id:
-            raise ValueError("Google Careers detail response URL does not match the listing.")
+            raise DetailIdentityMismatch(
+                "Google Careers detail response URL does not match the listing."
+            )
 
         parser = _DetailParser()
         parser.feed(document)
         parser.close()
         title = _required_text(_compact_text(parser.title_parts), "Google detail title")
         if _normalize_text(title) != job.title_normalized:
-            raise ValueError("Google Careers detail title does not match the listing title.")
+            raise DetailIdentityMismatch(
+                "Google Careers detail title does not match the listing title."
+            )
         locations = _unique_strings(_compact_text(parts) for parts in parser.location_parts)
         if not locations or not any(_is_india_location(value) for value in locations):
-            raise ValueError("Google Careers detail must contain an India location.")
+            raise DetailContentMissing("Google Careers detail must contain an India location.")
 
         sections: list[str] = []
         for key in (
@@ -310,7 +319,9 @@ class GoogleCareersAdapter:
             if text:
                 sections.append(f"{_SECTION_LABELS[key]}\n\n{text}")
             elif key != "preferred qualifications":
-                raise ValueError(f"Google Careers detail section {key} must be non-empty.")
+                raise DetailContentMissing(
+                    f"Google Careers detail section {key} must be non-empty."
+                )
         description = "\n\n".join(sections)
         metadata = dict(job.source_metadata)
         product = _clean_badge_text(parser.product_parts)

@@ -18,6 +18,7 @@ from job_finder.adapters.base import (
     request_failure_diagnostic,
     require_source_configuration,
 )
+from job_finder.adapters.errors import DetailContentMissing, DetailIdentityMismatch
 from job_finder.adapters.http_client import (
     BoundedHttpClient,
     HttpFailureCategory,
@@ -287,44 +288,52 @@ class MicrosoftCareersAdapter:
         """Retrieve one Microsoft detail payload and cross-check listing identity."""
         _validate_source(source)
         if job.company_id != source.company_id or job.source_type != self.adapter_type.value:
-            raise ValueError("Microsoft detail job does not match the configured source.")
+            raise DetailIdentityMismatch(
+                "Microsoft detail job does not match the configured source."
+            )
         position_id = job.source_metadata.get("position_id")
         if not isinstance(position_id, str) or not position_id.isdigit():
-            raise ValueError("Microsoft detail retrieval requires a numeric position ID.")
+            raise DetailContentMissing("Microsoft detail retrieval requires a numeric position ID.")
         canonical_url, canonical_position_id = _canonical_job_url(job.canonical_url)
         if canonical_url != job.canonical_url or canonical_position_id != position_id:
-            raise ValueError("Microsoft detail URL identity does not match the listing.")
+            raise DetailIdentityMismatch(
+                "Microsoft detail URL identity does not match the listing."
+            )
 
         detail_url = _detail_url(position_id)
         response = self._get(detail_url)
         if not _is_detail_response(response.final_url, position_id):
-            raise ValueError("Microsoft detail response redirected outside the approved API route.")
+            raise DetailIdentityMismatch(
+                "Microsoft detail response redirected outside the approved API route."
+            )
         try:
             data = _api_data(response.body, "Microsoft careers detail")
         except _RemoteApiError as error:
-            raise ValueError(str(error)) from error
+            raise DetailIdentityMismatch(str(error)) from error
         detail_position_id = str(
             _required_nonnegative_int(data, "id", "Microsoft careers detail data")
         )
         if detail_position_id != position_id:
-            raise ValueError("Microsoft detail position ID does not match the listing.")
+            raise DetailIdentityMismatch("Microsoft detail position ID does not match the listing.")
         external_id = _required_string(data, "atsJobId", "Microsoft careers detail data")
         if external_id != job.external_job_id:
-            raise ValueError("Microsoft detail ATS job ID does not match the listing.")
+            raise DetailIdentityMismatch("Microsoft detail ATS job ID does not match the listing.")
         title = _required_string(data, "name", "Microsoft careers detail data")
         if _normalize_text(title) != job.title_normalized:
-            raise ValueError("Microsoft detail title does not match the listing.")
+            raise DetailIdentityMismatch("Microsoft detail title does not match the listing.")
         public_url = _required_string(data, "publicUrl", "Microsoft careers detail data")
         detail_canonical_url, public_position_id = _canonical_job_url(public_url)
         if detail_canonical_url != job.canonical_url or public_position_id != position_id:
-            raise ValueError("Microsoft detail public URL does not match the listing.")
+            raise DetailIdentityMismatch("Microsoft detail public URL does not match the listing.")
         timestamp = _posted_timestamp(data.get("postedTs"))
         if timestamp != job.published_at:
-            raise ValueError("Microsoft detail publication timestamp does not match the listing.")
+            raise DetailIdentityMismatch(
+                "Microsoft detail publication timestamp does not match the listing."
+            )
         description_html = _required_string(data, "jobDescription", "Microsoft careers detail data")
         description = _plain_text(description_html)
         if not description:
-            raise ValueError("Microsoft detail description normalized to empty text.")
+            raise DetailContentMissing("Microsoft detail description normalized to empty text.")
         metadata = dict(job.source_metadata)
         metadata.update(
             {

@@ -13,6 +13,7 @@ from job_finder.adapters.base import (
     request_failure_diagnostic,
     require_source_configuration,
 )
+from job_finder.adapters.errors import DetailContentMissing, DetailIdentityMismatch
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
@@ -122,17 +123,19 @@ class IndexExchangeCareersAdapter:
                 referer=INDEX_EXCHANGE_CAREERS_URL,
             )
         except HttpRequestError as error:
-            raise ValueError(
+            raise DetailContentMissing(
                 f"Index Exchange detail request failed: {error.category.value}"
             ) from error
         if response.final_url != job.canonical_url:
-            raise ValueError("Index Exchange detail redirected outside its canonical URL.")
+            raise DetailIdentityMismatch(
+                "Index Exchange detail redirected outside its canonical URL."
+            )
         try:
             document = response.body.decode("utf-8")
         except UnicodeDecodeError as error:
-            raise ValueError("Index Exchange detail was not valid UTF-8.") from error
+            raise DetailContentMissing("Index Exchange detail was not valid UTF-8.") from error
         if is_access_block_html(document):
-            raise ValueError("Index Exchange detail returned an access-control page.")
+            raise DetailContentMissing("Index Exchange detail returned an access-control page.")
         parser = _DetailMetaParser()
         parser.feed(document)
         parser.close()
@@ -140,11 +143,13 @@ class IndexExchangeCareersAdapter:
         canonical_url = parser.required("og:url")
         description = _normalize_whitespace(parser.required("og:description"))
         if _normalize_text(title) != job.title_normalized:
-            raise ValueError("Index Exchange detail title did not match the listing.")
+            raise DetailIdentityMismatch("Index Exchange detail title did not match the listing.")
         if canonical_url != job.canonical_url:
-            raise ValueError("Index Exchange detail canonical URL did not match the listing.")
+            raise DetailIdentityMismatch(
+                "Index Exchange detail canonical URL did not match the listing."
+            )
         if len(description) < 80:
-            raise ValueError("Index Exchange detail description was insufficient.")
+            raise DetailContentMissing("Index Exchange detail description was insufficient.")
         return replace(
             job,
             description=description,

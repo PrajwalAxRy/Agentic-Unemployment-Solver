@@ -18,6 +18,7 @@ from job_finder.adapters.base import (
     request_failure_diagnostic,
     require_source_configuration,
 )
+from job_finder.adapters.errors import DetailContentMissing, DetailIdentityMismatch
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.source_contracts import (
@@ -218,30 +219,32 @@ class PcsxCareersAdapter:
                 referer=job.canonical_url,
             )
         except HttpRequestError as error:
-            raise ValueError(f"PCSx detail request failed: {error.category.value}") from error
+            raise DetailContentMissing(
+                f"PCSx detail request failed: {error.category.value}"
+            ) from error
         if response.final_url != endpoint:
-            raise ValueError("PCSx detail API redirected.")
+            raise DetailIdentityMismatch("PCSx detail API redirected.")
         try:
             detail = _response_data(json.loads(response.body), "PCSx detail response")
         except (json.JSONDecodeError, UnicodeDecodeError, ValueError) as error:
-            raise ValueError("PCSx detail response schema was invalid.") from error
+            raise DetailContentMissing("PCSx detail response schema was invalid.") from error
         observed_id = str(_positive_int(detail.get("id"), "PCSx detail id"))
         if observed_id != external_id:
-            raise ValueError("PCSx detail ID did not match the listing.")
+            raise DetailIdentityMismatch("PCSx detail ID did not match the listing.")
         title = _required_string(detail, "name", "PCSx detail")
         if _normalize_text(title) != job.title_normalized:
-            raise ValueError("PCSx detail title did not match the listing.")
+            raise DetailIdentityMismatch("PCSx detail title did not match the listing.")
         locations = _locations(detail)
         if not locations:
             locations = ["Location unavailable"]
         if _normalized_locations(locations) != job.location_normalized:
-            raise ValueError("PCSx detail locations did not match the listing.")
+            raise DetailIdentityMismatch("PCSx detail locations did not match the listing.")
         _validate_position_path(detail.get("positionUrl"), external_id)
         if _required_string(detail, "publicUrl", "PCSx detail") != job.canonical_url:
-            raise ValueError("PCSx detail public URL did not match the listing.")
+            raise DetailIdentityMismatch("PCSx detail public URL did not match the listing.")
         description = _plain_text(_required_string(detail, "jobDescription", "PCSx detail"))
         if len(description) < 80:
-            raise ValueError("PCSx detail description normalized to insufficient text.")
+            raise DetailContentMissing("PCSx detail description normalized to insufficient text.")
         posted_raw, posted_at = _detail_timestamp(detail)
         return replace(
             job,

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from collections import Counter
 from collections.abc import Callable, Mapping
 from dataclasses import asdict, dataclass
@@ -12,6 +13,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from job_finder.adapters.base import AdapterRegistry, JobDetailAdapter
+from job_finder.adapters.errors import DetailUnavailable, exception_category
 from job_finder.adapters.http_client import HttpRequestError
 from job_finder.core.company_registry import CompanySourceRegistry
 from job_finder.core.job_contracts import NormalizedJob
@@ -45,6 +47,8 @@ from job_finder.persistence.repository import EvaluationStatus, JobRecord, JobSt
 from job_finder.persistence.runs import ScanRunRepository, ScanRunStatus
 
 SCAN_REPORT_SCHEMA_VERSION = 1
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class ScanOutcome(StrEnum):
@@ -358,14 +362,21 @@ def process_filter_report(
             counts.cache_hit += observation.record.evaluation_status is EvaluationStatus.COMPLETED
             continue
 
-        detailed, fetched = _ensure_description(row.normalized_job, source, adapters, profile)
+        detailed, fetched, failure_category = _ensure_description(
+            row.normalized_job, source, adapters, profile
+        )
         counts.detail_fetch += fetched
         if detailed is None:
             counts.detail_failure += 1
             counts.review += 1
             if reportable:
                 reviews.append(
-                    _review(row, "description_unavailable", "full description is unavailable")
+                    _review(
+                        row,
+                        "description_unavailable",
+                        f"full description is unavailable ({failure_category})",
+                        evidence=failure_category,
+                    )
                 )
             continue
 
@@ -503,22 +514,64 @@ def _ensure_description(
     source: CompanySource,
     adapters: AdapterRegistry,
     profile: SearchProfile,
-) -> tuple[NormalizedJob | None, int]:
+) -> tuple[NormalizedJob | None, int, str | None]:
+    """Fetch a full description, returning ``(job, fetch_count, failure_category)``.
+
+    The third element is the reason the fetch failed, or ``None`` on success. It exists
+    because this function previously reported every failure as an unexplained
+    ``description_unavailable``: a 403, a redirect and "the adapter's title guard broke"
+    were indistinguishable. That is how the title-normalization bug hid behind what looked
+    like a network problem across 97 rows (``to_change.md`` 1.1).
+    """
     if job.description is not None and job.description_hash is not None:
-        return job, 0
+        return job, 0, None
     adapter = adapters.resolve(source)
     if not isinstance(adapter, JobDetailAdapter):
-        return None, 0
+        return None, 0, "detail_not_supported"
     try:
         detailed = normalize_job(
             adapter.get_job_detail(source, job),
             location_policy=profile.location,
         )
-    except (HttpRequestError, ValueError):
-        return None, 1
+    except HttpRequestError as error:
+        _LOGGER.warning(
+            "detail_fetch_failed company=%s url=%s category=%s status=%s reason=%s",
+            source.company_id,
+            job.canonical_url,
+            error.category.value,
+            getattr(error, "status_code", None),
+            error,
+        )
+        return None, 1, f"http_{error.category.value}"
+    except DetailUnavailable as error:
+        # Identity mismatches mean an adapter assumption broke, not that the site is down.
+        # Logged at ERROR with a traceback so a burst of them is visible rather than
+        # aggregating silently into the review queue.
+        _LOGGER.exception(
+            "detail_fetch_failed company=%s url=%s category=%s reason=%s",
+            source.company_id,
+            job.canonical_url,
+            exception_category(error),
+            error,
+        )
+        return None, 1, exception_category(error)
+    except ValueError as error:
+        # Adapters not yet migrated to the taxonomy still raise bare ValueError.
+        _LOGGER.exception(
+            "detail_fetch_failed company=%s url=%s category=untyped_value_error reason=%s",
+            source.company_id,
+            job.canonical_url,
+            error,
+        )
+        return None, 1, "untyped_value_error"
     if detailed.description is None or detailed.description_hash is None:
-        return None, 1
-    return detailed, 1
+        _LOGGER.warning(
+            "detail_fetch_empty company=%s url=%s",
+            source.company_id,
+            job.canonical_url,
+        )
+        return None, 1, "empty_description"
+    return detailed, 1, None
 
 
 def _record_decision(
