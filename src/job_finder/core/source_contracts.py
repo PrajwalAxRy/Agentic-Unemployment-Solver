@@ -147,6 +147,33 @@ class AdapterDiagnostic:
             raise ValueError("diagnostic message must be non-empty")
 
 
+class CompletionReason(StrEnum):
+    """Why a listing run stopped (``to_change.md`` 6.6, 9.6).
+
+    ``complete: bool`` conflated two very different situations: "I reached the end of the
+    board" and "I hit my own page cap and stopped looking". Only 17 of 36 adapters define a
+    page cap at all, and the values are unreviewed copy-paste (``DEFAULT_MAX_PAGES`` is 100
+    in nine files and 500 in three; ``_MAX_PAGES`` is variously 10, 50 and 100).
+
+    This matters for the Phase 4 staleness logic, which is why 6.6 is a prerequisite for
+    3.4 rather than a tidy-up. A truncated run looks exactly like a shrinking board: jobs
+    that were not fetched read as absent, and three such days close a live posting.
+    **Only** :attr:`EXHAUSTED` may ever feed the absence counter.
+    """
+
+    EXHAUSTED = "exhausted"
+    """Pagination genuinely reached the end. The only reason safe for absence counting."""
+
+    PAGE_CAP_REACHED = "page_cap_reached"
+    """The adapter stopped at its own configured cap. More jobs may exist unseen."""
+
+    TRUNCATED = "truncated"
+    """Collection stopped early -- transport failure, block, or a failed sanity check."""
+
+    INCOMPLETE = "incomplete"
+    """Stopped for a reason the adapter could not classify. Treated as unsafe."""
+
+
 @dataclass(frozen=True, slots=True)
 class AdapterResult:
     """Complete adapter output, including explicit non-success outcomes."""
@@ -158,12 +185,46 @@ class AdapterResult:
     page_count: int
     complete: bool
     diagnostics: tuple[AdapterDiagnostic, ...]
+    completion_reason: CompletionReason | None = None
+    """Why collection stopped.
+
+    Optional for migration: 87 existing call sites pass ``complete=`` positionally or by
+    keyword and keep working unchanged. When omitted it is derived from ``complete`` --
+    ``EXHAUSTED`` when true, ``INCOMPLETE`` when false -- which preserves today's behaviour
+    exactly while letting adapters opt into the finer distinction one at a time.
+
+    Read :attr:`safe_for_absence_counting` rather than this field directly when deciding
+    whether a job's absence is meaningful.
+    """
+
+    @property
+    def safe_for_absence_counting(self) -> bool:
+        """Whether a job missing from this run may count as genuinely absent.
+
+        False for page caps and truncation, where "missing" may only mean "not fetched".
+        This is the guard that stops silent truncation from closing live jobs (3.4).
+        """
+        return self.completion_reason is CompletionReason.EXHAUSTED
 
     def __post_init__(self) -> None:
         if self.schema_version != SUPPORTED_ADAPTER_RESULT_SCHEMA_VERSION:
             raise ValueError(
                 "unsupported adapter result schema_version: "
                 f"{self.schema_version}; supported={SUPPORTED_ADAPTER_RESULT_SCHEMA_VERSION}"
+            )
+        if self.completion_reason is None:
+            # Migration default: preserve exactly today's meaning of `complete`. Adapters
+            # opt into the finer distinction by passing completion_reason explicitly.
+            object.__setattr__(
+                self,
+                "completion_reason",
+                CompletionReason.EXHAUSTED if self.complete else CompletionReason.INCOMPLETE,
+            )
+        elif self.complete != (self.completion_reason is CompletionReason.EXHAUSTED):
+            raise ValueError(
+                f"complete={self.complete} contradicts "
+                f"completion_reason={self.completion_reason.value}; "
+                "only 'exhausted' may be complete"
             )
         if self.page_count < 0:
             raise ValueError("adapter result page_count cannot be negative")

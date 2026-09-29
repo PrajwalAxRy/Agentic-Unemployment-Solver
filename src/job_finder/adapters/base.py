@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable, Mapping
+import random
+import time
+from collections.abc import Callable, Iterable, Mapping
+from dataclasses import replace
 from typing import Protocol, runtime_checkable
 
 from job_finder.adapters.http_client import HttpRequestError
@@ -13,6 +16,7 @@ from job_finder.core.source_contracts import (
     AdapterResult,
     AdapterType,
     CompanySource,
+    CompletionReason,
     DiagnosticSeverity,
 )
 
@@ -65,13 +69,48 @@ class AdapterRegistry:
         return tuple(sorted(self._adapters, key=lambda item: item.value))
 
 
+_PAGE_CAP_DIAGNOSTIC_CATEGORIES = frozenset({"pagination_limit"})
+
+_RETRY_BASE_DELAY_SECONDS = 1.0
+_RETRY_MAX_DELAY_SECONDS = 30.0
+
+
+def classify_completion(result: AdapterResult) -> AdapterResult:
+    """Attach a specific :class:`CompletionReason` where the adapter implied one.
+
+    Sixteen adapters already record a ``pagination_limit`` diagnostic when they stop at
+    their own page cap -- the information existed, but ``complete: bool`` had no way to
+    express it, so it was discarded at the contract boundary (``to_change.md`` 6.6).
+
+    Applied centrally rather than by editing sixteen adapters, so nothing depends on each
+    adapter remembering to classify itself. Adapters that already set ``completion_reason``
+    explicitly are left alone.
+    """
+    if result.completion_reason not in (None, CompletionReason.INCOMPLETE):
+        return result
+    if result.complete:
+        return result
+    hit_page_cap = any(
+        diagnostic.category in _PAGE_CAP_DIAGNOSTIC_CATEGORIES for diagnostic in result.diagnostics
+    )
+    reason = CompletionReason.PAGE_CAP_REACHED if hit_page_cap else CompletionReason.TRUNCATED
+    return replace(result, completion_reason=reason)
+
+
 def list_jobs_with_retry(
     adapter: JobSourceAdapter,
     source: CompanySource,
     *,
     retry_count: int,
+    sleep: Callable[[float], None] = time.sleep,
 ) -> tuple[AdapterResult, int]:
-    """Retry incomplete whole-source scans without retrying empty or blocked results."""
+    """Retry incomplete whole-source scans without retrying empty or blocked results.
+
+    Retries back off exponentially with jitter. Previously they fired immediately with no
+    delay, which turns a 429 into a block -- the remote end sees a burst rather than a
+    client that respects it (``to_change.md`` 6.6, 9.7). ``Retry-After`` is honoured
+    centrally in the transport; this is the outer, whole-source retry.
+    """
     if retry_count < 0:
         raise ValueError("retry_count cannot be negative")
     retryable_outcomes = {
@@ -82,9 +121,15 @@ def list_jobs_with_retry(
     result = adapter.list_jobs(source)
     attempt_count = 1
     while result.outcome in retryable_outcomes and attempt_count <= retry_count:
+        delay = min(
+            _RETRY_BASE_DELAY_SECONDS * (2 ** (attempt_count - 1)), _RETRY_MAX_DELAY_SECONDS
+        )
+        # Full jitter: spreads retries when many companies fail at once, e.g. a shared
+        # ATS host having a bad minute.
+        sleep(random.uniform(0.0, delay))
         result = adapter.list_jobs(source)
         attempt_count += 1
-    return result, attempt_count
+    return classify_completion(result), attempt_count
 
 
 def require_source_configuration(
