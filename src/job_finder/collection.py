@@ -14,8 +14,10 @@ from __future__ import annotations
 
 import json
 import re
+import threading
 from collections import Counter, defaultdict, deque
 from collections.abc import Callable, Iterable, Mapping
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from enum import StrEnum
@@ -23,7 +25,7 @@ from pathlib import Path
 
 from job_finder.adapters.base import AdapterRegistry, JobDetailAdapter, list_jobs_with_retry
 from job_finder.adapters.http_client import HttpRequestError
-from job_finder.core.company_registry import CompanySourceRegistry
+from job_finder.core.company_registry import CompanyRegistryEntry, CompanySourceRegistry
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.recency import RecencyDecision, assess_listing_recency
 from job_finder.core.search_profile import SearchProfile
@@ -178,6 +180,109 @@ class _PendingCompany:
     jobs: tuple[NormalizedJob, ...]
 
 
+def _fetch_source(
+    entry: CompanyRegistryEntry,
+    adapters: AdapterRegistry,
+    profile: SearchProfile,
+    *,
+    source_retry_count: int,
+) -> _PendingCompany:
+    """Fetch and normalize one company. Runs on a worker thread when parallelized.
+
+    Safe to run concurrently: adapters are stateless (they hold only ``self._client``),
+    parsers are instantiated per call, ``HttpPolicy`` is frozen, and ``UrllibTransport``
+    builds a fresh opener per request. All SQLite access happens later, under ``ScanLock``.
+    """
+    source = entry.source
+    result, attempts = list_jobs_with_retry(
+        adapters.resolve(source), source, retry_count=source_retry_count
+    )
+    jobs = (
+        tuple(normalize_job(job, location_policy=profile.location) for job in result.jobs)
+        if result.outcome is AdapterOutcome.SUCCESS
+        else ()
+    )
+    return _PendingCompany(
+        source=source,
+        company_name=source.company_name,
+        source_rank=entry.source_rank,
+        adapter_type=source.adapter_type.value,
+        result=result,
+        attempt_count=attempts,
+        jobs=jobs,
+    )
+
+
+def _collect_sources(
+    enabled_entries: list[CompanyRegistryEntry],
+    adapters: AdapterRegistry,
+    profile: SearchProfile,
+    *,
+    source_retry_count: int,
+    progress: Callable[[str], None] | None,
+    max_workers: int,
+) -> list[_PendingCompany]:
+    """Fetch every enabled source, optionally in parallel, in deterministic rank order.
+
+    Two traps from 9.8, both mandatory and both easy to get silently wrong:
+
+    1. ``Future.result()`` is always called, so an exception raised on a worker thread is
+       re-raised here instead of vanishing. A thread pool swallows exceptions even more
+       thoroughly than a bare ``except``: an unretrieved future discards its exception
+       without a trace. That is the exact failure mode Phase 0 existed to eliminate, so
+       parallelization deliberately comes after it.
+    2. The progress callback is guarded by a lock, because it is not thread-safe and now
+       has several threads calling it.
+
+    Results are returned sorted by ``source_rank`` regardless of completion order, so the
+    report is byte-identical whether or not the pool is used.
+    """
+    enabled_count = len(enabled_entries)
+    if enabled_count == 0:
+        return []
+
+    progress_guard = threading.Lock()
+    completed = 0
+
+    def report(item: _PendingCompany) -> None:
+        nonlocal completed
+        if progress is None:
+            return
+        with progress_guard:
+            completed += 1
+            progress(
+                f"phase=source_collection progress={completed}/{enabled_count} "
+                f"company={item.source.company_id} outcome={item.result.outcome.value} "
+                f"listings={len(item.jobs)}"
+            )
+
+    if max_workers <= 1:
+        collected = []
+        for entry in enabled_entries:
+            item = _fetch_source(entry, adapters, profile, source_retry_count=source_retry_count)
+            report(item)
+            collected.append(item)
+        return collected
+
+    collected = []
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = {
+            executor.submit(
+                _fetch_source, entry, adapters, profile, source_retry_count=source_retry_count
+            ): entry
+            for entry in enabled_entries
+        }
+        for future in as_completed(futures):
+            entry = futures[future]
+            # Always call result(): an unretrieved future silently discards its exception.
+            item = future.result()
+            report(item)
+            collected.append(item)
+
+    collected.sort(key=lambda item: item.source_rank)
+    return collected
+
+
 def collect_listings(
     registry: CompanySourceRegistry,
     adapters: AdapterRegistry,
@@ -188,8 +293,15 @@ def collect_listings(
     source_retry_count: int = 2,
     first_seen_lookup: Callable[[NormalizedJob], datetime | None] | None = None,
     progress: Callable[[str], None] | None = None,
+    max_workers: int = 1,
 ) -> FilterVerificationReport:
-    """Collect and filter every enabled source without detail or LLM requests."""
+    """Collect and filter every enabled source without detail or LLM requests.
+
+    ``max_workers`` controls how many companies are fetched concurrently. It defaults to 1
+    (fully sequential, exactly the previous behaviour) so nothing changes until a caller
+    opts in. Throttling is the rate limiter's job, not the worker count's -- see
+    ``adapters/rate_limit.py``.
+    """
     if scan_at is not None and scan_at.tzinfo is None:
         raise ValueError("scan_at must be timezone-aware")
     if generated_at is not None and generated_at.tzinfo is None:
@@ -197,39 +309,19 @@ def collect_listings(
     if source_retry_count < 0:
         raise ValueError("source_retry_count cannot be negative")
 
-    pending: list[_PendingCompany] = []
     enabled_entries = sorted(
         (item for item in registry.entries if item.source.enabled),
         key=lambda item: item.source_rank,
     )
     enabled_count = len(enabled_entries)
-    for source_index, entry in enumerate(enabled_entries, start=1):
-        source = entry.source
-        result, attempts = list_jobs_with_retry(
-            adapters.resolve(source), source, retry_count=source_retry_count
-        )
-        jobs = (
-            tuple(normalize_job(job, location_policy=profile.location) for job in result.jobs)
-            if result.outcome is AdapterOutcome.SUCCESS
-            else ()
-        )
-        pending.append(
-            _PendingCompany(
-                source=source,
-                company_name=source.company_name,
-                source_rank=entry.source_rank,
-                adapter_type=source.adapter_type.value,
-                result=result,
-                attempt_count=attempts,
-                jobs=jobs,
-            )
-        )
-        if progress is not None:
-            progress(
-                f"phase=source_collection progress={source_index}/{enabled_count} "
-                f"company={source.company_id} outcome={result.outcome.value} "
-                f"listings={len(jobs)}"
-            )
+    pending = _collect_sources(
+        enabled_entries,
+        adapters,
+        profile,
+        source_retry_count=source_retry_count,
+        progress=progress,
+        max_workers=max_workers,
+    )
 
     effective_scan_at = scan_at or datetime.now().astimezone()
     timestamp = generated_at or effective_scan_at
