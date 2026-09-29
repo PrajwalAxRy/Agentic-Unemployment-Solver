@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import os
 from collections.abc import Mapping
 from dataclasses import dataclass, field
@@ -17,6 +18,8 @@ from job_finder.matching.evaluator import (
     ModelPolicy,
     UsageLimits,
 )
+
+_LOGGER = logging.getLogger(__name__)
 
 DEFAULT_GATEWAY_BASE_URL = "https://llm-api.amd.com/Unified/v1"
 REQUIRED_ENVIRONMENT_VARIABLES = (
@@ -195,6 +198,18 @@ def check_gateway_connectivity(
     returned_model = completion.model
     if not isinstance(returned_model, str) or not returned_model.strip():
         raise GatewayProviderError("gateway connectivity response did not contain a model ID")
+    # Log both IDs. The model is configuration (JOB_FINDER_LLM_MODEL), never hardcoded, so
+    # the only way to know what actually answered is to record what the gateway returned.
+    # Gateways routinely alias or silently substitute, and a scan whose results shifted
+    # because the model changed underneath it should be diagnosable from the log alone.
+    if returned_model.strip() != settings.model:
+        _LOGGER.warning(
+            "llm_model_mismatch configured=%s returned=%s",
+            settings.model,
+            returned_model,
+        )
+    else:
+        _LOGGER.info("llm_model_confirmed model=%s", settings.model)
     return ConnectivityResult(
         provider="amd-llm-gateway",
         configured_model=settings.model,
