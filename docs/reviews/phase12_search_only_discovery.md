@@ -25,10 +25,11 @@ Squarepoint Capital; cohort 4 activated Altimate.ai, Aganitha, GalaxEye, and Gna
 activated Atlassian, GitLab, Qure.ai, and Airbnb while LinkedIn failed closed; cohort 6 activated
 Intuit, Twilio, Meesho, PhonePe, Swiggy, and Tower Research Capital while Roku failed closed; and
 cohort 7 activated Salesforce, Moloco, InMobi, Postman, TrueFoundry, Booking.com, Navi, and
-Quadeye. See
+Quadeye; and cohort 8 activated Eightfold AI through its public PCSx surface. See
 `phase12_package_c_cohort2_validation.md`, `phase12_package_c_cohort3_validation.md`,
 `phase12_package_c_cohort4_validation.md`, `phase12_package_c_cohort5_validation.md`,
-`phase12_package_c_cohort6_validation.md`, and `phase12_package_c_cohort7_validation.md`.
+`phase12_package_c_cohort6_validation.md`, `phase12_package_c_cohort7_validation.md`, and
+`phase12_package_c_cohort8_validation.md`.
 
 ## Frozen baseline and accounting
 

@@ -36,6 +36,7 @@ from job_finder.adapters.microsoft_careers import MicrosoftCareersAdapter
 from job_finder.adapters.navi_careers import NaviCareersAdapter
 from job_finder.adapters.oracle_cloud import OracleCloudAdapter
 from job_finder.adapters.pageup_xml_feed import PageUpXmlFeedAdapter
+from job_finder.adapters.pcsx_careers import PcsxCareersAdapter
 from job_finder.adapters.quadeye_careers import QuadeyeCareersAdapter
 from job_finder.adapters.qure_careers import QureCareersAdapter
 from job_finder.adapters.recruiterflow import RecruiterflowAdapter
@@ -473,6 +474,7 @@ def _runtime_adapters(client: BoundedHttpClient) -> AdapterRegistry:
                     MicrosoftCareersAdapter(client),
                     NaviCareersAdapter(client),
                     PageUpXmlFeedAdapter(client),
+                    PcsxCareersAdapter(client),
                     QuadeyeCareersAdapter(client),
                     QureCareersAdapter(client),
                     StripeCareersAdapter(client),

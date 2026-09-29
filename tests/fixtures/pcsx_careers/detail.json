@@ -1,0 +1,14 @@
+{
+  "status": 200,
+  "error": {"message": "", "body": ""},
+  "data": {
+    "id": 68763995769,
+    "name": "Test Architect",
+    "locations": ["Bangalore"],
+    "positionUrl": "/careers/job/68763995769",
+    "publicUrl": "https://app.eightfold.ai/careers/job/68763995769",
+    "jobDescription": "<p>Design test architecture for distributed AI platforms.</p><p>Build automation and reliability practices across product teams and mentor engineers.</p>",
+    "postedTs": 1789622583,
+    "externallyPostedTs": 1789622583
+  }
+}

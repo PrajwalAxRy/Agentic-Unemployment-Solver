@@ -1,0 +1,31 @@
+{
+  "status": 200,
+  "error": {"message": "", "body": ""},
+  "data": {
+    "count": 2,
+    "positions": [
+      {
+        "id": 68763995769,
+        "name": "Test Architect ",
+        "locations": ["Bangalore "],
+        "positionUrl": "/careers/job/68763995769",
+        "creationTs": 1789551351,
+        "department": "Engineering",
+        "atsJobId": 68763995769,
+        "displayJobId": 68763995769,
+        "workLocationOption": "Hybrid"
+      },
+      {
+        "id": 68763888174,
+        "name": "Software Development Engineer in Test",
+        "locations": [],
+        "positionUrl": "/careers/job/68763888174",
+        "creationTs": 1788859392,
+        "department": "Engineering",
+        "atsJobId": 68763888174,
+        "displayJobId": 68763888174,
+        "workLocationOption": "Remote"
+      }
+    ]
+  }
+}

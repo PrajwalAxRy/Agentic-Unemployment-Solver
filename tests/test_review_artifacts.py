@@ -527,3 +527,16 @@ def test_phase12_package_c_cohort7_records_eight_deterministic_activations() -> 
     assert "143 enabled and 187 disabled" in review
     assert "181 remaining `search_only`" in review
     assert "584 tests" in review
+
+
+def test_phase12_package_c_cohort8_records_shared_host_pcsx_activation() -> None:
+    review = Path("docs/reviews/phase12_package_c_cohort8_validation.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "public PCSx careers surface" in review
+    assert "59 unique jobs, six pages" in review
+    assert "One listing has no location" in review
+    assert "unknown-basis evidence" in review
+    assert "Pagination stops only" in review
+    assert "Eightfold AI is enabled" in review

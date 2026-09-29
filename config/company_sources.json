@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-c16",
-  "generated_at": "2026-09-29T11:15:00+05:30",
+  "registry_version": "0.3.0-phase12-c17",
+  "generated_at": "2026-09-29T15:00:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -2362,33 +2362,35 @@
       "schema_version": 1,
       "company_id": "eightfold-ai",
       "company_name": "Eightfold AI",
-      "status": "proposed",
-      "careers_url": "https://app.eightfold.ai/careers?start=0",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://app.eightfold.ai/careers?domain=volkscience.com&hl=en",
+      "adapter_type": "custom",
       "adapter_parameters": {
-        "search_url": "https://app.eightfold.ai/careers?start=0"
+        "adapter_key": "pcsx_public_careers",
+        "host": "app.eightfold.ai",
+        "domain": "volkscience.com"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedTs",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "PCSx postedTs and externallyPostedTs are retained as matching but unverified timestamp evidence."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://app.eightfold.ai/careers?start=0",
-        "https://app.eightfold.ai/careers?start=0",
-        "https://app.eightfold.ai/careers?start=0"
+        "https://app.eightfold.ai/careers?domain=volkscience.com&hl=en",
+        "https://app.eightfold.ai/api/pcsx/search?domain=volkscience.com&query=&location=&start=0&&hl=en",
+        "https://app.eightfold.ai/api/pcsx/position_details?position_id=68763995769&domain=volkscience.com&hl=en"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Generated from an unverified canonical seed URL hint; H2 review is required.",
+      "notes": "Phase 12 browser discovery proved Eightfold AI's shared-host domain parameter and public PCSx listing/detail endpoints; the complete 59-job live collection and representative detail gate passed on 2026-09-29.",
       "source_rank": 73,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T15:00:00+05:30"
     },
     {
       "schema_version": 1,
