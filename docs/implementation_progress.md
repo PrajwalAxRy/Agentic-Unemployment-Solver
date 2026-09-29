@@ -29,14 +29,29 @@
   Cohort 10 activated Adobe's official Workday board and Oracle / OCI's current public Oracle
   Candidate Experience board.
   Cohort 11 activated American Express from its official public Oracle Candidate Experience board.
+  Cohort 12 activated Confluent through its current complete public Ashby board. A four-pass
+  repository, runtime-boundary, configuration, and live-source audit is complete; it hardened
+  public URL/redirect validation, corrected exact PageUp duplicate handling, and reconciled source
+  metadata.
 - Pending human checkpoint: none for the currently approved Phase 12 integration and audit work.
-- Active review artifact: `docs/reviews/phase12_package_c_cohort11_validation.md`.
+- Active review artifact: `docs/reviews/phase12_comprehensive_code_and_coverage_audit.md`.
 - Company ledger: `docs/reviews/phase12_search_only_company_dossiers.md` (238/238 accounted).
-- The 149 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
-  including 181 disabled backlog or unsupported records.
+- The 150 validated adapter sources are enabled. All 330 canonical companies remain in accounting,
+  including 180 disabled backlog or unsupported records.
 
 ## Completed gates
 
+- Phase 12 comprehensive audit reviewed repository hygiene, network boundaries, runtime failure
+  semantics, persistence/LLM behavior, configuration consistency, and every enabled source. The
+  effective 150-source live result is 146 success, three valid empty, the reviewed Quantbox stale
+  date anomaly, and zero failed, blocked, or partial sources; 44,260 jobs across 1,146 pages.
+  Public URL and redirect validation is centralized, exact duplicate PageUp rows are safely
+  collapsed while conflicting duplicates still fail closed, and future-dated registry metadata is
+  rejected. The suite contains 617 tests.
+- Phase 12 Package C cohort 12 activated Confluent through its current public Ashby board. The
+  first-attempt gate returned 18 complete jobs, one India role, no missing required field or
+  diagnostic, and substantial descriptions in three distributed samples. The registry now enables
+  150 sources.
 - Phase 12 Package C cohort 11 activated American Express through the public Oracle Candidate
   Experience host disclosed by its official branded site. The first-attempt gate returned 507 jobs
   across three pages with no diagnostic and three substantial details. The registry now enables
@@ -625,6 +640,13 @@
 - `c45966c` — Groww activation
 - `30d98f4` — Recruiterflow adapter
 - `8596dd3` — CoinSwitch activation
+- `c34520f` — Eightfold AI PCSx activation
+- `e43e377` — Index Exchange and S&P Global activations
+- `513f0e5` — Adobe and Oracle / OCI activations
+- `80292c6` — American Express activation
+- `e91623c` — centralized public URL and redirect validation
+- `770e985` — exact PageUp duplicate collapse with conflicting-ID fail-closed behavior
+- `aab0a93` — Confluent activation and registry timestamp consistency
 
 ## Phase 11 pilot evidence and commits
 
@@ -746,6 +768,10 @@
   `docs/reviews/phase12_package_c_cohort10_validation.md`
 - Phase 12 Package C cohort 11 validation:
   `docs/reviews/phase12_package_c_cohort11_validation.md`
+- Phase 12 Package C cohort 12 validation:
+  `docs/reviews/phase12_package_c_cohort12_validation.md`
+- Phase 12 comprehensive code and coverage audit:
+  `docs/reviews/phase12_comprehensive_code_and_coverage_audit.md`
 - Full proposal evidence: `data/source_discovery_proposals.json`
 - Active source registry and explicit backlog: `config/company_sources.json`
 
@@ -784,8 +810,8 @@
 - Seventeen Bank of America multi-location candidates could not retrieve their public Workday
   details during the Phase 6 scan and remain explicit H6 location-review rows. Two SAP detail-date
   fetches failed and remain explicit uncertain-date candidates under the approved hybrid policy.
-- 175 records remain `search_only`. Phase 12 Packages A, B, and the first eleven Package C cohorts
-  removed 63 live-validated mappings: 21 in Package A, six in Package B, and 36 in Package C.
+- 174 records remain `search_only`. Phase 12 Packages A, B, and the first twelve Package C cohorts
+  removed 64 live-validated mappings: 21 in Package A, six in Package B, and 37 in Package C.
   Failed candidates remain explicit in this count while the approved deterministic, endpoint
   replay, empty-state, manual, and identity-repair lanes continue.
 - H4 approved NVIDIA and PayPal as unsupported for this release on 2026-09-21; both retain their
@@ -809,8 +835,9 @@
 
 ## Resume point
 
-The first release remains complete. Continue the remaining deterministic P1/P2 backlog from
-`docs/reviews/phase12_package_c_cohort11_validation.md`, then evaluate the user-approved Package D
-and E lanes under the same public-source, no-bypass, and fail-closed activation gates. Preserve the
-released `v0.1.0` behavior and follow the phased checkpoint protocol for any further scope
+The first release and comprehensive audit remain complete. Continue the remaining 180-company
+backlog from `docs/reviews/phase12_comprehensive_code_and_coverage_audit.md`, prioritizing the 16 P1
+records and then the P2 deterministic/replay lanes. Use the same public-source, no-bypass, full
+inventory, detail, and fail-closed activation gates. Preserve the released `v0.1.0` behavior and
+follow the phased checkpoint protocol for any further scope
 expansion.

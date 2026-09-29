@@ -568,6 +568,24 @@ def test_phase12_package_c_cohort10_records_adobe_and_oracle_activation() -> Non
     assert "Adobe and Oracle / OCI are enabled" in review
 
 
+def test_phase12_cohort12_and_comprehensive_audit_are_reconciled() -> None:
+    cohort = Path("docs/reviews/phase12_package_c_cohort12_validation.md").read_text(
+        encoding="utf-8"
+    )
+    audit = Path("docs/reviews/phase12_comprehensive_code_and_coverage_audit.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "Confluent is activated through its current public Ashby board" in cohort
+    assert "18 complete jobs" in cohort
+    assert "other disabled P1 companies" in cohort
+    assert "150 enabled deterministic sources" in audit
+    assert "174 disabled `search_only` sources" in audit
+    assert "44,260 jobs across 1,146 pages" in audit
+    assert "146 success, three valid empty, one reviewed suspicious" in audit
+    assert "617 passing tests" in audit
+
+
 def test_phase12_package_c_cohort11_records_american_express_activation() -> None:
     review = Path("docs/reviews/phase12_package_c_cohort11_validation.md").read_text(
         encoding="utf-8"
