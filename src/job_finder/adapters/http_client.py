@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from enum import StrEnum
 from typing import Protocol
 
+from job_finder.adapters.rate_limit import HostRateLimiter
 from job_finder.core.access_detection import is_access_block_html
 from job_finder.core.public_urls import PublicUrlRedirectHandler, validate_public_http_url
 
@@ -41,6 +42,29 @@ class HttpPolicy:
     max_backoff_seconds: float = 4.0
     max_response_bytes: int = DEFAULT_MAX_RESPONSE_BYTES
     max_redirects: int = 5
+    min_interval_seconds: float = 0.0
+    """Minimum gap between requests to the same host. 0 disables pacing.
+
+    Defaults to 0 so existing behaviour and every test is unchanged; the scan opts in.
+    39 Greenhouse companies share boards-api.greenhouse.io, so this is keyed by host
+    rather than by company (``to_change.md`` 6.6, 9.7).
+    """
+
+    max_concurrent_per_host: int = 0
+    """Concurrent requests allowed per host. 0 disables the cap.
+
+    Matters once companies are scanned in a thread pool: without it, parallelism
+    multiplies simultaneous requests onto the same few shared ATS hosts.
+    """
+
+    max_retry_after_seconds: float = 120.0
+    """Upper bound on an honoured ``Retry-After``.
+
+    Separate from ``max_backoff_seconds`` on purpose. Clamping a server's explicit
+    ``Retry-After`` to the 4s self-imposed backoff means ignoring it -- the server asked
+    for 60s and we would return in 4 and get blocked. A separate, much larger bound
+    honours the instruction while still refusing an absurd value.
+    """
 
     def __post_init__(self) -> None:
         if self.timeout_seconds <= 0:
@@ -53,6 +77,12 @@ class HttpPolicy:
             raise ValueError("max_response_bytes must be positive")
         if self.max_redirects < 0:
             raise ValueError("max_redirects cannot be negative")
+        if self.min_interval_seconds < 0:
+            raise ValueError("min_interval_seconds cannot be negative")
+        if self.max_concurrent_per_host < 0:
+            raise ValueError("max_concurrent_per_host cannot be negative")
+        if self.max_retry_after_seconds < 0:
+            raise ValueError("max_retry_after_seconds cannot be negative")
 
 
 @dataclass(frozen=True, slots=True)
@@ -120,10 +150,19 @@ class BoundedHttpClient:
         policy: HttpPolicy | None = None,
         transport: HttpTransport | None = None,
         sleep: Callable[[float], None] = time.sleep,
+        rate_limiter: HostRateLimiter | None = None,
     ) -> None:
         self.policy = policy or HttpPolicy()
         self._transport = transport or UrllibTransport()
         self._sleep = sleep
+        # Pacing lives here so every adapter inherits it without individual changes.
+        # A shared limiter can also be injected, which is what lets one limiter span the
+        # whole scan when several threads target the same host.
+        self._rate_limiter = rate_limiter or HostRateLimiter(
+            min_interval_seconds=self.policy.min_interval_seconds,
+            max_concurrent_per_host=self.policy.max_concurrent_per_host,
+            sleep=sleep,
+        )
 
     def get(
         self,
@@ -183,6 +222,18 @@ class BoundedHttpClient:
             headers["Content-Type"] = "application/json"
         if referer is not None:
             headers["Referer"] = referer
+        # Held across the whole attempt loop so retries cannot bypass the host interval.
+        with self._rate_limiter.hold(url):
+            return self._attempt_request(method, url, headers, body, accepted)
+
+    def _attempt_request(
+        self,
+        method: str,
+        url: str,
+        headers: dict[str, str],
+        body: bytes | None,
+        accepted: tuple[str, ...],
+    ) -> HttpResponse:
         for attempt in range(self.policy.retry_count + 1):
             try:
                 if method == "GET":
@@ -205,6 +256,10 @@ class BoundedHttpClient:
                         max_redirects=self.policy.max_redirects,
                     )
             except HttpRequestError as error:
+                if error.retry_after_seconds is not None:
+                    # Slow every company sharing this host, not just this request.
+                    # Otherwise 39 Greenhouse companies each rediscover the limit.
+                    self._rate_limiter.penalize(url, error.retry_after_seconds)
                 if not error.retryable or attempt == self.policy.retry_count:
                     raise
                 self._sleep(self._retry_delay(attempt, error.retry_after_seconds))
@@ -229,9 +284,17 @@ class BoundedHttpClient:
         raise AssertionError("unreachable retry loop")
 
     def _retry_delay(self, attempt: int, retry_after_seconds: float | None) -> float:
+        """Delay before the next attempt.
+
+        An explicit ``Retry-After`` is bounded by ``max_retry_after_seconds`` rather than
+        ``max_backoff_seconds``. Clamping a server's "wait 60s" down to the 4s self-imposed
+        backoff is not honouring it -- we would come back early and get blocked, which is
+        the failure 9.7 is trying to avoid.
+        """
+        if retry_after_seconds is not None:
+            return min(max(retry_after_seconds, 0.0), self.policy.max_retry_after_seconds)
         exponential = self.policy.backoff_seconds * (2**attempt)
-        requested = retry_after_seconds if retry_after_seconds is not None else exponential
-        return min(max(requested, 0.0), self.policy.max_backoff_seconds)
+        return min(max(exponential, 0.0), self.policy.max_backoff_seconds)
 
 
 class UrllibTransport:

@@ -195,7 +195,61 @@ def test_retryable_failure_uses_bounded_backoff_then_succeeds() -> None:
 
     assert result.status_code == 200
     assert len(transport.calls) == 2
-    assert delays == [2]
+    # The server asked for 30s via Retry-After. This previously clamped to
+    # max_backoff_seconds (2), i.e. returning 28 seconds early -- which is how a 429
+    # becomes a block. An explicit Retry-After is now bounded by the separate, much larger
+    # max_retry_after_seconds instead (to_change.md 9.7).
+    assert delays == [30]
+
+
+def test_absurd_retry_after_is_still_bounded() -> None:
+    """Honour the server, but refuse to stall the scan for an hour."""
+    transport = FakeTransport(
+        [
+            HttpRequestError(
+                HttpFailureCategory.HTTP_ERROR,
+                "HTTP 429",
+                status_code=429,
+                retryable=True,
+                retry_after_seconds=3600,
+            ),
+            response(),
+        ]
+    )
+    delays: list[float] = []
+    client = BoundedHttpClient(
+        policy=HttpPolicy(retry_count=1, max_retry_after_seconds=120),
+        transport=transport,
+        sleep=delays.append,
+    )
+
+    client.get("https://jobs.example.com/api", accepted_content_types=("application/json",))
+
+    assert delays == [120]
+
+
+def test_self_imposed_backoff_still_uses_max_backoff_seconds() -> None:
+    """Without a Retry-After header the old exponential bound is unchanged."""
+    transport = FakeTransport(
+        [
+            HttpRequestError(
+                HttpFailureCategory.TIMEOUT,
+                "timed out",
+                retryable=True,
+            ),
+            response(),
+        ]
+    )
+    delays: list[float] = []
+    client = BoundedHttpClient(
+        policy=HttpPolicy(retry_count=1, backoff_seconds=0.25, max_backoff_seconds=2),
+        transport=transport,
+        sleep=delays.append,
+    )
+
+    client.get("https://jobs.example.com/api", accepted_content_types=("application/json",))
+
+    assert delays == [0.25]
 
 
 def test_non_retryable_failure_is_not_repeated() -> None:
