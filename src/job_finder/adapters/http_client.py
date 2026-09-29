@@ -292,9 +292,11 @@ class BoundedHttpClient:
         the failure 9.7 is trying to avoid.
         """
         if retry_after_seconds is not None:
-            return min(max(retry_after_seconds, 0.0), self.policy.max_retry_after_seconds)
-        exponential = self.policy.backoff_seconds * (2**attempt)
-        return min(max(exponential, 0.0), self.policy.max_backoff_seconds)
+            honored: float = min(max(retry_after_seconds, 0.0), self.policy.max_retry_after_seconds)
+            return honored
+        exponential: float = self.policy.backoff_seconds * float(2**attempt)
+        capped: float = min(max(exponential, 0.0), self.policy.max_backoff_seconds)
+        return capped
 
 
 class UrllibTransport:

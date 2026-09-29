@@ -30,6 +30,7 @@ from collections.abc import Iterable
 from job_finder.adapters.http_client import HttpFailureCategory, HttpRequestError
 from job_finder.core.job_contracts import NormalizedJob
 from job_finder.core.source_contracts import (
+    SUPPORTED_ADAPTER_RESULT_SCHEMA_VERSION,
     AdapterDiagnostic,
     AdapterOutcome,
     AdapterResult,
@@ -107,6 +108,7 @@ def adapter_result(
     deliberately adds no validation of its own.
     """
     return AdapterResult(
+        schema_version=SUPPORTED_ADAPTER_RESULT_SCHEMA_VERSION,
         source=source,
         outcome=outcome,
         jobs=tuple(jobs),
@@ -133,6 +135,7 @@ def failed_result(
     Phase 4 -- an incomplete run must never feed the absence counter.
     """
     return AdapterResult(
+        schema_version=SUPPORTED_ADAPTER_RESULT_SCHEMA_VERSION,
         source=source,
         outcome=outcome,
         jobs=(),
