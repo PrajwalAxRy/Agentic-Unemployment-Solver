@@ -1,0 +1,251 @@
+"""Merged relevance + seniority + location prompt and response contract.
+
+``to_change.md`` 2.5 collapses three judgments into one call per job, cached on
+``description_hash``. The saving is real -- the description is the expensive part of the
+payload and it is sent once instead of three times -- but the requirement that makes this
+safe is the one that is easy to skip:
+
+    Structured schema, separate field and verbatim quote per judgment so a failing
+    sub-judgment is diagnosable.
+
+Merging the *call* must not merge the *diagnostics*. If a single verdict came back with a
+single justification, a relevance misfire and a seniority misfire would be
+indistinguishable -- the same class of collapse that made the title-normalization bug
+invisible for 97 rows (1.1).
+
+The location judgment is conditional. When the deterministic filter already resolved the
+location, the field is omitted from both the request and the response: 2.5 is explicit
+that cheap deterministic rejections still happen before the model, and asking a question
+that is already answered invites the model to contradict it.
+
+``config/seniority_prompt.toml`` and :mod:`job_finder.matching.prompt` are deliberately
+left in place. This is an addition, not a replacement, so the tuned single-purpose path
+remains available as a fallback without a code change.
+"""
+
+from __future__ import annotations
+
+import json
+import tomllib
+from collections.abc import Mapping
+from dataclasses import dataclass
+from pathlib import Path
+
+from job_finder.matching.relevance_set import RelevanceVerdict
+from job_finder.matching.seniority import DetectedLevel, SeniorityMatch
+
+LocationEligibility = bool | str
+"""``True``, ``False``, or the literal ``"uncertain"`` -- mirrors ``SeniorityMatch``."""
+
+
+class MergedResponseError(ValueError):
+    """The model's merged response did not satisfy the contract."""
+
+
+@dataclass(frozen=True, slots=True)
+class MergedJudgment:
+    """One job's three-part judgment.
+
+    Every judgment keeps its own verdict, evidence and reason. 2.6 requires three-way
+    verdicts throughout: nothing except a confident rejection is dropped, and a displayed
+    ``peripheral`` or ``uncertain`` is the system working rather than failing.
+    """
+
+    relevance: RelevanceVerdict
+    relevance_evidence: str
+    relevance_reason: str
+
+    seniority_match: SeniorityMatch
+    detected_level: DetectedLevel
+    required_experience: str
+    seniority_evidence: str
+    seniority_reason: str
+
+    location_eligible: LocationEligibility | None = None
+    location_evidence: str | None = None
+    location_reason: str | None = None
+
+    @property
+    def location_requested(self) -> bool:
+        return self.location_eligible is not None
+
+    @property
+    def is_confident_rejection(self) -> bool:
+        """Whether this row may be dropped rather than displayed.
+
+        The only three conditions that drop a row (2.6). Everything else -- peripheral
+        relevance, uncertain seniority, uncertain location -- displays, tiered lower.
+        """
+        return (
+            self.relevance is RelevanceVerdict.UNRELATED
+            or self.seniority_match is False
+            or self.location_eligible is False
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class MergedPrompt:
+    """Validated merged prompt text and stable version."""
+
+    schema_version: int
+    prompt_version: str
+    system_prompt: str
+    user_prompt_template: str
+    location_section_template: str
+
+    def render(
+        self,
+        *,
+        title: str,
+        description: str,
+        target_description: str,
+        location_original: str | None = None,
+    ) -> str:
+        """Render the user prompt, including the location section only when needed."""
+        location_section = ""
+        if location_original is not None:
+            location_section = self.location_section_template.format(
+                location_original=_required_text(location_original, "location_original")
+            )
+        return self.user_prompt_template.format(
+            title=_required_text(title, "title"),
+            description=_required_text(description, "description"),
+            target_description=_required_text(target_description, "target_description"),
+            location_section=location_section,
+        )
+
+
+def load_merged_prompt(path: Path) -> MergedPrompt:
+    """Load and validate the versioned merged prompt."""
+    with path.open("rb") as stream:
+        raw = tomllib.load(stream)
+    schema_version = raw.get("schema_version")
+    if schema_version != 1:
+        raise ValueError(f"unsupported merged prompt schema_version: {schema_version!r}")
+    prompt = MergedPrompt(
+        schema_version=schema_version,
+        prompt_version=_required_text(raw.get("prompt_version"), "prompt_version"),
+        system_prompt=_required_text(raw.get("system_prompt"), "system_prompt"),
+        user_prompt_template=_required_text(
+            raw.get("user_prompt_template"), "user_prompt_template"
+        ),
+        location_section_template=_required_text(
+            raw.get("location_section_template"), "location_section_template"
+        ),
+    )
+    for placeholder in ("{title}", "{description}", "{target_description}", "{location_section}"):
+        if placeholder not in prompt.user_prompt_template:
+            raise ValueError(f"user_prompt_template must contain {placeholder}")
+    if "{location_original}" not in prompt.location_section_template:
+        raise ValueError("location_section_template must contain {location_original}")
+    return prompt
+
+
+def parse_merged_response(
+    content: str,
+    *,
+    description: str,
+    location_requested: bool,
+) -> MergedJudgment:
+    """Parse and validate a merged response.
+
+    Evidence is checked against the description the model was given. A quotation that is
+    not in the source is the clearest available signal that a judgment was confabulated,
+    and it is worth failing the whole response over: a merged call that silently accepts
+    invented evidence for one of three judgments is exactly the collapse this design is
+    trying to avoid.
+    """
+    try:
+        raw = json.loads(content)
+    except json.JSONDecodeError as error:
+        raise MergedResponseError("merged response was not valid JSON") from error
+    if not isinstance(raw, Mapping):
+        raise MergedResponseError("merged response must be a JSON object")
+
+    relevance = _relevance(raw.get("relevance"))
+    relevance_evidence = _evidence(raw, "relevance_evidence", description)
+    seniority_match = _seniority_match(raw.get("seniority_match"))
+    seniority_evidence = _evidence(raw, "seniority_evidence", description)
+
+    location_eligible: LocationEligibility | None = None
+    location_evidence: str | None = None
+    location_reason: str | None = None
+    if location_requested:
+        location_eligible = _location_eligible(raw.get("location_eligible"))
+        location_evidence = _evidence(raw, "location_evidence", description)
+        location_reason = _required_text(raw.get("location_reason"), "location_reason")
+    elif "location_eligible" in raw:
+        # The model answered a question it was not asked. Refusing it keeps the
+        # deterministic decision authoritative, per 2.5.
+        raise MergedResponseError(
+            "merged response contains location_eligible but location was not requested"
+        )
+
+    return MergedJudgment(
+        relevance=relevance,
+        relevance_evidence=relevance_evidence,
+        relevance_reason=_required_text(raw.get("relevance_reason"), "relevance_reason"),
+        seniority_match=seniority_match,
+        detected_level=_detected_level(raw.get("detected_level")),
+        required_experience=_required_text(raw.get("required_experience"), "required_experience"),
+        seniority_evidence=seniority_evidence,
+        seniority_reason=_required_text(raw.get("seniority_reason"), "seniority_reason"),
+        location_eligible=location_eligible,
+        location_evidence=location_evidence,
+        location_reason=location_reason,
+    )
+
+
+def _relevance(value: object) -> RelevanceVerdict:
+    if not isinstance(value, str):
+        raise MergedResponseError("relevance must be a string")
+    try:
+        return RelevanceVerdict(value)
+    except ValueError as error:
+        supported = ", ".join(item.value for item in RelevanceVerdict)
+        raise MergedResponseError(f"relevance must be one of: {supported}") from error
+
+
+def _seniority_match(value: object) -> SeniorityMatch:
+    if isinstance(value, bool):
+        return value
+    if value == "uncertain":
+        return "uncertain"
+    raise MergedResponseError("seniority_match must be true, false, or 'uncertain'")
+
+
+def _location_eligible(value: object) -> LocationEligibility:
+    if isinstance(value, bool):
+        return value
+    if value == "uncertain":
+        return "uncertain"
+    raise MergedResponseError("location_eligible must be true, false, or 'uncertain'")
+
+
+def _detected_level(value: object) -> DetectedLevel:
+    if not isinstance(value, str):
+        raise MergedResponseError("detected_level must be a string")
+    try:
+        return DetectedLevel(value)
+    except ValueError as error:
+        raise MergedResponseError("detected_level is not a supported level") from error
+
+
+def _evidence(raw: Mapping[str, object], key: str, description: str) -> str:
+    value = raw.get(key)
+    if not isinstance(value, str):
+        raise MergedResponseError(f"{key} must be a string")
+    excerpt = value.strip()
+    if not excerpt:
+        # Explicitly permitted: the prompt tells the model to return an empty string
+        # rather than invent a quotation when the description supports nothing.
+        return ""
+    if excerpt.casefold() not in description.casefold():
+        raise MergedResponseError(f"{key} is not a verbatim excerpt of the description")
+    return excerpt
+
+
+def _required_text(value: object, path: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise MergedResponseError(f"{path} must be a non-empty string")
+    return value.strip()

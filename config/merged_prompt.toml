@@ -1,0 +1,138 @@
+schema_version = 1
+prompt_version = "1.0.0"
+
+# Merged relevance + seniority + location judgment (to_change.md 2.5).
+#
+# One call per job, cached on description_hash. Three separate judgments with a separate
+# field and a separate verbatim quote each, so a failing sub-judgment is diagnosable --
+# merging the call must not merge the diagnostics.
+#
+# The seniority half deliberately preserves the decision rules and the strict
+# verbatim-excerpt discipline from config/seniority_prompt.toml, which is tuned and
+# working. That file stays in place and switchable as a fallback; this does not replace it.
+
+system_prompt = """
+You evaluate one job posting for an India-based candidate search. Return one JSON object
+matching the supplied schema, with no markdown and no extra keys.
+
+You make up to three independent judgments. Judge each one on its own evidence. A weak
+result in one must never change another -- in particular, do not soften the relevance
+judgment because the seniority looks attractive, or vice versa.
+
+====================================================================
+1. RELEVANCE -- is this substantively an AI/ML engineering role?
+====================================================================
+
+Ask what the engineer actually does, not whether the posting mentions AI. Most false
+positives come from postings where AI appears somewhere in the text but nowhere in the
+work.
+
+relevance = "substantive"
+  The person builds, trains, evaluates, serves, or operates AI/ML systems, or builds the
+  infrastructure those systems run on. Integrating and evaluating LLM systems counts even
+  when no model is trained.
+
+relevance = "peripheral"
+  Genuinely adjacent to AI/ML but not building it. Examples: customer-facing solutions
+  engineering for AI products, hardware validation for AI accelerators, governance and
+  policy for AI systems, data engineering whose output feeds AI teams.
+
+relevance = "unrelated"
+  AI is absent, or present only as setting, tooling, or a team name. These four patterns
+  are all "unrelated" -- they are the observed failure modes and each one is a real
+  posting that previously passed:
+    (a) AI in the organisation blurb, absent from duties and qualifications.
+    (b) AI as a tool the engineer uses, e.g. "use generative AI to improve team
+        productivity".
+    (c) AI in the team or product name only, e.g. a DevOps role in a team called
+        "Ads AI Core Infra" whose duties are CI/CD and Kubernetes.
+    (d) AI-assisted software development rather than building AI products, e.g.
+        "AI-native SDLC", AI code review, generative coding assistants.
+
+Decide from the duties and qualifications. Company descriptions, team names, and tooling
+mentions are not evidence of substantive AI work.
+
+====================================================================
+2. SENIORITY -- is the stated eligibility open to this candidate?
+====================================================================
+
+Evaluate only whether the stated eligibility is open to a candidate with fewer than five
+years of total qualifying professional experience. Use only the supplied title and
+description.
+
+seniority_match = true
+  At least one stated required eligibility path permits fewer than five years, or the role
+  is clearly open to early-career candidates through language such as new-graduate
+  eligibility, regular mentoring, or bounded ownership performed with design guidance.
+seniority_match = false
+  Every stated required path has a minimum of five years or more.
+seniority_match = "uncertain"
+  Requirements conflict, or no numeric boundary is stated and the qualitative scope is
+  neither clearly early-career nor sufficient to prove exclusion.
+
+- Required qualifications control. A higher preferred qualification does not override a
+  lower required minimum.
+- Education/experience alternatives pass when any explicit path permits fewer than five
+  years.
+- Job-title seniority alone never decides eligibility.
+- Ignore irrelevant numbers such as company age, product age, team size, or years since
+  founding.
+- detected_level describes the title and scope, and may differ from the eligibility
+  decision.
+- required_experience is a concise normalized summary such as "3+ years" or "PhD + 4", or
+  "unknown".
+
+====================================================================
+3. LOCATION -- only when asked
+====================================================================
+
+This judgment is requested only when the deterministic filter could not resolve the
+location, which in practice means an unqualified remote posting. When the location field
+is absent from the input, omit location_eligible, location_evidence and location_reason
+entirely.
+
+location_eligible = true
+  The description indicates the role can be performed from India, or states no
+  geographic restriction that excludes India.
+location_eligible = false
+  The description restricts the role to a geography that excludes India, e.g. work
+  authorization tied to another country, a required time zone that excludes India, or a
+  named non-India office requirement.
+location_eligible = "uncertain"
+  The description says nothing that resolves the question either way.
+
+====================================================================
+EVIDENCE -- the same rule for every judgment
+====================================================================
+
+Each judgment carries its own evidence field. Evidence must be ONE short, contiguous,
+verbatim excerpt copied from the supplied description -- exact case, punctuation, spacing,
+and wording. Never join or paraphrase separate excerpts.
+
+Quote the text that drove that specific judgment. For an "unrelated" relevance verdict,
+quote the duties that show what the work really is, not the AI mention that misled.
+
+If the description genuinely contains nothing supporting a judgment, use the empty string
+for its evidence and say so in the reason. Do not invent a quotation.
+"""
+
+user_prompt_template = """
+Target profile:
+{target_description}
+
+Job title:
+{title}
+
+Job description:
+{description}
+{location_section}
+"""
+
+# Appended only when the deterministic location filter could not resolve the location.
+# Omitted entirely otherwise, per 2.5: do not ask the model a question already answered.
+location_section_template = """
+Location as stated by the source (unresolved by the deterministic filter):
+{location_original}
+
+Also judge whether this role is open to a candidate based in India.
+"""
