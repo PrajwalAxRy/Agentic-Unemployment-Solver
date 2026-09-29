@@ -10,16 +10,16 @@ from pathlib import Path
 
 from job_finder.adapters.base import AdapterRegistry, JobDetailAdapter, list_jobs_with_retry
 from job_finder.adapters.http_client import HttpRequestError
-from job_finder.core.company_registry import CompanySourceRegistry
-from job_finder.core.job_contracts import NormalizedJob
-from job_finder.core.search_profile import SearchProfile
-from job_finder.core.source_contracts import AdapterOutcome, CompanySource
-from job_finder.filter_verification import (
+from job_finder.collection import (
     CandidateSection,
     FilterListingRecord,
     FilterVerificationReport,
     FinalFilterDecision,
 )
+from job_finder.core.company_registry import CompanySourceRegistry
+from job_finder.core.job_contracts import NormalizedJob
+from job_finder.core.search_profile import SearchProfile
+from job_finder.core.source_contracts import AdapterOutcome, CompanySource
 from job_finder.filters.locations import LocationDecision, LocationFilterResult
 from job_finder.filters.roles import RoleDecision, RoleFilterResult
 from job_finder.matching.evaluation_set import SeniorityEvaluationSet

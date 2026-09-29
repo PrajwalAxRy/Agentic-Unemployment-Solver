@@ -52,14 +52,14 @@ from job_finder.adapters.successfactors import SuccessFactorsAdapter
 from job_finder.adapters.swiggy_careers import SwiggyCareersAdapter
 from job_finder.adapters.twilio_careers import TwilioCareersAdapter
 from job_finder.adapters.workday import WorkdayAdapter
-from job_finder.core.company_registry import load_company_registry
-from job_finder.core.search_profile import load_search_profile
-from job_finder.core.source_contracts import AdapterType
-from job_finder.filter_verification import (
-    verify_filters,
+from job_finder.collection import (
+    collect_listings,
     write_filter_report,
     write_filter_review,
 )
+from job_finder.core.company_registry import load_company_registry
+from job_finder.core.search_profile import load_search_profile
+from job_finder.core.source_contracts import AdapterType
 from job_finder.logging_setup import configure_logging, progress_logger
 from job_finder.matching.evaluation_set import load_seniority_evaluation_set
 from job_finder.matching.evaluator import SeniorityEvaluator, UsageBudget
@@ -540,7 +540,7 @@ def _filter_jobs(args: argparse.Namespace) -> int:
     registry = load_company_registry(args.registry)
     profile = load_search_profile(args.profile)
     client = BoundedHttpClient(policy=HttpPolicy(timeout_seconds=args.timeout))
-    report = verify_filters(
+    report = collect_listings(
         registry,
         _runtime_adapters(client),
         profile,
@@ -689,7 +689,7 @@ def _validate_seniority(args: argparse.Namespace) -> int:
         explicit_count = reused.explicit_candidate_count
         conditional_count = reused.conditional_candidate_count
     else:
-        filter_report = verify_filters(
+        filter_report = collect_listings(
             registry,
             adapters,
             profile,

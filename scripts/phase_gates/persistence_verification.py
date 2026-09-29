@@ -9,13 +9,13 @@ from datetime import datetime
 from pathlib import Path
 
 from job_finder.adapters.base import AdapterRegistry
-from job_finder.core.company_registry import CompanySourceRegistry
-from job_finder.core.search_profile import SearchProfile
-from job_finder.filter_verification import (
+from job_finder.collection import (
     FilterVerificationReport,
     FinalFilterDecision,
-    verify_filters,
+    collect_listings,
 )
+from job_finder.core.company_registry import CompanySourceRegistry
+from job_finder.core.search_profile import SearchProfile
 from job_finder.persistence.database import migrated_database
 from job_finder.persistence.locking import ScanLock
 from job_finder.persistence.repository import JobStateRepository
@@ -130,7 +130,7 @@ def verify_persistence(
                 f"found {initial_count} existing identities"
             )
         for pass_number in range(1, pass_count + 1):
-            filter_report = verify_filters(
+            filter_report = collect_listings(
                 registry,
                 adapters,
                 profile,

@@ -10,6 +10,7 @@ from pathlib import Path
 
 from job_finder.adapters.base import AdapterRegistry
 from job_finder.adapters.http_client import HttpFailureCategory, HttpRequestError
+from job_finder.collection import FilterVerificationReport, collect_listings
 from job_finder.core.company_registry import (
     CompanyRegistryEntry,
     CompanySourceRegistry,
@@ -30,7 +31,6 @@ from job_finder.core.source_contracts import (
     IdentityStrategy,
     SourceStatus,
 )
-from job_finder.filter_verification import FilterVerificationReport, verify_filters
 from job_finder.matching.evaluator import (
     LLMProviderError,
     LLMRequest,
@@ -228,7 +228,7 @@ def filtered(
     test_registry: CompanySourceRegistry,
     adapter: StubAdapter,
 ) -> FilterVerificationReport:
-    return verify_filters(
+    return collect_listings(
         test_registry,
         AdapterRegistry([adapter]),
         PROFILE,

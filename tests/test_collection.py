@@ -8,6 +8,12 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from job_finder.adapters.base import AdapterRegistry
+from job_finder.collection import (
+    FinalFilterDecision,
+    collect_listings,
+    write_filter_report,
+    write_filter_review,
+)
 from job_finder.core.company_registry import CompanyRegistryEntry, CompanySourceRegistry
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.search_profile import load_search_profile
@@ -21,12 +27,6 @@ from job_finder.core.source_contracts import (
     DetailStrategy,
     IdentityStrategy,
     SourceStatus,
-)
-from job_finder.filter_verification import (
-    FinalFilterDecision,
-    verify_filters,
-    write_filter_report,
-    write_filter_review,
 )
 
 SCAN_AT = datetime(2026, 9, 22, 12, tzinfo=UTC)
@@ -160,7 +160,7 @@ class UncertainDateStub:
 
 
 def test_filter_report_reconciles_every_reduction_stage() -> None:
-    report = verify_filters(
+    report = collect_listings(
         registry(),
         AdapterRegistry([StubAdapter()]),
         load_search_profile(Path("config/search_profile.toml")),
@@ -187,7 +187,7 @@ def test_filter_report_reconciles_every_reduction_stage() -> None:
 
 
 def test_filter_outputs_are_sanitized_and_human_readable(tmp_path: Path) -> None:
-    report = verify_filters(
+    report = collect_listings(
         registry(),
         AdapterRegistry([StubAdapter()]),
         load_search_profile(Path("config/search_profile.toml")),
@@ -216,7 +216,7 @@ def test_filter_outputs_are_sanitized_and_human_readable(tmp_path: Path) -> None
 
 def test_workday_multi_location_is_resolved_before_location_filtering() -> None:
     company_source = source(AdapterType.WORKDAY)
-    report = verify_filters(
+    report = collect_listings(
         CompanySourceRegistry(
             1,
             "test",
@@ -239,7 +239,7 @@ def test_jobvite_detail_date_is_applied_after_role_and_location_pass() -> None:
         source(AdapterType.JOBVITE),
         date_strategy=DateStrategy("datePosted", DateBasis.PUBLISHED, True, "test"),
     )
-    report = verify_filters(
+    report = collect_listings(
         CompanySourceRegistry(
             1,
             "test",
@@ -269,14 +269,14 @@ def test_uncertain_date_uses_first_seen_only_for_forward_aging() -> None:
         "test",
         (CompanyRegistryEntry(1, "P1", None, company_source),),
     )
-    recent = verify_filters(
+    recent = collect_listings(
         test_registry,
         AdapterRegistry([UncertainDateStub()]),
         load_search_profile(Path("config/search_profile.toml")),
         scan_at=SCAN_AT,
         first_seen_lookup=lambda _: SCAN_AT - timedelta(days=2),
     )
-    old = verify_filters(
+    old = collect_listings(
         test_registry,
         AdapterRegistry([UncertainDateStub()]),
         load_search_profile(Path("config/search_profile.toml")),

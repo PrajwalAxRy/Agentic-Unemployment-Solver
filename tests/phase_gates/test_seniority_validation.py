@@ -9,6 +9,12 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from job_finder.adapters.base import AdapterRegistry
+from job_finder.collection import (
+    CandidateSection,
+    FilterListingRecord,
+    FilterVerificationReport,
+    FinalFilterDecision,
+)
 from job_finder.core.company_registry import CompanyRegistryEntry, CompanySourceRegistry
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.search_profile import load_search_profile
@@ -22,12 +28,6 @@ from job_finder.core.source_contracts import (
     DetailStrategy,
     IdentityStrategy,
     SourceStatus,
-)
-from job_finder.filter_verification import (
-    CandidateSection,
-    FilterListingRecord,
-    FilterVerificationReport,
-    FinalFilterDecision,
 )
 from job_finder.filters.locations import LocationDecision, LocationFilterResult
 from job_finder.filters.roles import RoleDecision, RoleFilterResult

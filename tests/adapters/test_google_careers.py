@@ -241,9 +241,7 @@ def _fixture_html(name: str, *, title: str) -> HttpResponse:
         pytest.param("Senior ML Engineer, Ads", id="comma"),
         pytest.param("Staff Engineer (AI/ML)", id="parentheses-and-slash"),
         pytest.param("ML Engineer II", id="no-punctuation-control"),
-        pytest.param(
-            "Software Engineer III, Machine Learning - Search", id="comma-and-hyphen"
-        ),
+        pytest.param("Software Engineer III, Machine Learning - Search", id="comma-and-hyphen"),
     ],
 )
 def test_detail_identity_survives_normalization_for_punctuated_titles(title: str) -> None:

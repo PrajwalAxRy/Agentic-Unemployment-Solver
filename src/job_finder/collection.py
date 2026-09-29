@@ -1,4 +1,14 @@
-"""Complete-registry recency, role, and location filter validation."""
+"""Listing collection: fetch every enabled source, normalize, and apply cheap filters.
+
+This is step one of every scan (``scan.py`` calls :func:`collect_listings`), and at ~725
+LOC it is the hottest code in the repository.
+
+It was previously named ``filter_verification.py`` with an entry point called
+``verify_filters()``. That name was actively misleading -- it reads as optional QA that
+could be skipped, when in fact nothing runs without it. Renamed per ``to_change.md`` 6.8 /
+9.9. The report filenames it writes still say ``phase6_filter_verification`` and are
+deliberately unchanged, since those are an external artifact contract.
+"""
 
 from __future__ import annotations
 
@@ -168,7 +178,7 @@ class _PendingCompany:
     jobs: tuple[NormalizedJob, ...]
 
 
-def verify_filters(
+def collect_listings(
     registry: CompanySourceRegistry,
     adapters: AdapterRegistry,
     profile: SearchProfile,

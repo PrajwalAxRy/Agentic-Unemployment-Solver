@@ -15,17 +15,17 @@ from uuid import uuid4
 from job_finder.adapters.base import AdapterRegistry, JobDetailAdapter
 from job_finder.adapters.errors import DetailUnavailable, exception_category
 from job_finder.adapters.http_client import HttpRequestError
-from job_finder.core.company_registry import CompanySourceRegistry
-from job_finder.core.job_contracts import NormalizedJob
-from job_finder.core.search_profile import SearchProfile
-from job_finder.core.source_contracts import AdapterOutcome, CompanySource
-from job_finder.filter_verification import (
+from job_finder.collection import (
     CandidateSection,
     FilterListingRecord,
     FilterVerificationReport,
     FinalFilterDecision,
-    verify_filters,
+    collect_listings,
 )
+from job_finder.core.company_registry import CompanySourceRegistry
+from job_finder.core.job_contracts import NormalizedJob
+from job_finder.core.search_profile import SearchProfile
+from job_finder.core.source_contracts import AdapterOutcome, CompanySource
 from job_finder.filters.description_relevance import (
     DescriptionRelevanceDecision,
     DescriptionRelevanceResult,
@@ -255,7 +255,7 @@ def run_manual_scan(
                     "phase=source_collection status=started "
                     f"companies={sum(entry.source.enabled for entry in registry.entries)}"
                 )
-            filtered = verify_filters(
+            filtered = collect_listings(
                 registry,
                 adapters,
                 profile,
