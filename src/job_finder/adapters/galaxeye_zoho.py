@@ -11,12 +11,13 @@ from datetime import datetime
 from html.parser import HTMLParser
 from urllib.parse import parse_qsl, urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
     require_source_configuration,
 )
-from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
+from job_finder.adapters.http_client import BoundedHttpClient, HttpRequestError
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.source_contracts import (
     AdapterDiagnostic,
@@ -83,7 +84,7 @@ class GalaxEyeZohoAdapter:
         except HttpRequestError as error:
             return _result(
                 source,
-                _request_outcome(error),
+                request_outcome(error),
                 [],
                 [request_failure_diagnostic(error)],
                 page_count=0,
@@ -112,7 +113,7 @@ class GalaxEyeZohoAdapter:
                 job = _normalize_item(source, item)
             except ValueError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "malformed_job",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -131,7 +132,7 @@ class GalaxEyeZohoAdapter:
                 raise AssertionError("GalaxEye jobs require an external ID")
             if external_id in seen_ids:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "duplicate_job_id",
                         DiagnosticSeverity.ERROR,
                         "GalaxEye RSS returned a duplicate job GUID.",
@@ -331,34 +332,12 @@ def _normalized_lines(parts: Iterable[str]) -> list[str]:
     return [normalized for line in text.splitlines() if (normalized := _normalize_whitespace(line))]
 
 
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
-
-
 def _failed(source: CompanySource, category: str, message: str) -> AdapterResult:
     return _result(
         source,
         AdapterOutcome.FAILED,
         [],
-        [_diagnostic(category, DiagnosticSeverity.ERROR, message)],
+        [diagnostic(category, DiagnosticSeverity.ERROR, message)],
         page_count=1,
     )
 

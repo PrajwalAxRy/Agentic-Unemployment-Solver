@@ -6,12 +6,13 @@ import hashlib
 import html
 import json
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from dataclasses import replace
 from datetime import datetime
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlsplit, urlunsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome, unique_strings
 from job_finder.adapters.base import request_failure_diagnostic, require_source_configuration
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
@@ -75,7 +76,7 @@ class RipplingAdapter:
             )
         except HttpRequestError as error:
             diagnostics.append(request_failure_diagnostic(error))
-            return _result(source, _request_outcome(error), [], diagnostics)
+            return _result(source, request_outcome(error), [], diagnostics)
         document = _decode_html(response.body, source, diagnostics)
         if document is None:
             return _result(source, AdapterOutcome.FAILED, [], diagnostics)
@@ -92,7 +93,7 @@ class RipplingAdapter:
             return _result(source, AdapterOutcome.BLOCKED, [], diagnostics)
         if not _is_expected_response_url(response.final_url, slug, listing=True):
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unexpected_redirect",
                     DiagnosticSeverity.ERROR,
                     "Rippling listing redirected outside the configured public board.",
@@ -106,7 +107,7 @@ class RipplingAdapter:
             collection = _listing_collection(page_props, slug)
         except ValueError as error:
             diagnostics.append(
-                _diagnostic("unsupported_schema", DiagnosticSeverity.ERROR, str(error))
+                diagnostic("unsupported_schema", DiagnosticSeverity.ERROR, str(error))
             )
             return _result(source, AdapterOutcome.FAILED, [], diagnostics)
 
@@ -131,7 +132,7 @@ class RipplingAdapter:
             or total_pages < 0
         ):
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "invalid_collection_metadata",
                     DiagnosticSeverity.ERROR,
                     "Rippling listing metadata was missing or internally invalid.",
@@ -140,7 +141,7 @@ class RipplingAdapter:
             return _result(source, AdapterOutcome.FAILED, [], diagnostics)
         if total_pages > 1:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unverified_pagination",
                     DiagnosticSeverity.ERROR,
                     "Rippling board requires pagination that has not been verified "
@@ -151,7 +152,7 @@ class RipplingAdapter:
             return _result(source, AdapterOutcome.SUSPICIOUS, [], diagnostics)
         if total_items != len(items) or total_pages != (1 if total_items else 0):
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "declared_count_mismatch",
                     DiagnosticSeverity.ERROR,
                     "Rippling's declared collection size did not match embedded jobs.",
@@ -172,7 +173,7 @@ class RipplingAdapter:
             except ValueError as error:
                 parse_error_count += 1
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "malformed_job",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -183,7 +184,7 @@ class RipplingAdapter:
             external_id = job.external_job_id
             if external_id in seen_ids:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "duplicate_job_id",
                         DiagnosticSeverity.ERROR,
                         "Rippling returned a duplicate job ID.",
@@ -202,7 +203,7 @@ class RipplingAdapter:
                 diagnostics,
             )
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "uncertain_creation_date_requires_detail",
                 DiagnosticSeverity.WARNING,
                 "Rippling detail createdOn is retained as uncertain date evidence.",
@@ -368,7 +369,7 @@ def _normalize_listing(source: CompanySource, slug: str, item: object) -> Normal
         if workplace is not None:
             workplace_types.append(workplace.replace("_", " ").title())
     location_parts.extend(workplace_types)
-    location = " | ".join(_unique_strings(location_parts))
+    location = " | ".join(unique_strings(location_parts))
     department = raw.get("department")
     return NormalizedJob(
         schema_version=1,
@@ -478,7 +479,7 @@ def _decode_html(
         return body.decode("utf-8")
     except UnicodeDecodeError:
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "invalid_html",
                 DiagnosticSeverity.ERROR,
                 "Rippling response was not valid UTF-8 HTML.",
@@ -505,18 +506,6 @@ def _parse_timestamp(value: str | None) -> datetime | None:
     return parsed if parsed.tzinfo is not None else None
 
 
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
-
-
 def _required_mapping(value: object, context: str) -> Mapping[object, object]:
     if not isinstance(value, Mapping):
         raise ValueError(f"{context} must be an object.")
@@ -532,28 +521,6 @@ def _required_string(raw: Mapping[object, object], key: str, context: str) -> st
 
 def _optional_string(value: object) -> str | None:
     return value.strip() if isinstance(value, str) and value.strip() else None
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: int | str,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

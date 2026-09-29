@@ -9,6 +9,7 @@ from dataclasses import dataclass, replace
 from html.parser import HTMLParser
 from urllib.parse import urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
@@ -95,7 +96,7 @@ class AganithaCareersAdapter:
         except HttpRequestError as error:
             return _result(
                 source,
-                _request_outcome(error),
+                request_outcome(error),
                 [],
                 [request_failure_diagnostic(error)],
                 page_count=0,
@@ -149,7 +150,7 @@ class AganithaCareersAdapter:
         for index, row in enumerate(rows):
             if row.external_id in seen_ids:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "duplicate_job_id",
                         DiagnosticSeverity.ERROR,
                         "Aganitha returned a duplicate job slug.",
@@ -168,7 +169,7 @@ class AganithaCareersAdapter:
                 detail = self._fetch_detail(row.canonical_url, include_description=False)
             except ValueError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "metadata_detail_failure",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -185,7 +186,7 @@ class AganithaCareersAdapter:
             page_count += 1
             if not _titles_compatible(detail.title, row.title):
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "title_mismatch",
                         DiagnosticSeverity.ERROR,
                         "Aganitha listing and detail titles did not match.",
@@ -201,7 +202,7 @@ class AganithaCareersAdapter:
                 )
             if normalize_text(detail.title) != normalize_text(row.title):
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "title_variation_normalized",
                         DiagnosticSeverity.INFO,
                         "Aganitha listing and detail titles differ only by compatible wording.",
@@ -211,7 +212,7 @@ class AganithaCareersAdapter:
             jobs.append(_normalized_job(source, row, detail))
 
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "missing_publication_date",
                 DiagnosticSeverity.WARNING,
                 "Aganitha's job inventory exposes no verified job-publication date.",
@@ -526,28 +527,6 @@ def _titles_compatible(left: str, right: str) -> bool:
     return len(shared) >= 2 and (left_tokens <= right_tokens or right_tokens <= left_tokens)
 
 
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
-
-
 def _failed(
     source: CompanySource,
     category: str,
@@ -559,7 +538,7 @@ def _failed(
         source,
         AdapterOutcome.FAILED,
         [],
-        [_diagnostic(category, DiagnosticSeverity.ERROR, message)],
+        [diagnostic(category, DiagnosticSeverity.ERROR, message)],
         page_count=page_count,
     )
 

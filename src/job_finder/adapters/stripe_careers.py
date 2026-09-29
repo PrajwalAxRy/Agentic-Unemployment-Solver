@@ -6,12 +6,13 @@ import hashlib
 import html
 import json
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from dataclasses import replace
 from datetime import datetime
 from html.parser import HTMLParser
 from urllib.parse import urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome, unique_strings
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
@@ -66,7 +67,7 @@ class StripeCareersAdapter:
         except HttpRequestError as error:
             return _result(
                 source,
-                _request_outcome(error),
+                request_outcome(error),
                 [],
                 0,
                 [request_failure_diagnostic(error)],
@@ -82,7 +83,7 @@ class StripeCareersAdapter:
                 [],
                 1,
                 [
-                    _diagnostic(
+                    diagnostic(
                         "unexpected_redirect",
                         DiagnosticSeverity.ERROR,
                         "Stripe careers redirected outside the approved search page.",
@@ -97,7 +98,7 @@ class StripeCareersAdapter:
                 [],
                 1,
                 [
-                    _diagnostic(
+                    diagnostic(
                         "invalid_encoding",
                         DiagnosticSeverity.ERROR,
                         "Stripe careers search was not valid UTF-8.",
@@ -131,7 +132,7 @@ class StripeCareersAdapter:
                 AdapterOutcome.FAILED,
                 [],
                 1,
-                [_diagnostic("unsupported_schema", DiagnosticSeverity.ERROR, str(error))],
+                [diagnostic("unsupported_schema", DiagnosticSeverity.ERROR, str(error))],
             )
 
         jobs: list[NormalizedJob] = []
@@ -148,7 +149,7 @@ class StripeCareersAdapter:
                 )
             except ValueError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "malformed_job",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -167,7 +168,7 @@ class StripeCareersAdapter:
                 raise AssertionError("Stripe normalized jobs require an external ID")
             if external_id in seen_ids:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "duplicate_job_id",
                         DiagnosticSeverity.ERROR,
                         "Stripe careers index returned a duplicate Greenhouse ID.",
@@ -180,7 +181,7 @@ class StripeCareersAdapter:
 
         if jobs:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "publication_date_requires_detail",
                     DiagnosticSeverity.WARNING,
                     "Stripe publication dates are available only on public detail pages.",
@@ -488,7 +489,7 @@ def _indexed_names(indices: list[int], values: list[object], context: str) -> li
             raise ValueError(f"{context} index was outside the filter array.")
         item = _required_mapping(values[index], f"{context} item")
         names.append(_required_string(item, "name", f"{context} item"))
-    return _unique_strings(names)
+    return unique_strings(names)
 
 
 def _index_list(value: object, field: str) -> list[int]:
@@ -537,40 +538,6 @@ def _decode_document(body: bytes) -> str | None:
         return body.decode("utf-8")
     except UnicodeDecodeError:
         return None
-
-
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

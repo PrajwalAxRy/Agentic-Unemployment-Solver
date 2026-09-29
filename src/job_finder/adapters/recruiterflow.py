@@ -6,12 +6,13 @@ import hashlib
 import html
 import json
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from dataclasses import replace
 from datetime import date
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlsplit, urlunsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome, unique_strings
 from job_finder.adapters.base import request_failure_diagnostic, require_source_configuration
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
@@ -77,12 +78,12 @@ class RecruiterflowAdapter:
             )
         except HttpRequestError as error:
             diagnostics.append(request_failure_diagnostic(error))
-            return _result(source, _request_outcome(error), [], diagnostics)
+            return _result(source, request_outcome(error), [], diagnostics)
         try:
             document = response.body.decode("utf-8")
         except UnicodeDecodeError:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "invalid_html",
                     DiagnosticSeverity.ERROR,
                     "Recruiterflow response was not valid UTF-8 HTML.",
@@ -102,7 +103,7 @@ class RecruiterflowAdapter:
             return _result(source, AdapterOutcome.BLOCKED, [], diagnostics)
         if not _is_expected_url(response.final_url, slug, listing=True):
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unexpected_redirect",
                     DiagnosticSeverity.ERROR,
                     "Recruiterflow listing redirected outside the configured public board.",
@@ -119,13 +120,13 @@ class RecruiterflowAdapter:
             _, location_ids = _collection_view(collection, "location", include_rows=False)
         except ValueError as error:
             diagnostics.append(
-                _diagnostic("unsupported_schema", DiagnosticSeverity.ERROR, str(error))
+                diagnostic("unsupported_schema", DiagnosticSeverity.ERROR, str(error))
             )
             return _result(source, AdapterOutcome.FAILED, [], diagnostics)
 
         if department_ids != group_ids or department_ids != location_ids:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "inconsistent_collection_views",
                     DiagnosticSeverity.ERROR,
                     "Recruiterflow's department, group, and location views disagree.",
@@ -144,7 +145,7 @@ class RecruiterflowAdapter:
                 jobs.append(_normalize_listing(source, slug, department, item))
             except ValueError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "malformed_job",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -334,7 +335,7 @@ def _normalize_listing(
     _validate_job_url(canonical_url, slug, external_id)
     details = _required_string(raw, "details", "Recruiterflow listing job")
     remote_type = _optional_string(raw.get("remote_type"))
-    location = " | ".join(_unique_strings([details, remote_type or ""]))
+    location = " | ".join(unique_strings([details, remote_type or ""]))
     return NormalizedJob(
         schema_version=1,
         company_id=source.company_id,
@@ -414,7 +415,7 @@ def _posting_location(posting: Mapping[object, object]) -> str | None:
             value = _optional_string(address.get(key))
             if value is not None:
                 parts.append(value)
-    unique = _unique_strings(parts)
+    unique = unique_strings(parts)
     return " | ".join(unique) if unique else None
 
 
@@ -473,18 +474,6 @@ def _plain_text(value: str) -> str:
     return "\n\n".join(line for line in lines if line)
 
 
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
-
-
 def _job_identifier(value: object, context: str) -> str:
     if not isinstance(value, int) or isinstance(value, bool) or value <= 0:
         raise ValueError(f"{context} job_id must be a positive integer.")
@@ -506,28 +495,6 @@ def _required_string(raw: Mapping[object, object], key: str, context: str) -> st
 
 def _optional_string(value: object) -> str | None:
     return value.strip() if isinstance(value, str) and value.strip() else None
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: int | str,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

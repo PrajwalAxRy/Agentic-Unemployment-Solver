@@ -10,6 +10,7 @@ from datetime import UTC, datetime
 from html.parser import HTMLParser
 from urllib.parse import urlencode, urljoin, urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import request_failure_diagnostic, require_source_configuration
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
@@ -118,7 +119,7 @@ class SuccessFactorsAdapter:
                 )
             except HttpRequestError as error:
                 diagnostics.append(request_failure_diagnostic(error))
-                outcome = AdapterOutcome.PARTIAL if jobs else _request_outcome(error)
+                outcome = AdapterOutcome.PARTIAL if jobs else request_outcome(error)
                 return _result(source, outcome, jobs, page_count, diagnostics)
 
             page_count += 1
@@ -126,7 +127,7 @@ class SuccessFactorsAdapter:
                 document = response.body.decode("utf-8")
             except UnicodeDecodeError:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "invalid_html",
                         DiagnosticSeverity.ERROR,
                         "SuccessFactors response was not valid UTF-8 HTML.",
@@ -159,7 +160,7 @@ class SuccessFactorsAdapter:
                 )
             if urlsplit(response.final_url).hostname != host:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unexpected_redirect",
                         DiagnosticSeverity.ERROR,
                         "SuccessFactors listing redirected outside the configured careers host.",
@@ -188,7 +189,7 @@ class SuccessFactorsAdapter:
                         complete=True,
                     )
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "premature_empty_page",
                         DiagnosticSeverity.ERROR,
                         "SuccessFactors returned an empty page before pagination completed.",
@@ -200,7 +201,7 @@ class SuccessFactorsAdapter:
                 page_start, page_end, total = _pagination_range(parser.pagination_labels)
             except ValueError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unsupported_schema",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -217,7 +218,7 @@ class SuccessFactorsAdapter:
 
             if page_start != offset + 1 or page_end - page_start + 1 != len(parser.rows):
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "invalid_page_range",
                         DiagnosticSeverity.ERROR,
                         "SuccessFactors result range did not match the requested offset and rows.",
@@ -231,7 +232,7 @@ class SuccessFactorsAdapter:
                 return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_count, diagnostics)
             if len(parser.rows) > self._page_size:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "page_size_exceeded",
                         DiagnosticSeverity.ERROR,
                         "SuccessFactors returned more rows than the configured page bound.",
@@ -245,7 +246,7 @@ class SuccessFactorsAdapter:
                 expected_total = total
             elif total != expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "inventory_total_changed",
                         DiagnosticSeverity.WARNING,
                         "SuccessFactors inventory total changed during pagination.",
@@ -264,7 +265,7 @@ class SuccessFactorsAdapter:
                 except ValueError as error:
                     parse_error_count += 1
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "malformed_job",
                             DiagnosticSeverity.ERROR,
                             str(error),
@@ -275,7 +276,7 @@ class SuccessFactorsAdapter:
                     continue
                 if job.external_job_id in seen_ids:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "duplicate_job_id",
                             DiagnosticSeverity.ERROR,
                             "SuccessFactors pagination returned a duplicate job ID.",
@@ -298,7 +299,7 @@ class SuccessFactorsAdapter:
             page_fingerprint = tuple(page_ids)
             if page_fingerprint and page_fingerprint in seen_pages:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "repeated_page",
                         DiagnosticSeverity.ERROR,
                         "SuccessFactors returned a repeated non-empty page.",
@@ -321,7 +322,7 @@ class SuccessFactorsAdapter:
                     )
                 if jobs:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "missing_publication_date",
                             DiagnosticSeverity.WARNING,
                             "SuccessFactors listing pages omit datePosted; detail retrieval "
@@ -339,7 +340,7 @@ class SuccessFactorsAdapter:
                 )
             if page_end <= offset or not parser.rows:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "pagination_stalled",
                         DiagnosticSeverity.ERROR,
                         "SuccessFactors pagination did not advance.",
@@ -351,7 +352,7 @@ class SuccessFactorsAdapter:
             offset = page_end
 
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "pagination_limit",
                 DiagnosticSeverity.ERROR,
                 "SuccessFactors pagination reached the configured page limit.",
@@ -675,28 +676,6 @@ def _required_text(value: object, field: str) -> str:
 
 def _optional_text(value: object) -> str | None:
     return _normalize_whitespace(value) if isinstance(value, str) and value.strip() else None
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

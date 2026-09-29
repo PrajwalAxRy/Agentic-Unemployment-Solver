@@ -8,6 +8,7 @@ from dataclasses import dataclass, replace
 from html.parser import HTMLParser
 from urllib.parse import urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
@@ -66,7 +67,7 @@ class IndexExchangeCareersAdapter:
         except HttpRequestError as error:
             return _result(
                 source,
-                _request_outcome(error),
+                request_outcome(error),
                 [],
                 [request_failure_diagnostic(error)],
                 page_count=0,
@@ -101,7 +102,7 @@ class IndexExchangeCareersAdapter:
             return _failed(source, "unsupported_schema", str(error))
 
         diagnostics = [
-            _diagnostic(
+            diagnostic(
                 "missing_publication_date",
                 DiagnosticSeverity.WARNING,
                 "Index Exchange exposes no verified publication date in its official inventory.",
@@ -329,34 +330,12 @@ def _external_id(url: str) -> str:
     return match.group(1)
 
 
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
-
-
 def _failed(source: CompanySource, category: str, message: str) -> AdapterResult:
     return _result(
         source,
         AdapterOutcome.FAILED,
         [],
-        [_diagnostic(category, DiagnosticSeverity.ERROR, message)],
+        [diagnostic(category, DiagnosticSeverity.ERROR, message)],
         page_count=1,
     )
 

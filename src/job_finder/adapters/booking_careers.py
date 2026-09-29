@@ -12,12 +12,13 @@ from datetime import datetime
 from html.parser import HTMLParser
 from urllib.parse import parse_qs, urlsplit, urlunsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
     require_source_configuration,
 )
-from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
+from job_finder.adapters.http_client import BoundedHttpClient, HttpRequestError
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.source_contracts import (
     AdapterDiagnostic,
@@ -89,7 +90,7 @@ class BookingCareersAdapter:
                 diagnostics.append(request_failure_diagnostic(error))
                 return _result(
                     source,
-                    _request_outcome(error),
+                    request_outcome(error),
                     jobs,
                     page - 1,
                     diagnostics,
@@ -165,7 +166,7 @@ class BookingCareersAdapter:
                     job = _normalize_job(source, raw_job)
                 except ValueError as error:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "malformed_job",
                             DiagnosticSeverity.ERROR,
                             str(error),
@@ -414,28 +415,6 @@ def _non_negative_int(value: object, field: str) -> int:
     return value
 
 
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
-
-
 def _failed(
     source: CompanySource,
     jobs: list[NormalizedJob],
@@ -444,7 +423,7 @@ def _failed(
     category: str,
     message: str,
 ) -> AdapterResult:
-    diagnostics.append(_diagnostic(category, DiagnosticSeverity.ERROR, message))
+    diagnostics.append(diagnostic(category, DiagnosticSeverity.ERROR, message))
     return _result(
         source,
         AdapterOutcome.PARTIAL if jobs else AdapterOutcome.FAILED,
@@ -462,7 +441,7 @@ def _suspicious(
     category: str,
     message: str,
 ) -> AdapterResult:
-    diagnostics.append(_diagnostic(category, DiagnosticSeverity.ERROR, message))
+    diagnostics.append(diagnostic(category, DiagnosticSeverity.ERROR, message))
     return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_count, diagnostics)
 
 

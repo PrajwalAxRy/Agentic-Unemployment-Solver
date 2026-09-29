@@ -6,12 +6,13 @@ import hashlib
 import html
 import json
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from datetime import datetime
 from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import parse_qsl, quote, urlencode, urlsplit, urlunsplit
 
+from job_finder.adapters._support import unique_strings
 from job_finder.adapters.base import request_failure_diagnostic, require_source_configuration
 from job_finder.adapters.http_client import (
     BoundedHttpClient,
@@ -241,7 +242,7 @@ def _normalize_job(
             external_job_id=external_id,
             title_original=title,
             title_normalized=normalize_title(title),
-            location_original=" | ".join(_unique_strings(locations)),
+            location_original=" | ".join(unique_strings(locations)),
             location_normalized=_shared_locations(locations),
             published_at=published_at,
             published_at_raw=published_at_raw,
@@ -349,18 +350,6 @@ def _parse_timestamp(value: str | None) -> datetime | None:
     except ValueError:
         return None
     return parsed if parsed.tzinfo is not None else None
-
-
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
 
 
 class _VisibleTextParser(HTMLParser):

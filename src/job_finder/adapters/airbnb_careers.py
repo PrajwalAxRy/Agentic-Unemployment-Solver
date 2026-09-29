@@ -13,6 +13,7 @@ from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
@@ -108,7 +109,7 @@ class AirbnbCareersAdapter:
         while expected_pages is None or page_number <= expected_pages:
             if page_number > _MAX_PAGES:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "pagination_limit",
                         DiagnosticSeverity.ERROR,
                         "Airbnb pagination exceeded the configured safety cap.",
@@ -135,14 +136,14 @@ class AirbnbCareersAdapter:
                 diagnostics.append(request_failure_diagnostic(error))
                 return _result(
                     source,
-                    _request_outcome(error) if not jobs else AdapterOutcome.PARTIAL,
+                    request_outcome(error) if not jobs else AdapterOutcome.PARTIAL,
                     jobs,
                     diagnostics,
                     page_number - 1,
                 )
             if response.final_url != page_url:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unexpected_redirect",
                         DiagnosticSeverity.ERROR,
                         "Airbnb careers page redirected outside its canonical page.",
@@ -160,7 +161,7 @@ class AirbnbCareersAdapter:
                 document = response.body.decode("utf-8")
             except UnicodeDecodeError:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "invalid_encoding",
                         DiagnosticSeverity.ERROR,
                         "Airbnb careers page was not valid UTF-8.",
@@ -214,7 +215,7 @@ class AirbnbCareersAdapter:
                 rows = parser.rows
             except (json.JSONDecodeError, ValueError) as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unsupported_schema",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -231,7 +232,7 @@ class AirbnbCareersAdapter:
 
             if pager.page != page_number:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "pagination_page_mismatch",
                         DiagnosticSeverity.ERROR,
                         "Airbnb pagination metadata did not match the requested page.",
@@ -252,7 +253,7 @@ class AirbnbCareersAdapter:
                 expected_pages = pager.total_pages
                 if expected_pages > _MAX_PAGES:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "pagination_limit",
                             DiagnosticSeverity.ERROR,
                             "Airbnb declared total exceeds the configured page safety cap.",
@@ -263,7 +264,7 @@ class AirbnbCareersAdapter:
                     return _result(source, AdapterOutcome.FAILED, [], diagnostics, page_number)
             elif pager.total_rows != declared_total or pager.total_pages != expected_pages:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "inventory_total_changed",
                         DiagnosticSeverity.ERROR,
                         "Airbnb total changed during pagination.",
@@ -280,7 +281,7 @@ class AirbnbCareersAdapter:
             )
             if len(rows) != expected_rows:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "page_count_mismatch",
                         DiagnosticSeverity.ERROR,
                         "Airbnb page row count did not match the declared total.",
@@ -299,7 +300,7 @@ class AirbnbCareersAdapter:
             for row_index, row in enumerate(rows):
                 if row.external_id in seen_ids:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "duplicate_job_id",
                             DiagnosticSeverity.ERROR,
                             "Airbnb pagination returned a duplicate job ID.",
@@ -322,7 +323,7 @@ class AirbnbCareersAdapter:
             raise AssertionError("Airbnb pagination did not initialize")
         if len(jobs) != declared_total:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "inventory_count_mismatch",
                     DiagnosticSeverity.ERROR,
                     "Airbnb collected count did not match the declared total.",
@@ -333,7 +334,7 @@ class AirbnbCareersAdapter:
             return _result(source, AdapterOutcome.PARTIAL, jobs, diagnostics, expected_pages)
         if jobs:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unverified_webpage_date_requires_detail",
                     DiagnosticSeverity.WARNING,
                     "Airbnb exposes only an unverified WebPage date on public detail pages.",
@@ -775,28 +776,6 @@ def _canonical_detail_url(value: str) -> tuple[str, str]:
         raise ValueError("Airbnb detail URL must be a canonical same-origin position URL.")
     external_id = match.group(1)
     return f"https://{_HOST}/positions/{external_id}/", external_id
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

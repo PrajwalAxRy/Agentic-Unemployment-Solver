@@ -5,11 +5,12 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from dataclasses import replace
 from datetime import datetime
 from urllib.parse import parse_qs, urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome, unique_strings
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
@@ -86,14 +87,14 @@ class AppleJobsAdapter:
                 diagnostics.append(request_failure_diagnostic(error))
                 return _result(
                     source,
-                    AdapterOutcome.PARTIAL if jobs else _request_outcome(error),
+                    AdapterOutcome.PARTIAL if jobs else request_outcome(error),
                     jobs,
                     page_number - 1,
                     diagnostics,
                 )
             if not _is_listing_url(response.final_url, page_number):
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unexpected_redirect",
                         DiagnosticSeverity.ERROR,
                         "Apple jobs redirected outside the approved India search page.",
@@ -111,7 +112,7 @@ class AppleJobsAdapter:
                 document = response.body.decode("utf-8")
             except UnicodeDecodeError:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "invalid_encoding",
                         DiagnosticSeverity.ERROR,
                         "Apple jobs listing was not valid UTF-8.",
@@ -158,7 +159,7 @@ class AppleJobsAdapter:
                     raise ValueError("Apple searchResults must be an array.")
             except (json.JSONDecodeError, UnicodeDecodeError, ValueError) as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unsupported_schema",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -177,7 +178,7 @@ class AppleJobsAdapter:
                 expected_total = total
             elif total != expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "changing_total",
                         DiagnosticSeverity.ERROR,
                         "Apple jobs total changed during pagination.",
@@ -191,7 +192,7 @@ class AppleJobsAdapter:
             expected_page_count = min(self._page_size, max(expected_total - len(jobs), 0))
             if len(rows) != expected_page_count:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "declared_count_mismatch",
                         DiagnosticSeverity.ERROR,
                         "Apple jobs page size does not reconcile with its declared total.",
@@ -209,7 +210,7 @@ class AppleJobsAdapter:
                 except ValueError as error:
                     parse_errors += 1
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "malformed_job",
                             DiagnosticSeverity.ERROR,
                             str(error),
@@ -220,7 +221,7 @@ class AppleJobsAdapter:
                     continue
                 if job.external_job_id in seen_ids or job.canonical_url in seen_urls:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "duplicate_job_id",
                             DiagnosticSeverity.ERROR,
                             "Apple jobs returned a duplicate external ID or detail URL.",
@@ -248,7 +249,7 @@ class AppleJobsAdapter:
                 unknown_count = sum(job.date_basis is DateBasis.UNKNOWN for job in jobs)
                 if unknown_count:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "unstable_pipeline_dates",
                             DiagnosticSeverity.WARNING,
                             "Apple managed-pipeline timestamps are unstable and remain unknown.",
@@ -265,7 +266,7 @@ class AppleJobsAdapter:
                 )
 
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "pagination_limit",
                 DiagnosticSeverity.ERROR,
                 "Apple jobs pagination exceeded the configured page limit.",
@@ -506,7 +507,7 @@ def _listing_locations(value: object) -> str:
         locations.append(", ".join(pieces))
     if not locations or not india_seen:
         raise ValueError("Apple India search result must contain an India location.")
-    return " | ".join(_unique_strings(locations))
+    return " | ".join(unique_strings(locations))
 
 
 def _location_text(value: object) -> str:
@@ -521,7 +522,7 @@ def _location_text(value: object) -> str:
         locations.append(", ".join(pieces) if city or state else name or country)
     if not locations:
         raise ValueError("Apple detail must contain a location.")
-    return " | ".join(_unique_strings(locations))
+    return " | ".join(unique_strings(locations))
 
 
 def _canonical_detail_url(value: str) -> tuple[str, str]:
@@ -630,40 +631,6 @@ def _optional_string_array(value: object) -> list[str]:
             raise ValueError("Apple optional string array entries must be non-empty strings.")
         result.append(item.strip())
     return result
-
-
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

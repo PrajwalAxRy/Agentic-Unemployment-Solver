@@ -6,18 +6,18 @@ import hashlib
 import html
 import re
 import xml.etree.ElementTree as ElementTree
-from collections.abc import Iterable
 from datetime import datetime
 from email.utils import parsedate_to_datetime
 from html.parser import HTMLParser
 from urllib.parse import parse_qs, unquote, urlsplit, urlunsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome, unique_strings
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
     require_source_configuration,
 )
-from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
+from job_finder.adapters.http_client import BoundedHttpClient, HttpRequestError
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.source_contracts import (
     AdapterDiagnostic,
@@ -76,7 +76,7 @@ class PageUpXmlFeedAdapter:
         except HttpRequestError as error:
             return _result(
                 source,
-                _request_outcome(error),
+                request_outcome(error),
                 [],
                 0,
                 [request_failure_diagnostic(error)],
@@ -89,7 +89,7 @@ class PageUpXmlFeedAdapter:
                 [],
                 1,
                 [
-                    _diagnostic(
+                    diagnostic(
                         "unexpected_redirect",
                         DiagnosticSeverity.ERROR,
                         "PageUp XML feed redirected outside the configured export URL.",
@@ -105,7 +105,7 @@ class PageUpXmlFeedAdapter:
                 [],
                 1,
                 [
-                    _diagnostic(
+                    diagnostic(
                         "invalid_encoding",
                         DiagnosticSeverity.ERROR,
                         "PageUp XML feed was not valid UTF-8.",
@@ -119,7 +119,7 @@ class PageUpXmlFeedAdapter:
                 [],
                 1,
                 [
-                    _diagnostic(
+                    diagnostic(
                         "unsafe_xml",
                         DiagnosticSeverity.ERROR,
                         "PageUp XML feed contained a document type or entity declaration.",
@@ -135,7 +135,7 @@ class PageUpXmlFeedAdapter:
                 [],
                 1,
                 [
-                    _diagnostic(
+                    diagnostic(
                         "invalid_xml",
                         DiagnosticSeverity.ERROR,
                         "PageUp XML feed was malformed.",
@@ -149,7 +149,7 @@ class PageUpXmlFeedAdapter:
                 [],
                 1,
                 [
-                    _diagnostic(
+                    diagnostic(
                         "unsupported_schema",
                         DiagnosticSeverity.ERROR,
                         "PageUp XML feed root must be source.",
@@ -167,7 +167,7 @@ class PageUpXmlFeedAdapter:
                 AdapterOutcome.FAILED,
                 [],
                 1,
-                [_diagnostic("unsupported_schema", DiagnosticSeverity.ERROR, str(error))],
+                [diagnostic("unsupported_schema", DiagnosticSeverity.ERROR, str(error))],
             )
         if publisher != expected_publisher:
             return _result(
@@ -176,7 +176,7 @@ class PageUpXmlFeedAdapter:
                 [],
                 1,
                 [
-                    _diagnostic(
+                    diagnostic(
                         "publisher_mismatch",
                         DiagnosticSeverity.ERROR,
                         "PageUp XML publisher did not match the configured company.",
@@ -200,7 +200,7 @@ class PageUpXmlFeedAdapter:
                 )
             except ValueError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "malformed_job",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -220,7 +220,7 @@ class PageUpXmlFeedAdapter:
             existing = jobs_by_id.get(external_id)
             if existing == job:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "duplicate_job_id_collapsed",
                         DiagnosticSeverity.WARNING,
                         "PageUp XML feed repeated an identical job row; duplicate collapsed.",
@@ -230,7 +230,7 @@ class PageUpXmlFeedAdapter:
                 continue
             if existing is not None:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "duplicate_job_id",
                         DiagnosticSeverity.ERROR,
                         "PageUp XML feed reused an API job ID for conflicting job data.",
@@ -306,7 +306,7 @@ def _normalize_job(
     )
     date_raw = _required_child_text(element, "date", "PageUp job")
     published_at = _rfc2822_datetime(date_raw, "PageUp job date")
-    location_parts = _unique_strings(
+    location_parts = unique_strings(
         _optional_child_text(element, field) for field in ("city", "state", "country")
     )
     if not location_parts:
@@ -423,42 +423,6 @@ def _plain_text(value: str) -> str:
     parser.close()
     lines = [re.sub(r"\s+", " ", line).strip() for line in "".join(parser.parts).splitlines()]
     return "\n\n".join(line for line in lines if line)
-
-
-def _unique_strings(values: Iterable[str | None]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        if raw is None:
-            continue
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: int | str,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

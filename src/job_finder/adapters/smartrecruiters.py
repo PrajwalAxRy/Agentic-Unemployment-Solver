@@ -13,8 +13,9 @@ from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import quote, urlsplit
 
+from job_finder.adapters._support import request_outcome
 from job_finder.adapters.base import request_failure_diagnostic, require_source_configuration
-from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
+from job_finder.adapters.http_client import BoundedHttpClient, HttpRequestError
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.source_contracts import (
     AdapterDiagnostic,
@@ -73,7 +74,7 @@ class SmartRecruitersAdapter:
                 diagnostics.append(request_failure_diagnostic(error))
                 return _result(
                     source,
-                    AdapterOutcome.PARTIAL if jobs else _request_outcome(error),
+                    AdapterOutcome.PARTIAL if jobs else request_outcome(error),
                     jobs,
                     page_index,
                     diagnostics,
@@ -372,14 +373,6 @@ def _diagnostic(
         else DiagnosticSeverity.WARNING,
         message=message,
         context=context,
-    )
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
     )
 
 

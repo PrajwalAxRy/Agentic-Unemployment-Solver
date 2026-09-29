@@ -11,12 +11,13 @@ from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
     require_source_configuration,
 )
-from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
+from job_finder.adapters.http_client import BoundedHttpClient, HttpRequestError
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.source_contracts import (
     AdapterDiagnostic,
@@ -78,7 +79,7 @@ class AtlassianCareersAdapter:
         except HttpRequestError as error:
             return _result(
                 source,
-                _request_outcome(error),
+                request_outcome(error),
                 [],
                 [request_failure_diagnostic(error)],
                 page_count=0,
@@ -122,7 +123,7 @@ class AtlassianCareersAdapter:
                 job, missing_location = _normalize_variants(source, variants)
             except ValueError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "malformed_job",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -142,7 +143,7 @@ class AtlassianCareersAdapter:
         collapsed_count = len(payload) - len(jobs)
         if collapsed_count:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "duplicate_portal_variants_collapsed",
                     DiagnosticSeverity.INFO,
                     "Atlassian duplicate portal variants were consistent and collapsed by job ID.",
@@ -151,7 +152,7 @@ class AtlassianCareersAdapter:
             )
         if missing_location_count:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "missing_location",
                     DiagnosticSeverity.WARNING,
                     "Atlassian jobs without a public location remain explicitly unavailable.",
@@ -159,7 +160,7 @@ class AtlassianCareersAdapter:
                 )
             )
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "unverified_updated_date",
                 DiagnosticSeverity.WARNING,
                 "Atlassian exposes an iCIMS updated date, not a verified publication date.",
@@ -380,34 +381,12 @@ def _positive_int(value: object, context: str) -> int:
     return value
 
 
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
-
-
 def _failed(source: CompanySource, category: str, message: str) -> AdapterResult:
     return _result(
         source,
         AdapterOutcome.FAILED,
         [],
-        [_diagnostic(category, DiagnosticSeverity.ERROR, message)],
+        [diagnostic(category, DiagnosticSeverity.ERROR, message)],
         page_count=1,
     )
 

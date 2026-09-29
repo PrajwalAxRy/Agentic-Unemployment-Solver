@@ -13,13 +13,14 @@ from datetime import UTC, datetime
 from html.parser import HTMLParser
 from urllib.parse import parse_qs, urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
     require_source_configuration,
 )
 from job_finder.adapters.errors import DetailContentMissing, DetailIdentityMismatch
-from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
+from job_finder.adapters.http_client import BoundedHttpClient, HttpRequestError
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.source_contracts import (
     AdapterDiagnostic,
@@ -73,7 +74,7 @@ class PcsxCareersAdapter:
                 diagnostics.append(request_failure_diagnostic(error))
                 return _result(
                     source,
-                    AdapterOutcome.PARTIAL if jobs else _request_outcome(error),
+                    AdapterOutcome.PARTIAL if jobs else request_outcome(error),
                     jobs,
                     page_index,
                     diagnostics,
@@ -135,7 +136,7 @@ class PcsxCareersAdapter:
                     job = _normalize_listing(source, host, raw_job)
                 except ValueError as error:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "malformed_job",
                             DiagnosticSeverity.ERROR,
                             str(error),
@@ -179,7 +180,7 @@ class PcsxCareersAdapter:
                     job.source_metadata.get("listing_location_missing") is True for job in jobs
                 )
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unverified_creation_timestamp",
                         DiagnosticSeverity.WARNING,
                         "PCSx creation timestamps remain uncertain until detail retrieval.",
@@ -188,7 +189,7 @@ class PcsxCareersAdapter:
                 )
                 if missing_location_count:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "missing_location",
                             DiagnosticSeverity.WARNING,
                             "PCSx listings without locations remain explicit.",
@@ -471,28 +472,6 @@ def _non_negative_int(value: object, context: str) -> int:
     return value
 
 
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
-
-
 def _failure(
     source: CompanySource,
     jobs: list[NormalizedJob],
@@ -501,7 +480,7 @@ def _failure(
     category: str,
     message: str,
 ) -> AdapterResult:
-    diagnostics.append(_diagnostic(category, DiagnosticSeverity.ERROR, message))
+    diagnostics.append(diagnostic(category, DiagnosticSeverity.ERROR, message))
     return _result(
         source,
         AdapterOutcome.PARTIAL if jobs else AdapterOutcome.FAILED,
@@ -519,7 +498,7 @@ def _suspicious(
     category: str,
     message: str,
 ) -> AdapterResult:
-    diagnostics.append(_diagnostic(category, DiagnosticSeverity.ERROR, message))
+    diagnostics.append(diagnostic(category, DiagnosticSeverity.ERROR, message))
     return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_count, diagnostics)
 
 

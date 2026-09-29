@@ -4,11 +4,12 @@ from __future__ import annotations
 
 import hashlib
 import json
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from datetime import datetime
 from typing import Any
 from urllib.parse import quote, urlsplit, urlunsplit
 
+from job_finder.adapters._support import unique_strings
 from job_finder.adapters.base import (
     request_failure_diagnostic,
     require_source_configuration,
@@ -187,7 +188,7 @@ def _normalize_job(
     locations = [primary_location, *_secondary_locations(raw_job.get("secondaryLocations"))]
     if raw_job.get("isRemote") is True or raw_job.get("workplaceType") == "Remote":
         locations.append("Remote")
-    location_original = " | ".join(_unique_strings(locations))
+    location_original = " | ".join(unique_strings(locations))
 
     published_raw = _optional_string(raw_job.get("publishedAt"))
     published_at = _parse_timestamp(published_raw)
@@ -295,15 +296,3 @@ def _parse_timestamp(value: str | None) -> datetime | None:
     except ValueError:
         return None
     return parsed if parsed.tzinfo is not None else None
-
-
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result

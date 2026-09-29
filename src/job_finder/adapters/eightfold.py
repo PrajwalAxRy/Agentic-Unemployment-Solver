@@ -7,12 +7,13 @@ import html
 import json
 import math
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from datetime import UTC, datetime
 from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import quote, urlsplit
 
+from job_finder.adapters._support import diagnostic, unique_strings
 from job_finder.adapters.base import request_failure_diagnostic, require_source_configuration
 from job_finder.adapters.http_client import (
     BoundedHttpClient,
@@ -105,7 +106,7 @@ class EightfoldAdapter:
                 raw_jobs, total = _listing_collection(payload)
             except (json.JSONDecodeError, UnicodeDecodeError):
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "invalid_json",
                         DiagnosticSeverity.ERROR,
                         "Eightfold response was not valid JSON.",
@@ -131,7 +132,7 @@ class EightfoldAdapter:
 
             if len(raw_jobs) > self._page_size:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "page_size_exceeded",
                         DiagnosticSeverity.ERROR,
                         "Eightfold returned more jobs than the requested page limit.",
@@ -149,7 +150,7 @@ class EightfoldAdapter:
                 expected_total = total
             elif total != expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "inconsistent_total",
                         DiagnosticSeverity.ERROR,
                         "Eightfold count changed during pagination; completeness is unknown.",
@@ -169,7 +170,7 @@ class EightfoldAdapter:
             fingerprint = hashlib.sha256(response.body).hexdigest()
             if raw_jobs and fingerprint in seen_pages:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "repeated_page",
                         DiagnosticSeverity.ERROR,
                         "Eightfold returned a repeated non-empty page.",
@@ -186,7 +187,7 @@ class EightfoldAdapter:
             seen_pages.add(fingerprint)
             if raw_job_count + len(raw_jobs) > expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "collection_exceeds_total",
                         DiagnosticSeverity.ERROR,
                         "Eightfold returned more jobs than the first-page count.",
@@ -204,7 +205,7 @@ class EightfoldAdapter:
                 )
             if not raw_jobs and raw_job_count < expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "premature_empty_page",
                         DiagnosticSeverity.ERROR,
                         "Eightfold returned an empty page before the reported count.",
@@ -227,7 +228,7 @@ class EightfoldAdapter:
                 except ValueError as error:
                     parse_error_count += 1
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "malformed_job",
                             DiagnosticSeverity.ERROR,
                             str(error),
@@ -238,7 +239,7 @@ class EightfoldAdapter:
                     continue
                 if job.external_job_id in seen_ids:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "duplicate_job_id",
                             DiagnosticSeverity.ERROR,
                             "Eightfold pagination returned a duplicate job ID.",
@@ -268,7 +269,7 @@ class EightfoldAdapter:
                 break
         else:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "pagination_limit",
                     DiagnosticSeverity.ERROR,
                     "Eightfold pagination exceeded the configured page limit.",
@@ -286,7 +287,7 @@ class EightfoldAdapter:
 
         if uncertain_date_count:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unverified_t_create",
                     DiagnosticSeverity.WARNING,
                     "Eightfold t_create is retained as uncertain date evidence.",
@@ -295,7 +296,7 @@ class EightfoldAdapter:
             )
         if missing_date_count:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "missing_publication_date",
                     DiagnosticSeverity.WARNING,
                     "Eightfold listings without t_create remain explicit.",
@@ -304,7 +305,7 @@ class EightfoldAdapter:
             )
         if missing_location_count:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "missing_location",
                     DiagnosticSeverity.WARNING,
                     "Eightfold listings without locations remain explicit.",
@@ -413,7 +414,7 @@ def _normalize_job(
         external_job_id=external_id,
         title_original=title,
         title_normalized=normalize_title(title),
-        location_original=" | ".join(_unique_strings(locations)),
+        location_original=" | ".join(unique_strings(locations)),
         location_normalized=_shared_locations(locations),
         published_at=_parse_epoch(t_create),
         published_at_raw=_raw_date(t_create),
@@ -530,7 +531,7 @@ def _schema_failure(
     page_index: int,
 ) -> AdapterResult:
     diagnostics.append(
-        _diagnostic(
+        diagnostic(
             "unsupported_schema",
             DiagnosticSeverity.ERROR,
             message,
@@ -546,20 +547,6 @@ def _schema_failure(
     )
 
 
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
-
-
 def _required_string(raw: Mapping[object, object], key: str) -> str:
     value = raw.get(key)
     if not isinstance(value, str) or not value.strip():
@@ -569,18 +556,6 @@ def _required_string(raw: Mapping[object, object], key: str) -> str:
 
 def _optional_string(value: object) -> str | None:
     return value.strip() if isinstance(value, str) and value.strip() else None
-
-
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
 
 
 class _VisibleTextParser(HTMLParser):

@@ -11,6 +11,7 @@ from datetime import date
 from html.parser import HTMLParser
 from urllib.parse import urlencode, urljoin, urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import request_failure_diagnostic, require_source_configuration
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
@@ -92,12 +93,12 @@ class JobviteAdapter:
             )
         except HttpRequestError as error:
             diagnostics.append(request_failure_diagnostic(error))
-            return _result(source, _request_outcome(error), [], diagnostics)
+            return _result(source, request_outcome(error), [], diagnostics)
         try:
             document = response.body.decode("utf-8")
         except UnicodeDecodeError:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "invalid_html",
                     DiagnosticSeverity.ERROR,
                     "Jobvite response was not valid UTF-8 HTML.",
@@ -117,7 +118,7 @@ class JobviteAdapter:
             return _result(source, AdapterOutcome.BLOCKED, [], diagnostics)
         if not _is_expected_response_url(response.final_url, company, listing=True):
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unexpected_redirect",
                     DiagnosticSeverity.ERROR,
                     "Jobvite listing redirected outside the configured public board.",
@@ -130,7 +131,7 @@ class JobviteAdapter:
         parser.close()
         if not parser.is_job_page or not parser.has_open_positions_heading:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unsupported_schema",
                     DiagnosticSeverity.ERROR,
                     "Jobvite response did not contain the public jobs-page markers.",
@@ -139,7 +140,7 @@ class JobviteAdapter:
             return _result(source, AdapterOutcome.FAILED, [], diagnostics)
         if parser.has_pagination:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unexpected_pagination",
                     DiagnosticSeverity.ERROR,
                     "Jobvite exposed pagination that this complete-board adapter cannot verify.",
@@ -151,7 +152,7 @@ class JobviteAdapter:
             if "no open positions" in error_text.casefold() or "no jobs" in error_text.casefold():
                 return _result(source, AdapterOutcome.EMPTY, [], diagnostics, complete=True)
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unexplained_empty_page",
                     DiagnosticSeverity.ERROR,
                     "Jobvite returned no jobs without an explicit empty-board message.",
@@ -168,7 +169,7 @@ class JobviteAdapter:
             except ValueError as error:
                 parse_error_count += 1
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "malformed_job",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -178,7 +179,7 @@ class JobviteAdapter:
                 continue
             if job.external_job_id in seen_ids:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "duplicate_job_id",
                         DiagnosticSeverity.ERROR,
                         "Jobvite returned a duplicate job ID.",
@@ -198,7 +199,7 @@ class JobviteAdapter:
                 diagnostics,
             )
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "missing_publication_date",
                 DiagnosticSeverity.WARNING,
                 "Jobvite listing pages omit datePosted; detail retrieval supplies it.",
@@ -582,28 +583,6 @@ def _optional_string(value: object) -> str | None:
 
 def _compact_text(parts: list[str]) -> str:
     return _normalize_whitespace(" ".join(parts))
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

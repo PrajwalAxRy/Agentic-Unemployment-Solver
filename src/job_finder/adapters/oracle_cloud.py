@@ -6,15 +6,16 @@ import hashlib
 import html
 import json
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from dataclasses import replace
 from datetime import date
 from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import quote, urlencode, urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome, unique_strings
 from job_finder.adapters.base import request_failure_diagnostic, require_source_configuration
-from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
+from job_finder.adapters.http_client import BoundedHttpClient, HttpRequestError
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.source_contracts import (
     AdapterDiagnostic,
@@ -97,7 +98,7 @@ class OracleCloudAdapter:
                 diagnostics.append(request_failure_diagnostic(error))
                 return _result(
                     source,
-                    AdapterOutcome.PARTIAL if jobs else _request_outcome(error),
+                    AdapterOutcome.PARTIAL if jobs else request_outcome(error),
                     jobs,
                     page_count,
                     diagnostics,
@@ -114,7 +115,7 @@ class OracleCloudAdapter:
                 )
             except (ValueError, json.JSONDecodeError, UnicodeDecodeError) as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unsupported_schema",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -133,7 +134,7 @@ class OracleCloudAdapter:
                 expected_total = total
             elif total != expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "inventory_total_changed",
                         DiagnosticSeverity.WARNING,
                         "Oracle Cloud inventory total changed during pagination; continued "
@@ -149,7 +150,7 @@ class OracleCloudAdapter:
             page_ids = tuple(_raw_id(raw) for raw in raw_jobs)
             if raw_jobs and page_ids in seen_pages:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "repeated_page",
                         DiagnosticSeverity.ERROR,
                         "Oracle Cloud returned a repeated non-empty page.",
@@ -161,7 +162,7 @@ class OracleCloudAdapter:
 
             if page_offset + len(raw_jobs) > expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "collection_exceeds_total",
                         DiagnosticSeverity.ERROR,
                         "Oracle Cloud returned more jobs than the first-page total.",
@@ -173,7 +174,7 @@ class OracleCloudAdapter:
                 return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_count, diagnostics)
             if not raw_jobs and page_offset < expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "premature_empty_page",
                         DiagnosticSeverity.ERROR,
                         "Oracle Cloud returned an empty page before reaching its reported total.",
@@ -190,7 +191,7 @@ class OracleCloudAdapter:
                 except ValueError as error:
                     parse_error_count += 1
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "malformed_job",
                             DiagnosticSeverity.ERROR,
                             str(error),
@@ -218,7 +219,7 @@ class OracleCloudAdapter:
                 break
             if len(raw_jobs) < self._page_size:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "short_page",
                         DiagnosticSeverity.WARNING,
                         "Oracle Cloud returned a short nonterminal page; pagination continued "
@@ -231,7 +232,7 @@ class OracleCloudAdapter:
                 )
         else:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "pagination_limit",
                     DiagnosticSeverity.ERROR,
                     "Oracle Cloud pagination reached its configured page limit.",
@@ -243,7 +244,7 @@ class OracleCloudAdapter:
 
         if duplicate_count:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "duplicate_job_id",
                     (
                         DiagnosticSeverity.WARNING
@@ -270,7 +271,7 @@ class OracleCloudAdapter:
                 )
         if missing_date_count:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "missing_publication_date",
                     DiagnosticSeverity.WARNING,
                     "Oracle Cloud listings with missing or invalid PostedDate remain explicit.",
@@ -279,7 +280,7 @@ class OracleCloudAdapter:
             )
         if missing_location_count:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "missing_location",
                     DiagnosticSeverity.WARNING,
                     "Oracle Cloud listings without a location remain available for detail review.",
@@ -347,7 +348,7 @@ class OracleCloudAdapter:
             job,
             title_original=title,
             title_normalized=normalize_title(title),
-            location_original=" | ".join(_unique_strings(locations)),
+            location_original=" | ".join(unique_strings(locations)),
             location_normalized=_shared_locations(locations),
             description=description,
             description_hash=hashlib.sha256(description.encode("utf-8")).hexdigest(),
@@ -460,7 +461,7 @@ def _normalize_listing(
         external_job_id=external_id,
         title_original=title,
         title_normalized=normalize_title(title),
-        location_original=" | ".join(_unique_strings(locations)),
+        location_original=" | ".join(unique_strings(locations)),
         location_normalized=_shared_locations(locations),
         published_at=posted_date,
         published_at_raw=posted_raw,
@@ -499,11 +500,11 @@ def _listing_locations(raw: Mapping[object, object]) -> list[str]:
             name = _optional_string(item.get("Name")) or _optional_string(item.get("LocationName"))
             if name is not None:
                 locations.append(name)
-    return _unique_strings(locations)
+    return unique_strings(locations)
 
 
 def _description(detail: Mapping[object, object]) -> str | None:
-    parts = _unique_strings(
+    parts = unique_strings(
         text
         for field in (
             "ExternalDescriptionStr",
@@ -550,18 +551,6 @@ def _parse_date(value: str | None) -> date | None:
         return None
 
 
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
-
-
 class _VisibleTextParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
@@ -580,28 +569,6 @@ def _plain_text_optional(value: object) -> str | None:
     parser.close()
     text = re.sub(r"\s+", " ", " ".join(parser.parts)).strip()
     return text or None
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
 
 
 def _result(

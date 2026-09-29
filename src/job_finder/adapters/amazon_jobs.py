@@ -6,17 +6,18 @@ import hashlib
 import html
 import json
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from datetime import date
 from html.parser import HTMLParser
 from urllib.parse import urlencode, urljoin, urlsplit, urlunsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome, unique_strings
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
     require_source_configuration,
 )
-from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
+from job_finder.adapters.http_client import BoundedHttpClient, HttpRequestError
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.source_contracts import (
     AdapterDiagnostic,
@@ -118,14 +119,14 @@ class AmazonJobsAdapter:
                 diagnostics.append(request_failure_diagnostic(error))
                 return _result(
                     source,
-                    AdapterOutcome.PARTIAL if jobs else _request_outcome(error),
+                    AdapterOutcome.PARTIAL if jobs else request_outcome(error),
                     jobs,
                     page_index,
                     diagnostics,
                 )
             if not _is_expected_response_url(response.final_url):
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unexpected_redirect",
                         DiagnosticSeverity.ERROR,
                         "Amazon Jobs search redirected outside the approved JSON route.",
@@ -153,7 +154,7 @@ class AmazonJobsAdapter:
                     raise ValueError("Amazon Jobs jobs must be an array.")
             except (json.JSONDecodeError, UnicodeDecodeError, ValueError) as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unsupported_schema",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -172,7 +173,7 @@ class AmazonJobsAdapter:
                 expected_total = total
             elif total != expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "changing_total",
                         DiagnosticSeverity.ERROR,
                         "Amazon Jobs total changed during offset pagination.",
@@ -184,7 +185,7 @@ class AmazonJobsAdapter:
                 return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_index + 1, diagnostics)
             if len(rows) > self._page_size:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "page_size_exceeded",
                         DiagnosticSeverity.ERROR,
                         "Amazon Jobs returned more rows than requested.",
@@ -194,7 +195,7 @@ class AmazonJobsAdapter:
                 return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_index + 1, diagnostics)
             if not rows and total > raw_count:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unexpected_empty_page",
                         DiagnosticSeverity.ERROR,
                         "Amazon Jobs returned an empty page before its declared total.",
@@ -209,7 +210,7 @@ class AmazonJobsAdapter:
                 except ValueError as error:
                     parse_error_count += 1
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "malformed_job",
                             DiagnosticSeverity.ERROR,
                             str(error),
@@ -221,7 +222,7 @@ class AmazonJobsAdapter:
                 external_id = job.external_job_id
                 if external_id in seen_ids:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "duplicate_job_id",
                             DiagnosticSeverity.ERROR,
                             "Amazon Jobs returned a duplicate iCIMS job ID.",
@@ -239,7 +240,7 @@ class AmazonJobsAdapter:
 
             if raw_count > total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "declared_count_mismatch",
                         DiagnosticSeverity.ERROR,
                         "Amazon Jobs returned more rows than its declared total.",
@@ -267,7 +268,7 @@ class AmazonJobsAdapter:
                 )
             if len(rows) < self._page_size:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "incomplete_pagination",
                         DiagnosticSeverity.ERROR,
                         "Amazon Jobs returned a short page before its declared total.",
@@ -277,7 +278,7 @@ class AmazonJobsAdapter:
                 return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_index + 1, diagnostics)
 
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "pagination_limit",
                 DiagnosticSeverity.ERROR,
                 "Amazon Jobs pagination exceeded the configured page limit.",
@@ -410,7 +411,7 @@ def _location_text(raw: Mapping[object, object]) -> str:
             location_parts.append(work_type.replace("_", " ").title())
     if not location_parts:
         location_parts.append(_required_string(raw, "normalized_location", "Amazon Jobs job"))
-    return " | ".join(_unique_strings(location_parts))
+    return " | ".join(unique_strings(location_parts))
 
 
 def _description(raw: Mapping[object, object]) -> str:
@@ -468,18 +469,6 @@ def _canonical_job_url(value: str) -> str:
     return urlunsplit((parsed.scheme, parsed.netloc, parsed.path.rstrip("/"), "", ""))
 
 
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
-
-
 def _required_mapping(value: object, context: str) -> Mapping[object, object]:
     if not isinstance(value, Mapping):
         raise ValueError(f"{context} must be an object.")
@@ -495,28 +484,6 @@ def _required_string(raw: Mapping[object, object], key: str, context: str) -> st
 
 def _optional_string(value: object) -> str | None:
     return value.strip() if isinstance(value, str) and value.strip() else None
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: int | str,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

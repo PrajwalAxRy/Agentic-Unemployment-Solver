@@ -6,11 +6,12 @@ import hashlib
 import html
 import json
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from datetime import UTC, datetime
 from html.parser import HTMLParser
 from urllib.parse import urlencode, urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome, unique_strings
 from job_finder.adapters.base import request_failure_diagnostic, require_source_configuration
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
@@ -94,14 +95,14 @@ class SenseHqAdapter:
                 )
             except HttpRequestError as error:
                 diagnostics.append(request_failure_diagnostic(error))
-                outcome = AdapterOutcome.PARTIAL if jobs else _request_outcome(error)
+                outcome = AdapterOutcome.PARTIAL if jobs else request_outcome(error)
                 return _result(source, outcome, jobs, page_count, diagnostics)
             page_count += 1
             try:
                 document = response.body.decode("utf-8")
             except UnicodeDecodeError:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "invalid_html",
                         DiagnosticSeverity.ERROR,
                         "SenseHQ response was not valid UTF-8 HTML.",
@@ -134,7 +135,7 @@ class SenseHqAdapter:
                 )
             if not _is_expected_response_url(response.final_url, subdomain):
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unexpected_redirect",
                         DiagnosticSeverity.ERROR,
                         "SenseHQ listing redirected outside the configured public portal.",
@@ -160,7 +161,7 @@ class SenseHqAdapter:
                     raise ValueError("SenseHQ jobsData.count must be a non-negative integer.")
             except ValueError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unsupported_schema",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -178,7 +179,7 @@ class SenseHqAdapter:
                 expected_total = total
             elif total != expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "changing_total",
                         DiagnosticSeverity.ERROR,
                         "SenseHQ job total changed during pagination.",
@@ -190,7 +191,7 @@ class SenseHqAdapter:
                 return _result(source, AdapterOutcome.SUSPICIOUS, jobs, page_count, diagnostics)
             if not rows and total > len(jobs):
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unexpected_empty_page",
                         DiagnosticSeverity.ERROR,
                         "SenseHQ returned an empty page before the declared total was reached.",
@@ -205,7 +206,7 @@ class SenseHqAdapter:
                 except ValueError as error:
                     parse_error_count += 1
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "malformed_job",
                             DiagnosticSeverity.ERROR,
                             str(error),
@@ -217,7 +218,7 @@ class SenseHqAdapter:
                 external_id = job.external_job_id
                 if external_id in seen_ids:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "duplicate_job_id",
                             DiagnosticSeverity.ERROR,
                             "SenseHQ returned a duplicate job ID across pages.",
@@ -235,7 +236,7 @@ class SenseHqAdapter:
             if len(jobs) + parse_error_count >= total:
                 if len(jobs) + parse_error_count != total:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "declared_count_mismatch",
                             DiagnosticSeverity.ERROR,
                             "SenseHQ parsed more rows than its declared total.",
@@ -262,7 +263,7 @@ class SenseHqAdapter:
                         complete=True,
                     )
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "uncertain_creation_dates",
                         DiagnosticSeverity.WARNING,
                         "SenseHQ created_on values are retained as uncertain date evidence.",
@@ -271,7 +272,7 @@ class SenseHqAdapter:
                 )
                 if missing_description_count:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "missing_descriptions",
                             DiagnosticSeverity.WARNING,
                             "SenseHQ jobs with empty public descriptions remain visible.",
@@ -288,7 +289,7 @@ class SenseHqAdapter:
                 )
 
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "pagination_limit",
                 DiagnosticSeverity.ERROR,
                 "SenseHQ pagination exceeded the configured page limit.",
@@ -411,7 +412,7 @@ def _normalize_job(source: CompanySource, subdomain: str, value: object) -> Norm
     workplace = _optional_string(raw.get("workplace_type"))
     if workplace is not None:
         location_parts.append(workplace.replace("_", " ").title())
-    location = " | ".join(_unique_strings(location_parts))
+    location = " | ".join(unique_strings(location_parts))
     created_on = _epoch_millis(raw.get("created_on"), "created_on")
     updated_on = _optional_epoch_millis(raw.get("updated_on"))
     description_html = _optional_string(raw.get("description_external"))
@@ -475,18 +476,6 @@ def _plain_text(value: str) -> str:
     return "\n\n".join(line for line in lines if line)
 
 
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
-
-
 def _required_mapping(value: object, context: str) -> Mapping[object, object]:
     if not isinstance(value, Mapping):
         raise ValueError(f"{context} must be an object.")
@@ -502,28 +491,6 @@ def _required_string(raw: Mapping[object, object], key: str, context: str) -> st
 
 def _optional_string(value: object) -> str | None:
     return value.strip() if isinstance(value, str) and value.strip() else None
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: int | str,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

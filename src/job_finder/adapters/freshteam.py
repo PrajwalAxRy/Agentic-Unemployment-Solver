@@ -12,6 +12,7 @@ from datetime import UTC, datetime
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlsplit, urlunsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome, unique_strings
 from job_finder.adapters.base import request_failure_diagnostic, require_source_configuration
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
@@ -76,12 +77,12 @@ class FreshteamAdapter:
             )
         except HttpRequestError as error:
             diagnostics.append(request_failure_diagnostic(error))
-            return _result(source, _request_outcome(error), [], diagnostics)
+            return _result(source, request_outcome(error), [], diagnostics)
         try:
             document = response.body.decode("utf-8")
         except UnicodeDecodeError:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "invalid_html",
                     DiagnosticSeverity.ERROR,
                     "Freshteam response was not valid UTF-8 HTML.",
@@ -101,7 +102,7 @@ class FreshteamAdapter:
             return _result(source, AdapterOutcome.BLOCKED, [], diagnostics)
         if not _is_expected_response_url(response.final_url, account, listing=True):
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unexpected_redirect",
                     DiagnosticSeverity.ERROR,
                     "Freshteam listing redirected outside the configured public board.",
@@ -114,7 +115,7 @@ class FreshteamAdapter:
         parser.close()
         if parser.declared_count is None:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "missing_declared_count",
                     DiagnosticSeverity.ERROR,
                     "Freshteam page did not declare its public job count.",
@@ -123,7 +124,7 @@ class FreshteamAdapter:
             return _result(source, AdapterOutcome.SUSPICIOUS, [], diagnostics)
         if parser.declared_count != len(parser.rows):
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "declared_count_mismatch",
                     DiagnosticSeverity.ERROR,
                     "Freshteam's declared job count did not match parsed job cards.",
@@ -144,7 +145,7 @@ class FreshteamAdapter:
             except ValueError as error:
                 parse_error_count += 1
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "malformed_job",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -155,7 +156,7 @@ class FreshteamAdapter:
             external_id = job.external_job_id
             if external_id in seen_ids:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "duplicate_job_id",
                         DiagnosticSeverity.ERROR,
                         "Freshteam returned a duplicate job ID.",
@@ -175,7 +176,7 @@ class FreshteamAdapter:
                 diagnostics,
             )
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "publication_date_requires_detail",
                 DiagnosticSeverity.INFO,
                 "Freshteam detail pages provide datePosted and full descriptions.",
@@ -499,7 +500,7 @@ def _job_location(value: object) -> str | None:
             item = _optional_string(address.get(key))
             if item is not None:
                 parts.append(item)
-    unique = _unique_strings(parts)
+    unique = unique_strings(parts)
     return ", ".join(unique) if unique else None
 
 
@@ -526,18 +527,6 @@ def _plain_text(value: str) -> str:
     return "\n\n".join(line for line in lines if line)
 
 
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
-
-
 def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
     value = raw.get(key)
     if not isinstance(value, str) or not value.strip():
@@ -557,28 +546,6 @@ def _optional_string(value: object) -> str | None:
 
 def _compact_text(parts: Iterable[str]) -> str:
     return re.sub(r"\s+", " ", " ".join(parts)).strip()
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: int | str,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

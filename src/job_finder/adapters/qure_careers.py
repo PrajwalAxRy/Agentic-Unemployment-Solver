@@ -11,6 +11,7 @@ from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import parse_qsl, urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
@@ -78,7 +79,7 @@ class QureCareersAdapter:
         except HttpRequestError as error:
             return _result(
                 source,
-                _request_outcome(error),
+                request_outcome(error),
                 [],
                 [request_failure_diagnostic(error)],
                 page_count=0,
@@ -126,7 +127,7 @@ class QureCareersAdapter:
                 job = _normalize_job(source, raw, detail_urls)
             except ValueError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "malformed_job",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -145,7 +146,7 @@ class QureCareersAdapter:
                 raise AssertionError("Qure.ai jobs require an external ID")
             if external_id in seen_ids:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "duplicate_job_id",
                         DiagnosticSeverity.ERROR,
                         "Qure.ai returned a duplicate job ID.",
@@ -168,7 +169,7 @@ class QureCareersAdapter:
                 jobs,
                 [
                     *diagnostics,
-                    _diagnostic(
+                    diagnostic(
                         "identity_collection_mismatch",
                         DiagnosticSeverity.ERROR,
                         "Qure.ai embedded rows and visible detail links did not match.",
@@ -178,7 +179,7 @@ class QureCareersAdapter:
             )
         if len(detail_urls) < len(jobs):
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "canonical_detail_urls_derived",
                     DiagnosticSeverity.INFO,
                     "Qure.ai detail URLs were derived with the rendered Zoho title-slug rule.",
@@ -192,7 +193,7 @@ class QureCareersAdapter:
         )
         if nonstandard_state_count:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "visible_rows_with_workflow_flags",
                     DiagnosticSeverity.INFO,
                     "Qure.ai visibly rendered rows with nonstandard Zoho workflow flags.",
@@ -200,7 +201,7 @@ class QureCareersAdapter:
                 )
             )
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "unverified_date_opened",
                 DiagnosticSeverity.WARNING,
                 "Qure.ai exposes Date_Opened, not a verified publication timestamp.",
@@ -430,34 +431,12 @@ def _optional_string(value: object) -> str | None:
     return _normalize_whitespace(value) if isinstance(value, str) and value.strip() else None
 
 
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
-
-
 def _failed(source: CompanySource, category: str, message: str) -> AdapterResult:
     return _result(
         source,
         AdapterOutcome.FAILED,
         [],
-        [_diagnostic(category, DiagnosticSeverity.ERROR, message)],
+        [diagnostic(category, DiagnosticSeverity.ERROR, message)],
         page_count=1,
     )
 

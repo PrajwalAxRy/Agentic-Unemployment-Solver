@@ -6,10 +6,11 @@ import hashlib
 import html
 import json
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from html.parser import HTMLParser
 from urllib.parse import urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
@@ -77,7 +78,7 @@ class DeshawIndiaAdapter:
         except HttpRequestError as error:
             return _result(
                 source,
-                _request_outcome(error),
+                request_outcome(error),
                 [],
                 0,
                 [request_failure_diagnostic(error)],
@@ -90,7 +91,7 @@ class DeshawIndiaAdapter:
                 [],
                 1,
                 [
-                    _diagnostic(
+                    diagnostic(
                         "unexpected_redirect",
                         DiagnosticSeverity.ERROR,
                         "D. E. Shaw India careers redirected outside the approved page.",
@@ -106,7 +107,7 @@ class DeshawIndiaAdapter:
                 [],
                 1,
                 [
-                    _diagnostic(
+                    diagnostic(
                         "invalid_encoding",
                         DiagnosticSeverity.ERROR,
                         "D. E. Shaw India careers was not valid UTF-8.",
@@ -143,7 +144,7 @@ class DeshawIndiaAdapter:
                 AdapterOutcome.FAILED,
                 [],
                 1,
-                [_diagnostic("unsupported_schema", DiagnosticSeverity.ERROR, str(error))],
+                [diagnostic("unsupported_schema", DiagnosticSeverity.ERROR, str(error))],
             )
 
         jobs: list[NormalizedJob] = []
@@ -154,7 +155,7 @@ class DeshawIndiaAdapter:
                 job = _normalize_job(source, raw)
             except ValueError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "malformed_job",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -173,7 +174,7 @@ class DeshawIndiaAdapter:
                 raise AssertionError("D. E. Shaw India jobs require an external ID")
             if external_id in seen_ids:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "duplicate_job_id",
                         DiagnosticSeverity.ERROR,
                         "D. E. Shaw India returned a duplicate public job ID.",
@@ -186,7 +187,7 @@ class DeshawIndiaAdapter:
 
         if jobs:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "missing_publication_date",
                     DiagnosticSeverity.WARNING,
                     "The public D. E. Shaw India job contract exposes no publication date.",
@@ -425,40 +426,6 @@ def _is_canonical_careers_url(value: str) -> bool:
         and parsed.path.rstrip("/") == "/careers"
         and not parsed.query
         and not parsed.fragment
-    )
-
-
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
     )
 
 

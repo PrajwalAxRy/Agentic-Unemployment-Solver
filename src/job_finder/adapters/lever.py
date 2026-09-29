@@ -7,12 +7,13 @@ import html
 import json
 import math
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from datetime import UTC, datetime
 from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import parse_qsl, quote, urlencode, urlsplit, urlunsplit
 
+from job_finder.adapters._support import unique_strings
 from job_finder.adapters.base import request_failure_diagnostic, require_source_configuration
 from job_finder.adapters.http_client import (
     BoundedHttpClient,
@@ -315,7 +316,7 @@ def _normalize_job(
             external_job_id=external_id,
             title_original=title,
             title_normalized=normalize_title(title),
-            location_original=" | ".join(_unique_strings(locations)),
+            location_original=" | ".join(unique_strings(locations)),
             location_normalized=_shared_locations(locations),
             published_at=created_at,
             published_at_raw=(str(created_at_raw) if created_at_raw is not None else None),
@@ -461,18 +462,6 @@ def _canonical_lever_url(value: str) -> str:
         ]
     )
     return urlunsplit((parsed.scheme, parsed.netloc, parsed.path.rstrip("/"), query, ""))
-
-
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
 
 
 class _VisibleTextParser(HTMLParser):

@@ -9,6 +9,7 @@ from dataclasses import dataclass, replace
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
@@ -83,7 +84,7 @@ class AtomicworkWebflowAdapter:
             )
         except HttpRequestError as error:
             diagnostics.append(request_failure_diagnostic(error))
-            return _result(source, _request_outcome(error), [], diagnostics, page_count=0)
+            return _result(source, request_outcome(error), [], diagnostics, page_count=0)
 
         document = _decode_utf8(response.body, "Atomicwork careers response", diagnostics)
         if document is None:
@@ -101,7 +102,7 @@ class AtomicworkWebflowAdapter:
             return _result(source, AdapterOutcome.BLOCKED, [], diagnostics, page_count=1)
         if not _same_url(response.final_url, ATOMICWORK_CAREERS_URL):
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unexpected_redirect",
                     DiagnosticSeverity.ERROR,
                     "Atomicwork careers request redirected outside the approved listing URL.",
@@ -114,7 +115,7 @@ class AtomicworkWebflowAdapter:
         parser.close()
         if not parser.has_open_positions_heading or not parser.has_list_marker:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unsupported_schema",
                     DiagnosticSeverity.ERROR,
                     "Atomicwork careers response omitted required Webflow listing markers.",
@@ -129,7 +130,7 @@ class AtomicworkWebflowAdapter:
                 job = _normalize_listing(source, row)
             except ValueError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "malformed_job",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -139,7 +140,7 @@ class AtomicworkWebflowAdapter:
                 continue
             if job.external_job_id in seen_ids:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "duplicate_job_id",
                         DiagnosticSeverity.ERROR,
                         "Atomicwork returned a duplicate path-derived job ID.",
@@ -167,7 +168,7 @@ class AtomicworkWebflowAdapter:
             )
         if not jobs and not parser.explicit_empty:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unexplained_empty_page",
                     DiagnosticSeverity.ERROR,
                     "Atomicwork returned no jobs without Webflow's explicit empty state.",
@@ -189,10 +190,10 @@ class AtomicworkWebflowAdapter:
             )
         except HttpRequestError as error:
             diagnostics.append(request_failure_diagnostic(error))
-            return _result(source, _request_outcome(error), jobs, diagnostics, page_count=1)
+            return _result(source, request_outcome(error), jobs, diagnostics, page_count=1)
         if not _same_url(sitemap_response.final_url, ATOMICWORK_SITEMAP_URL):
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unexpected_redirect",
                     DiagnosticSeverity.ERROR,
                     "Atomicwork sitemap redirected outside the approved public sitemap URL.",
@@ -210,7 +211,7 @@ class AtomicworkWebflowAdapter:
             sitemap_urls = _sitemap_job_urls(sitemap_document)
         except ValueError as error:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "malformed_sitemap",
                     DiagnosticSeverity.ERROR,
                     str(error),
@@ -221,7 +222,7 @@ class AtomicworkWebflowAdapter:
         listing_urls = {job.canonical_url for job in jobs}
         if listing_urls != sitemap_urls:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "listing_sitemap_mismatch",
                     DiagnosticSeverity.ERROR,
                     "Atomicwork's careers listing and public sitemap job inventories disagree.",
@@ -249,7 +250,7 @@ class AtomicworkWebflowAdapter:
             )
 
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "missing_publication_date",
                 DiagnosticSeverity.WARNING,
                 "Atomicwork exposes no trustworthy job publication date.",
@@ -590,7 +591,7 @@ def _decode_utf8(
         return body.decode("utf-8")
     except UnicodeDecodeError:
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "invalid_encoding",
                 DiagnosticSeverity.ERROR,
                 f"{context} was not valid UTF-8.",
@@ -634,28 +635,6 @@ def _optional_object_parts(value: object) -> str | None:
 def _append_object_part(value: object, part: str) -> None:
     if isinstance(value, list):
         value.append(part)
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

@@ -13,12 +13,13 @@ from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
     require_source_configuration,
 )
-from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
+from job_finder.adapters.http_client import BoundedHttpClient, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.source_contracts import (
@@ -99,7 +100,7 @@ class IntuitCareersAdapter:
                 diagnostics.append(request_failure_diagnostic(error))
                 return _result(
                     source,
-                    AdapterOutcome.PARTIAL if jobs else _request_outcome(error),
+                    AdapterOutcome.PARTIAL if jobs else request_outcome(error),
                     jobs,
                     diagnostics,
                     page_count=page_number - 1,
@@ -126,7 +127,7 @@ class IntuitCareersAdapter:
                 )
             if is_access_block_html(document):
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "access_block",
                         DiagnosticSeverity.ERROR,
                         "Intuit careers returned an access-control page.",
@@ -219,7 +220,7 @@ class IntuitCareersAdapter:
                 page_count=page_number - 1,
             )
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "publication_date_requires_detail",
                 DiagnosticSeverity.WARNING,
                 "Intuit exposes its verified datePosted value only on job detail pages.",
@@ -598,28 +599,6 @@ def _optional_string(value: object) -> str | None:
     return _normalize_whitespace(value) if isinstance(value, str) and value.strip() else None
 
 
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
-
-
 def _failed_or_partial(
     source: CompanySource,
     jobs: list[NormalizedJob],
@@ -629,7 +608,7 @@ def _failed_or_partial(
     *,
     page_count: int,
 ) -> AdapterResult:
-    diagnostics.append(_diagnostic(category, DiagnosticSeverity.ERROR, message))
+    diagnostics.append(diagnostic(category, DiagnosticSeverity.ERROR, message))
     return _result(
         source,
         AdapterOutcome.PARTIAL if jobs else AdapterOutcome.FAILED,
@@ -648,7 +627,7 @@ def _suspicious(
     *,
     page_count: int,
 ) -> AdapterResult:
-    diagnostics.append(_diagnostic(category, DiagnosticSeverity.ERROR, message))
+    diagnostics.append(diagnostic(category, DiagnosticSeverity.ERROR, message))
     return _result(
         source,
         AdapterOutcome.SUSPICIOUS,

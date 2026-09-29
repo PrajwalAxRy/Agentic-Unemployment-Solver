@@ -9,6 +9,7 @@ from dataclasses import dataclass, replace
 from html.parser import HTMLParser
 from urllib.parse import parse_qs, urljoin, urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome, unique_strings
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
@@ -92,7 +93,7 @@ class GoogleCareersAdapter:
                 diagnostics.append(request_failure_diagnostic(error))
                 return _result(
                     source,
-                    AdapterOutcome.PARTIAL if jobs else _request_outcome(error),
+                    AdapterOutcome.PARTIAL if jobs else request_outcome(error),
                     jobs,
                     page_number - 1,
                     diagnostics,
@@ -100,7 +101,7 @@ class GoogleCareersAdapter:
 
             if not _is_listing_response(response.final_url, page_number):
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unexpected_redirect",
                         DiagnosticSeverity.ERROR,
                         "Google Careers redirected outside the approved India search page.",
@@ -117,7 +118,7 @@ class GoogleCareersAdapter:
             document = _decode_document(response.body)
             if document is None:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "invalid_encoding",
                         DiagnosticSeverity.ERROR,
                         "Google Careers listing was not valid UTF-8.",
@@ -154,7 +155,7 @@ class GoogleCareersAdapter:
             parser.close()
             if len(parser.total_counts) != 1:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unsupported_schema",
                         DiagnosticSeverity.ERROR,
                         "Google Careers omitted a unique numeric jobs-matched count.",
@@ -173,7 +174,7 @@ class GoogleCareersAdapter:
                 expected_total = observed_total
             elif observed_total != expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "changing_total",
                         DiagnosticSeverity.ERROR,
                         "Google Careers total changed during pagination.",
@@ -188,7 +189,7 @@ class GoogleCareersAdapter:
             expected_page_count = min(self._page_size, max(remaining, 0))
             if len(parser.rows) != expected_page_count:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "declared_count_mismatch",
                         DiagnosticSeverity.ERROR,
                         "Google Careers page size does not reconcile with its declared total.",
@@ -206,7 +207,7 @@ class GoogleCareersAdapter:
                 except ValueError as error:
                     parse_errors += 1
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "malformed_job",
                             DiagnosticSeverity.ERROR,
                             str(error),
@@ -218,7 +219,7 @@ class GoogleCareersAdapter:
                 external_id = job.external_job_id
                 if external_id in seen_ids:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "duplicate_job_id",
                             DiagnosticSeverity.ERROR,
                             "Google Careers returned a duplicate numeric job ID.",
@@ -244,7 +245,7 @@ class GoogleCareersAdapter:
             if len(jobs) == expected_total:
                 if jobs:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "missing_publication_date",
                             DiagnosticSeverity.WARNING,
                             "Google Careers exposes no trustworthy job publication date.",
@@ -261,7 +262,7 @@ class GoogleCareersAdapter:
                 )
 
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "pagination_limit",
                 DiagnosticSeverity.ERROR,
                 "Google Careers pagination exceeded the configured page limit.",
@@ -310,7 +311,7 @@ class GoogleCareersAdapter:
             raise DetailIdentityMismatch(
                 "Google Careers detail title does not match the listing title."
             )
-        locations = _unique_strings(_compact_text(parts) for parts in parser.location_parts)
+        locations = unique_strings(_compact_text(parts) for parts in parser.location_parts)
         if not locations or not any(_is_india_location(value) for value in locations):
             raise DetailContentMissing("Google Careers detail must contain an India location.")
 
@@ -621,7 +622,7 @@ def _is_listing_response(url: str, page_number: int) -> bool:
 
 def _normalize_listing(source: CompanySource, row: _ListingRow) -> NormalizedJob:
     title = _required_text(row.title, "Google listing title")
-    locations = _unique_strings(row.locations)
+    locations = unique_strings(row.locations)
     if not locations:
         raise ValueError("Google Careers listing must contain a location.")
     href = _required_text(row.href, "Google listing href")
@@ -730,40 +731,6 @@ def _object_list(value: dict[str, object], key: str) -> list[object]:
 
 def _compact_object_parts(parts: list[object]) -> str:
     return _compact_text(str(part) for part in parts)
-
-
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

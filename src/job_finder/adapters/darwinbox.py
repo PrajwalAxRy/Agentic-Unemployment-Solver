@@ -7,12 +7,13 @@ import html
 import json
 import math
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from datetime import UTC, datetime
 from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import quote
 
+from job_finder.adapters._support import diagnostic, unique_strings
 from job_finder.adapters.base import request_failure_diagnostic, require_source_configuration
 from job_finder.adapters.http_client import (
     BoundedHttpClient,
@@ -105,7 +106,7 @@ class DarwinboxAdapter:
                 payload: Any = json.loads(response.body)
             except (json.JSONDecodeError, UnicodeDecodeError):
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "invalid_json",
                         DiagnosticSeverity.ERROR,
                         "Darwinbox response was not valid JSON.",
@@ -123,7 +124,7 @@ class DarwinboxAdapter:
                 raw_jobs, total = _listing_collection(payload)
             except ValueError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unsupported_schema",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -139,7 +140,7 @@ class DarwinboxAdapter:
                 )
             if len(raw_jobs) > self._page_size:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "page_size_exceeded",
                         DiagnosticSeverity.ERROR,
                         "Darwinbox returned more jobs than its configured page size.",
@@ -157,7 +158,7 @@ class DarwinboxAdapter:
                 expected_total = total
             elif total != expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "inconsistent_total",
                         DiagnosticSeverity.ERROR,
                         "Darwinbox jobscount changed during non-empty pagination.",
@@ -177,7 +178,7 @@ class DarwinboxAdapter:
             fingerprint = hashlib.sha256(response.body).hexdigest()
             if raw_jobs and fingerprint in seen_pages:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "repeated_page",
                         DiagnosticSeverity.ERROR,
                         "Darwinbox returned a repeated non-empty page.",
@@ -194,7 +195,7 @@ class DarwinboxAdapter:
             seen_pages.add(fingerprint)
             if raw_job_count + len(raw_jobs) > expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "collection_exceeds_total",
                         DiagnosticSeverity.ERROR,
                         "Darwinbox returned more jobs than its first-page total.",
@@ -212,7 +213,7 @@ class DarwinboxAdapter:
                 )
             if not raw_jobs and raw_job_count < expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "premature_empty_page",
                         DiagnosticSeverity.ERROR,
                         "Darwinbox returned an empty page before the reported total.",
@@ -235,7 +236,7 @@ class DarwinboxAdapter:
                 except ValueError as error:
                     parse_error_count += 1
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "malformed_job",
                             DiagnosticSeverity.ERROR,
                             str(error),
@@ -246,7 +247,7 @@ class DarwinboxAdapter:
                     continue
                 if job.external_job_id in seen_ids:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "duplicate_job_id",
                             DiagnosticSeverity.ERROR,
                             "Darwinbox pagination returned a duplicate job ID.",
@@ -276,7 +277,7 @@ class DarwinboxAdapter:
                 break
         else:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "pagination_limit",
                     DiagnosticSeverity.ERROR,
                     "Darwinbox pagination exceeded the configured page limit.",
@@ -294,7 +295,7 @@ class DarwinboxAdapter:
 
         if uncertain_date_count:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "unverified_job_posting_on",
                     DiagnosticSeverity.WARNING,
                     "Darwinbox job_posting_on is retained as uncertain date evidence.",
@@ -303,7 +304,7 @@ class DarwinboxAdapter:
             )
         if missing_date_count:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "missing_publication_date",
                     DiagnosticSeverity.WARNING,
                     "Darwinbox listings without job_posting_on remain explicit.",
@@ -312,7 +313,7 @@ class DarwinboxAdapter:
             )
         if missing_location_count:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "missing_location",
                     DiagnosticSeverity.WARNING,
                     "Darwinbox listings without locations require detail review.",
@@ -386,7 +387,7 @@ class DarwinboxAdapter:
             external_job_id=detail_id,
             title_original=title,
             title_normalized=normalize_title(title),
-            location_original=" | ".join(_unique_strings(locations)),
+            location_original=" | ".join(unique_strings(locations)),
             location_normalized=_shared_locations(locations),
             published_at=published_at,
             published_at_raw=published_at_raw,
@@ -474,7 +475,7 @@ def _normalize_listing(
         external_job_id=external_id,
         title_original=title,
         title_normalized=normalize_title(title),
-        location_original=" | ".join(_unique_strings(locations)),
+        location_original=" | ".join(unique_strings(locations)),
         location_normalized=_shared_locations(locations),
         published_at=_parse_epoch(date_value),
         published_at_raw=_raw_date(date_value),
@@ -555,20 +556,6 @@ def _result(
     )
 
 
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
-
-
 def _required_string(raw: Mapping[object, object], key: str) -> str:
     value = raw.get(key)
     if not isinstance(value, str) or not value.strip():
@@ -578,18 +565,6 @@ def _required_string(raw: Mapping[object, object], key: str) -> str:
 
 def _optional_string(value: object) -> str | None:
     return value.strip() if isinstance(value, str) and value.strip() else None
-
-
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
 
 
 class _VisibleTextParser(HTMLParser):

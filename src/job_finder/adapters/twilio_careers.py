@@ -12,13 +12,14 @@ from datetime import UTC, date, datetime
 from html.parser import HTMLParser
 from typing import Any
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
     require_source_configuration,
 )
 from job_finder.adapters.errors import DetailContentMissing, DetailIdentityMismatch
-from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
+from job_finder.adapters.http_client import BoundedHttpClient, HttpRequestError
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.source_contracts import (
     AdapterDiagnostic,
@@ -75,7 +76,7 @@ class TwilioCareersAdapter:
                 diagnostics.append(request_failure_diagnostic(error))
                 return _result(
                     source,
-                    AdapterOutcome.PARTIAL if jobs else _request_outcome(error),
+                    AdapterOutcome.PARTIAL if jobs else request_outcome(error),
                     jobs,
                     diagnostics,
                     page_count=page_count,
@@ -83,7 +84,7 @@ class TwilioCareersAdapter:
             page_count += 1
             if response.final_url != endpoint:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unexpected_redirect",
                         DiagnosticSeverity.ERROR,
                         "Twilio search API redirected.",
@@ -108,7 +109,7 @@ class TwilioCareersAdapter:
                     raise ValueError("Twilio search response count must be non-negative.")
             except (json.JSONDecodeError, UnicodeDecodeError, ValueError) as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unsupported_schema",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -158,7 +159,7 @@ class TwilioCareersAdapter:
                     job = _normalize_listing(source, raw_job)
                 except ValueError as error:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "malformed_job",
                             DiagnosticSeverity.ERROR,
                             str(error),
@@ -210,7 +211,7 @@ class TwilioCareersAdapter:
             )
 
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "unverified_creation_timestamp",
                 DiagnosticSeverity.WARNING,
                 "Twilio listing creation timestamps remain uncertain until detail retrieval.",
@@ -467,28 +468,6 @@ def _required_string(raw: Mapping[str, object], field: str, context: str) -> str
     return value.strip()
 
 
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
-
-
 def _suspicious(
     source: CompanySource,
     jobs: list[NormalizedJob],
@@ -497,7 +476,7 @@ def _suspicious(
     category: str,
     message: str,
 ) -> AdapterResult:
-    diagnostics.append(_diagnostic(category, DiagnosticSeverity.ERROR, message))
+    diagnostics.append(diagnostic(category, DiagnosticSeverity.ERROR, message))
     return _result(
         source,
         AdapterOutcome.SUSPICIOUS,

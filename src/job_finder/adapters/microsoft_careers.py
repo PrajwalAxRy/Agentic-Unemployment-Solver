@@ -7,12 +7,13 @@ import json
 import re
 import time
 from collections import deque
-from collections.abc import Callable, Iterable, Mapping
+from collections.abc import Callable, Mapping
 from dataclasses import replace
 from datetime import UTC, datetime
 from html.parser import HTMLParser
 from urllib.parse import parse_qs, urlencode, urljoin, urlsplit
 
+from job_finder.adapters._support import diagnostic, request_outcome, unique_strings
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
@@ -21,7 +22,6 @@ from job_finder.adapters.base import (
 from job_finder.adapters.errors import DetailContentMissing, DetailIdentityMismatch
 from job_finder.adapters.http_client import (
     BoundedHttpClient,
-    HttpFailureCategory,
     HttpRequestError,
     HttpResponse,
 )
@@ -130,14 +130,14 @@ class MicrosoftCareersAdapter:
                 diagnostics.append(request_failure_diagnostic(error))
                 return _result(
                     source,
-                    AdapterOutcome.PARTIAL if jobs else _request_outcome(error),
+                    AdapterOutcome.PARTIAL if jobs else request_outcome(error),
                     jobs,
                     page_index,
                     diagnostics,
                 )
             if not _is_search_response(response.final_url, start):
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unexpected_redirect",
                         DiagnosticSeverity.ERROR,
                         "Microsoft careers search redirected outside the approved API route.",
@@ -164,7 +164,7 @@ class MicrosoftCareersAdapter:
                     )
             except _RemoteApiError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "remote_api_error",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -180,7 +180,7 @@ class MicrosoftCareersAdapter:
                 )
             except (json.JSONDecodeError, UnicodeDecodeError, ValueError) as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "unsupported_schema",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -199,7 +199,7 @@ class MicrosoftCareersAdapter:
                 expected_total = total
             elif total != expected_total:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "changing_total",
                         DiagnosticSeverity.ERROR,
                         "Microsoft careers total changed during offset pagination.",
@@ -214,7 +214,7 @@ class MicrosoftCareersAdapter:
             expected_page_count = min(self._page_size, max(remaining, 0))
             if len(rows) != expected_page_count:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "declared_count_mismatch",
                         DiagnosticSeverity.ERROR,
                         "Microsoft careers page size does not reconcile with its declared total.",
@@ -232,7 +232,7 @@ class MicrosoftCareersAdapter:
                 except ValueError as error:
                     parse_errors += 1
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "malformed_job",
                             DiagnosticSeverity.ERROR,
                             str(error),
@@ -244,7 +244,7 @@ class MicrosoftCareersAdapter:
                 position_id = job.source_metadata.get("position_id")
                 if job.external_job_id in seen_external_ids or position_id in seen_position_ids:
                     diagnostics.append(
-                        _diagnostic(
+                        diagnostic(
                             "duplicate_job_id",
                             DiagnosticSeverity.ERROR,
                             "Microsoft careers returned a duplicate ATS or position ID.",
@@ -280,7 +280,7 @@ class MicrosoftCareersAdapter:
                 )
 
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "pagination_limit",
                 DiagnosticSeverity.ERROR,
                 "Microsoft careers pagination exceeded the configured page limit.",
@@ -524,7 +524,7 @@ def _normalize_listing(source: CompanySource, value: object) -> NormalizedJob:
         raw.get("standardizedLocations"), "Microsoft careers standardizedLocations"
     )
     published_at = _posted_timestamp(raw.get("postedTs"))
-    location = " | ".join(_unique_strings(locations))
+    location = " | ".join(unique_strings(locations))
     return NormalizedJob(
         schema_version=1,
         company_id=source.company_id,
@@ -620,40 +620,6 @@ def _string_array(value: object, context: str) -> list[str]:
 
 def _optional_string(value: object) -> str | None:
     return value.strip() if isinstance(value, str) and value.strip() else None
-
-
-def _unique_strings(values: Iterable[str]) -> list[str]:
-    result: list[str] = []
-    seen: set[str] = set()
-    for raw in values:
-        value = raw.strip()
-        key = value.casefold()
-        if value and key not in seen:
-            result.append(value)
-            seen.add(key)
-    return result
-
-
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
 
 
 def _result(

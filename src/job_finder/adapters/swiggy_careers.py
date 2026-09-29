@@ -12,12 +12,13 @@ from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import quote
 
+from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import (
     AdapterConfigurationError,
     request_failure_diagnostic,
     require_source_configuration,
 )
-from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
+from job_finder.adapters.http_client import BoundedHttpClient, HttpRequestError
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.source_contracts import (
     AdapterDiagnostic,
@@ -83,7 +84,7 @@ class SwiggyCareersAdapter:
         except HttpRequestError as error:
             return _result(
                 source,
-                _request_outcome(error),
+                request_outcome(error),
                 [],
                 [request_failure_diagnostic(error)],
                 page_count=0,
@@ -119,7 +120,7 @@ class SwiggyCareersAdapter:
                 job = _normalize_job(source, raw)
             except ValueError as error:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "malformed_job",
                         DiagnosticSeverity.ERROR,
                         str(error),
@@ -138,7 +139,7 @@ class SwiggyCareersAdapter:
                 raise AssertionError("Swiggy jobs require an external ID")
             if external_id in seen_ids:
                 diagnostics.append(
-                    _diagnostic(
+                    diagnostic(
                         "duplicate_job_id",
                         DiagnosticSeverity.ERROR,
                         "Swiggy returned a duplicate requisition ID.",
@@ -158,7 +159,7 @@ class SwiggyCareersAdapter:
 
         if short_description_count:
             diagnostics.append(
-                _diagnostic(
+                diagnostic(
                     "short_source_description",
                     DiagnosticSeverity.WARNING,
                     "Swiggy supplied unusually short but non-empty job descriptions.",
@@ -166,7 +167,7 @@ class SwiggyCareersAdapter:
                 )
             )
         diagnostics.append(
-            _diagnostic(
+            diagnostic(
                 "unverified_approved_on",
                 DiagnosticSeverity.WARNING,
                 "Swiggy exposes requisition approval timestamps, not verified publication dates.",
@@ -352,34 +353,12 @@ def _non_negative_number(value: object, context: str) -> int | float:
     return value
 
 
-def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
-    return (
-        AdapterOutcome.BLOCKED
-        if error.category is HttpFailureCategory.ACCESS_BLOCK
-        else AdapterOutcome.FAILED
-    )
-
-
-def _diagnostic(
-    category: str,
-    severity: DiagnosticSeverity,
-    message: str,
-    **context: object,
-) -> AdapterDiagnostic:
-    return AdapterDiagnostic(
-        category=category,
-        severity=severity,
-        message=message,
-        context={key: str(value) for key, value in context.items()},
-    )
-
-
 def _failed(source: CompanySource, category: str, message: str) -> AdapterResult:
     return _result(
         source,
         AdapterOutcome.FAILED,
         [],
-        [_diagnostic(category, DiagnosticSeverity.ERROR, message)],
+        [diagnostic(category, DiagnosticSeverity.ERROR, message)],
         page_count=1,
     )
 
