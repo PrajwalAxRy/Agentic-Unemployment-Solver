@@ -26,6 +26,12 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_title,
+)
 
 NAVI_ADAPTER_KEY = "navi_public_careers_api"
 NAVI_CAREERS_URL = "https://navi.com/careers/jobs"
@@ -173,9 +179,9 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
         source_type=AdapterType.CUSTOM.value,
         external_job_id=external_id.casefold(),
         title_original=title,
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=" | ".join(locations),
-        location_normalized=_normalized_locations(locations),
+        location_normalized=_shared_locations(locations),
         published_at=published_at,
         published_at_raw=published_raw,
         date_basis=DateBasis.PUBLISHED,
@@ -255,21 +261,6 @@ def _timestamp(value: str, field: str) -> datetime:
     if parsed.tzinfo is None:
         raise ValueError(f"{field} must include a timezone.")
     return parsed
-
-
-def _normalized_locations(values: list[str]) -> tuple[str, ...]:
-    return tuple(
-        dict.fromkeys(
-            _normalize_text(piece)
-            for value in values
-            for piece in re.split(r"[,|;/]", value)
-            if piece.strip()
-        )
-    )
-
-
-def _normalize_text(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip().casefold()
 
 
 def _required_mapping(value: object, context: str) -> Mapping[object, object]:

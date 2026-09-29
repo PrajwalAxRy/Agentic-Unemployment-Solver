@@ -103,7 +103,8 @@ def test_healthy_fixture_maps_complete_normalized_jobs() -> None:
     assert result.page_count == 1
     assert len(result.jobs) == 2
     assert result.jobs[0].external_job_id == "a3c5bd4c-f6fb-4eb0-b943-e0e1a1d878c5"
-    assert result.jobs[0].title_normalized == "software engineer intern (ai-native)"
+    # Phase 1: shared normalize_title strips punctuation (to_change.md 1.2).
+    assert result.jobs[0].title_normalized == "software engineer intern ai native"
     assert result.jobs[0].date_basis is DateBasis.PUBLISHED
     assert result.jobs[0].published_at is not None
     assert len(result.jobs[0].description_hash or "") == 64

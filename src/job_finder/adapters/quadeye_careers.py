@@ -25,6 +25,13 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_text,
+    normalize_title,
+)
 
 QUADEYE_ADAPTER_KEY = "quadeye_zoho_proxy"
 QUADEYE_CAREERS_URL = "https://www.quadeye.com/jobs"
@@ -145,7 +152,7 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
     opening_status = _required_string(raw, "Job_Opening_Status", "Quadeye job")
     title = _required_string(raw, "Posting_Title", "Quadeye job")
     opening_name = _required_string(raw, "Job_Opening_Name", "Quadeye job")
-    if _normalize_text(title) != _normalize_text(opening_name):
+    if normalize_text(title) != normalize_text(opening_name):
         raise ValueError("Quadeye posting title did not match the opening name.")
     locations = _string_list(raw.get("Job_Location"), "Quadeye Job_Location")
     if not locations:
@@ -163,9 +170,9 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
         source_type=AdapterType.CUSTOM.value,
         external_job_id=external_id,
         title_original=title,
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=" | ".join(locations),
-        location_normalized=_normalized_locations(locations),
+        location_normalized=_shared_locations(locations),
         published_at=opened_at,
         published_at_raw=date_raw,
         date_basis=DateBasis.UNKNOWN,
@@ -203,21 +210,6 @@ def _slug(value: str) -> str:
     if not slug:
         raise ValueError("Quadeye job title could not form a canonical slug.")
     return slug
-
-
-def _normalized_locations(values: list[str]) -> tuple[str, ...]:
-    return tuple(
-        dict.fromkeys(
-            _normalize_text(piece)
-            for value in values
-            for piece in re.split(r"[,|;/]", value)
-            if piece.strip()
-        )
-    )
-
-
-def _normalize_text(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip().casefold()
 
 
 def _required_mapping(value: object, context: str) -> Mapping[object, object]:

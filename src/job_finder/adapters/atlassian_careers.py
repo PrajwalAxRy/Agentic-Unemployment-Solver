@@ -26,6 +26,10 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import normalize_source_locations as _shared_locations
+from job_finder.normalization.jobs import normalize_text, normalize_title
+
+_WHITESPACE_RUN = re.compile(r"\s+")
 
 ATLASSIAN_ADAPTER_KEY = "atlassian_careers_inventory"
 ATLASSIAN_CAREERS_URL = "https://www.atlassian.com/company/careers/all-jobs"
@@ -206,7 +210,7 @@ def _normalize_variants(
     for variant in variants:
         if _positive_id(variant.get("id"), "Atlassian job id") != external_id:
             raise ValueError("Atlassian grouped job identity changed across portal variants.")
-        if _normalize_text(_required_string(variant, "title", "Atlassian job")) != _normalize_text(
+        if normalize_text(_required_string(variant, "title", "Atlassian job")) != normalize_text(
             title
         ):
             raise ValueError("Atlassian portal variants disagree on title.")
@@ -249,10 +253,9 @@ def _normalize_variants(
             source_type=AdapterType.CUSTOM.value,
             external_job_id=external_id,
             title_original=_normalize_whitespace(title),
-            title_normalized=_normalize_text(title),
+            title_normalized=normalize_title(title),
             location_original=location,
-            location_normalized=tuple(_normalize_text(item) for item in locations)
-            or ("location unavailable",),
+            location_normalized=_shared_locations(locations) or ("location unavailable",),
             published_at=updated_at,
             published_at_raw=updated_raw,
             date_basis=DateBasis.UNKNOWN,
@@ -377,14 +380,6 @@ def _positive_int(value: object, context: str) -> int:
     return value
 
 
-def _normalize_whitespace(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _normalize_text(value: str) -> str:
-    return _normalize_whitespace(value).casefold()
-
-
 def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
     return (
         AdapterOutcome.BLOCKED
@@ -435,3 +430,12 @@ def _result(
         complete=complete,
         diagnostics=tuple(diagnostics),
     )
+
+
+def _normalize_whitespace(value: str) -> str:
+    """Collapse runs of whitespace, preserving case.
+
+    Distinct from the shared ``normalize_text``: several adapters need the original
+    casing for display fields such as titles and locations.
+    """
+    return _WHITESPACE_RUN.sub(" ", value).strip()

@@ -93,7 +93,10 @@ def test_complete_board_maps_declared_count_identity_location_and_remote() -> No
     assert result.complete is True
     assert result.page_count == 1
     assert [job.external_job_id for job in result.jobs] == ["QBdFZljpx03q", "68V3608ei65Q"]
-    assert result.jobs[0].title_normalized == "software development engineer - 3"
+    # Phase 1: title_normalized comes from the shared normalize_title, which strips
+    # punctuation. The hyphen is gone by design -- the adapter-local copy that kept it
+    # is what broke the identity guards (to_change.md 1.2).
+    assert result.jobs[0].title_normalized == "software development engineer 3"
     assert result.jobs[0].location_normalized == ("bengaluru", "india")
     assert result.jobs[1].location_normalized == ("remote", "india")
     assert result.jobs[1].source_metadata["remote"] is True

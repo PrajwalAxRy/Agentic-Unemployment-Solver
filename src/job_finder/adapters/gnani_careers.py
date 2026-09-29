@@ -27,6 +27,13 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_text,
+    normalize_title,
+)
 
 GNANI_ADAPTER_KEY = "gnani_careers_api"
 GNANI_CAREERS_URL = "https://careers.gnani.ai/"
@@ -249,9 +256,9 @@ def _normalize_job(source: CompanySource, value: object) -> tuple[NormalizedJob,
             source_type=AdapterType.CUSTOM.value,
             external_job_id=code,
             title_original=title,
-            title_normalized=_normalize_text(title),
+            title_normalized=normalize_title(title),
             location_original=location,
-            location_normalized=_normalized_locations(location),
+            location_normalized=_shared_locations(location),
             published_at=published_at,
             published_at_raw=published_raw,
             date_basis=DateBasis.PUBLISHED,
@@ -316,7 +323,7 @@ def _detail_description(document: str, job: NormalizedJob) -> str:
     parser.feed(document)
     parser.close()
     lines = _normalized_lines(parser.parts)
-    if _normalize_text(job.title_original) not in {_normalize_text(line) for line in lines}:
+    if normalize_text(job.title_original) not in {normalize_text(line) for line in lines}:
         raise ValueError("Gnani.ai detail title does not match the listing.")
     start = next(
         (index for index, line in enumerate(lines) if line.casefold() == "responsibilities"),
@@ -372,18 +379,6 @@ def _normalized_lines(parts: Iterable[str]) -> list[str]:
         for line in text.splitlines()
         if (normalized := re.sub(r"\s+", " ", line).strip())
     ]
-
-
-def _normalized_locations(value: str) -> tuple[str, ...]:
-    return tuple(
-        dict.fromkeys(
-            _normalize_text(piece) for piece in re.split(r"[,|;/]", value) if piece.strip()
-        )
-    )
-
-
-def _normalize_text(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip().casefold()
 
 
 def _string_list(value: object, field: str) -> list[str]:

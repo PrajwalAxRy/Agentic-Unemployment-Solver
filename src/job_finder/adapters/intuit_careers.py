@@ -29,6 +29,15 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_text,
+    normalize_title,
+)
+
+_WHITESPACE_RUN = re.compile(r"\s+")
 
 INTUIT_ADAPTER_KEY = "intuit_bengaluru_pages"
 INTUIT_CAREERS_URL = (
@@ -293,9 +302,9 @@ def _normalize_listing(source: CompanySource, row: _ListingRow) -> NormalizedJob
         source_type=AdapterType.CUSTOM.value,
         external_job_id=row.external_id,
         title_original=_normalize_whitespace(row.title),
-        title_normalized=_normalize_text(row.title),
+        title_normalized=normalize_title(row.title),
         location_original=location,
-        location_normalized=_normalized_locations(location),
+        location_normalized=_shared_locations(location),
         published_at=None,
         published_at_raw=None,
         date_basis=DateBasis.UNKNOWN,
@@ -340,7 +349,7 @@ def _normalize_detail(job: NormalizedJob, raw: Mapping[str, object]) -> Normaliz
         title_original=job.title_original,
         title_normalized=job.title_normalized,
         location_original=" | ".join(locations),
-        location_normalized=tuple(_normalize_text(item) for item in locations),
+        location_normalized=_shared_locations(locations),
         published_at=published_at,
         published_at_raw=date_raw,
         date_basis=DateBasis.PUBLISHED,
@@ -381,7 +390,11 @@ def _detail_locations(value: object) -> list[str]:
 
 
 def _is_bengaluru_india(location: str) -> bool:
-    normalized = _normalize_text(location)
+    # casefold() is explicit here: the shared normalize_text normalizes Unicode, entities
+    # and whitespace but deliberately preserves case (normalize_title is the case-folding
+    # one). The local helper this replaced folded case, and these comparands are lowercase
+    # literals.
+    normalized = normalize_text(location).casefold()
     return "india" in normalized and any(city in normalized for city in ("bengaluru", "bangalore"))
 
 
@@ -585,20 +598,6 @@ def _optional_string(value: object) -> str | None:
     return _normalize_whitespace(value) if isinstance(value, str) and value.strip() else None
 
 
-def _normalized_locations(value: str) -> tuple[str, ...]:
-    return tuple(
-        dict.fromkeys(_normalize_text(part) for part in re.split(r"[,|;/]", value) if part.strip())
-    )
-
-
-def _normalize_whitespace(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _normalize_text(value: str) -> str:
-    return _normalize_whitespace(value).casefold()
-
-
 def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
     return (
         AdapterOutcome.BLOCKED
@@ -677,3 +676,12 @@ def _result(
         complete=complete,
         diagnostics=tuple(diagnostics),
     )
+
+
+def _normalize_whitespace(value: str) -> str:
+    """Collapse runs of whitespace, preserving case.
+
+    Distinct from the shared ``normalize_text``: several adapters need the original
+    casing for display fields such as titles and locations.
+    """
+    return _WHITESPACE_RUN.sub(" ", value).strip()

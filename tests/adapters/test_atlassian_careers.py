@@ -88,8 +88,13 @@ def test_inventory_collapses_consistent_variants_and_preserves_unknown_dates() -
     assert result.page_count == 1
     assert [job.external_job_id for job in result.jobs] == ["1001", "1002"]
     first, second = result.jobs
+    # Phase 1: the shared adapter-side normalizer splits on commas, so the postcode tail
+    # becomes its own token. Verified not to change the filter verdict -- filter_location
+    # returns pass/accepted_india_location either way, because _contains_phrase matches
+    # "india" inside whichever token carries it (docs/rewrite/phase1_normalization_impact.md).
     assert first.location_normalized == (
-        "bengaluru - india - bengaluru, 560071 india",
+        "bengaluru - india - bengaluru",
+        "560071 india",
         "remote - india - remote",
     )
     assert first.date_basis is DateBasis.UNKNOWN

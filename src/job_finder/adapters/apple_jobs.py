@@ -27,6 +27,12 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_title,
+)
 
 APPLE_JOBS_ADAPTER_KEY = "apple_jobs_india"
 APPLE_JOBS_CAREERS_URL = "https://jobs.apple.com/en-us/search?location=india-INDC"
@@ -326,7 +332,7 @@ class AppleJobsAdapter:
             if job_number != job.external_job_id:
                 raise DetailIdentityMismatch("Apple detail jobNumber does not match the listing.")
         title = _required_string(data, "postingTitle", "Apple jobsData")
-        if _normalize_text(title) != job.title_normalized:
+        if normalize_title(title) != job.title_normalized:
             raise DetailIdentityMismatch("Apple detail title does not match the listing.")
         slug = _required_string(data, "transformedPostingTitle", "Apple jobsData")
         if not job.canonical_url.endswith(f"/{slug}"):
@@ -353,9 +359,9 @@ class AppleJobsAdapter:
         return replace(
             job,
             title_original=title,
-            title_normalized=_normalize_text(title),
+            title_normalized=normalize_title(title),
             location_original=locations,
-            location_normalized=_normalized_locations(locations),
+            location_normalized=_shared_locations(locations),
             description=description,
             description_hash=hashlib.sha256(description.encode("utf-8")).hexdigest(),
             source_metadata=metadata,
@@ -462,9 +468,9 @@ def _normalize_listing(source: CompanySource, value: object) -> NormalizedJob:
         source_type=AdapterType.CUSTOM.value,
         external_job_id=external_id,
         title_original=title,
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=locations,
-        location_normalized=_normalized_locations(locations),
+        location_normalized=_shared_locations(locations),
         published_at=published_at,
         published_at_raw=published_raw,
         date_basis=date_basis,
@@ -624,18 +630,6 @@ def _optional_string_array(value: object) -> list[str]:
             raise ValueError("Apple optional string array entries must be non-empty strings.")
         result.append(item.strip())
     return result
-
-
-def _normalize_text(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip().casefold()
-
-
-def _normalized_locations(value: str) -> tuple[str, ...]:
-    return tuple(
-        _unique_strings(
-            _normalize_text(piece) for piece in re.split(r"[,|;/]", value) if piece.strip()
-        )
-    )
 
 
 def _unique_strings(values: Iterable[str]) -> list[str]:

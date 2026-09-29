@@ -26,6 +26,12 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_title,
+)
 
 DESHAW_INDIA_ADAPTER_KEY = "deshaw_india_index"
 DESHAW_INDIA_CAREERS_URL = "https://www.deshawindia.com/careers"
@@ -252,9 +258,9 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
         source_type=AdapterType.CUSTOM.value,
         external_job_id=external_id,
         title_original=title,
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=location,
-        location_normalized=_normalized_locations(location),
+        location_normalized=_shared_locations(location),
         published_at=None,
         published_at_raw=None,
         date_basis=DateBasis.UNKNOWN,
@@ -419,18 +425,6 @@ def _is_canonical_careers_url(value: str) -> bool:
         and parsed.path.rstrip("/") == "/careers"
         and not parsed.query
         and not parsed.fragment
-    )
-
-
-def _normalize_text(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip().casefold()
-
-
-def _normalized_locations(value: str) -> tuple[str, ...]:
-    return tuple(
-        _unique_strings(
-            _normalize_text(piece) for piece in re.split(r"[,|;/]", value) if piece.strip()
-        )
     )
 
 

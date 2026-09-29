@@ -30,6 +30,9 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import normalize_text, normalize_title
+
+_WHITESPACE_RUN = re.compile(r"\s+")
 
 AIRBNB_ADAPTER_KEY = "airbnb_careers_pages"
 AIRBNB_CAREERS_URL = "https://careers.airbnb.com/positions/"
@@ -368,9 +371,9 @@ class AirbnbCareersAdapter:
         parser.feed(document)
         parser.close()
         detail = parser.data(job.canonical_url)
-        if _normalize_text(detail.title) != job.title_normalized:
+        if normalize_title(detail.title) != job.title_normalized:
             raise DetailIdentityMismatch("Airbnb detail title does not match the listing.")
-        if _normalize_text(detail.location) != _normalize_text(job.location_original):
+        if normalize_text(detail.location) != normalize_text(job.location_original):
             raise DetailIdentityMismatch("Airbnb detail location does not match the listing.")
         try:
             webpage_date = datetime.fromisoformat(detail.webpage_date_published).date()
@@ -665,11 +668,11 @@ def _normalized_listing(
         source_type=AdapterType.CUSTOM.value,
         external_job_id=row.external_id,
         title_original=row.title,
-        title_normalized=_normalize_text(row.title),
+        title_normalized=normalize_title(row.title),
         location_original=row.location,
         location_normalized=tuple(
             dict.fromkeys(
-                _normalize_text(part) for part in re.split(r"[,|;/]", row.location) if part.strip()
+                normalize_text(part) for part in re.split(r"[,|;/]", row.location) if part.strip()
             )
         ),
         published_at=None,
@@ -774,14 +777,6 @@ def _canonical_detail_url(value: str) -> tuple[str, str]:
     return f"https://{_HOST}/positions/{external_id}/", external_id
 
 
-def _normalize_whitespace(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _normalize_text(value: str) -> str:
-    return _normalize_whitespace(value).casefold()
-
-
 def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
     return (
         AdapterOutcome.BLOCKED
@@ -822,3 +817,12 @@ def _result(
         complete=complete,
         diagnostics=tuple(diagnostics),
     )
+
+
+def _normalize_whitespace(value: str) -> str:
+    """Collapse runs of whitespace, preserving case.
+
+    Distinct from the shared ``normalize_text``: several adapters need the original
+    casing for display fields such as titles and locations.
+    """
+    return _WHITESPACE_RUN.sub(" ", value).strip()

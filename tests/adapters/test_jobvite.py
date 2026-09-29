@@ -93,7 +93,8 @@ def test_complete_board_maps_identity_location_url_and_unknown_listing_date() ->
     assert result.complete is True
     assert result.page_count == 1
     assert [job.external_job_id for job in result.jobs] == ["oOne123", "oTwo456"]
-    assert result.jobs[0].title_normalized == "machine learning engineer (ai1001)"
+    # Phase 1: parentheses stripped by the shared normalize_title (to_change.md 1.2).
+    assert result.jobs[0].title_normalized == "machine learning engineer ai1001"
     assert result.jobs[0].location_normalized == ("bengaluru", "india")
     assert result.jobs[0].date_basis is DateBasis.UNKNOWN
     assert result.jobs[0].canonical_url == "https://jobs.jobvite.com/example/job/oOne123"

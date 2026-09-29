@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import re
 from collections.abc import Iterable, Mapping
 from datetime import datetime
 from typing import Any
@@ -27,6 +26,12 @@ from job_finder.core.source_contracts import (
     AdapterType,
     CompanySource,
     DiagnosticSeverity,
+)
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_title,
 )
 
 ASHBY_POSTING_API = "https://api.ashbyhq.com/posting-api/job-board/{board_name}"
@@ -206,9 +211,9 @@ def _normalize_job(
             source_type=AdapterType.ASHBY.value,
             external_job_id=external_id,
             title_original=title,
-            title_normalized=_normalize_text(title),
+            title_normalized=normalize_title(title),
             location_original=location_original,
-            location_normalized=_normalized_locations(locations),
+            location_normalized=_shared_locations(locations),
             published_at=published_at,
             published_at_raw=published_raw,
             date_basis=date_basis,
@@ -290,17 +295,6 @@ def _parse_timestamp(value: str | None) -> datetime | None:
     except ValueError:
         return None
     return parsed if parsed.tzinfo is not None else None
-
-
-def _normalize_text(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip().casefold()
-
-
-def _normalized_locations(locations: list[str]) -> tuple[str, ...]:
-    parts: list[str] = []
-    for location in locations:
-        parts.extend(piece for piece in re.split(r"[,|;/]", location) if piece.strip())
-    return tuple(_unique_strings(_normalize_text(piece) for piece in parts))
 
 
 def _unique_strings(values: Iterable[str]) -> list[str]:

@@ -29,6 +29,13 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_text,
+    normalize_title,
+)
 
 STRIPE_CAREERS_ADAPTER_KEY = "stripe_careers_index"
 STRIPE_CAREERS_URL = "https://stripe.com/careers/search"
@@ -225,7 +232,7 @@ class StripeCareersAdapter:
             raise DetailIdentityMismatch(
                 "Stripe detail payload identity does not match the listing."
             )
-        if _normalize_text(detail_title) != job.title_normalized:
+        if normalize_title(detail_title) != job.title_normalized:
             raise DetailIdentityMismatch("Stripe detail title does not match the listing title.")
         detail_location_indices = tuple(
             _index_list(detail.get("locationIndices"), "Stripe detail locationIndices")
@@ -303,9 +310,9 @@ def _normalize_listing(
         source_type=AdapterType.CUSTOM.value,
         external_job_id=external_id,
         title_original=title,
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=location,
-        location_normalized=_normalized_locations(location),
+        location_normalized=_shared_locations(location),
         published_at=None,
         published_at_raw=None,
         date_basis=DateBasis.UNKNOWN,
@@ -404,7 +411,7 @@ def _job_posting_date(
             identifier_value = identifier.get("value") if isinstance(identifier, Mapping) else None
             if (
                 str(identifier_value) == external_id
-                and _normalize_text(str(value.get("title", ""))) == _normalize_text(title)
+                and normalize_text(str(value.get("title", ""))) == normalize_text(title)
                 and value.get("url") == canonical_url
             ):
                 date_posted = value.get("datePosted")
@@ -530,18 +537,6 @@ def _decode_document(body: bytes) -> str | None:
         return body.decode("utf-8")
     except UnicodeDecodeError:
         return None
-
-
-def _normalize_text(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip().casefold()
-
-
-def _normalized_locations(value: str) -> tuple[str, ...]:
-    return tuple(
-        _unique_strings(
-            _normalize_text(piece) for piece in re.split(r"[,|;/]", value) if piece.strip()
-        )
-    )
 
 
 def _unique_strings(values: Iterable[str]) -> list[str]:

@@ -22,6 +22,14 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_title,
+)
+
+_WHITESPACE_RUN = re.compile(r"\s+")
 
 DEFAULT_PAGE_SIZE = 25
 DEFAULT_MAX_PAGES = 100
@@ -392,9 +400,9 @@ class SuccessFactorsAdapter:
         return replace(
             job,
             title_original=title,
-            title_normalized=_normalize_text(title),
+            title_normalized=normalize_title(title),
             location_original=location,
-            location_normalized=_normalized_locations(location),
+            location_normalized=_shared_locations(location),
             published_at=published_at,
             published_at_raw=published_raw,
             date_basis=DateBasis.PUBLISHED if published_at is not None else DateBasis.UNKNOWN,
@@ -601,9 +609,9 @@ def _normalize_listing(
         source_type=AdapterType.SUCCESSFACTORS.value,
         external_job_id=external_id,
         title_original=title,
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=location,
-        location_normalized=_normalized_locations(location),
+        location_normalized=_shared_locations(location),
         published_at=None,
         published_at_raw=None,
         date_basis=DateBasis.UNKNOWN,
@@ -669,19 +677,6 @@ def _optional_text(value: object) -> str | None:
     return _normalize_whitespace(value) if isinstance(value, str) and value.strip() else None
 
 
-def _normalize_whitespace(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _normalize_text(value: str) -> str:
-    return _normalize_whitespace(value).casefold()
-
-
-def _normalized_locations(value: str) -> tuple[str, ...]:
-    parts = tuple(_normalize_text(item) for item in re.split(r"[,|;/]", value) if item.strip())
-    return parts or ("location unavailable",)
-
-
 def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
     return (
         AdapterOutcome.BLOCKED
@@ -722,3 +717,12 @@ def _result(
         complete=complete,
         diagnostics=tuple(diagnostics),
     )
+
+
+def _normalize_whitespace(value: str) -> str:
+    """Collapse runs of whitespace, preserving case.
+
+    Distinct from the shared ``normalize_text``: several adapters need the original
+    casing for display fields such as titles and locations.
+    """
+    return _WHITESPACE_RUN.sub(" ", value).strip()

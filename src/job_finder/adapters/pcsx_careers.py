@@ -29,6 +29,14 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_title,
+)
+
+_WHITESPACE_RUN = re.compile(r"\s+")
 
 PCSX_ADAPTER_KEY = "pcsx_public_careers"
 _PAGE_SIZE = 10
@@ -232,12 +240,12 @@ class PcsxCareersAdapter:
         if observed_id != external_id:
             raise DetailIdentityMismatch("PCSx detail ID did not match the listing.")
         title = _required_string(detail, "name", "PCSx detail")
-        if _normalize_text(title) != job.title_normalized:
+        if normalize_title(title) != job.title_normalized:
             raise DetailIdentityMismatch("PCSx detail title did not match the listing.")
         locations = _locations(detail)
         if not locations:
             locations = ["Location unavailable"]
-        if _normalized_locations(locations) != job.location_normalized:
+        if _shared_locations(locations) != job.location_normalized:
             raise DetailIdentityMismatch("PCSx detail locations did not match the listing.")
         _validate_position_path(detail.get("positionUrl"), external_id)
         if _required_string(detail, "publicUrl", "PCSx detail") != job.canonical_url:
@@ -340,9 +348,9 @@ def _normalize_listing(source: CompanySource, host: str, value: object) -> Norma
         source_type=AdapterType.CUSTOM.value,
         external_job_id=external_id,
         title_original=_normalize_whitespace(title),
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=" | ".join(locations),
-        location_normalized=_normalized_locations(locations),
+        location_normalized=_shared_locations(locations),
         published_at=created_at,
         published_at_raw=created_raw,
         date_basis=DateBasis.UNKNOWN,
@@ -373,10 +381,6 @@ def _locations(value: Mapping[object, object]) -> list[str]:
             result.append(normalized)
             seen.add(normalized.casefold())
     return result
-
-
-def _normalized_locations(locations: list[str]) -> tuple[str, ...]:
-    return tuple(_normalize_text(location) for location in locations)
 
 
 def _validate_position_path(value: object, external_id: str) -> None:
@@ -467,14 +471,6 @@ def _non_negative_int(value: object, context: str) -> int:
     return value
 
 
-def _normalize_whitespace(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _normalize_text(value: str) -> str:
-    return _normalize_whitespace(value).casefold()
-
-
 def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
     return (
         AdapterOutcome.BLOCKED
@@ -545,3 +541,12 @@ def _result(
         complete=complete,
         diagnostics=tuple(diagnostics),
     )
+
+
+def _normalize_whitespace(value: str) -> str:
+    """Collapse runs of whitespace, preserving case.
+
+    Distinct from the shared ``normalize_text``: several adapters need the original
+    casing for display fields such as titles and locations.
+    """
+    return _WHITESPACE_RUN.sub(" ", value).strip()

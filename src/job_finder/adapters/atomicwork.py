@@ -26,6 +26,14 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_title,
+)
+
+_WHITESPACE_RUN = re.compile(r"\s+")
 
 ATOMICWORK_ADAPTER_KEY = "atomicwork_webflow"
 ATOMICWORK_HOST = "www.atomicwork.com"
@@ -293,7 +301,7 @@ class AtomicworkWebflowAdapter:
         parser.feed(document)
         parser.close()
         title = _required_text(_compact_text(parser.title_parts), "Atomicwork detail title")
-        if _normalize_text(title) != job.title_normalized:
+        if normalize_title(title) != job.title_normalized:
             raise DetailIdentityMismatch(
                 "Atomicwork detail title does not match the listing title."
             )
@@ -314,9 +322,9 @@ class AtomicworkWebflowAdapter:
         return replace(
             job,
             title_original=title,
-            title_normalized=_normalize_text(title),
+            title_normalized=normalize_title(title),
             location_original=location,
-            location_normalized=_normalized_locations(location),
+            location_normalized=_shared_locations(location),
             published_at=None,
             published_at_raw=None,
             date_basis=DateBasis.UNKNOWN,
@@ -505,9 +513,9 @@ def _normalize_listing(source: CompanySource, row: _ListingRow) -> NormalizedJob
         source_type=AdapterType.CUSTOM.value,
         external_job_id=external_id,
         title_original=title,
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=location,
-        location_normalized=_normalized_locations(location),
+        location_normalized=_shared_locations(location),
         published_at=None,
         published_at_raw=None,
         date_basis=DateBasis.UNKNOWN,
@@ -628,19 +636,6 @@ def _append_object_part(value: object, part: str) -> None:
         value.append(part)
 
 
-def _normalize_whitespace(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _normalize_text(value: str) -> str:
-    return _normalize_whitespace(value).casefold()
-
-
-def _normalized_locations(value: str) -> tuple[str, ...]:
-    parts = tuple(_normalize_text(item) for item in re.split(r"[,|;/]", value) if item.strip())
-    return parts or ("location unavailable",)
-
-
 def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
     return (
         AdapterOutcome.BLOCKED
@@ -681,3 +676,12 @@ def _result(
         complete=complete,
         diagnostics=tuple(diagnostics),
     )
+
+
+def _normalize_whitespace(value: str) -> str:
+    """Collapse runs of whitespace, preserving case.
+
+    Distinct from the shared ``normalize_text``: several adapters need the original
+    casing for display fields such as titles and locations.
+    """
+    return _WHITESPACE_RUN.sub(" ", value).strip()

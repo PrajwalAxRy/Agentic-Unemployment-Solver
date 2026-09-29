@@ -13,7 +13,6 @@ from job_finder.adapters.google_careers import (
     GOOGLE_CAREERS_ADAPTER_KEY,
     GOOGLE_CAREERS_URL,
     GoogleCareersAdapter,
-    _normalize_text,
 )
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy, HttpResponse
 from job_finder.core.job_contracts import DateBasis
@@ -28,7 +27,7 @@ from job_finder.core.source_contracts import (
     IdentityStrategy,
     SourceStatus,
 )
-from job_finder.normalization.jobs import normalize_job, normalize_title
+from job_finder.normalization.jobs import normalize_job
 
 FIXTURES = Path(__file__).parents[1] / "fixtures" / "google_careers"
 
@@ -220,12 +219,11 @@ def test_invalid_source_configuration_is_rejected_before_network() -> None:
 # real call path and parametrize over the exact cases reproduced in the 1.2 table.
 
 
-_PUNCTUATION_BUG = (
-    "to_change.md 1.2: adapters/google_careers.py:296 compares its own punctuation-keeping "
-    "_normalize_text against job.title_normalized, which normalization/jobs.py has already "
-    "punctuation-stripped. Fixed in Phase 1 by deleting the local copies and importing the "
-    "shared module. strict=True so these flip to failures the moment the fix lands and the "
-    "xfail markers become wrong."
+_FIXED_IN_PHASE_1 = (
+    "Fixed in Phase 1: the adapter-local _normalize_text copies were deleted and every "
+    "adapter now imports normalization/jobs.py, so the punctuation-keeping vs "
+    "punctuation-stripping mismatch that broke 78/78 Google rows cannot recur. These "
+    "cases stay as regression cover."
 )
 
 
@@ -237,19 +235,14 @@ def _fixture_html(name: str, *, title: str) -> HttpResponse:
     return HttpResponse("", "", 200, "text/html", 0, replaced.encode("utf-8"))
 
 
-_PUNCTUATED = pytest.mark.xfail(reason=_PUNCTUATION_BUG, strict=True)
-
-
 @pytest.mark.parametrize(
     "title",
     [
-        pytest.param("Senior ML Engineer, Ads", id="comma", marks=_PUNCTUATED),
-        pytest.param("Staff Engineer (AI/ML)", id="parentheses-and-slash", marks=_PUNCTUATED),
+        pytest.param("Senior ML Engineer, Ads", id="comma"),
+        pytest.param("Staff Engineer (AI/ML)", id="parentheses-and-slash"),
         pytest.param("ML Engineer II", id="no-punctuation-control"),
         pytest.param(
-            "Software Engineer III, Machine Learning - Search",
-            id="comma-and-hyphen",
-            marks=_PUNCTUATED,
+            "Software Engineer III, Machine Learning - Search", id="comma-and-hyphen"
         ),
     ],
 )
@@ -299,22 +292,19 @@ def test_detail_title_mismatch_raises_identity_mismatch_not_bare_value_error() -
         detail_adapter.get_job_detail(source(), normalized)
 
 
-@pytest.mark.xfail(reason=_PUNCTUATION_BUG, strict=True)
-def test_shared_and_adapter_normalization_agree_on_punctuated_titles() -> None:
-    """Pin the root cause directly.
+def test_adapter_defines_no_local_normalization_helpers() -> None:
+    """The root cause is gone by construction: there is only one implementation.
 
-    ``to_change.md`` 1.2 reproduced the bug as a table of titles where the shared
-    normalizer and the adapter's local copy disagreed. Any future divergence between the
-    two should fail here, at the cause, rather than 78 rows downstream.
+    ``to_change.md`` 1.2 originally reproduced the bug as a table of titles where the
+    shared normalizer and the adapter's local ``_normalize_text`` disagreed. Phase 1
+    deleted every local copy, so the two can no longer diverge -- there is nothing left to
+    compare. This asserts the stronger property instead: the module must not reintroduce a
+    local copy. A repo-wide version of this guard lives in
+    ``tests/test_normalization_single_source.py``.
     """
-    for title in (
-        "Senior ML Engineer, Ads",
-        "Staff Engineer (AI/ML)",
-        "ML Engineer II",
-        "Software Engineer III, Machine Learning - Search",
-        "Data Scientist, Search & Discovery",
-    ):
-        assert _normalize_text(title) == normalize_title(title), (
-            f"adapter-local and shared normalization disagree for {title!r}; "
-            "this is the exact divergence that broke 78/78 Google rows"
-        )
+    source = (
+        Path(__file__).parents[2] / "src" / "job_finder" / "adapters" / "google_careers.py"
+    ).read_text(encoding="utf-8")
+    assert "def _normalize_text" not in source
+    assert "def _normalized_locations" not in source
+    assert "from job_finder.normalization.jobs import" in source

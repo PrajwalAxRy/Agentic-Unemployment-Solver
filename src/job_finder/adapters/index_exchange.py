@@ -25,6 +25,10 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import normalize_source_locations as _shared_locations
+from job_finder.normalization.jobs import normalize_title
+
+_WHITESPACE_RUN = re.compile(r"\s+")
 
 INDEX_EXCHANGE_ADAPTER_KEY = "index_exchange_official_inventory"
 INDEX_EXCHANGE_CAREERS_URL = "https://www.indexexchange.com/careers/opportunities/"
@@ -142,7 +146,7 @@ class IndexExchangeCareersAdapter:
         title = parser.required("og:title")
         canonical_url = parser.required("og:url")
         description = _normalize_whitespace(parser.required("og:description"))
-        if _normalize_text(title) != job.title_normalized:
+        if normalize_title(title) != job.title_normalized:
             raise DetailIdentityMismatch("Index Exchange detail title did not match the listing.")
         if canonical_url != job.canonical_url:
             raise DetailIdentityMismatch(
@@ -268,9 +272,9 @@ def _collapse_rows(source: CompanySource, rows: list[_ListingRow]) -> list[Norma
             source_type=AdapterType.CUSTOM.value,
             external_job_id=row.external_id,
             title_original=row.title,
-            title_normalized=_normalize_text(row.title),
+            title_normalized=normalize_title(row.title),
             location_original=" | ".join(locations[row.external_id]),
-            location_normalized=tuple(_normalize_text(item) for item in locations[row.external_id]),
+            location_normalized=_shared_locations(locations[row.external_id]),
             published_at=None,
             published_at_raw=None,
             date_basis=DateBasis.UNKNOWN,
@@ -325,14 +329,6 @@ def _external_id(url: str) -> str:
     return match.group(1)
 
 
-def _normalize_whitespace(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _normalize_text(value: str) -> str:
-    return _normalize_whitespace(value).casefold()
-
-
 def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
     return (
         AdapterOutcome.BLOCKED
@@ -383,3 +379,12 @@ def _result(
         complete=complete,
         diagnostics=tuple(diagnostics),
     )
+
+
+def _normalize_whitespace(value: str) -> str:
+    """Collapse runs of whitespace, preserving case.
+
+    Distinct from the shared ``normalize_text``: several adapters need the original
+    casing for display fields such as titles and locations.
+    """
+    return _WHITESPACE_RUN.sub(" ", value).strip()

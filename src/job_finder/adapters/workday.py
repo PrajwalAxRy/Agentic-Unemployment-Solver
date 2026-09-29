@@ -26,6 +26,12 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_title,
+)
 
 DEFAULT_PAGE_SIZE = 20
 DEFAULT_MAX_PAGES = 500
@@ -423,9 +429,9 @@ class WorkdayAdapter:
             source_type=self.adapter_type.value,
             external_job_id=external_id,
             title_original=title,
-            title_normalized=_normalize_text(title),
+            title_normalized=normalize_title(title),
             location_original=" | ".join(_unique_strings(locations)),
-            location_normalized=_normalized_locations(locations),
+            location_normalized=_shared_locations(locations),
             published_at=None,
             published_at_raw=posted_on,
             date_basis=DateBasis.UNKNOWN,
@@ -497,9 +503,9 @@ def _normalize_listing(
         source_type=AdapterType.WORKDAY.value,
         external_job_id=external_id,
         title_original=title,
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=location,
-        location_normalized=_normalized_locations((location,)),
+        location_normalized=_shared_locations((location,)),
         published_at=None,
         published_at_raw=posted_on,
         date_basis=DateBasis.UNKNOWN,
@@ -613,21 +619,6 @@ def _id_from_path(external_path: str) -> str | None:
     final_segment = external_path.rstrip("/").rsplit("/", maxsplit=1)[-1]
     _, separator, candidate = final_segment.rpartition("_")
     return candidate if separator and candidate else None
-
-
-def _normalize_text(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip().casefold()
-
-
-def _normalized_locations(locations: Iterable[str]) -> tuple[str, ...]:
-    parts: list[str] = []
-    for location in locations:
-        parts.extend(
-            piece
-            for piece in re.split(r"[,|;/]|\bor\b", location, flags=re.IGNORECASE)
-            if piece.strip()
-        )
-    return tuple(_unique_strings(_normalize_text(piece) for piece in parts))
 
 
 def _unique_strings(values: Iterable[str]) -> list[str]:

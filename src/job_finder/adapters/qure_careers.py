@@ -27,6 +27,10 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import normalize_source_locations as _shared_locations
+from job_finder.normalization.jobs import normalize_text, normalize_title
+
+_WHITESPACE_RUN = re.compile(r"\s+")
 
 QURE_ADAPTER_KEY = "qure_zoho_embedded"
 QURE_CAREERS_URL = "https://career.qure.ai/jobs/Careers"
@@ -268,7 +272,7 @@ def _normalize_job(
     external_id = _numeric_string(raw.get("id"), "Qure.ai job id")
     title = _required_string(raw, "Posting_Title")
     opening_name = _required_string(raw, "Job_Opening_Name")
-    if _normalize_text(title) != _normalize_text(opening_name):
+    if normalize_text(title) != normalize_text(opening_name):
         raise ValueError("Qure.ai Posting_Title and Job_Opening_Name disagree.")
     publish_flag = raw.get("Publish")
     if not isinstance(publish_flag, bool):
@@ -319,9 +323,9 @@ def _normalize_job(
         source_type=AdapterType.CUSTOM.value,
         external_job_id=external_id,
         title_original=_normalize_whitespace(title),
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=location,
-        location_normalized=tuple(_normalize_text(item) for item in location_parts),
+        location_normalized=_shared_locations(location_parts),
         published_at=opened_at,
         published_at_raw=date_raw,
         date_basis=DateBasis.UNKNOWN,
@@ -426,14 +430,6 @@ def _optional_string(value: object) -> str | None:
     return _normalize_whitespace(value) if isinstance(value, str) and value.strip() else None
 
 
-def _normalize_whitespace(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _normalize_text(value: str) -> str:
-    return _normalize_whitespace(value).casefold()
-
-
 def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
     return (
         AdapterOutcome.BLOCKED
@@ -484,3 +480,12 @@ def _result(
         complete=complete,
         diagnostics=tuple(diagnostics),
     )
+
+
+def _normalize_whitespace(value: str) -> str:
+    """Collapse runs of whitespace, preserving case.
+
+    Distinct from the shared ``normalize_text``: several adapters need the original
+    casing for display fields such as titles and locations.
+    """
+    return _WHITESPACE_RUN.sub(" ", value).strip()

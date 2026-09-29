@@ -16,6 +16,10 @@ from job_finder.core.search_profile import LocationPolicy
 _WHITESPACE = re.compile(r"\s+")
 _TITLE_PUNCTUATION = re.compile(r"[^\w+#]+", re.UNICODE)
 _LOCATION_SEPARATOR = re.compile(r"\s*(?:[;|•]|\r?\n|\s/\s)\s*")
+# Adapter-side splitting is more aggressive than the policy-aware path: source payloads
+# routinely pack several locations into one comma- or slash-delimited field, and the ten
+# local implementations this replaces all split on some subset of these characters.
+_ADAPTER_LOCATION_SEPARATOR = re.compile(r"[,|;/•]|\r?\n|\bor\b", re.IGNORECASE)
 _TRACKING_QUERY_KEYS = frozenset(
     {
         "gh_src",
@@ -55,6 +59,34 @@ def normalize_title(value: str) -> str:
     """Produce a stable case-insensitive title string suitable for deterministic matching."""
     normalized = normalize_text(value).casefold()
     return _WHITESPACE.sub(" ", _TITLE_PUNCTUATION.sub(" ", normalized)).strip()
+
+
+def normalize_source_locations(values: str | Iterable[str]) -> tuple[str, ...]:
+    """Normalize adapter-side location values without a policy.
+
+    Adapters cannot call :func:`normalize_location_values` because they hold no
+    ``LocationPolicy`` -- they run before profile configuration is in scope. Before this
+    existed, each adapter carried its own copy, and those copies drifted into **ten**
+    genuinely different implementations: some split on ``[,|;/]``, one added ``\\bor\\b``
+    case-insensitively, two fell back to ``("location unavailable",)``, one did not split
+    at all. The same location string therefore produced different tuples depending only on
+    which company the job came from (``to_change.md`` 6.3).
+
+    This is the single canonical adapter-side behaviour: split on the common separators,
+    normalize each part, drop empties, preserve order, deduplicate.
+
+    Note that ``normalize_job`` recomputes ``location_normalized`` from
+    ``location_original`` using the full policy-aware path, so this value is a
+    self-consistent intermediate rather than the final filtering input.
+    """
+    raw_values = (values,) if isinstance(values, str) else tuple(values)
+    locations: list[str] = []
+    for raw_value in raw_values:
+        for part in _ADAPTER_LOCATION_SEPARATOR.split(raw_value):
+            normalized = normalize_text(part).casefold()
+            if normalized and normalized not in locations:
+                locations.append(normalized)
+    return tuple(locations)
 
 
 def normalize_location_values(

@@ -26,6 +26,12 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_title,
+)
 
 AMAZON_JOBS_ADAPTER_KEY = "amazon_jobs_india"
 AMAZON_JOBS_CAREERS_URL = "https://www.amazon.jobs/en/search?country=IND&sort=recent"
@@ -360,9 +366,9 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
         source_type=AdapterType.CUSTOM.value,
         external_job_id=external_id,
         title_original=title,
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=location,
-        location_normalized=_normalized_locations(location),
+        location_normalized=_shared_locations(location),
         published_at=published_at,
         published_at_raw=posted_raw,
         date_basis=DateBasis.PUBLISHED,
@@ -460,18 +466,6 @@ def _validate_job_url(url: str, external_id: str) -> None:
 def _canonical_job_url(value: str) -> str:
     parsed = urlsplit(value)
     return urlunsplit((parsed.scheme, parsed.netloc, parsed.path.rstrip("/"), "", ""))
-
-
-def _normalize_text(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip().casefold()
-
-
-def _normalized_locations(value: str) -> tuple[str, ...]:
-    return tuple(
-        _unique_strings(
-            _normalize_text(piece) for piece in re.split(r"[,|;/]", value) if piece.strip()
-        )
-    )
 
 
 def _unique_strings(values: Iterable[str]) -> list[str]:

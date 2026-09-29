@@ -27,6 +27,10 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import normalize_source_locations as _shared_locations
+from job_finder.normalization.jobs import normalize_text, normalize_title
+
+_WHITESPACE_RUN = re.compile(r"\s+")
 
 SWIGGY_ADAPTER_KEY = "swiggy_mynexthire_inventory"
 SWIGGY_CAREERS_URL = "https://careers.swiggy.com/"
@@ -228,9 +232,9 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
         source_type=AdapterType.CUSTOM.value,
         external_job_id=external_id,
         title_original=_normalize_whitespace(title),
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=_normalize_whitespace(location),
-        location_normalized=(_normalize_text(location),),
+        location_normalized=_shared_locations(location),
         published_at=approved_at,
         published_at_raw=approved_raw,
         date_basis=DateBasis.UNKNOWN,
@@ -279,8 +283,8 @@ def _validate_location_list(value: object, location: str) -> None:
             text = item.get(field)
             if not isinstance(text, str) or not text.strip():
                 raise ValueError(f"Swiggy locationList {field} must be non-empty text.")
-            candidates.add(_normalize_text(text))
-    if _normalize_text(location) not in candidates:
+            candidates.add(normalize_text(text))
+    if normalize_text(location) not in candidates:
         raise ValueError("Swiggy location did not match its locationList.")
 
 
@@ -348,14 +352,6 @@ def _non_negative_number(value: object, context: str) -> int | float:
     return value
 
 
-def _normalize_whitespace(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _normalize_text(value: str) -> str:
-    return _normalize_whitespace(value).casefold()
-
-
 def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
     return (
         AdapterOutcome.BLOCKED
@@ -406,3 +402,12 @@ def _result(
         complete=complete,
         diagnostics=tuple(diagnostics),
     )
+
+
+def _normalize_whitespace(value: str) -> str:
+    """Collapse runs of whitespace, preserving case.
+
+    Distinct from the shared ``normalize_text``: several adapters need the original
+    casing for display fields such as titles and locations.
+    """
+    return _WHITESPACE_RUN.sub(" ", value).strip()

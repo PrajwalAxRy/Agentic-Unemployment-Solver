@@ -26,6 +26,15 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_text,
+    normalize_title,
+)
+
+_WHITESPACE_RUN = re.compile(r"\s+")
 
 AGANITHA_ADAPTER_KEY = "aganitha_careers_index"
 AGANITHA_CAREERS_URL = "https://www.aganitha.ai/careers/"
@@ -190,7 +199,7 @@ class AganithaCareersAdapter:
                     diagnostics,
                     page_count=page_count,
                 )
-            if _normalize_text(detail.title) != _normalize_text(row.title):
+            if normalize_text(detail.title) != normalize_text(row.title):
                 diagnostics.append(
                     _diagnostic(
                         "title_variation_normalized",
@@ -222,9 +231,9 @@ class AganithaCareersAdapter:
         _validate_source(source)
         _validate_job(source, job)
         detail = self._fetch_detail(job.canonical_url, include_description=True)
-        if _normalize_text(detail.title) != job.title_normalized:
+        if normalize_title(detail.title) != job.title_normalized:
             raise DetailIdentityMismatch("Aganitha detail title changed after listing discovery.")
-        if _normalize_text(detail.location) != _normalize_text(job.location_original):
+        if normalize_text(detail.location) != normalize_text(job.location_original):
             raise DetailIdentityMismatch(
                 "Aganitha detail location changed after listing discovery."
             )
@@ -459,9 +468,9 @@ def _normalized_job(
         source_type=AdapterType.CUSTOM.value,
         external_job_id=row.external_id,
         title_original=detail.title,
-        title_normalized=_normalize_text(detail.title),
+        title_normalized=normalize_title(detail.title),
         location_original=detail.location,
-        location_normalized=_normalized_locations(detail.location),
+        location_normalized=_shared_locations(detail.location),
         published_at=None,
         published_at_raw=None,
         date_basis=DateBasis.UNKNOWN,
@@ -506,25 +515,8 @@ def _normalized_lines(parts: Iterable[str]) -> list[str]:
     return [normalized for line in text.splitlines() if (normalized := _normalize_whitespace(line))]
 
 
-def _normalized_locations(value: str) -> tuple[str, ...]:
-    result = tuple(
-        dict.fromkeys(
-            _normalize_text(piece) for piece in re.split(r"[,|;/]", value) if piece.strip()
-        )
-    )
-    return result or ("location unavailable",)
-
-
-def _normalize_whitespace(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _normalize_text(value: str) -> str:
-    return _normalize_whitespace(value).casefold()
-
-
 def _titles_compatible(left: str, right: str) -> bool:
-    if _normalize_text(left) == _normalize_text(right):
+    if normalize_text(left) == normalize_text(right):
         return True
     left_tokens = {token for token in re.findall(r"[a-z0-9]+", left.casefold()) if len(token) >= 3}
     right_tokens = {
@@ -590,3 +582,12 @@ def _result(
         complete=complete,
         diagnostics=tuple(diagnostics),
     )
+
+
+def _normalize_whitespace(value: str) -> str:
+    """Collapse runs of whitespace, preserving case.
+
+    Distinct from the shared ``normalize_text``: several adapters need the original
+    casing for display fields such as titles and locations.
+    """
+    return _WHITESPACE_RUN.sub(" ", value).strip()

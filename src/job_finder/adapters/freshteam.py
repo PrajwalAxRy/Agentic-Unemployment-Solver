@@ -24,6 +24,12 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_title,
+)
 
 _ACCOUNT_PATTERN = re.compile(r"[A-Za-z0-9-]+")
 _JOB_PATH_PATTERN = re.compile(r"/jobs/([A-Za-z0-9_-]+)/([^/?#]+)/?")
@@ -235,9 +241,9 @@ class FreshteamAdapter:
         return replace(
             job,
             title_original=title,
-            title_normalized=_normalize_text(title),
+            title_normalized=normalize_title(title),
             location_original=location,
-            location_normalized=_normalized_locations(location),
+            location_normalized=_shared_locations(location),
             published_at=published_at,
             published_at_raw=published_raw,
             date_basis=DateBasis.PUBLISHED if published_at is not None else DateBasis.UNKNOWN,
@@ -411,9 +417,9 @@ def _normalize_listing(
         source_type=AdapterType.FRESHTEAM.value,
         external_job_id=external_id,
         title_original=title,
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=location,
-        location_normalized=_normalized_locations(location),
+        location_normalized=_shared_locations(location),
         published_at=None,
         published_at_raw=None,
         date_basis=DateBasis.UNKNOWN,
@@ -518,18 +524,6 @@ def _plain_text(value: str) -> str:
     parser.close()
     lines = [re.sub(r"\s+", " ", line).strip() for line in "".join(parser.parts).splitlines()]
     return "\n\n".join(line for line in lines if line)
-
-
-def _normalize_text(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip().casefold()
-
-
-def _normalized_locations(value: str) -> tuple[str, ...]:
-    return tuple(
-        _unique_strings(
-            _normalize_text(piece) for piece in re.split(r"[,|;/]", value) if piece.strip()
-        )
-    )
 
 
 def _unique_strings(values: Iterable[str]) -> list[str]:

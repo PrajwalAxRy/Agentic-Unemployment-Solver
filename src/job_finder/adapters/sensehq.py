@@ -23,6 +23,12 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_title,
+)
 
 DEFAULT_PAGE_SIZE = 100
 DEFAULT_MAX_PAGES = 100
@@ -419,9 +425,9 @@ def _normalize_job(source: CompanySource, subdomain: str, value: object) -> Norm
         source_type=AdapterType.SENSEHQ.value,
         external_job_id=external_id,
         title_original=title,
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=location,
-        location_normalized=_normalized_locations(location),
+        location_normalized=_shared_locations(location),
         published_at=created_on,
         published_at_raw=str(raw["created_on"]),
         date_basis=DateBasis.UNKNOWN,
@@ -467,18 +473,6 @@ def _plain_text(value: str) -> str:
     parser.close()
     lines = [re.sub(r"\s+", " ", line).strip() for line in "".join(parser.parts).splitlines()]
     return "\n\n".join(line for line in lines if line)
-
-
-def _normalize_text(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip().casefold()
-
-
-def _normalized_locations(value: str) -> tuple[str, ...]:
-    return tuple(
-        _unique_strings(
-            _normalize_text(piece) for piece in re.split(r"[,|;/]", value) if piece.strip()
-        )
-    )
 
 
 def _unique_strings(values: Iterable[str]) -> list[str]:

@@ -26,6 +26,14 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.normalization.jobs import (
+    normalize_source_locations as _shared_locations,
+)
+from job_finder.normalization.jobs import (
+    normalize_title,
+)
+
+_WHITESPACE_RUN = re.compile(r"\s+")
 
 GALAXEYE_ADAPTER_KEY = "galaxeye_zoho_rss"
 GALAXEYE_CAREERS_URL = "https://careers.galaxeye.space/jobs/Careers"
@@ -203,9 +211,9 @@ def _normalize_item(source: CompanySource, item: ElementTree.Element) -> Normali
         source_type=AdapterType.CUSTOM.value,
         external_job_id=guid,
         title_original=_normalize_whitespace(title),
-        title_normalized=_normalize_text(title),
+        title_normalized=normalize_title(title),
         location_original=location,
-        location_normalized=_normalized_locations(location),
+        location_normalized=_shared_locations(location),
         published_at=published_at,
         published_at_raw=published_raw,
         date_basis=DateBasis.PUBLISHED,
@@ -323,19 +331,6 @@ def _normalized_lines(parts: Iterable[str]) -> list[str]:
     return [normalized for line in text.splitlines() if (normalized := _normalize_whitespace(line))]
 
 
-def _normalized_locations(value: str) -> tuple[str, ...]:
-    normalized = _normalize_text(value)
-    return (normalized,)
-
-
-def _normalize_whitespace(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _normalize_text(value: str) -> str:
-    return _normalize_whitespace(value).casefold()
-
-
 def _request_outcome(error: HttpRequestError) -> AdapterOutcome:
     return (
         AdapterOutcome.BLOCKED
@@ -386,3 +381,12 @@ def _result(
         complete=complete,
         diagnostics=tuple(diagnostics),
     )
+
+
+def _normalize_whitespace(value: str) -> str:
+    """Collapse runs of whitespace, preserving case.
+
+    Distinct from the shared ``normalize_text``: several adapters need the original
+    casing for display fields such as titles and locations.
+    """
+    return _WHITESPACE_RUN.sub(" ", value).strip()

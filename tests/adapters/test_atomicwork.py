@@ -97,7 +97,8 @@ def test_listing_reconciles_sitemap_and_maps_path_identity_with_unknown_dates() 
     assert result.complete is True
     assert result.page_count == 2
     assert [job.external_job_id for job in result.jobs] == ["4080659008", "4062696008"]
-    assert result.jobs[0].title_normalized == "product manager - platform"
+    # Phase 1: shared normalize_title strips punctuation (to_change.md 1.2).
+    assert result.jobs[0].title_normalized == "product manager platform"
     assert result.jobs[1].location_normalized == ("bengaluru", "india")
     assert all(job.date_basis is DateBasis.UNKNOWN for job in result.jobs)
     assert all(job.published_at is None for job in result.jobs)

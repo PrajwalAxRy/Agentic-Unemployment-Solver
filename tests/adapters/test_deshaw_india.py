@@ -97,7 +97,8 @@ def test_public_regular_jobs_map_identity_locations_and_complete_descriptions() 
     assert result.page_count == 1
     assert [job.external_job_id for job in result.jobs] == ["7337", "2781"]
     first = result.jobs[0]
-    assert first.title_normalized == "lead, tech (python infra)"
+    # Phase 1: shared normalize_title strips punctuation (to_change.md 1.2).
+    assert first.title_normalized == "lead tech python infra"
     assert first.location_original == "Hyderabad, Bengaluru"
     assert first.location_normalized == ("hyderabad", "bengaluru")
     assert first.canonical_url == (
