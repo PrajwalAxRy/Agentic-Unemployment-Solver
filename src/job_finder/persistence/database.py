@@ -8,7 +8,7 @@ from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 
-CURRENT_SCHEMA_VERSION = 3
+CURRENT_SCHEMA_VERSION = 4
 
 _MIGRATIONS: dict[int, tuple[str, ...]] = {
     1: (
@@ -61,6 +61,47 @@ _MIGRATIONS: dict[int, tuple[str, ...]] = {
         )
         """,
         "CREATE INDEX scan_runs_started_at_idx ON scan_runs (started_at)",
+    ),
+    # Migration 4 -- job lifecycle and verdict columns (to_change.md 4.1, 4.2, 4.2a).
+    #
+    # Added as a numbered migration rather than by recreating the database, so the upgrade
+    # path stays versioned and replayable on another machine. The 4.3 wipe of the existing
+    # 859 rows is a separate, explicit step that runs *after* this lands: 9.10 requires the
+    # wipe to follow both the normalization fix and the schema columns, or the store gets
+    # re-keyed twice for no benefit.
+    #
+    # Everything is nullable or defaulted because SQLite cannot add a NOT NULL column
+    # without a default, and because existing rows genuinely have no lifecycle history --
+    # inventing one would be worse than admitting it is absent.
+    4: (
+        # 4.1: lifecycle state. Stored as current state, not history (4.2) -- with a
+        # 3-absence close rule any gap a job survives is <= 2 days, so the overwritten
+        # history is bounded and small.
+        "ALTER TABLE jobs ADD COLUMN status TEXT NOT NULL DEFAULT 'active' "
+        "CHECK (status IN ('active', 'closed'))",
+        "ALTER TABLE jobs ADD COLUMN closed_at TEXT",
+        # Needed as state, not history: tomorrow's run has to know today's count.
+        "ALTER TABLE jobs ADD COLUMN consecutive_absences INTEGER NOT NULL DEFAULT 0",
+        # The live-but-missing bucket runs on a different clock from plain absence (3.2).
+        "ALTER TABLE jobs ADD COLUMN probe_state TEXT",
+        "ALTER TABLE jobs ADD COLUMN live_but_missing_days INTEGER NOT NULL DEFAULT 0",
+        # Guard 3 (3.3): a job needs >= 2 confirmed sightings before it may expire.
+        "ALTER TABLE jobs ADD COLUMN sighting_count INTEGER NOT NULL DEFAULT 0",
+        # 3.6: the feed sorts on when a job first reached a qualifying verdict, NOT on
+        # first sighting. This is load-bearing for the recovered Google rows -- they carry
+        # old first_seen_at values, so keying the feed on first sighting would mean the
+        # ~78 rows stranded by the normalization bug never appear as new.
+        "ALTER TABLE jobs ADD COLUMN verdict TEXT",
+        "ALTER TABLE jobs ADD COLUMN verdict_at TEXT",
+        # 3.5: store which basis the recency window used. Cannot be added retroactively,
+        # and first_seen_at is not trustworthy until daily runs have been clean for a while.
+        "ALTER TABLE jobs ADD COLUMN date_basis TEXT",
+        # 4.1: the seniority prompt already returns this ("3+ years", "PhD + 4"). The model
+        # is paying to produce it either way, and showing it tells you at a glance whether
+        # an uncertain row is worth a click.
+        "ALTER TABLE jobs ADD COLUMN required_experience TEXT",
+        "CREATE INDEX jobs_status_idx ON jobs (status)",
+        "CREATE INDEX jobs_verdict_at_idx ON jobs (verdict_at)",
     ),
 }
 
