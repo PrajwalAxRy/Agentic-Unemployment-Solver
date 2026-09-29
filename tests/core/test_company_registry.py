@@ -72,6 +72,17 @@ def test_duplicate_company_ids_fail(tmp_path: Path) -> None:
         load_company_registry(write_registry(tmp_path, payload))
 
 
+def test_source_verification_cannot_postdate_registry_generation(tmp_path: Path) -> None:
+    payload = load_raw_registry()
+    sources = payload["sources"]
+    assert isinstance(sources, list)
+    assert isinstance(sources[0], dict)
+    sources[0]["last_verified_at"] = "2026-09-20T00:00:01+05:30"
+
+    with pytest.raises(ValueError, match="later than registry.generated_at: example"):
+        load_company_registry(write_registry(tmp_path, payload))
+
+
 def test_unknown_adapter_name_fails(tmp_path: Path) -> None:
     payload = load_raw_registry()
     sources = payload["sources"]

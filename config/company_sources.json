@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-c20",
-  "generated_at": "2026-09-29T18:45:00+05:30",
+  "registry_version": "0.3.0-phase12-c21",
+  "generated_at": "2026-09-29T07:06:15+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -398,7 +398,7 @@
       "notes": "Phase 12 browser discovery found Moloco's official careers page linked to its public Greenhouse board; the complete API returned 39 jobs in the pre-activation gate.",
       "source_rank": 12,
       "priority": "P1",
-      "last_verified_at": "2026-09-29T09:20:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,
@@ -432,7 +432,7 @@
       "notes": "Phase 12 browser discovery proved Postman's official open-positions page links to this Workday board; the complete API and three representative details passed live validation.",
       "source_rank": 13,
       "priority": "P1",
-      "last_verified_at": "2026-09-29T09:20:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,
@@ -646,11 +646,11 @@
         "https://careers.microsoft.com/v2/global/en/locations/india.html?trk=public_post_main-feed-card_reshare_feed-article-content"
       ],
       "low_confidence_approved": false,
-      "exception_reason": null,
-      "notes": "Phase 12 followed the official Adobe site's Workday application-status link to its public external board; first-attempt validation enumerated 557 jobs across 28 pages and retrieved three representative details.",
+      "exception_reason": "Phase 12: the custom Microsoft adapter passed an isolated complete listing and detail gate, but repeated production validation encountered the upstream host-wide rolling quota. Keep disabled until a clean post-cooldown full-source gate passes.",
+      "notes": "Phase 12 implemented deterministic replay of Microsoft's public careers API. An isolated gate returned 233 jobs across 24 pages and three details; later full-source attempts failed closed when the public host enforced its rolling quota.",
       "source_rank": 20,
       "priority": "P1",
-      "last_verified_at": "2026-09-29T18:30:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,
@@ -684,7 +684,7 @@
       "notes": "Phase 12 browser discovery captured Oracle's current public Candidate Experience host and site number; first-attempt count-reconciled validation enumerated 2,204 jobs across 12 pages and retrieved three representative details.",
       "source_rank": 21,
       "priority": "P1",
-      "last_verified_at": "2026-09-29T18:30:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,
@@ -809,7 +809,7 @@
       "notes": "Phase 12 browser discovery tied InMobi's official openings to the public InMobi Greenhouse board; its complete API returned 72 jobs in the pre-activation gate.",
       "source_rank": 25,
       "priority": "P1",
-      "last_verified_at": "2026-09-29T09:20:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,
@@ -979,32 +979,33 @@
       "schema_version": 1,
       "company_id": "confluent",
       "company_name": "Confluent",
-      "status": "proposed",
-      "careers_url": "https://careers.confluent.io/jobs/job/fd9f602f-9741-4360-946d-430f1515ebf9",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://jobs.ashbyhq.com/Confluent",
+      "adapter_type": "ashby",
       "adapter_parameters": {
-        "search_url": "https://careers.confluent.io/jobs/job/fd9f602f-9741-4360-946d-430f1515ebf9"
+        "board_name": "Confluent"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "publishedAt",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Ashby public job-board publication timestamp."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "low",
+      "detail_strategy": "listing_payload",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
-        "https://careers.confluent.io/jobs/job/fd9f602f-9741-4360-946d-430f1515ebf9",
-        "https://careers.confluent.io/jobs/job/fd9f602f-9741-4360-946d-430f1515ebf9"
+        "https://jobs.ashbyhq.com/Confluent",
+        "https://api.ashbyhq.com/posting-api/job-board/Confluent",
+        "https://jobs.ashbyhq.com/Confluent/a93ac05b-0ba3-41a9-aa42-a6258c5c5584/"
       ],
       "low_confidence_approved": false,
-      "exception_reason": "HTTP 429",
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "exception_reason": null,
+      "notes": "Phase 12 Package C cohort 12 replaced the stale rate-limited careers detail with Confluent's current public Ashby board. First-attempt validation returned 18 complete jobs, one India role, and substantial descriptions in all three distributed samples.",
       "source_rank": 31,
       "priority": "P1",
-      "last_verified_at": null
+      "last_verified_at": "2026-09-29T07:06:15+05:30"
     },
     {
       "schema_version": 1,
@@ -1601,7 +1602,7 @@
       "notes": "TrueFoundry's official careers page links its CareerPuck board; CareerPuck identifies Greenhouse as the ATS and the direct complete Greenhouse API returned the same 23 public jobs.",
       "source_rank": 49,
       "priority": "P1",
-      "last_verified_at": "2026-09-29T09:40:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,
@@ -1895,7 +1896,7 @@
       "notes": "Phase 12 browser rediscovery replaced the stale Japan redirect with Salesforce's official public Workday board; the complete API and representative details passed live validation.",
       "source_rank": 58,
       "priority": "P1",
-      "last_verified_at": "2026-09-29T09:20:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,
@@ -2030,7 +2031,7 @@
       "notes": "Phase 12 browser discovery and cookie-free replay proved the public Jibe API, company hierarchy filter, exact totals, bounded pagination, inline descriptions, canonical URLs, and publication timestamps.",
       "source_rank": 62,
       "priority": "P1",
-      "last_verified_at": "2026-09-29T10:15:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,
@@ -2330,7 +2331,7 @@
       "notes": "Phase 12 browser discovery and direct replay proved the official 30-row inventory, 29 unique jobs after one valid multi-location collapse, and representative full Gem details.",
       "source_rank": 71,
       "priority": "P1",
-      "last_verified_at": "2026-09-29T17:55:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,
@@ -2395,7 +2396,7 @@
       "notes": "Phase 12 browser discovery proved Eightfold AI's shared-host domain parameter and public PCSx listing/detail endpoints; the complete 59-job live collection and representative detail gate passed on 2026-09-29.",
       "source_rank": 73,
       "priority": "P1",
-      "last_verified_at": "2026-09-29T15:00:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,
@@ -2882,7 +2883,7 @@
       "notes": "Phase 12 browser discovery proved Quadeye's official jobs page is rendered from its same-origin public Zoho Recruit proxy; all active published records include stable IDs, locations, descriptions, and browser-matching detail routes.",
       "source_rank": 88,
       "priority": "P1",
-      "last_verified_at": "2026-09-29T11:15:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,
@@ -3109,7 +3110,7 @@
       "notes": "Phase 12 browser discovery and independent replay proved Navi's official count-reconciled public API, stable UUIDs, TurboHire detail URLs, locations, inline descriptions, and publication timestamps.",
       "source_rank": 95,
       "priority": "P1",
-      "last_verified_at": "2026-09-29T10:45:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,
@@ -6539,7 +6540,7 @@
       "notes": "Phase 12 browser discovery captured the official branded site's public Oracle Cloud host and site number; first-attempt validation enumerated 507 jobs across three pages and retrieved three representative details.",
       "source_rank": 203,
       "priority": "P3",
-      "last_verified_at": "2026-09-29T18:45:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,
@@ -7071,7 +7072,7 @@
       "notes": "Phase 12 official-site discovery proved the linked S&P Global Workday tenant; first-attempt validation enumerated 270 jobs across 14 pages and retrieved first, middle, and final details.",
       "source_rank": 219,
       "priority": "P3",
-      "last_verified_at": "2026-09-29T18:05:00+05:30"
+      "last_verified_at": "2026-09-29T06:21:20+05:30"
     },
     {
       "schema_version": 1,

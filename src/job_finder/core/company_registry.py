@@ -82,6 +82,16 @@ def load_company_registry(path: Path) -> CompanySourceRegistry:
         _entry_from_mapping(_as_mapping(item, f"registry.sources[{index}]"))
         for index, item in enumerate(sources_raw)
     )
+    verified_after_generation = [
+        entry.source.company_id
+        for entry in entries
+        if entry.last_verified_at is not None and entry.last_verified_at > generated_at
+    ]
+    if verified_after_generation:
+        raise ValueError(
+            "registry source.last_verified_at cannot be later than registry.generated_at: "
+            + ", ".join(verified_after_generation)
+        )
     company_ids = [entry.source.company_id for entry in entries]
     if len(company_ids) != len(set(company_ids)):
         raise ValueError("company registry contains duplicate company IDs")

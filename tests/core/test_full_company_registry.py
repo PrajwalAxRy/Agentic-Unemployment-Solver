@@ -12,10 +12,10 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 149
-    assert audit.by_status == {"enabled": 149, "proposed": 179, "unsupported": 2}
+    assert audit.enabled_count == 150
+    assert audit.by_status == {"enabled": 150, "proposed": 178, "unsupported": 2}
     assert audit.by_adapter == {
-        "ashby": 27,
+        "ashby": 28,
         "custom": 22,
         "darwinbox": 4,
         "eightfold": 1,
@@ -26,7 +26,7 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "oracle_cloud": 5,
         "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 175,
+        "search_only": 174,
         "sensehq": 1,
         "smartrecruiters": 5,
         "successfactors": 2,
@@ -34,6 +34,23 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "unresolved": 4,
         "workday": 25,
     }
+
+
+def test_phase12_cohort12_activates_confluent_on_current_ashby_board() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    source = next(
+        entry.source for entry in registry.entries if entry.source.company_id == "confluent"
+    )
+
+    assert source.enabled is True
+    assert source.status.value == "enabled"
+    assert source.careers_url == "https://jobs.ashbyhq.com/Confluent"
+    assert source.adapter_type.value == "ashby"
+    assert source.adapter_parameters == {"board_name": "Confluent"}
+    assert source.identity_strategy.value == "external_id"
+    assert source.detail_strategy.value == "listing_payload"
+    assert source.date_strategy.field_name == "publishedAt"
+    assert source.date_strategy.verified_as_publication is True
 
 
 def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> None:
@@ -110,7 +127,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-c20"
+    assert registry.registry_version == "0.3.0-phase12-c21"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
