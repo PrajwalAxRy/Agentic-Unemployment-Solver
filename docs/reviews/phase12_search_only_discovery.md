@@ -27,11 +27,13 @@ Intuit, Twilio, Meesho, PhonePe, Swiggy, and Tower Research Capital while Roku f
 cohort 7 activated Salesforce, Moloco, InMobi, Postman, TrueFoundry, Booking.com, Navi, and
 Quadeye; cohort 8 activated Eightfold AI through its public PCSx surface; and cohort 9 activated
 Index Exchange from its official table and public Gem details plus S&P Global through its official
-Workday tenant. See
+Workday tenant; and cohort 10 activated Adobe and Oracle / OCI through their official Workday and
+Oracle Candidate Experience boards. See
 `phase12_package_c_cohort2_validation.md`, `phase12_package_c_cohort3_validation.md`,
 `phase12_package_c_cohort4_validation.md`, `phase12_package_c_cohort5_validation.md`,
 `phase12_package_c_cohort6_validation.md`, `phase12_package_c_cohort7_validation.md`,
-`phase12_package_c_cohort8_validation.md`, and `phase12_package_c_cohort9_validation.md`.
+`phase12_package_c_cohort8_validation.md`, `phase12_package_c_cohort9_validation.md`, and
+`phase12_package_c_cohort10_validation.md`.
 
 ## Frozen baseline and accounting
 

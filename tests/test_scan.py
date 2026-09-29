@@ -359,7 +359,7 @@ def test_complete_registry_accounting_gives_every_disabled_company_a_reason() ->
     accounting = _company_accounting(load_company_registry(ROOT / "config/company_sources.json"))
 
     assert len(accounting) == 330
-    assert sum(not item.enabled for item in accounting) == 184
+    assert sum(not item.enabled for item in accounting) == 182
     assert all(item.enabled or item.exception_reason for item in accounting)
 
 

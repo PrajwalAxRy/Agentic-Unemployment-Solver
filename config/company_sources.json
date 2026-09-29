@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-c18",
-  "generated_at": "2026-09-29T18:05:00+05:30",
+  "registry_version": "0.3.0-phase12-c19",
+  "generated_at": "2026-09-29T18:30:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -112,26 +112,28 @@
       "schema_version": 1,
       "company_id": "adobe",
       "company_name": "Adobe",
-      "status": "proposed",
-      "careers_url": "https://careers.adobe.com/us/en",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://adobe.wd5.myworkdayjobs.com/external_experienced",
+      "adapter_type": "workday",
       "adapter_parameters": {
-        "search_url": "https://careers.adobe.com/us/en"
+        "host": "adobe.wd5.myworkdayjobs.com",
+        "tenant": "adobe",
+        "site": "external_experienced"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
+        "field_name": "postedOn",
         "basis": "unknown",
         "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "notes": "Workday relative postedOn evidence is retained but remains unverified."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://careers.adobe.com/us/en",
-        "https://careers.adobe.com/us/en",
-        "https://careers.adobe.com/us/en"
+        "https://adobe.wd5.myworkdayjobs.com/en-US/external_experienced/login",
+        "https://adobe.wd5.myworkdayjobs.com/wday/cxs/adobe/external_experienced/jobs"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
@@ -645,41 +647,44 @@
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 followed the official Adobe site's Workday application-status link to its public external board; first-attempt validation enumerated 557 jobs across 28 pages and retrieved three representative details.",
       "source_rank": 20,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T18:30:00+05:30"
     },
     {
       "schema_version": 1,
       "company_id": "oracle-oci",
       "company_name": "Oracle / OCI",
-      "status": "proposed",
-      "careers_url": "https://www.oracle.com/in/careers/opportunities/oracle-cloud-infrastructure/",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/jobs",
+      "adapter_type": "oracle_cloud",
       "adapter_parameters": {
-        "search_url": "https://www.oracle.com/in/careers/opportunities/oracle-cloud-infrastructure/"
+        "host": "eeho.fa.us2.oraclecloud.com",
+        "site_number": "CX_45001"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "PostedDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Oracle documents PostedDate as the public requisition posting date."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://www.oracle.com/in/careers/opportunities/oracle-cloud-infrastructure/",
-        "https://www.oracle.com/in/careers/opportunities/oracle-cloud-infrastructure/"
+        "https://careers.oracle.com/en/sites/jobsearch/jobs?location=India&locationId=300000000106947",
+        "https://eeho.fa.us2.oraclecloud.com/hcmRestApi/CandidateExperience/en/siteSettings/CX_45001",
+        "https://eeho.fa.us2.oraclecloud.com/hcmRestApi/resources/latest/recruitingCEJobRequisitions"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 browser discovery captured Oracle's current public Candidate Experience host and site number; first-attempt count-reconciled validation enumerated 2,204 jobs across 12 pages and retrieved three representative details.",
       "source_rank": 21,
       "priority": "P1",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T18:30:00+05:30"
     },
     {
       "schema_version": 1,

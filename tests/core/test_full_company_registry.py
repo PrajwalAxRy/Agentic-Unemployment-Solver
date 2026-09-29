@@ -12,8 +12,8 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 146
-    assert audit.by_status == {"enabled": 146, "proposed": 182, "unsupported": 2}
+    assert audit.enabled_count == 148
+    assert audit.by_status == {"enabled": 148, "proposed": 180, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 27,
         "custom": 22,
@@ -23,16 +23,16 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "greenhouse": 39,
         "jobvite": 1,
         "lever": 13,
-        "oracle_cloud": 3,
+        "oracle_cloud": 4,
         "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 178,
+        "search_only": 176,
         "sensehq": 1,
         "smartrecruiters": 5,
         "successfactors": 2,
         "unsupported": 2,
         "unresolved": 4,
-        "workday": 24,
+        "workday": 25,
     }
 
 
@@ -110,7 +110,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-c18"
+    assert registry.registry_version == "0.3.0-phase12-c19"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -482,6 +482,37 @@ def test_phase12_package_c_ninth_cohort_activates_index_exchange_inventory() -> 
     assert sp_global.identity_strategy.value == "external_id"
     assert sp_global.date_strategy.field_name == "postedOn"
     assert sp_global.date_strategy.basis.value == "unknown"
+
+
+def test_phase12_package_c_tenth_cohort_activates_adobe_and_oracle() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    sources = {entry.source.company_id: entry.source for entry in registry.entries}
+
+    adobe = sources["adobe"]
+    assert adobe.enabled is True
+    assert adobe.adapter_type.value == "workday"
+    assert adobe.careers_url == "https://adobe.wd5.myworkdayjobs.com/external_experienced"
+    assert adobe.adapter_parameters == {
+        "host": "adobe.wd5.myworkdayjobs.com",
+        "tenant": "adobe",
+        "site": "external_experienced",
+    }
+    assert adobe.date_strategy.field_name == "postedOn"
+    assert adobe.date_strategy.basis.value == "unknown"
+
+    oracle = sources["oracle-oci"]
+    assert oracle.enabled is True
+    assert oracle.adapter_type.value == "oracle_cloud"
+    assert oracle.careers_url == (
+        "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/jobs"
+    )
+    assert oracle.adapter_parameters == {
+        "host": "eeho.fa.us2.oraclecloud.com",
+        "site_number": "CX_45001",
+    }
+    assert oracle.date_strategy.field_name == "PostedDate"
+    assert oracle.date_strategy.basis.value == "published"
+    assert oracle.date_strategy.verified_as_publication is True
 
 
 def test_phase12_package_b_corrects_payu_to_its_official_successfactors_board() -> None:

@@ -554,3 +554,15 @@ def test_phase12_package_c_cohort9_records_index_exchange_activation() -> None:
     assert "No API credential" in review
     assert "Index Exchange is enabled" in review
     assert "S&P Global is enabled" in review
+
+
+def test_phase12_package_c_cohort10_records_adobe_and_oracle_activation() -> None:
+    review = Path("docs/reviews/phase12_package_c_cohort10_validation.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "557 unique jobs across 28" in review
+    assert "2,204 unique jobs across 12" in review
+    assert "Two short nonterminal pages" in review
+    assert "Browser automation was discovery" in review
+    assert "Adobe and Oracle / OCI are enabled" in review
