@@ -180,7 +180,7 @@ class PageUpXmlFeedAdapter:
 
         jobs: list[NormalizedJob] = []
         diagnostics: list[AdapterDiagnostic] = []
-        seen_ids: set[str] = set()
+        jobs_by_id: dict[str, NormalizedJob] = {}
         for job_index, element in enumerate(root.findall("job")):
             try:
                 job = _normalize_job(
@@ -211,17 +211,28 @@ class PageUpXmlFeedAdapter:
             external_id = job.external_job_id
             if external_id is None:
                 raise AssertionError("PageUp normalized jobs require an external ID")
-            if external_id in seen_ids:
+            existing = jobs_by_id.get(external_id)
+            if existing == job:
+                diagnostics.append(
+                    _diagnostic(
+                        "duplicate_job_id_collapsed",
+                        DiagnosticSeverity.WARNING,
+                        "PageUp XML feed repeated an identical job row; duplicate collapsed.",
+                        job_index=job_index,
+                    )
+                )
+                continue
+            if existing is not None:
                 diagnostics.append(
                     _diagnostic(
                         "duplicate_job_id",
                         DiagnosticSeverity.ERROR,
-                        "PageUp XML feed returned a duplicate API job ID.",
+                        "PageUp XML feed reused an API job ID for conflicting job data.",
                         job_index=job_index,
                     )
                 )
                 return _result(source, AdapterOutcome.SUSPICIOUS, jobs, 1, diagnostics)
-            seen_ids.add(external_id)
+            jobs_by_id[external_id] = job
             jobs.append(job)
 
         return _result(

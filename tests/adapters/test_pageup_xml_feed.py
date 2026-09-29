@@ -22,6 +22,7 @@ from job_finder.core.source_contracts import (
     Confidence,
     DateStrategy,
     DetailStrategy,
+    DiagnosticSeverity,
     IdentityStrategy,
     SourceStatus,
 )
@@ -146,6 +147,22 @@ def test_empty_malformed_duplicate_and_unsafe_xml_fail_closed() -> None:
     unsafe_result = unsafe.list_jobs(source())
     assert unsafe_result.outcome is AdapterOutcome.FAILED
     assert unsafe_result.diagnostics[-1].category == "unsafe_xml"
+
+
+def test_identical_duplicate_row_is_collapsed_with_visible_warning() -> None:
+    feed = (FIXTURES / "feed.xml").read_text(encoding="utf-8")
+    first_start = feed.index("  <job>")
+    first_end = feed.index("  </job>", first_start) + len("  </job>\n")
+    duplicate_feed = feed[:first_end] + feed[first_start:first_end] + feed[first_end:]
+    adapter, _ = adapter_for([response(duplicate_feed.encode())])
+
+    result = adapter.list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert result.complete is True
+    assert len(result.jobs) == 3
+    assert result.diagnostics[-1].category == "duplicate_job_id_collapsed"
+    assert result.diagnostics[-1].severity is DiagnosticSeverity.WARNING
 
 
 def test_invalid_source_configuration_is_rejected_before_network() -> None:
