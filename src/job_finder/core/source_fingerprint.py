@@ -10,6 +10,7 @@ from collections.abc import Mapping
 from dataclasses import asdict, dataclass
 from urllib.parse import parse_qs, unquote, urlsplit
 
+from job_finder.core.public_urls import PublicUrlRedirectHandler, validate_public_http_url
 from job_finder.core.search_discovery import infer_adapter
 from job_finder.core.source_probe import MAX_RESPONSE_BYTES, USER_AGENT
 
@@ -50,6 +51,10 @@ def fingerprint_public_page(
     timeout_seconds: float = 8.0,
 ) -> FingerprintProbeResult:
     """Fetch one public page and return only sanitized ATS references."""
+    try:
+        validate_public_http_url(url, "fingerprint URL")
+    except ValueError:
+        return _failure(company_id, url, None, None, "URL is not public HTTP or HTTPS")
     request = urllib.request.Request(
         url,
         headers={
@@ -59,12 +64,15 @@ def fingerprint_public_page(
         method="GET",
     )
     try:
-        with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
+        opener = urllib.request.build_opener(PublicUrlRedirectHandler())
+        with opener.open(request, timeout=timeout_seconds) as response:
             status_code = response.status
             final_url = response.geturl()
             body = response.read(MAX_RESPONSE_BYTES + 1)
     except urllib.error.HTTPError as error:
         return _failure(company_id, url, error.geturl(), error.code, f"HTTP {error.code}")
+    except ValueError:
+        return _failure(company_id, url, None, None, "redirect target is not public")
     except (TimeoutError, urllib.error.URLError) as error:
         return _failure(company_id, url, None, None, _safe_error(error))
     if len(body) > MAX_RESPONSE_BYTES:

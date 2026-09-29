@@ -3,6 +3,7 @@
 from job_finder.core.source_fingerprint import (
     apply_fingerprint_results,
     fingerprint_html,
+    fingerprint_public_page,
 )
 
 
@@ -114,3 +115,11 @@ def test_ambiguous_fingerprints_remain_search_only() -> None:
     assert isinstance(source, list)
     assert source[0]["adapter_type"] == "search_only"
     assert "Multiple hosted ATS" in source[0]["notes"]
+
+
+def test_fingerprint_probe_rejects_non_public_target_before_request() -> None:
+    result = fingerprint_public_page("example", "http://localhost/internal")
+
+    assert result.outcome == "failed"
+    assert result.final_url is None
+    assert "localhost" not in result.detail

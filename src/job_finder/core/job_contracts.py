@@ -6,7 +6,8 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from enum import StrEnum
-from urllib.parse import urlsplit
+
+from job_finder.core.public_urls import validate_public_http_url
 
 SUPPORTED_NORMALIZED_JOB_SCHEMA_VERSION = 1
 
@@ -59,11 +60,7 @@ class NormalizedJob:
             not location.strip() for location in self.location_normalized
         ):
             raise ValueError("normalized job location_normalized must contain non-empty values")
-        parsed_url = urlsplit(self.canonical_url)
-        if parsed_url.scheme not in {"http", "https"} or not parsed_url.hostname:
-            raise ValueError("normalized job canonical_url must be an absolute HTTP or HTTPS URL")
-        if parsed_url.username is not None or parsed_url.password is not None:
-            raise ValueError("normalized job canonical_url must not contain credentials")
+        validate_public_http_url(self.canonical_url, "normalized job canonical_url")
         if isinstance(self.published_at, datetime) and self.published_at.tzinfo is None:
             raise ValueError("normalized job published_at datetime must be timezone-aware")
         if self.description_hash is not None and self.description is None:

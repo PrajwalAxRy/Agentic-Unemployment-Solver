@@ -5,9 +5,9 @@ from __future__ import annotations
 from collections.abc import Mapping
 from dataclasses import dataclass
 from enum import StrEnum
-from urllib.parse import urlsplit
 
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
+from job_finder.core.public_urls import validate_public_http_url
 
 SUPPORTED_COMPANY_SOURCE_SCHEMA_VERSION = 1
 SUPPORTED_ADAPTER_RESULT_SCHEMA_VERSION = 1
@@ -335,11 +335,7 @@ def company_source_from_mapping(raw: Mapping[str, object]) -> CompanySource:
 
 
 def _validate_public_url(value: str, path: str) -> None:
-    parsed = urlsplit(value)
-    if parsed.scheme not in {"http", "https"} or not parsed.hostname:
-        raise ValueError(f"{path} must be an absolute HTTP or HTTPS URL")
-    if parsed.username is not None or parsed.password is not None:
-        raise ValueError(f"{path} must not contain credentials")
+    validate_public_http_url(value, path)
 
 
 def _required_string(raw: Mapping[str, object], key: str) -> str:

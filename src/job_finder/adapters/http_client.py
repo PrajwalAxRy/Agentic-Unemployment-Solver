@@ -11,9 +11,9 @@ from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from enum import StrEnum
 from typing import Protocol
-from urllib.parse import urlsplit
 
 from job_finder.core.access_detection import is_access_block_html
+from job_finder.core.public_urls import PublicUrlRedirectHandler, validate_public_http_url
 
 USER_AGENT = "job-finder/0.1 (manual public job-posting discovery)"
 DEFAULT_MAX_RESPONSE_BYTES = 20_000_000
@@ -357,7 +357,7 @@ class UrllibTransport:
             ) from error
 
 
-class _TrackingRedirectHandler(urllib.request.HTTPRedirectHandler):
+class _TrackingRedirectHandler(PublicUrlRedirectHandler):
     def __init__(self, max_redirects: int) -> None:
         super().__init__()
         self.max_redirects = max_redirects
@@ -381,15 +381,21 @@ class _TrackingRedirectHandler(urllib.request.HTTPRedirectHandler):
                 headers,
                 fp,
             )
-        return super().redirect_request(req, fp, code, msg, headers, newurl)
+        try:
+            _validate_public_url(newurl)
+        except ValueError as error:
+            raise HttpRequestError(
+                HttpFailureCategory.ACCESS_BLOCK,
+                "redirect target is not a public HTTP URL",
+                status_code=code,
+            ) from error
+        return super().redirect_request(  # type: ignore[no-untyped-call]
+            req, fp, code, msg, headers, newurl
+        )
 
 
 def _validate_public_url(url: str) -> None:
-    parsed = urlsplit(url)
-    if parsed.scheme not in {"http", "https"} or not parsed.hostname:
-        raise ValueError("request URL must be absolute HTTP or HTTPS")
-    if parsed.username is not None or parsed.password is not None:
-        raise ValueError("request URL must not contain credentials")
+    validate_public_http_url(url, "request URL")
 
 
 def _content_type_matches(actual: str, accepted: str) -> bool:

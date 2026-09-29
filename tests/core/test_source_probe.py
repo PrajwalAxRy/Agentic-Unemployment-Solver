@@ -1,6 +1,6 @@
 """Tests for sanitized source-probe classification."""
 
-from job_finder.core.source_probe import ProbeOutcome, classify_probe_body
+from job_finder.core.source_probe import ProbeOutcome, classify_probe_body, probe_public_url
 
 
 def classify(body: bytes, *, expect_json: bool, content_type: str = "text/html"):
@@ -60,3 +60,14 @@ def test_public_html_title_is_sanitized() -> None:
 
     assert result.outcome is ProbeOutcome.SUCCESS
     assert result.page_title == "Example Careers"
+
+
+def test_probe_rejects_non_public_target_before_request() -> None:
+    result = probe_public_url(
+        "http://127.0.0.1/internal",
+        expect_json_jobs=False,
+        retry_count=0,
+    )
+
+    assert result.outcome is ProbeOutcome.ACCESS_BLOCK
+    assert "127.0.0.1" not in result.detail

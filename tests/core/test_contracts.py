@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from dataclasses import replace
 from datetime import UTC, datetime
 
 import pytest
@@ -87,7 +88,13 @@ def test_adapter_specific_parameters_are_required() -> None:
 
 @pytest.mark.parametrize(
     "careers_url",
-    ["careers.example.com/jobs", "file:///tmp/jobs", "https://user:secret@example.com/jobs"],
+    [
+        "careers.example.com/jobs",
+        "file:///tmp/jobs",
+        "https://user:secret@example.com/jobs",
+        "http://localhost/jobs",
+        "http://192.168.1.2/jobs",
+    ],
 )
 def test_invalid_or_credential_bearing_source_urls_fail(careers_url: str) -> None:
     raw = valid_company_source()
@@ -148,6 +155,15 @@ def test_normalized_job_rejects_missing_required_fields(
 
     with pytest.raises(ValueError):
         NormalizedJob(**values)  # type: ignore[arg-type]
+
+
+@pytest.mark.parametrize(
+    "canonical_url",
+    ["http://localhost/jobs/123", "http://10.0.0.2/jobs/123", "http://[::1]/jobs/123"],
+)
+def test_normalized_job_rejects_non_public_canonical_urls(canonical_url: str) -> None:
+    with pytest.raises(ValueError, match="canonical_url"):
+        replace(normalized_job(), canonical_url=canonical_url)
 
 
 def test_valid_empty_board_differs_from_parse_failure() -> None:

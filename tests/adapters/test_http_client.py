@@ -257,6 +257,11 @@ def test_visible_access_block_html_is_classified_without_logging_its_body() -> N
         "file:///tmp/jobs.json",
         "https://user:password@jobs.example.com/api",
         "jobs.example.com/api",
+        "http://localhost/jobs",
+        "http://127.0.0.1/jobs",
+        "http://10.20.30.40/jobs",
+        "http://169.254.169.254/latest/meta-data",
+        "http://[::1]/jobs",
     ],
 )
 def test_non_public_or_credential_bearing_urls_are_rejected(url: str) -> None:
@@ -269,6 +274,41 @@ def test_non_public_or_credential_bearing_urls_are_rejected(url: str) -> None:
         )
 
     assert not transport.calls
+
+
+def test_redirect_to_non_public_network_target_is_blocked(monkeypatch: pytest.MonkeyPatch) -> None:
+    class RedirectingOpener:
+        def __init__(self, handler: urllib.request.HTTPRedirectHandler) -> None:
+            self.handler = handler
+
+        def open(self, request: urllib.request.Request, *, timeout: float) -> None:
+            del timeout
+            self.handler.redirect_request(
+                request,
+                None,
+                302,
+                "Found",
+                {},
+                "http://127.0.0.1/internal",
+            )
+
+    monkeypatch.setattr(
+        urllib.request,
+        "build_opener",
+        lambda handler: RedirectingOpener(handler),
+    )
+
+    with pytest.raises(HttpRequestError) as raised:
+        UrllibTransport().get(
+            "https://jobs.example.com/api",
+            headers={"User-Agent": "job-finder/test"},
+            timeout_seconds=1,
+            max_response_bytes=100,
+            max_redirects=1,
+        )
+
+    assert raised.value.category is HttpFailureCategory.ACCESS_BLOCK
+    assert "127.0.0.1" not in str(raised.value)
 
 
 def test_remote_disconnect_is_a_retryable_sanitized_network_error(

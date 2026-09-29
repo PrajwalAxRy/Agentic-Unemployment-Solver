@@ -11,6 +11,7 @@ from enum import StrEnum
 from typing import Any
 
 from job_finder.core.access_detection import extract_html_title, is_access_block_html
+from job_finder.core.public_urls import PublicUrlRedirectHandler, validate_public_http_url
 
 MAX_RESPONSE_BYTES = 2_000_000
 USER_AGENT = "job-finder-source-discovery/0.1 (manual public job-source verification)"
@@ -67,6 +68,10 @@ def probe_public_url(
 
 
 def _probe_once(url: str, *, expect_json_jobs: bool, timeout_seconds: float) -> ProbeResult:
+    try:
+        validate_public_http_url(url, "probe URL")
+    except ValueError:
+        return _failure(url, ProbeOutcome.ACCESS_BLOCK, "probe URL is not public HTTP or HTTPS")
     request = urllib.request.Request(
         url,
         headers={
@@ -76,7 +81,8 @@ def _probe_once(url: str, *, expect_json_jobs: bool, timeout_seconds: float) -> 
         method="GET",
     )
     try:
-        with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
+        opener = urllib.request.build_opener(PublicUrlRedirectHandler())
+        with opener.open(request, timeout=timeout_seconds) as response:
             status_code = response.status
             final_url = response.geturl()
             content_type = response.headers.get_content_type()
@@ -93,6 +99,8 @@ def _probe_once(url: str, *, expect_json_jobs: bool, timeout_seconds: float) -> 
             job_count=None,
             detail=f"HTTP {error.code}",
         )
+    except ValueError:
+        return _failure(url, ProbeOutcome.ACCESS_BLOCK, "redirect target is not public")
     except TimeoutError:
         return _failure(url, ProbeOutcome.TIMEOUT, "request timed out")
     except urllib.error.URLError as error:
