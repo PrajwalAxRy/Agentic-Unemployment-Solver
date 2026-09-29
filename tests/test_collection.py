@@ -176,7 +176,11 @@ def test_filter_report_reconciles_every_reduction_stage() -> None:
         "explicit_pass": 2,
         "reject": 1,
     }
-    assert report.location_counts == {"pass": 2, "review": 1}
+    # Location now runs before title (to_change.md 2.1), so every recency-eligible row
+    # gets a location decision -- including "Product Manager, AI", whose location was
+    # previously never evaluated because the title filter rejected it first. The extra
+    # "pass" is improved reporting, not a behaviour change: final_counts is unchanged.
+    assert report.location_counts == {"pass": 3, "review": 1}
     assert report.final_counts == {"rejected": 1, "retained": 2, "review": 1}
     assert report.companies[0].retained_count == 2
     assert {row.final_decision for row in report.listings} == {

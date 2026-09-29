@@ -355,69 +355,79 @@ def collect_listings(
             else:
                 recency_excluded_count += 1
                 continue
-            role = filter_role(job.title_original, profile=profile)
+            # Location runs before title (to_change.md 2.1). It is far more selective and
+            # far less ambiguous: in the 2026-09-29 scan it removes ~19 Bank of America
+            # US/10+yr rows -- about 25% of the 128-row review queue -- before any title
+            # judgment happens. Running the cheaper, sharper filter first also means the
+            # title stage never sees rows that were never eligible.
             filtered_job = job
             location: LocationFilterResult | None = None
-            if role.decision is not RoleDecision.REJECT:
-                if _needs_workday_location_detail(job):
-                    detail_fetch_count += 1
-                    try:
-                        filtered_job = _fetch_detail(job, item.source, adapters, profile)
-                    except (HttpRequestError, ValueError):
-                        detail_failure_count += 1
-                        location = LocationFilterResult(
-                            decision=LocationDecision.REVIEW,
-                            reason_code="detail_location_unavailable",
-                            reason="required public detail location could not be retrieved",
-                        )
-                if location is None:
-                    location = filter_job_location(filtered_job, policy=profile.location)
+            if _needs_workday_location_detail(job):
+                detail_fetch_count += 1
+                try:
+                    filtered_job = _fetch_detail(job, item.source, adapters, profile)
+                except (HttpRequestError, ValueError):
+                    detail_failure_count += 1
+                    location = LocationFilterResult(
+                        decision=LocationDecision.REVIEW,
+                        reason_code="detail_location_unavailable",
+                        reason="required public detail location could not be retrieved",
+                    )
+            if location is None:
+                location = filter_job_location(filtered_job, policy=profile.location)
+            if location.decision is LocationDecision.REJECT:
+                # Ineligible geography. No title work, no detail fetch, no review row.
+                role = filter_role(filtered_job.title_original, profile=profile)
+                company_listings.append(
+                    _listing_record(
+                        item,
+                        filtered_job,
+                        section=section,
+                        role=role,
+                        location=location,
+                        final=FinalFilterDecision.REJECTED,
+                    )
+                )
+                continue
 
-                if (
-                    location.decision is LocationDecision.PASS
-                    and section is CandidateSection.UNCERTAIN
-                    and job.source_type in {"jobvite", "successfactors"}
-                ):
-                    detail_fetch_count += 1
-                    try:
-                        filtered_job = _fetch_detail(job, item.source, adapters, profile)
-                    except (HttpRequestError, ValueError):
-                        detail_failure_count += 1
-                    else:
-                        detail_assessment = assess_listing_recency(
-                            filtered_job.published_at,
-                            raw_date_text=filtered_job.published_at_raw,
-                            basis=filtered_job.date_basis,
-                            scan_at=effective_scan_at,
-                            window_days=profile.recency_window_days,
-                            uncertainty_mode=profile.date_uncertainty_mode,
-                            publication_date_verified=(
-                                item.source.date_strategy.verified_as_publication
-                                and filtered_job.date_basis is DateBasis.PUBLISHED
-                            ),
-                        )
-                        if detail_assessment.decision is RecencyDecision.INSIDE_WINDOW:
-                            section = CandidateSection.STRICT
-                        elif detail_assessment.decision is not RecencyDecision.UNCERTAIN:
-                            recency_excluded_count += 1
-                            continue
-            final = _final_decision(role, location)
+            role = filter_role(filtered_job.title_original, profile=profile)
+            if (
+                role.decision is not RoleDecision.REJECT
+                and location.decision is LocationDecision.PASS
+                and section is CandidateSection.UNCERTAIN
+                and job.source_type in {"jobvite", "successfactors"}
+            ):
+                detail_fetch_count += 1
+                try:
+                    filtered_job = _fetch_detail(job, item.source, adapters, profile)
+                except (HttpRequestError, ValueError):
+                    detail_failure_count += 1
+                else:
+                    detail_assessment = assess_listing_recency(
+                        filtered_job.published_at,
+                        raw_date_text=filtered_job.published_at_raw,
+                        basis=filtered_job.date_basis,
+                        scan_at=effective_scan_at,
+                        window_days=profile.recency_window_days,
+                        uncertainty_mode=profile.date_uncertainty_mode,
+                        publication_date_verified=(
+                            item.source.date_strategy.verified_as_publication
+                            and filtered_job.date_basis is DateBasis.PUBLISHED
+                        ),
+                    )
+                    if detail_assessment.decision is RecencyDecision.INSIDE_WINDOW:
+                        section = CandidateSection.STRICT
+                    elif detail_assessment.decision is not RecencyDecision.UNCERTAIN:
+                        recency_excluded_count += 1
+                        continue
             company_listings.append(
-                FilterListingRecord(
-                    company_id=job.company_id,
-                    company_name=item.company_name,
-                    source_rank=item.source_rank,
-                    adapter_type=item.adapter_type,
-                    title_original=filtered_job.title_original,
-                    location_original=filtered_job.location_original,
-                    canonical_url=filtered_job.canonical_url,
-                    candidate_section=section,
-                    date_basis=filtered_job.date_basis,
-                    raw_date_text=filtered_job.published_at_raw,
+                _listing_record(
+                    item,
+                    filtered_job,
+                    section=section,
                     role=role,
                     location=location,
-                    final_decision=final,
-                    normalized_job=filtered_job,
+                    final=_final_decision(role, location),
                 )
             )
         listings.extend(company_listings)
@@ -602,9 +612,44 @@ def write_filter_review(
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
+def _listing_record(
+    item: _PendingCompany,
+    job: NormalizedJob,
+    *,
+    section: CandidateSection,
+    role: RoleFilterResult,
+    location: LocationFilterResult | None,
+    final: FinalFilterDecision,
+) -> FilterListingRecord:
+    """Assemble one explainable filter decision."""
+    return FilterListingRecord(
+        company_id=job.company_id,
+        company_name=item.company_name,
+        source_rank=item.source_rank,
+        adapter_type=item.adapter_type,
+        title_original=job.title_original,
+        location_original=job.location_original,
+        canonical_url=job.canonical_url,
+        candidate_section=section,
+        date_basis=job.date_basis,
+        raw_date_text=job.published_at_raw,
+        role=role,
+        location=location,
+        final_decision=final,
+        normalized_job=job,
+    )
+
+
 def _final_decision(
     role: RoleFilterResult, location: LocationFilterResult | None
 ) -> FinalFilterDecision:
+    """Combine the role and location decisions.
+
+    Location is evaluated first (2.1) and a rejecting location short-circuits before this
+    is reached, so by here the location is PASS or REVIEW. Title still decides afterwards:
+    2.1 requires location-review rows to be title-filtered before surfacing, or the queue
+    fills with irrelevant roles that merely lacked a location.
+    """
     if role.decision is RoleDecision.REJECT:
         return FinalFilterDecision.REJECTED
     if location is None:
