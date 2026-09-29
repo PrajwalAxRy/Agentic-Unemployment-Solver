@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "set_version": "1.0.0",
+  "profile_id": "india-ai-ml-under-five-years",
+  "notes": "Human-labelled cases for the description-based AI/ML relevance gate (to_change.md 2.3). Titles marked source=scan-2026-09-29 are real rows from that scan; their descriptions are representative reconstructions, since the scan stored no description text for the 97 rows whose detail fetch failed. The four negative classes are the failure modes 2.3 names explicitly. Verdicts are three-way per 2.6: substantive / peripheral / unrelated.",
+  "examples": [
+    {
+      "id": "relevance-01",
+      "title": "Senior Software Engineer, AI/ML GenAI, Google Ads",
+      "source": "scan-2026-09-29",
+      "description": "Design and build large-scale machine learning systems for Ads ranking. You will train and evaluate deep models, own model-serving infrastructure, and improve ranking quality metrics in production. Experience with TensorFlow or JAX and with distributed training is required.",
+      "expected_verdict": "substantive",
+      "human_rationale": "The engineer trains, evaluates and serves models. AI is the work, not the setting.",
+      "important_evidence": "train and evaluate deep models, own model-serving infrastructure"
+    },
+    {
+      "id": "relevance-02",
+      "title": "Staff ML Compiler Engineer, TPU Performance Optimizations",
+      "source": "scan-2026-09-29",
+      "description": "Optimize the compiler stack that lowers machine learning graphs onto TPU hardware. You will profile model execution, implement graph-level optimizations, and improve throughput for large training jobs.",
+      "expected_verdict": "substantive",
+      "human_rationale": "ML infrastructure rather than modelling, but the artifact being built is the ML system itself.",
+      "important_evidence": "lowers machine learning graphs onto TPU hardware"
+    },
+    {
+      "id": "relevance-03",
+      "title": "Principal Machine Learning Engineer",
+      "source": "scan-2026-09-29",
+      "description": "Lead development of recommendation and search-ranking models. Responsibilities include feature engineering, offline evaluation, online experimentation, and taking models from prototype to production.",
+      "expected_verdict": "substantive",
+      "human_rationale": "Core modelling ownership end to end.",
+      "important_evidence": "feature engineering, offline evaluation, online experimentation"
+    },
+    {
+      "id": "relevance-04",
+      "title": "Software Engineer III - Python, AWS, GenAI",
+      "source": "scan-2026-09-29",
+      "description": "Build backend services in Python on AWS. The team is delivering generative-AI features for internal banking products; you will integrate LLM APIs, design retrieval pipelines, and evaluate output quality against business rules.",
+      "expected_verdict": "substantive",
+      "human_rationale": "Integrating and evaluating LLM systems is substantive applied AI work, even though no model is trained. This row reached the final report in the real scan.",
+      "important_evidence": "integrate LLM APIs, design retrieval pipelines, and evaluate output quality"
+    },
+    {
+      "id": "relevance-05",
+      "title": "Sr. Data Scientist, Amazon Pay Data Products",
+      "source": "scan-2026-09-29",
+      "description": "Build statistical and machine learning models for payments risk and customer analytics. You will own experiment design, causal inference studies, and production model deployment for Amazon Pay.",
+      "expected_verdict": "substantive",
+      "human_rationale": "Applied modelling ownership. Reached the final report in the real scan.",
+      "important_evidence": "Build statistical and machine learning models"
+    },
+    {
+      "id": "relevance-06",
+      "title": "DevOps Engineer II, Ads AI Core Infra",
+      "source": "scan-2026-09-29",
+      "description": "Own CI/CD pipelines, Kubernetes cluster operations, and on-call reliability for the Ads organisation. You will manage deployment automation and infrastructure-as-code. Requires strong Linux, Terraform, and incident-response experience.",
+      "expected_verdict": "unrelated",
+      "human_rationale": "FAILURE MODE: AI appears only in the team name. The duties are pure DevOps. 2.2 names this exact row as the false positive that got an unconditional pass under the old title filter.",
+      "important_evidence": "CI/CD pipelines, Kubernetes cluster operations, and on-call reliability"
+    },
+    {
+      "id": "relevance-07",
+      "title": "Software Engineer, RBS Tech",
+      "source": "scan-2026-09-29",
+      "description": "About our organisation: we are an AI-first company applying machine learning across every product line to transform retail. In this role you will build and maintain Java microservices for inventory reconciliation, write integration tests, and support quarterly releases. Requires 3+ years of backend Java.",
+      "expected_verdict": "unrelated",
+      "human_rationale": "FAILURE MODE: AI appears in the org blurb only and is absent from duties and qualifications. Named in 2.3.",
+      "important_evidence": "build and maintain Java microservices for inventory reconciliation"
+    },
+    {
+      "id": "relevance-08",
+      "title": "Software Development Engineer, Native-AI SDLC",
+      "source": "scan-2026-09-29",
+      "description": "Join a team modernising how we build software. You will use generative AI coding assistants to accelerate development, adopt AI-assisted code review, and help the org shorten release cycles. The work itself is building internal developer tooling in TypeScript.",
+      "expected_verdict": "unrelated",
+      "human_rationale": "FAILURE MODE: AI-assisted development, not building AI products. The FBA rows in 2.3.",
+      "important_evidence": "use generative AI coding assistants to accelerate development"
+    },
+    {
+      "id": "relevance-09",
+      "title": "Software Engineer II, Google Ads",
+      "source": "scan-2026-09-29",
+      "description": "Build and maintain the billing and invoicing services behind Google Ads. You will use generative AI to improve team productivity where helpful. Core responsibilities are distributed systems design, API development, and data consistency at scale.",
+      "expected_verdict": "unrelated",
+      "human_rationale": "FAILURE MODE: AI named as a tool the engineer uses, not the subject of the work. Named in 2.3.",
+      "important_evidence": "use generative AI to improve team productivity"
+    },
+    {
+      "id": "relevance-10",
+      "title": "AI Customer Engineer, Digital Natives, Google Cloud",
+      "source": "scan-2026-09-29",
+      "description": "Partner with customers to demonstrate and deploy Google Cloud AI products. You will run technical workshops, build proof-of-concept integrations of Vertex AI, and advise on architecture. Significant customer-facing and presentation responsibility.",
+      "expected_verdict": "peripheral",
+      "human_rationale": "Genuinely technical and genuinely about AI products, but customer-facing solutions work rather than engineering an AI system. 2.6 says surface it tiered lower rather than dropping it.",
+      "important_evidence": "run technical workshops, build proof-of-concept integrations"
+    },
+    {
+      "id": "relevance-11",
+      "title": "Silicon Validation Engineer AI/ML, Google Cloud",
+      "source": "scan-2026-09-29",
+      "description": "Validate custom AI accelerator silicon. You will develop test plans, write firmware-level validation suites, and debug hardware issues found while running machine learning workloads on pre-production chips.",
+      "expected_verdict": "peripheral",
+      "human_rationale": "Hardware validation for AI accelerators. Adjacent to ML systems without being ML engineering; uncertain by design, so display tiered lower.",
+      "important_evidence": "write firmware-level validation suites, and debug hardware issues"
+    },
+    {
+      "id": "relevance-12",
+      "title": "AI Security Standards Architect",
+      "source": "scan-2026-09-29",
+      "description": "Define enterprise security standards and governance policy for AI system adoption. You will author control frameworks, review vendor AI tooling for compliance, and chair the model risk review board. Limited hands-on implementation.",
+      "expected_verdict": "peripheral",
+      "human_rationale": "About AI, but governance and policy rather than engineering. Peripheral rather than unrelated because AI is genuinely the subject matter.",
+      "important_evidence": "author control frameworks, review vendor AI tooling for compliance"
+    },
+    {
+      "id": "relevance-13",
+      "title": "AI Engineer - Guardrails and Observability",
+      "source": "scan-2026-09-29",
+      "description": "Build the guardrail and evaluation layer for production LLM applications. You will implement prompt-injection detection, design offline and online evaluation harnesses, and instrument model behaviour in production.",
+      "expected_verdict": "substantive",
+      "human_rationale": "Building LLM evaluation and safety infrastructure is substantive AI engineering.",
+      "important_evidence": "design offline and online evaluation harnesses, and instrument model behaviour"
+    },
+    {
+      "id": "relevance-14",
+      "title": "Data Engineer - Python/AI",
+      "source": "scan-2026-09-29",
+      "description": "Build and operate Spark and Airflow pipelines feeding the enterprise data lake. You will model warehouse schemas, manage ingestion from upstream systems, and maintain data quality checks. Some datasets serve downstream AI teams.",
+      "expected_verdict": "peripheral",
+      "human_rationale": "Data engineering that feeds AI teams. The engineer builds pipelines, not models; AI is the consumer rather than the work.",
+      "important_evidence": "Spark and Airflow pipelines feeding the enterprise data lake"
+    },
+    {
+      "id": "relevance-15",
+      "title": "Software Development Engineer II, Enterprise Engineering",
+      "source": "scan-2026-09-29",
+      "description": "Build internal tooling for enterprise resource planning. Responsibilities are Java service development, SQL schema design, and integration with third-party vendor APIs. No machine learning involvement.",
+      "expected_verdict": "unrelated",
+      "human_rationale": "Ordinary backend engineering with no AI content. Included because 2.2a records it as a row that reached the real report and that a naive blocklist would have wrongly dropped on the substring 'pr' in 'Enterprise'.",
+      "important_evidence": "Java service development, SQL schema design"
+    },
+    {
+      "id": "relevance-16",
+      "title": "Senior Staff Data Scientist, Guest & Host Marketplace AI",
+      "source": "scan-2026-09-29",
+      "description": "Lead marketplace modelling for pricing and matching. You will build causal and machine learning models, design large-scale experiments, and translate findings into product strategy.",
+      "expected_verdict": "substantive",
+      "human_rationale": "Core applied modelling with experimentation ownership.",
+      "important_evidence": "build causal and machine learning models, design large-scale experiments"
+    },
+    {
+      "id": "relevance-17",
+      "title": "Technical Program Manager, ML Platform",
+      "description": "Coordinate delivery across ML platform teams. You will manage roadmaps, run planning rituals, track dependencies, and communicate status to leadership. No direct implementation responsibility.",
+      "expected_verdict": "unrelated",
+      "human_rationale": "Programme management, not engineering. 2.2a passes TPM titles as ambiguous precisely so the description gate can make this call.",
+      "important_evidence": "manage roadmaps, run planning rituals, track dependencies"
+    },
+    {
+      "id": "relevance-18",
+      "title": "Research Scientist, Foundation Models",
+      "description": "Conduct research on large language model pre-training and alignment. Publish at top venues, design scaling experiments, and collaborate with engineering on productionising findings.",
+      "expected_verdict": "substantive",
+      "human_rationale": "Core research on the models themselves.",
+      "important_evidence": "large language model pre-training and alignment"
+    },
+    {
+      "id": "relevance-19",
+      "title": "Backend Engineer, Payments",
+      "description": "Own payment settlement services handling millions of daily transactions. Responsibilities include idempotency guarantees, reconciliation, and latency optimisation in Go.",
+      "expected_verdict": "unrelated",
+      "human_rationale": "Clean negative with no AI mention at all. Guards against a gate that drifts toward passing any competent engineering role.",
+      "important_evidence": "payment settlement services"
+    },
+    {
+      "id": "relevance-20",
+      "title": "Machine Learning Engineer, Prime Video Ads CX",
+      "description": "Build and deploy ranking and relevance models for advertising on Prime Video. You will own feature pipelines, model training, and online A/B evaluation.",
+      "expected_verdict": "substantive",
+      "human_rationale": "Core ML work. Retained from 2.2a's false-negative table, where a naive blocklist rejected it on the substring 'pr' inside 'Prime'.",
+      "important_evidence": "own feature pipelines, model training, and online A/B evaluation"
+    }
+  ]
+}
