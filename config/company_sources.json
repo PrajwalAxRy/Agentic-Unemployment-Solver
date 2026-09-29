@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_version": "0.3.0-phase12-c19",
-  "generated_at": "2026-09-29T18:30:00+05:30",
+  "registry_version": "0.3.0-phase12-c20",
+  "generated_at": "2026-09-29T18:45:00+05:30",
   "discovery_batch_id": "canonical-seed-2026-09-20",
   "sources": [
     {
@@ -6512,32 +6512,34 @@
       "schema_version": 1,
       "company_id": "american-express",
       "company_name": "American Express",
-      "status": "proposed",
-      "careers_url": "https://careers.americanexpress.com/en/sites/CX_1/jobs?inav=au_sitefooter_careers&lastSelectedFacet=POSTING_DATES&selectedPostingDatesFacet=30utm_medium",
-      "adapter_type": "search_only",
+      "status": "enabled",
+      "careers_url": "https://egug.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs",
+      "adapter_type": "oracle_cloud",
       "adapter_parameters": {
-        "search_url": "https://careers.americanexpress.com/en/sites/CX_1/jobs?inav=au_sitefooter_careers&lastSelectedFacet=POSTING_DATES&selectedPostingDatesFacet=30utm_medium"
+        "host": "egug.fa.us2.oraclecloud.com",
+        "site_number": "CX_1"
       },
-      "identity_strategy": "unresolved",
+      "identity_strategy": "external_id",
       "date_strategy": {
-        "field_name": null,
-        "basis": "unknown",
-        "verified_as_publication": false,
-        "notes": "Imported from a provisional Phase 2 discovery proposal."
+        "field_name": "PostedDate",
+        "basis": "published",
+        "verified_as_publication": true,
+        "notes": "Oracle documents PostedDate as the public requisition posting date."
       },
-      "detail_strategy": "detail_page",
-      "enabled": false,
-      "confidence": "medium",
+      "detail_strategy": "detail_endpoint",
+      "enabled": true,
+      "confidence": "high",
       "evidence": [
         "https://careers.americanexpress.com/en/sites/CX_1/jobs?inav=au_sitefooter_careers&lastSelectedFacet=POSTING_DATES&selectedPostingDatesFacet=30utm_medium",
-        "https://careers.americanexpress.com/en/sites/CX_1/jobs?inav=au_sitefooter_careers&lastSelectedFacet=POSTING_DATES&selectedPostingDatesFacet=30utm_medium"
+        "https://egug.fa.us2.oraclecloud.com/hcmRestApi/CandidateExperience/en/siteSettings/CX_1",
+        "https://egug.fa.us2.oraclecloud.com/hcmRestApi/resources/latest/recruitingCEJobRequisitions"
       ],
       "low_confidence_approved": false,
       "exception_reason": null,
-      "notes": "Automated search proposal; requires read-only verification and H2 review.",
+      "notes": "Phase 12 browser discovery captured the official branded site's public Oracle Cloud host and site number; first-attempt validation enumerated 507 jobs across three pages and retrieved three representative details.",
       "source_rank": 203,
       "priority": "P3",
-      "last_verified_at": "2026-09-20T12:40:52+05:30"
+      "last_verified_at": "2026-09-29T18:45:00+05:30"
     },
     {
       "schema_version": 1,

@@ -12,8 +12,8 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
 
     assert audit.reconciled is True
     assert audit.registry_total == 330
-    assert audit.enabled_count == 148
-    assert audit.by_status == {"enabled": 148, "proposed": 180, "unsupported": 2}
+    assert audit.enabled_count == 149
+    assert audit.by_status == {"enabled": 149, "proposed": 179, "unsupported": 2}
     assert audit.by_adapter == {
         "ashby": 27,
         "custom": 22,
@@ -23,10 +23,10 @@ def test_canonical_registry_accounts_for_all_companies_and_enables_supported_sou
         "greenhouse": 39,
         "jobvite": 1,
         "lever": 13,
-        "oracle_cloud": 4,
+        "oracle_cloud": 5,
         "recruiterflow": 1,
         "rippling": 1,
-        "search_only": 176,
+        "search_only": 175,
         "sensehq": 1,
         "smartrecruiters": 5,
         "successfactors": 2,
@@ -110,7 +110,7 @@ def test_phase12_package_a_activates_only_live_validated_existing_adapters() -> 
         "renesas": ("smartrecruiters", {"company_identifier": "RenesasElectronics"}),
     }
 
-    assert registry.registry_version == "0.3.0-phase12-c19"
+    assert registry.registry_version == "0.3.0-phase12-c20"
     for company_id, (adapter_type, parameters) in expected.items():
         source = sources[company_id]
         assert source.enabled is True
@@ -513,6 +513,26 @@ def test_phase12_package_c_tenth_cohort_activates_adobe_and_oracle() -> None:
     assert oracle.date_strategy.field_name == "PostedDate"
     assert oracle.date_strategy.basis.value == "published"
     assert oracle.date_strategy.verified_as_publication is True
+
+
+def test_phase12_package_c_eleventh_cohort_activates_american_express() -> None:
+    registry = load_company_registry(Path("config/company_sources.json"))
+    source = next(
+        entry.source for entry in registry.entries if entry.source.company_id == "american-express"
+    )
+
+    assert source.enabled is True
+    assert source.adapter_type.value == "oracle_cloud"
+    assert source.careers_url == (
+        "https://egug.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs"
+    )
+    assert source.adapter_parameters == {
+        "host": "egug.fa.us2.oraclecloud.com",
+        "site_number": "CX_1",
+    }
+    assert source.identity_strategy.value == "external_id"
+    assert source.date_strategy.field_name == "PostedDate"
+    assert source.date_strategy.basis.value == "published"
 
 
 def test_phase12_package_b_corrects_payu_to_its_official_successfactors_board() -> None:

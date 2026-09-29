@@ -566,3 +566,14 @@ def test_phase12_package_c_cohort10_records_adobe_and_oracle_activation() -> Non
     assert "Two short nonterminal pages" in review
     assert "Browser automation was discovery" in review
     assert "Adobe and Oracle / OCI are enabled" in review
+
+
+def test_phase12_package_c_cohort11_records_american_express_activation() -> None:
+    review = Path("docs/reviews/phase12_package_c_cohort11_validation.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "507 unique jobs across three" in review
+    assert "3,415, 3,410" in review
+    assert "Browser automation was discovery" in review
+    assert "American Express is enabled" in review
