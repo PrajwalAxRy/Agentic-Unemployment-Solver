@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import importlib
 import json
+import logging
 from collections.abc import Sequence
 from dataclasses import asdict
 from datetime import datetime
@@ -59,6 +60,7 @@ from job_finder.filter_verification import (
     write_filter_report,
     write_filter_review,
 )
+from job_finder.logging_setup import configure_logging, progress_logger
 from job_finder.matching.evaluation_set import load_seniority_evaluation_set
 from job_finder.matching.evaluator import SeniorityEvaluator, UsageBudget
 from job_finder.matching.openai_client import (
@@ -70,6 +72,7 @@ from job_finder.matching.openai_client import (
 )
 from job_finder.matching.prompt import load_seniority_prompt
 from job_finder.persistence.database import CURRENT_SCHEMA_VERSION
+from job_finder.persistence.locking import ScanAlreadyRunningError
 from job_finder.persistence.maintenance import (
     backup_state,
     inspect_state,
@@ -95,6 +98,8 @@ from job_finder.verification import (
     verify_enabled_sources,
     write_verification_report,
 )
+
+_LOGGER = logging.getLogger(__name__)
 
 _PHASE_GATE_UNAVAILABLE = (
     "The '{command}' command is a phase-gate tool that lives in scripts/phase_gates/ and "
@@ -125,6 +130,17 @@ def build_parser() -> argparse.ArgumentParser:
         "--version",
         action="version",
         version=f"%(prog)s {__version__}",
+    )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Log per-job detail to the log file and mirror progress to stderr.",
+    )
+    parser.add_argument(
+        "--log-directory",
+        type=Path,
+        default=Path("state"),
+        help="State directory containing logs/ (default: state).",
     )
     subparsers = parser.add_subparsers(dest="command")
     verify = subparsers.add_parser(
@@ -371,6 +387,17 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: Sequence[str] | None = None) -> int:
     """Run the command-line interface."""
     args = build_parser().parse_args(argv)
+    # The CLI is the only place that configures logging; library imports stay silent.
+    log_path = configure_logging(
+        state_directory=args.log_directory,
+        verbose=args.verbose,
+    )
+    _LOGGER.info(
+        "cli_start command=%s version=%s log=%s",
+        args.command,
+        __version__,
+        log_path,
+    )
     if args.command == "verify-sources":
         return _verify_sources(args)
     if args.command == "measure-recency":
@@ -742,9 +769,14 @@ def _validate_seniority(args: argparse.Namespace) -> int:
     )
 
 
-def _print_progress(message: str) -> None:
+def _raw_print_progress(message: str) -> None:
     """Keep long-running scan progress visible even when stdout is redirected."""
     print(message, flush=True)
+
+
+# The operator watches the progress stream live; the log is what survives an unattended
+# run. Both carry the same key=value text so a report and its log line up (9.1).
+_print_progress = progress_logger(_raw_print_progress)
 
 
 def _scan(args: argparse.Namespace) -> int:
@@ -777,8 +809,15 @@ def _scan(args: argparse.Namespace) -> int:
             source_retry_count=args.source_retries,
             progress=_print_progress,
         )
+    except ScanAlreadyRunningError as error:
+        # Benign under cron: a previous run is still going. Distinct exit code so an
+        # overlapping schedule is not alerted on like a real failure (to_change.md 6.2, 9.3).
+        _LOGGER.warning("scan=skipped reason=already_running detail=%s", error)
+        print(f"scan=skipped reason=already_running error={error}")
+        return 4
     except (GatewayProviderError, RuntimeError, ValueError) as error:
-        print(f"scan=failed error={error}")
+        _LOGGER.exception("scan=failed exception=%s reason=%s", type(error).__name__, error)
+        print(f"scan=failed error={type(error).__name__}: {error}")
         return 3
 
     write_scan_report(report, args.json_output)

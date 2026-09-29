@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 from collections import Counter
 from collections.abc import Callable, Iterable, Mapping
@@ -25,6 +26,9 @@ from job_finder.core.source_contracts import (
     AdapterType,
     DiagnosticSeverity,
 )
+
+_LOGGER = logging.getLogger(__name__)
+
 
 _COLLAPSE_MINIMUM_BASELINE_COUNT = 20
 _COLLAPSE_RATIO = 0.20
@@ -220,19 +224,38 @@ def _verify_entries(
                 entry.source,
                 retry_count=source_retry_count,
             )
-        except AdapterConfigurationError:
+        except AdapterConfigurationError as error:
+            _LOGGER.error(
+                "source_verification_failed company=%s adapter=%s category=configuration_error "
+                "exception=%s reason=%s",
+                entry.source.company_id,
+                entry.source.adapter_type.value,
+                type(error).__name__,
+                error,
+            )
             record = _exception_record(
                 entry,
                 registry,
                 category=FailureCategory.CONFIGURATION_ERROR,
                 exception_category="configuration_error",
             )
-        except Exception:  # noqa: BLE001 - one broken adapter must not hide healthy peers.
+        except Exception as error:  # noqa: BLE001 - one broken adapter must not hide peers.
+            # Last-resort boundary handler. The breadth is legitimate -- isolation is the
+            # point -- but it previously recorded only the literal string
+            # "unexpected_adapter_error" with no type, message or traceback, which made a
+            # parser defect indistinguishable from anything else (to_change.md 6.2, 9.2).
+            _LOGGER.exception(
+                "source_verification_failed company=%s adapter=%s category=%s reason=%s",
+                entry.source.company_id,
+                entry.source.adapter_type.value,
+                type(error).__name__,
+                error,
+            )
             record = _exception_record(
                 entry,
                 registry,
                 category=FailureCategory.PARSER_DEFECT,
-                exception_category="unexpected_adapter_error",
+                exception_category=f"unexpected_adapter_error:{type(error).__name__}",
             )
         else:
             dates = Counter(job.date_basis.value for job in result.jobs)

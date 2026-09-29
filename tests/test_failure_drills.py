@@ -225,7 +225,12 @@ def test_failure_drill_matrix_categorizes_and_contains_every_source() -> None:
         FailureCategory.ACCESS_RESTRICTION.value,
     )
     assert records["unexpected-error"].failure_categories == (FailureCategory.PARSER_DEFECT.value,)
-    assert records["unexpected-error"].exception_categories == ("unexpected_adapter_error",)
+    # The last-resort handler now records the concrete exception type alongside the generic
+    # label. Recording only "unexpected_adapter_error" made a parser defect indistinguishable
+    # from any other unexpected failure (to_change.md 6.2, 9.2).
+    (unexpected_category,) = records["unexpected-error"].exception_categories
+    assert unexpected_category.startswith("unexpected_adapter_error:")
+    assert unexpected_category.split(":", 1)[1]
     assert report.healthy is False
     assert report.company_count == len(ids)
 
