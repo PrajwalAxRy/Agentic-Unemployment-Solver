@@ -31,6 +31,9 @@ dist/
 /.codex_tmp/
 /outputs/
 
+# Private notes (not for the repo)
+/PS_Note.md
+
 # Editors and operating systems
 .idea/
 .vscode/
