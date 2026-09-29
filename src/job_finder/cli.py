@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
 from collections.abc import Sequence
 from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 from job_finder import __version__
 from job_finder.adapters.aganitha_careers import AganithaCareersAdapter
@@ -74,12 +76,6 @@ from job_finder.persistence.maintenance import (
     reset_state,
     restore_state,
 )
-from job_finder.persistence_verification import (
-    second_pass_new_companies,
-    verify_persistence,
-    write_persistence_report,
-)
-from job_finder.recency_verification import measure_enabled_recency, write_recency_report
 from job_finder.repair import (
     build_repair_request,
     load_and_validate_repair_proposal,
@@ -93,23 +89,33 @@ from job_finder.scan import (
     run_manual_scan,
     write_scan_report,
 )
-from job_finder.seniority_validation import (
-    Phase8ValidationReport,
-    collect_live_candidates,
-    quality_metrics,
-    recollect_live_candidates,
-    retained_role_counts,
-    run_live_candidate_batch,
-    run_reviewed_evaluation_set,
-    write_h9_review,
-    write_phase8_validation_report,
-)
 from job_finder.verification import (
     load_verification_baseline,
     verify_adapter_sources,
     verify_enabled_sources,
     write_verification_report,
 )
+
+_PHASE_GATE_UNAVAILABLE = (
+    "The '{command}' command is a phase-gate tool that lives in scripts/phase_gates/ and "
+    "is not part of the installed package. Run it from a source checkout of the "
+    "repository."
+)
+
+
+def _load_phase_gate(module_suffix: str, command: str) -> Any:
+    """Import a relocated phase-gate module on demand.
+
+    These modules were moved out of the package (``to_change.md`` 6.7 / decision B) because
+    a ~100-minute idempotency test and a one-time report generator are not wheel material.
+    They are imported lazily so that an installed ``job-finder`` still starts cleanly --
+    only the three phase-gate subcommands are unavailable there, and they say so.
+    """
+    try:
+        module = importlib.import_module(f"scripts.phase_gates.{module_suffix}")
+    except ModuleNotFoundError as error:  # pragma: no cover - depends on install layout
+        raise SystemExit(_PHASE_GATE_UNAVAILABLE.format(command=command)) from error
+    return module
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -430,16 +436,17 @@ def _verify_sources(args: argparse.Namespace) -> int:
 
 
 def _measure_recency(args: argparse.Namespace) -> int:
+    phase_gate = _load_phase_gate("recency_verification", "measure-recency")
     registry = load_company_registry(args.registry)
     profile = load_search_profile(args.profile)
     client = BoundedHttpClient(policy=HttpPolicy(timeout_seconds=args.timeout))
-    report = measure_enabled_recency(
+    report = phase_gate.measure_enabled_recency(
         registry,
         _runtime_adapters(client),
         profile,
         source_retry_count=args.source_retries,
     )
-    write_recency_report(report, args.output)
+    phase_gate.write_recency_report(report, args.output)
     classes = ",".join(f"{key.value}={value}" for key, value in report.company_class_counts.items())
     evidence = ",".join(f"{key}={value}" for key, value in asdict(report.listing_counts).items())
     decisions = ",".join(f"{key}={value}" for key, value in asdict(report.decision_counts).items())
@@ -555,10 +562,11 @@ def _maintain_state(args: argparse.Namespace) -> int:
 
 
 def _verify_persistence(args: argparse.Namespace) -> int:
+    phase_gate = _load_phase_gate("persistence_verification", "verify-persistence")
     registry = load_company_registry(args.registry)
     profile = load_search_profile(args.profile)
     client = BoundedHttpClient(policy=HttpPolicy(timeout_seconds=args.timeout))
-    report = verify_persistence(
+    report = phase_gate.verify_persistence(
         registry,
         _runtime_adapters(client),
         profile,
@@ -568,7 +576,7 @@ def _verify_persistence(args: argparse.Namespace) -> int:
         require_empty=not args.allow_existing,
         pass_count=args.passes,
     )
-    write_persistence_report(report, args.output)
+    phase_gate.write_persistence_report(report, args.output)
     for item in report.passes:
         print(
             f"pass={item.pass_number} listings={item.listing_count} "
@@ -582,7 +590,8 @@ def _verify_persistence(args: argparse.Namespace) -> int:
                 f"outcome={issue.outcome} exceptions={','.join(issue.exception_categories)}"
             )
     print(
-        f"second_pass_new_companies={json.dumps(second_pass_new_companies(report), sort_keys=True)}"
+        "second_pass_new_companies="
+        f"{json.dumps(phase_gate.second_pass_new_companies(report), sort_keys=True)}"
     )
     print(f"Wrote sanitized persistence report to {args.output}")
     return 0 if report.healthy else 2
@@ -611,6 +620,7 @@ def _check_llm(args: argparse.Namespace) -> int:
 def _validate_seniority(args: argparse.Namespace) -> int:
     if not 1 <= args.live_limit <= 20:
         raise ValueError("--live-limit must be between 1 and 20")
+    phase_gate = _load_phase_gate("seniority_validation", "validate-seniority")
     registry = load_company_registry(args.registry)
     profile = load_search_profile(args.profile)
     evaluation_set = load_seniority_evaluation_set(args.evaluation_set)
@@ -626,13 +636,13 @@ def _validate_seniority(args: argparse.Namespace) -> int:
     client = BoundedHttpClient(policy=HttpPolicy(timeout_seconds=args.timeout))
     adapters = _runtime_adapters(client)
 
-    reviewed = run_reviewed_evaluation_set(
+    reviewed = phase_gate.run_reviewed_evaluation_set(
         evaluation_set,
         evaluator,
         target_description=profile.seniority.description,
     )
     if args.reuse_live_from is not None:
-        reused, candidates, collection_issues = recollect_live_candidates(
+        reused, candidates, collection_issues = phase_gate.recollect_live_candidates(
             args.reuse_live_from,
             registry,
             adapters,
@@ -658,24 +668,26 @@ def _validate_seniority(args: argparse.Namespace) -> int:
             profile,
             source_retry_count=args.source_retries,
         )
-        candidates, collection_issues = collect_live_candidates(
+        candidates, collection_issues = phase_gate.collect_live_candidates(
             filter_report,
             registry,
             adapters,
             profile,
             limit=args.live_limit,
         )
-        retained_count, explicit_count, conditional_count = retained_role_counts(filter_report)
+        retained_count, explicit_count, conditional_count = phase_gate.retained_role_counts(
+            filter_report
+        )
         filter_scan_at = filter_report.scan_at
         enabled_company_count = filter_report.enabled_company_count
         source_outcomes = filter_report.outcome_counts
         source_healthy = filter_report.healthy
-    live = run_live_candidate_batch(
+    live = phase_gate.run_live_candidate_batch(
         candidates,
         evaluator,
         target_description=profile.seniority.description,
     )
-    report = Phase8ValidationReport(
+    report = phase_gate.Phase8ValidationReport(
         schema_version=1,
         generated_at=datetime.now().astimezone().isoformat(timespec="seconds"),
         registry_version=registry.registry_version,
@@ -696,11 +708,11 @@ def _validate_seniority(args: argparse.Namespace) -> int:
         collection_issues=collection_issues,
         reviewed_cases=reviewed,
         live_cases=live,
-        quality=quality_metrics(reviewed),
+        quality=phase_gate.quality_metrics(reviewed),
         usage=budget.snapshot,
     )
-    write_phase8_validation_report(report, args.output)
-    write_h9_review(report, args.review_output)
+    phase_gate.write_phase8_validation_report(report, args.output)
+    phase_gate.write_h9_review(report, args.review_output)
     print(
         f"reviewed={report.quality.total_count} "
         f"agreement={report.quality.decision_agreement_count} "

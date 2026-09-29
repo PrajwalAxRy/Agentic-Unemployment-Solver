@@ -46,7 +46,7 @@ from job_finder.matching.evaluator import (
 )
 from job_finder.matching.prompt import load_seniority_prompt
 from job_finder.matching.seniority import DetectedLevel, SeniorityDecision, SeniorityMatch
-from job_finder.seniority_validation import (
+from scripts.phase_gates.seniority_validation import (
     LiveCandidateResult,
     Phase8ValidationReport,
     ReviewedCaseResult,
@@ -57,7 +57,7 @@ from job_finder.seniority_validation import (
     write_h9_review,
 )
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 SCAN_AT = datetime(2026, 9, 23, 12, tzinfo=UTC)
 
 

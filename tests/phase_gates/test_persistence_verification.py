@@ -21,7 +21,10 @@ from job_finder.core.source_contracts import (
     IdentityStrategy,
     SourceStatus,
 )
-from job_finder.persistence_verification import second_pass_new_companies, verify_persistence
+from scripts.phase_gates.persistence_verification import (
+    second_pass_new_companies,
+    verify_persistence,
+)
 
 
 def _source() -> CompanySource:

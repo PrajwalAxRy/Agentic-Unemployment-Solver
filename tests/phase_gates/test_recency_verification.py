@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pytest
 
-import job_finder.recency_verification as recency_verification
+import scripts.phase_gates.recency_verification as recency_verification
 from job_finder.adapters.base import AdapterRegistry
 from job_finder.core.company_registry import CompanyRegistryEntry, CompanySourceRegistry
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
@@ -28,7 +28,7 @@ from job_finder.core.source_contracts import (
     IdentityStrategy,
     SourceStatus,
 )
-from job_finder.recency_verification import measure_enabled_recency, write_recency_report
+from scripts.phase_gates.recency_verification import measure_enabled_recency, write_recency_report
 
 SCAN_AT = datetime(2026, 9, 20, 12, tzinfo=UTC)
 
