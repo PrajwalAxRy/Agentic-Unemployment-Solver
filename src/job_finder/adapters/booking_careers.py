@@ -28,6 +28,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -251,31 +252,31 @@ def _page_url(page: int) -> str:
 def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
     wrapper = _required_mapping(value, "Booking.com job wrapper")
     raw = _required_mapping(wrapper.get("data"), "Booking.com job data")
-    external_id = _required_string(raw, "req_id", "Booking.com job")
-    slug = _required_string(raw, "slug", "Booking.com job")
+    external_id = required_string(raw, "req_id", "Booking.com job")
+    slug = required_string(raw, "slug", "Booking.com job")
     if _ID_PATTERN.fullmatch(external_id) is None or slug != external_id:
         raise ValueError("Booking.com req_id and slug must be matching numeric identifiers.")
-    if _required_string(raw, "client_code", "Booking.com job") != "workingatbooking":
+    if required_string(raw, "client_code", "Booking.com job") != "workingatbooking":
         raise ValueError("Booking.com job client_code did not identify the official board.")
     if raw.get("internal") is not False or raw.get("searchable") is not True:
         raise ValueError("Booking.com job must be external-searchable and not internal.")
 
-    title = _required_string(raw, "title", "Booking.com job")
-    location = _required_string(raw, "full_location", "Booking.com job")
-    description = _plain_text(_required_string(raw, "description", "Booking.com job"))
+    title = required_string(raw, "title", "Booking.com job")
+    location = required_string(raw, "full_location", "Booking.com job")
+    description = _plain_text(required_string(raw, "description", "Booking.com job"))
     if not description:
         raise ValueError("Booking.com job description normalized to empty text.")
     canonical_url = _canonical_job_url(
-        _required_string(
+        required_string(
             _required_mapping(raw.get("meta_data"), "Booking.com job meta_data"),
             "canonical_url",
             "Booking.com job meta_data",
         ),
         external_id,
     )
-    published_raw = _required_string(raw, "posted_date", "Booking.com job")
+    published_raw = required_string(raw, "posted_date", "Booking.com job")
     published_at = _timestamp(published_raw, "Booking.com posted_date")
-    apply_url = _required_string(raw, "apply_url", "Booking.com job")
+    apply_url = required_string(raw, "apply_url", "Booking.com job")
     _validate_apply_url(apply_url, external_id)
     return NormalizedJob(
         schema_version=1,
@@ -295,9 +296,9 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
         source_metadata={
             "adapter_key": BOOKING_ADAPTER_KEY,
             "apply_url": apply_url,
-            "department": _optional_string(raw.get("department")),
+            "department": clean_optional(raw.get("department")),
             "category": tuple(_string_list(raw.get("category"), "Booking.com category")),
-            "employment_type": _optional_string(raw.get("employment_type")),
+            "employment_type": clean_optional(raw.get("employment_type")),
         },
     )
 
@@ -381,19 +382,6 @@ def _required_list(value: object, context: str) -> list[object]:
     if not isinstance(value, list):
         raise ValueError(f"{context} must be an array.")
     return value
-
-
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _optional_string(value: object) -> str | None:
-    if isinstance(value, str) and value.strip():
-        return re.sub(r"\s+", " ", value).strip()
-    return None
 
 
 def _string_list(value: object, field: str) -> list[str]:

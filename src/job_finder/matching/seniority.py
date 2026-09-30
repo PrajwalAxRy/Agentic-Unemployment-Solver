@@ -110,20 +110,20 @@ def seniority_decision_from_mapping(raw: Mapping[str, object]) -> SeniorityDecis
     else:
         raise SeniorityResponseError("seniority_match must be true, false, or 'uncertain'")
 
-    level_value = _required_string(raw["detected_level"], "detected_level", maximum=50)
+    level_value = _bounded_string(raw["detected_level"], "detected_level", maximum=50)
     try:
         detected_level = DetectedLevel(level_value)
     except ValueError as error:
         allowed = ", ".join(level.value for level in DetectedLevel)
         raise SeniorityResponseError(f"detected_level must be one of: {allowed}") from error
 
-    required_experience = _required_string(
+    required_experience = _bounded_string(
         raw["required_experience"],
         "required_experience",
         maximum=200,
     )
-    evidence = _required_string(raw["evidence"], "evidence", maximum=500)
-    reason = _required_string(raw["reason"], "reason", maximum=1000)
+    evidence = _bounded_string(raw["evidence"], "evidence", maximum=500)
+    reason = _bounded_string(raw["reason"], "reason", maximum=1000)
     return SeniorityDecision(
         seniority_match=seniority_match,
         detected_level=detected_level,
@@ -133,7 +133,17 @@ def seniority_decision_from_mapping(raw: Mapping[str, object]) -> SeniorityDecis
     )
 
 
-def _required_string(value: object, path: str, *, maximum: int) -> str:
+def _bounded_string(value: object, path: str, *, maximum: int) -> str:
+    """Validate a model-supplied string and bound its length.
+
+    Deliberately NOT core.validation.required_text. Two differences are load-bearing:
+    it raises SeniorityResponseError rather than ValueError, so an invalid model response
+    routes to manual review instead of crashing the scan; and it caps length, because this
+    text comes from a language model and an unbounded field is an unbounded report row.
+
+    This is the kind of divergence 6.4 warned about -- and the reason the consolidation
+    was worth doing by hand rather than by a blanket rename.
+    """
     if not isinstance(value, str) or not value.strip():
         raise SeniorityResponseError(f"{path} must be a non-empty string")
     normalized = value.strip()

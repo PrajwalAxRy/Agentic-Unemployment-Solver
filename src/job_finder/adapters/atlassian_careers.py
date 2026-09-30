@@ -27,6 +27,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import required_string
 from job_finder.normalization.jobs import normalize_source_locations as _shared_locations
 from job_finder.normalization.jobs import normalize_text, normalize_title
 
@@ -201,8 +202,8 @@ def _normalize_variants(
         raise ValueError("Atlassian job group must not be empty.")
     first = variants[0]
     external_id = _positive_id(first.get("id"), "Atlassian job id")
-    title = _required_string(first, "title", "Atlassian job")
-    category = _required_string(first, "category", "Atlassian job")
+    title = required_string(first, "title", "Atlassian job")
+    category = required_string(first, "category", "Atlassian job")
     description_fields = _description_fields(first)
     updated_raw = _portal_updated_date(first, external_id)
     locations: list[str] = []
@@ -211,11 +212,11 @@ def _normalize_variants(
     for variant in variants:
         if _positive_id(variant.get("id"), "Atlassian job id") != external_id:
             raise ValueError("Atlassian grouped job identity changed across portal variants.")
-        if normalize_text(_required_string(variant, "title", "Atlassian job")) != normalize_text(
+        if normalize_text(required_string(variant, "title", "Atlassian job")) != normalize_text(
             title
         ):
             raise ValueError("Atlassian portal variants disagree on title.")
-        if _required_string(variant, "category", "Atlassian job") != category:
+        if required_string(variant, "category", "Atlassian job") != category:
             raise ValueError("Atlassian portal variants disagree on category.")
         if _description_fields(variant) != description_fields:
             raise ValueError("Atlassian portal variants disagree on description.")
@@ -224,7 +225,7 @@ def _normalize_variants(
         portal_id = _positive_int(variant.get("portalId"), "Atlassian portalId")
         portal_ids.append(portal_id)
         _validate_icims_url(
-            _required_string(variant, "applyUrl", "Atlassian job"),
+            required_string(variant, "applyUrl", "Atlassian job"),
             external_id,
             "applyUrl",
         )
@@ -285,11 +286,11 @@ def _portal_updated_date(raw: Mapping[str, object], external_id: str) -> str:
     if _positive_int(portal.get("portalId"), "Atlassian portal job portalId") != top_portal_id:
         raise ValueError("Atlassian portalId fields disagree.")
     _validate_icims_url(
-        _required_string(portal, "portalUrl", "Atlassian portal job"),
+        required_string(portal, "portalUrl", "Atlassian portal job"),
         external_id,
         "portalUrl",
     )
-    return _required_string(portal, "updatedDate", "Atlassian portal job")
+    return required_string(portal, "updatedDate", "Atlassian portal job")
 
 
 def _validate_icims_url(value: str, external_id: str, field: str) -> None:
@@ -315,9 +316,9 @@ def _description_fields(raw: Mapping[str, object]) -> tuple[str, str, str, str]:
     if not isinstance(compensation, str):
         raise ValueError("Atlassian compensation must be text or null.")
     return (
-        _required_string(raw, "overview", "Atlassian job"),
-        _required_string(raw, "responsibilities", "Atlassian job"),
-        _required_string(raw, "qualifications", "Atlassian job"),
+        required_string(raw, "overview", "Atlassian job"),
+        required_string(raw, "responsibilities", "Atlassian job"),
+        required_string(raw, "qualifications", "Atlassian job"),
         compensation,
     )
 
@@ -362,13 +363,6 @@ def _html_text(value: str) -> str:
         for line in (_normalize_whitespace(part) for part in "".join(parser.parts).splitlines())
         if line
     )
-
-
-def _required_string(raw: Mapping[str, object], field: str, context: str) -> str:
-    value = raw.get(field)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} {field} must be a non-empty string.")
-    return value.strip()
 
 
 def _positive_id(value: object, context: str) -> str:

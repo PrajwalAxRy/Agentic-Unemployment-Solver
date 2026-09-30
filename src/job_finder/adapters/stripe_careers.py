@@ -30,6 +30,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -227,8 +228,8 @@ class StripeCareersAdapter:
         page_props = _required_mapping(props.get("pageProps"), "Stripe pageProps")
         detail = _required_mapping(page_props.get("listing"), "Stripe detail listing")
         detail_id = _numeric_id(detail.get("greenhouseId"), "Stripe detail greenhouseId")
-        detail_slug = _required_string(detail, "slug", "Stripe detail listing")
-        detail_title = _required_string(detail, "title", "Stripe detail listing")
+        detail_slug = required_string(detail, "slug", "Stripe detail listing")
+        detail_title = required_string(detail, "title", "Stripe detail listing")
         if detail_id != external_id or detail_slug != slug:
             raise DetailIdentityMismatch(
                 "Stripe detail payload identity does not match the listing."
@@ -245,7 +246,7 @@ class StripeCareersAdapter:
             raise DetailContentMissing("Stripe listing metadata omitted valid location indices.")
         if detail_location_indices != listing_location_indices:
             raise DetailIdentityMismatch("Stripe detail locations do not match the listing.")
-        content_markdown = _required_string(detail, "contentMarkdown", "Stripe detail listing")
+        content_markdown = required_string(detail, "contentMarkdown", "Stripe detail listing")
         description = _plain_markdown(content_markdown)
         if not description:
             raise DetailContentMissing("Stripe detail description normalized to empty text.")
@@ -288,8 +289,8 @@ def _normalize_listing(
 ) -> NormalizedJob:
     raw = _required_mapping(value, "Stripe listing")
     external_id = _numeric_id(raw.get("greenhouseId"), "Stripe greenhouseId")
-    title = _required_string(raw, "title", "Stripe listing")
-    slug = _required_string(raw, "slug", "Stripe listing")
+    title = required_string(raw, "title", "Stripe listing")
+    slug = required_string(raw, "slug", "Stripe listing")
     canonical_url, canonical_slug, canonical_id = _canonical_detail_url(
         f"https://{_STRIPE_HOST}/careers/listing/{slug}/{external_id}"
     )
@@ -304,7 +305,7 @@ def _normalize_listing(
     team_names = _indexed_names(team_indices, teams, "Stripe teams")
     tag_names = _indexed_names(tag_indices, tags, "Stripe tags")
     location = " | ".join(location_names)
-    employment_type = _optional_string(raw.get("employmentType"))
+    employment_type = clean_optional(raw.get("employmentType"))
     return NormalizedJob(
         schema_version=1,
         company_id=source.company_id,
@@ -488,7 +489,7 @@ def _indexed_names(indices: list[int], values: list[object], context: str) -> li
         if index >= len(values):
             raise ValueError(f"{context} index was outside the filter array.")
         item = _required_mapping(values[index], f"{context} item")
-        names.append(_required_string(item, "name", f"{context} item"))
+        names.append(required_string(item, "name", f"{context} item"))
     return unique_strings(names)
 
 
@@ -520,17 +521,6 @@ def _object_list(raw: Mapping[object, object], key: str) -> list[object]:
     if not isinstance(value, list):
         raise ValueError(f"Stripe field {key} must be an array.")
     return value
-
-
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _decode_document(body: bytes) -> str | None:

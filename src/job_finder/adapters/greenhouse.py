@@ -28,6 +28,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -189,19 +190,19 @@ def _normalize_job(
     if not isinstance(raw_job, Mapping):
         raise ValueError("Greenhouse job must be an object.")
     external_id = _required_identifier(raw_job, "id")
-    title = _required_string(raw_job, "title")
+    title = required_string(raw_job, "title")
     location = raw_job.get("location")
     if not isinstance(location, Mapping):
         raise ValueError("Greenhouse job field location must be an object.")
-    primary_location = _required_string(location, "name")
+    primary_location = required_string(location, "name")
     locations = [primary_location, *_office_locations(raw_job.get("offices"))]
-    job_url = _canonical_url(_required_string(raw_job, "absolute_url"))
-    description = _plain_text(_required_string(raw_job, "content"))
+    job_url = _canonical_url(required_string(raw_job, "absolute_url"))
+    description = _plain_text(required_string(raw_job, "content"))
     if not description:
         raise ValueError("Greenhouse job content must contain readable text.")
 
-    first_published_raw = _optional_string(raw_job.get("first_published"))
-    updated_raw = _optional_string(raw_job.get("updated_at"))
+    first_published_raw = clean_optional(raw_job.get("first_published"))
+    updated_raw = clean_optional(raw_job.get("updated_at"))
     first_published = _parse_timestamp(first_published_raw)
     updated = _parse_timestamp(updated_raw)
     warnings: list[AdapterDiagnostic] = []
@@ -283,22 +284,11 @@ def _failed_result(source: CompanySource, category: str, message: str) -> Adapte
     )
 
 
-def _required_string(raw: Mapping[object, object], key: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"Greenhouse job field {key} must be a non-empty string.")
-    return value.strip()
-
-
 def _required_identifier(raw: Mapping[object, object], key: str) -> str:
     value = raw.get(key)
     if not isinstance(value, (str, int)) or isinstance(value, bool) or not str(value).strip():
         raise ValueError(f"Greenhouse job field {key} must be a string or integer identifier.")
     return str(value).strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _names(value: object) -> list[str]:

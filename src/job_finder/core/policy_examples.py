@@ -8,6 +8,8 @@ from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
 
+from job_finder.core.validation import required_string
+
 
 class RoleExampleDecision(StrEnum):
     """Expected pre-seniority role decision."""
@@ -79,42 +81,42 @@ def load_policy_examples(path: Path) -> PolicyExamples:
 
     role = tuple(
         RoleExample(
-            example_id=_required_string(item, "id", path_name),
-            title=_required_string(item, "title", path_name),
+            example_id=required_string(item, "id", path_name),
+            title=required_string(item, "title", path_name),
             expected=_enum_value(
                 RoleExampleDecision,
-                _required_string(item, "expected", path_name),
+                required_string(item, "expected", path_name),
                 f"{path_name}.expected",
             ),
-            reason=_required_string(item, "reason", path_name),
+            reason=required_string(item, "reason", path_name),
         )
         for path_name, item in _example_mappings(raw, "role")
     )
     location = tuple(
         LocationExample(
-            example_id=_required_string(item, "id", path_name),
+            example_id=required_string(item, "id", path_name),
             source_location=_nullable_string(
                 item.get("source_location"), f"{path_name}.source_location"
             ),
             expected=_enum_value(
                 LocationExampleDecision,
-                _required_string(item, "expected", path_name),
+                required_string(item, "expected", path_name),
                 f"{path_name}.expected",
             ),
-            reason=_required_string(item, "reason", path_name),
+            reason=required_string(item, "reason", path_name),
         )
         for path_name, item in _example_mappings(raw, "location")
     )
     seniority = tuple(
         SeniorityExample(
-            example_id=_required_string(item, "id", path_name),
-            evidence=_required_string(item, "evidence", path_name),
+            example_id=required_string(item, "id", path_name),
+            evidence=required_string(item, "evidence", path_name),
             expected=_enum_value(
                 SeniorityExampleDecision,
-                _required_string(item, "expected", path_name),
+                required_string(item, "expected", path_name),
                 f"{path_name}.expected",
             ),
-            rationale=_required_string(item, "rationale", path_name),
+            rationale=required_string(item, "rationale", path_name),
         )
         for path_name, item in _example_mappings(raw, "seniority")
     )
@@ -129,8 +131,8 @@ def load_policy_examples(path: Path) -> PolicyExamples:
 
     return PolicyExamples(
         schema_version=schema_version,
-        profile_id=_required_string(raw, "profile_id", "examples"),
-        profile_version=_required_string(raw, "profile_version", "examples"),
+        profile_id=required_string(raw, "profile_id", "examples"),
+        profile_version=required_string(raw, "profile_version", "examples"),
         role=role,
         location=location,
         seniority=seniority,
@@ -151,13 +153,6 @@ def _example_mappings(
             raise ValueError(f"{path} must be a table")
         items.append((path, item))
     return tuple(items)
-
-
-def _required_string(raw: Mapping[str, object], key: str, path: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{path}.{key} must be a non-empty string")
-    return value.strip()
 
 
 def _nullable_string(value: object, path: str) -> str | None:

@@ -24,6 +24,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -401,21 +402,21 @@ def _normalize_job(source: CompanySource, subdomain: str, value: object) -> Norm
         raise ValueError("SenseHQ job id must be a positive integer.")
     if raw.get("job_status") != "OPEN":
         raise ValueError("SenseHQ public collection contained a non-open job.")
-    title = _required_string(raw, "title", "SenseHQ job")
-    location_parts = [_required_string(raw, "location", "SenseHQ job")]
+    title = required_string(raw, "title", "SenseHQ job")
+    location_parts = [required_string(raw, "location", "SenseHQ job")]
     office = raw.get("office")
     if isinstance(office, Mapping):
         for key in ("city", "state", "country"):
-            item = _optional_string(office.get(key))
+            item = clean_optional(office.get(key))
             if item is not None:
                 location_parts.append(item)
-    workplace = _optional_string(raw.get("workplace_type"))
+    workplace = clean_optional(raw.get("workplace_type"))
     if workplace is not None:
         location_parts.append(workplace.replace("_", " ").title())
     location = " | ".join(unique_strings(location_parts))
     created_on = _epoch_millis(raw.get("created_on"), "created_on")
     updated_on = _optional_epoch_millis(raw.get("updated_on"))
-    description_html = _optional_string(raw.get("description_external"))
+    description_html = clean_optional(raw.get("description_external"))
     description = _plain_text(html.unescape(description_html)) if description_html else None
     if not description:
         description = None
@@ -480,17 +481,6 @@ def _required_mapping(value: object, context: str) -> Mapping[object, object]:
     if not isinstance(value, Mapping):
         raise ValueError(f"{context} must be an object.")
     return value
-
-
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _result(

@@ -27,6 +27,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -226,13 +227,13 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
     external_id = _positive_id(raw.get("id"), "regular job id")
     if _positive_id(data.get("id"), "regular job data id") != external_id:
         raise ValueError("D. E. Shaw India job IDs did not match.")
-    title = _required_string(raw, "displayName", "regular job")
-    if _required_string(data, "displayName", "regular job data") != title:
+    title = required_string(raw, "displayName", "regular job")
+    if required_string(data, "displayName", "regular job data") != title:
         raise ValueError("D. E. Shaw India job titles did not match.")
     if data.get("activeOnJobsListing") is not True:
         raise ValueError("D. E. Shaw India regular job was not active on the public listing.")
 
-    job_slug = _required_string(data, "jobUrl", "regular job data")
+    job_slug = required_string(data, "jobUrl", "regular job data")
     slug_match = _JOB_SLUG_PATTERN.fullmatch(job_slug)
     if slug_match is None or slug_match.group(1) != external_id:
         raise ValueError("D. E. Shaw India job URL did not match its numeric ID.")
@@ -251,7 +252,7 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
         raise ValueError("D. E. Shaw India job description normalized to empty text.")
 
     department = _required_mapping(data.get("department"), "job department")
-    department_name = _required_string(department, "name", "job department")
+    department_name = required_string(department, "name", "job department")
     categories = _named_values(data.get("jobCategory"), "job categories")
     return NormalizedJob(
         schema_version=1,
@@ -273,9 +274,9 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
             "department": department_name,
             "categories": tuple(categories),
             "location_abbreviations": tuple(abbreviation for _, abbreviation in locations),
-            "work_status": _optional_string(metadata.get("workStatus")),
+            "work_status": clean_optional(metadata.get("workStatus")),
             "is_exploratory": metadata.get("isExploratory") is True,
-            "valid_to_date": _optional_string(data.get("validToDate")),
+            "valid_to_date": clean_optional(data.get("validToDate")),
         },
     )
 
@@ -367,8 +368,8 @@ def _location_pairs(value: object, context: str) -> tuple[tuple[str, str], ...]:
     for item in items:
         raw = _required_mapping(item, f"{context} item")
         pair = (
-            _required_string(raw, "name", f"{context} item"),
-            _required_string(raw, "abbreviation", f"{context} item"),
+            required_string(raw, "name", f"{context} item"),
+            required_string(raw, "abbreviation", f"{context} item"),
         )
         if pair in pairs:
             raise ValueError(f"{context} contained a duplicate location.")
@@ -381,7 +382,7 @@ def _location_pairs(value: object, context: str) -> tuple[tuple[str, str], ...]:
 def _named_values(value: object, context: str) -> list[str]:
     items = _required_list(value, context)
     return [
-        _required_string(_required_mapping(item, f"{context} item"), "name", context)
+        required_string(_required_mapping(item, f"{context} item"), "name", context)
         for item in items
     ]
 
@@ -402,17 +403,6 @@ def _required_list(value: object, context: str) -> list[object]:
     if not isinstance(value, list):
         raise ValueError(f"{context} must be an array.")
     return value
-
-
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _is_canonical_careers_url(value: str) -> bool:

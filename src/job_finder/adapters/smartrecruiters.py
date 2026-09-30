@@ -25,6 +25,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 
 SMARTRECRUITERS_API = "https://api.smartrecruiters.com/v1/companies/{company}/postings"
 DEFAULT_PAGE_SIZE = 100
@@ -201,7 +202,7 @@ class SmartRecruitersAdapter:
             raise ValueError("SmartRecruiters detail response was not valid JSON.") from error
         if (
             not isinstance(payload, Mapping)
-            or _required_string(payload, "id") != job.external_job_id
+            or required_string(payload, "id") != job.external_job_id
         ):
             raise ValueError("SmartRecruiters detail response job ID does not match the listing.")
         description = _detail_description(payload)
@@ -233,12 +234,12 @@ def _normalize_job(
 ) -> tuple[NormalizedJob, tuple[AdapterDiagnostic, ...]]:
     if not isinstance(raw, Mapping):
         raise ValueError("SmartRecruiters job must be an object.")
-    external_id, title = _required_string(raw, "id"), _required_string(raw, "name")
+    external_id, title = required_string(raw, "id"), required_string(raw, "name")
     location = raw.get("location")
     if not isinstance(location, Mapping):
         raise ValueError("SmartRecruiters job location must be an object.")
-    original = _required_string(location, "fullLocation")
-    published_raw = _optional_string(raw.get("releasedDate"))
+    original = required_string(location, "fullLocation")
+    published_raw = clean_optional(raw.get("releasedDate"))
     published_at = _parse_timestamp(published_raw)
     warnings: list[AdapterDiagnostic] = []
     if published_at is None:
@@ -328,17 +329,6 @@ def _company_identifier(value: str) -> str:
             "SmartRecruiters company_identifier must contain only letters, digits, and hyphens."
         )
     return value
-
-
-def _required_string(raw: Mapping[object, object], key: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"SmartRecruiters job field {key} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _parse_timestamp(value: str | None) -> datetime | None:

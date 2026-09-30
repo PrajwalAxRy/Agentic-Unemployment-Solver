@@ -11,6 +11,7 @@ from pathlib import Path
 
 from job_finder.core.company_seed import CompanySeedRecord
 from job_finder.core.source_contracts import CompanySource, company_source_from_mapping
+from job_finder.core.validation import required_string
 
 
 @dataclass(frozen=True, slots=True)
@@ -98,9 +99,9 @@ def load_company_registry(path: Path) -> CompanySourceRegistry:
 
     return CompanySourceRegistry(
         schema_version=schema_version,
-        registry_version=_required_string(raw, "registry_version", "registry"),
+        registry_version=required_string(raw, "registry_version", "registry"),
         generated_at=generated_at,
-        discovery_batch_id=_required_string(raw, "discovery_batch_id", "registry"),
+        discovery_batch_id=required_string(raw, "discovery_batch_id", "registry"),
         entries=entries,
     )
 
@@ -154,7 +155,7 @@ def audit_company_registry(
 
 
 def _entry_from_mapping(raw: Mapping[str, object]) -> CompanyRegistryEntry:
-    priority = _required_string(raw, "priority", "registry source")
+    priority = required_string(raw, "priority", "registry source")
     if priority not in {"P1", "P2", "P3"}:
         raise ValueError("registry source.priority must be one of: P1, P2, P3")
     source_rank = _required_int(raw, "source_rank", "registry source")
@@ -192,13 +193,6 @@ def _as_mapping(value: object, path: str) -> Mapping[str, object]:
     if not isinstance(value, Mapping):
         raise ValueError(f"{path} must be an object")
     return value
-
-
-def _required_string(raw: Mapping[str, object], key: str, path: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{path}.{key} must be a non-empty string")
-    return value.strip()
 
 
 def _required_int(raw: Mapping[str, object], key: str, path: str) -> int:

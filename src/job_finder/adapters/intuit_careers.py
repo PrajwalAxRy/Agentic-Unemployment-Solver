@@ -30,6 +30,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -324,9 +325,9 @@ def _normalize_listing(source: CompanySource, row: _ListingRow) -> NormalizedJob
 def _normalize_detail(job: NormalizedJob, raw: Mapping[str, object]) -> NormalizedJob:
     if raw.get("@type") != "JobPosting":
         raise ValueError("Intuit detail JSON-LD was not a JobPosting.")
-    if _required_string(raw, "title", "Intuit detail") != job.title_original:
+    if required_string(raw, "title", "Intuit detail") != job.title_original:
         raise ValueError("Intuit detail title did not match the listing.")
-    if _required_string(raw, "url", "Intuit detail") != job.canonical_url:
+    if required_string(raw, "url", "Intuit detail") != job.canonical_url:
         raise ValueError("Intuit detail URL did not match the listing.")
     organization = raw.get("hiringOrganization")
     if not isinstance(organization, Mapping) or organization.get("name") != "Intuit":
@@ -334,10 +335,10 @@ def _normalize_detail(job: NormalizedJob, raw: Mapping[str, object]) -> Normaliz
     locations = _detail_locations(raw.get("jobLocation"))
     if not any(_is_bengaluru_india(location) for location in locations):
         raise ValueError("Intuit detail did not retain the Bengaluru filter location.")
-    description = _html_text(_required_string(raw, "description", "Intuit detail"))
+    description = _html_text(required_string(raw, "description", "Intuit detail"))
     if len(description) < 80:
         raise ValueError("Intuit detail description normalized to insufficient text.")
-    date_raw = _required_string(raw, "datePosted", "Intuit detail")
+    date_raw = required_string(raw, "datePosted", "Intuit detail")
     try:
         published_at = datetime.strptime(date_raw, "%Y-%m-%d").date()
     except ValueError as error:
@@ -376,9 +377,9 @@ def _detail_locations(value: object) -> list[str]:
         if not isinstance(address, Mapping):
             raise ValueError("Intuit jobLocation address must be an object.")
         parts = [
-            _optional_string(address.get("addressLocality")),
-            _optional_string(address.get("addressRegion")),
-            _optional_string(address.get("addressCountry")),
+            clean_optional(address.get("addressLocality")),
+            clean_optional(address.get("addressRegion")),
+            clean_optional(address.get("addressCountry")),
         ]
         location = ", ".join(part for part in parts if part)
         if not location:
@@ -432,7 +433,7 @@ class _ListingParser(HTMLParser):
             self._heading_depth += 1
             self._heading_parts = []
         elif tag == "li" and values.get("data-category") is not None:
-            self._category = _optional_string(values.get("data-category"))
+            self._category = clean_optional(values.get("data-category"))
         elif tag == "a" and "sr-item" in classes:
             self._row_href = values.get("href")
             self._row_title = values.get("data-title")
@@ -586,17 +587,6 @@ def _positive_text_int(value: str | None, context: str) -> int:
     if parsed <= 0:
         raise ValueError(f"{context} must be positive.")
     return parsed
-
-
-def _required_string(raw: Mapping[str, object], field: str, context: str) -> str:
-    value = raw.get(field)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} {field} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return _normalize_whitespace(value) if isinstance(value, str) and value.strip() else None
 
 
 def _failed_or_partial(

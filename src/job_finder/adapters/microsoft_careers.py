@@ -34,6 +34,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -157,7 +158,7 @@ class MicrosoftCareersAdapter:
                 rows = data.get("positions")
                 if not isinstance(rows, list):
                     raise ValueError("Microsoft careers search positions must be an array.")
-                sort_by = _required_string(data, "sortBy", "Microsoft careers search data")
+                sort_by = required_string(data, "sortBy", "Microsoft careers search data")
                 if sort_by != "relevance":
                     raise ValueError(
                         "Microsoft careers search did not honor the required relevance sort."
@@ -321,13 +322,13 @@ class MicrosoftCareersAdapter:
         )
         if detail_position_id != position_id:
             raise DetailIdentityMismatch("Microsoft detail position ID does not match the listing.")
-        external_id = _required_string(data, "atsJobId", "Microsoft careers detail data")
+        external_id = required_string(data, "atsJobId", "Microsoft careers detail data")
         if external_id != job.external_job_id:
             raise DetailIdentityMismatch("Microsoft detail ATS job ID does not match the listing.")
-        title = _required_string(data, "name", "Microsoft careers detail data")
+        title = required_string(data, "name", "Microsoft careers detail data")
         if normalize_title(title) != job.title_normalized:
             raise DetailIdentityMismatch("Microsoft detail title does not match the listing.")
-        public_url = _required_string(data, "publicUrl", "Microsoft careers detail data")
+        public_url = required_string(data, "publicUrl", "Microsoft careers detail data")
         detail_canonical_url, public_position_id = _canonical_job_url(public_url)
         if detail_canonical_url != job.canonical_url or public_position_id != position_id:
             raise DetailIdentityMismatch("Microsoft detail public URL does not match the listing.")
@@ -336,17 +337,17 @@ class MicrosoftCareersAdapter:
             raise DetailIdentityMismatch(
                 "Microsoft detail publication timestamp does not match the listing."
             )
-        description_html = _required_string(data, "jobDescription", "Microsoft careers detail data")
+        description_html = required_string(data, "jobDescription", "Microsoft careers detail data")
         description = _plain_text(description_html)
         if not description:
             raise DetailContentMissing("Microsoft detail description normalized to empty text.")
         metadata = dict(job.source_metadata)
         metadata.update(
             {
-                "employment_type": _optional_string(data.get("efcustomTextEmploymentType")),
-                "required_travel": _optional_string(data.get("efcustomTextRequiredTravel")),
-                "role_type": _optional_string(data.get("efcustomTextRoletype")),
-                "work_site": _optional_string(data.get("efcustomTextWorkSite")),
+                "employment_type": clean_optional(data.get("efcustomTextEmploymentType")),
+                "required_travel": clean_optional(data.get("efcustomTextRequiredTravel")),
+                "role_type": clean_optional(data.get("efcustomTextRoletype")),
+                "work_site": clean_optional(data.get("efcustomTextWorkSite")),
             }
         )
         return replace(
@@ -498,8 +499,8 @@ def _api_data(body: bytes, context: str) -> Mapping[object, object]:
     root = _required_mapping(json.loads(body), context)
     status = root.get("status")
     error = _required_mapping(root.get("error"), f"{context} error")
-    message = _optional_string(error.get("message"))
-    error_body = _optional_string(error.get("body"))
+    message = clean_optional(error.get("message"))
+    error_body = clean_optional(error.get("body"))
     if status != 200 or message is not None or error_body is not None:
         raise _RemoteApiError(f"{context} returned a structured remote error.")
     return _required_mapping(root.get("data"), f"{context} data")
@@ -508,12 +509,12 @@ def _api_data(body: bytes, context: str) -> Mapping[object, object]:
 def _normalize_listing(source: CompanySource, value: object) -> NormalizedJob:
     raw = _required_mapping(value, "Microsoft careers position")
     position_id = str(_required_nonnegative_int(raw, "id", "Microsoft careers position"))
-    external_id = _required_string(raw, "atsJobId", "Microsoft careers position")
+    external_id = required_string(raw, "atsJobId", "Microsoft careers position")
     if not _EXTERNAL_ID_PATTERN.fullmatch(external_id):
         raise ValueError("Microsoft careers atsJobId contains unsupported characters.")
-    display_job_id = _required_string(raw, "displayJobId", "Microsoft careers position")
-    title = _required_string(raw, "name", "Microsoft careers position")
-    position_url = _required_string(raw, "positionUrl", "Microsoft careers position")
+    display_job_id = required_string(raw, "displayJobId", "Microsoft careers position")
+    title = required_string(raw, "name", "Microsoft careers position")
+    position_url = required_string(raw, "positionUrl", "Microsoft careers position")
     canonical_url, url_position_id = _canonical_job_url(urljoin(f"https://{_HOST}", position_url))
     if url_position_id != position_id:
         raise ValueError("Microsoft careers position URL does not match its ID.")
@@ -544,10 +545,10 @@ def _normalize_listing(source: CompanySource, value: object) -> NormalizedJob:
             "adapter_key": MICROSOFT_CAREERS_ADAPTER_KEY,
             "position_id": position_id,
             "display_job_id": display_job_id,
-            "department": _optional_string(raw.get("department")),
+            "department": clean_optional(raw.get("department")),
             "standardized_locations": tuple(standardized_locations),
-            "work_location_option": _optional_string(raw.get("workLocationOption")),
-            "location_flexibility": _optional_string(raw.get("locationFlexibility")),
+            "work_location_option": clean_optional(raw.get("workLocationOption")),
+            "location_flexibility": clean_optional(raw.get("locationFlexibility")),
             "india_search_result": True,
         },
     )
@@ -593,13 +594,6 @@ def _required_mapping(value: object, context: str) -> Mapping[object, object]:
     return value
 
 
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return value.strip()
-
-
 def _required_nonnegative_int(raw: Mapping[object, object], key: str, context: str) -> int:
     value = raw.get(key)
     if not isinstance(value, int) or isinstance(value, bool) or value < 0:
@@ -616,10 +610,6 @@ def _string_array(value: object, context: str) -> list[str]:
             raise ValueError(f"{context} entries must be non-empty strings.")
         result.append(item.strip())
     return result
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _result(

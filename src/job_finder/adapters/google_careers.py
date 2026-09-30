@@ -27,6 +27,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -457,10 +458,10 @@ class _ListingParser(HTMLParser):
         )
         self.rows.append(
             _ListingRow(
-                data_id=_optional_string(self._card.get("data_id")),
+                data_id=clean_optional(self._card.get("data_id")),
                 title=_compact_object_parts(_object_list(self._card, "title")),
                 locations=locations,
-                href=_optional_string(self._card.get("href")),
+                href=clean_optional(self._card.get("href")),
                 product=_clean_badge_text(
                     str(part) for part in _object_list(self._card, "product")
                 ),
@@ -629,7 +630,7 @@ def _normalize_listing(source: CompanySource, row: _ListingRow) -> NormalizedJob
     canonical_url, external_id = _canonical_detail_url(
         urljoin("https://www.google.com/about/careers/applications/", href)
     )
-    data_id = _optional_string(row.data_id)
+    data_id = clean_optional(row.data_id)
     if data_id is not None and data_id != external_id:
         raise ValueError("Google Careers listing data-id does not match its job URL.")
     location = " | ".join(locations)
@@ -707,10 +708,6 @@ def _required_text(value: object, field: str) -> str:
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{field} must be non-empty.")
     return re.sub(r"\s+", " ", value).strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _clean_badge_text(parts: Iterable[str]) -> str | None:

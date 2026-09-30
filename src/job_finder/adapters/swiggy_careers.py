@@ -28,6 +28,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import normalize_source_locations as _shared_locations
 from job_finder.normalization.jobs import normalize_text, normalize_title
 
@@ -206,13 +207,13 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
     external_id = str(_positive_int(value.get("reqId"), "Swiggy reqId"))
     if value.get("statusId") != 3:
         raise ValueError("Swiggy requisition did not have the verified open statusId=3.")
-    title = _required_string(value, "reqTitle", "Swiggy requisition")
-    location = _required_string(value, "location", "Swiggy requisition")
+    title = required_string(value, "reqTitle", "Swiggy requisition")
+    location = required_string(value, "location", "Swiggy requisition")
     _validate_location_list(value.get("locationList"), location)
-    description = _html_text(_required_string(value, "jdDisplay", "Swiggy requisition"))
+    description = _html_text(required_string(value, "jdDisplay", "Swiggy requisition"))
     if not description:
         raise ValueError("Swiggy job description normalized to empty text.")
-    approved_raw = _required_string(value, "approvedOn", "Swiggy requisition")
+    approved_raw = required_string(value, "approvedOn", "Swiggy requisition")
     try:
         approved_at = datetime.strptime(approved_raw, "%Y-%m-%dT%H:%M:%S.%f%z")
     except ValueError as error:
@@ -224,7 +225,7 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
     maximum_experience = _non_negative_number(value.get("expMax"), "Swiggy expMax")
     if minimum_experience > maximum_experience:
         raise ValueError("Swiggy minimum experience exceeds maximum experience.")
-    employment_type = _required_string(value, "employmentType", "Swiggy requisition")
+    employment_type = required_string(value, "employmentType", "Swiggy requisition")
     total_positions = _positive_int(value.get("totalPositions"), "Swiggy totalPositions")
 
     return NormalizedJob(
@@ -245,8 +246,8 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
         source_metadata={
             "adapter_key": SWIGGY_ADAPTER_KEY,
             "approval_date_unverified": True,
-            "business_unit": _optional_string(value.get("buName")),
-            "career_stream": _optional_string(value.get("careerStream")),
+            "business_unit": clean_optional(value.get("buName")),
+            "career_stream": clean_optional(value.get("careerStream")),
             "employment_type": employment_type,
             "minimum_experience_years": minimum_experience,
             "maximum_experience_years": maximum_experience,
@@ -324,21 +325,6 @@ def _html_text(value: str) -> str:
         for line in (_normalize_whitespace(part) for part in "".join(parser.parts).splitlines())
         if line
     )
-
-
-def _required_string(raw: Mapping[str, object], field: str, context: str) -> str:
-    value = raw.get(field)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} {field} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    if value is None:
-        return None
-    if not isinstance(value, str):
-        raise ValueError("Swiggy optional metadata must be text or null.")
-    return _normalize_whitespace(value) or None
 
 
 def _positive_int(value: object, context: str) -> int:

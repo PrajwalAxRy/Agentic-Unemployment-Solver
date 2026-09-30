@@ -29,6 +29,8 @@ from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
 
+from job_finder.core.validation import required_string
+
 
 class RelevanceVerdict(StrEnum):
     """Three-way relevance judgment (``to_change.md`` 2.3, 2.6)."""
@@ -93,13 +95,13 @@ def load_relevance_evaluation_set(path: Path) -> RelevanceEvaluationSet:
         path_name = f"examples[{index}]"
         if not isinstance(value, Mapping):
             raise ValueError(f"{path_name} must be an object")
-        example_id = _required_string(value, "id", path_name)
+        example_id = required_string(value, "id", path_name)
         if example_id in seen_ids:
             raise ValueError(f"duplicate relevance evaluation id: {example_id}")
         seen_ids.add(example_id)
 
-        description = _required_string(value, "description", path_name)
-        important_evidence = _required_string(value, "important_evidence", path_name)
+        description = required_string(value, "description", path_name)
+        important_evidence = required_string(value, "important_evidence", path_name)
         # Same discipline the seniority set enforces: the cited evidence must actually
         # appear in the description, so a label cannot drift away from its justification.
         if important_evidence.casefold() not in description.casefold():
@@ -111,10 +113,10 @@ def load_relevance_evaluation_set(path: Path) -> RelevanceEvaluationSet:
         examples.append(
             RelevanceExample(
                 example_id=example_id,
-                title=_required_string(value, "title", path_name),
+                title=required_string(value, "title", path_name),
                 description=description,
                 expected_verdict=_expected_verdict(value.get("expected_verdict"), path_name),
-                human_rationale=_required_string(value, "human_rationale", path_name),
+                human_rationale=required_string(value, "human_rationale", path_name),
                 important_evidence=important_evidence,
                 source=source if isinstance(source, str) and source.strip() else None,
             )
@@ -122,8 +124,8 @@ def load_relevance_evaluation_set(path: Path) -> RelevanceEvaluationSet:
 
     return RelevanceEvaluationSet(
         schema_version=schema_version,
-        set_version=_required_string(raw, "set_version", "relevance evaluation set"),
-        profile_id=_required_string(raw, "profile_id", "relevance evaluation set"),
+        set_version=required_string(raw, "set_version", "relevance evaluation set"),
+        profile_id=required_string(raw, "profile_id", "relevance evaluation set"),
         examples=tuple(examples),
     )
 
@@ -136,10 +138,3 @@ def _expected_verdict(value: object, path: str) -> RelevanceVerdict:
     except ValueError as error:
         supported = ", ".join(item.value for item in RelevanceVerdict)
         raise ValueError(f"{path}.expected_verdict must be one of: {supported}") from error
-
-
-def _required_string(raw: Mapping[str, object], key: str, path: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{path}.{key} must be a non-empty string")
-    return value.strip()

@@ -9,6 +9,7 @@ from enum import StrEnum
 from pathlib import Path
 
 from job_finder.core.hashing import configuration_hash
+from job_finder.core.validation import required_string
 
 SUPPORTED_SEARCH_PROFILE_SCHEMA_VERSION = 1
 
@@ -122,8 +123,8 @@ def search_profile_from_mapping(raw: Mapping[str, object]) -> SearchProfile:
         )
         raise ValueError(msg)
 
-    profile_id = _required_string(raw, "profile_id", "search profile")
-    version = _required_string(raw, "version", "search profile")
+    profile_id = required_string(raw, "profile_id", "search profile")
+    version = required_string(raw, "version", "search profile")
 
     recency = _required_mapping(raw, "recency", "search profile")
     recency_window_days = _required_int(recency, "window_days", "recency")
@@ -132,7 +133,7 @@ def search_profile_from_mapping(raw: Mapping[str, object]) -> SearchProfile:
         raise ValueError(msg)
     date_uncertainty_mode = _enum_value(
         DateUncertaintyMode,
-        _required_string(recency, "date_uncertainty_mode", "recency"),
+        required_string(recency, "date_uncertainty_mode", "recency"),
         "recency.date_uncertainty_mode",
     )
 
@@ -169,14 +170,14 @@ def _parse_role_families(roles: Mapping[str, object]) -> tuple[RoleFamily, ...]:
     for index, item in enumerate(items):
         path = f"roles.families[{index}]"
         family = _as_mapping(item, path)
-        family_id = _required_string(family, "id", path)
+        family_id = required_string(family, "id", path)
         if family_id in seen_ids:
             raise ValueError(f"duplicate role family id: {family_id}")
         seen_ids.add(family_id)
         families.append(
             RoleFamily(
                 family_id=family_id,
-                label=_required_string(family, "label", path),
+                label=required_string(family, "label", path),
                 title_terms=_required_string_tuple(family, "title_terms", path),
             )
         )
@@ -191,8 +192,8 @@ def _parse_title_exclusions(roles: Mapping[str, object]) -> tuple[TitleExclusion
         exclusion = _as_mapping(item, path)
         exclusions.append(
             TitleExclusion(
-                term=_required_string(exclusion, "term", path),
-                reason=_required_string(exclusion, "reason", path),
+                term=required_string(exclusion, "term", path),
+                reason=required_string(exclusion, "reason", path),
             )
         )
     return tuple(exclusions)
@@ -248,12 +249,12 @@ def _parse_location(location: Mapping[str, object]) -> LocationPolicy:
         accept_unqualified_remote_alternative=accept_unqualified_remote_alternative,
         multi_location_treatment=_enum_value(
             MultiLocationTreatment,
-            _required_string(location, "multi_location_treatment", "location"),
+            required_string(location, "multi_location_treatment", "location"),
             "location.multi_location_treatment",
         ),
         ambiguous_location_treatment=_enum_value(
             AmbiguousLocationTreatment,
-            _required_string(location, "ambiguous_location_treatment", "location"),
+            required_string(location, "ambiguous_location_treatment", "location"),
             "location.ambiguous_location_treatment",
         ),
     )
@@ -282,12 +283,12 @@ def _parse_seniority(seniority: Mapping[str, object]) -> SeniorityTarget:
     )
     if maximum_exclusive_years != 5:
         raise ValueError("seniority.maximum_exclusive_years must be 5")
-    ambiguity_treatment = _required_string(seniority, "ambiguity_treatment", "seniority")
+    ambiguity_treatment = required_string(seniority, "ambiguity_treatment", "seniority")
     if ambiguity_treatment != "review":
         raise ValueError("seniority.ambiguity_treatment must be 'review'")
     return SeniorityTarget(
         maximum_exclusive_years=maximum_exclusive_years,
-        description=_required_string(seniority, "description", "seniority"),
+        description=required_string(seniority, "description", "seniority"),
         ambiguity_treatment=ambiguity_treatment,
     )
 
@@ -314,13 +315,6 @@ def _required_list(raw: Mapping[str, object], key: str, path: str) -> list[objec
     if not isinstance(value, list):
         raise ValueError(f"{path}.{key} must be an array")
     return value
-
-
-def _required_string(raw: Mapping[str, object], key: str, path: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{path}.{key} must be a non-empty string")
-    return value.strip()
 
 
 def _required_int(raw: Mapping[str, object], key: str, path: str) -> int:

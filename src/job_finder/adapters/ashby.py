@@ -28,6 +28,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -180,17 +181,17 @@ def _normalize_job(
 ) -> tuple[NormalizedJob, tuple[AdapterDiagnostic, ...]]:
     if not isinstance(raw_job, Mapping):
         raise ValueError("Ashby job must be an object.")
-    external_id = _required_string(raw_job, "id")
-    title = _required_string(raw_job, "title")
-    primary_location = _required_string(raw_job, "location")
-    job_url = _canonical_ashby_url(_required_string(raw_job, "jobUrl"))
-    description = _required_string(raw_job, "descriptionPlain")
+    external_id = required_string(raw_job, "id")
+    title = required_string(raw_job, "title")
+    primary_location = required_string(raw_job, "location")
+    job_url = _canonical_ashby_url(required_string(raw_job, "jobUrl"))
+    description = required_string(raw_job, "descriptionPlain")
     locations = [primary_location, *_secondary_locations(raw_job.get("secondaryLocations"))]
     if raw_job.get("isRemote") is True or raw_job.get("workplaceType") == "Remote":
         locations.append("Remote")
     location_original = " | ".join(unique_strings(locations))
 
-    published_raw = _optional_string(raw_job.get("publishedAt"))
+    published_raw = clean_optional(raw_job.get("publishedAt"))
     published_at = _parse_timestamp(published_raw)
     warnings: list[AdapterDiagnostic] = []
     date_basis = DateBasis.PUBLISHED if published_at is not None else DateBasis.UNKNOWN
@@ -252,17 +253,6 @@ def _failed_result(source: CompanySource, category: str, message: str) -> Adapte
             ),
         ),
     )
-
-
-def _required_string(raw: Mapping[object, object], key: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"Ashby job field {key} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _secondary_locations(value: object) -> list[str]:

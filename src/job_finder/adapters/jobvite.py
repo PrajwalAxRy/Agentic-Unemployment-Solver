@@ -24,6 +24,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -241,10 +242,10 @@ class JobviteAdapter:
         parser.feed(document)
         parser.close()
         posting = _job_posting(parser.documents)
-        title = _required_string(posting, "title", "Jobvite detail")
-        published_raw = _optional_string(posting.get("datePosted"))
+        title = required_string(posting, "title", "Jobvite detail")
+        published_raw = clean_optional(posting.get("datePosted"))
         published_at = _parse_date(published_raw)
-        description_html = _optional_string(posting.get("description"))
+        description_html = clean_optional(posting.get("description"))
         description = _plain_text(description_html) if description_html is not None else None
         detail_location = _job_location(posting.get("jobLocation"))
         location = detail_location or job.location_original
@@ -537,7 +538,7 @@ def _job_location(value: object) -> str | None:
             address.get("postalCode"),
             country,
         ):
-            text = _optional_string(component)
+            text = clean_optional(component)
             if text is not None and text.casefold() not in {item.casefold() for item in components}:
                 components.append(text)
     return ", ".join(components) or None
@@ -563,22 +564,11 @@ def _parse_date(value: str | None) -> date | None:
         return None
 
 
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = _optional_string(raw.get(key))
-    if value is None:
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return value
-
-
 def _required_text(value: object, field: str) -> str:
-    text = _optional_string(value)
+    text = clean_optional(value)
     if text is None:
         raise ValueError(f"{field} must be non-empty.")
     return text
-
-
-def _optional_string(value: object) -> str | None:
-    return _normalize_whitespace(value) if isinstance(value, str) and value.strip() else None
 
 
 def _compact_text(parts: list[str]) -> str:

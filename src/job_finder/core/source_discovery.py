@@ -21,6 +21,7 @@ from job_finder.core.source_contracts import (
     IdentityStrategy,
     company_source_from_mapping,
 )
+from job_finder.core.validation import required_string
 
 
 class DiscoveryStatus(StrEnum):
@@ -123,7 +124,7 @@ def load_discovery_batch(path: Path) -> DiscoveryBatch:
     schema_version = _required_int(raw, "schema_version", "batch")
     if schema_version != 1:
         raise ValueError(f"unsupported discovery schema_version: {schema_version}; supported=1")
-    discovered_at_raw = _required_string(raw, "discovered_at", "batch")
+    discovered_at_raw = required_string(raw, "discovered_at", "batch")
     try:
         discovered_at = datetime.fromisoformat(discovered_at_raw.replace("Z", "+00:00"))
     except ValueError as error:
@@ -144,7 +145,7 @@ def load_discovery_batch(path: Path) -> DiscoveryBatch:
 
     return DiscoveryBatch(
         schema_version=schema_version,
-        batch_id=_required_string(raw, "batch_id", "batch"),
+        batch_id=required_string(raw, "batch_id", "batch"),
         discovered_at=discovered_at,
         proposals=proposals,
     )
@@ -254,12 +255,12 @@ def _proposal_from_mapping(raw: Mapping[str, object]) -> SourceDiscoveryProposal
     list_endpoint = _nullable_url(raw.get("list_endpoint"), "list_endpoint")
     status = _enum_value(
         DiscoveryStatus,
-        _required_string(raw, "status", "proposal"),
+        required_string(raw, "status", "proposal"),
         "proposal.status",
     )
     confidence = _enum_value(
         Confidence,
-        _required_string(raw, "confidence", "proposal"),
+        required_string(raw, "confidence", "proposal"),
         "proposal.confidence",
     )
     if status is DiscoveryStatus.AUTO_VERIFIED:
@@ -272,26 +273,26 @@ def _proposal_from_mapping(raw: Mapping[str, object]) -> SourceDiscoveryProposal
 
     return SourceDiscoveryProposal(
         schema_version=schema_version,
-        company_id=_required_string(raw, "company_id", "proposal"),
-        company_name=_required_string(raw, "company_name", "proposal"),
+        company_id=required_string(raw, "company_id", "proposal"),
+        company_name=required_string(raw, "company_name", "proposal"),
         source_rank=_required_int(raw, "source_rank", "proposal"),
-        priority=_required_string(raw, "priority", "proposal"),
+        priority=required_string(raw, "priority", "proposal"),
         status=status,
         official_careers_url=official_url,
         regional_board_url=regional_url,
         adapter_type=_enum_value(
             AdapterType,
-            _required_string(raw, "adapter_type", "proposal"),
+            required_string(raw, "adapter_type", "proposal"),
             "proposal.adapter_type",
         ),
         adapter_parameters=parameters,
         listing_mode=_enum_value(
             ListingMode,
-            _required_string(raw, "listing_mode", "proposal"),
+            required_string(raw, "listing_mode", "proposal"),
             "proposal.listing_mode",
         ),
         list_endpoint=list_endpoint,
-        pagination=_required_string(raw, "pagination", "proposal"),
+        pagination=required_string(raw, "pagination", "proposal"),
         external_job_id_field=_nullable_string(
             raw.get("external_job_id_field"),
             "proposal.external_job_id_field",
@@ -302,7 +303,7 @@ def _proposal_from_mapping(raw: Mapping[str, object]) -> SourceDiscoveryProposal
         ),
         publication_date_basis=_enum_value(
             DateBasis,
-            _required_string(raw, "publication_date_basis", "proposal"),
+            required_string(raw, "publication_date_basis", "proposal"),
             "proposal.publication_date_basis",
         ),
         publication_date_verified=_required_bool(
@@ -314,7 +315,7 @@ def _proposal_from_mapping(raw: Mapping[str, object]) -> SourceDiscoveryProposal
         location_field=_nullable_string(raw.get("location_field"), "proposal.location_field"),
         detail_strategy=_enum_value(
             DetailStrategy,
-            _required_string(raw, "detail_strategy", "proposal"),
+            required_string(raw, "detail_strategy", "proposal"),
             "proposal.detail_strategy",
         ),
         confidence=confidence,
@@ -327,8 +328,8 @@ def _proposal_from_mapping(raw: Mapping[str, object]) -> SourceDiscoveryProposal
 def _evidence_from_mapping(raw: Mapping[str, object]) -> DiscoveryEvidence:
     return DiscoveryEvidence(
         url=_required_url(raw, "url", "evidence"),
-        evidence_type=_required_string(raw, "evidence_type", "evidence"),
-        note=_required_string(raw, "note", "evidence"),
+        evidence_type=required_string(raw, "evidence_type", "evidence"),
+        note=required_string(raw, "note", "evidence"),
     )
 
 
@@ -336,13 +337,6 @@ def _as_mapping(value: object, path: str) -> Mapping[str, object]:
     if not isinstance(value, Mapping):
         raise ValueError(f"{path} must be a table")
     return value
-
-
-def _required_string(raw: Mapping[str, object], key: str, path: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{path}.{key} must be a non-empty string")
-    return value.strip()
 
 
 def _nullable_string(value: object, path: str) -> str | None:
@@ -376,7 +370,7 @@ def _required_bool(raw: Mapping[str, object], key: str, path: str) -> bool:
 
 
 def _required_url(raw: Mapping[str, object], key: str, path: str) -> str:
-    value = _required_string(raw, key, path)
+    value = required_string(raw, key, path)
     _validate_url(value, f"{path}.{key}")
     return value
 

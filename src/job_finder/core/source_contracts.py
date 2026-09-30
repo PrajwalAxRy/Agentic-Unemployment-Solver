@@ -8,6 +8,7 @@ from enum import StrEnum
 
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.public_urls import validate_public_http_url
+from job_finder.core.validation import optional_text, required_string
 
 SUPPORTED_COMPANY_SOURCE_SCHEMA_VERSION = 1
 SUPPORTED_ADAPTER_RESULT_SCHEMA_VERSION = 1
@@ -283,31 +284,31 @@ def company_source_from_mapping(raw: Mapping[str, object]) -> CompanySource:
             f"{schema_version}; supported={SUPPORTED_COMPANY_SOURCE_SCHEMA_VERSION}"
         )
 
-    company_id = _required_string(raw, "company_id")
-    company_name = _required_string(raw, "company_name")
-    status = _enum_value(SourceStatus, _required_string(raw, "status"), "status")
+    company_id = required_string(raw, "company_id")
+    company_name = required_string(raw, "company_name")
+    status = _enum_value(SourceStatus, required_string(raw, "status"), "status")
     adapter_type = _enum_value(
         AdapterType,
-        _required_string(raw, "adapter_type"),
+        required_string(raw, "adapter_type"),
         "adapter_type",
     )
     identity_strategy = _enum_value(
         IdentityStrategy,
-        _required_string(raw, "identity_strategy"),
+        required_string(raw, "identity_strategy"),
         "identity_strategy",
     )
     detail_strategy = _enum_value(
         DetailStrategy,
-        _required_string(raw, "detail_strategy"),
+        required_string(raw, "detail_strategy"),
         "detail_strategy",
     )
     confidence = _enum_value(
         Confidence,
-        _required_string(raw, "confidence"),
+        required_string(raw, "confidence"),
         "confidence",
     )
 
-    careers_url = _optional_string(raw.get("careers_url"), "careers_url")
+    careers_url = optional_text(raw.get("careers_url"), "careers_url")
     if careers_url is not None:
         _validate_public_url(careers_url, "careers_url")
 
@@ -340,10 +341,10 @@ def company_source_from_mapping(raw: Mapping[str, object]) -> CompanySource:
     if not isinstance(verified, bool):
         raise ValueError("date_strategy.verified_as_publication must be a boolean")
     date_strategy = DateStrategy(
-        field_name=_optional_string(date_raw.get("field_name"), "date_strategy.field_name"),
+        field_name=optional_text(date_raw.get("field_name"), "date_strategy.field_name"),
         basis=_enum_value(
             DateBasis,
-            _required_string(date_raw, "basis"),
+            required_string(date_raw, "basis"),
             "date_strategy.basis",
         ),
         verified_as_publication=verified,
@@ -357,7 +358,7 @@ def company_source_from_mapping(raw: Mapping[str, object]) -> CompanySource:
     if not isinstance(low_confidence_approved, bool):
         raise ValueError("low_confidence_approved must be a boolean")
     evidence = _string_tuple(raw.get("evidence"), "evidence", allow_empty=True)
-    exception_reason = _optional_string(raw.get("exception_reason"), "exception_reason")
+    exception_reason = optional_text(raw.get("exception_reason"), "exception_reason")
     notes = _optional_text(raw.get("notes"), "notes")
 
     if enabled:
@@ -397,21 +398,6 @@ def company_source_from_mapping(raw: Mapping[str, object]) -> CompanySource:
 
 def _validate_public_url(value: str, path: str) -> None:
     validate_public_http_url(value, path)
-
-
-def _required_string(raw: Mapping[str, object], key: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{key} must be a non-empty string")
-    return value.strip()
-
-
-def _optional_string(value: object, path: str) -> str | None:
-    if value is None:
-        return None
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{path} must be null or a non-empty string")
-    return value.strip()
 
 
 def _optional_text(value: object, path: str) -> str:

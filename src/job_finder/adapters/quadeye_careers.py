@@ -26,6 +26,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -142,24 +143,24 @@ def _validate_source(source: CompanySource) -> None:
 
 def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
     raw = _required_mapping(value, "Quadeye job")
-    external_id = _required_string(raw, "id", "Quadeye job")
+    external_id = required_string(raw, "id", "Quadeye job")
     if _ID_PATTERN.fullmatch(external_id) is None:
         raise ValueError("Quadeye job id must be numeric.")
-    opening_id = _required_string(raw, "Job_Opening_ID", "Quadeye job")
+    opening_id = required_string(raw, "Job_Opening_ID", "Quadeye job")
     if _JOB_OPENING_PATTERN.fullmatch(opening_id) is None:
         raise ValueError("Quadeye Job_Opening_ID has an unsupported format.")
     if raw.get("Publish") is not True:
         raise ValueError("Quadeye API returned a non-public job.")
-    opening_status = _required_string(raw, "Job_Opening_Status", "Quadeye job")
-    title = _required_string(raw, "Posting_Title", "Quadeye job")
-    opening_name = _required_string(raw, "Job_Opening_Name", "Quadeye job")
+    opening_status = required_string(raw, "Job_Opening_Status", "Quadeye job")
+    title = required_string(raw, "Posting_Title", "Quadeye job")
+    opening_name = required_string(raw, "Job_Opening_Name", "Quadeye job")
     if normalize_text(title) != normalize_text(opening_name):
         raise ValueError("Quadeye posting title did not match the opening name.")
     locations = _string_list(raw.get("Job_Location"), "Quadeye Job_Location")
     if not locations:
         raise ValueError("Quadeye Job_Location must not be empty.")
-    description = _required_string(raw, "Job_Description", "Quadeye job")
-    date_raw = _required_string(raw, "Date_Opened", "Quadeye job")
+    description = required_string(raw, "Job_Description", "Quadeye job")
+    date_raw = required_string(raw, "Date_Opened", "Quadeye job")
     try:
         opened_at = datetime.strptime(date_raw, "%Y-%m-%d").date()
     except ValueError as error:
@@ -184,8 +185,8 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
             "adapter_key": QUADEYE_ADAPTER_KEY,
             "job_opening_id": opening_id,
             "job_opening_status": opening_status,
-            "job_type": _optional_string(raw.get("Job_Type")),
-            "work_experience": _optional_string(raw.get("Work_Experience")),
+            "job_type": clean_optional(raw.get("Job_Type")),
+            "work_experience": clean_optional(raw.get("Work_Experience")),
             "date_opened": date_raw,
             "date_opened_basis": "unknown",
         },
@@ -223,19 +224,6 @@ def _required_list(value: object, context: str) -> list[object]:
     if not isinstance(value, list):
         raise ValueError(f"{context} must be an array.")
     return value
-
-
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _optional_string(value: object) -> str | None:
-    if isinstance(value, str) and value.strip():
-        return re.sub(r"\s+", " ", value).strip()
-    return None
 
 
 def _string_list(value: object, field: str) -> list[str]:

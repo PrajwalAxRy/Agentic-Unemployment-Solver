@@ -25,6 +25,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -322,11 +323,11 @@ class OracleCloudAdapter:
             detail = _detail_item(payload)
         except (ValueError, json.JSONDecodeError, UnicodeDecodeError) as error:
             raise ValueError("Oracle Cloud detail response was not valid job data.") from error
-        detail_id = _required_string(detail, "Id")
+        detail_id = required_string(detail, "Id")
         if detail_id != job.external_job_id:
             raise ValueError("Oracle Cloud detail response job ID does not match the listing.")
 
-        title = _required_string(detail, "Title")
+        title = required_string(detail, "Title")
         locations = _listing_locations(detail)
         if not locations:
             locations = [job.location_original]
@@ -337,9 +338,7 @@ class OracleCloudAdapter:
         metadata.update(
             {
                 "detail_location_missing": not _listing_locations(detail),
-                "external_posted_start_date": _optional_string(
-                    detail.get("ExternalPostedStartDate")
-                ),
+                "external_posted_start_date": clean_optional(detail.get("ExternalPostedStartDate")),
                 "workplace_type": detail.get("WorkplaceType"),
                 "workplace_type_code": detail.get("WorkplaceTypeCode"),
             }
@@ -445,13 +444,13 @@ def _normalize_listing(
 ) -> NormalizedJob:
     if not isinstance(raw, Mapping):
         raise ValueError("Oracle Cloud requisition must be an object.")
-    external_id = _required_string(raw, "Id")
-    title = _required_string(raw, "Title")
+    external_id = required_string(raw, "Id")
+    title = required_string(raw, "Title")
     locations = _listing_locations(raw)
     location_missing = not locations
     if not locations:
         locations = ["Location unavailable"]
-    posted_raw = _optional_string(raw.get("PostedDate"))
+    posted_raw = clean_optional(raw.get("PostedDate"))
     posted_date = _parse_date(posted_raw)
     site_number = quote(parameters["site_number"], safe="")
     return NormalizedJob(
@@ -483,7 +482,7 @@ def _normalize_listing(
 
 def _listing_locations(raw: Mapping[object, object]) -> list[str]:
     locations: list[str] = []
-    primary = _optional_string(raw.get("PrimaryLocation"))
+    primary = clean_optional(raw.get("PrimaryLocation"))
     if primary is not None:
         locations.append(primary)
     for field in ("secondaryLocations", "otherWorkLocations", "workLocation"):
@@ -497,7 +496,7 @@ def _listing_locations(raw: Mapping[object, object]) -> list[str]:
         for item in children:
             if not isinstance(item, Mapping):
                 continue
-            name = _optional_string(item.get("Name")) or _optional_string(item.get("LocationName"))
+            name = clean_optional(item.get("Name")) or clean_optional(item.get("LocationName"))
             if name is not None:
                 locations.append(name)
     return unique_strings(locations)
@@ -523,17 +522,6 @@ def _raw_id(raw: object) -> str:
         if isinstance(value, str):
             return value
     return "<missing>"
-
-
-def _required_string(raw: Mapping[object, object], key: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"Oracle Cloud requisition field {key} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _non_negative_int(value: object, field: str) -> int:

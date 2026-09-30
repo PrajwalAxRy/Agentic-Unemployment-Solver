@@ -29,6 +29,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -354,16 +355,16 @@ class DarwinboxAdapter:
         except (json.JSONDecodeError, UnicodeDecodeError) as error:
             raise ValueError("Darwinbox detail response was not valid JSON.") from error
         raw_job = _detail_job(payload)
-        detail_id = _required_string(raw_job, "id")
+        detail_id = required_string(raw_job, "id")
         if detail_id != job.external_job_id:
             raise ValueError("Darwinbox detail response job ID does not match the listing.")
-        title = _required_string(raw_job, "title")
+        title = required_string(raw_job, "title")
         locations = _locations(raw_job)
         if _is_remote(raw_job.get("is_remote")):
             locations.append("Remote")
         if not locations:
             locations = [job.location_original]
-        raw_description = _optional_string(raw_job.get("jd"))
+        raw_description = clean_optional(raw_job.get("jd"))
         description = _plain_text(raw_description) if raw_description is not None else None
         if not description:
             description = None
@@ -372,7 +373,7 @@ class DarwinboxAdapter:
         source_metadata = dict(job.source_metadata)
         source_metadata.update(
             {
-                "created_on_raw": _optional_string(raw_job.get("created_on")),
+                "created_on_raw": clean_optional(raw_job.get("created_on")),
                 "detail_location_missing": not _locations(raw_job),
                 "experience_from": raw_job.get("experience_from_num"),
                 "experience_to": raw_job.get("experience_to_num"),
@@ -461,8 +462,8 @@ def _normalize_listing(
 ) -> NormalizedJob:
     if not isinstance(raw_job, Mapping):
         raise ValueError("Darwinbox job must be an object.")
-    external_id = _required_string(raw_job, "id")
-    title = _required_string(raw_job, "title")
+    external_id = required_string(raw_job, "id")
+    title = required_string(raw_job, "title")
     locations = _locations(raw_job)
     location_missing = not locations
     if location_missing:
@@ -482,7 +483,7 @@ def _normalize_listing(
         date_basis=DateBasis.UNKNOWN,
         canonical_url=_job_url(tenant, external_id),
         source_metadata={
-            "created_on_raw": _optional_string(raw_job.get("created_on")),
+            "created_on_raw": clean_optional(raw_job.get("created_on")),
             "experience_from": raw_job.get("experience_from_num"),
             "experience_to": raw_job.get("experience_to_num"),
             "listing_location_missing": location_missing,
@@ -554,17 +555,6 @@ def _result(
         complete=complete,
         diagnostics=tuple(diagnostics),
     )
-
-
-def _required_string(raw: Mapping[object, object], key: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"Darwinbox job field {key} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 class _VisibleTextParser(HTMLParser):

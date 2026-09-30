@@ -28,6 +28,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -218,8 +219,8 @@ def _validate_job(source: CompanySource, job: NormalizedJob) -> None:
 
 def _normalize_job(source: CompanySource, value: object) -> tuple[NormalizedJob, bool]:
     raw = _required_mapping(value, "Gnani.ai job")
-    title = _required_string(raw, "title", "Gnani.ai job")
-    code = _required_string(raw, "code", "Gnani.ai job")
+    title = required_string(raw, "title", "Gnani.ai job")
+    code = required_string(raw, "code", "Gnani.ai job")
     if _CODE_PATTERN.fullmatch(code) is None:
         raise ValueError("Gnani.ai job code has an unsupported format.")
     canonical_url, external_id = _canonical_detail_url(f"{GNANI_CAREERS_URL}apply/{code}")
@@ -236,7 +237,7 @@ def _normalize_job(source: CompanySource, value: object) -> tuple[NormalizedJob,
             raise ValueError("Gnani.ai job location must not be an empty array.")
         location = ", ".join(locations)
 
-    published_raw = _required_string(raw, "positionPublishDate", "Gnani.ai job")
+    published_raw = required_string(raw, "positionPublishDate", "Gnani.ai job")
     try:
         published_at = datetime.strptime(published_raw, "%Y-%m-%d %H:%M:%S").date()
     except ValueError as error:
@@ -248,8 +249,8 @@ def _normalize_job(source: CompanySource, value: object) -> tuple[NormalizedJob,
         raise ValueError("Gnani.ai minimum experience exceeds maximum experience.")
     vacancies = _positive_int(raw.get("vacancies"), "Gnani.ai vacancies")
     skills = tuple(_string_list(raw.get("skills"), "Gnani.ai skills"))
-    department = _optional_string(raw.get("department"))
-    designation = _optional_string(raw.get("designation"))
+    department = clean_optional(raw.get("department"))
+    designation = clean_optional(raw.get("designation"))
     return (
         NormalizedJob(
             schema_version=1,
@@ -405,19 +406,6 @@ def _required_list(value: object, context: str) -> list[object]:
     if not isinstance(value, list):
         raise ValueError(f"{context} must be an array.")
     return value
-
-
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _optional_string(value: object) -> str | None:
-    if isinstance(value, str) and value.strip():
-        return re.sub(r"\s+", " ", value).strip()
-    return None
 
 
 def _non_negative_int(value: object, field: str) -> int:

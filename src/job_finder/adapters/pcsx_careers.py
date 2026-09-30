@@ -30,6 +30,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -240,7 +241,7 @@ class PcsxCareersAdapter:
         observed_id = str(_positive_int(detail.get("id"), "PCSx detail id"))
         if observed_id != external_id:
             raise DetailIdentityMismatch("PCSx detail ID did not match the listing.")
-        title = _required_string(detail, "name", "PCSx detail")
+        title = required_string(detail, "name", "PCSx detail")
         if normalize_title(title) != job.title_normalized:
             raise DetailIdentityMismatch("PCSx detail title did not match the listing.")
         locations = _locations(detail)
@@ -249,9 +250,9 @@ class PcsxCareersAdapter:
         if _shared_locations(locations) != job.location_normalized:
             raise DetailIdentityMismatch("PCSx detail locations did not match the listing.")
         _validate_position_path(detail.get("positionUrl"), external_id)
-        if _required_string(detail, "publicUrl", "PCSx detail") != job.canonical_url:
+        if required_string(detail, "publicUrl", "PCSx detail") != job.canonical_url:
             raise DetailIdentityMismatch("PCSx detail public URL did not match the listing.")
-        description = _plain_text(_required_string(detail, "jobDescription", "PCSx detail"))
+        description = _plain_text(required_string(detail, "jobDescription", "PCSx detail"))
         if len(description) < 80:
             raise DetailContentMissing("PCSx detail description normalized to insufficient text.")
         posted_raw, posted_at = _detail_timestamp(detail)
@@ -336,7 +337,7 @@ def _response_data(value: object, context: str) -> Mapping[object, object]:
 def _normalize_listing(source: CompanySource, host: str, value: object) -> NormalizedJob:
     raw = _required_mapping(value, "PCSx listing")
     external_id = str(_positive_int(raw.get("id"), "PCSx job id"))
-    title = _required_string(raw, "name", "PCSx listing")
+    title = required_string(raw, "name", "PCSx listing")
     locations = _locations(raw)
     location_missing = not locations
     if location_missing:
@@ -451,13 +452,6 @@ def _required_list(value: object, context: str) -> list[object]:
     if not isinstance(value, list):
         raise ValueError(f"{context} must be an array.")
     return value
-
-
-def _required_string(raw: Mapping[object, object], field: str, context: str) -> str:
-    value = raw.get(field)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} {field} must be a non-empty string.")
-    return value.strip()
 
 
 def _positive_int(value: object, context: str) -> int:

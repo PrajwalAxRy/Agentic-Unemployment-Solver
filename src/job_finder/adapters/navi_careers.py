@@ -27,6 +27,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -158,21 +159,21 @@ def _validate_source(source: CompanySource) -> None:
 
 def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
     raw = _required_mapping(value, "Navi job")
-    external_id = _required_string(raw, "JobId", "Navi job")
+    external_id = required_string(raw, "JobId", "Navi job")
     if _UUID_PATTERN.fullmatch(external_id) is None:
         raise ValueError("Navi JobId must be a UUID.")
-    company_name = _required_string(raw, "CompanyName", "Navi job")
+    company_name = required_string(raw, "CompanyName", "Navi job")
     if company_name not in {"Navi", "Navi Limited"}:
         raise ValueError("Navi job CompanyName did not identify Navi.")
-    title = _required_string(raw, "JobTitle", "Navi job")
-    canonical_url = _job_url(_required_string(raw, "ApplyUrl", "Navi job"), external_id)
-    location_raw = _required_string(raw, "Location", "Navi job")
+    title = required_string(raw, "JobTitle", "Navi job")
+    canonical_url = _job_url(required_string(raw, "ApplyUrl", "Navi job"), external_id)
+    location_raw = required_string(raw, "Location", "Navi job")
     locations = _location_values(location_raw)
-    description_html = _required_string(raw, "JobDescriptionV2", "Navi job")
+    description_html = required_string(raw, "JobDescriptionV2", "Navi job")
     description = _plain_text(description_html)
     if not description:
         raise ValueError("Navi JobDescriptionV2 normalized to empty text.")
-    published_raw = _required_string(raw, "PublishedDate", "Navi job")
+    published_raw = required_string(raw, "PublishedDate", "Navi job")
     published_at = _timestamp(published_raw, "Navi PublishedDate")
     return NormalizedJob(
         schema_version=1,
@@ -192,9 +193,9 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
         source_metadata={
             "adapter_key": NAVI_ADAPTER_KEY,
             "company_name": company_name,
-            "job_code": _required_string(raw, "JobCode", "Navi job"),
-            "department": _required_string(raw, "Department", "Navi job"),
-            "job_type": _required_string(raw, "JobType", "Navi job"),
+            "job_code": required_string(raw, "JobCode", "Navi job"),
+            "department": required_string(raw, "Department", "Navi job"),
+            "job_type": required_string(raw, "JobType", "Navi job"),
         },
     )
 
@@ -205,7 +206,7 @@ def _location_values(value: str) -> list[str]:
     locations: list[str] = []
     for item in items:
         raw = _required_mapping(item, "Navi Location item")
-        address = _required_string(raw, "Address", "Navi Location item")
+        address = required_string(raw, "Address", "Navi Location item")
         if address not in locations:
             locations.append(address)
     if not locations:
@@ -274,13 +275,6 @@ def _required_list(value: object, context: str) -> list[object]:
     if not isinstance(value, list):
         raise ValueError(f"{context} must be an array.")
     return value
-
-
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return re.sub(r"\s+", " ", value).strip()
 
 
 def _non_negative_int(value: object, field: str) -> int:

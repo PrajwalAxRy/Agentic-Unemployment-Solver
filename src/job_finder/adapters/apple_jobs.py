@@ -28,6 +28,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -149,7 +150,7 @@ class AppleJobsAdapter:
                 observed_page = _required_nonnegative_int(search, "page", "Apple search data")
                 if observed_page != page_number:
                     raise ValueError("Apple search hydration page does not match the request.")
-                request_url = _required_string(search, "requestUrl", "Apple search data")
+                request_url = required_string(search, "requestUrl", "Apple search data")
                 if not _is_listing_url(request_url, page_number):
                     raise ValueError(
                         "Apple search hydration requestUrl does not match the request."
@@ -304,7 +305,7 @@ class AppleJobsAdapter:
             raise DetailIdentityMismatch("Apple detail response URL does not match the listing.")
 
         detail = _loader_value(document, "jobDetails")
-        request_url = _required_string(detail, "requestUrl", "Apple detail data")
+        request_url = required_string(detail, "requestUrl", "Apple detail data")
         request_canonical, request_identifier = _canonical_detail_url(request_url)
         if request_canonical != job.canonical_url or request_identifier != detail_identifier:
             raise DetailIdentityMismatch(
@@ -316,7 +317,7 @@ class AppleJobsAdapter:
                 "Apple detail hydration must expose exactly one matching canonical URL."
             )
         data = _required_mapping(detail.get("jobsData"), "Apple jobsData")
-        position_id = _required_string(data, "positionId", "Apple jobsData")
+        position_id = required_string(data, "positionId", "Apple jobsData")
         if position_id != job.source_metadata.get("position_id"):
             raise DetailIdentityMismatch("Apple detail position ID does not match the listing.")
         if not detail_identifier.startswith(position_id):
@@ -325,22 +326,22 @@ class AppleJobsAdapter:
             )
         managed_pipeline = job.source_metadata.get("managed_pipeline_role") is True
         if managed_pipeline:
-            detail_internal_id = _required_string(data, "id", "Apple jobsData")
+            detail_internal_id = required_string(data, "id", "Apple jobsData")
             if detail_internal_id != job.external_job_id:
                 raise DetailIdentityMismatch("Apple pipeline detail ID does not match the listing.")
         else:
-            job_number = _required_string(data, "jobNumber", "Apple jobsData")
+            job_number = required_string(data, "jobNumber", "Apple jobsData")
             if job_number != job.external_job_id:
                 raise DetailIdentityMismatch("Apple detail jobNumber does not match the listing.")
-        title = _required_string(data, "postingTitle", "Apple jobsData")
+        title = required_string(data, "postingTitle", "Apple jobsData")
         if normalize_title(title) != job.title_normalized:
             raise DetailIdentityMismatch("Apple detail title does not match the listing.")
-        slug = _required_string(data, "transformedPostingTitle", "Apple jobsData")
+        slug = required_string(data, "transformedPostingTitle", "Apple jobsData")
         if not job.canonical_url.endswith(f"/{slug}"):
             raise DetailIdentityMismatch("Apple detail title slug does not match the listing URL.")
         if job.date_basis is DateBasis.PUBLISHED:
             detail_date = _published_datetime(
-                _required_string(data, "postDateInGMT", "Apple jobsData")
+                required_string(data, "postDateInGMT", "Apple jobsData")
             )
             if detail_date != job.published_at:
                 raise DetailIdentityMismatch(
@@ -351,9 +352,9 @@ class AppleJobsAdapter:
         metadata = dict(job.source_metadata)
         metadata.update(
             {
-                "detail_internal_id": _optional_string(data.get("id")),
-                "employment_type": _optional_string(data.get("employmentType")),
-                "job_type": _optional_string(data.get("jobType")),
+                "detail_internal_id": clean_optional(data.get("id")),
+                "employment_type": clean_optional(data.get("employmentType")),
+                "job_type": clean_optional(data.get("jobType")),
                 "team_names": tuple(_optional_string_array(data.get("teamNames"))),
             }
         )
@@ -428,13 +429,13 @@ def _loader_value(document: str, key: str) -> Mapping[object, object]:
 
 def _normalize_listing(source: CompanySource, value: object) -> NormalizedJob:
     raw = _required_mapping(value, "Apple search result")
-    external_id = _required_string(raw, "id", "Apple search result")
-    req_id = _required_string(raw, "reqId", "Apple search result")
-    job_position_id = _required_string(raw, "jobPositionId", "Apple search result")
+    external_id = required_string(raw, "id", "Apple search result")
+    req_id = required_string(raw, "reqId", "Apple search result")
+    job_position_id = required_string(raw, "jobPositionId", "Apple search result")
     if req_id != external_id:
         raise ValueError("Apple search result id and reqId disagree.")
-    position_id = _required_string(raw, "positionId", "Apple search result")
-    job_type = _required_string(raw, "type", "Apple search result")
+    position_id = required_string(raw, "positionId", "Apple search result")
+    job_type = required_string(raw, "type", "Apple search result")
     managed_pipeline = raw.get("managedPipelineRole")
     if not isinstance(managed_pipeline, bool):
         raise ValueError("Apple managedPipelineRole must be boolean.")
@@ -452,14 +453,14 @@ def _normalize_listing(source: CompanySource, value: object) -> NormalizedJob:
             raise ValueError("Apple requisition job number must match its positionId.")
         if job_position_id not in {f"REQ-{position_id}", f"PIPE-{position_id}"}:
             raise ValueError("Apple requisition jobPositionId is inconsistent.")
-    title = _required_string(raw, "postingTitle", "Apple search result")
-    slug = _required_string(raw, "transformedPostingTitle", "Apple search result")
+    title = required_string(raw, "postingTitle", "Apple search result")
+    slug = required_string(raw, "transformedPostingTitle", "Apple search result")
     if not re.fullmatch(r"[a-z0-9][a-z0-9-]*", slug):
         raise ValueError("Apple transformedPostingTitle must be a lowercase URL slug.")
     locations = _listing_locations(raw.get("locations"))
     detail_identifier = position_id if managed_pipeline else external_id
     canonical_url = f"https://{_HOST}/en-us/details/{detail_identifier}/{slug}"
-    published_raw = _required_string(raw, "postDateInGMT", "Apple search result")
+    published_raw = required_string(raw, "postDateInGMT", "Apple search result")
     published_at = None if managed_pipeline else _published_datetime(published_raw)
     date_basis = DateBasis.UNKNOWN if managed_pipeline else DateBasis.PUBLISHED
     team = _required_mapping(raw.get("team"), "Apple search result team")
@@ -483,9 +484,9 @@ def _normalize_listing(source: CompanySource, value: object) -> NormalizedJob:
             "position_id": position_id,
             "managed_pipeline_role": managed_pipeline,
             "job_position_id": job_position_id,
-            "posting_date_display": _optional_string(raw.get("postingDate")),
-            "team_name": _optional_string(team.get("teamName")),
-            "team_code": _optional_string(team.get("teamCode")),
+            "posting_date_display": clean_optional(raw.get("postingDate")),
+            "team_name": clean_optional(team.get("teamName")),
+            "team_code": clean_optional(team.get("teamCode")),
             "home_office": raw.get("homeOffice"),
             "multi_location": raw.get("isMultiLocation"),
         },
@@ -497,11 +498,11 @@ def _listing_locations(value: object) -> str:
     locations: list[str] = []
     india_seen = False
     for row in rows:
-        country = _required_string(row, "countryName", "Apple listing location")
+        country = required_string(row, "countryName", "Apple listing location")
         india_seen = india_seen or country.casefold() == "india"
-        city = _optional_string(row.get("city"))
-        state = _optional_string(row.get("stateProvince"))
-        name = _optional_string(row.get("name"))
+        city = clean_optional(row.get("city"))
+        state = clean_optional(row.get("stateProvince"))
+        name = clean_optional(row.get("name"))
         locality = city or (name if name and name.casefold() != country.casefold() else None)
         pieces = [piece for piece in (locality, state, country) if piece]
         locations.append(", ".join(pieces))
@@ -514,10 +515,10 @@ def _location_text(value: object) -> str:
     rows = _mapping_array(value, "Apple detail locations")
     locations: list[str] = []
     for row in rows:
-        country = _required_string(row, "countryName", "Apple detail location")
-        city = _optional_string(row.get("city"))
-        state = _optional_string(row.get("stateProvince"))
-        name = _optional_string(row.get("name"))
+        country = required_string(row, "countryName", "Apple detail location")
+        city = clean_optional(row.get("city"))
+        state = clean_optional(row.get("stateProvince"))
+        name = clean_optional(row.get("name"))
         pieces = [piece for piece in (city, state, country) if piece]
         locations.append(", ".join(pieces) if city or state else name or country)
     if not locations:
@@ -548,7 +549,7 @@ def _canonical_links(value: object) -> set[str]:
     for row in rows:
         if row.get("rel") != "canonical":
             continue
-        href = _required_string(row, "href", "Apple canonical link")
+        href = required_string(row, "href", "Apple canonical link")
         canonical, _ = _canonical_detail_url(href)
         links.add(canonical)
     return links
@@ -573,7 +574,7 @@ def _detail_description(data: Mapping[object, object]) -> str:
         ("Minimum qualifications", "minimumQualifications"),
         ("Preferred qualifications", "preferredQualifications"),
     ):
-        value = _optional_string(data.get(field))
+        value = clean_optional(data.get(field))
         if value is None:
             continue
         text = _clean_text(value)
@@ -602,22 +603,11 @@ def _mapping_array(value: object, context: str) -> list[Mapping[object, object]]
     return [_required_mapping(item, f"{context} entry") for item in value]
 
 
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return value.strip()
-
-
 def _required_nonnegative_int(raw: Mapping[object, object], key: str, context: str) -> int:
     value = raw.get(key)
     if not isinstance(value, int) or isinstance(value, bool) or value < 0:
         raise ValueError(f"{context} field {key} must be a non-negative integer.")
     return value
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _optional_string_array(value: object) -> list[str]:

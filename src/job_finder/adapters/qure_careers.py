@@ -28,6 +28,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import normalize_source_locations as _shared_locations
 from job_finder.normalization.jobs import normalize_text, normalize_title
 
@@ -271,8 +272,8 @@ def _normalize_job(
     detail_urls: Mapping[str, str],
 ) -> NormalizedJob:
     external_id = _numeric_string(raw.get("id"), "Qure.ai job id")
-    title = _required_string(raw, "Posting_Title")
-    opening_name = _required_string(raw, "Job_Opening_Name")
+    title = required_string(raw, "Posting_Title")
+    opening_name = required_string(raw, "Job_Opening_Name")
     if normalize_text(title) != normalize_text(opening_name):
         raise ValueError("Qure.ai Posting_Title and Job_Opening_Name disagree.")
     publish_flag = raw.get("Publish")
@@ -307,12 +308,12 @@ def _normalize_job(
         raise ValueError("Qure.ai job has no location evidence.")
     location = ", ".join(location_parts)
 
-    date_raw = _required_string(raw, "Date_Opened")
+    date_raw = required_string(raw, "Date_Opened")
     try:
         opened_at = date.fromisoformat(date_raw)
     except ValueError as error:
         raise ValueError("Qure.ai Date_Opened must be an ISO date.") from error
-    description = _html_text(_required_string(raw, "Job_Description"))
+    description = _html_text(required_string(raw, "Job_Description"))
     if len(description) < 80:
         raise ValueError("Qure.ai job description normalized to insufficient text.")
     experience = raw.get("Work_Experience")
@@ -336,12 +337,12 @@ def _normalize_job(
         source_metadata={
             "adapter_key": QURE_ADAPTER_KEY,
             "date_opened_unverified": True,
-            "industry": _optional_string(raw.get("Industry")),
+            "industry": clean_optional(raw.get("Industry")),
             "is_locked": is_locked,
-            "job_type": _optional_string(raw.get("Job_Type")),
+            "job_type": clean_optional(raw.get("Job_Type")),
             "keep_on_career_site": keep_on_career_site,
             "publish_flag": publish_flag,
-            "work_experience": _optional_string(experience),
+            "work_experience": clean_optional(experience),
         },
     )
 
@@ -414,21 +415,10 @@ def _html_text(value: str) -> str:
     )
 
 
-def _required_string(raw: Mapping[str, object], field: str) -> str:
-    value = raw.get(field)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"Qure.ai {field} must be a non-empty string.")
-    return value.strip()
-
-
 def _numeric_string(value: object, context: str) -> str:
     if not isinstance(value, str) or not value.isdigit():
         raise ValueError(f"{context} must be numeric text.")
     return value
-
-
-def _optional_string(value: object) -> str | None:
-    return _normalize_whitespace(value) if isinstance(value, str) and value.strip() else None
 
 
 def _failed(source: CompanySource, category: str, message: str) -> AdapterResult:

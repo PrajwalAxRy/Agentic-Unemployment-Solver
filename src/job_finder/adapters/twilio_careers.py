@@ -29,6 +29,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -255,18 +256,18 @@ class TwilioCareersAdapter:
         observed_id = str(_positive_int(detail.get("id"), "Twilio detail id"))
         if observed_id != external_id:
             raise DetailIdentityMismatch("Twilio detail ID did not match the listing.")
-        title = _required_string(detail, "name", "Twilio detail")
+        title = required_string(detail, "name", "Twilio detail")
         if normalize_title(title) != job.title_normalized:
             raise DetailIdentityMismatch("Twilio detail title did not match the listing.")
         locations = _locations(detail)
         if _shared_locations(locations) != job.location_normalized:
             raise DetailIdentityMismatch("Twilio detail locations did not match the listing.")
         _validate_position_path(detail.get("positionUrl"), external_id)
-        public_url = _required_string(detail, "publicUrl", "Twilio detail")
+        public_url = required_string(detail, "publicUrl", "Twilio detail")
         if public_url != job.canonical_url:
             raise DetailIdentityMismatch("Twilio detail public URL did not match the listing.")
 
-        description = _plain_text(_required_string(detail, "jobDescription", "Twilio detail"))
+        description = _plain_text(required_string(detail, "jobDescription", "Twilio detail"))
         if len(description) < 80:
             raise DetailContentMissing("Twilio detail description normalized to insufficient text.")
         published_raw, published_at = _published_date(detail.get("efcustomTextPostDate"))
@@ -349,7 +350,7 @@ def _normalize_listing(source: CompanySource, value: object) -> NormalizedJob:
     if not isinstance(value, Mapping):
         raise ValueError("Twilio listing must be an object.")
     external_id = str(_positive_int(value.get("id"), "Twilio job id"))
-    title = _required_string(value, "name", "Twilio listing")
+    title = required_string(value, "name", "Twilio listing")
     locations = _locations(value)
     _validate_position_path(value.get("positionUrl"), external_id)
     created_raw, created_at = _creation_timestamp(value.get("creationTs"))
@@ -459,13 +460,6 @@ def _positive_int(value: object, context: str) -> int:
     if not isinstance(value, int) or isinstance(value, bool) or value <= 0:
         raise ValueError(f"{context} must be a positive integer.")
     return value
-
-
-def _required_string(raw: Mapping[str, object], field: str, context: str) -> str:
-    value = raw.get(field)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} {field} must be a non-empty string.")
-    return value.strip()
 
 
 def _suspicious(

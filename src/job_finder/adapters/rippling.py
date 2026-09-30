@@ -25,6 +25,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -243,12 +244,12 @@ class RipplingAdapter:
         _validate_board(page_props, slug)
         api_data = _required_mapping(page_props.get("apiData"), "Rippling apiData")
         posting = _required_mapping(api_data.get("jobPost"), "Rippling jobPost")
-        detail_id = _required_string(posting, "uuid", "Rippling detail")
+        detail_id = required_string(posting, "uuid", "Rippling detail")
         if detail_id != job.external_job_id:
             raise ValueError("Rippling detail UUID does not match the listing.")
-        detail_url = _required_string(posting, "url", "Rippling detail")
+        detail_url = required_string(posting, "url", "Rippling detail")
         _validate_job_url(detail_url, slug, detail_id)
-        title = _required_string(posting, "name", "Rippling detail")
+        title = required_string(posting, "name", "Rippling detail")
         descriptions = _required_mapping(posting.get("description"), "Rippling description")
         description_parts = [
             _plain_text(html.unescape(value))
@@ -256,7 +257,7 @@ class RipplingAdapter:
             if isinstance(value, str) and value.strip()
         ]
         description = "\n\n".join(part for part in description_parts if part) or None
-        created_raw = _optional_string(posting.get("createdOn"))
+        created_raw = clean_optional(posting.get("createdOn"))
         created_at = _parse_timestamp(created_raw)
         metadata = dict(job.source_metadata)
         metadata.update(
@@ -350,9 +351,9 @@ def _listing_endpoint(slug: str) -> str:
 
 def _normalize_listing(source: CompanySource, slug: str, item: object) -> NormalizedJob:
     raw = _required_mapping(item, "Rippling listing job")
-    external_id = _required_string(raw, "id", "Rippling listing")
-    title = _required_string(raw, "name", "Rippling listing")
-    canonical_url = _required_string(raw, "url", "Rippling listing")
+    external_id = required_string(raw, "id", "Rippling listing")
+    title = required_string(raw, "name", "Rippling listing")
+    canonical_url = required_string(raw, "url", "Rippling listing")
     _validate_job_url(canonical_url, slug, external_id)
     locations_raw = raw.get("locations")
     if not isinstance(locations_raw, list) or not locations_raw:
@@ -361,11 +362,11 @@ def _normalize_listing(source: CompanySource, slug: str, item: object) -> Normal
     workplace_types: list[str] = []
     for location in locations_raw:
         location_mapping = _required_mapping(location, "Rippling listing location")
-        location_parts.append(_required_string(location_mapping, "name", "Rippling location"))
-        country = _optional_string(location_mapping.get("country"))
+        location_parts.append(required_string(location_mapping, "name", "Rippling location"))
+        country = clean_optional(location_mapping.get("country"))
         if country is not None:
             location_parts.append(country)
-        workplace = _optional_string(location_mapping.get("workplaceType"))
+        workplace = clean_optional(location_mapping.get("workplaceType"))
         if workplace is not None:
             workplace_types.append(workplace.replace("_", " ").title())
     location_parts.extend(workplace_types)
@@ -510,17 +511,6 @@ def _required_mapping(value: object, context: str) -> Mapping[object, object]:
     if not isinstance(value, Mapping):
         raise ValueError(f"{context} must be an object.")
     return value
-
-
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _result(

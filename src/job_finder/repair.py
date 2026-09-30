@@ -11,6 +11,7 @@ from pathlib import Path
 from urllib.parse import parse_qsl, urlsplit
 
 from job_finder.core.company_registry import CompanySourceRegistry
+from job_finder.core.validation import optional_text, required_string
 
 REPAIR_SCHEMA_VERSION = 1
 _SENSITIVE_MARKERS = (
@@ -130,15 +131,15 @@ def build_repair_request(
     verification = _load_json_object(verification_path, "verification report")
     if _required_int(verification, "schema_version") != 2:
         raise ValueError("repair requests require verification report schema_version 2")
-    report_registry = _required_string(verification, "registry_version")
+    report_registry = required_string(verification, "registry_version")
     if report_registry != registry.registry_version:
         raise ValueError(
             "verification registry_version does not match active registry: "
             f"{report_registry} != {registry.registry_version}"
         )
-    generated_at = _required_string(verification, "generated_at")
+    generated_at = required_string(verification, "generated_at")
     record = _verification_record(verification, company_id)
-    outcome = _required_string(record, "outcome")
+    outcome = required_string(record, "outcome")
     if outcome in {"success", "empty"}:
         raise ValueError("repair requests require an unhealthy or suspicious source record")
 
@@ -149,7 +150,7 @@ def build_repair_request(
     if entry is None:
         raise ValueError(f"company_id is not present in active registry: {company_id}")
     source = entry.source
-    record_adapter = _required_string(record, "adapter_type")
+    record_adapter = required_string(record, "adapter_type")
     if record_adapter != source.adapter_type.value:
         raise ValueError("verification adapter_type does not match active registry")
     parameters = _safe_string_mapping(source.adapter_parameters, "adapter_parameters")
@@ -224,8 +225,8 @@ def load_repair_request(path: Path) -> RepairRequest:
         raise ValueError("unsupported repair request schema_version")
     evidence_raw = _required_mapping(raw, "evidence")
     evidence = RepairEvidence(
-        verification_generated_at=_required_string(evidence_raw, "verification_generated_at"),
-        outcome=_required_string(evidence_raw, "outcome"),
+        verification_generated_at=required_string(evidence_raw, "verification_generated_at"),
+        outcome=required_string(evidence_raw, "outcome"),
         complete=_required_bool(evidence_raw, "complete"),
         job_count=_non_negative_int(evidence_raw, "job_count"),
         page_count=_non_negative_int(evidence_raw, "page_count"),
@@ -238,19 +239,19 @@ def load_repair_request(path: Path) -> RepairRequest:
     )
     request = RepairRequest(
         schema_version=REPAIR_SCHEMA_VERSION,
-        proposal_id=_required_string(raw, "proposal_id"),
-        registry_version=_required_string(raw, "registry_version"),
-        company_id=_required_string(raw, "company_id"),
-        company_name=_required_string(raw, "company_name"),
-        careers_url=_required_string(raw, "careers_url"),
-        adapter_type=_required_string(raw, "adapter_type"),
+        proposal_id=required_string(raw, "proposal_id"),
+        registry_version=required_string(raw, "registry_version"),
+        company_id=required_string(raw, "company_id"),
+        company_name=required_string(raw, "company_name"),
+        careers_url=required_string(raw, "careers_url"),
+        adapter_type=required_string(raw, "adapter_type"),
         adapter_parameters=_safe_string_mapping(
             _required_mapping(raw, "adapter_parameters"),
             "adapter_parameters",
         ),
-        identity_strategy=_required_string(raw, "identity_strategy"),
+        identity_strategy=required_string(raw, "identity_strategy"),
         date_strategy=dict(_required_mapping(raw, "date_strategy")),
-        detail_strategy=_required_string(raw, "detail_strategy"),
+        detail_strategy=required_string(raw, "detail_strategy"),
         evidence=evidence,
         constraints=_string_tuple(raw, "constraints", allow_empty=False),
         required_output_fields=_string_tuple(raw, "required_output_fields", allow_empty=False),
@@ -272,13 +273,13 @@ def validate_repair_proposal(
     """Validate strict LLM output while forcing the proposal to remain inactive."""
     if _required_int(raw, "schema_version") != REPAIR_SCHEMA_VERSION:
         raise ValueError("unsupported repair proposal schema_version")
-    proposal_id = _required_string(raw, "proposal_id")
-    company_id = _required_string(raw, "company_id")
+    proposal_id = required_string(raw, "proposal_id")
+    company_id = required_string(raw, "company_id")
     if proposal_id != request.proposal_id:
         raise ValueError("repair proposal_id does not match the request")
     if company_id != request.company_id:
         raise ValueError("repair company_id does not match the request")
-    activation_status = _required_string(raw, "activation_status")
+    activation_status = required_string(raw, "activation_status")
     if activation_status != "inactive":
         raise ValueError("repair proposals must remain inactive until checkpoint H11 approval")
 
@@ -289,9 +290,9 @@ def validate_repair_proposal(
     for index, item in enumerate(changes_raw):
         if not isinstance(item, Mapping):
             raise ValueError(f"changes[{index}] must be an object")
-        path = _required_string(item, "path")
-        before = _optional_string(item.get("before"), f"changes[{index}].before")
-        after = _optional_string(item.get("after"), f"changes[{index}].after")
+        path = required_string(item, "path")
+        before = optional_text(item.get("before"), f"changes[{index}].before")
+        after = optional_text(item.get("after"), f"changes[{index}].after")
         _reject_sensitive(path, f"changes[{index}].path")
         if before is not None:
             _reject_sensitive(before, f"changes[{index}].before")
@@ -461,25 +462,10 @@ def _required_mapping(raw: Mapping[str, object], key: str) -> Mapping[str, objec
     return value
 
 
-def _required_string(raw: Mapping[str, object], key: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{key} must be a non-empty string")
-    return value.strip()
-
-
 def _safe_string(raw: Mapping[str, object], key: str) -> str:
-    value = _required_string(raw, key)
+    value = required_string(raw, key)
     _reject_sensitive(value, key)
     return value
-
-
-def _optional_string(value: object, path: str) -> str | None:
-    if value is None:
-        return None
-    if not isinstance(value, str):
-        raise ValueError(f"{path} must be a string or null")
-    return value.strip()
 
 
 def _required_bool(raw: Mapping[str, object], key: str) -> bool:
@@ -566,7 +552,7 @@ def _enum_value[EnumType: StrEnum](
     raw: Mapping[str, object],
     key: str,
 ) -> EnumType:
-    value = _required_string(raw, key)
+    value = required_string(raw, key)
     try:
         return enum_type(value)
     except ValueError as error:

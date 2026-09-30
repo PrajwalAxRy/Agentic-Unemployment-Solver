@@ -29,6 +29,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -396,12 +397,12 @@ def _normalize_job(
 ) -> NormalizedJob:
     job = _job_mapping(raw_job, "Eightfold job")
     external_id = _identifier(job.get("id"))
-    title = _optional_string(job.get("name")) or _required_string(job, "posting_name")
+    title = clean_optional(job.get("name")) or required_string(job, "posting_name")
     locations = _locations(job)
     location_missing = not locations
     if location_missing:
         locations = ["Location unavailable"]
-    description_html = _optional_string(job.get("job_description"))
+    description_html = clean_optional(job.get("job_description"))
     description = _plain_text(description_html) if description_html is not None else None
     if not description:
         description = None
@@ -453,7 +454,7 @@ def _identifier(value: object) -> str:
 
 
 def _canonical_url(value: object, tenant: str, external_id: str) -> str:
-    candidate = _optional_string(value)
+    candidate = clean_optional(value)
     if candidate is not None:
         parsed = urlsplit(candidate)
         if parsed.scheme in {"http", "https"} and parsed.hostname:
@@ -469,7 +470,7 @@ def _locations(job: Mapping[object, object]) -> list[str]:
         ]
         if locations:
             return locations
-    location = _optional_string(job.get("location"))
+    location = clean_optional(job.get("location"))
     return [location] if location is not None else []
 
 
@@ -545,17 +546,6 @@ def _schema_failure(
         page_count,
         diagnostics,
     )
-
-
-def _required_string(raw: Mapping[object, object], key: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"Eightfold job field {key} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 class _VisibleTextParser(HTMLParser):

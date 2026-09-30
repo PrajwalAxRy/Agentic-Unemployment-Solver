@@ -25,6 +25,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -217,13 +218,13 @@ class FreshteamAdapter:
         parser.feed(document)
         parser.close()
         posting = _job_posting(parser.documents)
-        detail_url = _optional_string(posting.get("url"))
+        detail_url = clean_optional(posting.get("url"))
         if detail_url is not None:
             _validate_job_url(detail_url, account, job.external_job_id)
-        title = _required_string(posting, "title", "Freshteam detail")
-        published_raw = _optional_string(posting.get("datePosted"))
+        title = required_string(posting, "title", "Freshteam detail")
+        published_raw = clean_optional(posting.get("datePosted"))
         published_at = _parse_timestamp(published_raw)
-        description_html = _optional_string(posting.get("description"))
+        description_html = clean_optional(posting.get("description"))
         description = _plain_text(html.unescape(description_html)) if description_html else None
         detail_location = _job_location(posting.get("jobLocation"))
         remote = posting.get("remote") is True or job.source_metadata.get("remote") is True
@@ -497,7 +498,7 @@ def _job_location(value: object) -> str | None:
         if not isinstance(address, Mapping):
             continue
         for key in ("addressLocality", "addressRegion", "addressCountry"):
-            item = _optional_string(address.get(key))
+            item = clean_optional(address.get(key))
             if item is not None:
                 parts.append(item)
     unique = unique_strings(parts)
@@ -527,21 +528,10 @@ def _plain_text(value: str) -> str:
     return "\n\n".join(line for line in lines if line)
 
 
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return value.strip()
-
-
 def _required_text(value: str | None, path: str) -> str:
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{path} must be a non-empty string.")
     return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _compact_text(parts: Iterable[str]) -> str:

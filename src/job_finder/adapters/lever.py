@@ -29,6 +29,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -252,18 +253,18 @@ def _normalize_job(
 ) -> tuple[NormalizedJob, tuple[AdapterDiagnostic, ...]]:
     if not isinstance(raw_job, Mapping):
         raise ValueError("Lever job must be an object.")
-    external_id = _required_string(raw_job, "id")
-    title = _required_string(raw_job, "text")
+    external_id = required_string(raw_job, "id")
+    title = required_string(raw_job, "text")
     categories = raw_job.get("categories")
     if not isinstance(categories, Mapping):
         raise ValueError("Lever job field categories must be an object.")
-    primary_location = _required_string(categories, "location")
+    primary_location = required_string(categories, "location")
     locations = [primary_location, *_string_list(categories.get("allLocations"), "allLocations")]
-    workplace_type = _optional_string(raw_job.get("workplaceType"))
+    workplace_type = clean_optional(raw_job.get("workplaceType"))
     if workplace_type is not None and workplace_type.casefold() == "remote":
         locations.append("Remote")
     description = _description(raw_job)
-    hosted_url = _canonical_lever_url(_required_string(raw_job, "hostedUrl"))
+    hosted_url = _canonical_lever_url(required_string(raw_job, "hostedUrl"))
 
     created_at_raw = raw_job.get("createdAt")
     created_at = _parse_epoch_milliseconds(created_at_raw)
@@ -382,24 +383,13 @@ def _diagnostic(
     )
 
 
-def _required_string(raw: Mapping[object, object], key: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"Lever job field {key} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
-
-
 def _description(raw_job: Mapping[object, object]) -> str | None:
     parts: list[str] = []
-    plain = _optional_string(raw_job.get("descriptionPlain"))
+    plain = clean_optional(raw_job.get("descriptionPlain"))
     if plain is not None:
         parts.append(plain)
     else:
-        styled = _optional_string(raw_job.get("description"))
+        styled = clean_optional(raw_job.get("description"))
         if styled is not None:
             parts.append(_plain_text(styled))
     lists = raw_job.get("lists")
@@ -409,16 +399,16 @@ def _description(raw_job: Mapping[object, object]) -> str | None:
         for item in lists:
             if not isinstance(item, Mapping):
                 raise ValueError("Lever description list entry must be an object.")
-            heading = _optional_string(item.get("text"))
-            content = _optional_string(item.get("content"))
+            heading = clean_optional(item.get("text"))
+            content = clean_optional(item.get("content"))
             visible = _plain_text(content) if content is not None else ""
             if visible:
                 parts.append(" ".join(value for value in (heading, visible) if value))
-    additional_plain = _optional_string(raw_job.get("additionalPlain"))
+    additional_plain = clean_optional(raw_job.get("additionalPlain"))
     if additional_plain is not None:
         parts.append(additional_plain)
     else:
-        additional = _optional_string(raw_job.get("additional"))
+        additional = clean_optional(raw_job.get("additional"))
         if additional is not None:
             parts.append(_plain_text(additional))
     combined = re.sub(r"\s+", " ", " ".join(part for part in parts if part)).strip()

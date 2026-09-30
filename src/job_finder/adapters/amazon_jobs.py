@@ -27,6 +27,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -347,20 +348,20 @@ def _is_expected_response_url(url: str) -> bool:
 
 def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
     raw = _required_mapping(value, "Amazon Jobs job")
-    external_id = _required_string(raw, "id_icims", "Amazon Jobs job")
+    external_id = required_string(raw, "id_icims", "Amazon Jobs job")
     if not _EXTERNAL_ID_PATTERN.fullmatch(external_id):
         raise ValueError("Amazon Jobs id_icims must contain only letters and digits.")
     if raw.get("country_code") != "IND":
         raise ValueError("Amazon Jobs India collection contained a non-India job.")
-    title = _required_string(raw, "title", "Amazon Jobs job")
-    job_path = _required_string(raw, "job_path", "Amazon Jobs job")
+    title = required_string(raw, "title", "Amazon Jobs job")
+    job_path = required_string(raw, "job_path", "Amazon Jobs job")
     canonical_url = _canonical_job_url(urljoin("https://www.amazon.jobs", job_path))
     _validate_job_url(canonical_url, external_id)
     location = _location_text(raw)
-    posted_raw = _required_string(raw, "posted_date", "Amazon Jobs job")
+    posted_raw = required_string(raw, "posted_date", "Amazon Jobs job")
     published_at = _posted_date(posted_raw)
     description = _description(raw)
-    business_category = _optional_string(raw.get("business_category"))
+    business_category = clean_optional(raw.get("business_category"))
     return NormalizedJob(
         schema_version=1,
         company_id=source.company_id,
@@ -403,14 +404,14 @@ def _location_text(raw: Mapping[object, object]) -> str:
             location = _required_mapping(json.loads(value), "Amazon Jobs location")
         except json.JSONDecodeError as error:
             raise ValueError("Amazon Jobs location entry was not valid JSON.") from error
-        normalized = _optional_string(location.get("normalizedLocation"))
+        normalized = clean_optional(location.get("normalizedLocation"))
         if normalized is not None:
             location_parts.append(normalized)
-        work_type = _optional_string(location.get("type"))
+        work_type = clean_optional(location.get("type"))
         if work_type is not None:
             location_parts.append(work_type.replace("_", " ").title())
     if not location_parts:
-        location_parts.append(_required_string(raw, "normalized_location", "Amazon Jobs job"))
+        location_parts.append(required_string(raw, "normalized_location", "Amazon Jobs job"))
     return " | ".join(unique_strings(location_parts))
 
 
@@ -421,7 +422,7 @@ def _description(raw: Mapping[object, object]) -> str:
         ("Basic qualifications", "basic_qualifications", False),
         ("Preferred qualifications", "preferred_qualifications", False),
     ):
-        value = _optional_string(raw.get(field))
+        value = clean_optional(raw.get(field))
         if value is None:
             if required:
                 raise ValueError(f"Amazon Jobs job field {field} must be a non-empty string.")
@@ -473,17 +474,6 @@ def _required_mapping(value: object, context: str) -> Mapping[object, object]:
     if not isinstance(value, Mapping):
         raise ValueError(f"{context} must be an object.")
     return value
-
-
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _result(

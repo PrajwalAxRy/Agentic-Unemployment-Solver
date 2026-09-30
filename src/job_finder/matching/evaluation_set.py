@@ -7,6 +7,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 
+from job_finder.core.validation import required_string
 from job_finder.matching.seniority import DetectedLevel, SeniorityMatch
 
 
@@ -44,8 +45,8 @@ def load_seniority_evaluation_set(path: Path) -> SeniorityEvaluationSet:
     schema_version = _required_int(raw, "schema_version", "evaluation set")
     if schema_version != 1:
         raise ValueError(f"unsupported seniority evaluation schema_version: {schema_version}")
-    set_version = _required_string(raw, "set_version", "evaluation set")
-    profile_id = _required_string(raw, "profile_id", "evaluation set")
+    set_version = required_string(raw, "set_version", "evaluation set")
+    profile_id = required_string(raw, "profile_id", "evaluation set")
     examples_raw = raw.get("examples")
     if not isinstance(examples_raw, list) or not examples_raw:
         raise ValueError("evaluation set.examples must be a non-empty array")
@@ -56,22 +57,22 @@ def load_seniority_evaluation_set(path: Path) -> SeniorityEvaluationSet:
         path_name = f"examples[{index}]"
         if not isinstance(value, Mapping):
             raise ValueError(f"{path_name} must be an object")
-        example_id = _required_string(value, "id", path_name)
+        example_id = required_string(value, "id", path_name)
         if example_id in seen_ids:
             raise ValueError(f"duplicate seniority evaluation id: {example_id}")
         seen_ids.add(example_id)
-        description = _required_string(value, "description", path_name)
-        important_evidence = _required_string(value, "important_evidence", path_name)
+        description = required_string(value, "description", path_name)
+        important_evidence = required_string(value, "important_evidence", path_name)
         if important_evidence.casefold() not in description.casefold():
             raise ValueError(f"{path_name}.important_evidence must occur in the description")
         examples.append(
             SeniorityEvaluationExample(
                 example_id=example_id,
-                title=_required_string(value, "title", path_name),
+                title=required_string(value, "title", path_name),
                 description=description,
                 expected_match=_expected_match(value.get("expected_match"), path_name),
                 expected_level=_expected_level(value.get("expected_level"), path_name),
-                human_rationale=_required_string(value, "human_rationale", path_name),
+                human_rationale=required_string(value, "human_rationale", path_name),
                 important_evidence=important_evidence,
             )
         )
@@ -98,13 +99,6 @@ def _expected_level(value: object, path: str) -> DetectedLevel:
         return DetectedLevel(value)
     except ValueError as error:
         raise ValueError(f"{path}.expected_level is not a supported level") from error
-
-
-def _required_string(raw: Mapping[str, object], key: str, path: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{path}.{key} must be a non-empty string")
-    return value.strip()
 
 
 def _required_int(raw: Mapping[str, object], key: str, path: str) -> int:

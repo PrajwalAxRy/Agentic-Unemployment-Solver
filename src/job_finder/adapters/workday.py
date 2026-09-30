@@ -27,6 +27,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -395,32 +396,32 @@ class WorkdayAdapter:
         info = payload.get("jobPostingInfo")
         if not isinstance(info, Mapping):
             raise ValueError("Workday detail response requires a jobPostingInfo object.")
-        title = _required_string(info, "title")
-        primary_location = _optional_string(info.get("location"))
+        title = required_string(info, "title")
+        primary_location = clean_optional(info.get("location"))
         additional_locations = _string_list(info.get("additionalLocations"))
         locations = [
             value for value in (primary_location, *additional_locations) if value is not None
         ]
         if not locations:
             locations = [job.location_original]
-        description = _plain_text(_required_string(info, "jobDescription"))
+        description = _plain_text(required_string(info, "jobDescription"))
         if not description:
             raise ValueError("Workday jobDescription must contain readable text.")
-        external_id = _optional_string(info.get("jobReqId")) or job.external_job_id
-        external_url = _optional_string(info.get("externalUrl"))
+        external_id = clean_optional(info.get("jobReqId")) or job.external_job_id
+        external_url = clean_optional(info.get("externalUrl"))
         canonical_url = (
             _canonical_detail_url(parameters, external_url)
             if external_url is not None
             else job.canonical_url
         )
-        posted_on = _optional_string(info.get("postedOn")) or job.published_at_raw
+        posted_on = clean_optional(info.get("postedOn")) or job.published_at_raw
         source_metadata = dict(job.source_metadata)
         source_metadata.update(
             {
                 "additional_locations": tuple(additional_locations),
                 "detail_location_missing": primary_location is None and not additional_locations,
                 "job_posting_id": info.get("jobPostingId"),
-                "start_date_raw": _optional_string(info.get("startDate")),
+                "start_date_raw": clean_optional(info.get("startDate")),
                 "time_type": info.get("timeType"),
             }
         )
@@ -486,13 +487,13 @@ def _normalize_listing(
 ) -> NormalizedJob:
     if not isinstance(raw_job, Mapping):
         raise ValueError("Workday job must be an object.")
-    title = _required_string(raw_job, "title")
-    external_path = _required_string(raw_job, "externalPath")
+    title = required_string(raw_job, "title")
+    external_path = required_string(raw_job, "externalPath")
     if not external_path.startswith("/job/"):
         raise ValueError("Workday externalPath must start with /job/.")
-    location_value = _optional_string(raw_job.get("locationsText"))
+    location_value = clean_optional(raw_job.get("locationsText"))
     location = location_value or "Location unavailable"
-    posted_on = _optional_string(raw_job.get("postedOn"))
+    posted_on = clean_optional(raw_job.get("postedOn"))
     bullet_fields = _string_list(raw_job.get("bulletFields"))
     external_id = bullet_fields[0] if bullet_fields else _id_from_path(external_path)
     canonical_url = (
@@ -579,17 +580,6 @@ def _result(
         complete=complete,
         diagnostics=tuple(diagnostics),
     )
-
-
-def _required_string(raw: Mapping[object, object], key: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"Workday job field {key} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _string_list(value: object) -> list[str]:

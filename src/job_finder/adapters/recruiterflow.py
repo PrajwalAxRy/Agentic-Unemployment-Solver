@@ -25,6 +25,7 @@ from job_finder.core.source_contracts import (
     CompanySource,
     DiagnosticSeverity,
 )
+from job_finder.core.validation import clean_optional, required_string
 from job_finder.normalization.jobs import (
     normalize_source_locations as _shared_locations,
 )
@@ -186,12 +187,12 @@ class RecruiterflowAdapter:
         ):
             raise ValueError("Recruiterflow detail response URL does not match the listing.")
         posting = _job_posting(document, job.external_job_id)
-        title = _required_string(posting, "title", "Recruiterflow JobPosting")
-        description_html = _required_string(posting, "description", "Recruiterflow JobPosting")
+        title = required_string(posting, "title", "Recruiterflow JobPosting")
+        description_html = required_string(posting, "description", "Recruiterflow JobPosting")
         description = _plain_text(html.unescape(description_html))
         if not description:
             raise ValueError("Recruiterflow JobPosting description was empty.")
-        published_raw = _required_string(posting, "datePosted", "Recruiterflow JobPosting")
+        published_raw = required_string(posting, "datePosted", "Recruiterflow JobPosting")
         published_at = _publication_date(published_raw)
         location = _posting_location(posting) or job.location_original
         metadata = dict(job.source_metadata)
@@ -329,12 +330,12 @@ def _normalize_listing(
 ) -> NormalizedJob:
     raw = _required_mapping(value, "Recruiterflow listing job")
     external_id = _job_identifier(raw.get("job_id"), "Recruiterflow listing job")
-    title = _required_string(raw, "job_name", "Recruiterflow listing job")
-    apply_link = _required_string(raw, "apply_link", "Recruiterflow listing job")
+    title = required_string(raw, "job_name", "Recruiterflow listing job")
+    apply_link = required_string(raw, "apply_link", "Recruiterflow listing job")
     canonical_url = urljoin("https://recruiterflow.com/", apply_link)
     _validate_job_url(canonical_url, slug, external_id)
-    details = _required_string(raw, "details", "Recruiterflow listing job")
-    remote_type = _optional_string(raw.get("remote_type"))
+    details = required_string(raw, "details", "Recruiterflow listing job")
+    remote_type = clean_optional(raw.get("remote_type"))
     location = " | ".join(unique_strings([details, remote_type or ""]))
     return NormalizedJob(
         schema_version=1,
@@ -412,7 +413,7 @@ def _posting_location(posting: Mapping[object, object]) -> str | None:
         if not isinstance(address, Mapping):
             continue
         for key in ("addressLocality", "addressRegion", "addressCountry"):
-            value = _optional_string(address.get(key))
+            value = clean_optional(address.get(key))
             if value is not None:
                 parts.append(value)
     unique = unique_strings(parts)
@@ -484,17 +485,6 @@ def _required_mapping(value: object, context: str) -> Mapping[object, object]:
     if not isinstance(value, Mapping):
         raise ValueError(f"{context} must be an object.")
     return value
-
-
-def _required_string(raw: Mapping[object, object], key: str, context: str) -> str:
-    value = raw.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{context} field {key} must be a non-empty string.")
-    return value.strip()
-
-
-def _optional_string(value: object) -> str | None:
-    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 def _result(
