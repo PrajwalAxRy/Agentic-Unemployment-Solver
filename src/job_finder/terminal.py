@@ -29,17 +29,18 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import TextIO
 
-# Greens for the healthy path, amber and red reserved for outcomes that need attention.
-# Using colour to mean something is the point; colouring everything green would make a
-# failed company look identical to a successful one at a glance.
+# All green, as requested. Outcome is still distinguishable, but by *shade* and by the
+# marker glyph rather than by hue: bright green for success, mid for a warning, dim for a
+# failure. A failed company must not read identically to a successful one at a glance --
+# the ✗ marker carries that even where the shades are close.
 _RESET = "\x1b[0m"
 _DIM = "\x1b[2m"
 _BOLD = "\x1b[1m"
 _GREEN = "\x1b[38;5;41m"
 _BRIGHT_GREEN = "\x1b[38;5;83m"
 _PALE_GREEN = "\x1b[38;5;114m"
-_AMBER = "\x1b[38;5;214m"
-_RED = "\x1b[38;5;203m"
+_MID_GREEN = "\x1b[38;5;71m"
+_DEEP_GREEN = "\x1b[38;5;29m"
 _GREY = "\x1b[38;5;244m"
 
 _CLEAR_LINE = "\x1b[2K\r"
@@ -204,16 +205,17 @@ class ScanDisplay:
     def _colour_line(self, line: str, outcome: str | None) -> str:
         """Tint one log line by outcome, and dim the key=value noise.
 
-        Only the outcome token is coloured strongly. If everything were green a failed
-        company would look the same as a successful one, which defeats the purpose.
+        Every shade is green. The marker glyph is what actually distinguishes outcomes --
+        ✓ / ! / ✗ survive colourblindness, a monochrome terminal, and a log file, none of
+        which a hue would.
         """
         tint = {
-            "success": _GREEN,
+            "success": _BRIGHT_GREEN,
             "empty": _PALE_GREEN,
-            "partial": _AMBER,
-            "suspicious": _AMBER,
-            "blocked": _RED,
-            "failed": _RED,
+            "partial": _MID_GREEN,
+            "suspicious": _MID_GREEN,
+            "blocked": _DEEP_GREEN,
+            "failed": _DEEP_GREEN,
         }.get(outcome or "", _PALE_GREEN)
 
         marker = {
