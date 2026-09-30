@@ -13,10 +13,9 @@ Use AMD's Unified LLM gateway through the OpenAI Python client:
 - Output: strict JSON Schema when supported by the gateway, followed by mandatory local schema and
   verbatim-evidence validation in all cases.
 
-The initial model is a starting policy, not an approved quality baseline. Phase 8 must run the
-reviewed evaluation set and a small unseen batch before H9 can approve it. If the model misses the
-quality threshold, compare the gateway's `gpt-5.6-terra` and `gpt-5.6-sol` options on the same
-labelled inputs rather than adding company-specific prompt exceptions.
+The configured model is settled (`docs/decisions.md`); do not relitigate it without new evidence.
+If quality ever misses the bar, compare the gateway's larger tiers on the same labelled inputs
+rather than adding company-specific prompt exceptions.
 
 The AMD endpoint, header, credential name, and available gateway model names are internal
 configuration supplied by the user. The public OpenAI documentation establishes the compatible
@@ -43,9 +42,10 @@ The fixed corporate endpoint and non-secret defaults are:
 - `JOB_FINDER_LLM_MAX_OUTPUT_TOKENS_PER_REQUEST=300`
 - `JOB_FINDER_LLM_TIMEOUT_SECONDS=30`
 
-The request and token ceilings are enforced locally. No monetary estimate is claimed because the
-corporate gateway's pricing or chargeback policy has not been provided. The OpenAI client disables
-automatic transport retries so the application's request counter remains a truthful upper bound;
+The request and token ceilings are enforced locally, **per run** — `UsageBudget` is rebuilt on each
+invocation, so these are per-scan ceilings and not a monthly allowance. Sizing and the reasoning
+behind the current values are in `docs/decisions.md` D4. The OpenAI client disables automatic
+transport retries so the application's request counter remains a truthful upper bound;
 the evaluator still performs its one explicit retry for invalid model output.
 
 The provider sends only the approved target definition, public job title, and public job
@@ -71,8 +71,33 @@ response = client.chat.completions.create(
 )
 ```
 
-The repository additionally supplies the seniority JSON schema, output-token ceiling, timeout, and
+The repository additionally supplies the response JSON schema, output-token ceiling, timeout, and
 sanitized usage accounting.
+
+Two prompts exist. `config/merged_prompt.toml` is the default: one call per job returning relevance,
+seniority, and conditionally location, each with its own verbatim evidence quote.
+`config/seniority_prompt.toml` is the single-purpose fallback, reachable with `--seniority-only`.
+Note that toggling that flag changes `prompt_version`, which invalidates every cached verdict and
+re-evaluates the whole corpus.
+
+## Cost accounting
+
+Each completed scan prices its own measured token usage and appends to `state/llm_costs.jsonl`;
+`job-finder costs` reads it back as a per-day table.
+
+```
+JOB_FINDER_LLM_INPUT_COST_PER_MTOK=0.20
+JOB_FINDER_LLM_OUTPUT_COST_PER_MTOK=1.20
+JOB_FINDER_LLM_COST_CURRENCY=USD
+```
+
+Rates live here rather than in code because model prices move and a gateway may not bill list price
+(`docs/decisions.md` D7). **If these are unset, cost is reported as unknown — never as zero.** Both
+are required together.
+
+Measured on 2026-09-30: ~7,143 input tokens and up to 300 output tokens per job, about **$0.0020 a
+job**, roughly **$7.23** for a full 3,677-job scan. If the gateway's actual chargeback differs,
+correct the two rates; past ledger entries stay as they were recorded.
 
 ## Redacted checks
 

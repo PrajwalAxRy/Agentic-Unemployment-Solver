@@ -1,3 +1,16 @@
+> # ARCHIVED -- historical record, not current behaviour
+>
+> This documents the one-time source-discovery bootstrap.
+>
+> Accurate but inert: this process has already run, and the 180-company backlog it would
+> feed was descoped. Kept for the research prompt and the aggregator/no-bypass guardrails
+> if companies are ever onboarded again.
+>
+> For how the system works today: **`CLAUDE.md`**.
+> For what was decided and why: **`docs/decisions.md`**.
+
+---
+
 # Source discovery workflow
 
 ## Purpose

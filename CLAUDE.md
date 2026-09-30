@@ -4,8 +4,10 @@ India AI/ML job scanner. Scrapes ~150 company career sites, filters deterministi
 then asks an LLM to judge the survivors.
 
 **Read this file first. It exists so you don't rediscover the same facts by grepping.**
-`AGENTS.md` describes the original build process and is largely historical — prefer this
-file for how the system works today.
+Then read **`docs/decisions.md`** before proposing any change — several obvious-looking
+optimisations there were measured and rejected, and re-proposing them wastes your budget
+and, in one case, would break the system. `docs/archive/` is pre-rewrite history: it
+describes filters and an LLM call that no longer exist.
 
 ## Don't burn tokens on these — the answers are here
 
@@ -46,7 +48,7 @@ Cache key: `description_hash` + `profile_version` + `prompt_version` + `model_po
 **Changing any of those re-evaluates the entire corpus** (~$7). Includes editing
 `search_profile.toml` or `merged_prompt.toml`, and toggling `--seniority-only`.
 
-## Settled decisions — do not re-propose
+## Settled decisions — do not re-propose (full reasoning in `docs/decisions.md`)
 
 - **Description trimming: rejected.** Saves ~$4/scan, discards ~83% of text. Seniority
   signal is often back-loaded, and trimming away a quotable sentence breaks evidence

@@ -159,7 +159,11 @@ class AmdGatewayClient:
                 response_format={
                     "type": "json_schema",
                     "json_schema": {
-                        "name": "seniority_decision",
+                        # Derived from the schema's own required fields rather than a fixed
+                        # literal. Previously hardcoded to "seniority_decision" even for the
+                        # merged relevance+seniority+location schema, which is misleading in
+                        # gateway-side logs/telemetry once both evaluators are in use.
+                        "name": _schema_name(request.response_schema),
                         "strict": True,
                         "schema": dict(request.response_schema),
                     },
@@ -235,6 +239,24 @@ def check_gateway_connectivity(
         configured_model=settings.model,
         returned_model_id=returned_model,
     )
+
+
+def _schema_name(response_schema: Mapping[str, object]) -> str:
+    """Name the response_format schema from its own required fields.
+
+    "seniority_decision" for the single-purpose schema, "merged_relevance_seniority"
+    (optionally with "_location") for the merged schema -- distinguishable in gateway
+    logs without hardcoding either evaluator's shape here.
+    """
+    required = response_schema.get("required")
+    fields = set(required) if isinstance(required, (list, tuple)) else set()
+    if "relevance" in fields:
+        return (
+            "merged_relevance_seniority_location"
+            if "location_eligible" in fields
+            else "merged_relevance_seniority"
+        )
+    return "seniority_decision"
 
 
 def _gateway_client(settings: AmdGatewaySettings) -> OpenAI:

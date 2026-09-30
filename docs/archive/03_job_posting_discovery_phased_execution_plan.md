@@ -1,3 +1,19 @@
+> # ARCHIVED -- historical record, not current behaviour
+>
+> This documents the 12-phase build order and the H0-H11 human-checkpoint protocol.
+>
+> **This is the only definition of the H0-H11 checkpoints**, which other documents cite by
+> name ("H6 was approved"). That part remains authoritative as a record.
+>
+> Its Phase 6 and Phase 8 specifications are superseded. Note also that its Phases 0-11 are
+> a *different numbering* from `to_change.md`'s Phases 0-4 -- two documents saying "Phase 3"
+> mean unrelated things.
+>
+> For how the system works today: **`CLAUDE.md`**.
+> For what was decided and why: **`docs/decisions.md`**.
+
+---
+
 # Job Posting Discovery Phased Execution Plan
 
 Version 1.1
@@ -390,7 +406,7 @@ Translate the agreed behavior into versioned configuration and data contracts be
 
 ### STOP — Human checkpoint H1: approve the search policy
 
-The approved high-level baseline is recorded in [Approved Product Decisions](04_product_decisions.md). The agent must not ask the user to restate it. The agent must first create a review artifact containing:
+The approved high-level baseline is recorded in [Approved Product Decisions](../04_product_decisions.md). The agent must not ask the user to restate it. The agent must first create a review artifact containing:
 
 - Proposed role families, synonyms, and exclusions with examples.
 - Accepted locations and aliases.
@@ -887,7 +903,7 @@ Also collect across the full registry:
 
 ### STOP — Human checkpoint H5: choose uncertain-date treatment from measured coverage
 
-This checkpoint is mandatory after full-registry listing and date normalization. The agent must provide the exact counts and percentages required by [Approved Product Decisions](04_product_decisions.md), list the affected companies, break results down by adapter or source family, and include representative job URLs, raw date labels, interpretations, and `first_seen` availability.
+This checkpoint is mandatory after full-registry listing and date normalization. The agent must provide the exact counts and percentages required by [Approved Product Decisions](../04_product_decisions.md), list the affected companies, break results down by adapter or source family, and include representative job URLs, raw date labels, interpretations, and `first_seen` availability.
 
 The agent must recommend an option based on the measured impact and ask the user to choose one of these treatments:
 
@@ -1706,4 +1722,4 @@ Consider automatic application of low-risk configuration repairs only after repa
 
 - [System Design](01_job_posting_discovery_system_design.md)
 - [Implementation Guide](02_job_posting_discovery_implementation_guide.md)
-- [Approved Product Decisions](04_product_decisions.md)
+- [Approved Product Decisions](../04_product_decisions.md)

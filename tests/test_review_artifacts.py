@@ -243,7 +243,14 @@ def test_h9_review_records_quality_gate_and_live_evidence() -> None:
     assert "Completed decisions with locally verified verbatim description evidence: 28" in review
 
 
-def test_manual_scan_runbook_documents_outcomes_state_and_h10_review() -> None:
+def test_manual_scan_runbook_documents_outcomes_state_and_recovery() -> None:
+    """The runbook must cover what an operator needs mid-scan.
+
+    The H10 usability-review template this once pinned was dropped when that checkpoint
+    closed; asserting a historical review form kept the file from being updated. What
+    replaces it is the budget-halt recovery path, which is the gap that actually stranded
+    3,026 jobs on 2026-09-30 with no documented remedy.
+    """
     runbook = Path("docs/07_scan_runbook.md").read_text(encoding="utf-8")
 
     assert "uv run --locked job-finder scan" in runbook
@@ -254,14 +261,15 @@ def test_manual_scan_runbook_documents_outcomes_state_and_h10_review() -> None:
     assert "state inspect" in runbook
     assert "state backup" in runbook
     assert "state restore" in runbook
-    assert "H10 usability checklist" in runbook
-    assert "Where are state inspection, backup, restore, and reset instructions?" in runbook
-    assert "bounded progress" in runbook
     assert "pending and is retried" in runbook
-    assert "How to answer the H10 review" in runbook
-    assert "Exact place to look" in runbook
-    assert "Inclusion/review reasons clear: yes/no" in runbook
     assert "The separate **Unsupported and blocked sources** table" in runbook
+
+    # Recovery and cost, the two things a live operator has no other source for.
+    assert "--resume" in runbook, "an operator hitting a budget halt needs the remedy here"
+    assert "state/resume_checkpoint.json" in runbook
+    assert "24h" in runbook, "the checkpoint staleness limit must be stated"
+    assert "job-finder costs" in runbook
+    assert "state/llm_costs.jsonl" in runbook
 
 
 def test_h10_review_records_full_registry_evidence_and_usability_approval() -> None:

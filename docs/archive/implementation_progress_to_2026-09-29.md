@@ -1,3 +1,17 @@
+> # ARCHIVED -- historical record, not current behaviour
+>
+> This documents the build log up to 2026-09-29, the day before the rewrite landed.
+>
+> Its "Current status" and "Resume point" headers are **wrong now** -- they predate the
+> rewrite and the backlog descope. Read it for the commit-to-phase mapping and the
+> per-company activation forensics: why each source was enabled, and why NVIDIA, PayPal,
+> LinkedIn, Flipkart, Roku and Microsoft failed closed. That evidence exists nowhere else.
+>
+> For how the system works today: **`CLAUDE.md`**.
+> For what was decided and why: **`docs/decisions.md`**.
+
+---
+
 # Implementation progress
 
 ## Current status

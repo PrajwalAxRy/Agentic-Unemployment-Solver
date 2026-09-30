@@ -38,7 +38,12 @@ This is the approved intent, not the final keyword list. Phase 1 must derive and
 
 ## Experience and seniority
 
-Include jobs that are open to candidates with fewer than five years of experience. Seniority is decided by the LLM from the job description and requirements, after deterministic role and location filtering.
+Include jobs that are open to candidates with fewer than five years of experience.
+
+Seniority is decided by the LLM from the job description and requirements, after the
+deterministic filters. Since `to_change.md` 2.5 that judgment is part of **one merged
+call** that also decides AI/ML relevance and, when the deterministic filter could not
+resolve it, India eligibility. The deterministic order is **location first, then title**.
 
 Boundary rules:
 
@@ -52,7 +57,9 @@ Boundary rules:
 | No explicit years, but clearly early-career scope | Include |
 | No explicit years and genuinely ambiguous scope | Keep visible as uncertain for review |
 
-A title such as `Senior Machine Learning Engineer` must not be deterministically rejected before the LLM reads the description. The actual minimum experience and scope control the decision. Phase 1 must add more labelled examples, and Phase 8 must validate them against real descriptions.
+A title such as `Senior Machine Learning Engineer` must not be deterministically rejected before the LLM reads the description. The actual minimum experience and scope control the decision.
+
+The seniority path has a labelled evaluation set and a 90% agreement gate (`job-finder validate-seniority`). The relevance judgment does **not** — its 20-case set exists but is never run against a model. See `docs/decisions.md`, open questions.
 
 ### Seniority quality threshold and uncertainty policy
 
@@ -78,7 +85,13 @@ registry validation and stratified review sample therefore approve the determini
 India-location behavior in search-profile version `1.1.0` as the Phase 6 baseline.
 
 Generic engineering and data-science titles remain in the conditional-description lane rather
-than being presented as final matches. Missing or unresolved locations remain visible for review,
+than being presented as final matches.
+
+> **Updated 2026-09-30.** This phrasing survives but its scale inverted. `to_change.md`
+> 2.2a widened the title filter, so `CONDITIONAL_DESCRIPTION` is now the outcome for
+> *every* surviving title (~94% of retained rows) rather than a narrow exception, and
+> `EXPLICIT_PASS` is unreachable. Nothing bypasses the LLM gate. See `docs/decisions.md`
+> D1. Missing or unresolved locations remain visible for review,
 and roles explicitly restricted to non-India locations remain excluded. The approved review
 evidence is recorded in `docs/reviews/h6_filter_review.md`.
 
@@ -123,21 +136,11 @@ measured impact. The historical choices were:
 3. Use `first_seen` for forward-only recency after the initial baseline.
 4. Apply a documented hybrid policy by adapter or evidence type.
 
-The agent must not choose a default, continue past H5, or hide affected companies while this decision is unresolved.
+(H5 was approved 2026-09-22; the date policy below is settled.)
 
-## Still to be reviewed at Phase 1
-
-The approved baseline leaves a few implementation-level choices for H1:
-
-- Exact title synonyms and role-family vocabulary.
-- Explicit false-positive title exclusions.
-- India-eligibility examples for global or ambiguous remote postings.
-- At least ten seniority examples, including missing or conflicting experience requirements.
-
-These reviews refine the approved scope; they do not change it unless the user explicitly says so.
 
 ## Related documents
 
-- [System Design](01_job_posting_discovery_system_design.md)
-- [Implementation Guide](02_job_posting_discovery_implementation_guide.md)
-- [Phased Execution Plan](03_job_posting_discovery_phased_execution_plan.md)
+- [System Design](archive/01_job_posting_discovery_system_design.md)
+- [Implementation Guide](archive/02_job_posting_discovery_implementation_guide.md)
+- [Phased Execution Plan](archive/03_job_posting_discovery_phased_execution_plan.md)

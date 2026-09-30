@@ -36,10 +36,15 @@ from job_finder.matching.merged_prompt import (
     parse_merged_response,
 )
 from job_finder.matching.relevance_set import RelevanceVerdict
-from job_finder.matching.seniority import SeniorityDecision
+from job_finder.matching.seniority import DetectedLevel, SeniorityDecision
 
 _LOGGER = logging.getLogger(__name__)
 
+# NOTE: maxLength bounds were deliberately evaluated and deferred (CLAUDE.md "Settled
+# decisions"): measured against 259 real responses against a 500-char cap, max observed
+# evidence was 259 chars, zero violations. Don't add them here without new measured
+# evidence -- guessing at a cap is a quality risk (truncating a legitimate answer), not a
+# safety net, unless backed by real response data.
 MERGED_RESPONSE_SCHEMA: dict[str, Any] = {
     "type": "object",
     "additionalProperties": False,
@@ -60,18 +65,15 @@ MERGED_RESPONSE_SCHEMA: dict[str, Any] = {
         "seniority_match": {
             "anyOf": [{"type": "boolean"}, {"type": "string", "enum": ["uncertain"]}]
         },
+        # Sourced from the single DetectedLevel enum rather than a hand-copied literal
+        # list. The hand-copied list previously omitted staff/manager/director/executive,
+        # so a strict-schema call could never return those levels even though the parser
+        # (which validates against the full DetectedLevel enum) accepted them -- the model
+        # was silently forced onto the nearest wrong value for anyone senior enough to hold
+        # one of those titles.
         "detected_level": {
             "type": "string",
-            "enum": [
-                "internship",
-                "entry",
-                "junior",
-                "mid",
-                "senior",
-                "lead",
-                "principal",
-                "unknown",
-            ],
+            "enum": [level.value for level in DetectedLevel],
         },
         "required_experience": {"type": "string"},
         "seniority_evidence": {"type": "string"},

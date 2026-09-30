@@ -1,3 +1,16 @@
+> # ARCHIVED -- historical record, not current behaviour
+>
+> This documents the step-by-step build order.
+>
+> Largely a prose restatement of the phased execution plan beside it, and stale in the
+> same places (Step 8 role filtering, Step 10 seniority evaluation). Kept only so the
+> build narrative survives; nothing here is uniquely load-bearing.
+>
+> For how the system works today: **`CLAUDE.md`**.
+> For what was decided and why: **`docs/decisions.md`**.
+
+---
+
 # Job Posting Discovery Implementation Guide
 
 Version 1.0
@@ -155,7 +168,7 @@ Create a versioned search-profile configuration with:
 - Ten-day recency window.
 - A `measure_then_decide` mode that holds uncertain publication dates separately until Phase 5 coverage is reviewed.
 
-The final uncertain-date inclusion policy is intentionally deferred. Use the approved baseline in [Approved Product Decisions](04_product_decisions.md); do not choose a strict or permissive default during this step.
+The final uncertain-date inclusion policy is intentionally deferred. Use the approved baseline in [Approved Product Decisions](../04_product_decisions.md); do not choose a strict or permissive default during this step.
 
 Create examples for every rule. Examples should include easy cases and cases likely to produce mistakes.
 
@@ -1021,4 +1034,4 @@ The purpose of the gates is to stop uncertainty from becoming the foundation of 
 
 - [System Design](01_job_posting_discovery_system_design.md)
 - [Phased Execution Plan](03_job_posting_discovery_phased_execution_plan.md)
-- [Approved Product Decisions](04_product_decisions.md)
+- [Approved Product Decisions](../04_product_decisions.md)

@@ -1,3 +1,16 @@
+> # ARCHIVED -- historical record, not current behaviour
+>
+> This documents the original architecture and design rationale.
+>
+> Its filter and LLM sections are **superseded**: it describes an allowlist title filter
+> (~11% pass) and a seniority-only LLM call. Both were replaced. Read it for the design
+> rationale table and the adapter-family strategy, which still hold.
+>
+> For how the system works today: **`CLAUDE.md`**.
+> For what was decided and why: **`docs/decisions.md`**.
+
+---
+
 # Job Posting Discovery System Design
 
 Version 1.0
