@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import re
 import threading
+import time
 from collections import Counter, defaultdict, deque
 from collections.abc import Callable, Iterable, Mapping
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -22,6 +23,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from enum import StrEnum
 from pathlib import Path
+from statistics import median
 
 from job_finder.adapters.base import AdapterRegistry, JobDetailAdapter, list_jobs_with_retry
 from job_finder.adapters.http_client import HttpRequestError
@@ -98,6 +100,7 @@ class CompanyFilterRecord:
     exception_categories: tuple[str, ...]
     detail_fetch_count: int
     detail_failure_count: int
+    duration_seconds: float = 0.0
 
 
 @dataclass(frozen=True, slots=True)
@@ -130,6 +133,14 @@ class FilterVerificationReport:
     detail_failure_count: int
     companies: tuple[CompanyFilterRecord, ...]
     listings: tuple[FilterListingRecord, ...]
+    timing: Mapping[str, object] | None = None
+    """Source-collection timing: total, mean, median, min, max, and the slowest companies.
+
+    Median is reported alongside mean because the distribution is heavily skewed -- one
+    Workday board with 553 jobs across 28 paginated requests takes minutes while most
+    companies take seconds, so the mean alone tells you very little about a typical
+    company.
+    """
 
     @property
     def healthy(self) -> bool:
@@ -166,6 +177,7 @@ class FilterVerificationReport:
             "detail_failure_count": self.detail_failure_count,
             "companies": [asdict(company) for company in self.companies],
             "listings": [_listing_as_json(listing) for listing in self.listings],
+            "timing": dict(self.timing) if self.timing else None,
         }
 
 
@@ -178,6 +190,7 @@ class _PendingCompany:
     result: AdapterResult
     attempt_count: int
     jobs: tuple[NormalizedJob, ...]
+    duration_seconds: float = 0.0
 
 
 def _fetch_source(
@@ -194,6 +207,7 @@ def _fetch_source(
     builds a fresh opener per request. All SQLite access happens later, under ``ScanLock``.
     """
     source = entry.source
+    started = time.monotonic()
     result, attempts = list_jobs_with_retry(
         adapters.resolve(source), source, retry_count=source_retry_count
     )
@@ -210,6 +224,7 @@ def _fetch_source(
         result=result,
         attempt_count=attempts,
         jobs=jobs,
+        duration_seconds=round(time.monotonic() - started, 3),
     )
 
 
@@ -253,7 +268,7 @@ def _collect_sources(
             progress(
                 f"phase=source_collection progress={completed}/{enabled_count} "
                 f"company={item.source.company_id} outcome={item.result.outcome.value} "
-                f"listings={len(item.jobs)}"
+                f"listings={len(item.jobs)} seconds={item.duration_seconds}"
             )
 
     if max_workers <= 1:
@@ -509,6 +524,7 @@ def collect_listings(
         detail_fetch_count=sum(company.detail_fetch_count for company in companies),
         detail_failure_count=sum(company.detail_failure_count for company in companies),
         companies=tuple(companies),
+        timing=_timing_summary(pending),
         listings=tuple(listings),
     )
 
@@ -661,6 +677,42 @@ def _final_decision(
     return FinalFilterDecision.REJECTED
 
 
+def _timing_summary(pending: list[_PendingCompany]) -> dict[str, object]:
+    """Summarize per-company source-collection time.
+
+    Reports median as well as mean because the distribution is long-tailed: a Workday
+    board with 553 jobs across 28 paginated requests takes minutes while a small Greenhouse
+    board takes under a second. A mean over that mix describes no actual company.
+
+    ``slowest`` names the specific companies, which is the part you can act on -- it turns
+    "the scan took 40 minutes" into "Adobe took 4 of them".
+    """
+    durations = sorted(item.duration_seconds for item in pending)
+    if not durations:
+        return {"company_count": 0}
+
+    slowest = sorted(pending, key=lambda item: item.duration_seconds, reverse=True)[:5]
+    # One precision for every figure. Mixing 2 and 3 decimals lets a rounded median print
+    # as larger than an unrounded minimum, which reads as a bug in the summary itself.
+    return {
+        "company_count": len(durations),
+        "total_seconds": round(sum(durations), 3),
+        "mean_seconds": round(sum(durations) / len(durations), 3),
+        "median_seconds": round(median(durations), 3),
+        "min_seconds": round(durations[0], 3),
+        "max_seconds": round(durations[-1], 3),
+        "slowest": [
+            {
+                "company_id": item.source.company_id,
+                "adapter_type": item.adapter_type,
+                "seconds": item.duration_seconds,
+                "listings": len(item.jobs),
+            }
+            for item in slowest
+        ],
+    }
+
+
 def _company_record(
     pending: _PendingCompany,
     listings: list[FilterListingRecord],
@@ -719,6 +771,7 @@ def _company_record(
         exception_categories=tuple(diagnostics),
         detail_fetch_count=detail_fetch_count,
         detail_failure_count=detail_failure_count,
+        duration_seconds=pending.duration_seconds,
     )
 
 

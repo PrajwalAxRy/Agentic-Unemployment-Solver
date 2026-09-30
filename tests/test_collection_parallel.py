@@ -162,7 +162,16 @@ def test_parallel_and_sequential_reports_are_identical() -> None:
         company.source_rank for company in parallel.companies
     ), "results must be ordered by source_rank, not by completion order"
     assert parallel.listing_count == sequential.listing_count
-    assert parallel.as_json()["companies"] == sequential.as_json()["companies"]
+
+    # Compare everything except duration_seconds: wall-clock timing legitimately differs
+    # between a sequential and a parallel run, and that is the one field expected to.
+    def _without_timing(report: object) -> list[dict[str, object]]:
+        return [
+            {k: v for k, v in company.items() if k != "duration_seconds"}
+            for company in report.as_json()["companies"]  # type: ignore[attr-defined,union-attr]
+        ]
+
+    assert _without_timing(parallel) == _without_timing(sequential)
 
 
 def test_companies_are_actually_fetched_concurrently() -> None:

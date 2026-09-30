@@ -295,3 +295,31 @@ def test_uncertain_date_uses_first_seen_only_for_forward_aging() -> None:
     assert recent.final_counts == {"retained": 1}
     assert old.uncertain_candidate_count == 0
     assert old.recency_excluded_count == 1
+
+
+def test_source_timing_is_reported() -> None:
+    """Per-company timing, with median alongside mean.
+
+    The distribution is long-tailed -- one Workday board with 553 jobs across 28 paginated
+    requests takes minutes while most companies take under a second. A mean over that mix
+    describes no actual company, which is why median and max are reported too, and why
+    `slowest` names the specific companies you can act on.
+    """
+    report = collect_listings(
+        registry(),
+        AdapterRegistry([StubAdapter()]),
+        load_search_profile(Path("config/search_profile.toml")),
+        scan_at=SCAN_AT,
+    )
+
+    timing = report.timing
+    assert timing is not None
+    assert timing["company_count"] == report.enabled_company_count
+    for key in ("total_seconds", "mean_seconds", "median_seconds", "min_seconds", "max_seconds"):
+        assert isinstance(timing[key], (int, float)), key
+        assert timing[key] >= 0, key
+    assert timing["min_seconds"] <= timing["median_seconds"] <= timing["max_seconds"]
+    assert timing["slowest"], "the slowest companies must be named, not just counted"
+    assert {"company_id", "adapter_type", "seconds", "listings"} <= set(timing["slowest"][0])
+    # Per-company durations are on the company records too, for the JSON report.
+    assert all(company.duration_seconds >= 0 for company in report.companies)

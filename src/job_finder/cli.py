@@ -921,6 +921,22 @@ def _scan(args: argparse.Namespace) -> int:
         f"date_uncertain_matches={len(report.date_uncertain_jobs)} "
         f"reviews={len(report.review_candidates)}"
     )
+    timing: dict[str, Any] = dict(report.timing) if report.timing else {}
+    if timing.get("company_count"):
+        print(
+            f"source_timing total={timing['total_seconds']}s "
+            f"mean={timing['mean_seconds']}s median={timing['median_seconds']}s "
+            f"min={timing['min_seconds']}s max={timing['max_seconds']}s "
+            f"companies={timing['company_count']}"
+        )
+        # Naming the slow companies is the actionable part: it turns "the scan took 40
+        # minutes" into "Adobe took 4 of them".
+        for item in list(timing.get("slowest", []))[:3]:
+            print(
+                f"  slowest: {item['company_id']} ({item['adapter_type']}) "
+                f"{item['seconds']}s, {item['listings']} listings"
+            )
+
     lifecycle: dict[str, Any] = dict(report.lifecycle) if report.lifecycle else {}
     if lifecycle:
         mode = "dry_run" if lifecycle["dry_run"] else "enforcing"

@@ -188,6 +188,7 @@ class ScanReport:
     source_failures: tuple[SourceFailureRecord, ...]
     company_accounting: tuple[CompanyAccountingRecord, ...]
     lifecycle: Mapping[str, object] | None = None
+    timing: Mapping[str, object] | None = None
 
     def as_json(self) -> dict[str, object]:
         return {
@@ -213,6 +214,7 @@ class ScanReport:
             "source_failures": [asdict(item) for item in self.source_failures],
             "company_accounting": [asdict(item) for item in self.company_accounting],
             "lifecycle": dict(self.lifecycle) if self.lifecycle else None,
+            "timing": dict(self.timing) if self.timing else None,
         }
 
 
@@ -547,6 +549,7 @@ def process_filter_report(
         source_failures=source_failures,
         company_accounting=accounting,
         lifecycle=asdict(lifecycle_report),
+        timing=filtered.timing,
     )
 
 
