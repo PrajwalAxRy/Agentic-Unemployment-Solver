@@ -997,6 +997,9 @@ def _scan(args: argparse.Namespace) -> int:
         # stale, or built under different rules. The remedy is always a full scan.
         _LOGGER.warning("scan=resume_unavailable reason=%s", error)
         print(f"scan=resume_unavailable error={error}")
+        # Every CheckpointError means the same remedy, so say it rather than leaving the
+        # operator to infer it from the message.
+        print("  Run a full scan instead:  python -m job_finder scan")
         return 5
     except (GatewayProviderError, RuntimeError, ValueError) as error:
         _LOGGER.exception("scan=failed exception=%s reason=%s", type(error).__name__, error)
@@ -1057,7 +1060,31 @@ def _scan(args: argparse.Namespace) -> int:
 
     print(f"Wrote machine-readable report to {args.json_output}")
     print(f"Wrote human-readable report to {args.markdown_output}")
+
+    # Last thing on screen, deliberately. A halted scan still writes a full report and
+    # exits successfully, so without this it reads as a completed run that simply found
+    # fewer jobs -- which is how the 2026-09-30 halt went unnoticed until the database was
+    # inspected by hand.
+    if report.metrics.llm_budget_halted_count:
+        remaining = report.metrics.llm_budget_halted_count
+        print()
+        print(
+            f"INCOMPLETE: the run budget ran out with {remaining} job(s) still "
+            "unevaluated. They are saved, not lost."
+        )
+        print(f"  Resume with:  python -m job_finder scan --resume{_resume_suffix(args)}")
+        print(f"  Checkpoint:   {args.checkpoint} (valid for 24h)")
     return report.outcome.exit_code
+
+
+def _resume_suffix(args: argparse.Namespace) -> str:
+    """Echo back any non-default paths, so the printed command actually works as shown."""
+    parts = []
+    if args.checkpoint != DEFAULT_CHECKPOINT_PATH:
+        parts.append(f" --checkpoint {args.checkpoint}")
+    if args.database != Path("state/jobs.sqlite3"):
+        parts.append(f" --database {args.database}")
+    return "".join(parts)
 
 
 def _repair(args: argparse.Namespace) -> int:

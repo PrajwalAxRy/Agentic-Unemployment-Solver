@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from job_finder.checkpoint import (
+    DEFAULT_CHECKPOINT_PATH,
     SCHEMA_VERSION,
     CheckpointError,
     CheckpointRow,
@@ -176,3 +177,27 @@ def test_write_is_atomic_and_leaves_no_temporary_behind(tmp_path: Path) -> None:
 
     assert read_checkpoint(path).evaluated_before_halt == 300
     assert list(tmp_path.iterdir()) == [path], "a leftover .tmp would confuse operators"
+
+
+def test_the_resume_command_echoes_non_default_paths() -> None:
+    """The printed command has to work exactly as shown.
+
+    A halted scan still writes a report and exits 0, so this notice is the only signal
+    the run was incomplete. Printing a command that silently targets the default database
+    when the operator used a different one would be worse than printing nothing.
+    """
+    import argparse
+
+    from job_finder.cli import _resume_suffix
+
+    default = argparse.Namespace(
+        checkpoint=DEFAULT_CHECKPOINT_PATH, database=Path("state/jobs.sqlite3")
+    )
+    assert _resume_suffix(default) == "", "the plain command needs no flags"
+
+    custom = argparse.Namespace(
+        checkpoint=Path("state/other.json"), database=Path("state/alt.sqlite3")
+    )
+    suffix = _resume_suffix(custom)
+    assert "--checkpoint state/other.json" in suffix
+    assert "--database state/alt.sqlite3" in suffix
