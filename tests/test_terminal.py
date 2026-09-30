@@ -163,10 +163,12 @@ def test_close_restores_the_cursor_and_is_idempotent() -> None:
 def test_context_manager_restores_the_cursor_on_error() -> None:
     stream = _FakeTty()
 
-    with pytest.raises(RuntimeError):
-        with ScanDisplay(stream=stream, enabled=True, width=80) as display:
-            display.start_phase("source_collection", 5)
-            raise RuntimeError("scan blew up")
+    with (
+        pytest.raises(RuntimeError),
+        ScanDisplay(stream=stream, enabled=True, width=80) as display,
+    ):
+        display.start_phase("source_collection", 5)
+        raise RuntimeError("scan blew up")
 
     assert "\x1b[?25h" in stream.getvalue()
 

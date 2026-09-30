@@ -10,6 +10,7 @@ from pathlib import Path
 
 from job_finder.adapters.base import AdapterRegistry
 from job_finder.adapters.http_client import HttpFailureCategory, HttpRequestError
+from job_finder.checkpoint import read_checkpoint
 from job_finder.collection import FilterVerificationReport, collect_listings
 from job_finder.core.company_registry import (
     CompanyRegistryEntry,
@@ -52,6 +53,7 @@ from job_finder.scan import (
     ScanReport,
     _company_accounting,
     process_filter_report,
+    resume_from_checkpoint,
     run_manual_scan,
     write_scan_report,
 )
@@ -582,3 +584,81 @@ def test_manual_scan_reports_bounded_phase_progress(tmp_path: Path) -> None:
     assert any("phase=deterministic_filter progress=1/1" in message for message in messages)
     assert any("phase=candidate_evaluation progress=1/1" in message for message in messages)
     assert messages[-1] == ("phase=candidate_evaluation status=complete observed=1 evaluated=1")
+
+
+def test_budget_halt_writes_a_checkpoint_that_resumes_the_remaining_jobs(
+    tmp_path: Path,
+) -> None:
+    """The 2026-09-30 shape end to end: halt partway, then finish from the checkpoint.
+
+    Three jobs, a budget that affords one. The first run must evaluate one and checkpoint
+    the other two; the resumed run must pick up exactly those two without re-scraping.
+    """
+    description = "Confidential marker. Candidates need 3+ years of experience."
+    adapter = StubAdapter(
+        {
+            "healthy": tuple(
+                job("healthy", f"REQ-{index}", "Machine Learning Engineer", description)
+                for index in range(1, 4)
+            )
+        }
+    )
+    test_registry = registry(source("healthy"))
+    checkpoint_path = tmp_path / "resume.json"
+    database_path = tmp_path / "jobs.sqlite3"
+
+    # One request's worth of budget, so job 2 trips it.
+    starved = SeniorityEvaluator(
+        client=StubLLMClient([decision(True), decision(True), decision(True)]),
+        prompt=load_seniority_prompt(ROOT / "config" / "seniority_prompt.toml"),
+        model_policy=ModelPolicy("test", "stub", "1"),
+        budget=UsageBudget(UsageLimits(1, 20_000, 4_000, 200)),
+    )
+    filter_report = filtered(test_registry, adapter)
+    with migrated_database(database_path) as connection:
+        halted = process_filter_report(
+            filter_report,
+            test_registry,
+            AdapterRegistry([adapter]),
+            PROFILE,
+            starved,
+            JobStateRepository(connection),
+            run_id="scan-halt",
+            started_at=SCAN_AT,
+            completed_at=SCAN_AT + timedelta(minutes=1),
+            checkpoint_path=checkpoint_path,
+        )
+
+    assert halted.metrics.llm_evaluated_count == 1
+    assert halted.metrics.llm_budget_halted_count == 2
+    assert checkpoint_path.exists(), "a halted run must leave a resume point"
+
+    saved = read_checkpoint(checkpoint_path)
+    assert len(saved.rows) == 2, "the checkpoint holds exactly the unevaluated remainder"
+    assert saved.evaluated_before_halt == 1
+
+    # Resume with a real budget. No adapter listing call is needed -- the rows come from
+    # the checkpoint -- but description fetches still go through the adapter.
+    generous = SeniorityEvaluator(
+        client=StubLLMClient([decision(True), decision(True)]),
+        prompt=load_seniority_prompt(ROOT / "config" / "seniority_prompt.toml"),
+        model_policy=ModelPolicy("test", "stub", "1"),
+        budget=UsageBudget(UsageLimits(20, 20_000, 4_000, 200)),
+    )
+    resumed = resume_from_checkpoint(
+        test_registry,
+        AdapterRegistry([adapter]),
+        PROFILE,
+        generous,
+        database_path=database_path,
+        lock_path=tmp_path / "scan.lock",
+        checkpoint_path=checkpoint_path,
+        started_at=SCAN_AT + timedelta(minutes=5),
+    )
+
+    assert resumed.metrics.llm_evaluated_count == 2, "the remaining two are judged"
+    assert resumed.metrics.llm_budget_halted_count == 0
+    assert not checkpoint_path.exists(), "a completed resume clears its checkpoint"
+    assert resumed.lifecycle is None, (
+        "lifecycle must not run on a partial listing set, or it retires live jobs"
+    )

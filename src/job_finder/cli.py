@@ -53,6 +53,7 @@ from job_finder.adapters.successfactors import SuccessFactorsAdapter
 from job_finder.adapters.swiggy_careers import SwiggyCareersAdapter
 from job_finder.adapters.twilio_careers import TwilioCareersAdapter
 from job_finder.adapters.workday import WorkdayAdapter
+from job_finder.checkpoint import DEFAULT_CHECKPOINT_PATH, CheckpointError
 from job_finder.collection import (
     collect_listings,
     write_filter_report,
@@ -94,6 +95,7 @@ from job_finder.repair import (
 from job_finder.reporting.scan_report import write_scan_markdown
 from job_finder.scan import (
     SCAN_REPORT_SCHEMA_VERSION,
+    resume_from_checkpoint,
     run_manual_scan,
     write_scan_report,
 )
@@ -397,6 +399,20 @@ def build_parser() -> argparse.ArgumentParser:
             "threshold the probe is the only guard against a truncated listing closing "
             "live jobs (10.F)."
         ),
+    )
+    scan.add_argument(
+        "--resume",
+        action="store_true",
+        help=(
+            "Skip collection and filtering; evaluate the rows left over by a run that "
+            "halted on budget. Requires a checkpoint newer than 24h."
+        ),
+    )
+    scan.add_argument(
+        "--checkpoint",
+        type=Path,
+        default=DEFAULT_CHECKPOINT_PATH,
+        help="Where the resume checkpoint is written and read.",
     )
     scan.add_argument("--dotenv", type=Path, default=Path(".env"))
     scan.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
@@ -940,20 +956,33 @@ def _scan(args: argparse.Namespace) -> int:
             return probe_job_url(url, listed=listed, timeout_seconds=args.timeout)
 
         try:
-            report = run_manual_scan(
-                registry,
-                _runtime_adapters(client),
-                profile,
-                evaluator,
-                database_path=args.database,
-                lock_path=args.lock,
-                source_retry_count=args.source_retries,
-                expiry_dry_run=not args.enable_expiry,
-                job_probe=None if args.no_probe else _probe,
-                connectivity=connectivity,
-                on_item_start=display.begin_item,
-                progress=_display_progress(display),
-            )
+            if args.resume:
+                report = resume_from_checkpoint(
+                    registry,
+                    _runtime_adapters(client),
+                    profile,
+                    evaluator,
+                    database_path=args.database,
+                    lock_path=args.lock,
+                    checkpoint_path=args.checkpoint,
+                    progress=_display_progress(display),
+                )
+            else:
+                report = run_manual_scan(
+                    registry,
+                    _runtime_adapters(client),
+                    profile,
+                    evaluator,
+                    database_path=args.database,
+                    lock_path=args.lock,
+                    source_retry_count=args.source_retries,
+                    expiry_dry_run=not args.enable_expiry,
+                    job_probe=None if args.no_probe else _probe,
+                    connectivity=connectivity,
+                    on_item_start=display.begin_item,
+                    progress=_display_progress(display),
+                    checkpoint_path=args.checkpoint,
+                )
         finally:
             # Restore the cursor even on Ctrl-C or a crash mid-scan.
             display.close()
@@ -963,6 +992,12 @@ def _scan(args: argparse.Namespace) -> int:
         _LOGGER.warning("scan=skipped reason=already_running detail=%s", error)
         print(f"scan=skipped reason=already_running error={error}")
         return 4
+    except CheckpointError as error:
+        # Distinct from a scan failure: nothing went wrong, the checkpoint is just absent,
+        # stale, or built under different rules. The remedy is always a full scan.
+        _LOGGER.warning("scan=resume_unavailable reason=%s", error)
+        print(f"scan=resume_unavailable error={error}")
+        return 5
     except (GatewayProviderError, RuntimeError, ValueError) as error:
         _LOGGER.exception("scan=failed exception=%s reason=%s", type(error).__name__, error)
         print(f"scan=failed error={type(error).__name__}: {error}")

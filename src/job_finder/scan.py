@@ -16,6 +16,17 @@ from job_finder.adapters.base import AdapterRegistry, JobDetailAdapter
 from job_finder.adapters.connectivity import ConnectivityWaiter
 from job_finder.adapters.errors import DetailUnavailable, exception_category
 from job_finder.adapters.http_client import HttpRequestError
+from job_finder.checkpoint import (
+    DEFAULT_CHECKPOINT_PATH,
+    CheckpointRow,
+    ResumeCheckpoint,
+    assert_resumable,
+    read_checkpoint,
+    write_checkpoint,
+)
+from job_finder.checkpoint import (
+    SCHEMA_VERSION as CHECKPOINT_SCHEMA_VERSION,
+)
 from job_finder.collection import (
     CandidateSection,
     FilterListingRecord,
@@ -343,6 +354,212 @@ def run_manual_scan(
             raise
 
 
+def resume_from_checkpoint(
+    registry: CompanySourceRegistry,
+    adapters: AdapterRegistry,
+    profile: SearchProfile,
+    evaluator: JobEvaluator,
+    *,
+    database_path: Path,
+    lock_path: Path,
+    checkpoint_path: Path = DEFAULT_CHECKPOINT_PATH,
+    started_at: datetime | None = None,
+    run_id: str | None = None,
+    progress: Callable[[str], None] | None = None,
+) -> ScanReport:
+    """Re-enter the evaluation stage using a checkpoint left by a halted run.
+
+    Skips collection and the deterministic filter entirely -- roughly three and a half
+    hours of scraping -- by replaying the retained rows the halted run had not reached.
+
+    Two stages are deliberately *not* run. Lifecycle absence detection needs the complete
+    listing set and a checkpoint holds only a slice, so running it would retire live jobs.
+    Source-health accounting is likewise meaningless here, since no source was contacted.
+    """
+    start = started_at or datetime.now().astimezone()
+    if start.tzinfo is None:
+        raise ValueError("started_at must be timezone-aware")
+    checkpoint = read_checkpoint(checkpoint_path)
+    assert_resumable(
+        checkpoint,
+        profile_version=profile.version,
+        prompt_version=evaluator.prompt_version,
+        model_policy=evaluator.model_policy,
+    )
+    identifier = run_id or _new_run_id(start)
+    if progress is not None:
+        progress(
+            f"phase=resume status=started rows={len(checkpoint.rows)} "
+            f"from_run={checkpoint.run_id} age_hours={checkpoint.age.total_seconds() / 3600:.1f}"
+        )
+    filtered = _report_from_checkpoint(checkpoint)
+    with ScanLock(lock_path), migrated_database(database_path) as connection:
+        jobs = JobStateRepository(connection)
+        runs = ScanRunRepository(connection)
+        runs.start(
+            identifier,
+            started_at=start,
+            registry_version=registry.registry_version,
+            profile_version=profile.version,
+            prompt_version=evaluator.prompt_version,
+            model_policy=evaluator.model_policy,
+        )
+        try:
+            report = process_filter_report(
+                filtered,
+                registry,
+                adapters,
+                profile,
+                evaluator,
+                jobs,
+                run_id=identifier,
+                started_at=start,
+                completed_at=None,
+                expiry_dry_run=True,
+                job_probe=None,
+                progress=progress,
+                checkpoint_path=checkpoint_path,
+                run_lifecycle=False,
+            )
+            runs.finish(
+                identifier,
+                completed_at=_aware_from_iso(report.completed_at),
+                status=_run_status(report.outcome),
+                metrics=asdict(report.metrics),
+            )
+            if progress is not None:
+                progress(
+                    "phase=resume status=complete "
+                    f"evaluated={report.metrics.llm_evaluated_count}"
+                    + (
+                        f" HALTED_ON_BUDGET unevaluated={report.metrics.llm_budget_halted_count}"
+                        if report.metrics.llm_budget_halted_count
+                        else " (checkpoint cleared)"
+                    )
+                )
+            return report
+        except BaseException as error:
+            runs.finish(
+                identifier,
+                completed_at=datetime.now().astimezone(),
+                status=ScanRunStatus.FAILED,
+                metrics={"error_type": type(error).__name__},
+            )
+            raise
+
+
+def _report_from_checkpoint(checkpoint: ResumeCheckpoint) -> FilterVerificationReport:
+    """Rebuild the minimum filter report the evaluation stage reads.
+
+    Counts describe the checkpoint slice, not the original scan. They are intentionally
+    not back-filled from the halted run: a resumed report covers the rows it processed,
+    and copying the full-scan totals in would overstate what this run actually saw.
+    """
+    listings = tuple(
+        FilterListingRecord(
+            company_id=row.company_id,
+            company_name=row.company_id,
+            source_rank=0,
+            adapter_type=row.normalized_job.source_type,
+            title_original=row.title_original,
+            location_original=row.location_original,
+            canonical_url=row.canonical_url,
+            candidate_section=CandidateSection(row.candidate_section),
+            date_basis=row.normalized_job.date_basis,
+            raw_date_text=row.normalized_job.published_at_raw,
+            role=row.role,
+            location=row.location,
+            final_decision=FinalFilterDecision.RETAINED,
+            normalized_job=row.normalized_job,
+        )
+        for row in checkpoint.rows
+    )
+    total = len(listings)
+    strict = sum(entry.candidate_section is CandidateSection.STRICT for entry in listings)
+    return FilterVerificationReport(
+        schema_version=1,  # matches collect_listings; there is no shared constant
+        generated_at=datetime.now(UTC).isoformat(),
+        scan_at=checkpoint.scan_at,
+        boundary=checkpoint.scan_at,
+        registry_version="resume",
+        profile_id="resume",
+        profile_version=checkpoint.profile_version,
+        profile_hash="resume",
+        enabled_company_count=len({row.company_id for row in checkpoint.rows}),
+        outcome_counts={},
+        listing_count=total,
+        strict_recent_count=strict,
+        uncertain_candidate_count=total - strict,
+        recency_excluded_count=0,
+        role_counts={},
+        role_rejection_reasons={},
+        location_counts={},
+        location_reasons={},
+        final_counts={FinalFilterDecision.RETAINED.value: total},
+        retained_by_family={},
+        retained_by_location={},
+        zero_retained_companies=(),
+        detail_fetch_count=0,
+        detail_failure_count=0,
+        companies=(),
+        listings=listings,
+    )
+
+
+def _write_resume_checkpoint(
+    filtered: FilterVerificationReport,
+    path: Path,
+    *,
+    run_id: str,
+    profile: SearchProfile,
+    evaluator: JobEvaluator,
+    start_at: int,
+    evaluated: int,
+    reason: str,
+) -> None:
+    """Snapshot the retained rows from ``start_at`` (1-based) onward.
+
+    Walks the listings in the same order as the evaluation loop so the resumed run
+    continues exactly where this one stopped, rather than restarting the phase.
+    """
+    rows: list[CheckpointRow] = []
+    position = 0
+    for row in filtered.listings:
+        if row.final_decision is not FinalFilterDecision.RETAINED:
+            continue
+        position += 1
+        if position < start_at:
+            continue
+        rows.append(
+            CheckpointRow(
+                company_id=row.company_id,
+                title_original=row.title_original,
+                location_original=row.location_original,
+                canonical_url=row.canonical_url,
+                candidate_section=row.candidate_section.value,
+                role=row.role,
+                location=row.location,
+                normalized_job=row.normalized_job,
+            )
+        )
+    write_checkpoint(
+        ResumeCheckpoint(
+            schema_version=CHECKPOINT_SCHEMA_VERSION,
+            created_at=datetime.now(UTC),
+            run_id=run_id,
+            scan_at=filtered.scan_at,
+            profile_version=profile.version,
+            prompt_version=evaluator.prompt_version,
+            model_policy=evaluator.model_policy,
+            evaluated_before_halt=evaluated,
+            reason=reason,
+            rows=tuple(rows),
+        ),
+        path,
+    )
+    _LOGGER.warning("checkpoint_written path=%s rows=%d", path, len(rows))
+
+
 def process_filter_report(
     filtered: FilterVerificationReport,
     registry: CompanySourceRegistry,
@@ -357,6 +574,8 @@ def process_filter_report(
     expiry_dry_run: bool = True,
     job_probe: Callable[[str, bool], JobProbeResult | None] | None = None,
     progress: Callable[[str], None] | None = None,
+    checkpoint_path: Path | None = None,
+    run_lifecycle: bool = True,
 ) -> ScanReport:
     """Process one deterministic filter result through description, cache, and LLM stages."""
     sources = {entry.source.company_id: entry.source for entry in registry.entries}
@@ -467,6 +686,26 @@ def process_filter_report(
             # run resumes from here rather than skipping them forever.
             counts.budget_halted = retained_total - retained_index + 1
             reason = "; ".join(result.evaluation.errors) if result.evaluation else "budget reached"
+            # Snapshot from this row onward -- retained_index is 1-based and this row was
+            # not evaluated, so it must be included. Writing the checkpoint is best-effort:
+            # a failure here must not mask the halt itself, which is the more important
+            # signal and is already recorded in the metrics.
+            if checkpoint_path is not None:
+                try:
+                    _write_resume_checkpoint(
+                        filtered,
+                        checkpoint_path,
+                        run_id=run_id,
+                        profile=profile,
+                        evaluator=evaluator,
+                        start_at=retained_index,
+                        evaluated=counts.evaluated,
+                        reason=reason,
+                    )
+                except OSError as error:
+                    _LOGGER.error(
+                        "checkpoint_write_failed path=%s error=%s", checkpoint_path, error
+                    )
             _LOGGER.warning(
                 "candidate_evaluation_halted reason=%s evaluated=%d remaining=%d",
                 reason,
@@ -547,15 +786,28 @@ def process_filter_report(
             counts=counts,
         )
 
-    lifecycle_report = _run_lifecycle(
-        filtered,
-        repository=repository,
-        seen_job_keys=seen_job_keys,
-        today=observed_at.date(),
-        probe=job_probe,
-        dry_run=expiry_dry_run,
-        progress=progress,
+    # Absence detection is only sound when this run saw the complete listing set. A
+    # resumed run deliberately carries a partial one -- just the rows left unevaluated --
+    # so running lifecycle here would count every job outside the checkpoint as missing
+    # and march live postings toward expiry.
+    lifecycle_report = (
+        _run_lifecycle(
+            filtered,
+            repository=repository,
+            seen_job_keys=seen_job_keys,
+            today=observed_at.date(),
+            probe=job_probe,
+            dry_run=expiry_dry_run,
+            progress=progress,
+        )
+        if run_lifecycle
+        else None
     )
+
+    # A run that reached the end of the phase supersedes any earlier checkpoint. Leaving
+    # a stale one on disk would let a later --resume replay rows this run already judged.
+    if checkpoint_path is not None and not counts.budget_halted:
+        checkpoint_path.unlink(missing_ok=True)
 
     finish = completed_at or datetime.now().astimezone()
     outcome = _scan_outcome(filtered)
@@ -584,7 +836,7 @@ def process_filter_report(
         review_candidates=tuple(reviews),
         source_failures=source_failures,
         company_accounting=accounting,
-        lifecycle=asdict(lifecycle_report),
+        lifecycle=None if lifecycle_report is None else asdict(lifecycle_report),
         timing=filtered.timing,
     )
 
