@@ -58,6 +58,7 @@ from job_finder.collection import (
     write_filter_review,
 )
 from job_finder.core.company_registry import load_company_registry
+from job_finder.core.job_probe import JobProbeResult, probe_job_url
 from job_finder.core.search_profile import load_search_profile
 from job_finder.core.source_contracts import AdapterType
 from job_finder.logging_setup import configure_logging, progress_logger
@@ -361,6 +362,24 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         default=0,
         help="Maximum concurrent requests per host. 0 disables the cap.",
+    )
+    scan.add_argument(
+        "--enable-expiry",
+        action="store_true",
+        help=(
+            "Actually close stale jobs. Off by default: 5.1 requires about a week of "
+            "report-only observation first, and the dry-run report says which of its four "
+            "checks are still unmet."
+        ),
+    )
+    scan.add_argument(
+        "--no-probe",
+        action="store_true",
+        help=(
+            "Skip per-job liveness probing. Unsafe with expiry enabled -- at a 3-absence "
+            "threshold the probe is the only guard against a truncated listing closing "
+            "live jobs (10.F)."
+        ),
     )
     scan.add_argument("--dotenv", type=Path, default=Path(".env"))
     scan.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
@@ -854,6 +873,15 @@ def _scan(args: argparse.Namespace) -> int:
             f"report_schema={SCAN_REPORT_SCHEMA_VERSION} state_schema={CURRENT_SCHEMA_VERSION}",
             flush=True,
         )
+        if args.enable_expiry and args.no_probe:
+            raise ValueError(
+                "--enable-expiry cannot be combined with --no-probe: the probe is the "
+                "only guard against a truncated listing closing live jobs (to_change.md 10.F)"
+            )
+
+        def _probe(url: str, listed: bool) -> JobProbeResult | None:
+            return probe_job_url(url, listed=listed, timeout_seconds=args.timeout)
+
         report = run_manual_scan(
             registry,
             _runtime_adapters(client),
@@ -862,6 +890,8 @@ def _scan(args: argparse.Namespace) -> int:
             database_path=args.database,
             lock_path=args.lock,
             source_retry_count=args.source_retries,
+            expiry_dry_run=not args.enable_expiry,
+            job_probe=None if args.no_probe else _probe,
             progress=_print_progress,
         )
     except ScanAlreadyRunningError as error:
@@ -890,6 +920,26 @@ def _scan(args: argparse.Namespace) -> int:
         f"date_uncertain_matches={len(report.date_uncertain_jobs)} "
         f"reviews={len(report.review_candidates)}"
     )
+    lifecycle = report.lifecycle
+    if lifecycle:
+        mode = "dry_run" if lifecycle["dry_run"] else "enforcing"
+        verb = "would_close" if lifecycle["dry_run"] else "closed"
+        count = lifecycle["would_close"] if lifecycle["dry_run"] else lifecycle["closed"]
+        print(
+            f"lifecycle={mode} sightings={lifecycle['sightings']} "
+            f"absences={lifecycle['absences']} probes={lifecycle['probes_fired']} "
+            f"{verb}={count}"
+        )
+        # 5.1: the dry-run week is only over when all four checks have been observed.
+        # Printing what is still unmet is the difference between "we ran it for a week"
+        # and "we verified it".
+        if lifecycle["dry_run"] and not lifecycle["checklist_satisfied"]:
+            for item in lifecycle["unmet_requirements"]:
+                print(f"  dry_run_unmet: {item}")
+        flagged = lifecycle["reappearance"]["sources_needing_review"]
+        if flagged:
+            print(f"  reappearance_review: {', '.join(flagged)}")
+
     print(f"Wrote machine-readable report to {args.json_output}")
     print(f"Wrote human-readable report to {args.markdown_output}")
     return report.outcome.exit_code
