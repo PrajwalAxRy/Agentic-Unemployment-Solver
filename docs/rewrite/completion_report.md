@@ -8,18 +8,41 @@ included.
 
 | | baseline | final |
 |---|---|---|
-| tests passing | 613 | **960** |
-| tests failing | 4 | **4** (identical) |
+| tests passing | 613 | **975** |
+| tests failing | 4 | **0** |
 | mypy errors | 4 | **4** (identical) |
-| source files type-checked | 119 | 130 |
+| source files type-checked | 119 | 132 |
 
-The 4 test failures are Windows path assertions in `tests/test_smoke.py`
-(`config\search_profile.toml`) that cannot pass on Linux. The 4 mypy errors are
-Windows-only `msvcrt` calls in `persistence/locking.py`. Both sets are pre-existing and
-environmental — they pass on the developer's Windows machine. Details in `baseline.md`.
+The 4 remaining mypy errors are Windows-only `msvcrt` calls in `persistence/locking.py`,
+pre-existing and environmental. The 4 test failures that persisted through the whole build
+were Windows path assertions; they were fixed last, deliberately, because they were the
+recorded baseline every phase was measured against.
 
 **No new failure was introduced at any point.** Every phase was verified against the
 baseline before committing.
+
+## Wiring (the gap that mattered)
+
+Phases 3 and 4 were built, tested and verified as components, but `scan.py` did not call
+them. The pipeline had the widened title filter with **no relevance gate behind it**, no
+lifecycle tracking, and v4 columns that nothing wrote. That is now closed:
+
+- **Merged LLM call wired.** `MergedEvaluator` mirrors `SeniorityEvaluator`'s surface, so
+  the cache service and scan consume either. `scan.py` enforces the relevance verdict --
+  only a confident `unrelated` drops a row; `peripheral` displays tiered lower (2.6).
+  Location is asked only when the deterministic filter returned REVIEW, enforced in the
+  response *schema* so the model cannot contradict a settled decision.
+- **Lifecycle wired.** Sightings and absences recorded per job, company trustworthiness
+  built from the real `CompletionReason`, probe firing on first absence, verdict_at set
+  once via COALESCE. Expiry defaults to dry run.
+- **Dry-run and reappearance surfaced** on the CLI. `--enable-expiry` is opt-in and is
+  *refused* alongside `--no-probe`, since at 3 absences the probe is the whole safety
+  margin (10.F).
+
+Verified against the live gateway on the case that motivated it: `Lead Salesforce
+Developer, GTM Systems` is dropped as `unrelated` with cited evidence, while
+`Machine Learning Engineer, Search Quality` is kept. Both pass seniority, so only the
+relevance gate separates them.
 
 ## What landed
 
