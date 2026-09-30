@@ -228,3 +228,40 @@ def test_single_purpose_seniority_prompt_is_still_available() -> None:
 
     assert fallback.prompt_version
     assert (ROOT / "config" / "seniority_prompt.toml").exists()
+
+
+def test_evidence_may_be_quoted_from_the_title() -> None:
+    """Found by running against the real model, not by inspection.
+
+    When a description states no experience requirement the model correctly answers
+    ``uncertain`` and then, asked for evidence, quotes the job title -- which is in the
+    prompt and is reasonable. Validating against the description alone rejected the entire
+    response, so one unquotable sub-judgment destroyed two sound ones. That is precisely
+    the collapse 2.5 exists to prevent, so the check spans every text the model was shown.
+    """
+    judgment = parse_merged_response(
+        _response(
+            seniority_match="uncertain",
+            seniority_evidence="Staff ML Compiler Engineer",
+            seniority_reason="No experience requirement is stated.",
+        ),
+        description=DESCRIPTION,
+        title="Staff ML Compiler Engineer, TPU Performance Optimizations",
+        location_requested=False,
+    )
+
+    assert judgment.seniority_match == "uncertain"
+    assert judgment.seniority_evidence == "Staff ML Compiler Engineer"
+    # The relevance judgment survives intact rather than being discarded with it.
+    assert judgment.relevance is RelevanceVerdict.SUBSTANTIVE
+
+
+def test_evidence_from_neither_title_nor_description_is_still_rejected() -> None:
+    """The confabulation guard must not be weakened by the title allowance."""
+    with pytest.raises(MergedResponseError, match="not a verbatim excerpt"):
+        parse_merged_response(
+            _response(seniority_evidence="requires a PhD in astrophysics"),
+            description=DESCRIPTION,
+            title="Staff ML Compiler Engineer",
+            location_requested=False,
+        )

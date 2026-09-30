@@ -146,14 +146,21 @@ def parse_merged_response(
     *,
     description: str,
     location_requested: bool,
+    title: str = "",
 ) -> MergedJudgment:
     """Parse and validate a merged response.
 
-    Evidence is checked against the description the model was given. A quotation that is
-    not in the source is the clearest available signal that a judgment was confabulated,
-    and it is worth failing the whole response over: a merged call that silently accepts
-    invented evidence for one of three judgments is exactly the collapse this design is
-    trying to avoid.
+    Evidence is checked against the text the model was actually given -- the description
+    **and the title**, since both are in the prompt. A quotation from neither is the
+    clearest available signal that a judgment was confabulated.
+
+    Including the title is not a loosening; it is a correctness fix found by running this
+    against the real model. When a description states no experience requirement, the model
+    correctly answers ``uncertain`` and then, asked for evidence, quotes the title. Under
+    a description-only check that discarded the whole response -- so one unquotable
+    sub-judgment destroyed two sound ones, which is exactly the collapse 2.5 exists to
+    prevent. Evidence is still required to be verbatim from the prompt; it simply may come
+    from either field the model was shown.
     """
     try:
         raw = json.loads(content)
@@ -162,17 +169,19 @@ def parse_merged_response(
     if not isinstance(raw, Mapping):
         raise MergedResponseError("merged response must be a JSON object")
 
+    sources = (description, title) if title else (description,)
+
     relevance = _relevance(raw.get("relevance"))
-    relevance_evidence = _evidence(raw, "relevance_evidence", description)
+    relevance_evidence = _evidence(raw, "relevance_evidence", sources)
     seniority_match = _seniority_match(raw.get("seniority_match"))
-    seniority_evidence = _evidence(raw, "seniority_evidence", description)
+    seniority_evidence = _evidence(raw, "seniority_evidence", sources)
 
     location_eligible: LocationEligibility | None = None
     location_evidence: str | None = None
     location_reason: str | None = None
     if location_requested:
         location_eligible = _location_eligible(raw.get("location_eligible"))
-        location_evidence = _evidence(raw, "location_evidence", description)
+        location_evidence = _evidence(raw, "location_evidence", sources)
         location_reason = _required_text(raw.get("location_reason"), "location_reason")
     elif "location_eligible" in raw:
         # The model answered a question it was not asked. Refusing it keeps the
@@ -231,17 +240,19 @@ def _detected_level(value: object) -> DetectedLevel:
         raise MergedResponseError("detected_level is not a supported level") from error
 
 
-def _evidence(raw: Mapping[str, object], key: str, description: str) -> str:
+def _evidence(raw: Mapping[str, object], key: str, sources: tuple[str, ...]) -> str:
+    """Validate one evidence field against every text the model was shown."""
     value = raw.get(key)
     if not isinstance(value, str):
         raise MergedResponseError(f"{key} must be a string")
     excerpt = value.strip()
     if not excerpt:
         # Explicitly permitted: the prompt tells the model to return an empty string
-        # rather than invent a quotation when the description supports nothing.
+        # rather than invent a quotation when the prompt supports nothing.
         return ""
-    if excerpt.casefold() not in description.casefold():
-        raise MergedResponseError(f"{key} is not a verbatim excerpt of the description")
+    folded = excerpt.casefold()
+    if not any(folded in source.casefold() for source in sources):
+        raise MergedResponseError(f"{key} is not a verbatim excerpt of the supplied job text")
     return excerpt
 
 
