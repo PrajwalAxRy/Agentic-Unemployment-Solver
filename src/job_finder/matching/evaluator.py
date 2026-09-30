@@ -198,8 +198,14 @@ class SeniorityEvaluator:
         title: str,
         description: str,
         target_description: str,
+        location_original: str | None = None,
     ) -> EvaluationOutcome:
-        """Evaluate one description with at most one retry for invalid output."""
+        """Evaluate one description with at most one retry for invalid output.
+
+        ``location_original`` is accepted and ignored. This evaluator judges seniority
+        only; the parameter exists so it remains interchangeable with MergedEvaluator,
+        which is what keeps --seniority-only a one-flag fallback (2.5).
+        """
         request = LLMRequest(
             system_prompt=self._prompt.system_prompt,
             user_prompt=self._prompt.render(

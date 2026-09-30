@@ -27,10 +27,17 @@ site except deleting the local copy.
 from __future__ import annotations
 
 from collections.abc import Mapping
+from typing import Any
+
+# Mapping is invariant in its key type, so Mapping[object, object] does not accept a
+# Mapping[str, object]. Callers pass both -- parsed JSON is str-keyed, some adapter
+# payloads are object-keyed -- so the parameter is typed permissively rather than forcing
+# 84 cast() calls at the call sites.
+_Payload = Mapping[Any, object]
 
 
 def required_string(
-    raw: Mapping[object, object],
+    raw: _Payload,
     key: str,
     context: str | None = None,
 ) -> str:
@@ -47,7 +54,7 @@ def required_string(
 
 
 def optional_string(
-    raw: Mapping[object, object],
+    raw: _Payload,
     key: str,
     context: str | None = None,
 ) -> str | None:

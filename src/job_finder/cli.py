@@ -74,6 +74,7 @@ from job_finder.matching.openai_client import (
     load_gateway_settings,
 )
 from job_finder.matching.prompt import load_seniority_prompt
+from job_finder.matching.service import JobEvaluator
 from job_finder.persistence.database import CURRENT_SCHEMA_VERSION
 from job_finder.persistence.locking import ScanAlreadyRunningError
 from job_finder.persistence.maintenance import (
@@ -840,7 +841,7 @@ def _scan(args: argparse.Namespace) -> int:
         # engineering title in India reaches the report. --seniority-only restores the
         # tuned single-purpose prompt, which stays available precisely so a regression in
         # the merged judgment can be backed out without a code change.
-        evaluator: SeniorityEvaluator | MergedEvaluator
+        evaluator: JobEvaluator
         if args.seniority_only:
             prompt = load_seniority_prompt(args.prompt)
             evaluator = SeniorityEvaluator(
@@ -920,7 +921,7 @@ def _scan(args: argparse.Namespace) -> int:
         f"date_uncertain_matches={len(report.date_uncertain_jobs)} "
         f"reviews={len(report.review_candidates)}"
     )
-    lifecycle = report.lifecycle
+    lifecycle: dict[str, Any] = dict(report.lifecycle) if report.lifecycle else {}
     if lifecycle:
         mode = "dry_run" if lifecycle["dry_run"] else "enforcing"
         verb = "would_close" if lifecycle["dry_run"] else "closed"
@@ -934,9 +935,10 @@ def _scan(args: argparse.Namespace) -> int:
         # Printing what is still unmet is the difference between "we ran it for a week"
         # and "we verified it".
         if lifecycle["dry_run"] and not lifecycle["checklist_satisfied"]:
-            for item in lifecycle["unmet_requirements"]:
+            for item in list(lifecycle["unmet_requirements"]):
                 print(f"  dry_run_unmet: {item}")
-        flagged = lifecycle["reappearance"]["sources_needing_review"]
+        reappearance: dict[str, Any] = dict(lifecycle["reappearance"])
+        flagged: list[str] = list(reappearance["sources_needing_review"])
         if flagged:
             print(f"  reappearance_review: {', '.join(flagged)}")
 

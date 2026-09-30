@@ -4,12 +4,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import StrEnum
+from typing import Protocol, runtime_checkable
 
 from job_finder.core.job_contracts import NormalizedJob
 from job_finder.matching.evaluator import (
     EvaluationDisposition,
     EvaluationOutcome,
-    SeniorityEvaluator,
+    UsageSnapshot,
 )
 from job_finder.matching.seniority import SeniorityDecision, seniority_decision_from_mapping
 from job_finder.persistence.repository import JobRecord, JobStateRepository
@@ -44,6 +45,34 @@ class CachedEvaluationResult:
     evaluation: EvaluationOutcome | None
 
 
+@runtime_checkable
+class JobEvaluator(Protocol):
+    """What this service needs from an evaluator.
+
+    Both SeniorityEvaluator and MergedEvaluator satisfy it. Stated as a protocol rather
+    than a union so the interchangeability that makes --seniority-only a one-flag
+    fallback is enforced by the type checker instead of by convention.
+    """
+
+    @property
+    def prompt_version(self) -> str: ...
+
+    @property
+    def model_policy(self) -> str: ...
+
+    @property
+    def usage(self) -> UsageSnapshot: ...
+
+    def evaluate(
+        self,
+        *,
+        title: str,
+        description: str,
+        target_description: str,
+        location_original: str | None = None,
+    ) -> EvaluationOutcome: ...
+
+
 class CachedSeniorityEvaluationService:
     """Skip ineligible jobs and persist/reuse validated seniority decisions."""
 
@@ -51,7 +80,7 @@ class CachedSeniorityEvaluationService:
         self,
         *,
         repository: JobStateRepository,
-        evaluator: SeniorityEvaluator,
+        evaluator: JobEvaluator,
     ) -> None:
         self._repository = repository
         self._evaluator = evaluator
@@ -97,14 +126,11 @@ class CachedSeniorityEvaluationService:
         # The merged evaluator (2.5) also judges location, but only when the
         # deterministic filter could not. Forwarded by keyword so the single-purpose
         # SeniorityEvaluator, which takes no such argument, stays a drop-in fallback.
-        extra: dict[str, object] = {}
-        if location_original is not None and hasattr(self._evaluator, "last_judgment"):
-            extra["location_original"] = location_original
         outcome = self._evaluator.evaluate(
             title=job.title_original,
             description=job.description,
             target_description=target_description,
-            **extra,  # type: ignore[arg-type]
+            location_original=location_original,
         )
         if outcome.disposition is EvaluationDisposition.MANUAL_REVIEW:
             record = self._repository.fail_evaluation(

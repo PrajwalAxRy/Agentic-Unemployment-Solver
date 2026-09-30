@@ -45,6 +45,7 @@ from job_finder.matching.service import (
     CachedEvaluationDisposition,
     CachedSeniorityEvaluationService,
     CandidateEligibility,
+    JobEvaluator,
 )
 from job_finder.normalization.jobs import normalize_job
 from job_finder.persistence.database import migrated_database
@@ -237,7 +238,7 @@ def run_manual_scan(
     registry: CompanySourceRegistry,
     adapters: AdapterRegistry,
     profile: SearchProfile,
-    evaluator: SeniorityEvaluator,
+    evaluator: JobEvaluator,
     *,
     database_path: Path,
     lock_path: Path,
@@ -330,7 +331,7 @@ def process_filter_report(
     registry: CompanySourceRegistry,
     adapters: AdapterRegistry,
     profile: SearchProfile,
-    evaluator: SeniorityEvaluator,
+    evaluator: JobEvaluator,
     repository: JobStateRepository,
     *,
     run_id: str,
@@ -566,7 +567,7 @@ def write_scan_report(report: ScanReport, path: Path) -> None:
 def _needs_processing(
     record: JobRecord,
     pending: bool,
-    evaluator: SeniorityEvaluator,
+    evaluator: JobEvaluator,
 ) -> bool:
     if pending:
         return True
