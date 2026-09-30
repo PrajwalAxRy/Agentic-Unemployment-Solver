@@ -202,14 +202,27 @@ def check_gateway_connectivity(
     # the only way to know what actually answered is to record what the gateway returned.
     # Gateways routinely alias or silently substitute, and a scan whose results shifted
     # because the model changed underneath it should be diagnosable from the log alone.
-    if returned_model.strip() != settings.model:
+    #
+    # Two distinct cases, deliberately logged at different levels. Observed live: the
+    # gateway resolves "gpt-5.6-luna" to the dated pin "gpt-5.6-luna-2026-07-09". That is
+    # a *more specific* answer to the same request and is routine, so it is INFO -- raising
+    # a WARNING on every single run would train the reader to ignore the one that matters.
+    # A genuinely different model is a different matter and stays at WARNING.
+    resolved = returned_model.strip()
+    if resolved == settings.model:
+        _LOGGER.info("llm_model_confirmed model=%s", settings.model)
+    elif resolved.startswith(settings.model):
+        _LOGGER.info(
+            "llm_model_pinned configured=%s resolved=%s",
+            settings.model,
+            resolved,
+        )
+    else:
         _LOGGER.warning(
             "llm_model_mismatch configured=%s returned=%s",
             settings.model,
-            returned_model,
+            resolved,
         )
-    else:
-        _LOGGER.info("llm_model_confirmed model=%s", settings.model)
     return ConnectivityResult(
         provider="amd-llm-gateway",
         configured_model=settings.model,

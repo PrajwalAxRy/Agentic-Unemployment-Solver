@@ -115,6 +115,24 @@ def test_confirmed_model_is_logged(caplog: pytest.LogCaptureFixture) -> None:
     assert "llm_model_confirmed model=configured-model-id" in caplog.text
 
 
+def test_a_dated_pin_is_informational_not_a_warning(caplog: pytest.LogCaptureFixture) -> None:
+    """Observed live: the gateway resolves gpt-5.6-luna to gpt-5.6-luna-2026-07-09.
+
+    That is a more specific answer to the same request, not a substitution. Warning on
+    every run would train the reader to ignore the warning that actually matters.
+    """
+    settings = _settings("configured-model-id")
+
+    with caplog.at_level(logging.INFO, logger="job_finder.matching.openai_client"):
+        result = check_gateway_connectivity(
+            settings, client=_StubGateway("configured-model-id-2026-07-09")
+        )
+
+    assert result.returned_model_id == "configured-model-id-2026-07-09"
+    assert "llm_model_pinned" in caplog.text
+    assert not any(record.levelno >= logging.WARNING for record in caplog.records)
+
+
 def test_substituted_model_is_reported_as_a_warning(
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -124,11 +142,11 @@ def test_substituted_model_is_reported_as_a_warning(
 
     with caplog.at_level(logging.WARNING, logger="job_finder.matching.openai_client"):
         result = check_gateway_connectivity(
-            settings, client=_StubGateway("something-else-entirely")
+            settings, client=_StubGateway("a-completely-different-model")
         )
 
     assert result.configured_model == "configured-model-id"
-    assert result.returned_model_id == "something-else-entirely"
+    assert result.returned_model_id == "a-completely-different-model"
     assert "llm_model_mismatch" in caplog.text
     assert any(record.levelno == logging.WARNING for record in caplog.records)
 

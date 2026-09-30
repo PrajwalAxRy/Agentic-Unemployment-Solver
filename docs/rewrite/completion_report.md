@@ -76,10 +76,45 @@ Each was verified against the repo or the real scan data before acting.
    backoff bound, returning 26 seconds early — how a 429 becomes a block. A test had pinned
    the buggy behaviour.
 
-## What needs a real run
+## Live verification (2026-09-30)
 
-Everything was built and verified offline against stub adapters and a stub LLM client, per
-the agreed scope. Three things can only be established by running it:
+The build was done offline, then verified against the real gateway and real company
+boards. Four things were confirmed and two problems were found.
+
+**Confirmed.**
+
+- `JOB_FINDER_LLM_MODEL` is `gpt-5.6-luna`, matching decision D. This closes the fourth
+  readiness gap -- the name could not be verified from the repo alone at the start.
+- A live collection run over three Greenhouse companies (glean, moloco, rubrik) fetched
+  300 listings successfully, with rate limiting applied and `healthy: True`.
+- The Phase 1 normalization fix works on live titles: commas, hyphens and parentheses are
+  stripped as intended.
+- The merged prompt scores **19/20** against the relevance eval set on the real model --
+  9/9 substantive, 4/4 peripheral, 6/7 unrelated, including all four documented failure
+  modes. The single disagreement is `Technical Program Manager, ML Platform`, where the
+  model said `peripheral` and the eval set says `unrelated`. The model's call is arguably
+  better, and under 2.6 `peripheral` displays anyway. Deliberately not relabelled: an eval
+  set that agrees with the model by construction measures nothing.
+
+**Found and fixed: evidence quoted from the title was rejected.** When a description
+states no experience requirement, the model correctly answers `uncertain` and quotes the
+job title as evidence. `parse_merged_response` validated against the description alone and
+discarded the *entire* response -- including two correct judgments. One unquotable
+sub-judgment destroying two sound ones is exactly the collapse 2.5 exists to prevent.
+Evidence is now checked against every text the model was shown; a quote from neither is
+still rejected.
+
+**Found and fixed: the gateway serves a dated pin.** `gpt-5.6-luna` resolves to
+`gpt-5.6-luna-2026-07-09`. The new logging caught this immediately, which is the point --
+without it there would be no record of which model produced a given scan's verdicts. It
+initially logged at WARNING on every run; since a dated pin is a *more specific* answer to
+the same request rather than a substitution, it is now INFO (`llm_model_pinned`). A
+genuinely different model still warns. Warning on every run trains the reader to ignore
+the warning that matters.
+
+## What still needs a full run
+
+Three things remain unestablished, all requiring a complete scan rather than a sample:
 
 - **Description volume and LLM cost.** The title filter passes 72%/62% versus 11% before —
   roughly 6×, applied to a smaller base now that location runs first. §2.2's estimate of
