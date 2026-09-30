@@ -63,6 +63,8 @@ from job_finder.core.source_contracts import AdapterType
 from job_finder.logging_setup import configure_logging, progress_logger
 from job_finder.matching.evaluation_set import load_seniority_evaluation_set
 from job_finder.matching.evaluator import SeniorityEvaluator, UsageBudget
+from job_finder.matching.merged_evaluator import MergedEvaluator
+from job_finder.matching.merged_prompt import load_merged_prompt
 from job_finder.matching.openai_client import (
     AmdGatewayClient,
     GatewayProviderError,
@@ -334,6 +336,32 @@ def build_parser() -> argparse.ArgumentParser:
     scan.add_argument("--registry", type=Path, default=Path("config/company_sources.json"))
     scan.add_argument("--profile", type=Path, default=Path("config/search_profile.toml"))
     scan.add_argument("--prompt", type=Path, default=Path("config/seniority_prompt.toml"))
+    scan.add_argument(
+        "--merged-prompt",
+        type=Path,
+        default=Path("config/merged_prompt.toml"),
+        help="Merged relevance + seniority + location prompt (to_change.md 2.5).",
+    )
+    scan.add_argument(
+        "--seniority-only",
+        action="store_true",
+        help=(
+            "Fall back to the single-purpose seniority prompt. Disables the AI/ML "
+            "relevance gate, so non-AI engineering roles will reach the report."
+        ),
+    )
+    scan.add_argument(
+        "--min-request-interval",
+        type=float,
+        default=0.0,
+        help="Minimum seconds between requests to the same host (5.2/9.7).",
+    )
+    scan.add_argument(
+        "--max-concurrent-per-host",
+        type=int,
+        default=0,
+        help="Maximum concurrent requests per host. 0 disables the cap.",
+    )
     scan.add_argument("--dotenv", type=Path, default=Path(".env"))
     scan.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
     scan.add_argument("--lock", type=Path, default=Path("state/scan.lock"))
@@ -784,15 +812,42 @@ def _scan(args: argparse.Namespace) -> int:
     try:
         registry = load_company_registry(args.registry)
         profile = load_search_profile(args.profile)
-        prompt = load_seniority_prompt(args.prompt)
         settings = load_gateway_settings(dotenv_path=args.dotenv)
-        evaluator = SeniorityEvaluator(
-            client=AmdGatewayClient(settings),
-            prompt=prompt,
-            model_policy=settings.model_policy,
-            budget=UsageBudget(settings.usage_limits),
+        gateway = AmdGatewayClient(settings)
+        budget = UsageBudget(settings.usage_limits)
+
+        # The merged call (2.5) is the default: it is the only thing that judges AI/ML
+        # relevance, and 2.2a widened the title filter so far that without it every
+        # engineering title in India reaches the report. --seniority-only restores the
+        # tuned single-purpose prompt, which stays available precisely so a regression in
+        # the merged judgment can be backed out without a code change.
+        evaluator: SeniorityEvaluator | MergedEvaluator
+        if args.seniority_only:
+            prompt = load_seniority_prompt(args.prompt)
+            evaluator = SeniorityEvaluator(
+                client=gateway,
+                prompt=prompt,
+                model_policy=settings.model_policy,
+                budget=budget,
+            )
+            print("WARNING: --seniority-only disables the AI/ML relevance gate (2.3)")
+        else:
+            merged = load_merged_prompt(args.merged_prompt)
+            evaluator = MergedEvaluator(
+                client=gateway,
+                prompt=merged,
+                model_policy=settings.model_policy,
+                budget=budget,
+            )
+            prompt = merged  # type: ignore[assignment]
+
+        client = BoundedHttpClient(
+            policy=HttpPolicy(
+                timeout_seconds=args.timeout,
+                min_interval_seconds=args.min_request_interval,
+                max_concurrent_per_host=args.max_concurrent_per_host,
+            )
         )
-        client = BoundedHttpClient(policy=HttpPolicy(timeout_seconds=args.timeout))
         print(
             f"Starting scan with registry={registry.registry_version} "
             f"profile={profile.version} prompt={prompt.prompt_version} "

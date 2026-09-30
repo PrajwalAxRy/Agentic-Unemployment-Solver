@@ -63,6 +63,7 @@ class CachedSeniorityEvaluationService:
         eligibility: CandidateEligibility,
         profile_version: str,
         target_description: str,
+        location_original: str | None = None,
     ) -> CachedEvaluationResult:
         """Evaluate only eligible detailed jobs, preserving cache and manual-review state."""
         if eligibility is not CandidateEligibility.ELIGIBLE:
@@ -93,10 +94,17 @@ class CachedSeniorityEvaluationService:
 
         if job.description is None:
             raise ValueError("eligible evaluation requires a job description")
+        # The merged evaluator (2.5) also judges location, but only when the
+        # deterministic filter could not. Forwarded by keyword so the single-purpose
+        # SeniorityEvaluator, which takes no such argument, stays a drop-in fallback.
+        extra: dict[str, object] = {}
+        if location_original is not None and hasattr(self._evaluator, "last_judgment"):
+            extra["location_original"] = location_original
         outcome = self._evaluator.evaluate(
             title=job.title_original,
             description=job.description,
             target_description=target_description,
+            **extra,  # type: ignore[arg-type]
         )
         if outcome.disposition is EvaluationDisposition.MANUAL_REVIEW:
             record = self._repository.fail_evaluation(

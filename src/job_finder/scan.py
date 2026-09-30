@@ -26,8 +26,10 @@ from job_finder.core.company_registry import CompanySourceRegistry
 from job_finder.core.job_contracts import NormalizedJob
 from job_finder.core.search_profile import SearchProfile
 from job_finder.core.source_contracts import AdapterOutcome, CompanySource
+from job_finder.filters.locations import LocationDecision
 from job_finder.filters.roles import RoleDecision
 from job_finder.matching.evaluator import LLMProviderError, SeniorityEvaluator, UsageSnapshot
+from job_finder.matching.relevance_set import RelevanceVerdict
 from job_finder.matching.seniority import SeniorityDecision
 from job_finder.matching.service import (
     CachedEvaluationDisposition,
@@ -140,6 +142,8 @@ class ScanMetrics:
     description_failure_count: int
     conditional_pass_count: int
     conditional_rejection_count: int
+    relevance_peripheral_count: int
+    llm_location_rejection_count: int
     llm_evaluated_count: int
     llm_cache_hit_count: int
     seniority_match_count: int
@@ -208,6 +212,8 @@ class _ProcessingCounts:
     detail_failure: int = 0
     conditional_pass: int = 0
     conditional_reject: int = 0
+    relevance_peripheral: int = 0
+    location_rejected: int = 0
     evaluated: int = 0
     cache_hit: int = 0
     match: int = 0
@@ -393,12 +399,20 @@ def process_filter_report(
         if row.role.decision is RoleDecision.CONDITIONAL_DESCRIPTION:
             counts.conditional_pass += 1
 
+        # 2.4/2.5: ask the model about location only when the deterministic filter could
+        # not resolve it, which in practice means an unqualified remote posting.
+        unresolved_location = (
+            row.location_original
+            if row.location is not None and row.location.decision is LocationDecision.REVIEW
+            else None
+        )
         try:
             result = service.evaluate(
                 detailed,
                 eligibility=CandidateEligibility.ELIGIBLE,
                 profile_version=profile.version,
                 target_description=profile.seniority.description,
+                location_original=unresolved_location,
             )
         except LLMProviderError as error:
             counts.review += 1
@@ -420,6 +434,42 @@ def process_filter_report(
             continue
         if result.decision is None:
             raise AssertionError("completed or cached evaluation requires a seniority decision")
+
+        # 2.3 / 2.6: the relevance gate. This is the only thing standing behind the
+        # widened title filter -- 2.2a took the title pass rate from 11% to ~70%, so
+        # without this every engineering title in India reaches the report.
+        #
+        # Only a confident "unrelated" drops a row. "peripheral" is displayed, tiered
+        # lower: forcing it into a binary would hide the uncertainty rather than remove
+        # it, and lose the signal showing which rows deserve a click.
+        judgment = getattr(evaluator, "last_judgment", None)
+        if judgment is not None and judgment.relevance is RelevanceVerdict.UNRELATED:
+            counts.conditional_reject += 1
+            repository.fail_evaluation(
+                observation.record.job_key,
+                {
+                    "pipeline_disposition": "role_rejected",
+                    "reason_code": "not_ai_ml_work",
+                    "reason": judgment.relevance_reason,
+                    "evidence": judgment.relevance_evidence,
+                    "prompt_version": evaluator.prompt_version,
+                    "model_policy": evaluator.model_policy,
+                },
+            )
+            _LOGGER.debug(
+                "relevance_rejected company=%s title=%s reason=%s",
+                row.company_id,
+                row.title_original,
+                judgment.relevance_reason,
+            )
+            continue
+        if judgment is not None:
+            counts.relevance_peripheral += judgment.relevance is RelevanceVerdict.PERIPHERAL
+            # 2.4: an unqualified-remote row the model judged ineligible for India.
+            if judgment.location_eligible is False:
+                counts.location_rejected += 1
+                continue
+
         _record_decision(
             row,
             result.decision,
@@ -715,6 +765,8 @@ def _metrics(
         description_failure_count=counts.detail_failure,
         conditional_pass_count=counts.conditional_pass,
         conditional_rejection_count=counts.conditional_reject,
+        relevance_peripheral_count=counts.relevance_peripheral,
+        llm_location_rejection_count=counts.location_rejected,
         llm_evaluated_count=counts.evaluated,
         llm_cache_hit_count=counts.cache_hit,
         seniority_match_count=counts.match,
