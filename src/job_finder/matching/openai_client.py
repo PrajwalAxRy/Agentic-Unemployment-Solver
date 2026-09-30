@@ -11,6 +11,7 @@ from typing import Any
 
 from openai import OpenAI, OpenAIError
 
+from job_finder.cost import TokenRates, load_rates
 from job_finder.matching.evaluator import (
     LLMProviderError,
     LLMRequest,
@@ -59,6 +60,11 @@ class AmdGatewaySettings:
     policy_version: str
     timeout_seconds: float
     usage_limits: UsageLimits
+    token_rates: TokenRates | None = None
+    """Per-million-token prices, or None when they are not configured.
+
+    Optional on purpose: a missing rate means cost is reported as unknown, never as zero.
+    """
 
     @property
     def model_policy(self) -> ModelPolicy:
@@ -113,6 +119,7 @@ def load_gateway_settings(
             values.get("JOB_FINDER_LLM_TIMEOUT_SECONDS", "30"),
             "JOB_FINDER_LLM_TIMEOUT_SECONDS",
         ),
+        token_rates=load_rates(values),
         usage_limits=UsageLimits(
             max_requests=_positive_int(values, "JOB_FINDER_LLM_MAX_REQUESTS"),
             max_estimated_input_tokens=_positive_int(

@@ -63,6 +63,15 @@ from job_finder.core.company_registry import load_company_registry
 from job_finder.core.job_probe import JobProbeResult, probe_job_url
 from job_finder.core.search_profile import load_search_profile
 from job_finder.core.source_contracts import AdapterType
+from job_finder.cost import (
+    DEFAULT_LEDGER_PATH,
+    append_to_ledger,
+    daily_totals,
+    format_cost_line,
+    price_run,
+    read_ledger,
+    summarise,
+)
 from job_finder.logging_setup import configure_logging, progress_logger
 from job_finder.matching.evaluation_set import load_seniority_evaluation_set
 from job_finder.matching.evaluator import SeniorityEvaluator, UsageBudget
@@ -236,6 +245,18 @@ def build_parser() -> argparse.ArgumentParser:
     )
     filter_jobs.add_argument("--timeout", type=float, default=15.0)
     filter_jobs.add_argument("--source-retries", type=int, default=2)
+    costs = subparsers.add_parser(
+        "costs",
+        help="Show what past runs cost, per day and in total.",
+    )
+    costs.add_argument("--ledger", type=Path, default=DEFAULT_LEDGER_PATH)
+    costs.add_argument(
+        "--days",
+        type=int,
+        default=30,
+        help="How many of the most recent days to list. 0 shows every day on record.",
+    )
+
     state = subparsers.add_parser(
         "state",
         help="Inspect or maintain the local job-history database.",
@@ -414,6 +435,12 @@ def build_parser() -> argparse.ArgumentParser:
         default=DEFAULT_CHECKPOINT_PATH,
         help="Where the resume checkpoint is written and read.",
     )
+    scan.add_argument(
+        "--cost-ledger",
+        type=Path,
+        default=DEFAULT_LEDGER_PATH,
+        help="Append-only JSON Lines record of what each run cost.",
+    )
     scan.add_argument("--dotenv", type=Path, default=Path(".env"))
     scan.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
     scan.add_argument("--lock", type=Path, default=Path("state/scan.lock"))
@@ -496,6 +523,49 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _scan(args)
     if args.command == "repair":
         return _repair(args)
+    if args.command == "costs":
+        return _costs(args)
+    return 0
+
+
+def _costs(args: argparse.Namespace) -> int:
+    """Print the per-day cost history recorded by previous scans."""
+    history = read_ledger(args.ledger)
+    if not history:
+        print(f"costs=none ledger={args.ledger}")
+        print("  No runs recorded yet. Cost is written after each scan completes.")
+        return 0
+
+    rows = daily_totals(history)
+    shown = rows if args.days <= 0 else rows[-args.days :]
+    totals = summarise(history)
+    currency = str(totals["currency"])
+
+    print(f"{'day':<12}{'runs':>6}{'evaluated':>11}{'cost (' + currency + ')':>14}")
+    for row in shown:
+        print(f"{row['day']:<12}{row['runs']:>6}{row['evaluated']:>11}{float(row['cost']):>14.2f}")
+    print()
+    print(
+        f"total={currency} {float(totals['total_cost'] or 0):.2f} "
+        f"over {totals['distinct_days']} day(s), "
+        f"{totals['runs']} run(s), {totals['total_evaluated']} job(s) evaluated"
+    )
+    if totals["cost_per_evaluated_job"] is not None:
+        print(f"per_evaluated_job={currency} {float(totals['cost_per_evaluated_job']):.4f}")
+    if totals["mean_cost_per_day"] is not None:
+        # Flagged as an extrapolation rather than printed as "your monthly bill": the
+        # first run evaluates the whole backlog and later ones only new postings, so a
+        # mean taken across both overstates the steady state.
+        print(
+            f"mean_per_day={currency} {float(totals['mean_cost_per_day']):.2f} "
+            f"-> ~{currency} {float(totals['projected_30_day'] or 0):.2f}/30d "
+            "(extrapolated; early backlog runs inflate this)"
+        )
+    if totals["unpriced_runs"]:
+        print(
+            f"note: {totals['unpriced_runs']} run(s) had no configured rates and are "
+            "excluded from the totals above"
+        )
     return 0
 
 
@@ -1065,6 +1135,26 @@ def _scan(args: argparse.Namespace) -> int:
     # exits successfully, so without this it reads as a completed run that simply found
     # fewer jobs -- which is how the 2026-09-30 halt went unnoticed until the database was
     # inspected by hand.
+    # Cost accounting is strictly observational: a failure to record it must never turn a
+    # completed scan into a reported failure.
+    try:
+        cost = price_run(
+            run_id=report.run_id,
+            completed_at=report.completed_at,
+            model_policy=report.model_policy,
+            prompt_version=report.prompt_version,
+            evaluated=report.metrics.llm_evaluated_count,
+            cache_hits=report.metrics.llm_cache_hit_count,
+            request_count=report.usage.request_count,
+            input_tokens=report.usage.measured_input_tokens,
+            output_tokens=report.usage.measured_output_tokens,
+            rates=settings.token_rates,
+        )
+        append_to_ledger(cost, args.cost_ledger)
+        print(format_cost_line(cost))
+    except OSError as error:
+        _LOGGER.warning("cost_ledger_write_failed path=%s error=%s", args.cost_ledger, error)
+
     if report.metrics.llm_budget_halted_count:
         remaining = report.metrics.llm_budget_halted_count
         print()
