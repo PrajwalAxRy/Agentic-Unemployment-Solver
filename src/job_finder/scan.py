@@ -466,38 +466,33 @@ def process_filter_report(
         # lower: forcing it into a binary would hide the uncertainty rather than remove
         # it, and lose the signal showing which rows deserve a click.
         judgment = getattr(evaluator, "last_judgment", None)
-        if judgment is not None and judgment.relevance is RelevanceVerdict.UNRELATED:
-            counts.conditional_reject += 1
-            repository.fail_evaluation(
-                observation.record.job_key,
-                {
-                    "pipeline_disposition": "role_rejected",
-                    "reason_code": "not_ai_ml_work",
-                    "reason": judgment.relevance_reason,
-                    "evidence": judgment.relevance_evidence,
-                    "prompt_version": evaluator.prompt_version,
-                    "model_policy": evaluator.model_policy,
-                },
-            )
-            _LOGGER.debug(
-                "relevance_rejected company=%s title=%s reason=%s",
-                row.company_id,
-                row.title_original,
-                judgment.relevance_reason,
-            )
-            continue
         if judgment is not None:
-            counts.relevance_peripheral += judgment.relevance is RelevanceVerdict.PERIPHERAL
             # 3.6: verdict_at is set once, the first time a job reaches a qualifying
             # verdict. The feed sorts on it rather than on first sighting, which is what
             # lets rows recovered from the normalization bug surface as new despite
             # carrying old first_seen_at values.
+            #
+            # Recorded for every verdict including "unrelated", and deliberately NOT via
+            # fail_evaluation(): the evaluation itself succeeded. Marking a completed
+            # evaluation as failed would both violate the repository's invariant and
+            # destroy the cache entry, so the next run would pay for the same call again
+            # to reach the same conclusion.
             repository.record_verdict(
                 observation.record.job_key,
                 verdict=judgment.relevance.value,
                 verdict_at=observed_at,
                 required_experience=judgment.required_experience,
             )
+            if judgment.relevance is RelevanceVerdict.UNRELATED:
+                counts.conditional_reject += 1
+                _LOGGER.debug(
+                    "relevance_rejected company=%s title=%s reason=%s",
+                    row.company_id,
+                    row.title_original,
+                    judgment.relevance_reason,
+                )
+                continue
+            counts.relevance_peripheral += judgment.relevance is RelevanceVerdict.PERIPHERAL
             # 2.4: an unqualified-remote row the model judged ineligible for India.
             if judgment.location_eligible is False:
                 counts.location_rejected += 1

@@ -250,10 +250,27 @@ def _evidence(raw: Mapping[str, object], key: str, sources: tuple[str, ...]) -> 
         # Explicitly permitted: the prompt tells the model to return an empty string
         # rather than invent a quotation when the prompt supports nothing.
         return ""
-    folded = excerpt.casefold()
-    if not any(folded in source.casefold() for source in sources):
+    if not any(_contains_excerpt(source, excerpt) for source in sources):
         raise MergedResponseError(f"{key} is not a verbatim excerpt of the supplied job text")
     return excerpt
+
+
+def _contains_excerpt(source: str, excerpt: str) -> bool:
+    """Whether ``excerpt`` appears in ``source``, ignoring whitespace shape.
+
+    Observed live at roughly 1 in 10 calls: the model reproduces the wording exactly but
+    collapses a newline to a space, or drops a double space. Under a strict check that
+    discards the entire response -- three judgments lost to a whitespace difference that
+    changes no meaning.
+
+    Case and whitespace are normalized; wording is not. A paraphrase still fails, which is
+    the property that makes evidence a confabulation guard rather than decoration.
+    """
+    return _collapse(excerpt) in _collapse(source)
+
+
+def _collapse(value: str) -> str:
+    return " ".join(value.split()).casefold()
 
 
 def _required_text(value: object, path: str) -> str:

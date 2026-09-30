@@ -265,3 +265,40 @@ def test_evidence_from_neither_title_nor_description_is_still_rejected() -> None
             title="Staff ML Compiler Engineer",
             location_requested=False,
         )
+
+
+def test_evidence_matching_ignores_whitespace_shape() -> None:
+    """Observed live at roughly 1 in 10 calls.
+
+    The model reproduces the wording exactly but collapses a newline to a space or drops a
+    double space. Under a strict check that discarded all three judgments over a
+    difference that changes no meaning.
+    """
+    description = "Own model serving.\nRequires 3+ years  of relevant experience."
+
+    judgment = parse_merged_response(
+        _response(
+            relevance_evidence="Own model serving.",
+            seniority_evidence="Requires 3+ years of relevant experience.",
+        ),
+        description=description,
+        location_requested=False,
+    )
+
+    assert judgment.seniority_evidence == "Requires 3+ years of relevant experience."
+
+
+def test_paraphrase_is_still_rejected_after_whitespace_normalization() -> None:
+    """The loosening must not weaken the confabulation guard.
+
+    Normalizing whitespace is not normalizing wording -- a reworded quote still fails,
+    which is what makes evidence meaningful rather than decorative.
+    """
+    description = "Own model serving. Requires 3+ years of relevant experience."
+
+    with pytest.raises(MergedResponseError, match="not a verbatim excerpt"):
+        parse_merged_response(
+            _response(seniority_evidence="needs three or more years of experience"),
+            description=description,
+            location_requested=False,
+        )
