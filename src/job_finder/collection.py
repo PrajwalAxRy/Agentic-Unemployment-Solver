@@ -390,7 +390,10 @@ def collect_listings(
     timestamp = generated_at or effective_scan_at
     listings: list[FilterListingRecord] = []
     companies: list[CompanyFilterRecord] = []
+    if progress is not None:
+        progress(f"phase=deterministic_filter status=started companies={enabled_count}")
     for filter_index, item in enumerate(pending, start=1):
+        filter_started = time.monotonic()
         company_listings: list[FilterListingRecord] = []
         recency_excluded_count = 0
         detail_fetch_count = 0
@@ -513,7 +516,8 @@ def collect_listings(
             progress(
                 f"phase=deterministic_filter progress={filter_index}/{enabled_count} "
                 f"company={item.source.company_id} retained={retained_count} "
-                f"reviews={review_count}"
+                f"reviews={review_count} "
+                f"seconds={round(time.monotonic() - filter_started, 3)}"
             )
 
     role_counts = Counter(row.role.decision.value for row in listings)

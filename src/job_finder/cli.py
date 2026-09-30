@@ -859,6 +859,9 @@ def _display_progress(display: ScanDisplay) -> Callable[[str], None]:
             display.log(message)
             return
         if position is not None:
+            # Reset the label, counter and ETA clock if this belongs to a new phase, even
+            # when that phase never emitted a start line.
+            display.ensure_phase(phase, total)
             display.log(message, outcome=outcome, advance=1)
             return
         display.log(message, outcome=outcome)

@@ -168,3 +168,53 @@ def test_zero_total_does_not_divide_by_zero() -> None:
     display.close()
 
     assert "ZeroDivision" not in stream.getvalue()
+
+
+def test_a_new_phase_resets_the_label_and_counter() -> None:
+    """The gap that shipped: deterministic_filter emitted no status=started line.
+
+    The bar kept the previous phase's label and stayed pinned at 100% with a stale ETA for
+    the entire filter pass. The display must not depend on producers remembering to
+    announce themselves.
+    """
+    stream = _FakeTty()
+    display = ScanDisplay(stream=stream, enabled=True, width=100)
+
+    display.start_phase("source_collection", 3)
+    for index in (1, 2, 3):
+        display.log(f"phase=source_collection progress={index}/3 company=c{index}", advance=1)
+
+    # A new phase arriving with no start line, exactly as deterministic_filter does.
+    display.ensure_phase("deterministic_filter", 3)
+    display.log("phase=deterministic_filter progress=1/3 company=c1 seconds=0.4", advance=1)
+
+    rendered = stream.getvalue()
+    tail = rendered[rendered.rindex("\n") :]
+    assert "deterministic filter" in tail, "the label must follow the new phase"
+    assert "1/3" in tail, "the counter must reset rather than stay at 3/3"
+    assert "100.0%" not in tail, "the bar must not stay pinned from the previous phase"
+
+
+def test_repeating_the_same_phase_does_not_reset_progress() -> None:
+    """ensure_phase must be idempotent, since it is called on every message."""
+    stream = _FakeTty()
+    display = ScanDisplay(stream=stream, enabled=True, width=100)
+    display.start_phase("source_collection", 10)
+
+    display.log("phase=source_collection progress=1/10 company=a", advance=1)
+    display.ensure_phase("source_collection", 10)
+    display.log("phase=source_collection progress=2/10 company=b", advance=1)
+
+    tail = stream.getvalue()
+    assert "2/10" in tail, "progress must survive a same-phase check"
+
+
+def test_filter_progress_carries_its_own_timing() -> None:
+    """The deterministic filter reports per-company seconds like source collection."""
+    phase, position, total, outcome = parse_progress(
+        "phase=deterministic_filter progress=7/150 company=glean retained=2 reviews=1 seconds=0.412"
+    )
+
+    assert phase == "deterministic_filter"
+    assert (position, total) == (7, 150)
+    assert outcome is None

@@ -132,6 +132,19 @@ class ScanDisplay:
 
     # -- output ------------------------------------------------------------
 
+    def ensure_phase(self, phase: str, total: int | None) -> None:
+        """Switch phases if this message belongs to a different one.
+
+        The display must not depend on every producer remembering to emit a
+        ``status=started`` line first. deterministic_filter did not, so the bar kept the
+        previous phase's label and stayed pinned at 100% -- with a stale ETA -- for the
+        whole filter pass. Detecting the change here makes the display correct for any
+        future phase whether or not it announces itself.
+        """
+        if not phase or phase == self._phase:
+            return
+        self.start_phase(phase, total or 0)
+
     def log(self, line: str, *, outcome: str | None = None, advance: int = 0) -> None:
         """Print one completed-company line, then redraw the bar beneath it.
 
