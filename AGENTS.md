@@ -13,10 +13,10 @@
 - `docs/04_product_decisions.md` — approved search behaviour and the seniority boundary table.
 - `docs/05_recency_and_date_coverage_contract.md` — the recency window contract.
 - `docs/07_scan_runbook.md` — running a scan and interpreting the output.
-- `docs/archive/` — the pre-rewrite build history. **Historical, not current.** It
-  describes a narrow title filter and a seniority-only LLM call, both replaced. Read it
-  for the H0–H11 checkpoint definitions and source-activation forensics, never for how
-  the pipeline behaves today.
+- `docs/archive/` — pre-rewrite build history. **Denied to assistants** in
+  `.claude/settings.json` and deliberately so: it describes a narrow title filter and a
+  seniority-only LLM call, both replaced. Kept in Git for the H0–H11 checkpoint
+  definitions and source-activation forensics. See `docs/archive/README.md`.
 - Inspect Git status before editing. Preserve pre-existing user files and unrelated untracked content.
 
 ## Execution behavior

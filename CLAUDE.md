@@ -6,8 +6,12 @@ then asks an LLM to judge the survivors.
 **Read this file first. It exists so you don't rediscover the same facts by grepping.**
 Then read **`docs/decisions.md`** before proposing any change — several obvious-looking
 optimisations there were measured and rejected, and re-proposing them wastes your budget
-and, in one case, would break the system. `docs/archive/` is pre-rewrite history: it
-describes filters and an LLM call that no longer exist.
+and, in one case, would break the system.
+
+**Do not read `docs/archive/`, `docs/reviews/`, or `reports/`.** They are denied in
+`.claude/settings.json`. The archive describes filters and an LLM call that no longer
+exist; `reports/` is 42MB of generated output. Nothing in them is needed to work on the
+code, and `latest_scan.json` is better queried with `jq` than read.
 
 ## Don't burn tokens on these — the answers are here
 
