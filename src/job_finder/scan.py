@@ -23,7 +23,17 @@ from job_finder.collection import (
     collect_listings,
 )
 from job_finder.core.company_registry import CompanySourceRegistry
+from job_finder.core.expiry_dryrun import ExpiryDryRun
 from job_finder.core.job_contracts import NormalizedJob
+from job_finder.core.job_probe import JobProbeResult
+from job_finder.core.lifecycle import (
+    CompanyRunContext,
+    JobLifecycleState,
+    JobStatus,
+    record_absence,
+    record_sighting,
+)
+from job_finder.core.reappearance import ReappearanceEvent, ReappearanceMonitor
 from job_finder.core.search_profile import SearchProfile
 from job_finder.core.source_contracts import AdapterOutcome, CompanySource
 from job_finder.filters.locations import LocationDecision
@@ -176,6 +186,7 @@ class ScanReport:
     review_candidates: tuple[ReviewCandidateRecord, ...]
     source_failures: tuple[SourceFailureRecord, ...]
     company_accounting: tuple[CompanyAccountingRecord, ...]
+    lifecycle: Mapping[str, object] | None = None
 
     def as_json(self) -> dict[str, object]:
         return {
@@ -200,6 +211,7 @@ class ScanReport:
             "review_candidates": [asdict(item) for item in self.review_candidates],
             "source_failures": [asdict(item) for item in self.source_failures],
             "company_accounting": [asdict(item) for item in self.company_accounting],
+            "lifecycle": dict(self.lifecycle) if self.lifecycle else None,
         }
 
 
@@ -230,6 +242,8 @@ def run_manual_scan(
     database_path: Path,
     lock_path: Path,
     source_retry_count: int = 2,
+    expiry_dry_run: bool = True,
+    job_probe: Callable[[str, bool], JobProbeResult | None] | None = None,
     started_at: datetime | None = None,
     run_id: str | None = None,
     progress: Callable[[str], None] | None = None,
@@ -282,6 +296,8 @@ def run_manual_scan(
                 run_id=identifier,
                 started_at=start,
                 completed_at=None,
+                expiry_dry_run=expiry_dry_run,
+                job_probe=job_probe,
                 progress=progress,
             )
             completed = _aware_from_iso(report.completed_at)
@@ -320,6 +336,8 @@ def process_filter_report(
     run_id: str,
     started_at: datetime,
     completed_at: datetime | None,
+    expiry_dry_run: bool = True,
+    job_probe: Callable[[str, bool], JobProbeResult | None] | None = None,
     progress: Callable[[str], None] | None = None,
 ) -> ScanReport:
     """Process one deterministic filter result through description, cache, and LLM stages."""
@@ -329,6 +347,9 @@ def process_filter_report(
     reviews = _filter_reviews(filtered)
     counts = _ProcessingCounts(review=len(reviews))
     observed_at = _aware_from_iso(filtered.scan_at)
+    # Every job key seen in this run's listings. Whatever is active in the store but
+    # missing from here is a candidate absence (3.2).
+    seen_job_keys: set[str] = set()
     service = CachedSeniorityEvaluationService(repository=repository, evaluator=evaluator)
     retained_total = sum(
         row.final_decision is FinalFilterDecision.RETAINED for row in filtered.listings
@@ -355,6 +376,7 @@ def process_filter_report(
             observed_at=observed_at,
             profile_version=profile.version,
         )
+        seen_job_keys.add(observation.record.job_key)
         counts.observed += 1
         counts.new += observation.is_new
         reportable = prior is None or prior.evaluation_status is not EvaluationStatus.COMPLETED
@@ -465,6 +487,16 @@ def process_filter_report(
             continue
         if judgment is not None:
             counts.relevance_peripheral += judgment.relevance is RelevanceVerdict.PERIPHERAL
+            # 3.6: verdict_at is set once, the first time a job reaches a qualifying
+            # verdict. The feed sorts on it rather than on first sighting, which is what
+            # lets rows recovered from the normalization bug surface as new despite
+            # carrying old first_seen_at values.
+            repository.record_verdict(
+                observation.record.job_key,
+                verdict=judgment.relevance.value,
+                verdict_at=observed_at,
+                required_experience=judgment.required_experience,
+            )
             # 2.4: an unqualified-remote row the model judged ineligible for India.
             if judgment.location_eligible is False:
                 counts.location_rejected += 1
@@ -480,6 +512,16 @@ def process_filter_report(
             reviews=reviews,
             counts=counts,
         )
+
+    lifecycle_report = _run_lifecycle(
+        filtered,
+        repository=repository,
+        seen_job_keys=seen_job_keys,
+        today=observed_at.date(),
+        probe=job_probe,
+        dry_run=expiry_dry_run,
+        progress=progress,
+    )
 
     finish = completed_at or datetime.now().astimezone()
     outcome = _scan_outcome(filtered)
@@ -508,6 +550,7 @@ def process_filter_report(
         review_candidates=tuple(reviews),
         source_failures=source_failures,
         company_accounting=accounting,
+        lifecycle=asdict(lifecycle_report),
     )
 
 
@@ -604,6 +647,129 @@ def _ensure_description(
         )
         return None, 1, "empty_description"
     return detailed, 1, None
+
+
+@dataclass(frozen=True, slots=True)
+class LifecycleReport:
+    """What the lifecycle pass did, and what expiry would have done."""
+
+    dry_run: bool
+    sightings: int
+    absences: int
+    probes_fired: int
+    closed: int
+    would_close: int
+    checklist: Mapping[str, object]
+    checklist_satisfied: bool
+    unmet_requirements: tuple[str, ...]
+    reappearance: Mapping[str, object]
+
+
+def _run_lifecycle(
+    filtered: FilterVerificationReport,
+    *,
+    repository: JobStateRepository,
+    seen_job_keys: set[str],
+    today: date,
+    probe: Callable[[str, bool], JobProbeResult | None] | None,
+    dry_run: bool,
+    progress: Callable[[str], None] | None,
+) -> LifecycleReport:
+    """Record sightings and absences, probing on first absence (3.2, 3.3, 5.1, 5.3).
+
+    Runs in dry-run mode by default. 5.1 requires about a week of report-only observation
+    before expiry closes anything, and the week is justified by the probe being
+    load-bearing at a 3-absence threshold rather than by the threshold itself (9.12).
+    """
+    dry = ExpiryDryRun()
+    monitor = ReappearanceMonitor()
+    sightings = absences = probes_fired = closed = 0
+
+    for company in filtered.companies:
+        # Guard 1 and the 3.4 link: absence means nothing unless the run that failed to
+        # see the job was itself trustworthy.
+        context = CompanyRunContext(
+            scan_succeeded=company.outcome
+            in {AdapterOutcome.SUCCESS.value, AdapterOutcome.EMPTY.value},
+            listing_complete=company.complete,
+            current_listing_count=company.listing_count,
+            previous_listing_count=None,
+        )
+        for record in repository.active_jobs_for_company(company.company_id):
+            state = JobLifecycleState(
+                status=JobStatus(record.status),
+                consecutive_absences=record.consecutive_absences,
+                sighting_count=record.sighting_count,
+                live_but_missing_days=record.live_but_missing_days,
+                probe_state=record.probe_state,
+                closed_at=record.closed_at,
+                last_seen=record.last_seen_at.date(),
+            )
+
+            if record.job_key in seen_job_keys:
+                if state.consecutive_absences > 0 or state.live_but_missing_days > 0:
+                    # Returned after being absent. Routine by default (5.3); only the
+                    # per-source rate and the after-404 shape are anomalous.
+                    monitor.record(
+                        ReappearanceEvent(
+                            job_key=record.job_key,
+                            company_id=record.company_id,
+                            canonical_url=record.canonical_url,
+                            absences_before_return=state.consecutive_absences,
+                            was_probed_gone=state.probe_state
+                            in {"http_gone", "closed_page_text", "redirected_to_search"},
+                        )
+                    )
+                updated = record_sighting(state, today=today)
+                sightings += 1
+            else:
+                absences += 1
+                probe_result: JobProbeResult | None = None
+                # 3.2: the probe must fire on FIRST absence. At a 3-absence threshold it
+                # is the only thing between a silently truncated listing and a closed
+                # live job.
+                if probe is not None and context.trustworthy_for_expiry:
+                    probe_result = probe(record.canonical_url, False)
+                    probes_fired += probe_result is not None
+                if dry_run:
+                    updated = dry.observe_absence(
+                        job_key=record.job_key,
+                        company_id=record.company_id,
+                        canonical_url=record.canonical_url,
+                        state=state,
+                        context=context,
+                        probe=probe_result,
+                        today=today,
+                    )
+                else:
+                    updated = record_absence(
+                        state, context=context, probe=probe_result, today=today
+                    )
+                    closed += updated.status is JobStatus.CLOSED
+
+            repository.record_lifecycle(record.job_key, updated)
+
+    if progress is not None:
+        progress(
+            f"phase=lifecycle mode={'dry_run' if dry_run else 'enforcing'} "
+            f"sightings={sightings} absences={absences} probes={probes_fired} "
+            f"{'would_close' if dry_run else 'closed'}="
+            f"{len(dry.would_close) if dry_run else closed}"
+        )
+
+    payload = dry.as_json()
+    return LifecycleReport(
+        dry_run=dry_run,
+        sightings=sightings,
+        absences=absences,
+        probes_fired=probes_fired,
+        closed=closed,
+        would_close=len(dry.would_close),
+        checklist=payload["checklist"],  # type: ignore[arg-type]
+        checklist_satisfied=bool(payload["checklist_satisfied"]),
+        unmet_requirements=tuple(payload["unmet_requirements"]),  # type: ignore[arg-type]
+        reappearance=monitor.as_json(),
+    )
 
 
 def _record_decision(

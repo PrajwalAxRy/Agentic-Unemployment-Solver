@@ -6,11 +6,12 @@ import json
 import sqlite3
 from collections.abc import Mapping
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from enum import StrEnum
 from typing import cast
 
 from job_finder.core.job_contracts import NormalizedJob
+from job_finder.core.lifecycle import JobLifecycleState
 from job_finder.persistence.identity import job_identity
 
 
@@ -40,6 +41,18 @@ class JobRecord:
     model_policy: str | None
     evaluation_status: EvaluationStatus
     seniority_result: Mapping[str, object] | None
+    # Lifecycle state (to_change.md 4.1). Stored as current state, not history (4.2):
+    # with a 3-absence close rule any gap a job survives is <= 2 days, so the overwritten
+    # history is bounded and small.
+    status: str = "active"
+    closed_at: date | None = None
+    consecutive_absences: int = 0
+    probe_state: str | None = None
+    live_but_missing_days: int = 0
+    sighting_count: int = 0
+    verdict: str | None = None
+    verdict_at: datetime | None = None
+    required_experience: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -275,6 +288,92 @@ class JobStateRepository:
             raise
         return self.require(key)
 
+    def record_lifecycle(
+        self,
+        job_key: str,
+        state: JobLifecycleState,
+    ) -> JobRecord:
+        """Persist one job's lifecycle state (to_change.md 4.1, 4.2).
+
+        Written as current state rather than appended history. 4.2 justifies this: with a
+        3-absence close rule, any gap a job survives is at most two days, so what gets
+        overwritten is bounded and small -- noise at this granularity.
+        """
+        self._connection.execute("BEGIN IMMEDIATE")
+        try:
+            self._connection.execute(
+                """
+                UPDATE jobs SET
+                    status = ?, closed_at = ?, consecutive_absences = ?,
+                    probe_state = ?, live_but_missing_days = ?, sighting_count = ?,
+                    updated_at = ?
+                WHERE job_key = ?
+                """,
+                (
+                    state.status.value,
+                    state.closed_at.isoformat() if state.closed_at else None,
+                    state.consecutive_absences,
+                    state.probe_state,
+                    state.live_but_missing_days,
+                    state.sighting_count,
+                    _utc_now_text(),
+                    job_key,
+                ),
+            )
+            self._connection.commit()
+        except BaseException:
+            self._connection.rollback()
+            raise
+        return self.require(job_key)
+
+    def record_verdict(
+        self,
+        job_key: str,
+        *,
+        verdict: str,
+        verdict_at: datetime,
+        required_experience: str | None = None,
+    ) -> JobRecord:
+        """Record the first time a job reached a qualifying verdict (3.6).
+
+        Set once and never overwritten. 3.6 is explicit about why: the feed sorts on
+        verdict_at, not on first sighting. Rows stranded by the normalization bug carry
+        old first_seen_at values, so keying the feed on first sighting would mean the ~78
+        recovered Google roles never appear as new.
+        """
+        self._connection.execute("BEGIN IMMEDIATE")
+        try:
+            self._connection.execute(
+                """
+                UPDATE jobs SET
+                    verdict = ?,
+                    verdict_at = COALESCE(verdict_at, ?),
+                    required_experience = COALESCE(?, required_experience),
+                    updated_at = ?
+                WHERE job_key = ?
+                """,
+                (
+                    verdict,
+                    verdict_at.isoformat(),
+                    required_experience,
+                    _utc_now_text(),
+                    job_key,
+                ),
+            )
+            self._connection.commit()
+        except BaseException:
+            self._connection.rollback()
+            raise
+        return self.require(job_key)
+
+    def active_jobs_for_company(self, company_id: str) -> tuple[JobRecord, ...]:
+        """Every job still open for one company, for absence detection (3.2)."""
+        rows = self._connection.execute(
+            "SELECT * FROM jobs WHERE company_id = ? AND status = 'active' ORDER BY job_key",
+            (company_id,),
+        ).fetchall()
+        return tuple(_record_from_row(row) for row in rows)
+
     def get(self, job_key: str) -> JobRecord | None:
         """Return a record by stable job key."""
         row = self._select(job_key)
@@ -339,7 +438,32 @@ def _record_from_row(row: sqlite3.Row) -> JobRecord:
         model_policy=(str(row["model_policy"]) if row["model_policy"] is not None else None),
         evaluation_status=EvaluationStatus(str(row["evaluation_status"])),
         seniority_result=result,
+        status=str(row["status"]),
+        closed_at=_optional_date(row["closed_at"]),
+        consecutive_absences=int(row["consecutive_absences"]),
+        probe_state=(str(row["probe_state"]) if row["probe_state"] is not None else None),
+        live_but_missing_days=int(row["live_but_missing_days"]),
+        sighting_count=int(row["sighting_count"]),
+        verdict=(str(row["verdict"]) if row["verdict"] is not None else None),
+        verdict_at=_optional_timestamp(row["verdict_at"]),
+        required_experience=(
+            str(row["required_experience"]) if row["required_experience"] is not None else None
+        ),
     )
+
+
+def _optional_timestamp(value: object) -> datetime | None:
+    return _parse_timestamp(str(value)) if value is not None else None
+
+
+def _optional_date(value: object) -> date | None:
+    """closed_at is a calendar date, not an instant.
+
+    4.2a: the lifecycle works in whole days, and the displayed closing date is last_seen
+    rather than closed_at anyway -- closed_at lags by up to the absence threshold and is
+    kept only as an operational record of when detection happened.
+    """
+    return date.fromisoformat(str(value)) if value is not None else None
 
 
 def _ensure_same_source(row: sqlite3.Row, job: NormalizedJob) -> None:
