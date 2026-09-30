@@ -51,6 +51,15 @@ _FILLED = "█"
 _PARTIAL = "▓"
 _EMPTY = "░"
 
+_SPINNER = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
+"""Braille spinner, advanced once per outgoing request.
+
+Deliberately not a percentage. ``list_jobs`` is a black box that does not report "page 3
+of 28", and most boards do not reveal their page count until walked -- any percentage
+would be invented. A tick per request answers the question actually being asked ("is this
+stuck?") without claiming to know something it does not.
+"""
+
 
 def supports_colour(stream: TextIO) -> bool:
     """Whether it is safe to write ANSI escapes to ``stream``.
@@ -95,6 +104,10 @@ class ScanDisplay:
     _total: int = field(default=0, init=False)
     _done: int = field(default=0, init=False)
     _bar_visible: bool = field(default=False, init=False)
+    _active_label: str = field(default="", init=False)
+    _active_requests: int = field(default=0, init=False)
+    _active_started: float = field(default=0.0, init=False)
+    _spinner_index: int = field(default=0, init=False)
 
     def __post_init__(self) -> None:
         if self.enabled is None:
@@ -168,6 +181,28 @@ class ScanDisplay:
         self._advance_counter(count)
         self._redraw()
 
+    def begin_item(self, label: str) -> None:
+        """Name the company now in flight, and reset its activity counter."""
+        self._active_label = label
+        self._active_requests = 0
+        self._active_started = self.now()
+        self._redraw()
+
+    def end_item(self) -> None:
+        """Clear the in-flight company once it completes."""
+        self._active_label = ""
+        self._active_requests = 0
+
+    def tick(self) -> None:
+        """Record one unit of work (an outgoing request) for the in-flight company.
+
+        Called from the HTTP client. Cheap on purpose -- it runs on every request of a
+        150-company scan, so it does no formatting and only redraws the single bar line.
+        """
+        self._active_requests += 1
+        self._spinner_index = (self._spinner_index + 1) % len(_SPINNER)
+        self._redraw()
+
     def _advance_counter(self, count: int) -> None:
         self._done = min(self._total, self._done + count) if self._total else self._done + count
 
@@ -200,7 +235,10 @@ class ScanDisplay:
             f"ETA {_format_duration(remaining)}"
         )
         label = self._phase.replace("_", " ")
-        bar_width = max(10, self._terminal_width() - len(stats) - len(label) - 8)
+        # Reserve space for the activity suffix so the line never wraps, which would
+        # leave a trail of half-erased bars up the terminal.
+        activity_width = len(self._active_label) + 18 if self._active_label else 0
+        bar_width = max(6, self._terminal_width() - len(stats) - len(label) - activity_width - 8)
 
         filled = int(bar_width * fraction)
         # A partial block for the in-flight step, so the bar visibly moves on long
@@ -208,11 +246,31 @@ class ScanDisplay:
         partial = _PARTIAL if filled < bar_width and self._done < self._total else ""
         empty = _EMPTY * max(0, bar_width - filled - len(partial))
 
-        return (
+        bar = (
             f"{_BOLD}{_GREEN}{label}{_RESET} "
             f"{_BRIGHT_GREEN}{_FILLED * filled}{_PALE_GREEN}{partial}"
             f"{_DIM}{_GREY}{empty}{_RESET} "
             f"{_PALE_GREEN}{stats}{_RESET}"
+        )
+        return bar + self._render_activity()
+
+    def _render_activity(self) -> str:
+        """Suffix naming the in-flight company, with a spinner and request count.
+
+        This is the answer to "it looks stuck": on a Workday board with 28 paginated
+        requests the outer bar cannot move for minutes, but the spinner turns and the
+        counter climbs on every request, so working and hung look different.
+        """
+        if not self._active_label:
+            return ""
+        spinner = _SPINNER[self._spinner_index]
+        held = self.now() - self._active_started
+        requests = f" {self._active_requests} req" if self._active_requests else ""
+        return (
+            f"  {_DIM}{_GREY}|{_RESET} "
+            f"{_BRIGHT_GREEN}{spinner}{_RESET} "
+            f"{_PALE_GREEN}{self._active_label}{_RESET}"
+            f"{_DIM}{_GREY}{requests} {_format_duration(held)}{_RESET}"
         )
 
     def _colour_line(self, line: str, outcome: str | None) -> str:

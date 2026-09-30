@@ -249,6 +249,7 @@ def run_manual_scan(
     expiry_dry_run: bool = True,
     job_probe: Callable[[str, bool], JobProbeResult | None] | None = None,
     connectivity: ConnectivityWaiter | None = None,
+    on_item_start: Callable[[str], None] | None = None,
     started_at: datetime | None = None,
     run_id: str | None = None,
     progress: Callable[[str], None] | None = None,
@@ -283,6 +284,7 @@ def run_manual_scan(
                 first_seen_lookup=lambda job: _first_seen(jobs, job),
                 progress=progress,
                 waiter=connectivity,
+                on_item_start=on_item_start,
             )
             retained_count = sum(
                 row.final_decision is FinalFilterDecision.RETAINED for row in filtered.listings

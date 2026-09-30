@@ -218,3 +218,88 @@ def test_filter_progress_carries_its_own_timing() -> None:
     assert phase == "deterministic_filter"
     assert (position, total) == (7, 150)
     assert outcome is None
+
+
+def test_a_long_company_shows_activity_while_the_bar_is_frozen() -> None:
+    """The 'it looks stuck' fix.
+
+    A Workday board takes ~28 paginated requests, during which the outer bar cannot move
+    at all. The spinner and request counter are what distinguish working from hung.
+    """
+    stream = _FakeTty()
+    display = ScanDisplay(stream=stream, enabled=True, width=110)
+    display.start_phase("source_collection", 150)
+    display.log("phase=source_collection progress=1/150 company=glean", advance=1)
+
+    display.begin_item("adobe")
+    for _ in range(5):
+        display.tick()
+
+    tail = stream.getvalue()[stream.getvalue().rindex("\n") :]
+    assert "adobe" in tail
+    assert "5 req" in tail
+    assert "1/150" in tail, "the outer bar is still frozen, which is the point"
+
+
+def test_the_spinner_actually_turns() -> None:
+    """A static glyph would look exactly as stuck as no glyph at all."""
+    stream = _FakeTty()
+    display = ScanDisplay(stream=stream, enabled=True, width=110)
+    display.start_phase("source_collection", 10)
+    display.begin_item("adobe")
+
+    # The spinner is at the END of the line, so compare whole redraws rather than a
+    # prefix -- slicing the first 40 characters shows only the static bar.
+    frames = []
+    previous = 0
+    for _ in range(4):
+        display.tick()
+        rendered = stream.getvalue()
+        frames.append(rendered[previous:])
+        previous = len(rendered)
+
+    assert len(set(frames)) > 1, "the spinner must change between ticks"
+
+
+def test_completing_a_company_clears_the_in_flight_label() -> None:
+    """Otherwise the spinner keeps a stale name until the next company starts."""
+    stream = _FakeTty()
+    display = ScanDisplay(stream=stream, enabled=True, width=110)
+    display.start_phase("source_collection", 10)
+
+    display.begin_item("adobe")
+    display.tick()
+    display.end_item()
+    display.log("phase=source_collection progress=1/10 company=adobe", advance=1)
+
+    tail = stream.getvalue()[stream.getvalue().rindex("\n") :]
+    assert "req" not in tail, "the in-flight suffix must be gone once the company is done"
+
+
+def test_beginning_a_new_company_resets_its_counter() -> None:
+    stream = _FakeTty()
+    display = ScanDisplay(stream=stream, enabled=True, width=110)
+    display.start_phase("source_collection", 10)
+
+    display.begin_item("adobe")
+    for _ in range(9):
+        display.tick()
+    display.begin_item("cartesia")
+    display.tick()
+
+    tail = stream.getvalue()[stream.getvalue().rindex("\r") :]
+    assert "cartesia" in tail
+    assert "1 req" in tail, "the request count belongs to the new company, not the old"
+
+
+def test_activity_never_reaches_a_non_tty() -> None:
+    """Ticks must not spam a log file or a pipe with thousands of lines."""
+    stream = io.StringIO()
+    display = ScanDisplay(stream=stream)
+
+    display.start_phase("source_collection", 10)
+    display.begin_item("adobe")
+    for _ in range(50):
+        display.tick()
+
+    assert stream.getvalue() == "", "a non-tty must see nothing from ticks"

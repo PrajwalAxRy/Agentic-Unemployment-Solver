@@ -217,6 +217,7 @@ def _fetch_source(
     *,
     source_retry_count: int,
     waiter: ConnectivityWaiter | None = None,
+    on_item_start: Callable[[str], None] | None = None,
 ) -> _PendingCompany:
     """Fetch and normalize one company. Runs on a worker thread when parallelized.
 
@@ -225,6 +226,8 @@ def _fetch_source(
     builds a fresh opener per request. All SQLite access happens later, under ``ScanLock``.
     """
     source = entry.source
+    if on_item_start is not None:
+        on_item_start(source.company_id)
     started = time.monotonic()
     result, attempts = list_jobs_with_retry(
         adapters.resolve(source), source, retry_count=source_retry_count
@@ -271,6 +274,7 @@ def _collect_sources(
     progress: Callable[[str], None] | None,
     max_workers: int,
     waiter: ConnectivityWaiter | None = None,
+    on_item_start: Callable[[str], None] | None = None,
 ) -> list[_PendingCompany]:
     """Fetch every enabled source, optionally in parallel, in deterministic rank order.
 
@@ -315,6 +319,7 @@ def _collect_sources(
                 profile,
                 source_retry_count=source_retry_count,
                 waiter=waiter,
+                on_item_start=on_item_start,
             )
             report(item)
             collected.append(item)
@@ -330,6 +335,7 @@ def _collect_sources(
                 profile,
                 source_retry_count=source_retry_count,
                 waiter=waiter,
+                on_item_start=on_item_start,
             ): entry
             for entry in enabled_entries
         }
@@ -356,6 +362,7 @@ def collect_listings(
     progress: Callable[[str], None] | None = None,
     max_workers: int = 1,
     waiter: ConnectivityWaiter | None = None,
+    on_item_start: Callable[[str], None] | None = None,
 ) -> FilterVerificationReport:
     """Collect and filter every enabled source without detail or LLM requests.
 
@@ -384,6 +391,7 @@ def collect_listings(
         progress=progress,
         max_workers=max_workers,
         waiter=waiter,
+        on_item_start=on_item_start,
     )
 
     effective_scan_at = scan_at or datetime.now().astimezone()

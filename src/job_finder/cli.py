@@ -862,6 +862,9 @@ def _display_progress(display: ScanDisplay) -> Callable[[str], None]:
             # Reset the label, counter and ETA clock if this belongs to a new phase, even
             # when that phase never emitted a start line.
             display.ensure_phase(phase, total)
+            # This company is done, so stop showing it as in flight -- otherwise the
+            # spinner keeps a stale name until the next one starts.
+            display.end_item()
             display.log(message, outcome=outcome, advance=1)
             return
         display.log(message, outcome=outcome)
@@ -903,12 +906,16 @@ def _scan(args: argparse.Namespace) -> int:
             )
             prompt = merged  # type: ignore[assignment]
 
+        display = ScanDisplay(enabled=False if args.plain else None)
         client = BoundedHttpClient(
             policy=HttpPolicy(
                 timeout_seconds=args.timeout,
                 min_interval_seconds=args.min_request_interval,
                 max_concurrent_per_host=args.max_concurrent_per_host,
-            )
+            ),
+            # One tick per outgoing request. This is what distinguishes a slow company
+            # from a hung one on boards that take dozens of paginated requests.
+            on_request=lambda _url: display.tick(),
         )
         print(
             f"Starting scan with registry={registry.registry_version} "
@@ -932,7 +939,6 @@ def _scan(args: argparse.Namespace) -> int:
         def _probe(url: str, listed: bool) -> JobProbeResult | None:
             return probe_job_url(url, listed=listed, timeout_seconds=args.timeout)
 
-        display = ScanDisplay(enabled=False if args.plain else None)
         try:
             report = run_manual_scan(
                 registry,
@@ -945,6 +951,7 @@ def _scan(args: argparse.Namespace) -> int:
                 expiry_dry_run=not args.enable_expiry,
                 job_probe=None if args.no_probe else _probe,
                 connectivity=connectivity,
+                on_item_start=display.begin_item,
                 progress=_display_progress(display),
             )
         finally:

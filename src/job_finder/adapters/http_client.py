@@ -151,6 +151,7 @@ class BoundedHttpClient:
         transport: HttpTransport | None = None,
         sleep: Callable[[float], None] = time.sleep,
         rate_limiter: HostRateLimiter | None = None,
+        on_request: Callable[[str], None] | None = None,
     ) -> None:
         self.policy = policy or HttpPolicy()
         self._transport = transport or UrllibTransport()
@@ -163,6 +164,10 @@ class BoundedHttpClient:
             max_concurrent_per_host=self.policy.max_concurrent_per_host,
             sleep=sleep,
         )
+        # Optional observer, called once per outgoing request. Exists so the terminal can
+        # show that a long company is still working rather than hung -- every adapter goes
+        # through here, so one hook covers all 36 without any of them knowing about it.
+        self._on_request = on_request
 
     def get(
         self,
@@ -222,6 +227,8 @@ class BoundedHttpClient:
             headers["Content-Type"] = "application/json"
         if referer is not None:
             headers["Referer"] = referer
+        if self._on_request is not None:
+            self._on_request(url)
         # Held across the whole attempt loop so retries cannot bypass the host interval.
         with self._rate_limiter.hold(url):
             return self._attempt_request(method, url, headers, body, accepted)
