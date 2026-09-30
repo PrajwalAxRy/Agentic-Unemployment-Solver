@@ -6,7 +6,7 @@ import argparse
 import importlib
 import json
 import logging
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
@@ -97,6 +97,7 @@ from job_finder.scan import (
     run_manual_scan,
     write_scan_report,
 )
+from job_finder.terminal import ScanDisplay, parse_progress
 from job_finder.verification import (
     load_verification_baseline,
     verify_adapter_sources,
@@ -373,6 +374,11 @@ def build_parser() -> argparse.ArgumentParser:
             "report-only observation first, and the dry-run report says which of its four "
             "checks are still unmet."
         ),
+    )
+    scan.add_argument(
+        "--plain",
+        action="store_true",
+        help="Disable the live progress bar and colour; print plain log lines only.",
     )
     scan.add_argument(
         "--network-wait-minutes",
@@ -837,6 +843,29 @@ def _raw_print_progress(message: str) -> None:
 _print_progress = progress_logger(_raw_print_progress)
 
 
+def _display_progress(display: ScanDisplay) -> Callable[[str], None]:
+    """Route progress through the live display, keeping the log text identical.
+
+    The display is a pure presentation layer: it parses the same key=value strings that
+    already go to the log file, so nothing upstream knows a terminal exists and the log
+    is byte-identical whether or not anyone is watching.
+    """
+
+    def emit(message: str) -> None:
+        phase, position, total, outcome = parse_progress(message)
+        if total is not None and position is None:
+            # "status=started companies=150" -- a new phase with a known step count.
+            display.start_phase(phase, total)
+            display.log(message)
+            return
+        if position is not None:
+            display.log(message, outcome=outcome, advance=1)
+            return
+        display.log(message, outcome=outcome)
+
+    return progress_logger(emit)
+
+
 def _scan(args: argparse.Namespace) -> int:
     """Run one user-facing manual scan and write both report formats."""
     try:
@@ -900,19 +929,24 @@ def _scan(args: argparse.Namespace) -> int:
         def _probe(url: str, listed: bool) -> JobProbeResult | None:
             return probe_job_url(url, listed=listed, timeout_seconds=args.timeout)
 
-        report = run_manual_scan(
-            registry,
-            _runtime_adapters(client),
-            profile,
-            evaluator,
-            database_path=args.database,
-            lock_path=args.lock,
-            source_retry_count=args.source_retries,
-            expiry_dry_run=not args.enable_expiry,
-            job_probe=None if args.no_probe else _probe,
-            connectivity=connectivity,
-            progress=_print_progress,
-        )
+        display = ScanDisplay(enabled=False if args.plain else None)
+        try:
+            report = run_manual_scan(
+                registry,
+                _runtime_adapters(client),
+                profile,
+                evaluator,
+                database_path=args.database,
+                lock_path=args.lock,
+                source_retry_count=args.source_retries,
+                expiry_dry_run=not args.enable_expiry,
+                job_probe=None if args.no_probe else _probe,
+                connectivity=connectivity,
+                progress=_display_progress(display),
+            )
+        finally:
+            # Restore the cursor even on Ctrl-C or a crash mid-scan.
+            display.close()
     except ScanAlreadyRunningError as error:
         # Benign under cron: a previous run is still going. Distinct exit code so an
         # overlapping schedule is not alerted on like a real failure (to_change.md 6.2, 9.3).
