@@ -20,11 +20,13 @@ from pathlib import Path
 
 import pytest
 
+from job_finder.adapters.connectivity import ConnectivityPolicy, ConnectivityWaiter
 from job_finder.collection import collect_listings
 from job_finder.core.company_registry import CompanyRegistryEntry, CompanySourceRegistry
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.search_profile import load_search_profile
 from job_finder.core.source_contracts import (
+    AdapterDiagnostic,
     AdapterOutcome,
     AdapterResult,
     AdapterType,
@@ -32,6 +34,7 @@ from job_finder.core.source_contracts import (
     Confidence,
     DateStrategy,
     DetailStrategy,
+    DiagnosticSeverity,
     IdentityStrategy,
     SourceStatus,
 )
@@ -225,3 +228,99 @@ def test_progress_callback_reports_every_company_exactly_once() -> None:
     assert sorted(counters, key=lambda value: int(value.split("/")[0])) == [
         f"{index}/10" for index in range(1, 11)
     ], f"progress counter skipped or repeated a value: {counters}"
+
+
+class _NetworkFailureAdapter:
+    """Fails every company with a chosen diagnostic category."""
+
+    adapter_type = AdapterType.GREENHOUSE
+
+    def __init__(self, category: str) -> None:
+        self._category = category
+        self.calls = 0
+
+    def list_jobs(self, source: CompanySource) -> AdapterResult:
+        self.calls += 1
+        return AdapterResult(
+            schema_version=1,
+            source=source,
+            outcome=AdapterOutcome.FAILED,
+            jobs=(),
+            page_count=0,
+            complete=False,
+            diagnostics=(
+                AdapterDiagnostic(
+                    category=self._category,
+                    severity=DiagnosticSeverity.ERROR,
+                    message=f"{self._category} occurred",
+                    context={},
+                ),
+            ),
+        )
+
+
+def _collect_with_waiter(adapter: object, waiter: ConnectivityWaiter, count: int = 5):
+    return collect_listings(
+        _registry(count),
+        _Registry(adapter),  # type: ignore[arg-type]
+        load_search_profile(ROOT / "config" / "search_profile.toml"),
+        source_retry_count=0,
+        waiter=waiter,
+    )
+
+
+def test_repeated_network_failures_pause_the_scan_and_retry() -> None:
+    """The failure this exists to prevent: a dropped connection wasting a whole run.
+
+    HttpPolicy's retry budget is about 1.5 seconds, which is right for a flaky request and
+    useless for a dead link -- without this, the remaining companies all fail in seconds.
+    """
+    adapter = _NetworkFailureAdapter("network_error")
+    slept: list[float] = []
+    waiter = ConnectivityWaiter(
+        policy=ConnectivityPolicy(poll_interval_seconds=1.0, max_wait_seconds=10.0),
+        sleep=slept.append,
+        check=lambda: len(slept) >= 1,  # network returns after one poll
+    )
+
+    _collect_with_waiter(adapter, waiter)
+
+    assert waiter.total_waits >= 1, "an outage should have been detected"
+    assert slept, "the scan should have paused and polled"
+    # Every paused company is retried once the network is back, so the run is not wasted.
+    assert adapter.calls > 5
+
+
+def test_http_errors_never_pause_the_scan() -> None:
+    """The boundary that matters most.
+
+    A 500 or a 429 means the server was reached and is unhappy -- a different problem with
+    a different remedy. Pausing the whole scan for one unhappy site would be far worse
+    than the failure itself.
+    """
+    adapter = _NetworkFailureAdapter("http_error")
+    waiter = ConnectivityWaiter(
+        policy=ConnectivityPolicy(poll_interval_seconds=1.0, max_wait_seconds=10.0),
+        sleep=lambda _: pytest.fail("an HTTP error must not pause the scan"),
+        check=lambda: pytest.fail("an HTTP error must not trigger a probe"),  # type: ignore[arg-type,return-value]
+    )
+
+    _collect_with_waiter(adapter, waiter)
+
+    assert waiter.total_waits == 0
+    assert adapter.calls == 5, "each company attempted exactly once"
+
+
+def test_collection_without_a_waiter_is_unchanged() -> None:
+    """Opt-in: omitting the waiter preserves the previous behaviour exactly."""
+    adapter = _NetworkFailureAdapter("network_error")
+
+    report = collect_listings(
+        _registry(3),
+        _Registry(adapter),  # type: ignore[arg-type]
+        load_search_profile(ROOT / "config" / "search_profile.toml"),
+        source_retry_count=0,
+    )
+
+    assert adapter.calls == 3
+    assert report.healthy is False

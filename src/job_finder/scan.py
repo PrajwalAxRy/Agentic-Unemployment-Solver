@@ -13,6 +13,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from job_finder.adapters.base import AdapterRegistry, JobDetailAdapter
+from job_finder.adapters.connectivity import ConnectivityWaiter
 from job_finder.adapters.errors import DetailUnavailable, exception_category
 from job_finder.adapters.http_client import HttpRequestError
 from job_finder.collection import (
@@ -247,6 +248,7 @@ def run_manual_scan(
     source_retry_count: int = 2,
     expiry_dry_run: bool = True,
     job_probe: Callable[[str, bool], JobProbeResult | None] | None = None,
+    connectivity: ConnectivityWaiter | None = None,
     started_at: datetime | None = None,
     run_id: str | None = None,
     progress: Callable[[str], None] | None = None,
@@ -280,6 +282,7 @@ def run_manual_scan(
                 source_retry_count=source_retry_count,
                 first_seen_lookup=lambda job: _first_seen(jobs, job),
                 progress=progress,
+                waiter=connectivity,
             )
             retained_count = sum(
                 row.final_decision is FinalFilterDecision.RETAINED for row in filtered.listings

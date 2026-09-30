@@ -26,7 +26,8 @@ from pathlib import Path
 from statistics import median
 
 from job_finder.adapters.base import AdapterRegistry, JobDetailAdapter, list_jobs_with_retry
-from job_finder.adapters.http_client import HttpRequestError
+from job_finder.adapters.connectivity import ConnectivityWaiter
+from job_finder.adapters.http_client import HttpFailureCategory, HttpRequestError
 from job_finder.core.company_registry import CompanyRegistryEntry, CompanySourceRegistry
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
 from job_finder.core.recency import RecencyDecision, assess_listing_recency
@@ -193,12 +194,29 @@ class _PendingCompany:
     duration_seconds: float = 0.0
 
 
+def _is_network_failure(result: AdapterResult) -> bool:
+    """Whether this company failed for transport reasons rather than site reasons.
+
+    Only ``network_error`` and ``timeout`` count. An HTTP 500 or a 429 means the server was
+    reached and is unhappy -- a different problem with a different remedy, and pausing the
+    whole scan for one unhappy site would be worse than the failure itself.
+    """
+    if result.outcome not in {AdapterOutcome.FAILED, AdapterOutcome.PARTIAL}:
+        return False
+    return any(
+        diagnostic.category
+        in {HttpFailureCategory.NETWORK_ERROR.value, HttpFailureCategory.TIMEOUT.value}
+        for diagnostic in result.diagnostics
+    )
+
+
 def _fetch_source(
     entry: CompanyRegistryEntry,
     adapters: AdapterRegistry,
     profile: SearchProfile,
     *,
     source_retry_count: int,
+    waiter: ConnectivityWaiter | None = None,
 ) -> _PendingCompany:
     """Fetch and normalize one company. Runs on a worker thread when parallelized.
 
@@ -211,6 +229,22 @@ def _fetch_source(
     result, attempts = list_jobs_with_retry(
         adapters.resolve(source), source, retry_count=source_retry_count
     )
+
+    # A dropped connection and a flaky request look identical here, but the remedies are
+    # opposite. If several companies fail on network errors in a row the machine is very
+    # likely offline, so wait for it to come back and try this company once more rather
+    # than racing through the remaining registry marking everything failed.
+    if waiter is not None:
+        if _is_network_failure(result):
+            if waiter.record_network_failure() and waiter.wait_for_network(
+                context=f"company={source.company_id}"
+            ):
+                result, attempts = list_jobs_with_retry(
+                    adapters.resolve(source), source, retry_count=source_retry_count
+                )
+        else:
+            waiter.record_success()
+
     jobs = (
         tuple(normalize_job(job, location_policy=profile.location) for job in result.jobs)
         if result.outcome is AdapterOutcome.SUCCESS
@@ -236,6 +270,7 @@ def _collect_sources(
     source_retry_count: int,
     progress: Callable[[str], None] | None,
     max_workers: int,
+    waiter: ConnectivityWaiter | None = None,
 ) -> list[_PendingCompany]:
     """Fetch every enabled source, optionally in parallel, in deterministic rank order.
 
@@ -274,7 +309,13 @@ def _collect_sources(
     if max_workers <= 1:
         collected = []
         for entry in enabled_entries:
-            item = _fetch_source(entry, adapters, profile, source_retry_count=source_retry_count)
+            item = _fetch_source(
+                entry,
+                adapters,
+                profile,
+                source_retry_count=source_retry_count,
+                waiter=waiter,
+            )
             report(item)
             collected.append(item)
         return collected
@@ -283,7 +324,12 @@ def _collect_sources(
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = {
             executor.submit(
-                _fetch_source, entry, adapters, profile, source_retry_count=source_retry_count
+                _fetch_source,
+                entry,
+                adapters,
+                profile,
+                source_retry_count=source_retry_count,
+                waiter=waiter,
             ): entry
             for entry in enabled_entries
         }
@@ -309,6 +355,7 @@ def collect_listings(
     first_seen_lookup: Callable[[NormalizedJob], datetime | None] | None = None,
     progress: Callable[[str], None] | None = None,
     max_workers: int = 1,
+    waiter: ConnectivityWaiter | None = None,
 ) -> FilterVerificationReport:
     """Collect and filter every enabled source without detail or LLM requests.
 
@@ -336,6 +383,7 @@ def collect_listings(
         source_retry_count=source_retry_count,
         progress=progress,
         max_workers=max_workers,
+        waiter=waiter,
     )
 
     effective_scan_at = scan_at or datetime.now().astimezone()

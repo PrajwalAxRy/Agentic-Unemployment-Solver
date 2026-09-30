@@ -22,6 +22,7 @@ from job_finder.adapters.atlassian_careers import AtlassianCareersAdapter
 from job_finder.adapters.atomicwork import AtomicworkWebflowAdapter
 from job_finder.adapters.base import AdapterRegistry
 from job_finder.adapters.booking_careers import BookingCareersAdapter
+from job_finder.adapters.connectivity import ConnectivityPolicy, ConnectivityWaiter
 from job_finder.adapters.custom import CustomAdapterRouter
 from job_finder.adapters.darwinbox import DarwinboxAdapter
 from job_finder.adapters.deshaw_india import DeshawIndiaAdapter
@@ -371,6 +372,15 @@ def build_parser() -> argparse.ArgumentParser:
             "Actually close stale jobs. Off by default: 5.1 requires about a week of "
             "report-only observation first, and the dry-run report says which of its four "
             "checks are still unmet."
+        ),
+    )
+    scan.add_argument(
+        "--network-wait-minutes",
+        type=float,
+        default=120.0,
+        help=(
+            "How long to wait for the network to return if it drops mid-scan, polling "
+            "every 2 minutes. 0 disables waiting and fails companies immediately."
         ),
     )
     scan.add_argument(
@@ -880,6 +890,13 @@ def _scan(args: argparse.Namespace) -> int:
                 "only guard against a truncated listing closing live jobs (to_change.md 10.F)"
             )
 
+        connectivity = ConnectivityWaiter(
+            policy=ConnectivityPolicy(
+                max_wait_seconds=args.network_wait_minutes * 60,
+                enabled=args.network_wait_minutes > 0,
+            )
+        )
+
         def _probe(url: str, listed: bool) -> JobProbeResult | None:
             return probe_job_url(url, listed=listed, timeout_seconds=args.timeout)
 
@@ -893,6 +910,7 @@ def _scan(args: argparse.Namespace) -> int:
             source_retry_count=args.source_retries,
             expiry_dry_run=not args.enable_expiry,
             job_probe=None if args.no_probe else _probe,
+            connectivity=connectivity,
             progress=_print_progress,
         )
     except ScanAlreadyRunningError as error:
