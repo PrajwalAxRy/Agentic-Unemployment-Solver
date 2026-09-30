@@ -76,8 +76,8 @@ def test_cli_accepts_full_registry_recency_measurement() -> None:
     args = build_parser().parse_args(["measure-recency", "--output", "reports/test_recency.json"])
 
     assert args.command == "measure-recency"
-    assert str(args.profile) == "config\\search_profile.toml"
-    assert str(args.output) == "reports\\test_recency.json"
+    assert args.profile == Path("config/search_profile.toml")
+    assert args.output == Path("reports/test_recency.json")
     assert args.source_retries == 2
 
 
@@ -94,16 +94,16 @@ def test_cli_state_reset_requires_backup_and_confirmation() -> None:
     )
 
     assert args.state_command == "reset"
-    assert str(args.database) == "state\\jobs.sqlite3"
-    assert str(args.backup) == "state\\jobs-before-reset.sqlite3"
+    assert args.database == Path("state/jobs.sqlite3")
+    assert args.backup == Path("state/jobs-before-reset.sqlite3")
 
 
 def test_cli_accepts_two_pass_persistence_verification() -> None:
     args = build_parser().parse_args(["verify-persistence", "--allow-existing", "--passes", "1"])
 
     assert args.command == "verify-persistence"
-    assert str(args.database) == "state\\phase7_validation.sqlite3"
-    assert str(args.output) == "reports\\phase7_persistence_verification.json"
+    assert args.database == Path("state/phase7_validation.sqlite3")
+    assert args.output == Path("reports/phase7_persistence_verification.json")
     assert args.allow_existing is True
     assert args.passes == 1
 
@@ -121,9 +121,9 @@ def test_cli_accepts_guarded_seniority_validation() -> None:
 
     assert args.command == "validate-seniority"
     assert args.live_limit == 6
-    assert str(args.reuse_live_from) == "reports\\prior.json"
-    assert str(args.evaluation_set) == "config\\seniority_evaluation_set.json"
-    assert str(args.review_output) == "docs\\reviews\\h9_seniority_quality_review.md"
+    assert args.reuse_live_from == Path("reports/prior.json")
+    assert args.evaluation_set == Path("config/seniority_evaluation_set.json")
+    assert args.review_output == Path("docs/reviews/h9_seniority_quality_review.md")
 
 
 def test_scan_parser_defaults() -> None:
