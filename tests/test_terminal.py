@@ -89,17 +89,49 @@ def test_a_tty_gets_a_bar_and_keeps_every_log_line() -> None:
 
 
 def test_the_bar_reports_progress_and_an_eta() -> None:
-    clock = iter([0.0, 0.0, 10.0, 10.0, 10.0])
+    """ETA is median-based, so one observation of 10s predicts 10s per remaining item."""
+    clock = [0.0]
     stream = _FakeTty()
-    display = ScanDisplay(stream=stream, enabled=True, width=100, now=lambda: next(clock, 10.0))
+    display = ScanDisplay(stream=stream, enabled=True, width=100, now=lambda: clock[0])
 
     display.start_phase("source_collection", 10)
-    display.advance(2)  # 2 of 10 in 10 seconds -> 40s remaining
+    clock[0] = 10.0
+    display.advance(2)
     rendered = stream.getvalue()
 
     assert "20.0%" in rendered
     assert "2/10" in rendered
-    assert "ETA 00:40" in rendered
+    assert "ETA 01:20" in rendered, "8 remaining at the observed 10s median"
+
+
+def test_eta_uses_the_median_so_one_slow_item_does_not_dominate() -> None:
+    """The real failure: 3 companies at ~0.05s then Adobe at 5 minutes gave 'ETA 4h39m'.
+
+    A mean over that mix predicts a number that describes no actual company. The median
+    stays stable when the slow one lands, which is the property that matters.
+    """
+    clock = [0.0]
+    stream = _FakeTty()
+    display = ScanDisplay(stream=stream, enabled=True, width=110, now=lambda: clock[0])
+    display.start_phase("deterministic_filter", 150)
+
+    for duration in (0.032, 0.109, 0.0):
+        clock[0] += duration
+        display.advance()
+    fast_eta = _last_eta(stream.getvalue())
+
+    clock[0] += 300.0  # Adobe
+    display.advance()
+    after_slow = _last_eta(stream.getvalue())
+
+    assert fast_eta.startswith("00:"), f"a few fast items must not predict hours: {fast_eta}"
+    assert "h" not in after_slow, f"one slow item must not dominate the estimate: {after_slow}"
+
+
+def _last_eta(rendered: str) -> str:
+    import re
+
+    return re.findall(r"ETA\s+(\S+)", re.sub(r"\x1b\[[0-9;]*m", "", rendered))[-1]
 
 
 def test_outcome_drives_the_marker_so_failures_stand_out() -> None:

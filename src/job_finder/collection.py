@@ -401,6 +401,11 @@ def collect_listings(
     if progress is not None:
         progress(f"phase=deterministic_filter status=started companies={enabled_count}")
     for filter_index, item in enumerate(pending, start=1):
+        # The filter phase does network I/O too -- Workday listings say "N Locations"
+        # rather than naming them, so each such job needs its own detail fetch. Adobe is
+        # ~190 of them. Without this the spinner went dark during the slowest phase.
+        if on_item_start is not None:
+            on_item_start(item.source.company_id)
         filter_started = time.monotonic()
         company_listings: list[FilterListingRecord] = []
         recency_excluded_count = 0
@@ -440,13 +445,30 @@ def collect_listings(
                 detail_fetch_count += 1
                 try:
                     filtered_job = _fetch_detail(job, item.source, adapters, profile)
-                except (HttpRequestError, ValueError):
-                    detail_failure_count += 1
-                    location = LocationFilterResult(
-                        decision=LocationDecision.REVIEW,
-                        reason_code="detail_location_unavailable",
-                        reason="required public detail location could not be retrieved",
-                    )
+                except (HttpRequestError, ValueError) as error:
+                    # Same outage handling as collection. Previously a dropped connection
+                    # here silently marked every remaining job in the company
+                    # detail_location_unavailable instead of waiting.
+                    if (
+                        waiter is not None
+                        and isinstance(error, HttpRequestError)
+                        and error.category
+                        in {
+                            HttpFailureCategory.NETWORK_ERROR,
+                            HttpFailureCategory.TIMEOUT,
+                        }
+                        and waiter.record_network_failure()
+                        and waiter.wait_for_network(context=f"detail company={job.company_id}")
+                    ):
+                        try:
+                            filtered_job = _fetch_detail(job, item.source, adapters, profile)
+                            location = None
+                        except (HttpRequestError, ValueError):
+                            detail_failure_count += 1
+                            location = _detail_unavailable()
+                    else:
+                        detail_failure_count += 1
+                        location = _detail_unavailable()
             if location is None:
                 location = filter_job_location(filtered_job, policy=profile.location)
             if location.decision is LocationDecision.REJECT:
@@ -832,6 +854,15 @@ def _company_record(
         detail_fetch_count=detail_fetch_count,
         detail_failure_count=detail_failure_count,
         duration_seconds=pending.duration_seconds,
+    )
+
+
+def _detail_unavailable() -> LocationFilterResult:
+    """The review outcome when a required detail page could not be fetched."""
+    return LocationFilterResult(
+        decision=LocationDecision.REVIEW,
+        reason_code="detail_location_unavailable",
+        reason="required public detail location could not be retrieved",
     )
 
 

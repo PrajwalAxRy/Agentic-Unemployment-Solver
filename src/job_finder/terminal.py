@@ -27,6 +27,7 @@ import sys
 import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from statistics import median
 from typing import TextIO
 
 # All green, as requested. Outcome is still distinguishable, but by *shade* and by the
@@ -108,6 +109,8 @@ class ScanDisplay:
     _active_requests: int = field(default=0, init=False)
     _active_started: float = field(default=0.0, init=False)
     _spinner_index: int = field(default=0, init=False)
+    _item_durations: list[float] = field(default_factory=list, init=False)
+    _last_completed: float = field(default=0.0, init=False)
 
     def __post_init__(self) -> None:
         if self.enabled is None:
@@ -122,6 +125,8 @@ class ScanDisplay:
         self._total = max(0, total)
         self._done = 0
         self._started = self.now()
+        self._last_completed = self._started
+        self._item_durations = []
         if self.enabled:
             self.stream.write(_HIDE_CURSOR)
             self.stream.flush()
@@ -205,6 +210,12 @@ class ScanDisplay:
 
     def _advance_counter(self, count: int) -> None:
         self._done = min(self._total, self._done + count) if self._total else self._done + count
+        now = self.now()
+        # Keep per-item durations so the ETA can use a median. A mean is badly misled here:
+        # three companies at 0.03s followed by Adobe at four minutes is the normal shape,
+        # not an outlier, and extrapolating the fast ones produced a wildly wrong estimate.
+        self._item_durations.append(max(0.0, now - self._last_completed))
+        self._last_completed = now
 
     def _redraw(self) -> None:
         if not self.enabled or not self._total:
@@ -223,8 +234,7 @@ class ScanDisplay:
     def _render_bar(self) -> str:
         fraction = self._done / self._total if self._total else 0.0
         elapsed = self.now() - self._started
-        rate = self._done / elapsed if elapsed > 0 and self._done else 0.0
-        remaining = (self._total - self._done) / rate if rate > 0 else float("nan")
+        remaining = self._estimate_remaining()
 
         # Reserve room for the text, then give whatever is left to the bar, with a floor
         # so a narrow terminal degrades to a small bar rather than a broken line.
@@ -253,6 +263,22 @@ class ScanDisplay:
             f"{_PALE_GREEN}{stats}{_RESET}"
         )
         return bar + self._render_activity()
+
+    def _estimate_remaining(self) -> float:
+        """Seconds left, estimated from the median item rather than the mean.
+
+        Both are reported for a reason: with a long-tailed distribution the mean is pulled
+        far off by a single slow company, so an early ETA built from a few fast ones is
+        wildly optimistic and then swings wildly pessimistic. The median is stable, and
+        being roughly right beats being precisely wrong.
+        """
+        outstanding = self._total - self._done
+        if outstanding <= 0 or not self._item_durations:
+            return float("nan")
+        typical = median(self._item_durations)
+        if typical <= 0:
+            return float("nan")
+        return outstanding * typical
 
     def _render_activity(self) -> str:
         """Suffix naming the in-flight company, with a spinner and request count.
