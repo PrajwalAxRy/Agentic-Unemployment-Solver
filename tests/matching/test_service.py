@@ -177,3 +177,41 @@ def test_repeated_invalid_output_is_terminal_manual_review(tmp_path: Path) -> No
     assert result.record.evaluation_status is EvaluationStatus.FAILED
     assert result.record.seniority_result is not None
     assert result.record.seniority_result["pipeline_disposition"] == "manual_review"
+
+
+def test_budget_exhaustion_leaves_the_record_pending_not_failed(tmp_path: Path) -> None:
+    """The 2026-09-30 regression: a $1.40 token cap permanently destroyed 3,026 records.
+
+    Budget exhaustion says nothing about the job -- no request was ever sent. Writing it
+    as a per-job failure both mislabels it and, because _needs_processing only retries a
+    narrow set of reason codes, makes it unreachable on every later run.
+    """
+    client = StubClient([])
+    evaluator = SeniorityEvaluator(
+        client=client,
+        prompt=load_seniority_prompt(ROOT / "config" / "seniority_prompt.toml"),
+        model_policy=ModelPolicy("test", "stub", "1"),
+        # Limits must be positive, so use one estimated input token: the real prompt is
+        # thousands, and reserve() trips on the very first call.
+        budget=UsageBudget(UsageLimits(20, 1, 4_000, 200)),
+    )
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        repository = JobStateRepository(connection)
+        job = make_job(description="Machine learning engineer with two years of experience.")
+        repository.observe_listing(job, observed_at=OBSERVED_AT, profile_version="1.1.0")
+
+        result = CachedSeniorityEvaluationService(
+            repository=repository, evaluator=evaluator
+        ).evaluate(
+            job,
+            eligibility=CandidateEligibility.ELIGIBLE,
+            profile_version="1.1.0",
+            target_description=TARGET,
+        )
+
+    assert result.disposition is CachedEvaluationDisposition.BUDGET_EXHAUSTED
+    assert not client.requests, "no request should be sent once the budget is gone"
+    assert result.record is not None
+    assert result.record.evaluation_status is not EvaluationStatus.FAILED, (
+        "a budget stall must not be recorded as a per-job failure"
+    )

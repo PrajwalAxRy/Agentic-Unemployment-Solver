@@ -32,6 +32,7 @@ class CachedEvaluationDisposition(StrEnum):
     CACHED = "cached"
     EVALUATED = "evaluated"
     MANUAL_REVIEW = "manual_review"
+    BUDGET_EXHAUSTED = "budget_exhausted"
 
 
 @dataclass(frozen=True, slots=True)
@@ -132,6 +133,18 @@ class CachedSeniorityEvaluationService:
             target_description=target_description,
             location_original=location_original,
         )
+        if outcome.disposition is EvaluationDisposition.BUDGET_EXHAUSTED:
+            # Deliberately no fail_evaluation() here. The record stays pending so the
+            # next run picks it up; writing a failure would bake a transient budget
+            # condition into permanent per-job state.
+            return CachedEvaluationResult(
+                disposition=CachedEvaluationDisposition.BUDGET_EXHAUSTED,
+                eligibility=eligibility,
+                decision=None,
+                record=preparation.record,
+                evaluation=outcome,
+            )
+
         if outcome.disposition is EvaluationDisposition.MANUAL_REVIEW:
             record = self._repository.fail_evaluation(
                 preparation.record.job_key,

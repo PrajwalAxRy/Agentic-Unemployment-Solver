@@ -144,7 +144,12 @@ def test_request_limit_prevents_retry_provider_call() -> None:
 
     outcome = evaluate(evaluator)
 
-    assert outcome.disposition is EvaluationDisposition.MANUAL_REVIEW
-    assert outcome.attempt_count == 1
+    # BUDGET_EXHAUSTED, not MANUAL_REVIEW: the first attempt was malformed, but what
+    # stopped us was the budget, and the job deserves a retry on the next run rather
+    # than a permanent per-job failure.
+    assert outcome.disposition is EvaluationDisposition.BUDGET_EXHAUSTED
     assert len(client.requests) == 1
     assert any("request limit" in error for error in outcome.errors)
+    assert any("not-json" in error or "JSON" in error for error in outcome.errors), (
+        "the earlier malformed-response error must survive alongside the limit error"
+    )

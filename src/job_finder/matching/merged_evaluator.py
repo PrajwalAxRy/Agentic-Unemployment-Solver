@@ -201,10 +201,24 @@ class MergedEvaluator:
                     title=title,
                     location_requested=location_requested,
                 )
-            except (MergedResponseError, UsageLimitExceeded) as error:
+            except UsageLimitExceeded as error:
+                # Return early and distinctly. Falling through to the MANUAL_REVIEW exit
+                # below would tell the caller this job was judged and found wanting, when
+                # in fact no request was ever sent.
+                _LOGGER.warning("llm_budget_exhausted reason=%s", error)
+                return EvaluationOutcome(
+                    disposition=EvaluationDisposition.BUDGET_EXHAUSTED,
+                    decision=None,
+                    attempt_count=attempt - 1,
+                    # Keep any earlier attempt's errors: a malformed response followed by
+                    # budget exhaustion should not lose the malformed-response context.
+                    errors=(*errors, str(error)),
+                    usage=_usage_delta(initial_usage, self._budget.snapshot),
+                    prompt_version=self._prompt.prompt_version,
+                    model_policy=self._model_policy.cache_key,
+                )
+            except MergedResponseError as error:
                 errors.append(str(error))
-                if isinstance(error, UsageLimitExceeded):
-                    break
                 _LOGGER.warning("merged_response_invalid attempt=%d reason=%s", attempt, error)
                 continue
 

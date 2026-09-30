@@ -146,6 +146,13 @@ class EvaluationDisposition(StrEnum):
 
     COMPLETED = "completed"
     MANUAL_REVIEW = "manual_review"
+    BUDGET_EXHAUSTED = "budget_exhausted"
+    """The run budget ran out before this job was judged.
+
+    Distinct from MANUAL_REVIEW because it says nothing about the job: the model never
+    saw it. Conflating the two cost 3,026 records in the 2026-09-30 scan, which were
+    written as invalid_seniority_output and so became permanently unretryable.
+    """
 
 
 @dataclass(frozen=True, slots=True)
@@ -225,10 +232,22 @@ class SeniorityEvaluator:
                 self._budget.record(response)
                 decision = parse_seniority_response(response.content)
                 _require_description_evidence(decision, description)
-            except (SeniorityResponseError, UsageLimitExceeded) as error:
+            except UsageLimitExceeded as error:
+                # Same distinction as MergedEvaluator: the budget ran out, so this job
+                # was never judged. Falling through to MANUAL_REVIEW would claim it was.
+                return EvaluationOutcome(
+                    disposition=EvaluationDisposition.BUDGET_EXHAUSTED,
+                    decision=None,
+                    attempt_count=attempt - 1,
+                    # Keep any earlier attempt's errors: a malformed response followed by
+                    # budget exhaustion should not lose the malformed-response context.
+                    errors=(*errors, str(error)),
+                    usage=_usage_delta(initial_usage, self._budget.snapshot),
+                    prompt_version=self._prompt.prompt_version,
+                    model_policy=self._model_policy.cache_key,
+                )
+            except SeniorityResponseError as error:
                 errors.append(str(error))
-                if isinstance(error, UsageLimitExceeded):
-                    break
                 continue
             return EvaluationOutcome(
                 disposition=EvaluationDisposition.COMPLETED,

@@ -157,6 +157,9 @@ class ScanMetrics:
     relevance_peripheral_count: int
     llm_location_rejection_count: int
     llm_evaluated_count: int
+    llm_budget_halted_count: int
+    """Retained jobs left unevaluated because the run budget ran out. Non-zero means
+    the scan is incomplete and the next run must resume, not that anything failed."""
     llm_cache_hit_count: int
     seniority_match_count: int
     seniority_rejection_count: int
@@ -231,6 +234,7 @@ class _ProcessingCounts:
     relevance_peripheral: int = 0
     location_rejected: int = 0
     evaluated: int = 0
+    budget_halted: int = 0
     cache_hit: int = 0
     match: int = 0
     reject: int = 0
@@ -320,6 +324,12 @@ def run_manual_scan(
                     "phase=candidate_evaluation status=complete "
                     f"observed={report.metrics.observed_identity_count} "
                     f"evaluated={report.metrics.llm_evaluated_count}"
+                    + (
+                        f" HALTED_ON_BUDGET unevaluated={report.metrics.llm_budget_halted_count}"
+                        " (these stay pending and resume next run)"
+                        if report.metrics.llm_budget_halted_count
+                        else ""
+                    )
                 )
             return report
         except BaseException as error:
@@ -449,6 +459,27 @@ def process_filter_report(
             if reportable:
                 reviews.append(_review(row, "llm_provider_failure", str(error)))
             continue
+
+        if result.disposition is CachedEvaluationDisposition.BUDGET_EXHAUSTED:
+            # Stop the whole phase. Continuing would walk the remaining thousands of
+            # rows, and every one would hit the same exhausted budget -- the 2026-09-30
+            # scan did exactly that for 3,026 jobs. Those rows stay pending, so the next
+            # run resumes from here rather than skipping them forever.
+            counts.budget_halted = retained_total - retained_index + 1
+            reason = "; ".join(result.evaluation.errors) if result.evaluation else "budget reached"
+            _LOGGER.warning(
+                "candidate_evaluation_halted reason=%s evaluated=%d remaining=%d",
+                reason,
+                counts.evaluated,
+                retained_total - retained_index + 1,
+            )
+            if progress is not None:
+                progress(
+                    f"phase=candidate_evaluation status=halted reason=budget_exhausted "
+                    f"evaluated={counts.evaluated} "
+                    f"remaining={retained_total - retained_index + 1}"
+                )
+            break
 
         if result.disposition is CachedEvaluationDisposition.CACHED:
             counts.cache_hit += 1
@@ -580,7 +611,20 @@ def _needs_processing(
             or record.model_policy != evaluator.model_policy
         )
     result = record.seniority_result or {}
-    if result.get("reason_code") in {"description_unavailable", "llm_provider_failure"}:
+    # budget_exhausted is retryable for the same reason as the other two: none of them
+    # is a statement about the job. Records written by older runs with
+    # invalid_seniority_output + an "input-token limit reached" error are the same
+    # condition under the wrong name, so they are recovered here too.
+    if result.get("reason_code") in {
+        "description_unavailable",
+        "llm_provider_failure",
+        "budget_exhausted",
+    }:
+        return True
+    recorded_errors = result.get("errors")
+    if isinstance(recorded_errors, list) and any(
+        "limit reached" in str(error) for error in recorded_errors
+    ):
         return True
     return result.get("pipeline_disposition") == "manual_review" and (
         result.get("prompt_version") != evaluator.prompt_version
@@ -938,6 +982,7 @@ def _metrics(
         relevance_peripheral_count=counts.relevance_peripheral,
         llm_location_rejection_count=counts.location_rejected,
         llm_evaluated_count=counts.evaluated,
+        llm_budget_halted_count=counts.budget_halted,
         llm_cache_hit_count=counts.cache_hit,
         seniority_match_count=counts.match,
         seniority_rejection_count=counts.reject,
