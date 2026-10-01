@@ -73,6 +73,8 @@ class DailyScanResult:
 
     @property
     def exit_code(self) -> int:
+        if self.halt_reason == "discovery_only":
+            return self.report.outcome.exit_code
         return 6 if self.pending_count else self.report.outcome.exit_code
 
 
@@ -126,6 +128,7 @@ def run_daily_scan(
     database_path: Path,
     lock_path: Path,
     command: str = "scan",
+    discovery_only: bool = False,
     source_retry_count: int = 2,
     expiry_dry_run: bool = True,
     job_probe: Callable[[str, bool], JobProbeResult | None] | None = None,
@@ -142,6 +145,8 @@ def run_daily_scan(
     """Callbacks for logs/reports/accounting execute while the shared lock is held."""
     if command not in {"scan", "evaluate", "force_reevaluate"}:
         raise ValueError("unsupported scan command")
+    if discovery_only and command != "scan":
+        raise ValueError("--discovery-only is only available with a fresh scan")
     with ScanLock(lock_path), migrated_database(database_path) as connection:
         start = clock()
         batches = BatchRepository(connection)
@@ -213,13 +218,18 @@ def run_daily_scan(
                     probe=job_probe,
                     progress=progress,
                 )
-            halt_reason = _evaluate(batches, jobs, evaluator, profile, rates, progress, clock)
+            halt_reason = (
+                "discovery_only"
+                if discovery_only
+                else _evaluate(batches, jobs, evaluator, profile, rates, progress, clock)
+            )
             report = _report(batches, jobs, profile, evaluator, start, clock(), halt_reason)
             pending = sum(row["result_json"] is None for row in batches.candidates())
             result = DailyScanResult(report, day, pending, halt_reason)
             if progress:
+                status = "deferred" if discovery_only else "halted" if pending else "complete"
                 progress(
-                    f"phase=candidate_evaluation status={'halted' if pending else 'complete'} "
+                    f"phase=candidate_evaluation status={status} "
                     f"pending={pending} reason={halt_reason or 'none'}"
                 )
             if on_result:
@@ -534,6 +544,9 @@ def _report(
     ).fetchone()
     failures = _source_failures(filtered)
     original_start = datetime.fromisoformat(metadata["started_at"])
+    metrics = _metrics(filtered, accounting, failures, counts)
+    if halt_reason == "discovery_only":
+        metrics = replace(metrics, llm_budget_halted_count=0)
     return ScanReport(
         schema_version=SCAN_REPORT_SCHEMA_VERSION,
         run_id=current["attempt_id"],
@@ -549,7 +562,7 @@ def _report(
         model_policy=evaluator.model_policy,
         source_outcomes=filtered.outcome_counts,
         company_status_counts=dict(Counter(item.status for item in accounting)),
-        metrics=_metrics(filtered, accounting, failures, counts),
+        metrics=metrics,
         usage=UsageSnapshot(usage[0], 0, usage[1], usage[2]),
         matching_jobs=tuple(matches),
         date_uncertain_jobs=tuple(uncertain),

@@ -107,6 +107,55 @@ def test_cli_commands_replace_daily_artifacts_and_evaluate_appends_log(command, 
     assert len(list((tmp_path / "out").glob("scan-*.json"))) == 1
 
 
+def test_discovery_only_saves_pending_report_and_prints_working_evaluate_command(
+    command, tmp_path, capsys, monkeypatch
+):
+    import shlex
+
+    state, invoke = command
+    state["client"] = StubLLMClient([])
+    assert invoke("scan", "--discovery-only") == 0
+    assert not state["client"].requests
+    output = capsys.readouterr().out
+    assert "evaluation=deferred" in output
+    assert "no LLM calls were made" in output
+    assert "INCOMPLETE:" not in output
+    payload = json.loads((tmp_path / "out/latest.json").read_text())
+    assert payload["pending_count"] == 1
+    assert payload["evaluation_complete"] is False
+    assert payload["halt_reason"] == "discovery_only"
+    assert payload["usage"]["request_count"] == 0
+    assert "Evaluation: deferred (discovery only)" in (tmp_path / "out/latest.md").read_text()
+    printed = next(
+        line.split("Resume with: ", 1)[1] for line in output.splitlines() if "Resume with:" in line
+    )
+    assert "--discovery-only" not in printed
+    state["client"] = StubLLMClient([decision(True)])
+    monkeypatch.setattr(
+        cli, "_runtime_adapters", lambda client: pytest.fail("evaluate must not collect sources")
+    )
+    assert cli.main(shlex.split(printed)[3:]) == 0
+    assert len(state["client"].requests) == 1
+    assert json.loads((tmp_path / "out/latest.json").read_text())["evaluation_complete"] is True
+
+
+@pytest.mark.parametrize(
+    "name, extra", [("evaluate", ()), ("force_reevaluate", ()), ("scan", ("--resume",))]
+)
+def test_discovery_only_rejects_evaluation_commands_before_replacing_state(
+    command, tmp_path, name, extra
+):
+    state, invoke = command
+    assert invoke("scan", "--discovery-only") == 0
+    report = tmp_path / "out/latest.json"
+    log = tmp_path / "state/logs/scan-2026-09-23.log"
+    before_report, before_log = report.read_bytes(), log.read_bytes()
+    assert invoke(name, "--discovery-only", *extra) == 3
+    assert report.read_bytes() == before_report
+    assert log.read_bytes() == before_log
+    assert not state["client"].requests
+
+
 def test_busy_lock_does_not_touch_logs_or_reports(command, tmp_path):
     state, invoke = command
     assert invoke() == 0

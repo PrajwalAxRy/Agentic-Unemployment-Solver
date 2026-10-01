@@ -14,6 +14,7 @@ After configuring the local provider variables described in
 
 ```powershell
 uv run --locked job-finder scan
+uv run --locked job-finder scan --discovery-only  # save descriptions without LLM calls
 uv run --locked job-finder evaluate          # resume saved evaluation progress
 uv run --locked job-finder force_reevaluate  # evaluate the entire saved batch again
 uv run --locked job-finder costs             # spending, including discarded attempts
@@ -28,6 +29,8 @@ Each IST date has one `state/logs/scan-YYYY-MM-DD.log` and one dated JSON/Markdo
 plus `reports/latest_scan.*`. A fresh scan replaces that day's artifacts and saved batch.
 `evaluate` resumes the current attempt; `scan --resume` is its compatibility alias. New evaluation
 invocations are allowed only before midnight IST ending the scan's admission date.
+Use `scan --discovery-only` to collect and save the full batch now, then `evaluate` later
+that day. The flag skips evaluation entirely, including cache reuse, and leaves candidates pending.
 
 `state/jobs.sqlite3` stores durable identity, the frozen batch, progress and request usage;
 `state/llm_costs.jsonl` preserves spending exports and discard markers. Fatal discovery failure

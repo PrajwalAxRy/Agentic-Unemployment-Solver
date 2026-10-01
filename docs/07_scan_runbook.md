@@ -33,6 +33,7 @@ without an exact full-request fingerprint cause a one-time cache miss and may in
 
 ```powershell
 uv run --locked job-finder scan
+uv run --locked job-finder scan --discovery-only  # save descriptions, evaluate later
 uv run --locked job-finder evaluate
 uv run --locked job-finder force_reevaluate
 uv run --locked job-finder scan --resume     # alias for evaluate
@@ -54,6 +55,7 @@ automatically delete the stored batch.
 | Command | Saved data | Daily log and reports |
 |---|---|---|
 | `scan` | Immediately discards the previous batch; collects and freezes a new one; evaluates it. | Replaces that date's log/reports and latest copies. |
+| `scan --discovery-only` | Collects and filters listings, retrieves full retained descriptions and publishes the batch; leaves every candidate pending without LLM calls or cache reuse. | Replaces the daily log/reports; reports explicitly show deferred evaluation. |
 | `evaluate` | Continues pending jobs; completed jobs are retained. A completed attempt regenerates reports without new LLM calls. | Appends to the same dated log; replaces cumulative reports. |
 | `force_reevaluate` | Discards the current attempt's progress and starts the whole frozen batch again. Does not re-scrape. | Resets the dated log and replaces the reports. |
 
@@ -61,6 +63,16 @@ If forced evaluation stops, use **`evaluate`** to continue it. Calling `force_re
 restarts all jobs again and can spend again. Preserve custom registry/profile/prompt/database,
 lock and output flags; the terminal prints a compatible resume command when the batch is fresh.
 `--seniority-only` remains a debugging option and bypasses the relevance gate.
+
+To collect now and evaluate later, run `scan --discovery-only`, then `evaluate` before midnight
+IST ending the scan's admission date. Descriptions are saved in the current SQLite batch.
+Do not run another fresh scan between these commands: it would replace that batch.
+No token-budget workaround is needed. If you previously set the temporary PowerShell variable
+`JOB_FINDER_LLM_MAX_ESTIMATED_INPUT_TOKENS=1`, remove that override before evaluation.
+The normal model/prompt/provider settings are still loaded to freeze the evaluation configuration;
+discovery-only makes no LLM calls. The flag is rejected with `evaluate`, `force_reevaluate` and
+`scan --resume`. If discovery itself crosses midnight, the stored batch is already expired for
+another evaluation invocation and requires a fresh scan.
 
 `evaluate` rejects changed prompt contents, seniority settings or model/output policy. Use
 `force_reevaluate` to apply new evaluation rules to the frozen batch. A changed source registry
@@ -114,8 +126,8 @@ Exit statuses:
 
 | Code | Meaning |
 |---|---|
-| `0` | Evaluation complete; complete enabled-source coverage, including valid zero matches. |
-| `2` | Evaluation complete; partial source coverage. |
+| `0` | Evaluation complete; complete enabled-source coverage, including valid zero matches. With `--discovery-only`, successful complete discovery with evaluation deferred. |
+| `2` | Evaluation complete; partial source coverage. With `--discovery-only`, successful partial discovery with evaluation deferred. |
 | `3` | Fatal command/discovery failure. |
 | `4` | Another command holds the scan lock; admission/output replacement did not proceed. |
 | `5` | Saved batch unavailable, expired, corrupt or incompatible; also retired `--checkpoint` use. |

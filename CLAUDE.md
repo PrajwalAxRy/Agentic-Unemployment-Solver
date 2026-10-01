@@ -40,7 +40,11 @@ code, and `latest_scan.json` is better queried with `jq` than read.
    reuse an exact-request judgment or make one merged LLM call per job. Persist replies
    before validation and commit complete judgments plus progress atomically.
 
-`scan` runs both stages. `evaluate` resumes pending candidates without source/detail
+`scan` runs both stages. `scan --discovery-only` stops after publishing full descriptions,
+coverage and lifecycle, before any LLM calls or cache reuse. It leaves all retained candidates
+pending; successful discovery returns coverage status 0/2 and reports evaluation as deferred.
+The normal evaluation configuration is still loaded and the midnight deadline still applies.
+`evaluate` resumes pending candidates without source/detail
 requests; completed evaluation regenerates cumulative reports without LLM calls.
 `force_reevaluate` creates a new attempt for the entire saved batch, bypassing the
 judgment cache; `evaluate` resumes that attempt if interrupted. All three commands,
@@ -154,6 +158,7 @@ python -m ruff format src/ tests/ && python -m ruff check src/ tests/
 python -m mypy src/
 
 python -m job_finder scan --min-request-interval 0.15 --max-concurrent-per-host 2
+python -m job_finder scan --discovery-only # save full batch/descriptions; no LLM calls
 python -m job_finder evaluate            # resume saved attempt before midnight IST
 python -m job_finder force_reevaluate    # restart all saved candidates, paying again
 python -m job_finder costs               # per-day spend, discarded totals, unknown usage

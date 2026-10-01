@@ -333,3 +333,20 @@ resume, including cached/known matches and explicit pending counts. Exit 6 disti
 an evaluation halt from completed coverage. An active invocation may cross midnight;
 another invocation then requires a fresh scan. Legacy JSON checkpoint flags are rejected
 explicitly rather than silently ignored; SQLite backups include batch/progress.
+
+## D13. Explicit discovery-only stopping point
+**2026-10-01 · SETTLED · user request**
+
+`scan --discovery-only` publishes the same complete batch, full retained descriptions,
+coverage and lifecycle as a normal scan, then skips the evaluation stage entirely,
+including cache reuse. Every retained candidate stays pending for a later `evaluate`.
+Keep the normal configuration fingerprint and midnight IST admission limit, so later
+evaluation obeys D12's consistency and freshness guards.
+
+**Why:** intentionally delaying LLM calls should not depend on manipulating a token cap,
+timing an interrupt, or producing a budget error. Successful discovery returns coverage
+status 0/2 while terminal/JSON/Markdown explicitly say evaluation was deferred. Budget
+halts still return 6. The flag is rejected on evaluation/resume commands before any
+state/artifact replacement; otherwise an operator could silently skip the requested
+evaluation. Current provider/model/prompt settings remain required to bind the frozen
+batch to its eventual evaluation rules. No network inference is performed in this mode.

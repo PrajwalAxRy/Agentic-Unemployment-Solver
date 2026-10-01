@@ -445,6 +445,12 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     scan.add_argument(
+        "--discovery-only",
+        action="store_true",
+        help="Collect/filter listings and save full descriptions, then stop before evaluation. "
+        "Use evaluate before midnight IST; only valid with a fresh scan.",
+    )
+    scan.add_argument(
         "--resume",
         action="store_true",
         help=("Alias for evaluate: resume the current database batch before midnight IST."),
@@ -1034,6 +1040,8 @@ def _scan(args: argparse.Namespace) -> int:
             raise CheckpointError(
                 "--checkpoint is retired; run a fresh scan to create a SQLite batch"
             )
+        if args.discovery_only and (args.command != "scan" or args.resume):
+            raise ValueError("--discovery-only is only available with a fresh scan")
         if args.json_output.resolve() == args.markdown_output.resolve():
             raise ValueError("JSON and Markdown output paths must be different")
         if args.enable_expiry and args.no_probe:
@@ -1163,6 +1171,7 @@ def _scan(args: argparse.Namespace) -> int:
             database_path=args.database,
             lock_path=args.lock,
             command=command,
+            discovery_only=args.discovery_only,
             source_retry_count=args.source_retries,
             expiry_dry_run=not args.enable_expiry,
             job_probe=None
@@ -1184,9 +1193,16 @@ def _scan(args: argparse.Namespace) -> int:
             on_finally=account,
         )
         report = result.report
+        evaluation_status = (
+            "deferred"
+            if args.discovery_only
+            else "complete"
+            if not result.pending_count
+            else "incomplete"
+        )
         print(
             f"coverage={report.outcome.value} "
-            f"evaluation={'complete' if not result.pending_count else 'incomplete'} "
+            f"evaluation={evaluation_status} "
             f"listings={report.metrics.listing_count} pending={result.pending_count}"
         )
         print(
@@ -1196,8 +1212,11 @@ def _scan(args: argparse.Namespace) -> int:
         )
         print(f"Wrote machine-readable report to {args.json_output}")
         print(f"Wrote human-readable report to {args.markdown_output}")
+        if args.discovery_only:
+            print("Discovery saved. LLM evaluation was deferred; no LLM calls were made.")
         if result.pending_count:
-            print(f"INCOMPLETE: {result.pending_count} job(s) remain; reason={result.halt_reason}")
+            label = "DEFERRED" if args.discovery_only else "INCOMPLETE"
+            print(f"{label}: {result.pending_count} job(s) remain; reason={result.halt_reason}")
             if india_date(datetime.fromisoformat(report.completed_at)) != result.admission_date:
                 print("  The batch expired at midnight IST; run a fresh scan.")
             else:

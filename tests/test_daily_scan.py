@@ -1,5 +1,6 @@
 """Exercise durable boundaries with real evaluators, fake sources and disposable state."""
 
+import json
 from dataclasses import replace
 from datetime import timedelta
 from pathlib import Path
@@ -70,6 +71,73 @@ def run(
 class NoWebsiteAdapter(StubAdapter):
     def list_jobs(self, company_source):
         raise AssertionError("evaluation must not visit a job website")
+
+
+def test_discovery_only_freezes_full_descriptions_without_cache_or_provider_work(tmp_path):
+    from tests.test_scan import RetryingDetailAdapter
+
+    known = job("healthy", "1", "ML Engineer", DESCRIPTION)
+    run(tmp_path, StubLLMClient([decision(True)]), listings=(known,))
+    new = job("healthy", "2", "ML Engineer", DESCRIPTION + " New posting.")
+    adapter = RetryingDetailAdapter(
+        {
+            "healthy": tuple(
+                replace(row, description=None, description_hash=None) for row in (known, new)
+            )
+        },
+        details={"1": known, "2": new},
+        failures_remaining=0,
+    )
+    client = StubLLMClient([])
+    saved = run(tmp_path, client, adapter=adapter, discovery_only=True)
+    assert adapter.detail_requests == 2
+    assert not client.requests
+    assert saved.exit_code == 0
+    assert saved.pending_count == 2
+    assert saved.halt_reason == "discovery_only"
+    assert not saved.report.evaluation_complete
+    assert saved.report.usage.request_count == 0
+    assert saved.report.metrics.llm_budget_halted_count == 0
+    assert not saved.report.matching_jobs
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        rows = connection.execute(
+            "SELECT payload_json, result_json FROM batch_candidates ORDER BY ordinal"
+        ).fetchall()
+        assert [json.loads(row[0])["normalized_job"]["description"] for row in rows] == [
+            known.description,
+            new.description,
+        ]
+        assert all(row[1] is None for row in rows)
+
+    resumed_client = StubLLMClient([decision(True)])
+    completed = run(tmp_path, resumed_client, command="evaluate", adapter=NoWebsiteAdapter({}))
+    assert completed.pending_count == 0
+    assert len(completed.report.matching_jobs) == 2
+    assert len(resumed_client.requests) == 1  # Known judgment is reused only during evaluation.
+    assert resumed_client.requests[0].user_prompt.find(new.description) >= 0
+
+
+@pytest.mark.parametrize("partial", [False, True])
+def test_discovery_only_returns_coverage_status_with_empty_or_partial_batch(tmp_path, partial):
+    adapter = StubAdapter({}, failed={"failed"} if partial else set())
+    client = StubLLMClient([])
+    saved = daily.run_daily_scan(
+        registry(source("healthy"), source("failed")),
+        AdapterRegistry([adapter]),
+        PROFILE,
+        evaluator(client),
+        database_path=tmp_path / "jobs.sqlite3",
+        lock_path=tmp_path / "scan.lock",
+        discovery_only=True,
+        source_retry_count=0,
+        scan_at=SCAN_AT,
+        clock=lambda: SCAN_AT,
+    )
+    assert saved.exit_code == (2 if partial else 0)
+    assert saved.pending_count == 0
+    assert not client.requests
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        assert connection.execute("SELECT COUNT(*) FROM daily_batch").fetchone()[0] == 1
 
 
 def test_resume_keeps_completed_results_and_completed_resume_makes_no_calls(tmp_path):

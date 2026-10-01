@@ -15,11 +15,18 @@ from job_finder.scan import (
 
 def render_scan_markdown(report: ScanReport) -> str:
     """Render one scan with matches first and coverage stated unambiguously."""
+    evaluation_status = (
+        "deferred (discovery only)"
+        if report.halt_reason == "discovery_only"
+        else "complete"
+        if report.evaluation_complete
+        else "incomplete"
+    )
     lines = [
         "# Job Finder scan report",
         "",
         _outcome_message(report),
-        f"Evaluation: {'complete' if report.evaluation_complete else 'incomplete'}; "
+        f"Evaluation: {evaluation_status}; "
         f"pending: {report.pending_count}."
         + (
             f" Resume with `job-finder evaluate` before midnight IST ending {report.batch_date}."
