@@ -163,15 +163,27 @@ class ScanDisplay:
             return
         self.start_phase(phase, total or 0)
 
-    def log(self, line: str, *, outcome: str | None = None, advance: int = 0) -> None:
+    def log(
+        self,
+        line: str,
+        *,
+        outcome: str | None = None,
+        advance: int = 0,
+        position: int | None = None,
+    ) -> None:
         """Print one completed-company line, then redraw the bar beneath it.
 
-        ``advance`` is applied *before* the redraw rather than in a separate call. Two
-        reasons, both visible in a real run: the bar was being redrawn twice per company,
-        and the counter trailed the log line by one -- the first company printed above a
-        bar still reading 0/150.
+        ``advance``/``position`` are applied *before* the redraw rather than in a separate
+        call. Two reasons, both visible in a real run: the bar was being redrawn twice per
+        company, and the counter trailed the log line by one -- the first company printed
+        above a bar still reading 0/150.
+
+        ``position`` wins when both are given: an absolute count from the producer is
+        always more trustworthy than inferring one by counting messages.
         """
-        if advance:
+        if position is not None:
+            self._set_position(position)
+        elif advance:
             self._advance_counter(advance)
         if not self.enabled:
             print(line, file=self.stream, flush=True)
@@ -184,6 +196,11 @@ class ScanDisplay:
     def advance(self, count: int = 1) -> None:
         """Move the bar without printing a line."""
         self._advance_counter(count)
+        self._redraw()
+
+    def set_position(self, position: int) -> None:
+        """Move the bar to an absolute step count without printing a line."""
+        self._set_position(position)
         self._redraw()
 
     def begin_item(self, label: str) -> None:
@@ -209,13 +226,32 @@ class ScanDisplay:
         self._redraw()
 
     def _advance_counter(self, count: int) -> None:
-        self._done = min(self._total, self._done + count) if self._total else self._done + count
+        self._set_position(self._done + count)
+
+    def _set_position(self, position: int) -> None:
+        """Move the counter to an absolute step, recording the elapsed time per step.
+
+        Absolute rather than incremental because producers do not emit one message per
+        step. candidate_evaluation reports every tenth job (scan.py), so counting messages
+        left the bar reading ~10% of real progress for the whole phase and then jumping to
+        100%. Taking the producer's own position makes the bar correct regardless of how
+        coarsely it chooses to report.
+        """
+        previous = self._done
+        # Monotonic within a phase: a duplicated or out-of-order message must not rewind a
+        # live bar. A genuine reset only ever comes from start_phase, which zeroes _done.
+        target = max(previous, position)
+        self._done = min(self._total, target) if self._total else target
+        steps = self._done - previous
         now = self.now()
-        # Keep per-item durations so the ETA can use a median. A mean is badly misled here:
-        # three companies at 0.03s followed by Adobe at four minutes is the normal shape,
-        # not an outlier, and extrapolating the fast ones produced a wildly wrong estimate.
-        self._item_durations.append(max(0.0, now - self._last_completed))
-        self._last_completed = now
+        # Keep per-*item* durations so the ETA can use a median. A mean is badly misled
+        # here: three companies at 0.03s followed by Adobe at four minutes is the normal
+        # shape, not an outlier, and extrapolating the fast ones produced a wildly wrong
+        # estimate. Divide by the step count -- a batched message covers several items, and
+        # charging its whole duration to one item inflates the ETA by the batch size.
+        if steps > 0:
+            self._item_durations.append(max(0.0, now - self._last_completed) / steps)
+            self._last_completed = now
 
     def _redraw(self) -> None:
         if not self.enabled or not self._total:

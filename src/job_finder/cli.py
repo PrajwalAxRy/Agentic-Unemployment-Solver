@@ -951,7 +951,10 @@ def _display_progress(display: ScanDisplay) -> Callable[[str], None]:
             # This company is done, so stop showing it as in flight -- otherwise the
             # spinner keeps a stale name until the next one starts.
             display.end_item()
-            display.log(message, outcome=outcome, advance=1)
+            # Use the producer's own position rather than counting messages. Phase 3
+            # reports every tenth job, so advancing by one per message pinned the bar at
+            # roughly a tenth of real progress for the entire phase.
+            display.log(message, outcome=outcome, position=position)
             return
         display.log(message, outcome=outcome)
 

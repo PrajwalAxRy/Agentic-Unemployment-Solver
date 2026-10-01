@@ -89,7 +89,13 @@ def test_a_tty_gets_a_bar_and_keeps_every_log_line() -> None:
 
 
 def test_the_bar_reports_progress_and_an_eta() -> None:
-    """ETA is median-based, so one observation of 10s predicts 10s per remaining item."""
+    """ETA is median-based, over per-item durations.
+
+    A multi-step advance covers that many items, so 10s across two of them is a 5s
+    median -- not a 10s one. This previously asserted 01:20, charging the whole batch to
+    a single item; that is the same inflation that made candidate_evaluation's ETA ~10x
+    too long, since it advances ten jobs at a time.
+    """
     clock = [0.0]
     stream = _FakeTty()
     display = ScanDisplay(stream=stream, enabled=True, width=100, now=lambda: clock[0])
@@ -101,7 +107,7 @@ def test_the_bar_reports_progress_and_an_eta() -> None:
 
     assert "20.0%" in rendered
     assert "2/10" in rendered
-    assert "ETA 01:20" in rendered, "8 remaining at the observed 10s median"
+    assert "ETA 00:40" in rendered, "8 remaining at the observed 5s-per-item median"
 
 
 def test_eta_uses_the_median_so_one_slow_item_does_not_dominate() -> None:
@@ -324,6 +330,81 @@ def test_beginning_a_new_company_resets_its_counter() -> None:
     tail = stream.getvalue()[stream.getvalue().rindex("\r") :]
     assert "cartesia" in tail
     assert "1 req" in tail, "the request count belongs to the new company, not the old"
+
+
+def test_a_batched_producer_moves_the_bar_by_its_real_position() -> None:
+    """The bug: candidate_evaluation reports every tenth job, the bar advanced by one.
+
+    3,677 retained jobs produce ~368 messages, so counting messages left the bar reading
+    ~10% at the end of the phase before snapping to 100%. The producer's own position is
+    authoritative.
+    """
+    stream = _FakeTty()
+    display = ScanDisplay(stream=stream, enabled=True, width=110)
+    display.start_phase("candidate_evaluation", 3677)
+
+    for position in (1, 10, 20, 30):
+        display.log(
+            f"phase=candidate_evaluation progress={position}/3677 company=adobe",
+            position=position,
+        )
+
+    tail = stream.getvalue()[stream.getvalue().rindex("\n") :]
+    assert "30/3677" in tail, "the counter must track jobs, not messages"
+    assert "0.8%" in tail, "30 of 3677 is 0.8%, not the 0.1% that message-counting gave"
+
+
+def test_a_batched_producer_does_not_inflate_the_eta() -> None:
+    """The ETA half of the same bug.
+
+    A message covering ten jobs took ten jobs' wall time. Charging all of it to a single
+    item made the median ten times too large, and that median is then multiplied by an
+    outstanding count that was itself ten times too big.
+    """
+    clock = [0.0]
+    stream = _FakeTty()
+    display = ScanDisplay(stream=stream, enabled=True, width=110, now=lambda: clock[0])
+    display.start_phase("candidate_evaluation", 100)
+
+    # Ten jobs per message, one second per job.
+    for position in (10, 20, 30):
+        clock[0] += 10.0
+        display.set_position(position)
+
+    # 70 jobs remain at a true 1s/job median.
+    assert _last_eta(stream.getvalue()) == "01:10"
+
+
+def test_position_never_runs_backwards_or_past_the_total() -> None:
+    """Defensive: a duplicate or stale message must not rewind a live bar."""
+    stream = _FakeTty()
+    display = ScanDisplay(stream=stream, enabled=True, width=110)
+    display.start_phase("candidate_evaluation", 50)
+
+    display.set_position(30)
+    display.set_position(999)
+    assert "50/50" in stream.getvalue()[stream.getvalue().rindex("\r") :], "clamp to the total"
+
+
+def test_the_cli_routes_batched_progress_through_the_real_position() -> None:
+    """Covers the wiring, not just the display.
+
+    The bug lived in _display_progress passing advance=1 per message, while ScanDisplay
+    was perfectly capable of taking a position. Testing only the display would have gone
+    on missing it.
+    """
+    from job_finder.cli import _display_progress
+
+    stream = _FakeTty()
+    display = ScanDisplay(stream=stream, enabled=True, width=110)
+    emit = _display_progress(display)
+
+    emit("phase=candidate_evaluation status=started retained=3677")
+    emit("phase=candidate_evaluation progress=1/3677 company=adobe")
+    emit("phase=candidate_evaluation progress=500/3677 company=adobe")
+
+    tail = stream.getvalue()[stream.getvalue().rindex("\n") :]
+    assert "500/3677" in tail, "the bar must follow the jobs, not the message count"
 
 
 def test_activity_never_reaches_a_non_tty() -> None:
