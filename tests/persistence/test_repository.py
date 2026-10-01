@@ -281,6 +281,76 @@ def test_model_policy_change_invalidates_cached_evaluation(tmp_path: Path) -> No
         assert changed.record.evaluation_status is EvaluationStatus.PENDING
 
 
+def test_preparation_stores_the_description_text(tmp_path: Path) -> None:
+    """Migration 5: the text is kept so a verdict can be re-derived without re-scraping."""
+    detailed = make_job(description="Two years of experience required.")
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        repository = JobStateRepository(connection)
+        observed = repository.observe_listing(
+            make_job(), observed_at=OBSERVED_AT, profile_version="1.1.0"
+        )
+        # Observation alone must not store it: that path sees all ~42,000 listings, while
+        # only the ~3,677 retained ones ever reach preparation.
+        assert observed.record.description is None
+
+        prepared = repository.prepare_evaluation(
+            detailed,
+            profile_version="1.1.0",
+            prompt_version="1.0.0",
+            model_policy=MODEL_POLICY,
+        )
+
+        assert prepared.record.description == "Two years of experience required."
+        assert prepared.record.description_hash == detailed.description_hash
+
+
+def test_a_changed_description_hash_clears_the_stored_text(tmp_path: Path) -> None:
+    """A stale description beside a fresh hash would make the database contradict itself."""
+    first_detail = make_job(description="Two years of experience required.")
+    changed_listing = make_job(description="Five years of experience required.")
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        repository = JobStateRepository(connection)
+        repository.observe_listing(make_job(), observed_at=OBSERVED_AT, profile_version="1.1.0")
+        stored = repository.prepare_evaluation(
+            first_detail,
+            profile_version="1.1.0",
+            prompt_version="1.0.0",
+            model_policy=MODEL_POLICY,
+        )
+        assert stored.record.description is not None
+
+        reobserved = repository.observe_listing(
+            changed_listing,
+            observed_at=OBSERVED_AT + timedelta(days=1),
+            profile_version="1.1.0",
+        )
+
+        assert reobserved.record.description is None
+        assert reobserved.record.description_hash == changed_listing.description_hash
+
+
+def test_an_unchanged_listing_keeps_its_stored_description(tmp_path: Path) -> None:
+    """Re-sighting is the common case and must not throw away text we paid to fetch."""
+    detailed = make_job(description="Two years of experience required.")
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        repository = JobStateRepository(connection)
+        repository.observe_listing(make_job(), observed_at=OBSERVED_AT, profile_version="1.1.0")
+        repository.prepare_evaluation(
+            detailed,
+            profile_version="1.1.0",
+            prompt_version="1.0.0",
+            model_policy=MODEL_POLICY,
+        )
+
+        reobserved = repository.observe_listing(
+            detailed,
+            observed_at=OBSERVED_AT + timedelta(days=1),
+            profile_version="1.1.0",
+        )
+
+        assert reobserved.record.description == "Two years of experience required."
+
+
 def test_completion_requires_prepared_pending_evaluation(tmp_path: Path) -> None:
     with migrated_database(tmp_path / "jobs.sqlite3") as connection:
         repository = JobStateRepository(connection)

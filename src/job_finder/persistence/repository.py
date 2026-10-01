@@ -151,6 +151,10 @@ class JobStateRepository:
                         evaluation_status = CASE WHEN ? THEN 'pending' ELSE evaluation_status END,
                         seniority_result_json = CASE
                             WHEN ? THEN NULL ELSE seniority_result_json END,
+                        -- A changed description_hash means the stored text is stale. Keeping
+                        -- it would leave the database disagreeing with the hash beside it,
+                        -- and prepare_evaluation rewrites it from the fresh fetch anyway.
+                        description = CASE WHEN ? THEN NULL ELSE description END,
                         updated_at = ?
                     WHERE job_key = ?
                     """,
@@ -161,6 +165,7 @@ class JobStateRepository:
                         observed_text,
                         job.description_hash,
                         version,
+                        invalidate,
                         invalidate,
                         invalidate,
                         invalidate,
@@ -213,16 +218,29 @@ class JobStateRepository:
                 and existing["model_policy"] == policy
             )
             if not reusable:
+                # The description is stored here rather than in observe_listing on purpose:
+                # this is the only point that every job passes through *and* that is already
+                # scoped to jobs actually reaching the model. Writing it at observation
+                # would persist all ~42,000 listings instead of the ~3,677 retained ones.
                 self._connection.execute(
                     """
                     UPDATE jobs SET
-                        description_hash = ?, profile_version = ?, prompt_version = ?,
+                        description = ?, description_hash = ?,
+                        profile_version = ?, prompt_version = ?,
                         model_policy = ?,
                         evaluation_status = 'pending', seniority_result_json = NULL,
                         updated_at = ?
                     WHERE job_key = ?
                     """,
-                    (job.description_hash, version, prompt, policy, now, identity.job_key),
+                    (
+                        job.description,
+                        job.description_hash,
+                        version,
+                        prompt,
+                        policy,
+                        now,
+                        identity.job_key,
+                    ),
                 )
             self._connection.commit()
         except BaseException:
