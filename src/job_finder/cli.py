@@ -566,25 +566,25 @@ def _costs(args: argparse.Namespace) -> int:
     )
     for row in shown:
         print(
-            f"{row['day']:<12}{row['runs']:>6}{row['evaluated']:>11}{float(row['cost']):>14.2f}"
+            f"{row['day']:<12}{row['runs']:>6}{row['evaluated']:>11}{float(str(row['cost'])):>14.2f}"
             f"{format_bytes(int(row['bytes_added'])):>11}"  # type: ignore[call-overload]
             f"{format_bytes(int(row['bytes_total'])):>11}"  # type: ignore[call-overload]
         )
     print()
     print(
-        f"total={currency} {float(totals['total_cost'] or 0):.2f} "
+        f"total={currency} {float(str(totals['total_cost'] or 0)):.2f} "
         f"over {totals['distinct_days']} day(s), "
         f"{totals['runs']} run(s), {totals['total_evaluated']} job(s) evaluated"
     )
     if totals["cost_per_evaluated_job"] is not None:
-        print(f"per_evaluated_job={currency} {float(totals['cost_per_evaluated_job']):.4f}")
+        print(f"per_evaluated_job={currency} {float(str(totals['cost_per_evaluated_job'])):.4f}")
     if totals["mean_cost_per_day"] is not None:
         # Flagged as an extrapolation rather than printed as "your monthly bill": the
         # first run evaluates the whole backlog and later ones only new postings, so a
         # mean taken across both overstates the steady state.
         print(
-            f"mean_per_day={currency} {float(totals['mean_cost_per_day']):.2f} "
-            f"-> ~{currency} {float(totals['projected_30_day'] or 0):.2f}/30d "
+            f"mean_per_day={currency} {float(str(totals['mean_cost_per_day'])):.2f} "
+            f"-> ~{currency} {float(str(totals['projected_30_day'] or 0)):.2f}/30d "
             "(extrapolated; early backlog runs inflate this)"
         )
     if totals["unpriced_runs"]:

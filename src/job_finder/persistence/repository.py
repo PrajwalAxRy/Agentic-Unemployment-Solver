@@ -13,6 +13,7 @@ from typing import cast
 from job_finder.core.job_contracts import NormalizedJob
 from job_finder.core.lifecycle import JobLifecycleState
 from job_finder.persistence.identity import job_identity
+from job_finder.persistence.transactions import atomic
 
 
 class EvaluationStatus(StrEnum):
@@ -102,8 +103,7 @@ class JobStateRepository:
         identity = job_identity(job)
         now = _utc_now_text()
 
-        self._connection.execute("BEGIN IMMEDIATE")
-        try:
+        with atomic(self._connection):
             existing = self._select(identity.job_key)
             if existing is None:
                 self._connection.execute(
@@ -175,10 +175,6 @@ class JobStateRepository:
                     ),
                 )
                 is_new = False
-            self._connection.commit()
-        except BaseException:
-            self._connection.rollback()
-            raise
 
         record = self.require(identity.job_key)
         return ObservationResult(
@@ -204,8 +200,7 @@ class JobStateRepository:
         identity = job_identity(job)
         now = _utc_now_text()
 
-        self._connection.execute("BEGIN IMMEDIATE")
-        try:
+        with atomic(self._connection):
             existing = self._select(identity.job_key)
             if existing is None:
                 raise KeyError(f"job must be observed before evaluation: {identity.job_key}")
@@ -242,10 +237,6 @@ class JobStateRepository:
                         identity.job_key,
                     ),
                 )
-            self._connection.commit()
-        except BaseException:
-            self._connection.rollback()
-            raise
 
         record = self.require(identity.job_key)
         return EvaluationPreparation(record=record, needs_evaluation=not reusable)
@@ -259,8 +250,7 @@ class JobStateRepository:
         key = _required_text(job_key, "job_key")
         result_json = _json_object(result, "seniority result")
 
-        self._connection.execute("BEGIN IMMEDIATE")
-        try:
+        with atomic(self._connection):
             existing = self._select(key)
             if existing is None:
                 raise KeyError(f"unknown job_key: {key}")
@@ -282,10 +272,6 @@ class JobStateRepository:
                 """,
                 (result_json, _utc_now_text(), key),
             )
-            self._connection.commit()
-        except BaseException:
-            self._connection.rollback()
-            raise
         return self.require(key)
 
     def fail_evaluation(
@@ -296,8 +282,7 @@ class JobStateRepository:
         """Persist a terminal non-match or manual-review result until inputs change."""
         key = _required_text(job_key, "job_key")
         result_json = _json_object(result, "evaluation failure result")
-        self._connection.execute("BEGIN IMMEDIATE")
-        try:
+        with atomic(self._connection):
             existing = self._select(key)
             if existing is None:
                 raise KeyError(f"unknown job_key: {key}")
@@ -311,10 +296,6 @@ class JobStateRepository:
                 """,
                 (result_json, _utc_now_text(), key),
             )
-            self._connection.commit()
-        except BaseException:
-            self._connection.rollback()
-            raise
         return self.require(key)
 
     def record_lifecycle(
@@ -328,8 +309,7 @@ class JobStateRepository:
         3-absence close rule, any gap a job survives is at most two days, so what gets
         overwritten is bounded and small -- noise at this granularity.
         """
-        self._connection.execute("BEGIN IMMEDIATE")
-        try:
+        with atomic(self._connection):
             self._connection.execute(
                 """
                 UPDATE jobs SET
@@ -349,10 +329,6 @@ class JobStateRepository:
                     job_key,
                 ),
             )
-            self._connection.commit()
-        except BaseException:
-            self._connection.rollback()
-            raise
         return self.require(job_key)
 
     def record_verdict(
@@ -380,8 +356,7 @@ class JobStateRepository:
         genuinely absent whenever the deterministic filter resolved the location itself,
         and that must not erase evidence from a run where the model was asked.
         """
-        self._connection.execute("BEGIN IMMEDIATE")
-        try:
+        with atomic(self._connection):
             self._connection.execute(
                 """
                 UPDATE jobs SET
@@ -407,10 +382,6 @@ class JobStateRepository:
                     job_key,
                 ),
             )
-            self._connection.commit()
-        except BaseException:
-            self._connection.rollback()
-            raise
         return self.require(job_key)
 
     def active_jobs_for_company(self, company_id: str) -> tuple[JobRecord, ...]:

@@ -268,3 +268,20 @@ would have reversed that silently.
 - **Amazon geo-filter pollutes diagnostics** (`PS_Note.md` L112-115): `amazon_jobs.py:354`
   raises on a geo-filter rejection, so intentionally filtered jobs are recorded as
   `malformed_job` — corrupting the signal meant to detect broken adapters.
+
+
+## D12. Daily database batches and independent evaluation attempts
+**2026-10-01 · SETTLED · user-approved implementation plan**
+
+Discovery publishes a full frozen batch in SQLite before any LLM call. A fresh scan
+invalidates the previous batch; fatal discovery failure requires another scan. Healthy
+sources may form a partial batch. `evaluate` resumes the current attempt and
+`force_reevaluate` restarts the entire saved batch under current evaluation rules.
+Admission expires at midnight IST; an already admitted invocation may finish.
+
+**Why:** the previous budget-only JSON checkpoint could not recover a crash, omitted
+completed results and coverage, and was not included in SQLite backup/restore. Batch,
+complete merged judgment and progress need one transactional authority. Spending remains
+independent of replaceable data and is marked discarded instead of subtracted. Same-day
+lifecycle replacement must recompute from a baseline rather than count repeated runs.
+This supersedes D6's file checkpoint and sliding 24-hour deadline for the daily CLI.

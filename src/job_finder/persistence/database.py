@@ -8,7 +8,7 @@ from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 
-CURRENT_SCHEMA_VERSION = 5
+CURRENT_SCHEMA_VERSION = 6
 
 _MIGRATIONS: dict[int, tuple[str, ...]] = {
     1: (
@@ -127,6 +127,45 @@ _MIGRATIONS: dict[int, tuple[str, ...]] = {
         # NULL here legitimately means "never asked", not "asked and got nothing".
         "ALTER TABLE jobs ADD COLUMN location_evidence TEXT",
         "ALTER TABLE jobs ADD COLUMN location_reason TEXT",
+    ),
+    6: (
+        """CREATE TABLE daily_batch (
+            singleton INTEGER PRIMARY KEY CHECK(singleton = 1),
+            batch_id TEXT NOT NULL, admission_date TEXT NOT NULL,
+            attempt_id TEXT NOT NULL, evaluation_config TEXT NOT NULL,
+            discovery_config TEXT NOT NULL, force INTEGER NOT NULL DEFAULT 0,
+            metadata_json TEXT NOT NULL, lifecycle_json TEXT
+        )""",
+        """CREATE TABLE batch_candidates (
+            ordinal INTEGER PRIMARY KEY, job_key TEXT NOT NULL UNIQUE,
+            payload_json TEXT NOT NULL, is_new INTEGER NOT NULL,
+            fetch_count INTEGER NOT NULL DEFAULT 0,
+            description_error TEXT, result_json TEXT,
+            batch_singleton INTEGER NOT NULL DEFAULT 1 REFERENCES daily_batch(singleton)
+                ON DELETE CASCADE
+        )""",
+        """CREATE TABLE evaluation_cache (
+            fingerprint TEXT PRIMARY KEY, job_key TEXT NOT NULL,
+            result_json TEXT NOT NULL
+        )""",
+        """CREATE TABLE llm_requests (
+            request_id TEXT PRIMARY KEY, attempt_id TEXT NOT NULL,
+            batch_date TEXT NOT NULL, requested_at TEXT NOT NULL,
+            ordinal INTEGER NOT NULL, fingerprint TEXT NOT NULL,
+            state TEXT NOT NULL CHECK(state IN ('inflight', 'returned', 'consumed', 'unknown')),
+            response_json TEXT, model_policy TEXT NOT NULL,
+            input_tokens INTEGER, output_tokens INTEGER,
+            rates_json TEXT, discarded_reason TEXT
+        )""",
+        "CREATE INDEX llm_requests_attempt_idx ON llm_requests(attempt_id, ordinal)",
+        """CREATE TABLE daily_observations (
+            job_key TEXT NOT NULL, observed_date TEXT NOT NULL,
+            baseline_json TEXT NOT NULL, PRIMARY KEY(job_key, observed_date)
+        )""",
+        """CREATE TABLE daily_company_counts (
+            company_id TEXT NOT NULL, observed_date TEXT NOT NULL,
+            listing_count INTEGER NOT NULL, PRIMARY KEY(company_id, observed_date)
+        )""",
     ),
 }
 
