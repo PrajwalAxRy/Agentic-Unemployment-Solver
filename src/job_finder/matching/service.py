@@ -10,6 +10,8 @@ from job_finder.core.job_contracts import NormalizedJob
 from job_finder.matching.evaluator import (
     EvaluationDisposition,
     EvaluationOutcome,
+    LLMRequest,
+    SeniorityLLMClient,
     UsageSnapshot,
 )
 from job_finder.matching.seniority import SeniorityDecision, seniority_decision_from_mapping
@@ -63,6 +65,21 @@ class JobEvaluator(Protocol):
 
     @property
     def usage(self) -> UsageSnapshot: ...
+
+    @property
+    def client(self) -> SeniorityLLMClient: ...
+
+    @client.setter
+    def client(self, value: SeniorityLLMClient) -> None: ...
+
+    def build_request(
+        self,
+        *,
+        title: str,
+        description: str,
+        target_description: str,
+        location_original: str | None = None,
+    ) -> LLMRequest: ...
 
     def evaluate(
         self,

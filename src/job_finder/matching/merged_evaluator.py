@@ -150,18 +150,38 @@ class MergedEvaluator:
         """
         return self._last
 
-    def evaluate(
+    @property
+    def client(self) -> Any:
+        return self._client
+
+    @client.setter
+    def client(self, value: Any) -> None:
+        self._client = value
+
+    @property
+    def configuration_fingerprint(self) -> str:
+        from dataclasses import asdict
+
+        from job_finder.matching.journal import fingerprint
+
+        return fingerprint(
+            {
+                "prompt": asdict(self._prompt),
+                "model": self.model_policy,
+                "max_output_tokens": self._budget.limits.max_output_tokens_per_request,
+            }
+        )
+
+    def build_request(
         self,
         *,
         title: str,
         description: str,
         target_description: str,
         location_original: str | None = None,
-    ) -> EvaluationOutcome:
-        """Evaluate one job. ``location_original`` is passed only when unresolved."""
-        self._last = None
+    ) -> LLMRequest:
         location_requested = location_original is not None
-        request = LLMRequest(
+        return LLMRequest(
             system_prompt=self._prompt.system_prompt,
             user_prompt=self._prompt.render(
                 title=title,
@@ -173,6 +193,23 @@ class MergedEvaluator:
             max_output_tokens=self._budget.limits.max_output_tokens_per_request,
         )
 
+    def evaluate(
+        self,
+        *,
+        title: str,
+        description: str,
+        target_description: str,
+        location_original: str | None = None,
+    ) -> EvaluationOutcome:
+        """Evaluate one job. ``location_original`` is passed only when unresolved."""
+        self._last = None
+        location_requested = location_original is not None
+        request = self.build_request(
+            title=title,
+            description=description,
+            target_description=target_description,
+            location_original=location_original,
+        )
         errors: list[str] = []
         initial_usage = self._budget.snapshot
         for attempt in (1, 2):

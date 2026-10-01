@@ -60,7 +60,11 @@ class SeniorityLLMClient(Protocol):
 
 
 class LLMProviderError(RuntimeError):
-    """A sanitized provider failure that live validation may retain for review."""
+    """Sanitized transport/response failure, optionally carrying already billed usage."""
+
+    def __init__(self, message: str, *, response: LLMResponse | None = None) -> None:
+        super().__init__(message)
+        self.response = response
 
 
 @dataclass(frozen=True, slots=True)
@@ -208,6 +212,47 @@ class SeniorityEvaluator:
         """Return aggregate sanitized usage for the current process run."""
         return self._budget.snapshot
 
+    @property
+    def client(self) -> SeniorityLLMClient:
+        return self._client
+
+    @client.setter
+    def client(self, value: SeniorityLLMClient) -> None:
+        self._client = value
+
+    @property
+    def configuration_fingerprint(self) -> str:
+        from dataclasses import asdict
+
+        from job_finder.matching.journal import fingerprint
+
+        return fingerprint(
+            {
+                "prompt": asdict(self._prompt),
+                "model": self.model_policy,
+                "max_output_tokens": self._budget.limits.max_output_tokens_per_request,
+            }
+        )
+
+    def build_request(
+        self,
+        *,
+        title: str,
+        description: str,
+        target_description: str,
+        location_original: str | None = None,
+    ) -> LLMRequest:
+        return LLMRequest(
+            system_prompt=self._prompt.system_prompt,
+            user_prompt=self._prompt.render(
+                title=title,
+                description=description,
+                target_description=target_description,
+            ),
+            response_schema=RESPONSE_JSON_SCHEMA,
+            max_output_tokens=self._budget.limits.max_output_tokens_per_request,
+        )
+
     def evaluate(
         self,
         *,
@@ -222,15 +267,11 @@ class SeniorityEvaluator:
         only; the parameter exists so it remains interchangeable with MergedEvaluator,
         which is what keeps --seniority-only a one-flag fallback (2.5).
         """
-        request = LLMRequest(
-            system_prompt=self._prompt.system_prompt,
-            user_prompt=self._prompt.render(
-                title=title,
-                description=description,
-                target_description=target_description,
-            ),
-            response_schema=RESPONSE_JSON_SCHEMA,
-            max_output_tokens=self._budget.limits.max_output_tokens_per_request,
+        request = self.build_request(
+            title=title,
+            description=description,
+            target_description=target_description,
+            location_original=location_original,
         )
         errors: list[str] = []
         initial_usage = self._budget.snapshot

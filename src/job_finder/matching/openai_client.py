@@ -173,22 +173,28 @@ class AmdGatewayClient:
         except OpenAIError as error:
             raise GatewayProviderError("AMD LLM gateway request failed") from error
 
-        if not completion.choices:
-            raise GatewayProviderError("AMD LLM gateway returned no completion choices")
-        content = completion.choices[0].message.content
-        if not isinstance(content, str) or not content.strip():
-            raise GatewayProviderError("AMD LLM gateway returned no completion text")
+        # Read billable usage before validating the completion content. A paid malformed
+        # response is still spending, and the durable client journals it before retrying.
         usage = completion.usage
         if usage is None:
             raise GatewayProviderError("AMD LLM gateway returned no token usage")
-        return LLMResponse(
-            content=content,
-            input_tokens=_non_negative_int(usage.prompt_tokens, "usage.prompt_tokens"),
-            output_tokens=_non_negative_int(
-                usage.completion_tokens,
-                "usage.completion_tokens",
-            ),
+        input_tokens = _non_negative_int(usage.prompt_tokens, "usage.prompt_tokens")
+        output_tokens = _non_negative_int(usage.completion_tokens, "usage.completion_tokens")
+        content = completion.choices[0].message.content if completion.choices else None
+        response = LLMResponse(
+            content=content if isinstance(content, str) else "",
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
         )
+        if not completion.choices:
+            raise GatewayProviderError(
+                "AMD LLM gateway returned no completion choices", response=response
+            )
+        if not isinstance(content, str) or not content.strip():
+            raise GatewayProviderError(
+                "AMD LLM gateway returned no completion text", response=response
+            )
+        return response
 
 
 def check_gateway_connectivity(

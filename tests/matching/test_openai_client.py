@@ -149,3 +149,15 @@ def test_chat_client_sends_strict_schema_and_reads_usage() -> None:
     assert response.content == '{"ok":true}'
     assert response.input_tokens == 45
     assert response.output_tokens == 12
+
+
+def test_malformed_completion_keeps_provider_usage():
+    settings = load_gateway_settings(environment=configured_environment())
+    malformed = completion()
+    malformed.choices = []
+    client, _ = fake_client(malformed)
+    gateway = AmdGatewayClient(settings, client=client)
+    with pytest.raises(GatewayProviderError) as captured:
+        gateway.complete(LLMRequest("system", "user", {}, 100), settings.model_policy)
+    assert captured.value.response.input_tokens == 45
+    assert captured.value.response.output_tokens == 12
