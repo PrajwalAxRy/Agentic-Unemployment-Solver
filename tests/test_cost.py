@@ -23,7 +23,14 @@ RATES = {
 }
 
 
-def make_cost(*, day: str = "2026-10-01", evaluated: int = 100, priced: bool = True) -> RunCost:
+def make_cost(
+    *,
+    day: str = "2026-10-01",
+    evaluated: int = 100,
+    priced: bool = True,
+    db_bytes_before: int = 0,
+    db_bytes_total: int = 0,
+) -> RunCost:
     return price_run(
         run_id=f"scan-{day}",
         completed_at=f"{day}T06:00:00+00:00",
@@ -35,6 +42,8 @@ def make_cost(*, day: str = "2026-10-01", evaluated: int = 100, priced: bool = T
         input_tokens=evaluated * 7143,
         output_tokens=evaluated * 300,
         rates=load_rates(RATES) if priced else None,
+        db_bytes_before=db_bytes_before,
+        db_bytes_total=db_bytes_total,
     )
 
 
@@ -111,3 +120,77 @@ def test_unpriced_runs_are_excluded_from_totals_but_reported(tmp_path: Path) -> 
 
 def test_an_absent_ledger_is_empty_not_an_error(tmp_path: Path) -> None:
     assert read_ledger(tmp_path / "never_written.jsonl") == []
+
+
+def test_a_ledger_written_before_size_accounting_still_loads(tmp_path: Path) -> None:
+    """The ledger is append-only, so pre-existing lines are permanent.
+
+    They have no db_bytes_* keys. Reading them back must report zero growth rather than
+    raising -- we genuinely did not measure it then, and a crash on old history would make
+    `job_finder costs` useless for everyone who ran a scan before this landed.
+    """
+    path = tmp_path / "legacy.jsonl"
+    path.write_text(
+        '{"run_id": "scan-old", "completed_at": "2026-09-30T06:00:00+00:00", '
+        '"evaluated": 259, "currency": "USD", "total_cost": 0.52}\n',
+        encoding="utf-8",
+    )
+
+    history = read_ledger(path)
+
+    assert len(history) == 1
+    assert history[0].db_bytes_before == 0
+    assert history[0].db_bytes_total == 0
+    assert history[0].db_bytes_added == 0
+    assert history[0].evaluated == 259, "the fields that were recorded must survive"
+
+
+def test_size_growth_survives_a_ledger_round_trip(tmp_path: Path) -> None:
+    path = tmp_path / "ledger.jsonl"
+    append_to_ledger(
+        make_cost(db_bytes_before=3_715_072, db_bytes_total=12_136_448),
+        path,
+    )
+
+    restored = read_ledger(path)[0]
+
+    assert restored.db_bytes_before == 3_715_072
+    assert restored.db_bytes_total == 12_136_448
+    assert restored.db_bytes_added == 8_421_376
+
+
+def test_a_shrunken_database_reports_no_growth_rather_than_negative(tmp_path: Path) -> None:
+    """`state prune` between runs legitimately shrinks the file.
+
+    Reporting that as negative growth under a column headed "added" reads as a bug. The
+    shrink is still visible in the running total, which is where it belongs.
+    """
+    cost = make_cost(db_bytes_before=90_000_000, db_bytes_total=4_000_000)
+
+    assert cost.db_bytes_added == 0
+    assert cost.db_bytes_total == 4_000_000
+
+
+def test_daily_totals_sum_growth_but_take_the_latest_total(tmp_path: Path) -> None:
+    """Two runs in a day add their growth; the file size is the last one, not the sum."""
+    history = [
+        make_cost(day="2026-10-01", db_bytes_before=1_000_000, db_bytes_total=3_000_000),
+        make_cost(day="2026-10-01", db_bytes_before=3_000_000, db_bytes_total=4_000_000),
+    ]
+
+    rows = daily_totals(history)
+
+    assert len(rows) == 1
+    assert rows[0]["bytes_added"] == 3_000_000
+    assert rows[0]["bytes_total"] == 4_000_000, "a size, not a quantity -- must not sum"
+
+
+def test_the_cost_line_reports_size_even_without_rates() -> None:
+    """Disk growth is measured from the file, so it is known whether or not rates are set."""
+    line = format_cost_line(
+        make_cost(priced=False, db_bytes_before=1_048_576, db_bytes_total=2_097_152)
+    )
+
+    assert "llm_cost=unavailable" in line
+    assert "db=2.0 MB" in line
+    assert "+1.0 MB" in line

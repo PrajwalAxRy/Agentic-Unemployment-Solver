@@ -66,6 +66,22 @@ class RunCost:
     input_cost: float | None
     output_cost: float | None
     total_cost: float | None
+    # Database file size on disk, measured either side of the run. Bytes rather than row
+    # counts because the question this answers is "how fast is my disk filling up", and
+    # page/index overhead is part of that answer. Defaulted so ledger lines written before
+    # descriptions were stored still load.
+    db_bytes_before: int = 0
+    db_bytes_total: int = 0
+
+    @property
+    def db_bytes_added(self) -> int:
+        """Growth attributable to this run.
+
+        Clamped at zero: a `state prune` between two runs legitimately shrinks the file,
+        and reporting that as negative growth in a column headed "added" reads as a bug.
+        The shrink is visible in the total, which is where it belongs.
+        """
+        return max(0, self.db_bytes_total - self.db_bytes_before)
 
     @property
     def priced(self) -> bool:
@@ -94,6 +110,11 @@ class RunCost:
             "output_cost": _rounded(self.output_cost),
             "total_cost": _rounded(self.total_cost),
             "cost_per_evaluated_job": _rounded(self.per_evaluated_job, digits=6),
+            "db_bytes_before": self.db_bytes_before,
+            "db_bytes_total": self.db_bytes_total,
+            # Derived on write like cost_per_evaluated_job, for anyone reading the JSONL
+            # directly. read_ledger recomputes it rather than trusting the stored value.
+            "db_bytes_added": self.db_bytes_added,
         }
 
 
@@ -127,6 +148,8 @@ def price_run(
     input_tokens: int,
     output_tokens: int,
     rates: TokenRates | None,
+    db_bytes_before: int = 0,
+    db_bytes_total: int = 0,
 ) -> RunCost:
     """Attach cost to one run's measured usage, leaving it unpriced if rates are absent."""
     input_cost = None if rates is None else input_tokens * rates.input_per_mtok / TOKENS_PER_MILLION
@@ -147,15 +170,30 @@ def price_run(
         input_cost=input_cost,
         output_cost=output_cost,
         total_cost=None if rates is None else (input_cost or 0.0) + (output_cost or 0.0),
+        db_bytes_before=db_bytes_before,
+        db_bytes_total=db_bytes_total,
     )
+
+
+def format_bytes(count: int) -> str:
+    """Render a byte count at human scale. Raw byte counts do not read as sizes."""
+    size = float(count)
+    for unit in ("B", "KB", "MB", "GB"):
+        if abs(size) < 1024 or unit == "GB":
+            return f"{size:.0f} {unit}" if unit == "B" else f"{size:.1f} {unit}"
+        size /= 1024
+    return f"{size:.1f} GB"  # pragma: no cover - unreachable, the loop exits at GB
 
 
 def format_cost_line(cost: RunCost) -> str:
     """One terminal line summarising what the run spent."""
+    # Size is appended in both branches: it is measured from the file on disk and is
+    # known whether or not token rates happen to be configured.
+    disk = f" db={format_bytes(cost.db_bytes_total)} (+{format_bytes(cost.db_bytes_added)})"
     if not cost.priced:
         return (
             f"llm_cost=unavailable tokens_in={cost.input_tokens} "
-            f"tokens_out={cost.output_tokens} requests={cost.request_count} "
+            f"tokens_out={cost.output_tokens} requests={cost.request_count}{disk} "
             f"(set {INPUT_RATE_VARIABLE} and {OUTPUT_RATE_VARIABLE} to price runs)"
         )
     per_job = cost.per_evaluated_job
@@ -163,7 +201,7 @@ def format_cost_line(cost: RunCost) -> str:
     return (
         f"llm_cost={cost.currency} {cost.total_cost:.2f} "
         f"evaluated={cost.evaluated} cached={cost.cache_hits} "
-        f"tokens_in={cost.input_tokens} tokens_out={cost.output_tokens}{suffix}"
+        f"tokens_in={cost.input_tokens} tokens_out={cost.output_tokens}{suffix}{disk}"
     )
 
 
@@ -271,6 +309,12 @@ def read_ledger(path: Path) -> list[RunCost]:
                 input_cost=_optional_float(raw.get("input_cost")),
                 output_cost=_optional_float(raw.get("output_cost")),
                 total_cost=_optional_float(raw.get("total_cost")),
+                # `or 0` rather than a strict read: every line written before size
+                # accounting existed lacks these keys, and the ledger is append-only, so
+                # those lines are permanent. They read back as zero growth, which is the
+                # honest answer -- we did not measure it then.
+                db_bytes_before=int(raw.get("db_bytes_before") or 0),
+                db_bytes_total=int(raw.get("db_bytes_total") or 0),
             )
         )
     return history
@@ -282,11 +326,24 @@ def daily_totals(history: list[RunCost]) -> list[dict[str, object]]:
     for item in history:
         key = iso_day(item.completed_at)
         day = days.setdefault(
-            key, {"day": key, "runs": 0, "evaluated": 0, "cost": 0.0, "currency": item.currency}
+            key,
+            {
+                "day": key,
+                "runs": 0,
+                "evaluated": 0,
+                "cost": 0.0,
+                "currency": item.currency,
+                "bytes_added": 0,
+                "bytes_total": 0,
+            },
         )
         day["runs"] = int(day["runs"]) + 1  # type: ignore[call-overload]
         day["evaluated"] = int(day["evaluated"]) + item.evaluated  # type: ignore[call-overload]
         day["cost"] = float(day["cost"]) + (item.total_cost or 0.0)  # type: ignore[arg-type]
+        day["bytes_added"] = int(day["bytes_added"]) + item.db_bytes_added  # type: ignore[call-overload]
+        # The last run of the day wins rather than summing: this is a file size, not a
+        # quantity. History is iterated in ledger (append) order, so that is the latest.
+        day["bytes_total"] = item.db_bytes_total
     for day in days.values():
         day["cost"] = round(float(day["cost"]), 4)  # type: ignore[arg-type]
     return [days[key] for key in sorted(days)]

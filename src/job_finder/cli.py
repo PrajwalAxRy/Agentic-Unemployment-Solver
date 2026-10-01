@@ -67,6 +67,7 @@ from job_finder.cost import (
     DEFAULT_LEDGER_PATH,
     append_to_ledger,
     daily_totals,
+    format_bytes,
     format_cost_line,
     price_run,
     read_ledger,
@@ -541,9 +542,16 @@ def _costs(args: argparse.Namespace) -> int:
     totals = summarise(history)
     currency = str(totals["currency"])
 
-    print(f"{'day':<12}{'runs':>6}{'evaluated':>11}{'cost (' + currency + ')':>14}")
+    print(
+        f"{'day':<12}{'runs':>6}{'evaluated':>11}{'cost (' + currency + ')':>14}"
+        f"{'added':>11}{'db total':>11}"
+    )
     for row in shown:
-        print(f"{row['day']:<12}{row['runs']:>6}{row['evaluated']:>11}{float(row['cost']):>14.2f}")
+        print(
+            f"{row['day']:<12}{row['runs']:>6}{row['evaluated']:>11}{float(row['cost']):>14.2f}"
+            f"{format_bytes(int(row['bytes_added'])):>11}"  # type: ignore[call-overload]
+            f"{format_bytes(int(row['bytes_total'])):>11}"  # type: ignore[call-overload]
+        )
     print()
     print(
         f"total={currency} {float(totals['total_cost'] or 0):.2f} "
@@ -919,6 +927,18 @@ def _validate_seniority(args: argparse.Namespace) -> int:
     )
 
 
+def _database_size(path: Path) -> int:
+    """Size of the state database on disk, or 0 if it is not there yet.
+
+    Strictly observational, like the rest of cost accounting: a stat failure must never
+    turn a completed scan into a reported failure, so it reports zero instead of raising.
+    """
+    try:
+        return path.stat().st_size
+    except OSError:
+        return 0
+
+
 def _raw_print_progress(message: str) -> None:
     """Keep long-running scan progress visible even when stdout is redirected."""
     print(message, flush=True)
@@ -1027,6 +1047,10 @@ def _scan(args: argparse.Namespace) -> int:
 
         def _probe(url: str, listed: bool) -> JobProbeResult | None:
             return probe_job_url(url, listed=listed, timeout_seconds=args.timeout)
+
+        # Sampled before the lock is taken so it reflects the file this run inherited.
+        # Zero on a first run, when the database does not exist yet.
+        db_bytes_before = _database_size(args.database)
 
         try:
             if args.resume:
@@ -1152,6 +1176,8 @@ def _scan(args: argparse.Namespace) -> int:
             input_tokens=report.usage.measured_input_tokens,
             output_tokens=report.usage.measured_output_tokens,
             rates=settings.token_rates,
+            db_bytes_before=db_bytes_before,
+            db_bytes_total=_database_size(args.database),
         )
         append_to_ledger(cost, args.cost_ledger)
         print(format_cost_line(cost))
