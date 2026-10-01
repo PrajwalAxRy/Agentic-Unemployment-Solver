@@ -49,6 +49,8 @@ def configure_logging(
     state_directory: Path,
     verbose: bool = False,
     stderr_level: int = logging.WARNING,
+    filename: str = DEFAULT_LOG_FILENAME,
+    reset: bool = False,
 ) -> Path:
     """Configure root logging for a command-line run. Returns the log file path.
 
@@ -60,7 +62,7 @@ def configure_logging(
     """
     log_directory = state_directory / "logs"
     log_directory.mkdir(parents=True, exist_ok=True)
-    log_path = log_directory / DEFAULT_LOG_FILENAME
+    log_path = log_directory / filename
 
     root = logging.getLogger()
     for handler in list(root.handlers):
@@ -69,12 +71,15 @@ def configure_logging(
 
     root.setLevel(logging.DEBUG if verbose else logging.INFO)
 
-    file_handler = logging.handlers.RotatingFileHandler(
-        log_path,
-        maxBytes=_MAX_BYTES,
-        backupCount=_BACKUP_COUNT,
-        encoding="utf-8",
-    )
+    if filename == DEFAULT_LOG_FILENAME:
+        file_handler: logging.Handler = logging.handlers.RotatingFileHandler(
+            log_path,
+            maxBytes=_MAX_BYTES,
+            backupCount=_BACKUP_COUNT,
+            encoding="utf-8",
+        )
+    else:
+        file_handler = logging.FileHandler(log_path, mode="w" if reset else "a", encoding="utf-8")
     file_handler.setLevel(logging.DEBUG if verbose else logging.INFO)
     file_handler.setFormatter(logging.Formatter(_FILE_FORMAT))
     root.addHandler(file_handler)

@@ -182,7 +182,7 @@ def test_write_is_atomic_and_leaves_no_temporary_behind(tmp_path: Path) -> None:
 def test_the_resume_command_echoes_non_default_paths() -> None:
     """The printed command has to work exactly as shown.
 
-    A halted scan still writes a report and exits 0, so this notice is the only signal
+    A halted scan writes a report and exits 6; this notice supplies the resume command
     the run was incomplete. Printing a command that silently targets the default database
     when the operator used a different one would be worse than printing nothing.
     """
@@ -202,5 +202,6 @@ def test_the_resume_command_echoes_non_default_paths() -> None:
     # Compare against the platform's own rendering. The command is pasted into the shell
     # the operator is already using, so a backslash on Windows is correct output, not a
     # defect -- asserting a literal "state/other.json" only passed because CI is Linux.
-    assert f"--checkpoint {checkpoint}" in suffix
-    assert f"--database {database}" in suffix
+    assert "--checkpoint" not in suffix
+    assert "--database" in suffix
+    assert str(database) in suffix

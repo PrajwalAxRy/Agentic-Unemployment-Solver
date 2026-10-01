@@ -221,6 +221,7 @@ def summarise(history: list[RunCost]) -> dict[str, object]:
     total = sum(item.total_cost or 0.0 for item in priced)
     evaluated = sum(item.evaluated for item in priced)
     days = {iso_day(item.completed_at) for item in priced if item.completed_at}
+    single_currency = len({item.currency for item in history}) <= 1
     return {
         "runs": sum(item.request_id is None for item in history)
         + len({item.run_id for item in history if item.request_id is not None}),
@@ -231,14 +232,16 @@ def summarise(history: list[RunCost]) -> dict[str, object]:
         else ("mixed" if priced else "USD"),
         "total_cost": _rounded(total) if len({item.currency for item in priced}) <= 1 else None,
         "total_evaluated": evaluated,
-        "mean_cost_per_run": _rounded(total / len(priced)) if priced else None,
-        "mean_cost_per_day": _rounded(total / len(days)) if days else None,
-        "cost_per_evaluated_job": _rounded(total / evaluated, digits=6) if evaluated else None,
+        "mean_cost_per_run": _rounded(total / len(priced)) if priced and single_currency else None,
+        "mean_cost_per_day": _rounded(total / len(days)) if days and single_currency else None,
+        "cost_per_evaluated_job": _rounded(total / evaluated, digits=6)
+        if evaluated and single_currency
+        else None,
         "distinct_days": len(days),
         # A naive x30 of the mean day would overstate the recurring bill: a first run
         # evaluates the whole backlog, later ones only new postings. Reported so the
         # caller can decide, rather than presenting one number as "your monthly cost".
-        "projected_30_day": _rounded(total / len(days) * 30) if days else None,
+        "projected_30_day": _rounded(total / len(days) * 30) if days and single_currency else None,
     }
 
 

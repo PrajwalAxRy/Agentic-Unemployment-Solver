@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import inspect
-import re
 from pathlib import Path
 
 import pytest
@@ -11,8 +10,8 @@ import pytest
 import job_finder
 from job_finder import cli as cli_module
 from job_finder.cli import build_parser, main
+from job_finder.daily_scan import run_daily_scan
 from job_finder.matching.openai_client import REQUIRED_ENVIRONMENT_VARIABLES
-from job_finder.scan import run_manual_scan
 
 
 def test_package_imports_with_version() -> None:
@@ -141,34 +140,22 @@ def test_scan_parser_defaults() -> None:
     assert args.source_retries == 2
 
 
-def test_cli_scan_call_matches_run_manual_scan_signature() -> None:
-    """The CLI must not pass arguments ``run_manual_scan`` cannot accept.
+def test_cli_scan_call_matches_daily_scan_signature() -> None:
+    """Keep regression coverage for the previously broken CLI/orchestration seam."""
+    import ast
 
-    Regression test for a real outage: ``cli.py`` passed ``checkpoint_path`` to both
-    ``resume_from_checkpoint`` and ``run_manual_scan``, but only the former accepted it.
-    Every plain ``job_finder scan`` therefore died with ``TypeError`` before contacting a
-    single company, while ``--resume`` kept working -- which is why it went unnoticed.
-
-    The existing suite missed it because every test calls ``run_manual_scan`` directly,
-    so the ``cli.py`` -> ``scan.py`` seam was never exercised. This binds the CLI's call
-    site to the real signature without needing network, an LLM, or a database.
-    """
-    signature = inspect.signature(run_manual_scan)
-
-    for name in ("checkpoint_path", "database_path", "lock_path", "progress"):
-        assert name in signature.parameters, f"run_manual_scan lost parameter {name!r}"
-
-    source = inspect.getsource(cli_module._scan)
-    scan_call = source.split("run_manual_scan(", 1)
-    assert len(scan_call) == 2, "cli no longer calls run_manual_scan; update this test"
-
-    # Keywords the CLI hands to run_manual_scan, read straight off the call site.
-    passed = set(re.findall(r"^\s+(\w+)=", scan_call[1].split("            )", 1)[0], re.M))
-    unsupported = passed - set(signature.parameters)
-    assert not unsupported, (
-        f"cli.py passes {sorted(unsupported)} to run_manual_scan, which does not accept "
-        "them -- a plain scan would raise TypeError before collection"
-    )
+    signature = inspect.signature(run_daily_scan)
+    tree = ast.parse(inspect.getsource(cli_module._scan))
+    calls = [
+        node
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id == "run_daily_scan"
+    ]
+    assert len(calls) == 1
+    passed = {keyword.arg for keyword in calls[0].keywords}
+    assert passed <= set(signature.parameters)
 
 
 def test_cli_reports_only_missing_llm_variable_names(

@@ -294,7 +294,7 @@ def test_healthy_match_report_reconciles_and_second_run_suppresses_duplicate(
     markdown = markdown_output.read_text(encoding="utf-8")
     assert "complete enabled-source coverage" in markdown
     assert "## How to answer the seven review questions" in markdown
-    assert "## New matching jobs" in markdown
+    assert "## Matching jobs (new and known)" in markdown
     assert "3+ years of experience" in markdown
     assert "The description supports this eligibility decision." in markdown
     assert "The default is `reports/latest_scan.json`." in markdown

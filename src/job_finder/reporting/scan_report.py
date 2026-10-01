@@ -19,6 +19,13 @@ def render_scan_markdown(report: ScanReport) -> str:
         "# Job Finder scan report",
         "",
         _outcome_message(report),
+        f"Evaluation: {'complete' if report.evaluation_complete else 'incomplete'}; "
+        f"pending: {report.pending_count}."
+        + (
+            f" Resume with `job-finder evaluate` before midnight IST ending {report.batch_date}."
+            if report.pending_count
+            else ""
+        ),
         "",
         "## How to answer the seven review questions",
         "",
@@ -43,7 +50,7 @@ def render_scan_markdown(report: ScanReport) -> str:
         "| State safety instructions | `docs/07_scan_runbook.md`, **State safety** | This section "
         "contains inspect, backup, restore, and guarded-reset guidance. |",
         "",
-        "## New matching jobs",
+        "## Matching jobs (new and known)",
         "",
         *_matching_table(report.matching_jobs),
         "",
@@ -60,6 +67,9 @@ def render_scan_markdown(report: ScanReport) -> str:
         "",
         "## Coverage and run summary",
         "",
+        f"Requests with unknown provider usage: {report.unknown_usage_request_count}. "
+        "These may include interrupted paid calls.",
+        "",
         "| Metric | Value |",
         "|---|---:|",
         f"| Run outcome | {_markdown(report.outcome.value)} |",
@@ -75,9 +85,9 @@ def render_scan_markdown(report: ScanReport) -> str:
         f"{report.metrics.recency_candidate_count:,} / "
         f"{report.metrics.role_candidate_count:,} / "
         f"{report.metrics.retained_candidate_count:,} |",
-        f"| New identities / duplicates suppressed | {report.metrics.new_identity_count} / "
+        f"| New / known identities | {report.metrics.new_identity_count} / "
         f"{report.metrics.duplicate_suppressed_count} |",
-        f"| New strict matches / date-uncertain matches / review candidates | "
+        f"| Strict matches / date-uncertain matches / review candidates | "
         f"{len(report.matching_jobs)} / {len(report.date_uncertain_jobs)} / "
         f"{len(report.review_candidates)} |",
         f"| Duration | {report.duration_seconds:.3f} seconds |",
@@ -115,12 +125,15 @@ def write_scan_markdown(report: ScanReport, path: Path) -> None:
 
 
 def _outcome_message(report: ScanReport) -> str:
-    new_matches = len(report.matching_jobs) + len(report.date_uncertain_jobs)
+    matches = report.matching_jobs + report.date_uncertain_jobs
+    new_matches = sum(item.new_identity for item in matches)
     if report.outcome is ScanOutcome.COMPLETE:
-        if new_matches:
+        if not report.evaluation_complete:
+            return "**Enabled-source coverage is complete. Evaluation is incomplete.**"
+        if matches:
             return (
-                f"**Scan completed with complete enabled-source coverage and {new_matches} new "
-                "matching job(s).**"
+                f"**Scan completed with complete enabled-source coverage and {len(matches)} "
+                f"matching job(s), including {new_matches} new.**"
             )
         return "**Scan completed with complete enabled-source coverage. No new matching jobs.**"
     if report.outcome is ScanOutcome.PARTIAL:
@@ -136,8 +149,8 @@ def _matching_table(items: tuple[MatchingJobRecord, ...]) -> list[str]:
         return ["No new matching jobs in this section."]
     lines = [
         "| Company | Job | Location | Date (basis) | First seen | Relevance | "
-        "Why it is relevant | Seniority evidence | Why it matched | Link |",
-        "|---|---|---|---|---|---|---|---|---|---|",
+        "Why it is relevant | Seniority evidence | Why it matched | Identity | Link |",
+        "|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     for item in items:
         source_date = item.publication_date or item.raw_date_text or "Unavailable"
@@ -157,6 +170,7 @@ def _matching_table(items: tuple[MatchingJobRecord, ...]) -> list[str]:
                     _markdown(item.relevance_reason or "-"),
                     _markdown(item.seniority_evidence),
                     _markdown(item.seniority_reason),
+                    "new" if item.new_identity else "known",
                     f"[open job]({item.canonical_url})",
                 )
             )

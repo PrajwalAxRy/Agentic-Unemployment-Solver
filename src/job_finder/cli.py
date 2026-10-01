@@ -6,13 +6,18 @@ import argparse
 import importlib
 import json
 import logging
+import os
+import shlex
+import sqlite3
 from collections.abc import Callable, Sequence
 from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+from uuid import uuid4
 
 from job_finder import __version__
+from job_finder.accounting import export_accounting, read_accounting
 from job_finder.adapters.aganitha_careers import AganithaCareersAdapter
 from job_finder.adapters.airbnb_careers import AirbnbCareersAdapter
 from job_finder.adapters.amazon_jobs import AmazonJobsAdapter
@@ -53,26 +58,23 @@ from job_finder.adapters.successfactors import SuccessFactorsAdapter
 from job_finder.adapters.swiggy_careers import SwiggyCareersAdapter
 from job_finder.adapters.twilio_careers import TwilioCareersAdapter
 from job_finder.adapters.workday import WorkdayAdapter
-from job_finder.checkpoint import DEFAULT_CHECKPOINT_PATH, CheckpointError
+from job_finder.checkpoint import CheckpointError
 from job_finder.collection import (
     collect_listings,
     write_filter_report,
     write_filter_review,
 )
 from job_finder.core.company_registry import load_company_registry
-from job_finder.core.job_probe import JobProbeResult, probe_job_url
+from job_finder.core.job_probe import probe_job_url
 from job_finder.core.search_profile import load_search_profile
 from job_finder.core.source_contracts import AdapterType
 from job_finder.cost import (
     DEFAULT_LEDGER_PATH,
-    append_to_ledger,
     daily_totals,
     format_bytes,
-    format_cost_line,
-    price_run,
-    read_ledger,
     summarise,
 )
+from job_finder.daily_scan import DailyScanResult, run_daily_scan
 from job_finder.logging_setup import configure_logging, progress_logger
 from job_finder.matching.evaluation_set import load_seniority_evaluation_set
 from job_finder.matching.evaluator import SeniorityEvaluator, UsageBudget
@@ -87,6 +89,7 @@ from job_finder.matching.openai_client import (
 )
 from job_finder.matching.prompt import load_seniority_prompt
 from job_finder.matching.service import JobEvaluator
+from job_finder.persistence.batches import india_date
 from job_finder.persistence.database import CURRENT_SCHEMA_VERSION
 from job_finder.persistence.locking import ScanAlreadyRunningError
 from job_finder.persistence.maintenance import (
@@ -106,8 +109,6 @@ from job_finder.repair import (
 from job_finder.reporting.scan_report import write_scan_markdown
 from job_finder.scan import (
     SCAN_REPORT_SCHEMA_VERSION,
-    resume_from_checkpoint,
-    run_manual_scan,
     write_scan_report,
 )
 from job_finder.terminal import ScanDisplay, parse_progress
@@ -251,6 +252,7 @@ def build_parser() -> argparse.ArgumentParser:
         "costs",
         help="Show what past runs cost, per day and in total.",
     )
+    costs.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
     costs.add_argument("--ledger", type=Path, default=DEFAULT_LEDGER_PATH)
     costs.add_argument(
         "--days",
@@ -282,6 +284,7 @@ def build_parser() -> argparse.ArgumentParser:
     state_reset.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
     state_reset.add_argument("--backup", type=Path, required=True)
     state_reset.add_argument("--confirm-database", required=True)
+    state_reset.add_argument("--lock", type=Path, default=Path("state/scan.lock"))
     state_prune = state_subparsers.add_parser(
         "prune",
         help="Clear stored description text for jobs not seen recently. Keeps the rows.",
@@ -289,6 +292,7 @@ def build_parser() -> argparse.ArgumentParser:
     state_prune.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
     state_prune.add_argument("--backup", type=Path, required=True)
     state_prune.add_argument("--confirm-database", required=True)
+    state_prune.add_argument("--lock", type=Path, default=Path("state/scan.lock"))
     state_prune.add_argument(
         "--older-than-days",
         type=int,
@@ -443,16 +447,14 @@ def build_parser() -> argparse.ArgumentParser:
     scan.add_argument(
         "--resume",
         action="store_true",
-        help=(
-            "Skip collection and filtering; evaluate the rows left over by a run that "
-            "halted on budget. Requires a checkpoint newer than 24h."
-        ),
+        help=("Alias for evaluate: resume the current database batch before midnight IST."),
     )
     scan.add_argument(
         "--checkpoint",
         type=Path,
-        default=DEFAULT_CHECKPOINT_PATH,
-        help="Where the resume checkpoint is written and read.",
+        default=None,
+        help="Retired file checkpoint option; explicit use is rejected. "
+        "Checkpoints live in SQLite.",
     )
     scan.add_argument(
         "--cost-ledger",
@@ -475,6 +477,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     scan.add_argument("--timeout", type=float, default=15.0)
     scan.add_argument("--source-retries", type=int, default=2)
+    for name, help_text in (
+        ("evaluate", "Resume the current same-day database evaluation attempt."),
+        ("force_reevaluate", "Evaluate the entire saved same-day batch again, bypassing cache."),
+    ):
+        subparsers.add_parser(name, parents=[scan], add_help=False, help=help_text)
     repair = subparsers.add_parser(
         "repair",
         help="Build or validate inactive source-repair artifacts without applying changes.",
@@ -513,17 +520,15 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: Sequence[str] | None = None) -> int:
     """Run the command-line interface."""
     args = build_parser().parse_args(argv)
-    # The CLI is the only place that configures logging; library imports stay silent.
-    log_path = configure_logging(
-        state_directory=args.log_directory,
-        verbose=args.verbose,
-    )
-    _LOGGER.info(
-        "cli_start command=%s version=%s log=%s",
-        args.command,
-        __version__,
-        log_path,
-    )
+    # Daily logging starts only after admission under ScanLock. Other commands have
+    # their own sink and cannot reset or append to the current daily scan log.
+    if args.command not in {"scan", "evaluate", "force_reevaluate"}:
+        log_path = configure_logging(
+            state_directory=args.log_directory,
+            verbose=args.verbose,
+            filename="commands.log",
+        )
+        _LOGGER.info("cli_start command=%s version=%s log=%s", args.command, __version__, log_path)
     if args.command == "verify-sources":
         return _verify_sources(args)
     if args.command == "measure-recency":
@@ -531,14 +536,18 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "filter-jobs":
         return _filter_jobs(args)
     if args.command == "state":
-        return _maintain_state(args)
+        try:
+            return _maintain_state(args)
+        except ScanAlreadyRunningError as error:
+            print(f"state=skipped reason=already_running error={error}")
+            return 4
     if args.command == "verify-persistence":
         return _verify_persistence(args)
     if args.command == "check-llm":
         return _check_llm(args)
     if args.command == "validate-seniority":
         return _validate_seniority(args)
-    if args.command == "scan":
+    if args.command in {"scan", "evaluate", "force_reevaluate"}:
         return _scan(args)
     if args.command == "repair":
         return _repair(args)
@@ -548,50 +557,49 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 
 def _costs(args: argparse.Namespace) -> int:
-    """Print the per-day cost history recorded by previous scans."""
-    history = read_ledger(args.ledger)
+    """Read authoritative request spending, preserving unknown and discarded amounts."""
+    history = read_accounting(args.database, args.ledger)
     if not history:
-        print(f"costs=none ledger={args.ledger}")
-        print("  No runs recorded yet. Cost is written after each scan completes.")
+        print(f"costs=none ledger={args.ledger} database={args.database}")
         return 0
-
     rows = daily_totals(history)
-    shown = rows if args.days <= 0 else rows[-args.days :]
-    totals = summarise(history)
-    currency = str(totals["currency"])
-
+    days = sorted({str(row["day"]) for row in rows})
+    selected = set(days if args.days <= 0 else days[-args.days :])
+    print(f"{'day (IST)':<12}{'currency':<10}{'requests':>10}{'known cost':>14}{'discarded':>14}")
+    for row in rows:
+        if str(row["day"]) not in selected:
+            continue
+        amount = (
+            "unavailable"
+            if row["unknown_requests"] == row["requests"]
+            else f"{float(str(row['cost'])):.4f}"
+        )
+        print(
+            f"{str(row['day']):<12}{str(row['currency']):<10}{str(row['requests']):>10}"
+            f"{amount:>14}{float(str(row['discarded_cost'])):>14.4f}"
+        )
+        if row["unknown_requests"]:
+            print(
+                f"  {row['unknown_requests']} request(s) have unknown usage or pricing; "
+                "total is incomplete"
+            )
+    for currency in sorted({item.currency for item in history}):
+        group = [item for item in history if item.currency == currency]
+        totals = summarise(group)
+        known = totals["total_cost"]
+        unknown = sum(item.request_count for item in group if not item.priced)
+        discarded = sum(item.total_cost or 0.0 for item in group if item.discarded_reason)
+        flagged = sum(item.request_count for item in group if item.discarded_reason)
+        amount = f"{float(str(known)):.4f}" if any(item.priced for item in group) else "unavailable"
+        print(
+            f"known_total={currency} {amount}; discarded={currency} {discarded:.4f} "
+            f"({flagged} request(s)); "
+            f"unknown={unknown} request(s)"
+        )
     print(
-        f"{'day':<12}{'runs':>6}{'evaluated':>11}{'cost (' + currency + ')':>14}"
-        f"{'added':>11}{'db total':>11}"
+        "Discarded spending remains included. "
+        "Unknown charges may include an interrupted paid request."
     )
-    for row in shown:
-        print(
-            f"{row['day']:<12}{row['runs']:>6}{row['evaluated']:>11}{float(str(row['cost'])):>14.2f}"
-            f"{format_bytes(int(row['bytes_added'])):>11}"  # type: ignore[call-overload]
-            f"{format_bytes(int(row['bytes_total'])):>11}"  # type: ignore[call-overload]
-        )
-    print()
-    print(
-        f"total={currency} {float(str(totals['total_cost'] or 0)):.2f} "
-        f"over {totals['distinct_days']} day(s), "
-        f"{totals['runs']} run(s), {totals['total_evaluated']} job(s) evaluated"
-    )
-    if totals["cost_per_evaluated_job"] is not None:
-        print(f"per_evaluated_job={currency} {float(str(totals['cost_per_evaluated_job'])):.4f}")
-    if totals["mean_cost_per_day"] is not None:
-        # Flagged as an extrapolation rather than printed as "your monthly bill": the
-        # first run evaluates the whole backlog and later ones only new postings, so a
-        # mean taken across both overstates the steady state.
-        print(
-            f"mean_per_day={currency} {float(str(totals['mean_cost_per_day'])):.2f} "
-            f"-> ~{currency} {float(str(totals['projected_30_day'] or 0)):.2f}/30d "
-            "(extrapolated; early backlog runs inflate this)"
-        )
-    if totals["unpriced_runs"]:
-        print(
-            f"note: {totals['unpriced_runs']} run(s) had no configured rates and are "
-            "excluded from the totals above"
-        )
     return 0
 
 
@@ -749,6 +757,7 @@ def _maintain_state(args: argparse.Namespace) -> int:
             args.database,
             args.backup,
             confirmation=args.confirm_database,
+            lock_path=args.lock,
         )
         print(
             f"backup={before.database_path} records={before.job_count} "
@@ -759,6 +768,7 @@ def _maintain_state(args: argparse.Namespace) -> int:
             args.database,
             args.backup,
             confirmation=args.confirm_database,
+            lock_path=args.lock,
             older_than_days=args.older_than_days,
         )
         print(
@@ -773,6 +783,11 @@ def _maintain_state(args: argparse.Namespace) -> int:
         f"records={summary.job_count} pending={summary.pending_count} "
         f"completed={summary.completed_count} failed={summary.failed_count}"
     )
+    if summary.batch_date is not None:
+        print(
+            f"saved_batch={summary.batch_date} fresh={summary.batch_fresh} "
+            f"candidates={summary.batch_candidate_count} pending={summary.batch_pending_count}"
+        )
     return 0
 
 
@@ -1012,227 +1027,235 @@ def _display_progress(display: ScanDisplay) -> Callable[[str], None]:
 
 
 def _scan(args: argparse.Namespace) -> int:
-    """Run one user-facing manual scan and write both report formats."""
+    """All three daily commands share admission, locked outputs and permanent accounting."""
+    display = ScanDisplay(enabled=False if args.plain else None)
     try:
+        if args.checkpoint is not None:
+            raise CheckpointError(
+                "--checkpoint is retired; run a fresh scan to create a SQLite batch"
+            )
+        if args.json_output.resolve() == args.markdown_output.resolve():
+            raise ValueError("JSON and Markdown output paths must be different")
+        if args.enable_expiry and args.no_probe:
+            raise ValueError("--enable-expiry requires liveness probing; remove --no-probe")
         registry = load_company_registry(args.registry)
         profile = load_search_profile(args.profile)
         settings = load_gateway_settings(dotenv_path=args.dotenv)
         gateway = AmdGatewayClient(settings)
         budget = UsageBudget(settings.usage_limits)
-
-        # The merged call (2.5) is the default: it is the only thing that judges AI/ML
-        # relevance, and 2.2a widened the title filter so far that without it every
-        # engineering title in India reaches the report. --seniority-only restores the
-        # tuned single-purpose prompt, which stays available precisely so a regression in
-        # the merged judgment can be backed out without a code change.
         evaluator: JobEvaluator
         if args.seniority_only:
-            prompt = load_seniority_prompt(args.prompt)
             evaluator = SeniorityEvaluator(
                 client=gateway,
-                prompt=prompt,
+                prompt=load_seniority_prompt(args.prompt),
                 model_policy=settings.model_policy,
                 budget=budget,
             )
-            print("WARNING: --seniority-only disables the AI/ML relevance gate (2.3)")
+            print("WARNING: --seniority-only disables the AI/ML relevance gate")
         else:
-            merged = load_merged_prompt(args.merged_prompt)
             evaluator = MergedEvaluator(
                 client=gateway,
-                prompt=merged,
+                prompt=load_merged_prompt(args.merged_prompt),
                 model_policy=settings.model_policy,
                 budget=budget,
             )
-            prompt = merged  # type: ignore[assignment]
-
-        display = ScanDisplay(enabled=False if args.plain else None)
+        command = "evaluate" if args.command == "scan" and args.resume else args.command
         client = BoundedHttpClient(
             policy=HttpPolicy(
                 timeout_seconds=args.timeout,
                 min_interval_seconds=args.min_request_interval,
                 max_concurrent_per_host=args.max_concurrent_per_host,
             ),
-            # One tick per outgoing request. This is what distinguishes a slow company
-            # from a hung one on boards that take dozens of paginated requests.
             on_request=lambda _url: display.tick(),
         )
+        adapters = _runtime_adapters(client) if command == "scan" else AdapterRegistry([])
+        output_paths: tuple[Path, ...] = ()
+        daily_log: Path | None = None
+
+        def admit(day: str, reset: bool) -> None:
+            nonlocal output_paths, daily_log
+            log_path = configure_logging(
+                state_directory=args.log_directory,
+                verbose=args.verbose,
+                filename=f"scan-{day}.log",
+                reset=reset,
+            )
+            daily_log = log_path
+            output_paths = (
+                args.json_output.with_name(f"scan-{day}.json"),
+                args.markdown_output.with_name(f"scan-{day}.md"),
+                args.json_output,
+                args.markdown_output,
+            )
+            if reset:
+                for path in set(output_paths):
+                    path.unlink(missing_ok=True)
+            _LOGGER.info(
+                "cli_start command=%s date=%s version=%s log=%s",
+                command,
+                day,
+                __version__,
+                log_path,
+            )
+            print(
+                f"Starting {command} date={day} registry={registry.registry_version} "
+                f"profile={profile.version} prompt={evaluator.prompt_version} "
+                f"report_schema={SCAN_REPORT_SCHEMA_VERSION} state_schema={CURRENT_SCHEMA_VERSION}",
+                flush=True,
+            )
+
+        def save(result: DailyScanResult) -> None:
+            _LOGGER.info(
+                "coverage=%s evaluation_complete=%s pending=%s",
+                result.report.outcome.value,
+                not result.pending_count,
+                result.pending_count,
+            )
+            for path in dict.fromkeys(output_paths):
+                path.parent.mkdir(parents=True, exist_ok=True)
+                temporary = path.with_name(path.name + "." + uuid4().hex + ".tmp")
+                try:
+                    if path.suffix.lower() == ".json" or path in {
+                        output_paths[0],
+                        args.json_output,
+                    }:
+                        write_scan_report(result.report, temporary)
+                    else:
+                        write_scan_markdown(result.report, temporary)
+                    temporary.replace(path)
+                finally:
+                    temporary.unlink(missing_ok=True)
+
+        def account(connection: sqlite3.Connection) -> None:
+            # Failed discovery retains only a diagnostic, not partial search information.
+            if (
+                command == "scan"
+                and daily_log is not None
+                and connection.execute("SELECT 1 FROM daily_batch").fetchone() is None
+            ):
+                try:
+                    configure_logging(
+                        state_directory=args.log_directory,
+                        verbose=args.verbose,
+                        filename=daily_log.name,
+                        reset=True,
+                    )
+                    _LOGGER.warning("discovery=discarded checkpoint=absent; fresh scan required")
+                except OSError:
+                    print("Failed to clear discovery log; no evaluation checkpoint was saved.")
+            try:
+                export_accounting(connection, args.cost_ledger)
+            except (OSError, ValueError, sqlite3.Error) as error:
+                _LOGGER.warning(
+                    "cost_export_failed exception=%s; spending remains in SQLite",
+                    type(error).__name__,
+                )
+                print(
+                    "Cost ledger export failed; spending remains in SQLite. "
+                    "Use costs to inspect it."
+                )
+
+        result = run_daily_scan(
+            registry,
+            adapters,
+            profile,
+            evaluator,
+            database_path=args.database,
+            lock_path=args.lock,
+            command=command,
+            source_retry_count=args.source_retries,
+            expiry_dry_run=not args.enable_expiry,
+            job_probe=None
+            if args.no_probe
+            else lambda url, listed: probe_job_url(
+                url, listed=listed, timeout_seconds=args.timeout
+            ),
+            connectivity=ConnectivityWaiter(
+                policy=ConnectivityPolicy(
+                    max_wait_seconds=args.network_wait_minutes * 60,
+                    enabled=args.network_wait_minutes > 0,
+                )
+            ),
+            on_item_start=display.begin_item,
+            progress=_display_progress(display),
+            rates=settings.token_rates,
+            on_admitted=admit,
+            on_result=save,
+            on_finally=account,
+        )
+        report = result.report
         print(
-            f"Starting scan with registry={registry.registry_version} "
-            f"profile={profile.version} prompt={prompt.prompt_version} "
-            f"report_schema={SCAN_REPORT_SCHEMA_VERSION} state_schema={CURRENT_SCHEMA_VERSION}",
-            flush=True,
+            f"coverage={report.outcome.value} "
+            f"evaluation={'complete' if not result.pending_count else 'incomplete'} "
+            f"listings={report.metrics.listing_count} pending={result.pending_count}"
         )
-        if args.enable_expiry and args.no_probe:
-            raise ValueError(
-                "--enable-expiry cannot be combined with --no-probe: the probe is the "
-                "only guard against a truncated listing closing live jobs (to_change.md 10.F)"
-            )
-
-        connectivity = ConnectivityWaiter(
-            policy=ConnectivityPolicy(
-                max_wait_seconds=args.network_wait_minutes * 60,
-                enabled=args.network_wait_minutes > 0,
-            )
+        print(
+            f"strict_matches={len(report.matching_jobs)} "
+            f"date_uncertain_matches={len(report.date_uncertain_jobs)} "
+            f"reviews={len(report.review_candidates)}"
         )
-
-        def _probe(url: str, listed: bool) -> JobProbeResult | None:
-            return probe_job_url(url, listed=listed, timeout_seconds=args.timeout)
-
-        # Sampled before the lock is taken so it reflects the file this run inherited.
-        # Zero on a first run, when the database does not exist yet.
-        db_bytes_before = _database_size(args.database)
-
-        try:
-            if args.resume:
-                report = resume_from_checkpoint(
-                    registry,
-                    _runtime_adapters(client),
-                    profile,
-                    evaluator,
-                    database_path=args.database,
-                    lock_path=args.lock,
-                    checkpoint_path=args.checkpoint,
-                    progress=_display_progress(display),
-                )
+        print(f"Wrote machine-readable report to {args.json_output}")
+        print(f"Wrote human-readable report to {args.markdown_output}")
+        if result.pending_count:
+            print(f"INCOMPLETE: {result.pending_count} job(s) remain; reason={result.halt_reason}")
+            if india_date(datetime.fromisoformat(report.completed_at)) != result.admission_date:
+                print("  The batch expired at midnight IST; run a fresh scan.")
             else:
-                report = run_manual_scan(
-                    registry,
-                    _runtime_adapters(client),
-                    profile,
-                    evaluator,
-                    database_path=args.database,
-                    lock_path=args.lock,
-                    source_retry_count=args.source_retries,
-                    expiry_dry_run=not args.enable_expiry,
-                    job_probe=None if args.no_probe else _probe,
-                    connectivity=connectivity,
-                    on_item_start=display.begin_item,
-                    progress=_display_progress(display),
-                    checkpoint_path=args.checkpoint,
-                )
-        finally:
-            # Restore the cursor even on Ctrl-C or a crash mid-scan.
-            display.close()
+                prefix = "python -m job_finder"
+                if args.log_directory != Path("state"):
+                    prefix += " --log-directory " + _shell_argument(str(args.log_directory))
+                if args.verbose:
+                    prefix += " --verbose"
+                print(f"  Resume with: {prefix} evaluate{_resume_suffix(args)}")
+            print(
+                f"  Saved in {args.database}; new invocations allowed until midnight IST "
+                f"ending {result.admission_date}"
+            )
+        return result.exit_code
     except ScanAlreadyRunningError as error:
-        # Benign under cron: a previous run is still going. Distinct exit code so an
-        # overlapping schedule is not alerted on like a real failure (to_change.md 6.2, 9.3).
-        _LOGGER.warning("scan=skipped reason=already_running detail=%s", error)
         print(f"scan=skipped reason=already_running error={error}")
         return 4
     except CheckpointError as error:
-        # Distinct from a scan failure: nothing went wrong, the checkpoint is just absent,
-        # stale, or built under different rules. The remedy is always a full scan.
-        _LOGGER.warning("scan=resume_unavailable reason=%s", error)
-        print(f"scan=resume_unavailable error={error}")
-        # Every CheckpointError means the same remedy, so say it rather than leaving the
-        # operator to infer it from the message.
-        print("  Run a full scan instead:  python -m job_finder scan")
+        print(f"evaluation=unavailable error={error}")
+        print("  Run a fresh scan, or force_reevaluate when only evaluation rules changed.")
         return 5
-    except (GatewayProviderError, RuntimeError, ValueError) as error:
-        _LOGGER.exception("scan=failed exception=%s reason=%s", type(error).__name__, error)
+    except KeyboardInterrupt:
+        print("scan=interrupted; use evaluate if discovery completed, otherwise run a fresh scan")
+        return 130
+    except (OSError, sqlite3.Error, GatewayProviderError, RuntimeError, ValueError) as error:
         print(f"scan=failed error={type(error).__name__}: {error}")
         return 3
+    finally:
+        display.close()
 
-    write_scan_report(report, args.json_output)
-    write_scan_markdown(report, args.markdown_output)
-    print(
-        f"scan={report.outcome.value} companies={report.metrics.attempted_company_count} "
-        f"successful={report.metrics.successful_company_count} "
-        f"empty={report.metrics.valid_empty_company_count} "
-        f"failed={report.metrics.failed_company_count} listings={report.metrics.listing_count}"
-    )
-    print(
-        f"new_identities={report.metrics.new_identity_count} "
-        f"duplicates={report.metrics.duplicate_suppressed_count} "
-        f"strict_matches={len(report.matching_jobs)} "
-        f"date_uncertain_matches={len(report.date_uncertain_jobs)} "
-        f"reviews={len(report.review_candidates)}"
-    )
-    timing: dict[str, Any] = dict(report.timing) if report.timing else {}
-    if timing.get("company_count"):
-        print(
-            f"source_timing total={timing['total_seconds']}s "
-            f"mean={timing['mean_seconds']}s median={timing['median_seconds']}s "
-            f"min={timing['min_seconds']}s max={timing['max_seconds']}s "
-            f"companies={timing['company_count']}"
-        )
-        # Naming the slow companies is the actionable part: it turns "the scan took 40
-        # minutes" into "Adobe took 4 of them".
-        for item in list(timing.get("slowest", []))[:3]:
-            print(
-                f"  slowest: {item['company_id']} ({item['adapter_type']}) "
-                f"{item['seconds']}s, {item['listings']} listings"
-            )
 
-    lifecycle: dict[str, Any] = dict(report.lifecycle) if report.lifecycle else {}
-    if lifecycle:
-        mode = "dry_run" if lifecycle["dry_run"] else "enforcing"
-        verb = "would_close" if lifecycle["dry_run"] else "closed"
-        count = lifecycle["would_close"] if lifecycle["dry_run"] else lifecycle["closed"]
-        print(
-            f"lifecycle={mode} sightings={lifecycle['sightings']} "
-            f"absences={lifecycle['absences']} probes={lifecycle['probes_fired']} "
-            f"{verb}={count}"
-        )
-        # 5.1: the dry-run week is only over when all four checks have been observed.
-        # Printing what is still unmet is the difference between "we ran it for a week"
-        # and "we verified it".
-        if lifecycle["dry_run"] and not lifecycle["checklist_satisfied"]:
-            for item in list(lifecycle["unmet_requirements"]):
-                print(f"  dry_run_unmet: {item}")
-        reappearance: dict[str, Any] = dict(lifecycle["reappearance"])
-        flagged: list[str] = list(reappearance["sources_needing_review"])
-        if flagged:
-            print(f"  reappearance_review: {', '.join(flagged)}")
-
-    print(f"Wrote machine-readable report to {args.json_output}")
-    print(f"Wrote human-readable report to {args.markdown_output}")
-
-    # Last thing on screen, deliberately. A halted scan still writes a full report and
-    # exits successfully, so without this it reads as a completed run that simply found
-    # fewer jobs -- which is how the 2026-09-30 halt went unnoticed until the database was
-    # inspected by hand.
-    # Cost accounting is strictly observational: a failure to record it must never turn a
-    # completed scan into a reported failure.
-    try:
-        cost = price_run(
-            run_id=report.run_id,
-            completed_at=report.completed_at,
-            model_policy=report.model_policy,
-            prompt_version=report.prompt_version,
-            evaluated=report.metrics.llm_evaluated_count,
-            cache_hits=report.metrics.llm_cache_hit_count,
-            request_count=report.usage.request_count,
-            input_tokens=report.usage.measured_input_tokens,
-            output_tokens=report.usage.measured_output_tokens,
-            rates=settings.token_rates,
-            db_bytes_before=db_bytes_before,
-            db_bytes_total=_database_size(args.database),
-        )
-        append_to_ledger(cost, args.cost_ledger)
-        print(format_cost_line(cost))
-    except OSError as error:
-        _LOGGER.warning("cost_ledger_write_failed path=%s error=%s", args.cost_ledger, error)
-
-    if report.metrics.llm_budget_halted_count:
-        remaining = report.metrics.llm_budget_halted_count
-        print()
-        print(
-            f"INCOMPLETE: the run budget ran out with {remaining} job(s) still "
-            "unevaluated. They are saved, not lost."
-        )
-        print(f"  Resume with:  python -m job_finder scan --resume{_resume_suffix(args)}")
-        print(f"  Checkpoint:   {args.checkpoint} (valid for 24h)")
-    return report.outcome.exit_code
+def _shell_argument(value: str) -> str:
+    """Print a safe pasteable argument for the host's usual terminal."""
+    return "'" + value.replace("'", "''") + "'" if os.name == "nt" else shlex.quote(value)
 
 
 def _resume_suffix(args: argparse.Namespace) -> str:
-    """Echo back any non-default paths, so the printed command actually works as shown."""
+    """Preserve evaluation configuration and output routing, without retired checkpoints."""
+    defaults = {
+        "registry": Path("config/company_sources.json"),
+        "profile": Path("config/search_profile.toml"),
+        "prompt": Path("config/seniority_prompt.toml"),
+        "merged_prompt": Path("config/merged_prompt.toml"),
+        "dotenv": Path(".env"),
+        "database": Path("state/jobs.sqlite3"),
+        "lock": Path("state/scan.lock"),
+        "cost_ledger": DEFAULT_LEDGER_PATH,
+        "json_output": Path("reports/latest_scan.json"),
+        "markdown_output": Path("reports/latest_scan.md"),
+    }
     parts = []
-    if args.checkpoint != DEFAULT_CHECKPOINT_PATH:
-        parts.append(f" --checkpoint {args.checkpoint}")
-    if args.database != Path("state/jobs.sqlite3"):
-        parts.append(f" --database {args.database}")
+    for name, default in defaults.items():
+        value = getattr(args, name, default)
+        if value != default:
+            parts.append(" --" + name.replace("_", "-") + " " + _shell_argument(str(value)))
+    for name in ("seniority_only", "plain"):
+        if getattr(args, name, False):
+            parts.append(" --" + name.replace("_", "-"))
     return "".join(parts)
 
 
