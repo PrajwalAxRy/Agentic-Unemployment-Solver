@@ -30,9 +30,11 @@ def render_scan_markdown(report: ScanReport) -> str:
         "the section says there are no new matches. |",
         "| Matches with uncertain dates | **Date-uncertain matching candidates** | List its "
         "jobs separately; these are not strict ten-day results. |",
-        "| Why a job is shown | Match tables: **Seniority evidence** and **Why it matched**; "
-        "review table: **Review category** and **Reason / evidence** | Use those cells, not the "
-        "job title alone. |",
+        "| Why a job is shown | Match tables: **Relevance**, **Why it is relevant**, "
+        "**Seniority evidence** and **Why it matched**; review table: **Review category** and "
+        "**Reason / evidence** | Use those cells, not the job title alone. Read `substantive` "
+        "rows before `peripheral` ones: peripheral is adjacent work, tiered lower on purpose. "
+        "A `-` means the row predates relevance judging or ran under `--seniority-only`. |",
         "| Companies with source problems | **Source failures** | List those companies. "
         "**Unsupported and blocked sources** are known release limitations, not failures of this "
         "run. |",
@@ -133,9 +135,9 @@ def _matching_table(items: tuple[MatchingJobRecord, ...]) -> list[str]:
     if not items:
         return ["No new matching jobs in this section."]
     lines = [
-        "| Company | Job | Location | Date (basis) | First seen | Seniority evidence | "
-        "Why it matched | Link |",
-        "|---|---|---|---|---|---|---|---|",
+        "| Company | Job | Location | Date (basis) | First seen | Relevance | "
+        "Why it is relevant | Seniority evidence | Why it matched | Link |",
+        "|---|---|---|---|---|---|---|---|---|---|",
     ]
     for item in items:
         source_date = item.publication_date or item.raw_date_text or "Unavailable"
@@ -148,6 +150,11 @@ def _matching_table(items: tuple[MatchingJobRecord, ...]) -> list[str]:
                     _markdown(item.location),
                     f"{_markdown(source_date)} ({item.date_basis})",
                     _markdown(item.first_seen_at),
+                    # Dashes rather than blanks: a row judged before migration 5, or one
+                    # produced under --seniority-only, has no relevance verdict at all.
+                    # That is different from a verdict with nothing to say about it.
+                    _markdown(item.relevance or "-"),
+                    _markdown(item.relevance_reason or "-"),
                     _markdown(item.seniority_evidence),
                     _markdown(item.seniority_reason),
                     f"[open job]({item.canonical_url})",

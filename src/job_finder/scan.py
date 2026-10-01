@@ -126,6 +126,12 @@ class MatchingJobRecord:
     seniority_evidence: str
     seniority_reason: str
     canonical_url: str
+    # 2.6 tiers peripheral below substantive, but until now the report rendered them
+    # identically -- the tiering existed only as a counter, so the one signal telling you
+    # which rows deserve a click never reached the page. None under --seniority-only,
+    # which makes no relevance judgment at all.
+    relevance: str | None = None
+    relevance_reason: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -752,6 +758,7 @@ def process_filter_report(
         # lower: forcing it into a binary would hide the uncertainty rather than remove
         # it, and lose the signal showing which rows deserve a click.
         judgment = getattr(evaluator, "last_judgment", None)
+        judged: JobRecord | None = None
         if judgment is not None:
             # 3.6: verdict_at is set once, the first time a job reaches a qualifying
             # verdict. The feed sorts on it rather than on first sighting, which is what
@@ -763,7 +770,10 @@ def process_filter_report(
             # evaluation as failed would both violate the repository's invariant and
             # destroy the cache entry, so the next run would pay for the same call again
             # to reach the same conclusion.
-            repository.record_verdict(
+            # The return value is the row *after* the verdict is written. Everything
+            # fetched earlier in this iteration predates it, so reporting from those would
+            # show a blank verdict on the run that produced it.
+            judged = repository.record_verdict(
                 observation.record.job_key,
                 verdict=judgment.relevance.value,
                 verdict_at=observed_at,
@@ -797,7 +807,7 @@ def process_filter_report(
         _record_decision(
             row,
             result.decision,
-            result.record or observation.record,
+            judged or result.record or observation.record,
             reportable=reportable,
             matches=matches,
             uncertain_dates=uncertain_dates,
@@ -1143,6 +1153,10 @@ def _matching_job(
         seniority_evidence=decision.evidence,
         seniority_reason=decision.reason,
         canonical_url=job.canonical_url,
+        # Read from the record rather than threaded through as another parameter, so the
+        # cached path -- which has no judgment in hand -- still reports the stored verdict.
+        relevance=record.verdict,
+        relevance_reason=record.relevance_reason,
     )
 
 

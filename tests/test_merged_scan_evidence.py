@@ -36,7 +36,8 @@ from job_finder.matching.merged_evaluator import MergedEvaluator
 from job_finder.matching.merged_prompt import load_merged_prompt
 from job_finder.persistence.database import migrated_database
 from job_finder.persistence.repository import JobRecord, JobStateRepository
-from job_finder.scan import process_filter_report
+from job_finder.reporting.scan_report import render_scan_markdown
+from job_finder.scan import ScanReport, process_filter_report
 from tests.test_scan import registry, source
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -101,6 +102,36 @@ def _merged_response(relevance: str) -> str:
             "seniority_reason": "Matches the target band.",
         }
     )
+
+
+def _run_report(tmp_path: Path, contents: list[str]) -> ScanReport:
+    adapter = _Adapter((_job("REQ-1", "Machine Learning Engineer"),))
+    test_registry = registry(source("example-co"))
+    filter_report = collect_listings(
+        test_registry,
+        AdapterRegistry([adapter]),
+        PROFILE,
+        scan_at=SCAN_AT,
+        source_retry_count=0,
+    )
+    evaluator = MergedEvaluator(
+        client=_Client(contents),
+        prompt=load_merged_prompt(ROOT / "config" / "merged_prompt.toml"),
+        model_policy=ModelPolicy("test", "stub", "1"),
+        budget=UsageBudget(UsageLimits(20, 20_000, 4_000, 200)),
+    )
+    with migrated_database(tmp_path / "report.sqlite3") as connection:
+        return process_filter_report(
+            filter_report,
+            test_registry,
+            AdapterRegistry([adapter]),
+            PROFILE,
+            evaluator,
+            JobStateRepository(connection),
+            run_id="scan-test",
+            started_at=SCAN_AT,
+            completed_at=SCAN_AT + timedelta(minutes=1),
+        )
 
 
 def _run(tmp_path: Path, contents: list[str]) -> list[JobRecord]:
@@ -175,3 +206,32 @@ def test_the_description_is_stored_alongside_its_hash(tmp_path: Path) -> None:
     record = stored[0]
     assert record.description == DESCRIPTION
     assert record.description_hash == hashlib.sha256(DESCRIPTION.encode("utf-8")).hexdigest()
+
+
+def test_the_report_carries_the_relevance_verdict_on_the_run_that_produced_it(
+    tmp_path: Path,
+) -> None:
+    """Regression: the record reaching the report was fetched before record_verdict ran.
+
+    Every row would have reported a blank verdict on the very run that judged it, and only
+    picked one up on a later cached run -- the worst possible failure mode, because it
+    looks correct as soon as you re-run to check.
+    """
+    report = _run_report(tmp_path, [_merged_response("substantive")])
+
+    assert len(report.matching_jobs) == 1
+    match = report.matching_jobs[0]
+    assert match.relevance == "substantive"
+    assert match.relevance_reason == "Core ML engineering, not an adjacent analytics role."
+
+
+def test_a_peripheral_match_is_distinguishable_in_the_rendered_report(
+    tmp_path: Path,
+) -> None:
+    """2.6 tiers peripheral below substantive; before this it rendered identically."""
+    report = _run_report(tmp_path, [_merged_response("peripheral")])
+    markdown = render_scan_markdown(report)
+
+    assert report.matching_jobs[0].relevance == "peripheral"
+    assert "| Relevance |" in markdown
+    assert "peripheral" in markdown
