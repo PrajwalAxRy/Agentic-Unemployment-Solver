@@ -53,6 +53,17 @@ class JobRecord:
     verdict: str | None = None
     verdict_at: datetime | None = None
     required_experience: str | None = None
+    # Migration 5. The description is the only large field here and is nulled by
+    # `state prune` once a job goes stale; everything below is short model output that was
+    # previously discarded. All default to None because old rows genuinely lack them and
+    # cannot be backfilled -- the text no longer exists.
+    description: str | None = None
+    relevance_evidence: str | None = None
+    relevance_reason: str | None = None
+    # NULL here means the deterministic filter resolved the location so the model was never
+    # asked, which is the common case -- not that it was asked and declined to answer.
+    location_evidence: str | None = None
+    location_reason: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -423,33 +434,36 @@ def _record_from_row(row: sqlite3.Row) -> JobRecord:
         job_key=str(row["job_key"]),
         company_id=str(row["company_id"]),
         source_type=str(row["source_type"]),
-        external_job_id=(
-            str(row["external_job_id"]) if row["external_job_id"] is not None else None
-        ),
+        external_job_id=_optional_text(row["external_job_id"]),
         canonical_url=str(row["canonical_url"]),
         fallback_fingerprint=str(row["fallback_fingerprint"]),
         first_seen_at=_parse_timestamp(str(row["first_seen_at"])),
         last_seen_at=_parse_timestamp(str(row["last_seen_at"])),
-        description_hash=(
-            str(row["description_hash"]) if row["description_hash"] is not None else None
-        ),
+        description_hash=_optional_text(row["description_hash"]),
         profile_version=str(row["profile_version"]),
-        prompt_version=(str(row["prompt_version"]) if row["prompt_version"] is not None else None),
-        model_policy=(str(row["model_policy"]) if row["model_policy"] is not None else None),
+        prompt_version=_optional_text(row["prompt_version"]),
+        model_policy=_optional_text(row["model_policy"]),
         evaluation_status=EvaluationStatus(str(row["evaluation_status"])),
         seniority_result=result,
         status=str(row["status"]),
         closed_at=_optional_date(row["closed_at"]),
         consecutive_absences=int(row["consecutive_absences"]),
-        probe_state=(str(row["probe_state"]) if row["probe_state"] is not None else None),
+        probe_state=_optional_text(row["probe_state"]),
         live_but_missing_days=int(row["live_but_missing_days"]),
         sighting_count=int(row["sighting_count"]),
-        verdict=(str(row["verdict"]) if row["verdict"] is not None else None),
+        verdict=_optional_text(row["verdict"]),
         verdict_at=_optional_timestamp(row["verdict_at"]),
-        required_experience=(
-            str(row["required_experience"]) if row["required_experience"] is not None else None
-        ),
+        required_experience=_optional_text(row["required_experience"]),
+        description=_optional_text(row["description"]),
+        relevance_evidence=_optional_text(row["relevance_evidence"]),
+        relevance_reason=_optional_text(row["relevance_reason"]),
+        location_evidence=_optional_text(row["location_evidence"]),
+        location_reason=_optional_text(row["location_reason"]),
     )
+
+
+def _optional_text(value: object) -> str | None:
+    return str(value) if value is not None else None
 
 
 def _optional_timestamp(value: object) -> datetime | None:

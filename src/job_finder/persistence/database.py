@@ -8,7 +8,7 @@ from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 
-CURRENT_SCHEMA_VERSION = 4
+CURRENT_SCHEMA_VERSION = 5
 
 _MIGRATIONS: dict[int, tuple[str, ...]] = {
     1: (
@@ -102,6 +102,31 @@ _MIGRATIONS: dict[int, tuple[str, ...]] = {
         "ALTER TABLE jobs ADD COLUMN required_experience TEXT",
         "CREATE INDEX jobs_status_idx ON jobs (status)",
         "CREATE INDEX jobs_verdict_at_idx ON jobs (verdict_at)",
+    ),
+    # Migration 5 -- description text and the two LLM judgments that were being thrown away.
+    #
+    # Until now only `verdict` survived the merged call, so the judgment that rejects ~59%
+    # of evaluated jobs was the one judgment you could not ask "why?" about afterwards. The
+    # model already produces a validated verbatim quote and a reason for all three
+    # judgments and we were paying for them, so this is recovering output already bought.
+    # Measured against 259 real responses: ~600-750 bytes per job, ~2.5MB across a full
+    # 3,677-job scan. Nothing is backfillable -- the discarded text is gone.
+    #
+    # Deliberately no CHECK length bounds. docs/decisions.md D8 measured max evidence at 259
+    # chars against a 500 cap with zero violations and deferred schema bounds; adding them
+    # here would quietly reverse that without new evidence.
+    5: (
+        # The one genuinely large column. Written only for jobs that reach evaluation
+        # (~3,677), never for all ~42,000 listings, and nulled by `state prune` once a job
+        # has not been seen for a while. ~23kB each, so ~85MB for a first full scan.
+        "ALTER TABLE jobs ADD COLUMN description TEXT",
+        "ALTER TABLE jobs ADD COLUMN relevance_evidence TEXT",
+        "ALTER TABLE jobs ADD COLUMN relevance_reason TEXT",
+        # Nullable for a second reason beyond "old rows lack it": the merged call is asked
+        # to judge location only when the deterministic filter could not resolve it, so a
+        # NULL here legitimately means "never asked", not "asked and got nothing".
+        "ALTER TABLE jobs ADD COLUMN location_evidence TEXT",
+        "ALTER TABLE jobs ADD COLUMN location_reason TEXT",
     ),
 }
 
