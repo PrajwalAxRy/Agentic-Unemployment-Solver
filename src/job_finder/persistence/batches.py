@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import sqlite3
 from collections.abc import Mapping
-from dataclasses import asdict
+from dataclasses import asdict, fields
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, cast
 from uuid import uuid4
@@ -74,8 +74,12 @@ def listing_from_payload(payload: Mapping[str, Any]) -> FilterListingRecord:
 
 def filter_metadata(report: FilterVerificationReport) -> dict[str, Any]:
     """Keep aggregate coverage and small review records, not every rejected description."""
-    payload = asdict(report)
-    payload.pop("listings")
+    payload = {
+        field.name: getattr(report, field.name)
+        for field in fields(report)
+        if field.name != "listings"
+    }
+    payload["companies"] = [asdict(company) for company in report.companies]
     payload["reviews"] = [
         listing_payload(row)
         for row in report.listings

@@ -66,7 +66,7 @@ from job_finder.persistence.locking import ScanLock
 from job_finder.persistence.repository import EvaluationStatus, JobRecord, JobStateRepository
 from job_finder.persistence.runs import ScanRunRepository, ScanRunStatus
 
-SCAN_REPORT_SCHEMA_VERSION = 1
+SCAN_REPORT_SCHEMA_VERSION = 2
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -132,6 +132,7 @@ class MatchingJobRecord:
     # which makes no relevance judgment at all.
     relevance: str | None = None
     relevance_reason: str | None = None
+    new_identity: bool = True
 
 
 @dataclass(frozen=True, slots=True)
@@ -211,9 +212,18 @@ class ScanReport:
     lifecycle: Mapping[str, object] | None = None
     timing: Mapping[str, object] | None = None
 
+    batch_date: str | None = None
+    evaluation_complete: bool = True
+    pending_count: int = 0
+    halt_reason: str | None = None
+
     def as_json(self) -> dict[str, object]:
         return {
             "schema_version": self.schema_version,
+            "batch_date": self.batch_date,
+            "evaluation_complete": self.evaluation_complete,
+            "pending_count": self.pending_count,
+            "halt_reason": self.halt_reason,
             "run_id": self.run_id,
             "started_at": self.started_at,
             "completed_at": self.completed_at,

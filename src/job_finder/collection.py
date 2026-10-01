@@ -363,6 +363,7 @@ def collect_listings(
     max_workers: int = 1,
     waiter: ConnectivityWaiter | None = None,
     on_item_start: Callable[[str], None] | None = None,
+    on_listing: Callable[[NormalizedJob], None] | None = None,
 ) -> FilterVerificationReport:
     """Collect and filter every enabled source without detail or LLM requests.
 
@@ -412,6 +413,8 @@ def collect_listings(
         detail_fetch_count = 0
         detail_failure_count = 0
         for job in item.jobs:
+            if on_listing is not None:
+                on_listing(job)
             publication_verified = (
                 item.source.date_strategy.verified_as_publication
                 and job.date_basis is DateBasis.PUBLISHED
