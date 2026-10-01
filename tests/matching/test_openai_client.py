@@ -161,3 +161,15 @@ def test_malformed_completion_keeps_provider_usage():
         gateway.complete(LLMRequest("system", "user", {}, 100), settings.model_policy)
     assert captured.value.response.input_tokens == 45
     assert captured.value.response.output_tokens == 12
+
+
+def test_reply_without_usage_is_preserved_but_explicitly_unknown():
+    settings = load_gateway_settings(environment=configured_environment())
+    reply = completion()
+    reply.usage = None
+    client, _ = fake_client(reply)
+    response = AmdGatewayClient(settings, client=client).complete(
+        LLMRequest("system", "user", {}, 100), settings.model_policy
+    )
+    assert response.content == '{"ok":true}'
+    assert response.usage_known is False

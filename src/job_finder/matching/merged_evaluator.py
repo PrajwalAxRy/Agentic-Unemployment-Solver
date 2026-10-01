@@ -214,9 +214,12 @@ class MergedEvaluator:
         initial_usage = self._budget.snapshot
         for attempt in (1, 2):
             try:
-                self._budget.reserve(request)
+                replaying = bool(getattr(self._client, "has_replay", False))
+                if not replaying:
+                    self._budget.reserve(request)
                 response = self._client.complete(request, self._model_policy)
-                self._budget.record(response)
+                if not replaying:
+                    self._budget.record(response)
                 judgment = parse_merged_response(
                     response.content,
                     description=description,

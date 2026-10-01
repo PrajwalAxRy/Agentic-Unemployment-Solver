@@ -81,6 +81,12 @@ def replace_daily_lifecycle(
         ).fetchall()
         for key in keys:
             record = repository.require(key[0])
+            if (
+                record.status == "closed"
+                and record.job_key not in seen
+                and record.closed_at != today
+            ):
+                continue
             state = _baseline(connection, record, today)
             if record.job_key in seen:
                 if state.consecutive_absences or state.live_but_missing_days:

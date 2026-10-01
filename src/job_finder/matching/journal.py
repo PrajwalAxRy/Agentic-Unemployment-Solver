@@ -62,6 +62,11 @@ class JournalClient:
             (self.attempt_id, ordinal),
         ).fetchall()
 
+    @property
+    def has_replay(self) -> bool:
+        """Previously paid replies do not reserve or charge the new invocation's budget."""
+        return bool(self.replies)
+
     def complete(self, request: LLMRequest, policy: ModelPolicy) -> LLMResponse:
         request_hash = fingerprint({"request": asdict(request), "policy": policy.cache_key})
         if self.replies:
@@ -98,7 +103,12 @@ class JournalClient:
         self.connection.execute(
             "UPDATE llm_requests SET state = 'returned', response_json = ?, "
             "input_tokens = ?, output_tokens = ? WHERE request_id = ?",
-            (encode(asdict(response)), response.input_tokens, response.output_tokens, request_id),
+            (
+                encode(asdict(response)),
+                response.input_tokens if response.usage_known else None,
+                response.output_tokens if response.usage_known else None,
+                request_id,
+            ),
         )
         return response
 

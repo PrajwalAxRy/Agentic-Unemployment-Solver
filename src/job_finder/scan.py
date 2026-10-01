@@ -216,6 +216,7 @@ class ScanReport:
     evaluation_complete: bool = True
     pending_count: int = 0
     halt_reason: str | None = None
+    unknown_usage_request_count: int = 0
 
     def as_json(self) -> dict[str, object]:
         return {
@@ -224,6 +225,7 @@ class ScanReport:
             "evaluation_complete": self.evaluation_complete,
             "pending_count": self.pending_count,
             "halt_reason": self.halt_reason,
+            "unknown_usage_request_count": self.unknown_usage_request_count,
             "run_id": self.run_id,
             "started_at": self.started_at,
             "completed_at": self.completed_at,

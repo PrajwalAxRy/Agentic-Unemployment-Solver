@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import sqlite3
 from collections import Counter
 from collections.abc import Callable
@@ -149,6 +150,16 @@ def run_daily_scan(
         discovery = discovery_fingerprint(registry, profile)
         if command != "scan":
             current = batches.require_fresh(start)
+            try:
+                metadata = json.loads(current["metadata_json"])
+                restore_filter(metadata["filtered"], batches.candidates())
+                datetime.fromisoformat(metadata["started_at"])
+                for item in metadata["accounting"]:
+                    CompanyAccountingRecord(**item)
+            except (ValueError, KeyError, TypeError, CheckpointError) as error:
+                raise CheckpointError(
+                    "saved database batch is corrupt; run a fresh scan"
+                ) from error
             if current["discovery_config"] != discovery:
                 raise CheckpointError(
                     "source or discovery filter configuration changed; run a fresh scan"
@@ -160,12 +171,18 @@ def run_daily_scan(
             day = current["admission_date"]
         else:
             day = india_date(start)
-        if on_admitted:
-            on_admitted(day, command != "evaluate")
         try:
             if command == "scan":
                 batches.discard("new_scan")
+            elif command == "force_reevaluate":
+                batches.restart(config)
+            if on_admitted:
+                on_admitted(day, command != "evaluate")
+            if command == "scan":
                 seen: set[str] = set()
+                if progress:
+                    enabled = sum(entry.source.enabled for entry in registry.entries)
+                    progress(f"phase=source_collection status=started companies={enabled}")
                 filtered = collect_listings(
                     registry,
                     adapters,
@@ -196,15 +213,21 @@ def run_daily_scan(
                     probe=job_probe,
                     progress=progress,
                 )
-            elif command == "force_reevaluate":
-                batches.restart(config)
             halt_reason = _evaluate(batches, jobs, evaluator, profile, rates, progress, clock)
             report = _report(batches, jobs, profile, evaluator, start, clock(), halt_reason)
             pending = sum(row["result_json"] is None for row in batches.candidates())
             result = DailyScanResult(report, day, pending, halt_reason)
+            if progress:
+                progress(
+                    f"phase=candidate_evaluation status={'halted' if pending else 'complete'} "
+                    f"pending={pending} reason={halt_reason or 'none'}"
+                )
             if on_result:
                 on_result(result)
             return result
+        except BaseException as error:
+            logging.getLogger(__name__).warning("run=stopped exception=%s", type(error).__name__)
+            raise
         finally:
             if on_finally:
                 on_finally(connection)
@@ -287,6 +310,18 @@ def _publish(
             today=date.fromisoformat(india_date(observed)),
             probe=probe,
             dry_run=dry_run,
+        )
+        observation_day = india_date(observed)
+        # Only today's baseline is needed for replacement. Durable counters live in jobs.
+        connection.execute(
+            "DELETE FROM daily_observations WHERE observed_date < ?", (observation_day,)
+        )
+        connection.execute(
+            "DELETE FROM daily_company_counts WHERE observed_date < "
+            "(SELECT MAX(previous.observed_date) FROM daily_company_counts AS previous "
+            "WHERE previous.company_id = daily_company_counts.company_id "
+            "AND previous.observed_date < ?)",
+            (observation_day,),
         )
         connection.execute(
             "UPDATE daily_batch SET lifecycle_json = ?", (encode(asdict(lifecycle)),)
@@ -492,7 +527,8 @@ def _report(
         if len(uncertain) > before[1]:
             uncertain[-1] = replace(uncertain[-1], new_identity=bool(candidate["is_new"]))
     usage = batches.connection.execute(
-        "SELECT COUNT(*), COALESCE(SUM(input_tokens), 0), COALESCE(SUM(output_tokens), 0) "
+        "SELECT COUNT(*), COALESCE(SUM(input_tokens), 0), COALESCE(SUM(output_tokens), 0), "
+        "COALESCE(SUM(input_tokens IS NULL OR output_tokens IS NULL), 0) "
         "FROM llm_requests WHERE attempt_id = ?",
         (current["attempt_id"],),
     ).fetchone()
@@ -526,4 +562,5 @@ def _report(
         evaluation_complete=not counts.budget_halted,
         pending_count=counts.budget_halted,
         halt_reason=halt_reason,
+        unknown_usage_request_count=usage[3],
     )

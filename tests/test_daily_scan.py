@@ -405,3 +405,91 @@ def test_changed_discovery_rules_require_new_scan_even_for_force(tmp_path):
     changed = replace(PROFILE, recency_window_days=9)
     with pytest.raises(CheckpointError, match="discovery filter"):
         run(tmp_path, StubLLMClient([]), command="force_reevaluate", profile=changed)
+
+
+def test_previous_date_count_collapse_freezes_absence(tmp_path):
+    listing = job("healthy", "1", "ML Engineer", DESCRIPTION)
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        repository = JobStateRepository(connection)
+        record = repository.observe_listing(
+            listing, observed_at=SCAN_AT - timedelta(days=1), profile_version=PROFILE.version
+        ).record
+        repository.record_lifecycle(record.job_key, JobLifecycleState(sighting_count=2))
+        connection.execute(
+            "INSERT INTO daily_company_counts VALUES ('healthy', ?, 100)",
+            ((SCAN_AT - timedelta(days=1)).date().isoformat(),),
+        )
+    run(tmp_path, StubLLMClient([]), listings=())
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        assert connection.execute("SELECT consecutive_absences FROM jobs").fetchone()[0] == 0
+
+
+def test_two_invalid_replies_are_terminal_review_and_keep_usage(tmp_path):
+    result = run(tmp_path, StubLLMClient(["", ""]))
+    assert result.pending_count == 0
+    assert len(result.report.review_candidates) == 1
+    assert result.report.usage.request_count == 2
+    assert result.report.usage.measured_input_tokens == 100
+    resumed = run(tmp_path, StubLLMClient([]), command="evaluate")
+    assert len(resumed.report.review_candidates) == 1
+
+
+def test_fresh_scan_freezes_description_even_for_previously_cached_job(tmp_path):
+    from tests.test_scan import RetryingDetailAdapter
+
+    listing = job("healthy", "1", "ML Engineer", DESCRIPTION)
+    run(tmp_path, StubLLMClient([decision(True)]), listings=(listing,))
+    no_text = replace(listing, description=None, description_hash=None)
+    adapter = RetryingDetailAdapter(
+        {"healthy": (no_text,)}, details={listing.external_job_id: listing}, failures_remaining=0
+    )
+    run(tmp_path, StubLLMClient([]), adapter=adapter)
+    assert adapter.detail_requests == 1
+    result = run(
+        tmp_path,
+        StubLLMClient([decision(False)]),
+        command="force_reevaluate",
+        adapter=NoWebsiteAdapter({}),
+    )
+    assert result.pending_count == 0
+    assert not result.report.matching_jobs
+
+
+def test_replaying_invalid_reply_does_not_consume_new_invocation_budget(tmp_path):
+    first_client = StubLLMClient([""])
+    first_model = evaluator(first_client)
+    first_model._budget = UsageBudget(UsageLimits(1, 10000, 1000, 200))
+    first = run(tmp_path, first_client, model=first_model)
+    assert first.pending_count == 1
+    next_client = StubLLMClient([decision(True)])
+    next_model = evaluator(next_client)
+    next_model._budget = UsageBudget(UsageLimits(1, 10000, 1000, 200))
+    resumed = run(tmp_path, next_client, command="evaluate", model=next_model)
+    assert resumed.pending_count == 0
+    assert len(next_client.requests) == 1
+    assert resumed.report.usage.request_count == 2
+
+
+def test_corrupt_database_batch_is_rejected_before_calls_or_outputs(tmp_path):
+    run(tmp_path, StubLLMClient([decision(True)]))
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        connection.execute("UPDATE daily_batch SET metadata_json = '{}' ")
+    with pytest.raises(CheckpointError, match="corrupt"):
+        run(tmp_path, StubLLMClient([]), command="evaluate", adapter=NoWebsiteAdapter({}))
+
+
+def test_valid_reply_without_usage_completes_without_paid_replay(tmp_path):
+    from job_finder.matching.evaluator import LLMResponse
+
+    class UnknownUsageClient:
+        def complete(self, request, policy):
+            return LLMResponse(decision(True), 0, 0, usage_known=False)
+
+    result = run(tmp_path, UnknownUsageClient())
+    assert result.pending_count == 0
+    assert result.report.unknown_usage_request_count == 1
+    assert result.report.usage.measured_input_tokens == 0
+    resumed = run(tmp_path, StubLLMClient([]), command="evaluate")
+    assert len(resumed.report.matching_jobs) == 1
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        assert connection.execute("SELECT input_tokens FROM llm_requests").fetchone()[0] is None

@@ -51,6 +51,7 @@ class LLMResponse:
     content: str
     input_tokens: int
     output_tokens: int
+    usage_known: bool = True
 
 
 class SeniorityLLMClient(Protocol):
@@ -112,6 +113,7 @@ class UsageBudget:
         self._estimated_input_tokens = 0
         self._measured_input_tokens = 0
         self._measured_output_tokens = 0
+        self._unknown_output_bound = 0
 
     @property
     def snapshot(self) -> UsageSnapshot:
@@ -131,7 +133,10 @@ class UsageBudget:
             raise UsageLimitExceeded("estimated LLM input-token limit reached")
         if request.max_output_tokens > self.limits.max_output_tokens_per_request:
             raise UsageLimitExceeded("per-request LLM output-token limit exceeded")
-        if self._measured_output_tokens + request.max_output_tokens > self.limits.max_output_tokens:
+        if (
+            self._measured_output_tokens + self._unknown_output_bound + request.max_output_tokens
+            > self.limits.max_output_tokens
+        ):
             raise UsageLimitExceeded("LLM output-token limit reached")
         self._request_count += 1
         self._estimated_input_tokens += estimated
@@ -140,6 +145,9 @@ class UsageBudget:
         """Record non-negative provider-reported usage after a reserved request."""
         if response.input_tokens < 0 or response.output_tokens < 0:
             raise ValueError("provider token usage cannot be negative")
+        if not response.usage_known:
+            self._unknown_output_bound += self.limits.max_output_tokens_per_request
+            return
         self._measured_input_tokens += response.input_tokens
         self._measured_output_tokens += response.output_tokens
         if self._measured_output_tokens > self.limits.max_output_tokens:
@@ -277,9 +285,12 @@ class SeniorityEvaluator:
         initial_usage = self._budget.snapshot
         for attempt in (1, 2):
             try:
-                self._budget.reserve(request)
+                replaying = bool(getattr(self._client, "has_replay", False))
+                if not replaying:
+                    self._budget.reserve(request)
                 response = self._client.complete(request, self._model_policy)
-                self._budget.record(response)
+                if not replaying:
+                    self._budget.record(response)
                 decision = parse_seniority_response(response.content)
                 _require_description_evidence(decision, description)
             except UsageLimitExceeded as error:
