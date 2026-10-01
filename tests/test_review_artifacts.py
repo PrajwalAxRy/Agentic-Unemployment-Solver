@@ -246,28 +246,31 @@ def test_h9_review_records_quality_gate_and_live_evidence() -> None:
 def test_manual_scan_runbook_documents_outcomes_state_and_recovery() -> None:
     """The runbook must cover what an operator needs mid-scan.
 
-    The H10 usability-review template this once pinned was dropped when that checkpoint
-    closed; asserting a historical review form kept the file from being updated. What
-    replaces it is the budget-halt recovery path, which is the gap that actually stranded
-    3,026 jobs on 2026-09-30 with no documented remedy.
+    Pin the current daily recovery contract, not the retired JSON checkpoint's
+    sliding 24-hour expiry or the historical usability-review template.
     """
     runbook = Path("docs/07_scan_runbook.md").read_text(encoding="utf-8")
 
     assert "uv run --locked job-finder scan" in runbook
     assert "reports/latest_scan.md" in runbook
     assert "reports/latest_scan.json" in runbook
-    assert "Zero matching" in runbook
-    assert "Exit status is `0`" in runbook
+    assert "valid zero matches" in runbook
+    assert "| `0` | Evaluation complete" in runbook
+    assert "| `6` | Evaluation incomplete" in runbook
     assert "state inspect" in runbook
     assert "state backup" in runbook
     assert "state restore" in runbook
-    assert "pending and is retried" in runbook
-    assert "The separate **Unsupported and blocked sources** table" in runbook
+    assert "completed judgments and all pending candidates stay saved" in runbook
+    assert "unsupported/blocked sources are separately accounted for" in runbook
 
     # Recovery and cost, the two things a live operator has no other source for.
-    assert "--resume" in runbook, "an operator hitting a budget halt needs the remedy here"
-    assert "state/resume_checkpoint.json" in runbook
-    assert "24h" in runbook, "the checkpoint staleness limit must be stated"
+    assert "job-finder evaluate" in runbook
+    assert "job-finder force_reevaluate" in runbook
+    assert "--resume" in runbook
+    assert "files are no longer read" in runbook
+    assert "midnight" in runbook, "the date-based staleness limit must be stated"
+    assert "Discarded requests remain in the total" in runbook
+    assert "marked **unknown**" in runbook
     assert "job-finder costs" in runbook
     assert "state/llm_costs.jsonl" in runbook
 

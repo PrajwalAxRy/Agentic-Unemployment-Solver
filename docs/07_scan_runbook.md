@@ -2,210 +2,198 @@
 
 ## Purpose
 
-`job-finder scan` runs the complete discovery pipeline once. It reads public sources, applies the
-rolling-ten-day, location, and title policies, suppresses previously processed jobs, then sends each
-survivor to **one merged LLM call** that judges AI/ML relevance, seniority, and (only when the
-deterministic filter could not resolve it) India eligibility. It writes local reports. It does not
-schedule another run or send a notification.
+`job-finder scan` collects public listings, applies the rolling-ten-day policy and deterministic
+location-before-title filters, retrieves full retained descriptions, then publishes a frozen batch
+in SQLite. It evaluates that batch with one merged LLM call per job, reusing an exact cached
+judgment where available. The call judges AI/ML relevance, seniority and, only when unresolved,
+India eligibility. There is one validation retry. The tool writes local reports and has no
+scheduler or notifications.
 
-Relevance is the consequential judgment: in the 2026-09-30 run it rejected **59%** of everything
-that reached it. Expect a large share of evaluated jobs to come back `unrelated`; that is the gate
-working, not a fault.
+`evaluate` continues the saved evaluation attempt. `force_reevaluate` starts a new attempt over
+the entire saved batch, including previously completed jobs, bypassing the judgment cache.
+Neither command revisits company sites or retrieves descriptions. All three use the same OS lock.
 
 ## Before the first run
 
 1. Set up Python and dependencies as described in `docs/development.md`.
-2. Configure the local `.env` variables listed in `docs/06_llm_provider_configuration.md`. Never
-   paste the gateway key into chat or commit `.env`.
+2. Configure local `.env` variables listed in `docs/06_llm_provider_configuration.md`. Never paste
+   keys into chat or commit `.env`.
 3. Verify the redacted provider connection:
 
    ```powershell
    uv run --locked job-finder check-llm
    ```
 
-## Run the scan
+On upgrade, start with a fresh scan. Old `state/resume_checkpoint.json` files are no longer read;
+an explicit `--checkpoint` argument is rejected. The upgrade does not delete existing legacy
+files. Existing job identities/first-seen dates survive the schema migration. Legacy judgments
+without an exact full-request fingerprint cause a one-time cache miss and may incur new LLM cost.
 
-From the repository root:
+## Commands and the daily boundary
 
 ```powershell
 uv run --locked job-finder scan
+uv run --locked job-finder evaluate
+uv run --locked job-finder force_reevaluate
+uv run --locked job-finder scan --resume     # alias for evaluate
+uv run --locked job-finder scan --plain      # plain progress output
 ```
 
-**Expect hours, not minutes.** The pipeline is single-threaded throughout. The 2026-09-30 run over
-~150 sources spent roughly 3.5h on source collection, ~1h on the deterministic filter, then one
-sequential HTTP fetch plus one LLM call per retained job — 3,677 of them. Keep the terminal open.
+**Expect hours for fresh discovery.** The historical 2026-09-30 run collected ~150 sources in
+roughly 3.5h and retained 3,677 candidates. Discovery now retrieves all retained descriptions
+before the first LLM call. Everything remains sequential. The old ~$7 full-scan estimate used
+the configured rates of that run; it is not a current price guarantee.
 
-Useful flags:
+A batch belongs to the command's admission date in **IST (UTC+05:30)**. New `evaluate` and
+`force_reevaluate` invocations are allowed only on that date. A scan admitted at 21:00 leaves
+three hours before the midnight boundary. An invocation admitted before midnight may finish
+after midnight, including a long discovery stage; if it then stops with pending jobs, another
+evaluation invocation is refused and a fresh scan is required. Expiry blocks reuse but does not
+automatically delete the stored batch.
 
-```powershell
-uv run --locked job-finder scan --min-request-interval 0.15 --max-concurrent-per-host 2
-uv run --locked job-finder scan --resume     # continue a run that halted on budget
-uv run --locked job-finder scan --plain      # no progress bar or colour, plain log lines
-```
+| Command | Saved data | Daily log and reports |
+|---|---|---|
+| `scan` | Immediately discards the previous batch; collects and freezes a new one; evaluates it. | Replaces that date's log/reports and latest copies. |
+| `evaluate` | Continues pending jobs; completed jobs are retained. A completed attempt regenerates reports without new LLM calls. | Appends to the same dated log; replaces cumulative reports. |
+| `force_reevaluate` | Discards the current attempt's progress and starts the whole frozen batch again. Does not re-scrape. | Resets the dated log and replaces the reports. |
 
-A live progress bar shows the phase, percentage, elapsed time and a median-based ETA, above a
-scrolling per-company log. Some companies genuinely take minutes — Adobe's Workday board needs about
-190 individual detail fetches because its listings report "N Locations" instead of naming a city.
+If forced evaluation stops, use **`evaluate`** to continue it. Calling `force_reevaluate` again
+restarts all jobs again and can spend again. Preserve custom registry/profile/prompt/database,
+lock and output flags; the terminal prints a compatible resume command when the batch is fresh.
+`--seniority-only` remains a debugging option and bypasses the relevance gate.
 
-Default local outputs:
+`evaluate` rejects changed prompt contents, seniority settings or model/output policy. Use
+`force_reevaluate` to apply new evaluation rules to the frozen batch. A changed source registry
+or discovery filter requires **a fresh scan**, even for forced evaluation: those changes affect
+which jobs the batch should contain.
 
-- `reports/latest_scan.md` — concise report for a person.
-- `reports/latest_scan.json` — complete machine-readable accounting, covering all 330 seed companies.
-- `state/jobs.sqlite3` — durable identity, evaluation, and aggregate run state.
-- `state/llm_costs.jsonl` — append-only record of what each run cost. View with `job-finder costs`.
-- `state/resume_checkpoint.json` — written only when a run halts on budget. Valid 24h.
-- `state/scan.lock` — overlap protection held only while a scan is running.
+## What is stored, and for how long
 
-The terminal prints registry/profile/prompt and report/state schema versions, then bounded progress
-for source collection, deterministic filtering, and candidate evaluation. The final summary shows
-source coverage, listing counts, new and duplicate identity counts, result-section counts, and both
-report paths. It does not print the gateway key, descriptions, prompts, headers, or model responses.
+Default locations:
 
-## Interpret the result
+| Data | Location | Retention |
+|---|---|---|
+| Current full retained batch, descriptions, coverage, evaluation attempt and progress | `state/jobs.sqlite3`: `daily_batch`, `batch_candidates` | One current batch. Removed by a fresh scan, expired-batch prune or reset. Remains physically stored after midnight until one of those actions. |
+| Job identity, first-seen, last-seen, lifecycle and latest completed judgment/evidence | Same SQLite database: `jobs` | Persists across scans. Prune clears old descriptions while preserving rows; reset removes job history. |
+| Complete reusable judgments keyed by exact request/model policy | Same SQLite database: `evaluation_cache` | Persists across scans; reset clears it. No automatic age limit. |
+| Returned replies awaiting validation/commit | Same SQLite database: `llm_requests.response_json` | Cleared when the candidate completes or the attempt is discarded. Available for crash replay until then. |
+| Request ID, date, usage, configured rates and discard reason | Same SQLite database: `llm_requests`; export to `state/llm_costs.jsonl` | Permanent accounting, including discarded attempts. Reset/prune preserve it. |
+| Daily search log | `state/logs/scan-YYYY-MM-DD.log` | One file per admission date; fresh scan/force resets it, evaluate appends. Older dates have no automatic deletion. |
+| Daily report pair and latest copies | `reports/scan-YYYY-MM-DD.json`, `reports/scan-YYYY-MM-DD.md`; `reports/latest_scan.json`, `reports/latest_scan.md` | Replaced for that date; older dates have no automatic deletion. |
+| Daily lifecycle baselines and source counts | SQLite: `daily_observations`, `daily_company_counts` | Publication retains the latest observation day's baselines and current/most recent earlier trustworthy source counts. |
+| Overlap protection | `state/scan.lock` | OS lock held throughout the command. File presence alone does not mean a command is live. |
 
-The first bold line in `reports/latest_scan.md` states one of three outcomes:
+Other commands log to `state/logs/commands.log` without altering the search log. Custom output
+directories receive the same dated filenames alongside the requested latest output paths.
 
-- `complete` — every enabled source succeeded or returned a verified empty board. Zero matching
-  jobs is a valid successful result.
-- `partial` — at least one enabled source failed, but healthy-source results remain available.
-- `failed` — no enabled source completed successfully.
+The historical description average was ~23kB. For 3,677 jobs, full description text is about
+85MB per copy. The frozen batch and completed job rows can retain two copies (~170MB), plus
+SQLite/metadata overhead. These are estimates; actual size depends on the source descriptions.
+All listing-time descriptions may also remain in memory during collection/filtering. Rejected
+listing descriptions are not persisted in the frozen batch.
 
-The report then shows:
+## Failure and recovery
 
-1. New strict-ten-day matching jobs.
-2. Matching jobs with uncertain publication dates, kept separate under the approved H5 policy.
-3. Location, description, relevance, seniority, or provider outcomes requiring review.
-4. Complete coverage metrics and source failures.
-5. Unsupported and blocked first-release sources with their recorded reasons.
+| Event | Result | Next step |
+|---|---|---|
+| Fatal failure/interruption before the discovery transaction publishes | No new batch or partial job/lifecycle writes. Previous batch stays discarded. Partial daily artifacts are removed; a small failure diagnostic remains. Durable history and spending survive. | Fresh `scan`. |
+| Some individual sources fail but at least one succeeds or is valid-empty | Healthy-source batch remains, marked partial coverage. Failed sources are not treated as empty boards. | Evaluate it normally; inspect source failures. |
+| No enabled source succeeds or returns valid-empty | Fatal discovery failure; no batch. | Fix the source/configuration problem and run a fresh `scan`. |
+| One description cannot be retrieved | That candidate's frozen batch record becomes description review; other candidates proceed. Evaluation does not retry website retrieval. | A fresh `scan` is needed to fetch it again. |
+| LLM budget exhausted or provider unavailable | Stop the invocation; completed judgments and all pending candidates stay saved. Partial cumulative reports are written. | `evaluate` before midnight IST. |
+| Crash/interruption after batch publication, including a report write failure | Batch/progress and request journal survive. Report files can temporarily be absent or from different write steps; each file replacement is atomic, the pair is not a filesystem transaction. | `evaluate` regenerates cumulative reports before midnight IST. |
+| Invalid model output after the bounded validation retry | A terminal review outcome is saved, with usage preserved. It is not a pending provider outage. | `force_reevaluate` if another complete evaluation is desired. |
 
-Exit status is `0` for complete coverage, `2` for partial coverage, and `3` for a failed command or
-a run where no enabled source completed.
+Returned replies saved before a crash are replayed locally without another paid call or consuming
+the next invocation's request budget. A crash while the provider call is in flight can leave no
+saved reply. Its usage is marked **unknown**, and a replacement request may incur another charge.
+There is no exactly-once billing guarantee. A valid reply without provider usage can complete a
+judgment, while its spending remains unknown.
 
-## If the run halts on budget
+Exit statuses:
 
-A scan that exhausts its LLM budget **still writes both reports and exits 0**. Without reading the
-last lines you would take it for a completed run that simply found fewer jobs. That is exactly how a
-halt went unnoticed on 2026-09-30, stranding 3,026 jobs.
+| Code | Meaning |
+|---|---|
+| `0` | Evaluation complete; complete enabled-source coverage, including valid zero matches. |
+| `2` | Evaluation complete; partial source coverage. |
+| `3` | Fatal command/discovery failure. |
+| `4` | Another command holds the scan lock; admission/output replacement did not proceed. |
+| `5` | Saved batch unavailable, expired, corrupt or incompatible; also retired `--checkpoint` use. |
+| `6` | Evaluation incomplete with pending candidates, usually budget/provider halt. |
+| `130` | Interrupted. Recovery depends on whether discovery was published. |
 
-The run ends with:
+## Reading reports
 
-```
-INCOMPLETE: the run budget ran out with 3026 job(s) still unevaluated. They are saved, not lost.
-  Resume with:  python -m job_finder scan --resume
-  Checkpoint:   state/resume_checkpoint.json (valid for 24h)
-```
+Coverage and evaluation completion are separate. Complete source coverage does **not** mean all
+jobs were judged. The bold outcome and pending count identify this explicitly. After resume, the
+report contains the whole current attempt, not only the jobs evaluated in the latest invocation.
+Forced evaluation's report contains only its new attempt's completed decisions, never results
+left over from the discarded attempt.
 
-Nothing is lost. Those rows stay `pending`, and the checkpoint holds them so the resumed run skips
-collection and filtering entirely — saving the ~3.5h scrape.
+| Question | Where to look |
+|---|---|
+| Which strict matches are new? | **Matching jobs (new and known)**: use the identity column. Known/cached matches remain visible. |
+| Which matches lack verified publication dates? | **Date-uncertain matching candidates**; these are separate from strict ten-day matches. |
+| Why is a job included or under review? | Relevance/evidence/reason cells and **Candidates requiring review**. |
+| Which companies failed? | **Source failures**; unsupported/blocked sources are separately accounted for. |
+| Did all jobs finish? | Evaluation completion and pending count; **LLM usage** lists requests with unknown usage. |
+| Where is complete company accounting? | JSON report covers all 330 canonical companies, including disabled/unsupported reasons. |
 
-```powershell
-uv run --locked job-finder scan --resume
-```
+Relevance rejects unrelated jobs, so fewer matches than evaluated candidates is expected. Complete
+merged judgments, including rejection evidence, are stored in the cache/database; rejected jobs
+are not expanded into match tables. The historical 2026-09-30 sample rejected 153 of 259 evaluated
+jobs (59%); that is an observation about that sample, not a promised future rate.
 
-Resume is refused, with exit code 5 and an explanation, when the checkpoint is:
-
-- **older than 24h** — postings close, and resuming onto stale data spends budget on rows the next
-  scan would retire anyway;
-- **built under different rules** — if `profile_version`, `prompt_version` or `model_policy` changed,
-  the cached verdicts it would join are themselves invalid;
-- **absent or corrupt**.
-
-In every one of those cases the remedy is the same: run a full scan.
-
-Note that lifecycle absence detection is deliberately **skipped** on resume, because a checkpoint
-holds only a slice of the listing set and running it would mark live jobs as missing.
-
-If halts are routine rather than exceptional, raise the caps in `.env` — see
-`docs/06_llm_provider_configuration.md` and `docs/decisions.md` D4.
-
-## Track what runs cost
+## Spending and repeat runs
 
 ```powershell
 uv run --locked job-finder costs
 ```
 
-```
-day           runs  evaluated    cost (USD)
-2026-09-30       1        140          0.25
-2026-10-01       1       3418          6.11
-2026-10-02       1         96          0.17
+Costs reads SQLite request accounting and the exported ledger, deduplicating request IDs and
+keeping legacy run-level entries readable. Spending is assigned to the actual request date in
+IST, which can differ from the batch date if a command crosses midnight. Rates are captured
+from the local configuration at request time; reported money is an estimate using those rates.
 
-total=USD 6.53 over 3 day(s), 3 run(s), 3654 job(s) evaluated
-per_evaluated_job=USD 0.0018
-```
+Discarded requests remain in the total, with discarded amounts/counts shown alongside it. A
+force or replacement does not refund prior calls. Currencies are totaled separately. Missing
+usage/rates are reported as unknown/unavailable, not free. If export fails, request accounting
+remains in SQLite and `costs` can read it there. Restoring an older database does not undo
+spending/discard events already exported to the permanent ledger.
 
-The shape to expect is one expensive catch-up day, then cents: the evaluation cache means only
-genuinely new postings cost anything. Watch `per_evaluated_job` rather than the total — it moves
-only when the prompt, model, or description length changes.
-
-Cost is reported as `unavailable` when no rates are configured, never as zero. The 30-day projection
-is labelled as an extrapolation because early backlog runs inflate it.
-
-## Where to find each answer in the report
-
-| Question | Where to look | Notes |
-|---|---|---|
-| Was coverage complete, partial, or failed? | The first bold sentence and **Coverage and run summary** | `Complete` with zero matches is still a successful run. |
-| Which jobs are new strict matches? | **New matching jobs** | |
-| Which matches have uncertain publication dates? | **Date-uncertain matching candidates** | Listed separately; these are not strict ten-day matches. |
-| Why was each job included or sent to review? | For matches, **Seniority evidence** and **Why it matched**. For reviews, **Review category** and **Reason / evidence**. | Read those cells; do not infer from the title alone. |
-| Why was a job rejected? | Not recorded. | Only the three-way verdict is persisted — the model's relevance quote and reasoning are discarded (`docs/decisions.md`, open questions). |
-| Which companies had source problems? | **Source failures** | The separate **Unsupported and blocked sources** table records known limitations rather than failures in this run. |
-| Where are the full JSON results? | The terminal line beginning `Wrote machine-readable report to` | Defaults to `reports/latest_scan.json`. |
-| What did this run cost? | The `llm_cost=` line, or `job-finder costs` | |
-
-## Repeat-run behavior
-
-Do not delete or reset `state/jobs.sqlite3` between normal scans. An immediate unchanged rerun
-should show zero repeated jobs and make no repeated LLM request for completed or terminal outcomes.
-Uncertain source dates use their persisted first-seen time only for forward aging; first-seen is
-never presented as a publication date.
+Do not reset the database between normal scans. An unchanged full request reuses the complete
+judgment without a new LLM call, but a fresh scan still retrieves source listings/descriptions
+to detect changes. Same-day replacements recompute lifecycle from that day's baseline, so they
+cannot repeatedly increment sightings or absences. Evaluate/force never run lifecycle absence
+detection. Expiry remains observational by default; existing opt-in expiry safety still applies.
 
 ## State safety
 
-Inspect state without showing job descriptions:
-
 ```powershell
 uv run --locked job-finder state inspect --database state/jobs.sqlite3
-```
-
-Back up state to a new file:
-
-```powershell
 uv run --locked job-finder state backup --database state/jobs.sqlite3 --output state/backups/jobs-YYYYMMDD.sqlite3
-```
-
-Restore a verified backup to a new path without overwriting existing state:
-
-```powershell
 uv run --locked job-finder state restore --backup state/backups/jobs-YYYYMMDD.sqlite3 --output state/restored-jobs.sqlite3
 ```
 
-Reset is not a normal troubleshooting step. It requires an exact resolved-path confirmation and,
-for real history, the H7 human-checkpoint protocol in the execution plan.
+Inspect separates durable job-history counts from the current batch's candidate/pending/freshness
+counts. This matters during forced evaluation: an old completed job judgment is not completion
+of the new attempt. Backups include frozen batch, progress and request journal. Backup/restore
+accept older supported schemas (1–6); writing commands migrate them. Restore creates a new file
+and refuses to overwrite existing state. Restoring does not extend a batch's admission date.
 
-## Troubleshooting
+Prune clears descriptions not seen in 90 days, protects fresh batch candidates, and removes an
+expired batch. It preserves identity/first-seen rows and spending. Reset clears jobs, cache,
+batch and lifecycle data but preserves spending. Both acquire the scan lock and require a verified
+backup and exact resolved database-path confirmation. Reset is not a normal troubleshooting step;
+the existing H7 human approval rule applies before resetting real history. Erasing identities
+would make still-live undated jobs look newly seen.
 
-- `missing required environment variables`: configure the named variables in local `.env`; do not
-  paste values into chat.
-- `another job-finder scan is already running`: wait for that scan to finish. If no process is
-  running, inspect the error and lock path before changing anything.
-- `partial`: open the Source failures table. Healthy results are still valid; failed companies are
-  not represented as empty boards.
-- `failed`: confirm provider configuration, network access, and source diagnostics. The command
-  preserves the failed run record and does not claim complete coverage.
-- A candidate appears under review: use its direct job link and the recorded reason/evidence. An
-  uncertain or invalid seniority result is never promoted to a match.
-- `llm_provider_failure` or a transient description-fetch failure: the affected candidate stays
-  pending and is retried by the next scan; completed decisions and terminal policy outcomes are
-  still reused without another LLM request.
-
-Generated reports and state are ignored by Git. Do not stage them, cached responses, diagnostics,
-or `.env`.
+**Never run the test suite while a scan is live.** Tests use disposable state but also contend
+for the default scan lock. Generated state/reports, replies, diagnostics and `.env` stay out of Git.
 
 ## Related documents
 
-- `CLAUDE.md` — architecture and measured numbers.
-- `docs/decisions.md` — what was decided and why; read before proposing changes.
-- `docs/06_llm_provider_configuration.md` — gateway, budget caps, cost rates.
-- `docs/08_source_resilience_and_repair.md` — when a source breaks.
+- `CLAUDE.md` — architecture, historical measurements and known traps.
+- `docs/decisions.md` — D12 records the daily recovery/accounting design and reasons.
+- `docs/06_llm_provider_configuration.md` — provider, budget caps and cost rates.
+- `docs/08_source_resilience_and_repair.md` — source failures and repair.

@@ -97,3 +97,10 @@ uv run --locked job-finder state restore --backup state/backups/jobs-YYYYMMDD.sq
 Reset is destructive and is not part of a normal scan. It first creates and verifies the requested
 backup, then requires `--confirm-database` to exactly equal the absolute path printed by the
 inspection command. Checkpoint H7 approval is required before resetting real job-history state.
+
+Reset and prune also acquire the scan lock, back up before migrating/writing, and preserve
+permanent request spending. Reset removes job identities, so it changes undated-job recency and
+is not a substitute for a fresh scan. Prune preserves identities/first-seen dates and protects
+descriptions needed by a fresh saved batch; it removes an expired batch. Schema 1–6 databases can
+be inspected, backed up and restored; a writing command migrates older state to schema 6.
+See `docs/07_scan_runbook.md` for daily evaluation recovery and accounting retention.

@@ -110,7 +110,7 @@ from "we judged it and it failed".
 ---
 
 ## D6. Resume uses a checkpoint file, not a re-scan
-**2026-09-30 · SETTLED · commits `0fe8d3e`, checkpoint module**
+**2026-09-30 · SUPERSEDED for the daily CLI by D12 · commits `0fe8d3e`, checkpoint module**
 
 On a budget halt, the unevaluated rows are written to `state/resume_checkpoint.json`.
 `scan --resume` skips collection and filtering entirely.
@@ -207,6 +207,9 @@ assistant following them would have built the wrong thing.
 ## D9. Persist the discarded evidence, and the description with it
 **2026-10-01 · DECIDED** (migration 5)
 
+The cache/fetch behavior below records migration 5. D12 supersedes it for the daily CLI:
+fresh scans fetch retained descriptions again and reuse only exact-request judgments.
+
 Closes the "relevance evidence is not persisted" open question below.
 
 **What was wrong:** the merged call returns a validated verbatim quote and a reason for
@@ -285,3 +288,48 @@ complete merged judgment and progress need one transactional authority. Spending
 independent of replaceable data and is marked discarded instead of subtracted. Same-day
 lifecycle replacement must recompute from a baseline rather than count repeated runs.
 This supersedes D6's file checkpoint and sliding 24-hour deadline for the daily CLI.
+
+**Replacement boundary:** a fresh scan discards replaceable batch/artifact data, not
+durable job identities, first-seen dates or spending. Erasing identities would make old
+undated jobs look new and break the recency contract. Fatal discovery never publishes
+partial job/lifecycle changes. Individual source failures still permit a partial batch
+when another source succeeds or returns a verified empty board.
+
+**One day, one observation:** daily lifecycle changes are recomputed from the pre-day
+baseline on replacement. Presence includes all normalized source listings before the
+recency/location/title filters; otherwise an aged-out but still-listed job would look
+absent. Source collapse checks compare against an earlier trustworthy date, rather than
+the run being replaced. Only the current day's baselines and current/most recent earlier
+trustworthy company counts are retained after publication. Regression tests cover
+same-day sightings/absences, aged-out presence and a collapsed source.
+
+**Exact request cache:** store complete judgments keyed on the rendered request and
+model policy, including title and prompt contents. A description-only cache would miss
+title changes and could promote a cached unrelated rejection into a match. Legacy cache
+entries lack this proof and deliberately miss once. `evaluate` rejects changed evaluation
+rules; `force_reevaluate` allows those changes but cannot rebuild a batch selected under
+different sources or discovery filters. Those require a fresh scan.
+
+**Provider recovery and spending:** journal before sending; persist returned content and
+usage before validation; atomically commit the complete judgment and candidate progress.
+Saved replies replay without reserving the next invocation's request budget. A regression
+test showed that charging the replay against a one-request cap prevents the validation
+retry forever. Keep the existing bounded validation retry; this is recovery, not the
+broader retry-policy redesign deferred in D8. Returned malformed replies still incur
+usage; missing provider usage stays unknown even when the judgment is valid. Unknown
+usage reserves a conservative output bound for the current invocation.
+
+**No exactly-once billing claim:** a process can die after provider acceptance but before
+persisting a reply. Keep that request's usage unknown and allow a new request on resume;
+it may charge again. Removing the row or treating it as zero would understate spending.
+Typed, idempotent usage and discard events supplement permanent SQLite request records.
+Totals include discarded spending, group currencies separately and assign requests to
+the actual request date in IST. An old database restore must not undo discard markers
+already exported to the ledger. Prices are still the configured estimates under D7.
+
+**Operator safety:** admission, dated log/report replacement, request exports and reset/
+prune mutations use the same OS lock. Reports represent the whole saved attempt after
+resume, including cached/known matches and explicit pending counts. Exit 6 distinguishes
+an evaluation halt from completed coverage. An active invocation may cross midnight;
+another invocation then requires a fresh scan. Legacy JSON checkpoint flags are rejected
+explicitly rather than silently ignored; SQLite backups include batch/progress.

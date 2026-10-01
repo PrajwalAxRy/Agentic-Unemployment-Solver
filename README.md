@@ -14,16 +14,25 @@ After configuring the local provider variables described in
 
 ```powershell
 uv run --locked job-finder scan
-uv run --locked job-finder scan --resume   # continue a run that halted on budget
-uv run --locked job-finder costs           # per-day spend history
+uv run --locked job-finder evaluate          # resume saved evaluation progress
+uv run --locked job-finder force_reevaluate  # evaluate the entire saved batch again
+uv run --locked job-finder costs             # spending, including discarded attempts
 ```
 
-**Expect hours.** The pipeline is single-threaded: roughly 3.5h of source collection, then one HTTP
-fetch and one LLM call per retained job, sequentially. A full scan costs about $7.
+**Expect hours.** The pipeline is single-threaded. The historical full run spent roughly 3.5h
+collecting sources and retained 3,677 jobs, costing an estimated $7 at its configured rates.
+Discovery now freezes full descriptions before evaluation; exact cached judgments avoid repeat
+LLM calls. Forced reevaluation bypasses that cache and can incur the full cost again.
 
-Outputs are `reports/latest_scan.md` (for a person), `reports/latest_scan.json` (complete
-accounting), `state/jobs.sqlite3` (durable identity and evaluation state), and
-`state/llm_costs.jsonl` (spend ledger). It does not schedule itself or send notifications.
+Each IST date has one `state/logs/scan-YYYY-MM-DD.log` and one dated JSON/Markdown report pair,
+plus `reports/latest_scan.*`. A fresh scan replaces that day's artifacts and saved batch.
+`evaluate` resumes the current attempt; `scan --resume` is its compatibility alias. New evaluation
+invocations are allowed only before midnight IST ending the scan's admission date.
+
+`state/jobs.sqlite3` stores durable identity, the frozen batch, progress and request usage;
+`state/llm_costs.jsonl` preserves spending exports and discard markers. Fatal discovery failure
+requires a fresh scan; interrupted evaluation can resume. Old JSON checkpoints are retired,
+so begin the upgrade with a fresh scan. It does not schedule itself or send notifications.
 
 ## Where to look
 

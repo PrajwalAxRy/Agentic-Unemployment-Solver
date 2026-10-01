@@ -33,8 +33,8 @@ def render_scan_markdown(report: ScanReport) -> str:
         "|---|---|---|",
         "| Coverage status | The bold sentence above and **Coverage and run summary** | "
         "Report `complete`, `partial`, or `failed`. |",
-        "| New strict matches | **New matching jobs** | List its jobs, or answer `none` when "
-        "the section says there are no new matches. |",
+        "| New strict matches | **Matching jobs (new and known)** | Use the identity column "
+        "to select new jobs; known matches remain in the cumulative report. |",
         "| Matches with uncertain dates | **Date-uncertain matching candidates** | List its "
         "jobs separately; these are not strict ten-day results. |",
         "| Why a job is shown | Match tables: **Relevance**, **Why it is relevant**, "
