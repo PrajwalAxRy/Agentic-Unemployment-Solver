@@ -224,6 +224,6 @@ assistant following them would have built the wrong thing.
 - **`filters/description_relevance.py` is dead code** — imported only by its own test. The
   regex gate it implements was removed (`to_change.md` 2.3). Delete it with its test, or
   record why it is retained.
-- **Amazon geo-filter pollutes diagnostics** (`PS_Note.md` L112-115): `amazon_jobs.py:346`
+- **Amazon geo-filter pollutes diagnostics** (`PS_Note.md` L112-115): `amazon_jobs.py:354`
   raises on a geo-filter rejection, so intentionally filtered jobs are recorded as
   `malformed_job` — corrupting the signal meant to detect broken adapters.

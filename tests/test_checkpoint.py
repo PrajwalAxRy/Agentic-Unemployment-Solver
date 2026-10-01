@@ -195,9 +195,12 @@ def test_the_resume_command_echoes_non_default_paths() -> None:
     )
     assert _resume_suffix(default) == "", "the plain command needs no flags"
 
-    custom = argparse.Namespace(
-        checkpoint=Path("state/other.json"), database=Path("state/alt.sqlite3")
-    )
+    checkpoint = Path("state/other.json")
+    database = Path("state/alt.sqlite3")
+    custom = argparse.Namespace(checkpoint=checkpoint, database=database)
     suffix = _resume_suffix(custom)
-    assert "--checkpoint state/other.json" in suffix
-    assert "--database state/alt.sqlite3" in suffix
+    # Compare against the platform's own rendering. The command is pasted into the shell
+    # the operator is already using, so a backslash on Windows is correct output, not a
+    # defect -- asserting a literal "state/other.json" only passed because CI is Linux.
+    assert f"--checkpoint {checkpoint}" in suffix
+    assert f"--database {database}" in suffix

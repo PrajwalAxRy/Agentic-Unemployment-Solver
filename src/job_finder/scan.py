@@ -268,8 +268,16 @@ def run_manual_scan(
     started_at: datetime | None = None,
     run_id: str | None = None,
     progress: Callable[[str], None] | None = None,
+    checkpoint_path: Path | None = None,
 ) -> ScanReport:
-    """Run every pipeline layer under one lock and persist sanitized run metrics."""
+    """Run every pipeline layer under one lock and persist sanitized run metrics.
+
+    ``checkpoint_path`` is where a budget halt snapshots its unevaluated rows so a later
+    ``--resume`` can finish them. It was previously accepted only by
+    ``resume_from_checkpoint``, while ``cli.py`` passed it to *both* -- so every plain
+    scan raised ``TypeError`` before contacting a single company. ``None`` disables
+    checkpointing, which is what the tests that call this directly rely on.
+    """
     start = started_at or datetime.now().astimezone()
     if start.tzinfo is None:
         raise ValueError("started_at must be timezone-aware")
@@ -322,6 +330,7 @@ def run_manual_scan(
                 expiry_dry_run=expiry_dry_run,
                 job_probe=job_probe,
                 progress=progress,
+                checkpoint_path=checkpoint_path,
             )
             completed = _aware_from_iso(report.completed_at)
             runs.finish(
