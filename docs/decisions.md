@@ -204,6 +204,50 @@ assistant following them would have built the wrong thing.
 
 ---
 
+## D9. Persist the discarded evidence, and the description with it
+**2026-10-01 · DECIDED** (migration 5)
+
+Closes the "relevance evidence is not persisted" open question below.
+
+**What was wrong:** the merged call returns a validated verbatim quote and a reason for
+all three judgments. `merged_evaluator` built a `SeniorityDecision` from five of the
+judgment's fields and dropped the rest, so only the `verdict` enum reached SQLite. The
+judgment rejecting ~59% of evaluated jobs (153 of 259 in the 2026-09-30 run) was the one
+nobody could explain after the fact. Descriptions were likewise unstored, so no judgment
+could be re-derived without re-scraping.
+
+**Measured cost.** Against the 259 completed rows in `jobs-pre-rescan-20261001.sqlite3`:
+`seniority_result_json` is median 371 bytes, max 566 (`reason` median 151 / max 285;
+`evidence` median 93 / max 259). Adding relevance and location evidence roughly doubles
+that — **~2.5MB across a full 3,677-job scan**, against a 3.7MB database. Descriptions are
+the expensive half at ~23kB each, ~85MB for a first full scan, then slow growth: the
+10-day recency window bounds each run's intake, and an evaluated job is never re-fetched
+because the cache keys on `description_hash`.
+
+**No re-evaluation.** The cache key is `description_hash` + `profile_version` +
+`prompt_version` + `model_policy`. A schema migration touches none of them, so this was
+not a ~$7 re-scan. **No backfill is possible** — the discarded text is gone, so a row can
+legitimately carry a verdict with NULL evidence. Consumers must tolerate that pairing.
+
+**Prune nulls, never deletes — the load-bearing part.** `collection.py:419` reads
+`jobs.first_seen_at` as the recency basis whenever a source lacks a verified publication
+date. Deleting a row makes a still-live job look newly-seen: it re-enters the funnel, is
+re-evaluated at cost, and resurfaces as new. It would also bypass
+`MINIMUM_SIGHTINGS_TO_EXPIRE = 2` and `COLLAPSE_RATIO = 0.5`, the guards that stop a
+truncated scrape closing live jobs. Nulling reclaims essentially all the space because the
+description is the only large column. Filter on `last_seen_at`, never `first_seen_at`.
+Verified on 500 seeded jobs: 8.4MB reclaimed, all 500 rows and hashes intact.
+
+**Bug found while wiring this up:** the `JobRecord` passed to `_record_decision` was
+fetched before `record_verdict` ran, so it predated the verdict it reported. Every row
+would have shown a blank relevance on the run that judged it and picked one up only on a
+later cached run — a failure that looks correct the moment you re-run to check.
+
+**No `maxLength` bounds added.** D8 deferred those on measured evidence; adding them here
+would have reversed that silently.
+
+---
+
 ## Open questions — not yet decided
 
 - **Concurrency.** The pipeline is single-threaded throughout. `max_workers` exists in
@@ -214,10 +258,7 @@ assistant following them would have built the wrong thing.
 - **Timing instrumentation.** `candidate_evaluation` reports no `seconds=` and no HTTP/LLM
   split, unlike the other two phases. Three separate performance diagnoses were wrong
   because this data does not exist. **Measure before optimising.**
-- **Relevance evidence is not persisted.** Only the three-way verdict survives; the model's
-  quote and reasoning are discarded. Seniority evidence *is* kept. This is the judgment
-  doing the most work (59% of evaluated jobs rejected) and the one least auditable after
-  the fact.
+- ~~**Relevance evidence is not persisted.**~~ Resolved by D9 (migration 5).
 - **The relevance evaluation set is inert.** 20 cases exist; every test asserts things
   about the JSON file and none run it against a model. No accuracy gate, unlike the
   seniority path's 90% agreement gate.

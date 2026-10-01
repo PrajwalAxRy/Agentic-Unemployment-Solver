@@ -19,11 +19,14 @@ code, and `latest_scan.json` is better queried with `jq` than read.
 |---|---|
 | Is the scan parallel? | **No.** Single-threaded everywhere. `max_workers` exists in `collection.py` but is **dead code** — defaults to 1, nothing passes it, no CLI flag. |
 | Are LLM calls batched? | **No.** One job per call, sequential. ~3,677 calls per full run. |
-| Where are descriptions stored? | **Nowhere.** Only `description_hash` is persisted. You cannot compute description length stats from the DB. |
-| Is relevance evidence stored? | **No.** Only the three-way `verdict`. The model's quote/reason for relevance is discarded. Seniority evidence *is* kept in `seniority_result_json`. |
+| Where are descriptions stored? | **`jobs.description`**, written by `prepare_evaluation` — so only for the ~3,677 jobs that reach the model, not all ~42,000 listings. Nulled on a changed `description_hash`, and by `state prune`. |
+| Is relevance evidence stored? | **Yes**, since migration 5: `relevance_evidence`/`relevance_reason` and the conditional `location_evidence`/`location_reason`. Rows judged before it keep NULLs — the text is gone and cannot be backfilled. |
 | What does a run cost? | **$0.0020/job**, ~$7.23 for a full 3,677-job scan. Recorded per run in `state/llm_costs.jsonl`; view with `job_finder costs`. |
 | Why is `conditional_pass` ~94%? | **By design, not a leak.** `filter_role` returns `CONDITIONAL_DESCRIPTION` for every surviving title — `EXPLICIT_PASS` exists in the enum but is unreachable, so nothing skips the LLM gate. See "Settled decisions". |
 | Where does time go? | Unmeasured. `candidate_evaluation` has **no `seconds=` instrumentation**, unlike collection/filter. Measure before optimising. |
+| Does anything prune the DB? | **Only `state prune`, manually.** It nulls `description` for rows not seen in 90 days — it never deletes. `scan_runs` and `llm_costs.jsonl` still grow forever; expiry flips `status='closed'`. The only `DELETE` is the operator-invoked `reset_state`. Only `state/logs/scan.log` rotates. |
+| Is `jobs.date_basis` used? | **No — dead schema.** Migration 4 adds the column; `JobRecord` has no such field and no statement reads or writes it. |
+| Is the DB in WAL mode? | **No.** `database.py` sets `foreign_keys` and `busy_timeout` only, so it runs in rollback-journal mode. |
 
 ## Architecture: three phases, one lock
 
@@ -51,6 +54,26 @@ title+description after whitespace/case normalization. Failures trigger the retr
 Cache key: `description_hash` + `profile_version` + `prompt_version` + `model_policy`.
 **Changing any of those re-evaluates the entire corpus** (~$7). Includes editing
 `search_profile.toml` or `merged_prompt.toml`, and toggling `--seniority-only`.
+
+## Where description text lives (and for how long)
+
+- Many adapters (Greenhouse, Lever — ~34 files) populate `description` **at listing time**,
+  not at detail-fetch time. Workday-style boards leave it `None` until `get_job_detail`.
+- `FilterListingRecord.normalized_job` holds the whole `NormalizedJob` **by reference**, and
+  a record is appended for **rejected** rows too. So `FilterVerificationReport.listings`
+  pins every listing-time description for the entire ~3.5h run. This is the dominant
+  memory cost of a scan and is **unmeasured**.
+- On disk: `jobs.description` (~23kB each, ~85MB for a first full scan) and
+  `state/resume_checkpoint.json` (~30MB worst case, see `checkpoint.py:248`).
+
+**Prune nulls the column; it must never delete the row.** `collection.py:419` reads
+`jobs.first_seen_at` as the recency basis whenever a source lacks a verified publication
+date. Delete a row and a still-live job looks newly-seen — it re-enters the funnel, is
+re-evaluated at cost, and resurfaces as new. Deleting also bypasses
+`MINIMUM_SIGHTINGS_TO_EXPIRE` and `COLLAPSE_RATIO` in `core/lifecycle.py`. Filter on
+`last_seen_at`, never `first_seen_at`: a job first seen six months ago but still live every
+week is exactly the row not to touch. Measured on 500 seeded jobs: 8.4MB reclaimed, all 500
+rows and hashes intact.
 
 ## Settled decisions — do not re-propose (full reasoning in `docs/decisions.md`)
 
@@ -99,7 +122,11 @@ python -m mypy src/                      # locking.py Windows errors are pre-exi
 
 python -m job_finder scan --min-request-interval 0.15 --max-concurrent-per-host 2
 python -m job_finder scan --resume       # after a budget halt; checkpoint valid 24h
-python -m job_finder costs               # per-day spend history
+python -m job_finder costs               # per-day spend + DB growth history
+
+# Reclaim disk by clearing description text for jobs not seen in 90 days. Keeps the rows.
+python -m job_finder state prune --backup state/backups/pre-prune.sqlite3 \
+    --confirm-database "$(python -c 'import pathlib;print(pathlib.Path("state/jobs.sqlite3").resolve())')"
 ```
 
 **Never run the test suite while a scan is live** — tests write `state/` databases and

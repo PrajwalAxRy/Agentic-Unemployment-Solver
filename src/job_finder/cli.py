@@ -92,6 +92,7 @@ from job_finder.persistence.locking import ScanAlreadyRunningError
 from job_finder.persistence.maintenance import (
     backup_state,
     inspect_state,
+    prune_descriptions,
     reset_state,
     restore_state,
 )
@@ -281,6 +282,23 @@ def build_parser() -> argparse.ArgumentParser:
     state_reset.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
     state_reset.add_argument("--backup", type=Path, required=True)
     state_reset.add_argument("--confirm-database", required=True)
+    state_prune = state_subparsers.add_parser(
+        "prune",
+        help="Clear stored description text for jobs not seen recently. Keeps the rows.",
+    )
+    state_prune.add_argument("--database", type=Path, default=Path("state/jobs.sqlite3"))
+    state_prune.add_argument("--backup", type=Path, required=True)
+    state_prune.add_argument("--confirm-database", required=True)
+    state_prune.add_argument(
+        "--older-than-days",
+        type=int,
+        default=90,
+        help=(
+            "Clear descriptions for jobs whose last sighting is older than this "
+            "(default: 90). Measured on last_seen_at, so a long-running job that is still "
+            "live every week is never touched."
+        ),
+    )
     persistence = subparsers.add_parser(
         "verify-persistence",
         help="Run two full filtered passes against disposable state and verify idempotency.",
@@ -735,6 +753,18 @@ def _maintain_state(args: argparse.Namespace) -> int:
         print(
             f"backup={before.database_path} records={before.job_count} "
             f"schema={before.schema_version}"
+        )
+    elif args.state_command == "prune":
+        pruned, summary = prune_descriptions(
+            args.database,
+            args.backup,
+            confirmation=args.confirm_database,
+            older_than_days=args.older_than_days,
+        )
+        print(
+            f"pruned={pruned.rows_cleared} row(s) older_than_days={args.older_than_days} "
+            f"reclaimed={format_bytes(pruned.bytes_reclaimed)} "
+            f"db={format_bytes(pruned.bytes_after)}"
         )
     else:  # pragma: no cover - argparse constrains state commands.
         raise ValueError(f"unknown state command: {args.state_command}")

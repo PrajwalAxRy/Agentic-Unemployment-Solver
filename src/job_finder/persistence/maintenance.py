@@ -6,6 +6,7 @@ import os
 import sqlite3
 from collections import Counter
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 
 from job_finder.persistence.database import CURRENT_SCHEMA_VERSION, current_schema_version
@@ -133,6 +134,86 @@ def reset_state(
     finally:
         connection.close()
     return before, inspect_state(database)
+
+
+@dataclass(frozen=True, slots=True)
+class PruneResult:
+    """What a description sweep reclaimed. Counts only -- never sample text."""
+
+    rows_cleared: int
+    bytes_before: int
+    bytes_after: int
+
+    @property
+    def bytes_reclaimed(self) -> int:
+        return max(0, self.bytes_before - self.bytes_after)
+
+
+def prune_descriptions(
+    database_path: Path,
+    backup_path: Path,
+    *,
+    confirmation: str,
+    older_than_days: int = 90,
+) -> tuple[PruneResult, StateSummary]:
+    """Clear stored description text for jobs not seen for ``older_than_days``.
+
+    Nulls the column; does **not** delete rows, and that distinction is load-bearing.
+    ``collection.py`` reads ``jobs.first_seen_at`` as the recency basis whenever a source
+    lacks a verified publication date, so deleting a row makes a still-live job look
+    newly-seen: it re-enters the funnel, is re-evaluated at cost, and resurfaces in the
+    report as new. Deleting would also bypass the two-sighting and collapse-ratio guards
+    in ``core.lifecycle`` that exist to stop a truncated scrape closing live jobs.
+
+    Nulling reclaims essentially all of the space anyway -- the description is the only
+    large column -- while first_seen_at, description_hash, verdict and the evidence
+    columns all survive.
+
+    Filters on ``last_seen_at``, not ``first_seen_at``: a job first seen six months ago
+    but still live every week is exactly the row not to touch.
+    """
+    if older_than_days < 1:
+        raise ValueError("older_than_days must be at least 1")
+    database = _require_file(database_path, "database")
+    expected_confirmation = str(database)
+    if confirmation != expected_confirmation:
+        raise ValueError(
+            "prune confirmation must exactly match the resolved database path: "
+            f"{expected_confirmation}"
+        )
+    backup_state(database, backup_path)
+    bytes_before = database.stat().st_size
+    connection = sqlite3.connect(database, isolation_level=None)
+    try:
+        connection.execute("PRAGMA busy_timeout = 5000")
+        connection.execute("BEGIN IMMEDIATE")
+        cursor = connection.execute(
+            """
+            UPDATE jobs SET description = NULL, updated_at = ?
+            WHERE description IS NOT NULL
+              AND last_seen_at < datetime('now', ?)
+            """,
+            (datetime.now(UTC).isoformat(), f"-{older_than_days} days"),
+        )
+        rows_cleared = cursor.rowcount
+        connection.commit()
+        # SQLite does not hand freed pages back to the OS without this, so without the
+        # VACUUM the file stops growing but never shrinks.
+        connection.execute("VACUUM")
+        _require_integrity(connection, "pruned database")
+    except BaseException:
+        connection.rollback()
+        raise
+    finally:
+        connection.close()
+    return (
+        PruneResult(
+            rows_cleared=rows_cleared,
+            bytes_before=bytes_before,
+            bytes_after=database.stat().st_size,
+        ),
+        inspect_state(database),
+    )
 
 
 def _open_read_only(path: Path) -> sqlite3.Connection:
