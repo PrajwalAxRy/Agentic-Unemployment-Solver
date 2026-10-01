@@ -362,6 +362,10 @@ class JobStateRepository:
         verdict: str,
         verdict_at: datetime,
         required_experience: str | None = None,
+        relevance_evidence: str | None = None,
+        relevance_reason: str | None = None,
+        location_evidence: str | None = None,
+        location_reason: str | None = None,
     ) -> JobRecord:
         """Record the first time a job reached a qualifying verdict (3.6).
 
@@ -369,6 +373,12 @@ class JobStateRepository:
         verdict_at, not on first sighting. Rows stranded by the normalization bug carry
         old first_seen_at values, so keying the feed on first sighting would mean the ~78
         recovered Google roles never appear as new.
+
+        The evidence arguments are the model's verbatim quote and reasoning for the
+        relevance and location judgments. They are COALESCEd like required_experience, so
+        a later call that omits them preserves what is stored -- the location pair is
+        genuinely absent whenever the deterministic filter resolved the location itself,
+        and that must not erase evidence from a run where the model was asked.
         """
         self._connection.execute("BEGIN IMMEDIATE")
         try:
@@ -378,6 +388,10 @@ class JobStateRepository:
                     verdict = ?,
                     verdict_at = COALESCE(verdict_at, ?),
                     required_experience = COALESCE(?, required_experience),
+                    relevance_evidence = COALESCE(?, relevance_evidence),
+                    relevance_reason = COALESCE(?, relevance_reason),
+                    location_evidence = COALESCE(?, location_evidence),
+                    location_reason = COALESCE(?, location_reason),
                     updated_at = ?
                 WHERE job_key = ?
                 """,
@@ -385,6 +399,10 @@ class JobStateRepository:
                     verdict,
                     verdict_at.isoformat(),
                     required_experience,
+                    relevance_evidence,
+                    relevance_reason,
+                    location_evidence,
+                    location_reason,
                     _utc_now_text(),
                     job_key,
                 ),

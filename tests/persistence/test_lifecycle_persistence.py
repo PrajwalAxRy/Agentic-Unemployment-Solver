@@ -176,6 +176,68 @@ def test_verdict_at_is_set_once(repository: JobStateRepository) -> None:
     assert stored.required_experience == "3+ years", "must not be cleared by a later write"
 
 
+def test_verdict_evidence_is_persisted(repository: JobStateRepository) -> None:
+    """Migration 5: the quote behind a verdict, which used to be thrown away."""
+    observation = repository.observe_listing(
+        _job(), observed_at=datetime(2026, 9, 25, tzinfo=UTC), profile_version="1.0"
+    )
+    key = observation.record.job_key
+
+    repository.record_verdict(
+        key,
+        verdict="unrelated",
+        verdict_at=datetime(2026, 9, 26, tzinfo=UTC),
+        relevance_evidence="maintain Salesforce dashboards",
+        relevance_reason="Business analytics, not ML engineering.",
+        location_evidence="Remote (US only)",
+        location_reason="Explicitly excludes India.",
+    )
+
+    stored = repository.require(key)
+    assert stored.relevance_evidence == "maintain Salesforce dashboards"
+    assert stored.relevance_reason == "Business analytics, not ML engineering."
+    assert stored.location_evidence == "Remote (US only)"
+    assert stored.location_reason == "Explicitly excludes India."
+
+
+def test_a_later_verdict_without_location_evidence_keeps_the_stored_pair(
+    repository: JobStateRepository,
+) -> None:
+    """The model is asked about location only when the filter could not resolve it.
+
+    So a second run that resolves it deterministically passes None here. That means "not
+    asked this time", not "no longer true", and must not erase a stored judgment.
+    """
+    observation = repository.observe_listing(
+        _job(), observed_at=datetime(2026, 9, 25, tzinfo=UTC), profile_version="1.0"
+    )
+    key = observation.record.job_key
+
+    repository.record_verdict(
+        key,
+        verdict="peripheral",
+        verdict_at=datetime(2026, 9, 26, tzinfo=UTC),
+        relevance_evidence="some ML exposure",
+        relevance_reason="Adjacent, not core.",
+        location_evidence="Remote (India eligible)",
+        location_reason="India is listed.",
+    )
+    repository.record_verdict(
+        key,
+        verdict="substantive",
+        verdict_at=datetime(2026, 9, 29, tzinfo=UTC),
+        relevance_evidence="train and deploy models",
+        relevance_reason="Core ML work.",
+    )
+
+    stored = repository.require(key)
+    # The verdict itself overwrites -- a re-judgment supersedes.
+    assert stored.verdict == "substantive"
+    assert stored.relevance_evidence == "train and deploy models"
+    assert stored.location_evidence == "Remote (India eligible)", "must survive a silent run"
+    assert stored.location_reason == "India is listed."
+
+
 def test_active_jobs_query_excludes_closed_rows(repository: JobStateRepository) -> None:
     """Absence detection iterates open jobs; closed ones must drop out."""
     for index in (1, 2):

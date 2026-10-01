@@ -768,6 +768,16 @@ def process_filter_report(
                 verdict=judgment.relevance.value,
                 verdict_at=observed_at,
                 required_experience=judgment.required_experience,
+                # Migration 5. Previously only the verdict enum survived, which left the
+                # judgment that rejects ~59% of evaluated jobs as the one nobody could
+                # audit afterwards. The quote is already validated as a verbatim substring
+                # of title+description, so it is checkable against the posting.
+                relevance_evidence=judgment.relevance_evidence,
+                relevance_reason=judgment.relevance_reason,
+                # None whenever the deterministic filter resolved the location and the
+                # model was never asked -- which is the common case, not a failure.
+                location_evidence=judgment.location_evidence,
+                location_reason=judgment.location_reason,
             )
             if judgment.relevance is RelevanceVerdict.UNRELATED:
                 counts.conditional_reject += 1

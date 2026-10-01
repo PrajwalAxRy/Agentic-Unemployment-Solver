@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from enum import StrEnum
 from typing import Protocol
 
+from job_finder.matching.merged_prompt import MergedJudgment
 from job_finder.matching.prompt import SeniorityPrompt
 from job_finder.matching.seniority import (
     RESPONSE_JSON_SCHEMA,
@@ -166,6 +167,14 @@ class EvaluationOutcome:
     usage: UsageSnapshot
     prompt_version: str
     model_policy: str
+    judgment: MergedJudgment | None = None
+    """The merged call's full three-part judgment, when one was made.
+
+    ``decision`` carries only the seniority half, so without this the relevance and
+    location evidence the model was paid to produce is discarded at the point it is
+    converted to a :class:`SeniorityDecision`. Optional because ``SeniorityEvaluator``
+    makes no such judgment -- ``--seniority-only`` must stay a drop-in fallback.
+    """
 
 
 class SeniorityEvaluator:

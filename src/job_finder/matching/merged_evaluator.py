@@ -16,7 +16,6 @@ decides discipline; this decides domain.
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass
 from typing import Any
 
 from job_finder.matching.evaluator import (
@@ -35,7 +34,6 @@ from job_finder.matching.merged_prompt import (
     MergedResponseError,
     parse_merged_response,
 )
-from job_finder.matching.relevance_set import RelevanceVerdict
 from job_finder.matching.seniority import DetectedLevel, SeniorityDecision
 
 _LOGGER = logging.getLogger(__name__)
@@ -112,22 +110,6 @@ def merged_response_schema(*, location_requested: bool) -> dict[str, Any]:
     return schema
 
 
-@dataclass(frozen=True, slots=True)
-class MergedOutcome:
-    """An :class:`EvaluationOutcome` plus the relevance and location judgments.
-
-    The seniority half is carried in ``outcome`` so existing persistence and reporting
-    keep working untouched; the extra judgments ride alongside rather than replacing it.
-    """
-
-    outcome: EvaluationOutcome
-    judgment: MergedJudgment | None
-
-    @property
-    def relevance(self) -> RelevanceVerdict | None:
-        return self.judgment.relevance if self.judgment else None
-
-
 class MergedEvaluator:
     """Run one merged call per job, with at most one retry for invalid output."""
 
@@ -161,9 +143,10 @@ class MergedEvaluator:
     def last_judgment(self) -> MergedJudgment | None:
         """The full judgment from the most recent ``evaluate()`` call.
 
-        Exposed because :class:`EvaluationOutcome` carries only the seniority decision.
-        ``scan.py`` reads this immediately after evaluating to record the relevance
-        verdict, so the merged call's extra judgments are not silently discarded.
+        Retained alongside ``EvaluationOutcome.judgment`` because the cache service
+        returns a :class:`CachedEvaluationResult` whose ``evaluation`` is ``None`` on the
+        cached path, and ``scan.py`` reads the judgment for every row. Prefer the outcome
+        field when you have the outcome; this is the side channel for when you do not.
         """
         return self._last
 
@@ -234,6 +217,7 @@ class MergedEvaluator:
                     evidence=judgment.seniority_evidence,
                     reason=judgment.seniority_reason,
                 ),
+                judgment=judgment,
                 attempt_count=attempt,
                 errors=tuple(errors),
                 usage=_usage_delta(initial_usage, self._budget.snapshot),
