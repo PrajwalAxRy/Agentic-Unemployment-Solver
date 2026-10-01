@@ -16,8 +16,8 @@ from __future__ import annotations
 
 import json
 import logging
-from dataclasses import dataclass
-from datetime import datetime
+from dataclasses import dataclass, replace
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 _LOGGER = logging.getLogger(__name__)
@@ -72,6 +72,9 @@ class RunCost:
     # descriptions were stored still load.
     db_bytes_before: int = 0
     db_bytes_total: int = 0
+    discarded_reason: str | None = None
+    unknown_usage: bool = False
+    request_id: str | None = None
 
     @property
     def db_bytes_added(self) -> int:
@@ -97,6 +100,9 @@ class RunCost:
     def as_json(self) -> dict[str, object]:
         return {
             "run_id": self.run_id,
+            "discarded_reason": self.discarded_reason,
+            "unknown_usage": self.unknown_usage,
+            "request_id": self.request_id,
             "completed_at": self.completed_at,
             "model_policy": self.model_policy,
             "prompt_version": self.prompt_version,
@@ -214,13 +220,16 @@ def summarise(history: list[RunCost]) -> dict[str, object]:
     priced = [item for item in history if item.priced and item.total_cost is not None]
     total = sum(item.total_cost or 0.0 for item in priced)
     evaluated = sum(item.evaluated for item in priced)
-    days = {item.completed_at[:10] for item in priced if item.completed_at}
+    days = {iso_day(item.completed_at) for item in priced if item.completed_at}
     return {
-        "runs": len(history),
+        "runs": sum(item.request_id is None for item in history)
+        + len({item.run_id for item in history if item.request_id is not None}),
         "priced_runs": len(priced),
         "unpriced_runs": len(history) - len(priced),
-        "currency": priced[0].currency if priced else "USD",
-        "total_cost": _rounded(total),
+        "currency": priced[0].currency
+        if len({item.currency for item in priced}) <= 1 and priced
+        else ("mixed" if priced else "USD"),
+        "total_cost": _rounded(total) if len({item.currency for item in priced}) <= 1 else None,
         "total_evaluated": evaluated,
         "mean_cost_per_run": _rounded(total / len(priced)) if priced else None,
         "mean_cost_per_day": _rounded(total / len(days)) if days else None,
@@ -250,7 +259,10 @@ def _rounded(value: float | None, *, digits: int = 4) -> float | None:
 def iso_day(timestamp: str) -> str:
     """The calendar day of an ISO timestamp, or the raw value when unparseable."""
     try:
-        return datetime.fromisoformat(timestamp).date().isoformat()
+        value = datetime.fromisoformat(timestamp)
+        if value.tzinfo is not None:
+            value = value.astimezone(timezone(timedelta(hours=5, minutes=30)))
+        return value.date().isoformat()
     except ValueError:
         return timestamp[:10]
 
@@ -274,29 +286,30 @@ def append_to_ledger(cost: RunCost, path: Path) -> None:
 
 
 def read_ledger(path: Path) -> list[RunCost]:
-    """Load the run history, skipping entries that cannot be parsed.
-
-    Tolerant by design. This file is a record, not an input to any decision, so one
-    corrupt line -- a half-written entry from a killed process, say -- must not make the
-    remaining history unreadable.
-    """
+    """Read legacy runs and typed usage events; markers never become fictitious runs."""
     if not path.exists():
         return []
-    history: list[RunCost] = []
+    history: list[tuple[str | None, RunCost]] = []
+    discarded: dict[str, str] = {}
+    seen: set[str] = set()
     for line in path.read_text("utf-8").splitlines():
-        stripped = line.strip()
-        if not stripped:
-            continue
         try:
-            raw = json.loads(stripped)
-        except json.JSONDecodeError:
-            _LOGGER.warning("cost_ledger_line_unreadable path=%s", path)
-            continue
-        if not isinstance(raw, dict):
-            continue
-        history.append(
-            RunCost(
-                run_id=str(raw.get("run_id") or ""),
+            raw = json.loads(line)
+            if not isinstance(raw, dict):
+                continue
+            event_id = raw.get("event_id")
+            if isinstance(event_id, str):
+                if event_id in seen:
+                    continue
+                seen.add(event_id)
+            kind = raw.get("event_type")
+            if kind == "discard":
+                discarded[str(raw["request_id"])] = str(raw["reason"])
+                continue
+            if kind not in {None, "usage"} or not raw.get("run_id"):
+                continue
+            item = RunCost(
+                run_id=str(raw["run_id"]),
                 completed_at=str(raw.get("completed_at") or ""),
                 model_policy=str(raw.get("model_policy") or ""),
                 prompt_version=str(raw.get("prompt_version") or ""),
@@ -309,43 +322,68 @@ def read_ledger(path: Path) -> list[RunCost]:
                 input_cost=_optional_float(raw.get("input_cost")),
                 output_cost=_optional_float(raw.get("output_cost")),
                 total_cost=_optional_float(raw.get("total_cost")),
-                # `or 0` rather than a strict read: every line written before size
-                # accounting existed lacks these keys, and the ledger is append-only, so
-                # those lines are permanent. They read back as zero growth, which is the
-                # honest answer -- we did not measure it then.
                 db_bytes_before=int(raw.get("db_bytes_before") or 0),
                 db_bytes_total=int(raw.get("db_bytes_total") or 0),
+                discarded_reason=raw.get("discarded_reason"),
+                unknown_usage=bool(raw.get("unknown_usage", False)),
+                request_id=raw.get("request_id"),
             )
-        )
-    return history
+            history.append((raw.get("request_id"), item))
+        except (ValueError, TypeError, KeyError):
+            _LOGGER.warning("cost_ledger_line_unreadable path=%s", path)
+    return [
+        replace(item, discarded_reason=discarded.get(request_id or "", item.discarded_reason))
+        for request_id, item in history
+    ]
 
 
 def daily_totals(history: list[RunCost]) -> list[dict[str, object]]:
-    """Collapse the history into one row per calendar day, oldest first."""
-    days: dict[str, dict[str, object]] = {}
+    """Bucket actual spending dates in IST, grouping currencies without conversion."""
+    days: dict[tuple[str, str], dict[str, object]] = {}
+    run_ids: dict[tuple[str, str], set[str]] = {}
+    legacy_runs: dict[tuple[str, str], int] = {}
     for item in history:
-        key = iso_day(item.completed_at)
+        key = iso_day(item.completed_at), item.currency
         day = days.setdefault(
             key,
             {
-                "day": key,
+                "day": key[0],
+                "currency": key[1],
                 "runs": 0,
                 "evaluated": 0,
+                "requests": 0,
                 "cost": 0.0,
-                "currency": item.currency,
+                "discarded_cost": 0.0,
+                "discarded_requests": 0,
+                "unknown_requests": 0,
+                "unknown_usage_requests": 0,
                 "bytes_added": 0,
                 "bytes_total": 0,
             },
         )
-        day["runs"] = int(day["runs"]) + 1  # type: ignore[call-overload]
-        day["evaluated"] = int(day["evaluated"]) + item.evaluated  # type: ignore[call-overload]
+        if item.request_id is None:
+            legacy_runs[key] = legacy_runs.get(key, 0) + 1
+        else:
+            run_ids.setdefault(key, set()).add(item.run_id)
+        day["runs"] = legacy_runs.get(key, 0) + len(run_ids.get(key, set()))
+        for field, value in (
+            ("evaluated", item.evaluated),
+            ("requests", item.request_count),
+            ("bytes_added", item.db_bytes_added),
+        ):
+            day[field] = int(day[field]) + value  # type: ignore[call-overload]
         day["cost"] = float(day["cost"]) + (item.total_cost or 0.0)  # type: ignore[arg-type]
-        day["bytes_added"] = int(day["bytes_added"]) + item.db_bytes_added  # type: ignore[call-overload]
-        # The last run of the day wins rather than summing: this is a file size, not a
-        # quantity. History is iterated in ledger (append) order, so that is the latest.
+        if not item.priced:
+            day["unknown_requests"] = int(day["unknown_requests"]) + item.request_count  # type: ignore[call-overload]
+        if item.unknown_usage:
+            day["unknown_usage_requests"] = int(day["unknown_usage_requests"]) + item.request_count  # type: ignore[call-overload]
+        if item.discarded_reason:
+            day["discarded_cost"] = float(day["discarded_cost"]) + (item.total_cost or 0.0)  # type: ignore[arg-type]
+            day["discarded_requests"] = int(day["discarded_requests"]) + item.request_count  # type: ignore[call-overload]
         day["bytes_total"] = item.db_bytes_total
     for day in days.values():
         day["cost"] = round(float(day["cost"]), 4)  # type: ignore[arg-type]
+        day["discarded_cost"] = round(float(day["discarded_cost"]), 4)  # type: ignore[arg-type]
     return [days[key] for key in sorted(days)]
 
 
