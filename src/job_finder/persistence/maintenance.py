@@ -9,7 +9,13 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 
-from job_finder.persistence.database import CURRENT_SCHEMA_VERSION, current_schema_version
+from job_finder.persistence.batches import BatchRepository, india_date
+from job_finder.persistence.database import (
+    CURRENT_SCHEMA_VERSION,
+    current_schema_version,
+    migrate_database,
+)
+from job_finder.persistence.locking import ScanLock
 
 
 @dataclass(frozen=True, slots=True)
@@ -22,6 +28,10 @@ class StateSummary:
     pending_count: int
     completed_count: int
     failed_count: int
+    batch_date: str | None = None
+    batch_candidate_count: int = 0
+    batch_pending_count: int = 0
+    batch_fresh: bool = False
 
 
 def inspect_state(path: Path) -> StateSummary:
@@ -29,10 +39,11 @@ def inspect_state(path: Path) -> StateSummary:
     resolved = _require_file(path, "database")
     connection = _open_read_only(resolved)
     try:
+        connection.execute("BEGIN")
         version = current_schema_version(connection)
-        if version != CURRENT_SCHEMA_VERSION:
+        if not 1 <= version <= CURRENT_SCHEMA_VERSION:
             raise ValueError(
-                f"database schema version is {version}; expected {CURRENT_SCHEMA_VERSION}"
+                f"database schema version is {version}; supported=1..{CURRENT_SCHEMA_VERSION}"
             )
         counts = Counter(
             {
@@ -42,6 +53,14 @@ def inspect_state(path: Path) -> StateSummary:
                 )
             }
         )
+        batch = None
+        batch_counts = (0, 0)
+        if version >= 6:
+            batch = connection.execute("SELECT admission_date FROM daily_batch").fetchone()
+            row = connection.execute(
+                "SELECT COUNT(*), COALESCE(SUM(result_json IS NULL), 0) FROM batch_candidates"
+            ).fetchone()
+            batch_counts = (int(row[0]), int(row[1]))
     finally:
         connection.close()
     return StateSummary(
@@ -51,6 +70,10 @@ def inspect_state(path: Path) -> StateSummary:
         pending_count=counts["pending"],
         completed_count=counts["completed"],
         failed_count=counts["failed"],
+        batch_date=None if batch is None else str(batch[0]),
+        batch_candidate_count=int(batch_counts[0]),
+        batch_pending_count=int(batch_counts[1]),
+        batch_fresh=batch is not None and batch[0] == india_date(datetime.now(UTC)),
     )
 
 
@@ -110,6 +133,18 @@ def reset_state(
     backup_path: Path,
     *,
     confirmation: str,
+    lock_path: Path = Path("state/scan.lock"),
+) -> tuple[StateSummary, StateSummary]:
+    """Clear discovery/evaluation under the scan lock; preserve permanent spending."""
+    with ScanLock(lock_path):
+        return _reset_state_unlocked(database_path, backup_path, confirmation=confirmation)
+
+
+def _reset_state_unlocked(
+    database_path: Path,
+    backup_path: Path,
+    *,
+    confirmation: str,
 ) -> tuple[StateSummary, StateSummary]:
     """Back up and clear an existing database after exact resolved-path confirmation."""
     database = _require_file(database_path, "database")
@@ -121,10 +156,22 @@ def reset_state(
         )
     before = backup_state(database, backup_path)
     connection = sqlite3.connect(database, isolation_level=None)
+    connection.row_factory = sqlite3.Row
+    connection.execute("PRAGMA foreign_keys = ON")
     try:
         connection.execute("PRAGMA busy_timeout = 5000")
+        migrate_database(connection)
         connection.execute("BEGIN IMMEDIATE")
-        connection.execute("DELETE FROM jobs")
+        BatchRepository(connection).discard("state_reset")
+        for table in (
+            "evaluation_cache",
+            "daily_observations",
+            "daily_company_counts",
+            "scan_runs",
+            "jobs",
+        ):
+            connection.execute(f"DELETE FROM {table}")
+        connection.execute("UPDATE llm_requests SET response_json = NULL")
         connection.commit()
         connection.execute("VACUUM")
         _require_integrity(connection, "reset database")
@@ -150,6 +197,21 @@ class PruneResult:
 
 
 def prune_descriptions(
+    database_path: Path,
+    backup_path: Path,
+    *,
+    confirmation: str,
+    older_than_days: int = 90,
+    lock_path: Path = Path("state/scan.lock"),
+) -> tuple[PruneResult, StateSummary]:
+    """Prune old descriptions under the scan lock, protecting the admitted batch."""
+    with ScanLock(lock_path):
+        return _prune_descriptions_unlocked(
+            database_path, backup_path, confirmation=confirmation, older_than_days=older_than_days
+        )
+
+
+def _prune_descriptions_unlocked(
     database_path: Path,
     backup_path: Path,
     *,
@@ -184,14 +246,22 @@ def prune_descriptions(
     backup_state(database, backup_path)
     bytes_before = database.stat().st_size
     connection = sqlite3.connect(database, isolation_level=None)
+    connection.row_factory = sqlite3.Row
+    connection.execute("PRAGMA foreign_keys = ON")
     try:
         connection.execute("PRAGMA busy_timeout = 5000")
+        migrate_database(connection)
         connection.execute("BEGIN IMMEDIATE")
+        batches = BatchRepository(connection)
+        current = batches.current()
+        if current is not None and current["admission_date"] < india_date(datetime.now(UTC)):
+            batches.discard("expired_prune")
         cursor = connection.execute(
             """
             UPDATE jobs SET description = NULL, updated_at = ?
             WHERE description IS NOT NULL
               AND last_seen_at < datetime('now', ?)
+              AND job_key NOT IN (SELECT job_key FROM batch_candidates)
             """,
             (datetime.now(UTC).isoformat(), f"-{older_than_days} days"),
         )
