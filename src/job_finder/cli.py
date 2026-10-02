@@ -17,7 +17,7 @@ from typing import Any
 from uuid import uuid4
 
 from job_finder import __version__
-from job_finder.accounting import export_accounting, read_accounting
+from job_finder.accounting import export_accounting, read_accounting, usage_statistics
 from job_finder.adapters.aganitha_careers import AganithaCareersAdapter
 from job_finder.adapters.airbnb_careers import AirbnbCareersAdapter
 from job_finder.adapters.amazon_jobs import AmazonJobsAdapter
@@ -606,7 +606,39 @@ def _costs(args: argparse.Namespace) -> int:
         "Discarded spending remains included. "
         "Unknown charges may include an interrupted paid request."
     )
+    for stats in usage_statistics(args.database):
+        _print_usage_statistics(stats)
     return 0
+
+
+def _print_usage_statistics(stats: dict[str, Any]) -> None:
+    def tokens(name: str) -> str:
+        value = stats[name]
+        return "n/a" if value is None else f"{value:.0f}"
+
+    print(
+        f"\nusage model={stats['model_policy']} requests={stats['requests']} "
+        f"jobs={stats['jobs']} unknown_usage={stats['unknown_usage_requests']}"
+    )
+    print(
+        f"  mean per request: input={tokens('mean_input_tokens')} "
+        f"(cached={tokens('mean_cached_input_tokens')}, "
+        f"cache_write={tokens('mean_cache_write_tokens')}) "
+        f"output={tokens('mean_output_tokens')} "
+        f"(reasoning={tokens('mean_reasoning_tokens')})"
+    )
+    if stats["breakdown_requests"] < stats["requests"] - stats["unknown_usage_requests"]:
+        print(
+            f"  cache/reasoning breakdown recorded for {stats['breakdown_requests']} request(s) "
+            "only; the rest are priced with all input at the full rate"
+        )
+    if stats["total_cost"] is None:
+        print("  cost unavailable: some requests are unpriced or in mixed currencies")
+    else:
+        print(
+            f"  cost={stats['currency']} {stats['total_cost']:.4f} "
+            f"per_request={stats['cost_per_request']:.6f} per_job={stats['cost_per_job']:.6f}"
+        )
 
 
 def _verify_sources(args: argparse.Namespace) -> int:

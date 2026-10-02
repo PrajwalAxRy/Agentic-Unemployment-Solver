@@ -8,7 +8,7 @@ from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 
-CURRENT_SCHEMA_VERSION = 6
+CURRENT_SCHEMA_VERSION = 7
 
 _MIGRATIONS: dict[int, tuple[str, ...]] = {
     1: (
@@ -166,6 +166,13 @@ _MIGRATIONS: dict[int, tuple[str, ...]] = {
             company_id TEXT NOT NULL, observed_date TEXT NOT NULL,
             listing_count INTEGER NOT NULL, PRIMARY KEY(company_id, observed_date)
         )""",
+    ),
+    # Usage breakdown for accurate pricing. NULL on earlier rows means "not recorded",
+    # and those rows keep being priced with every input token at the full input rate.
+    7: (
+        "ALTER TABLE llm_requests ADD COLUMN cached_input_tokens INTEGER",
+        "ALTER TABLE llm_requests ADD COLUMN cache_write_tokens INTEGER",
+        "ALTER TABLE llm_requests ADD COLUMN reasoning_tokens INTEGER",
     ),
 }
 

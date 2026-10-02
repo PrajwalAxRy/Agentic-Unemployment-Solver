@@ -52,6 +52,12 @@ class LLMResponse:
     input_tokens: int
     output_tokens: int
     usage_known: bool = True
+    # Subsets of input_tokens/output_tokens, billed differently or worth watching. None
+    # means the provider did not report the breakdown, which is not the same as zero.
+    # Defaulted so replies journaled before these existed still replay.
+    cached_input_tokens: int | None = None
+    cache_write_tokens: int | None = None
+    reasoning_tokens: int | None = None
 
 
 class SeniorityLLMClient(Protocol):

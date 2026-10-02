@@ -100,13 +100,18 @@ class JournalClient:
                 raise
             response = error.response
         # Autocommit this staging write before validators or candidate commits run.
+        known = response.usage_known
         self.connection.execute(
             "UPDATE llm_requests SET state = 'returned', response_json = ?, "
-            "input_tokens = ?, output_tokens = ? WHERE request_id = ?",
+            "input_tokens = ?, output_tokens = ?, cached_input_tokens = ?, "
+            "cache_write_tokens = ?, reasoning_tokens = ? WHERE request_id = ?",
             (
                 encode(asdict(response)),
-                response.input_tokens if response.usage_known else None,
-                response.output_tokens if response.usage_known else None,
+                response.input_tokens if known else None,
+                response.output_tokens if known else None,
+                response.cached_input_tokens if known else None,
+                response.cache_write_tokens if known else None,
+                response.reasoning_tokens if known else None,
                 request_id,
             ),
         )

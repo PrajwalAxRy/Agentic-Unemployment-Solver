@@ -26,21 +26,50 @@ TOKENS_PER_MILLION = 1_000_000
 
 INPUT_RATE_VARIABLE = "JOB_FINDER_LLM_INPUT_COST_PER_MTOK"
 OUTPUT_RATE_VARIABLE = "JOB_FINDER_LLM_OUTPUT_COST_PER_MTOK"
+CACHED_INPUT_RATE_VARIABLE = "JOB_FINDER_LLM_CACHED_INPUT_COST_PER_MTOK"
+CACHE_WRITE_RATE_VARIABLE = "JOB_FINDER_LLM_CACHE_WRITE_COST_PER_MTOK"
 CURRENCY_VARIABLE = "JOB_FINDER_LLM_COST_CURRENCY"
 
 
 @dataclass(frozen=True, slots=True)
 class TokenRates:
-    """What one million input and output tokens cost, in ``currency``."""
+    """What one million input and output tokens cost, in ``currency``.
+
+    The cache rates are optional. Unset, cache reads and writes are priced as ordinary
+    input -- the pre-breakdown behaviour, so old rows and unconfigured runs are unchanged.
+    """
 
     input_per_mtok: float
     output_per_mtok: float
     currency: str = "USD"
+    cached_input_per_mtok: float | None = None
+    cache_write_per_mtok: float | None = None
+
+    def input_cost_of(
+        self, input_tokens: int, *, cached_tokens: int = 0, cache_write_tokens: int = 0
+    ) -> float:
+        cached = min(cached_tokens, input_tokens)
+        written = min(cache_write_tokens, input_tokens - cached)
+        plain = input_tokens - cached - written
+        cached_rate = (
+            self.input_per_mtok
+            if self.cached_input_per_mtok is None
+            else (self.cached_input_per_mtok)
+        )
+        write_rate = (
+            self.input_per_mtok
+            if self.cache_write_per_mtok is None
+            else (self.cache_write_per_mtok)
+        )
+        return (
+            plain * self.input_per_mtok + cached * cached_rate + written * write_rate
+        ) / TOKENS_PER_MILLION
 
     def cost_of(self, *, input_tokens: int, output_tokens: int) -> float:
         return (
-            input_tokens * self.input_per_mtok + output_tokens * self.output_per_mtok
-        ) / TOKENS_PER_MILLION
+            self.input_cost_of(input_tokens)
+            + output_tokens * self.output_per_mtok / TOKENS_PER_MILLION
+        )
 
 
 @dataclass(frozen=True, slots=True)
@@ -75,6 +104,10 @@ class RunCost:
     discarded_reason: str | None = None
     unknown_usage: bool = False
     request_id: str | None = None
+    # Subsets of input_tokens/output_tokens; zero when not reported by the provider.
+    cached_input_tokens: int = 0
+    cache_write_tokens: int = 0
+    reasoning_tokens: int = 0
 
     @property
     def db_bytes_added(self) -> int:
@@ -111,6 +144,9 @@ class RunCost:
             "request_count": self.request_count,
             "input_tokens": self.input_tokens,
             "output_tokens": self.output_tokens,
+            "cached_input_tokens": self.cached_input_tokens,
+            "cache_write_tokens": self.cache_write_tokens,
+            "reasoning_tokens": self.reasoning_tokens,
             "currency": self.currency,
             "input_cost": _rounded(self.input_cost),
             "output_cost": _rounded(self.output_cost),
@@ -135,10 +171,14 @@ def load_rates(values: dict[str, str]) -> TokenRates | None:
     raw_output = (values.get(OUTPUT_RATE_VARIABLE) or "").strip()
     if not raw_input or not raw_output:
         return None
+    raw_cached = (values.get(CACHED_INPUT_RATE_VARIABLE) or "").strip()
+    raw_write = (values.get(CACHE_WRITE_RATE_VARIABLE) or "").strip()
     return TokenRates(
         input_per_mtok=_rate(raw_input, INPUT_RATE_VARIABLE),
         output_per_mtok=_rate(raw_output, OUTPUT_RATE_VARIABLE),
         currency=(values.get(CURRENCY_VARIABLE) or "USD").strip() or "USD",
+        cached_input_per_mtok=_rate(raw_cached, CACHED_INPUT_RATE_VARIABLE) if raw_cached else None,
+        cache_write_per_mtok=_rate(raw_write, CACHE_WRITE_RATE_VARIABLE) if raw_write else None,
     )
 
 
@@ -156,9 +196,18 @@ def price_run(
     rates: TokenRates | None,
     db_bytes_before: int = 0,
     db_bytes_total: int = 0,
+    cached_input_tokens: int = 0,
+    cache_write_tokens: int = 0,
+    reasoning_tokens: int = 0,
 ) -> RunCost:
     """Attach cost to one run's measured usage, leaving it unpriced if rates are absent."""
-    input_cost = None if rates is None else input_tokens * rates.input_per_mtok / TOKENS_PER_MILLION
+    input_cost = (
+        None
+        if rates is None
+        else rates.input_cost_of(
+            input_tokens, cached_tokens=cached_input_tokens, cache_write_tokens=cache_write_tokens
+        )
+    )
     output_cost = (
         None if rates is None else output_tokens * rates.output_per_mtok / TOKENS_PER_MILLION
     )
@@ -178,6 +227,9 @@ def price_run(
         total_cost=None if rates is None else (input_cost or 0.0) + (output_cost or 0.0),
         db_bytes_before=db_bytes_before,
         db_bytes_total=db_bytes_total,
+        cached_input_tokens=cached_input_tokens,
+        cache_write_tokens=cache_write_tokens,
+        reasoning_tokens=reasoning_tokens,
     )
 
 
@@ -330,6 +382,9 @@ def read_ledger(path: Path) -> list[RunCost]:
                 discarded_reason=raw.get("discarded_reason"),
                 unknown_usage=bool(raw.get("unknown_usage", False)),
                 request_id=raw.get("request_id"),
+                cached_input_tokens=int(raw.get("cached_input_tokens") or 0),
+                cache_write_tokens=int(raw.get("cache_write_tokens") or 0),
+                reasoning_tokens=int(raw.get("reasoning_tokens") or 0),
             )
             history.append((raw.get("request_id"), item))
         except (ValueError, TypeError, KeyError):

@@ -125,7 +125,7 @@ def test_legacy_schema_backup_restore_preserves_identity_before_upgrade(tmp_path
             "daily_company_counts",
         ):
             connection.execute(f"DROP TABLE {table}")
-        connection.execute("DELETE FROM schema_migrations WHERE version = 6")
+        connection.execute("DELETE FROM schema_migrations WHERE version >= 6")
     assert inspect_state(database).schema_version == 5
     backup_state(database, tmp_path / "backup.sqlite3")
     restore_state(tmp_path / "backup.sqlite3", tmp_path / "restored.sqlite3")

@@ -187,12 +187,17 @@ class AmdGatewayClient:
             except GatewayProviderError:
                 usage_known = False
                 input_tokens = output_tokens = 0
+        prompt_details = getattr(usage, "prompt_tokens_details", None) if usage_known else None
+        output_details = getattr(usage, "completion_tokens_details", None) if usage_known else None
         content = completion.choices[0].message.content if completion.choices else None
         response = LLMResponse(
             content=content if isinstance(content, str) else "",
             input_tokens=input_tokens,
             output_tokens=output_tokens,
             usage_known=usage_known,
+            cached_input_tokens=_optional_detail(prompt_details, "cached_tokens", input_tokens),
+            cache_write_tokens=_optional_detail(prompt_details, "cache_write_tokens", input_tokens),
+            reasoning_tokens=_optional_detail(output_details, "reasoning_tokens", output_tokens),
         )
         if not completion.choices:
             raise GatewayProviderError(
@@ -346,4 +351,16 @@ def _positive_float(raw: str, name: str) -> float:
 def _non_negative_int(value: object, path: str) -> int:
     if not isinstance(value, int) or isinstance(value, bool) or value < 0:
         raise GatewayProviderError(f"{path} must be a non-negative integer")
+    return value
+
+
+def _optional_detail(details: object, name: str, total: int) -> int | None:
+    """A usage breakdown field, or None when absent or implausible.
+
+    Unlike the totals, a malformed breakdown never invalidates the usage: the totals still
+    price the request conservatively at the full rate.
+    """
+    value = getattr(details, name, None)
+    if not isinstance(value, int) or isinstance(value, bool) or not 0 <= value <= total:
+        return None
     return value
