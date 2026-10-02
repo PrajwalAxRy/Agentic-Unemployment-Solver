@@ -30,7 +30,7 @@ from job_finder.daily_lifecycle import replace_daily_lifecycle
 from job_finder.filters.locations import LocationDecision
 from job_finder.matching.evaluator import EvaluationDisposition, LLMProviderError, UsageSnapshot
 from job_finder.matching.journal import JournalClient, fingerprint
-from job_finder.matching.seniority import seniority_decision_from_mapping
+from job_finder.matching.seniority import stored_merged_decision
 from job_finder.matching.service import JobEvaluator
 from job_finder.persistence.batches import (
     BatchRepository,
@@ -524,7 +524,7 @@ def _report(
         before = len(matches), len(uncertain)
         _record_decision(
             row,
-            seniority_decision_from_mapping(result["decision"]),
+            stored_merged_decision(result["decision"]),
             jobs.require(candidate["job_key"]),
             reportable=True,
             matches=matches,

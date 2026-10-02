@@ -92,6 +92,24 @@ def parse_seniority_response(content: str) -> SeniorityDecision:
 
 def seniority_decision_from_mapping(raw: Mapping[str, object]) -> SeniorityDecision:
     """Validate a parsed model response against the strict response contract."""
+    return _decision_from_mapping(raw, standalone_contract=True)
+
+
+def stored_merged_decision(raw: Mapping[str, object]) -> SeniorityDecision:
+    """Rebuild a seniority decision the merged evaluator already validated and saved.
+
+    The merged contract differs from the standalone one in two ways the strict parser
+    rejects: evidence may be empty (the merged prompt asks for "" rather than an invented
+    quotation), and its schema carries no length caps. Re-applying the standalone contract
+    when building the report crashed a fully evaluated 3,806-job run on 55 such rows, and
+    turned a resumable gateway halt into a fatal exit. Types and enums are still checked.
+    """
+    return _decision_from_mapping(raw, standalone_contract=False)
+
+
+def _decision_from_mapping(
+    raw: Mapping[str, object], *, standalone_contract: bool
+) -> SeniorityDecision:
     fields = frozenset(raw)
     missing = sorted(_REQUIRED_FIELDS - fields)
     unexpected = sorted(fields - _REQUIRED_FIELDS)
@@ -117,13 +135,18 @@ def seniority_decision_from_mapping(raw: Mapping[str, object]) -> SeniorityDecis
         allowed = ", ".join(level.value for level in DetectedLevel)
         raise SeniorityResponseError(f"detected_level must be one of: {allowed}") from error
 
-    required_experience = _bounded_string(
-        raw["required_experience"],
-        "required_experience",
-        maximum=200,
-    )
-    evidence = _bounded_string(raw["evidence"], "evidence", maximum=500)
-    reason = _bounded_string(raw["reason"], "reason", maximum=1000)
+    if standalone_contract:
+        required_experience = _bounded_string(
+            raw["required_experience"],
+            "required_experience",
+            maximum=200,
+        )
+        evidence = _bounded_string(raw["evidence"], "evidence", maximum=500)
+        reason = _bounded_string(raw["reason"], "reason", maximum=1000)
+    else:
+        required_experience = _stored_string(raw["required_experience"], "required_experience")
+        evidence = _stored_string(raw["evidence"], "evidence", allow_empty=True)
+        reason = _stored_string(raw["reason"], "reason")
     return SeniorityDecision(
         seniority_match=seniority_match,
         detected_level=detected_level,
@@ -150,3 +173,9 @@ def _bounded_string(value: object, path: str, *, maximum: int) -> str:
     if len(normalized) > maximum:
         raise SeniorityResponseError(f"{path} must contain at most {maximum} characters")
     return normalized
+
+
+def _stored_string(value: object, path: str, *, allow_empty: bool = False) -> str:
+    if not isinstance(value, str) or not (allow_empty or value.strip()):
+        raise SeniorityResponseError(f"{path} must be a string")
+    return value.strip()

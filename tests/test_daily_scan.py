@@ -375,6 +375,67 @@ def test_cached_merged_unrelated_judgment_remains_a_rejection(tmp_path):
     assert result.report.metrics.conditional_rejection_count == 1
 
 
+def _merged_without_seniority_quote() -> str:
+    """Valid under the merged contract, invalid under the standalone seniority one."""
+    response = json.loads(_merged_response("substantive"))
+    response.update(
+        seniority_match="uncertain",
+        seniority_evidence="",  # the merged prompt asks for "" rather than an invented quote
+        seniority_reason="No stated experience requirement. " * 40,  # > standalone 1000 cap
+    )
+    return json.dumps(response)
+
+
+class _HaltingClient(_Client):
+    """Answers from ``contents``, then fails like a gateway timeout."""
+
+    def complete(self, request, policy):
+        if not self.contents:
+            from job_finder.matching.evaluator import LLMProviderError
+
+            raise LLMProviderError("gateway timed out")
+        return super().complete(request, policy)
+
+
+def _merged_model(client):
+    return MergedEvaluator(
+        client=client,
+        prompt=load_merged_prompt(Path("config/merged_prompt.toml")),
+        model_policy=ModelPolicy("test", "stub", "1"),
+        budget=UsageBudget(UsageLimits(20, 20000, 4000, 2000)),
+    )
+
+
+def test_report_accepts_merged_decision_without_seniority_quote(tmp_path):
+    # Observed live: 55 of 3,806 gpt-6-luna judgments had an empty seniority quote. The
+    # report re-validated them with the standalone contract and crashed after evaluation.
+    listing = replace(_job("1", "ML Engineer"), company_id="healthy")
+    client = _Client([_merged_without_seniority_quote()])
+    result = run(tmp_path, None, listings=(listing,), model=_merged_model(client))
+    assert result.pending_count == 0
+    assert result.exit_code == 0
+    [review] = [
+        item for item in result.report.review_candidates if item.category == "seniority_uncertain"
+    ]
+    assert review.evidence == ""
+    assert review.reason.startswith("No stated experience requirement.")
+
+
+def test_gateway_halt_after_quoteless_decision_stays_resumable(tmp_path):
+    # Observed live: a timeout halted gpt-6.1-sol, then the halt report crashed on the
+    # same row, so the run exited 3 (fatal) instead of 6 (resume with evaluate).
+    # Distinct titles: identical requests would be answered from the judgment cache.
+    listings = tuple(
+        replace(_job(identifier, title), company_id="healthy")
+        for identifier, title in (("1", "ML Engineer"), ("2", "Applied Scientist"))
+    )
+    client = _HaltingClient([_merged_without_seniority_quote()])
+    result = run(tmp_path, None, listings=listings, model=_merged_model(client))
+    assert result.halt_reason == "llm_provider_failure"
+    assert result.pending_count == 1
+    assert result.exit_code == 6
+
+
 def test_midnight_does_not_stop_active_invocation_but_rejects_new_evaluation(tmp_path):
     from datetime import UTC, datetime
 
