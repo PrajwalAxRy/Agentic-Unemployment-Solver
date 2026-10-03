@@ -205,6 +205,14 @@ What changed (all in the relevance section):
    AI/ML as one example of the equipment a technician installs.
 5. (d) names AI agents for DevOps, LLM-based debug tools, AI-driven coverage analysis.
 
+Whole 2026-10-03 batch, one call each (`lab/compare_full.py`): jobs shown (relevant and
+seniority not false) 345 with 1.2.0, 329 with 1.3.0, 319 with Sol. 1.3.0 stops showing 33
+and newly shows 17. Sol agrees with 23 of the 33 drops; most of the rest are Barclays
+template rows (Sol passes "Collaboration with data scientist to build and deploy machine
+learning models", which rule 3 above treats as template) or hedged "you could later use
+ML" postings. The gains are mostly titles/required qualifications (Visa, Adobe). Shown-set
+disagreement with Sol falls from 62 jobs to 50; part of what remains is rerun noise.
+
 Validation caveats: the fresh hard cases were used for tuning (in-sample). The independent
 checks are the original 72, the 2026-10-02 holdout and agreed sets, and 300 random fresh
 jobs. On the 65 Luna-only passes that were never hand-judged, v8 rejects 46% of calls
