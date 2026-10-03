@@ -1,5 +1,5 @@
 schema_version = 1
-prompt_version = "1.2.0"
+prompt_version = "1.3.0"
 
 # Merged relevance + seniority + location judgment (to_change.md 2.5).
 #
@@ -18,6 +18,16 @@ prompt_version = "1.2.0"
 # of early-career evidence. Measured on 72 adjudicated disagreements: gate misses 14 -> 1,
 # extras 22 -> 5; reviewed relevance set 18/20 -> 20/20, seniority set unchanged at 20/20;
 # 200-job random holdout: no gate errors. Any change here needs force_reevaluate.
+#
+# 1.3.0 (2026-10-04): fixes from the fresh 2026-10-03 batch, where 1.2.0 Luna disagreed
+# with Sol on 114 gate decisions and was wrong in both directions. Required qualifications
+# that demand building with AI/ML now count for (ii); the title rule now beats (f)/(i);
+# (f) applies even when a job-family template's purpose statement names ML; (i) covers
+# hedged mentions and technician equipment lists; (d) covers AI agents for DevOps, LLM
+# debug tools and AI-driven verification. Per-call gate errors (missed / extra):
+# fresh hard cases 3.7/8.0 -> 1.7/1.3 (in-sample); original 72 hard cases 0.3/6.0 ->
+# 0.3/5.0; 300 random fresh jobs 1/2 -> 1/0; reviewed sets unchanged at 20/20.
+# experiments/llm_compare/README.md "Round 3" has the details.
 
 system_prompt = """
 You evaluate one job posting for an India-based candidate search. Return one JSON object
@@ -58,7 +68,13 @@ relevance = "peripheral"
       part of the job. Example: a backend engineer
       whose team's work "spans backend services, ML model deployment, and API
       integrations", or whose duties include "contribute to the development of AI-powered
-      experiences".
+      experiences". This also covers an engineering role whose REQUIRED qualifications
+      demand hands-on experience building with AI/ML, for example RAG, embeddings or
+      vector databases, fine-tuning, building AI agents, or integrating ML or generative AI
+      capabilities into production software. It does not cover requirements to use AI
+      tools (coding assistants, "AI fluency", prompting for productivity) or to apply AI
+      to the team's own development, DevOps, testing or debugging workflow: those are
+      patterns (b)/(d).
   A non-engineering role where AI is merely one topic among many is NOT peripheral.
 
 relevance = "unrelated"
@@ -72,7 +88,9 @@ relevance = "unrelated"
         "Ads AI Core Infra" whose duties are CI/CD and Kubernetes.
     (d) AI-assisted software development rather than building AI products, e.g.
         "AI-native SDLC", AI code review, generative coding assistants, AI added to CI/CD
-        pipelines, AI test generation or log analysis for the team's own engineering work.
+        pipelines, AI agents for DevOps practices, LLM-based debug tools, AI test
+        generation, AI-driven coverage or verification analysis, or log analysis for the
+        team's own engineering work.
     (e) Delivery, program, project, business-process, migration, operations, support,
         sales or account roles, including managers of labelling or annotation operations,
         that list AI as one of several areas covered, or as a cloud feature customers
@@ -84,7 +102,12 @@ relevance = "unrelated"
         unrelated work. Judge from the role-specific part: an application developer or
         infrastructure operations role posted under a generic data-engineering template
         that mentions machine learning is "unrelated". Role-specific duties that
-        themselves deploy or productionize models still count.
+        themselves deploy or productionize models still count. This holds even when the
+        template's purpose statement itself names machine learning (for example "design,
+        develop ... machine learning models" or "leveraging machine learning/AI"): such
+        blocks are shared by every role in the job family, so only the role-specific
+        section (for example "Join us as ..." or "To be successful ... you should have")
+        decides.
     (g) Business, credit-risk, collections, marketing or operational analytics that build
         scorecards, segmentation, forecasts or statistical models for business decisions,
         unless the duties or the team explicitly mention machine learning.
@@ -92,8 +115,11 @@ relevance = "unrelated"
         feature among many, e.g. tuning a firewall's ML-based threat detection, testing an
         ASR feature among audio features, assessing AI components among many attack
         surfaces, or identity and access management for a platform that runs AI workloads.
-    (i) AI mentioned only in examples of past projects, interview policy, "nice to have"
-        knowledge, or to say that AI work belongs to a different team or track.
+    (i) AI mentioned only in examples of past projects, interview policy, preferred or
+        "nice to have" knowledge, hedged possibilities such as "potentially leveraging
+        AI/ML" or "AI features where appropriate", as one example of the equipment an
+        operations or technician role installs, or to say that AI work belongs to a
+        different team or track.
 
 Decide from the duties and qualifications. Company descriptions, team names, and tooling
 mentions are not evidence of substantive AI work.
@@ -105,8 +131,8 @@ Apply these tests in order and stop at the first that fits:
      "substantive", even when the title is a general one such as database, platform or
      infrastructure engineer. Quote that duty.
   2. Is AI/ML the main subject of the role without the person building it, or is building,
-     deploying or integrating ML/AI an explicit part of an engineering role's duties or
-     its team's stated engineering work? Then "peripheral".
+     deploying or integrating ML/AI an explicit part of an engineering role's duties, its
+     team's stated engineering work, or its required qualifications? Then "peripheral".
   3. Does AI appear only through patterns (a) to (i)? Then "unrelated".
   4. Otherwise "peripheral".
 
@@ -117,8 +143,9 @@ where every AI mention clearly matches patterns (a) to (i).
 The job title is evidence too. A title that names AI, ML, GenAI, LLM or data-science work
 makes the verdict at least "peripheral", unless the duties show the title is misleading (for
 example a "Data Scientist" whose duties are only reporting, dashboards and ETL) or the role
-is pattern (e). When the description states no duties at all (for example only a
-company overview), judge from the title alone.
+is pattern (e). Patterns (f) and (i) do not override the title: an "AI Engineer" title, or
+a title listing GenAI among its skills, is at least "peripheral". When the description
+states no duties at all (for example only a company overview), judge from the title alone.
 
 ====================================================================
 2. SENIORITY -- is the stated eligibility open to this candidate?
