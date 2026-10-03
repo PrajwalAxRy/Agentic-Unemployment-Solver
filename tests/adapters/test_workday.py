@@ -274,6 +274,53 @@ def test_detail_retrieval_maps_description_and_all_locations() -> None:
     ]
 
 
+@pytest.mark.parametrize("site_spelling", ["EXTERNAL", "external", "External"])
+def test_detail_url_site_is_case_insensitive(site_spelling: str) -> None:
+    """Observed live: Bank of America is configured as "lateral-us" but its detail payload's
+    externalUrl says "/Lateral-US/job/...". Every detail fetch failed and ~800 listings went
+    to review as detail_location_unavailable."""
+    list_payload = json.loads((FIXTURES / "healthy_page_1.json").read_text(encoding="utf-8"))
+    list_payload["total"] = 1
+    list_payload["jobPostings"] = [list_payload["jobPostings"][0]]
+    detail_payload = json.loads((FIXTURES / "detail.json").read_text(encoding="utf-8"))
+    detail_payload["jobPostingInfo"]["externalUrl"] = (
+        f"https://example.wd1.myworkdayjobs.com/{site_spelling}/job/"
+        "India---Bengaluru/Software-Engineer--AI-Platform_R100"
+    )
+    adapter, _ = adapter_for(
+        [response(json.dumps(list_payload).encode())],
+        get_outcomes=[response(json.dumps(detail_payload).encode())],
+    )
+    listing = adapter.list_jobs(source()).jobs[0]
+
+    detail = adapter.get_job_detail(source(), listing)
+
+    assert detail.location_normalized == ("india - bengaluru", "singapore", "remote")
+    # The stored URL keeps the configured spelling, so it is stable across payloads.
+    assert detail.canonical_url == (
+        "https://example.wd1.myworkdayjobs.com/External/job/"
+        "India---Bengaluru/Software-Engineer--AI-Platform_R100"
+    )
+
+
+def test_detail_url_on_another_board_is_still_rejected() -> None:
+    list_payload = json.loads((FIXTURES / "healthy_page_1.json").read_text(encoding="utf-8"))
+    list_payload["total"] = 1
+    list_payload["jobPostings"] = [list_payload["jobPostings"][0]]
+    detail_payload = json.loads((FIXTURES / "detail.json").read_text(encoding="utf-8"))
+    detail_payload["jobPostingInfo"]["externalUrl"] = (
+        "https://example.wd1.myworkdayjobs.com/Internal/job/Somewhere/Other_R1"
+    )
+    adapter, _ = adapter_for(
+        [response(json.dumps(list_payload).encode())],
+        get_outcomes=[response(json.dumps(detail_payload).encode())],
+    )
+    listing = adapter.list_jobs(source()).jobs[0]
+
+    with pytest.raises(ValueError, match="configured public board"):
+        adapter.get_job_detail(source(), listing)
+
+
 def test_detail_with_no_location_retains_explicit_listing_placeholder() -> None:
     list_payload = json.loads((FIXTURES / "healthy_page_1.json").read_text(encoding="utf-8"))
     list_payload["total"] = 1

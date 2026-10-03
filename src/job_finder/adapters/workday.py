@@ -523,18 +523,28 @@ def _normalize_listing(
 
 
 def _canonical_detail_url(parameters: Mapping[str, str], value: str) -> str:
+    """The public detail URL, keeping the configured site spelling.
+
+    Workday site names are case-insensitive and the detail payload does not always echo the
+    configured casing: Bank of America is configured as "lateral-us" and its externalUrl
+    says "/Lateral-US/job/...". A case-sensitive check failed every BofA detail fetch, so
+    all ~800 of its multi-location listings landed in review as
+    detail_location_unavailable instead of being located (and mostly rejected as US-only).
+    """
     parsed = urlsplit(value)
     expected_host = parameters["host"].lower()
     expected_prefix = f"/{parameters['site']}/job/"
     if (
         parsed.scheme != "https"
         or (parsed.hostname or "").lower() != expected_host
-        or not parsed.path.startswith(expected_prefix)
+        or not parsed.path.casefold().startswith(expected_prefix.casefold())
         or parsed.username is not None
         or parsed.password is not None
     ):
         raise ValueError("Workday externalUrl must be a job on the configured public board.")
-    return f"https://{expected_host}{parsed.path.rstrip('/')}"
+    return f"https://{expected_host}{expected_prefix}{parsed.path[len(expected_prefix) :]}".rstrip(
+        "/"
+    )
 
 
 def _schema_failure(
