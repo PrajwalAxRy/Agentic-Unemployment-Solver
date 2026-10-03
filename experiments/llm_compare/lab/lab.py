@@ -25,7 +25,7 @@ from dataclasses import asdict
 from pathlib import Path
 
 from job_finder.core.search_profile import load_search_profile
-from job_finder.daily_scan import _location
+from job_finder.daily_scan import NO_DESCRIPTION, _location
 from job_finder.matching.evaluator import LLMProviderError, UsageBudget, UsageLimits
 from job_finder.matching.merged_evaluator import MergedEvaluator
 from job_finder.matching.merged_prompt import load_merged_prompt
@@ -37,10 +37,14 @@ from job_finder.matching.openai_client import (
 from job_finder.persistence.batches import listing_from_payload
 
 HERE = Path(__file__).resolve().parent
-BATCH = HERE.parent / "runs" / "2026-10-02"
-CASES = HERE / "cases.json"
-SETS = HERE / "sets.json"
-RESULTS = HERE / "results"
+# LAB_BATCH selects a comparison folder under runs/. The original 2026-10-02 batch keeps its
+# unsuffixed file names; any other batch gets its own cases, sets and results.
+BATCH_NAME = os.environ.get("LAB_BATCH", "2026-10-02")
+_SUFFIX = "" if BATCH_NAME == "2026-10-02" else f"_{BATCH_NAME}"
+BATCH = HERE.parent / "runs" / BATCH_NAME
+CASES = HERE / f"cases{_SUFFIX}.json"
+SETS = HERE / f"sets{_SUFFIX}.json"
+RESULTS = HERE / f"results{_SUFFIX}"
 PROFILES = {
     "luna": HERE.parent / "profiles" / "luna.env",
     "sol": HERE.parent / "profiles" / "sol.env",
@@ -60,27 +64,35 @@ def _env_file(path: Path) -> dict[str, str]:
 # ---------------------------------------------------------------- build
 def build() -> None:
     def results(name: str) -> dict[int, dict]:
-        c = sqlite3.connect(f"file:{BATCH / name / 'jobs.sqlite3'}?mode=ro", uri=True)
+        """Original CLI run results; absent for a discovery-only batch."""
+        path = BATCH / name / "jobs.sqlite3"
+        if not path.exists():
+            return {}
+        c = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
         return {o: json.loads(r) for o, r in c.execute(
-            "select ordinal, result_json from batch_candidates")}
+            "select ordinal, result_json from batch_candidates") if r}
 
     luna, sol = results("luna"), results("sol")
     pristine = sqlite3.connect(f"file:{BATCH / 'pristine' / 'jobs.sqlite3'}?mode=ro", uri=True)
     profile = load_search_profile(Path("config/search_profile.toml"))
     cases = {}
+    keys = dict(pristine.execute("select ordinal, job_key from batch_candidates"))
     for o, payload_json in pristine.execute("select ordinal, payload_json from batch_candidates"):
         row = listing_from_payload(json.loads(payload_json))
-        if not row.normalized_job.description:
-            continue
+        if not row.normalized_job.description and BATCH_NAME == "2026-10-02":
+            continue  # the original batch predates title-only judging; keep it unchanged
         cases[o] = {
             "ordinal": o,
+            "job_key": keys[o],
             "company": row.company_id,
             "title": row.title_original,
-            "description": row.normalized_job.description,
+            # Same placeholder production sends when a posting has no description.
+            "description": row.normalized_job.description or NO_DESCRIPTION,
+            "has_description": bool(row.normalized_job.description),
             "location_original": _location(row),
             "target": profile.seniority.description,
-            "luna0": luna[o],
-            "sol0": sol[o],
+            "luna0": luna.get(o, {}),
+            "sol0": sol.get(o, {}),
         }
     CASES.write_text(json.dumps(cases, ensure_ascii=False), encoding="utf-8")
     print(f"froze {len(cases)} cases -> {CASES}")

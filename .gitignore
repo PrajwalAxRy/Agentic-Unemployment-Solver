@@ -30,8 +30,8 @@ dist/
 # databases, frozen description copies, raw replies and logs are large and local only.
 /experiments/llm_compare/runs/
 /experiments/llm_compare/scratch/
-/experiments/llm_compare/lab/cases.json
-/experiments/llm_compare/lab/results/
+/experiments/llm_compare/lab/cases*.json
+/experiments/llm_compare/lab/results*/
 
 # Pre-existing local build and provenance material
 /.artifact_build/

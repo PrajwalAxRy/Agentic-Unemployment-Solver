@@ -826,5 +826,17 @@
   "seniority_match": false,
   "conf": "med",
   "note": "information architecture/content strategy"
+ },
+ "2356": {
+  "relevance": "substantive",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "builds AI models; requires building/deploying ML models; (d) does not apply"
+ },
+ "472": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "low",
+  "note": "QA testing ML-assisted decision flows for recommendation correctness"
  }
 }

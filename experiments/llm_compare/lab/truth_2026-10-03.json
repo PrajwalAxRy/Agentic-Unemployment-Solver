@@ -1,0 +1,296 @@
+{
+ "37": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "C++ dev; GenAI RAG/KAG knowledge required, duties generic",
+  "seniority_match": true
+ },
+ "60": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "web SDE; LLM + AI/ML application development experience required",
+  "seniority_match": true
+ },
+ "62": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "Acrobat C++; OCR/image processing one bullet, ML never named",
+  "seniority_match": false
+ },
+ "267": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "EM of team pioneering an AI-first trust stack (team work is AI)",
+  "seniority_match": false
+ },
+ "317": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "EM; duties include operationalizing agentic fleet management / autonomous agents",
+  "seniority_match": false
+ },
+ "318": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "silicon UG; duties include ML design concepts (AI hardware rule)",
+  "seniority_match": true
+ },
+ "335": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "full stack; AI&I org template mentions Vertex AI, duties generic",
+  "seniority_match": true
+ },
+ "519": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "BIE; new team's stated work uses AI/ML predictive insights, duties BI",
+  "seniority_match": true
+ },
+ "654": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "SDE; components interact with CV/robotics, does not build them",
+  "seniority_match": true
+ },
+ "863": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "Stripe internal systems; AI seller tooling is one of three possible teams",
+  "seniority_match": false
+ },
+ "913": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "tech consulting manager; duty designs/integrates predictive+GenAI solutions (low: compare #965, a similar consulting manager judged unrelated)",
+  "seniority_match": false
+ },
+ "960": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "same posting as 913 (low: compare #965, a similar consulting manager judged unrelated)",
+  "seniority_match": false
+ },
+ "1176": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "EM; mandatory 'using and building with LLMs'",
+  "seniority_match": false
+ },
+ "1211": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "SDE; apply generative AI to solve business problems",
+  "seniority_match": true
+ },
+ "1243": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "HC analytics; team portfolio includes AI-based products, duties dashboards",
+  "seniority_match": true
+ },
+ "1388": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "data architect; ML architects are a different specialty",
+  "seniority_match": "uncertain"
+ },
+ "1669": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "Barclays SSE; AI/GenAI one item in a skills list",
+  "seniority_match": "uncertain"
+ },
+ "2344": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "title names GenAI; GenAI hands-on experience in qualifications",
+  "seniority_match": true
+ },
+ "2368": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "staff SE; experience integrating AI/ML/GenAI into production systems",
+  "seniority_match": true
+ },
+ "2382": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "staff SE; RAG/vector DB/embeddings/SLM fine-tuning in required qualifications",
+  "seniority_match": true
+ },
+ "2418": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "title 'Staff AI Engineer'; must-have building AI agents or AI/ML",
+  "seniority_match": false
+ },
+ "3096": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "BootROM; ML one item in compute architecture list",
+  "seniority_match": false
+ },
+ "3163": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "ADAS integration; perception/ML never named",
+  "seniority_match": false
+ },
+ "3192": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "simulation lead; integrates AD algorithms, ML never named",
+  "seniority_match": false
+ },
+ "123": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "design technologist; AI-native internal design tooling",
+  "seniority_match": false
+ },
+ "169": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "ads policy operations",
+  "seniority_match": false
+ },
+ "179": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "DevAI EM; required integrating GenAI/LLM interfaces into workflows",
+  "seniority_match": false
+ },
+ "197": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "product lead for Applied AI solutions (AI main subject, not building)",
+  "seniority_match": false
+ },
+ "271": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "QC operations manager (pattern e)",
+  "seniority_match": false
+ },
+ "331": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "data center technician; ML platforms only an example of racks",
+  "seniority_match": "uncertain"
+ },
+ "339": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "consulting enterprise architect (pattern e)",
+  "seniority_match": false
+ },
+ "385": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "networking SWE; 'potentially leveraging AI/ML' for ops insights | sen luna=True sol=uncertain",
+  "seniority_match": true
+ },
+ "529": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "non-technical annotation associate (policy: 1.2.0 Luna and Sol both pass ML Data Associate roles; only their managers are pattern (e). Unrelated if the user excludes annotation work)",
+  "seniority_match": true
+ },
+ "949": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "Salesforce field service consultant; Einstein one platform feature",
+  "seniority_match": false
+ },
+ "965": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "Salesforce consulting manager (pattern e)",
+  "seniority_match": false
+ },
+ "996": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "platform eng; builds AI development platform, triage agent, agentic coach (low: agents serve the internal engineering workflow, close to (d))",
+  "seniority_match": false
+ },
+ "1401": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "data architect; AI in experience list, TF preferred",
+  "seniority_match": false
+ },
+ "1556": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "Barclays data analyst; ML only in template accountabilities",
+  "seniority_match": "uncertain"
+ },
+ "1635": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "Barclays 'Data scientist' credit strategy; title rule vs template/(g)",
+  "seniority_match": "uncertain"
+ },
+ "1768": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "Barclays ETL; the exact (f) template example",
+  "seniority_match": "uncertain"
+ },
+ "1772": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "Barclays Salesforce EM; 'AI features where appropriate'",
+  "seniority_match": "uncertain"
+ },
+ "1835": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "Barclays credit risk quant; ML only in template purpose",
+  "seniority_match": "uncertain"
+ },
+ "2268": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "practice director; consulting leadership, closing pilots",
+  "seniority_match": false
+ },
+ "2373": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "Visa Sr Mgr; leads delivery incl. MCP Gateway",
+  "seniority_match": false
+ },
+ "2524": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "SAP DevOps Industry AI; builds agentic AI prototypes and evaluates outputs",
+  "seniority_match": false
+ },
+ "2578": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "ADI DV; verifies AI/ML accelerators among others (AI hardware rule)",
+  "seniority_match": false
+ },
+ "2664": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "Cadence DV; AI-driven coverage analysis is tooling",
+  "seniority_match": "uncertain"
+ },
+ "2851": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "title names AI; develops LLM/agent-based utilities",
+  "seniority_match": true
+ },
+ "2978": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "Databricks DE; AI-native ops automation",
+  "seniority_match": false
+ }
+}
