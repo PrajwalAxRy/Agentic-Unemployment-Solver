@@ -147,6 +147,7 @@ def parse_merged_response(
     description: str,
     location_requested: bool,
     title: str = "",
+    location_original: str | None = None,
 ) -> MergedJudgment:
     """Parse and validate a merged response.
 
@@ -181,7 +182,10 @@ def parse_merged_response(
     location_reason: str | None = None
     if location_requested:
         location_eligible = _location_eligible(raw.get("location_eligible"))
-        location_evidence = _evidence(raw, "location_evidence", sources)
+        # The source's location string is shown to the model in its own prompt section, so
+        # it is a legitimate quotation for the location judgment (and only for that one).
+        location_sources = (*sources, location_original) if location_original else sources
+        location_evidence = _evidence(raw, "location_evidence", location_sources)
         location_reason = _required_text(raw.get("location_reason"), "location_reason")
     elif "location_eligible" in raw:
         # The model answered a question it was not asked. Refusing it keeps the

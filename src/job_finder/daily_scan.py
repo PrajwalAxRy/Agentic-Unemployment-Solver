@@ -106,13 +106,28 @@ def _location(row: FilterListingRecord) -> str | None:
     )
 
 
+# Sent in place of a missing description so the model judges the title alone (the merged
+# prompt has a rule for exactly this). It is part of the rendered request, so a description
+# that appears later changes the fingerprint and the job is judged again rather than keeping
+# a title-only verdict. Observed 2026-10-02: 79 of 3,806 candidates had no description (69
+# from one board whose postings have an empty JD); all went to review, all were non-AI titles.
+NO_DESCRIPTION = "The source published no job description for this posting."
+
+# Filter outcomes that enter LLM evaluation. REVIEW means the role passed but location is
+# unresolved; the merged call then also answers the location question.
+_ADMITTED = frozenset({FinalFilterDecision.RETAINED, FinalFilterDecision.REVIEW})
+
+
+def _description(row: FilterListingRecord) -> str:
+    return row.normalized_job.description or NO_DESCRIPTION
+
+
 def candidate_fingerprint(
     evaluator: JobEvaluator, row: FilterListingRecord, profile: SearchProfile
 ) -> str:
-    assert row.normalized_job.description is not None
     request = evaluator.build_request(
         title=row.title_original,
-        description=row.normalized_job.description,
+        description=_description(row),
         target_description=profile.seniority.description,
         location_original=_location(row),
     )
@@ -264,7 +279,11 @@ def _publish(
     prepared = []
     identities: set[str] = set()
     for row in filtered.listings:
-        if row.final_decision is not FinalFilterDecision.RETAINED:
+        # Location-review rows are evaluated too (to_change.md 2.4, decided): the merged
+        # call answers the location question the deterministic filter could not. They were
+        # previously reported straight to review, so the location judgment never ran and
+        # every unresolved row reached the user without a relevance check.
+        if row.final_decision not in _ADMITTED:
             continue
         key = job_identity(row.normalized_job).job_key
         if key in identities:
@@ -280,8 +299,15 @@ def _publish(
             progress(
                 f"phase=description_collection progress={len(prepared)} company={row.company_id}"
             )
+    # Only rows that did not enter evaluation remain deterministic reviews.
+    leftover = tuple(
+        row
+        for row in filtered.listings
+        if row.final_decision is FinalFilterDecision.REVIEW
+        and job_identity(row.normalized_job).job_key not in identities
+    )
     metadata = {
-        "filtered": filter_metadata(filtered),
+        "filtered": filter_metadata(replace(filtered, listings=leftover)),
         "accounting": [asdict(row) for row in _company_accounting(registry)],
         "started_at": start.isoformat(),
         "profile_id": profile.profile_id,
@@ -376,17 +402,14 @@ def _evaluate(
                     f"phase=candidate_evaluation progress={ordinal + 1}/{len(candidates)} "
                     f"company={row.company_id}"
                 )
-            if candidate["description_error"] or not row.normalized_job.description:
-                result: dict[str, Any] = {
-                    "disposition": "description_unavailable",
-                    "cached": False,
-                    "errors": [candidate["description_error"] or "missing_description"],
-                }
-                with atomic(batches.connection):
-                    batches.finish_candidate(ordinal, result, None)
-                continue
+            # A missing description no longer skips evaluation: the title is judged alone,
+            # and the reason is kept on the result so reports still count it.
+            description_error = candidate["description_error"] or (
+                None if row.normalized_job.description else "missing_description"
+            )
             key = candidate_fingerprint(evaluator, row, profile)
             cached = None if current["force"] else batches.cache(key)
+            result: dict[str, Any]
             if cached is not None:
                 result = {**cached, "cached": True}
             else:
@@ -394,7 +417,7 @@ def _evaluate(
                 try:
                     outcome = evaluator.evaluate(
                         title=row.title_original,
-                        description=row.normalized_job.description,
+                        description=_description(row),
                         target_description=profile.seniority.description,
                         location_original=_location(row),
                     )
@@ -409,6 +432,8 @@ def _evaluate(
                     "judgment": None if outcome.judgment is None else asdict(outcome.judgment),
                     "errors": list(outcome.errors),
                 }
+            if description_error:
+                result = {**result, "description_error": description_error}
             _commit_result(batches, candidate, row, result, key, profile, evaluator, clock())
     finally:
         evaluator.client = original
@@ -482,7 +507,19 @@ def _report(
     counts = _ProcessingCounts()
     matches: list[Any] = []
     uncertain: list[Any] = []
-    reviews = _filter_reviews(filtered)
+    # Location-review rows that entered evaluation are reported from their judgment below,
+    # not again as deterministic reviews.
+    admitted = {candidate["job_key"] for candidate in candidates}
+    reviews = _filter_reviews(
+        replace(
+            filtered,
+            listings=tuple(
+                row
+                for row in filtered.listings
+                if job_identity(row.normalized_job).job_key not in admitted
+            ),
+        )
+    )
     counts.review = len(reviews)
     for candidate in candidates:
         counts.observed += 1
@@ -494,9 +531,13 @@ def _report(
             continue
         row = listing_from_payload(json.loads(candidate["payload_json"]))
         result = json.loads(candidate["result_json"])
+        # Title-only verdicts still count as description failures. The old
+        # "description_unavailable" disposition remains for batches saved before them.
+        counts.detail_failure += bool(result.get("description_error")) or (
+            result["disposition"] == "description_unavailable"
+        )
         if result["disposition"] in {"manual_review", "description_unavailable"}:
             counts.review += 1
-            counts.detail_failure += result["disposition"] == "description_unavailable"
             reviews.append(_review(row, result["disposition"], "; ".join(result["errors"])))
             continue
         counts.cache_hit += bool(result["cached"])

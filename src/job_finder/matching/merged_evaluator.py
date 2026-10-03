@@ -225,6 +225,7 @@ class MergedEvaluator:
                     description=description,
                     title=title,
                     location_requested=location_requested,
+                    location_original=location_original,
                 )
             except UsageLimitExceeded as error:
                 # Return early and distinctly. Falling through to the MANUAL_REVIEW exit

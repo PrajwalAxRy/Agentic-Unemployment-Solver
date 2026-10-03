@@ -584,6 +584,122 @@ def test_fresh_scan_freezes_description_even_for_previously_cached_job(tmp_path)
     assert not result.report.matching_jobs
 
 
+def _title_only_reply(relevance: str, title: str) -> str:
+    return json.dumps(
+        {
+            "relevance": relevance,
+            "relevance_evidence": title,
+            "relevance_reason": "Only the title is available.",
+            "seniority_match": "uncertain",
+            "detected_level": "mid",
+            "required_experience": "unknown",
+            "seniority_evidence": "",
+            "seniority_reason": "No description states any requirement.",
+        }
+    )
+
+
+def test_missing_description_is_judged_from_the_title(tmp_path):
+    # Observed 2026-10-02: 79 candidates had no description (69 from one board with empty
+    # job descriptions). All went straight to review although every title was non-AI work.
+    from tests.test_scan import RetryingDetailAdapter
+
+    listing = replace(
+        _job("1", "ML Engineer"), company_id="healthy", description=None, description_hash=None
+    )
+    adapter = RetryingDetailAdapter({"healthy": (listing,)}, failures_remaining=99)
+    client = _Client([_title_only_reply("unrelated", "ML Engineer")])
+
+    result = run(tmp_path, None, adapter=adapter, model=_merged_model(client))
+
+    assert result.pending_count == 0
+    [request] = client.requests
+    assert daily.NO_DESCRIPTION in request.user_prompt
+    assert "ML Engineer" in request.user_prompt
+    assert not result.report.review_candidates  # judged unrelated: hidden, not reviewed
+    assert result.report.metrics.description_failure_count == 1
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        stored = json.loads(
+            connection.execute("SELECT result_json FROM batch_candidates").fetchone()[0]
+        )
+    assert stored["description_error"]
+    assert stored["judgment"]["relevance"] == "unrelated"
+
+
+def test_title_only_verdict_is_redone_once_a_description_appears(tmp_path):
+    from tests.test_scan import RetryingDetailAdapter
+
+    full = replace(_job("1", "ML Engineer"), company_id="healthy")
+    bare = replace(full, description=None, description_hash=None)
+    run(
+        tmp_path,
+        None,
+        adapter=RetryingDetailAdapter({"healthy": (bare,)}, failures_remaining=99),
+        model=_merged_model(_Client([_title_only_reply("peripheral", "ML Engineer")])),
+    )
+    client = _Client([_merged_response("substantive")])
+
+    run(
+        tmp_path,
+        None,
+        adapter=RetryingDetailAdapter(
+            {"healthy": (bare,)}, details={full.external_job_id: full}, failures_remaining=0
+        ),
+        model=_merged_model(client),
+    )
+
+    # The placeholder is part of the cached request, so a real description is a new
+    # fingerprint: the title-only verdict is not reused.
+    [request] = client.requests
+    assert daily.NO_DESCRIPTION not in request.user_prompt
+
+
+def _remote_listing():
+    return replace(
+        _job("1", "ML Engineer"),
+        company_id="healthy",
+        location_original="Remote - APAC",
+        location_normalized=("remote - apac",),
+    )
+
+
+def _located_reply(relevance: str, eligible: object, evidence: str) -> str:
+    reply = json.loads(_merged_response(relevance))
+    reply.update(
+        location_eligible=eligible,
+        location_evidence=evidence,
+        location_reason="Judged from the stated location.",
+    )
+    return json.dumps(reply)
+
+
+@pytest.mark.parametrize(
+    ("relevance", "eligible", "matches", "review_categories"),
+    [
+        ("substantive", True, 1, []),
+        ("substantive", False, 0, []),
+        ("substantive", "uncertain", 0, ["location_uncertain"]),
+        ("unrelated", "uncertain", 0, []),
+    ],
+)
+def test_unresolved_location_is_judged_by_the_model(
+    tmp_path, relevance, eligible, matches, review_categories
+):
+    # to_change.md 2.4 (decided): the model decides India eligibility for locations the
+    # filter cannot resolve. Those rows used to go straight to review, so the location
+    # judgment never ran and irrelevant roles reached the queue unchecked.
+    client = _Client([_located_reply(relevance, eligible, "Remote - APAC")])
+
+    result = run(tmp_path, None, listings=(_remote_listing(),), model=_merged_model(client))
+
+    [request] = client.requests
+    assert "Remote - APAC" in request.user_prompt
+    assert "location_eligible" in request.response_schema["properties"]
+    assert result.pending_count == 0
+    assert len(result.report.matching_jobs) == matches
+    assert [item.category for item in result.report.review_candidates] == review_categories
+
+
 def test_replaying_invalid_reply_does_not_consume_new_invocation_budget(tmp_path):
     first_client = StubLLMClient([""])
     first_model = evaluator(first_client)
