@@ -288,6 +288,72 @@ def test_evidence_matching_ignores_whitespace_shape() -> None:
     assert judgment.seniority_evidence == "Requires 3+ years of relevant experience."
 
 
+def test_evidence_matching_folds_typographic_variants() -> None:
+    """Observed live on gpt-6-luna: the posting used U+2011 (non-breaking hyphen) and the
+    model copied it as an ASCII hyphen, failing the check and the identical retry."""
+    description = (
+        "Experience 0–2 years of experience in analytics, data science, model "
+        "development, validation, or big‑data workstreams. Master’s preferred."
+    )
+
+    judgment = parse_merged_response(
+        _response(
+            relevance_evidence="Master's preferred",
+            seniority_evidence=(
+                "0-2 years of experience in analytics, data science, model development, "
+                "validation, or big-data workstreams."
+            ),
+        ),
+        description=description,
+        location_requested=False,
+    )
+
+    # The model's own text is kept; only the comparison is normalized.
+    assert judgment.seniority_evidence.startswith("0-2 years")
+
+
+def test_evidence_matching_ignores_an_added_closing_period() -> None:
+    """Observed live: the source line ends at a bullet and the model adds a period."""
+    description = (
+        "• 7+ years of analog/mixed-signal IC design experience with deep expertise in "
+        "power management • Strong hands-on experience designing at least one PMIC."
+    )
+
+    judgment = parse_merged_response(
+        _response(
+            relevance_evidence="Strong hands-on experience designing at least one PMIC",
+            seniority_evidence=(
+                "7+ years of analog/mixed-signal IC design experience with deep expertise "
+                "in power management."
+            ),
+        ),
+        description=description,
+        location_requested=False,
+    )
+
+    assert judgment.seniority_evidence.endswith("power management.")
+
+
+@pytest.mark.parametrize(
+    "evidence",
+    [
+        # interior punctuation still matters: "/" is not a space
+        "7+ years of analog mixed-signal IC design experience",
+        # punctuation alone is not a quotation
+        ".",
+    ],
+)
+def test_typography_folding_does_not_loosen_wording(evidence: str) -> None:
+    description = "7+ years of analog/mixed-signal IC design experience."
+
+    with pytest.raises(MergedResponseError, match="not a verbatim excerpt"):
+        parse_merged_response(
+            _response(relevance_evidence="", seniority_evidence=evidence),
+            description=description,
+            location_requested=False,
+        )
+
+
 def test_paraphrase_is_still_rejected_after_whitespace_normalization() -> None:
     """The loosening must not weaken the confabulation guard.
 

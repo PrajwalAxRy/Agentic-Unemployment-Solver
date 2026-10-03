@@ -265,12 +265,40 @@ def _contains_excerpt(source: str, excerpt: str) -> bool:
 
     Case and whitespace are normalized; wording is not. A paraphrase still fails, which is
     the property that makes evidence a confabulation guard rather than decoration.
+
+    Typography and edge punctuation are normalized for the same reason. Observed live with
+    a reasoning model: postings write "big-data" with U+2011 (non-breaking hyphen) and the
+    model copies it as an ASCII hyphen; or the model ends a quote with a period where the source
+    line ends at a bullet. Both rejected correct quotes, failed the paid retry the same
+    way, and discarded all three judgments of jobs that should have been shown.
     """
-    return _collapse(excerpt) in _collapse(source)
+    needle = _collapse(excerpt).strip(_EDGE_PUNCTUATION)
+    return bool(needle) and needle in _collapse(source)
+
+
+# Characters a model routinely regularizes while copying: hyphen and dash variants, curly
+# quotes, and non-breaking or invisible spaces. Folding them changes no wording.
+_TYPOGRAPHY = str.maketrans(
+    {
+        # hyphen, non-breaking hyphen, figure/en/em dash, horizontal bar, minus sign
+        **dict.fromkeys("\u2010\u2011\u2012\u2013\u2014\u2015\u2212", "-"),
+        # curly and low single quotes, reversed single quote, prime
+        **dict.fromkeys("\u2018\u2019\u201a\u201b\u2032", "'"),
+        # curly and low double quotes, double prime
+        **dict.fromkeys("\u201c\u201d\u201e\u2033", '"'),
+        # no-break, figure and narrow no-break spaces
+        **dict.fromkeys("\u00a0\u2007\u202f", " "),
+        # soft hyphen, zero-width space/non-joiner/joiner, word joiner, byte-order mark
+        **dict.fromkeys("\u00ad\u200b\u200c\u200d\u2060\ufeff", None),
+    }
+)
+# Stripped from the ends of an excerpt only: a quote that adds or drops a closing period
+# or an opening bullet is still the same text. Interior punctuation must still match.
+_EDGE_PUNCTUATION = " .,;:\u2022\u00b7"
 
 
 def _collapse(value: str) -> str:
-    return " ".join(value.split()).casefold()
+    return " ".join(value.translate(_TYPOGRAPHY).split()).casefold()
 
 
 def _required_text(value: object, path: str) -> str:
