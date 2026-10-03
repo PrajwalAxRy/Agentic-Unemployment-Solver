@@ -28,7 +28,9 @@ code, and `latest_scan.json` is better queried with `jq` than read.
 | Is `jobs.date_basis` used? | **No — dead schema.** Migration 4 adds the column; `JobRecord` has no such field and no statement reads or writes it. |
 | Is the DB in WAL mode? | **No.** `database.py` sets `foreign_keys` and `busy_timeout` only, so it runs in rollback-journal mode. |
 | Do `reasoning_effort`, `temperature` or `seed` stabilise Luna? | **No — measured.** The gateway accepts all three; none reduced rerun instability (luna flips relevance on ~26% of hard cases with prompt 1.1.0). Neither did evidence-before-verdict schema order. Only prompt clarity helped (1.2.0: 14%). See `experiments/llm_compare/README.md`. |
-| Is Sol (gpt-6.1-sol) ground truth for Luna? | **No.** On 72 hand-adjudicated disagreements Sol missed 9 relevant jobs and passed 13 irrelevant ones. Adjudicate from the description; `experiments/llm_compare/lab/adjudicated_cases.json` holds 138 such verdicts. |
+| Why was the review list ~1,000 rows? | **Not the LLM.** On 2026-10-02, 816 of 1,060 were Bank of America `detail_location_unavailable`: Workday echoed the site as `Lateral-US` vs configured `lateral-us`, and a case-sensitive URL check failed every detail fetch (fixed in `workday.py`). Most of the rest were location reviews and empty-description rows, now judged by the model. |
+| Is Sol (gpt-6.1-sol) ground truth for Luna? | **No.** On 72 hand-adjudicated disagreements, with prompt 1.1.0 Sol missed 9 relevant jobs and passed 13 irrelevant ones. With 1.2.0 Sol improved too and is still better than Luna (per call: Sol 0 missed / 3 extra, Luna 0.3 / 6) at ~12x the cost. On the fresh 2026-10-03 batch Luna 1.2.0's errors were mostly repeatable (same answer every rerun), i.e. prompt gaps; 1.3.0 closed most of them. Adjudicate from the description; verdicts are in `experiments/llm_compare/lab/adjudicated_cases.json` and `truth_2026-10-03.json`. |
+| Does the second opinion (`JOB_FINDER_LLM_SECOND_OPINION`) fix Luna's errors? | **Only the unstable ones.** It votes away answers that flip between reruns (~2% of jobs). An error Luna makes on every call survives any vote; fix those in the prompt and measure with `experiments/llm_compare/lab`. |
 
 ## Architecture: discovery checkpoint, then evaluation, one lock
 
@@ -68,6 +70,13 @@ rejected — the gate earns its keep).
 `MergedEvaluator` makes one call per job returning three judgments: relevance
 (`substantive`/`peripheral`/`unrelated`), seniority (`true`/`false`/`"uncertain"`), and
 location **only** when the deterministic filter couldn't resolve it.
+
+Admission to evaluation is filter outcome RETAINED **or REVIEW** (role passed, location
+unresolved). Until 2026-10-03 REVIEW rows went straight to the review list, so the location
+judgment never ran and unresolved rows were never relevance-checked; on the 2026-10-02
+batch 48 of 51 such rows were unrelated. A posting with no description is judged from its
+title (`daily_scan.NO_DESCRIPTION` placeholder) instead of being sent to review; the
+placeholder is part of the cache key, so a later real description re-judges the job.
 
 Each judgment carries a **verbatim evidence quote**, validated as a substring of
 title+description after whitespace/case/typography normalization (dash and quote variants,
