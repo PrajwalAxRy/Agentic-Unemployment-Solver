@@ -1,0 +1,202 @@
+{
+ "900000": {
+  "seniority_match": true,
+  "conf": "high",
+  "note": "seniority-01"
+ },
+ "900001": {
+  "seniority_match": true,
+  "conf": "high",
+  "note": "seniority-02"
+ },
+ "900002": {
+  "seniority_match": true,
+  "conf": "high",
+  "note": "seniority-03"
+ },
+ "900003": {
+  "seniority_match": false,
+  "conf": "high",
+  "note": "seniority-04"
+ },
+ "900004": {
+  "seniority_match": true,
+  "conf": "high",
+  "note": "seniority-05"
+ },
+ "900005": {
+  "seniority_match": false,
+  "conf": "high",
+  "note": "seniority-06"
+ },
+ "900006": {
+  "seniority_match": false,
+  "conf": "high",
+  "note": "seniority-07"
+ },
+ "900007": {
+  "seniority_match": true,
+  "conf": "high",
+  "note": "seniority-08"
+ },
+ "900008": {
+  "seniority_match": true,
+  "conf": "high",
+  "note": "seniority-09"
+ },
+ "900009": {
+  "seniority_match": true,
+  "conf": "high",
+  "note": "seniority-10"
+ },
+ "900010": {
+  "seniority_match": true,
+  "conf": "high",
+  "note": "seniority-11"
+ },
+ "900011": {
+  "seniority_match": true,
+  "conf": "high",
+  "note": "seniority-12"
+ },
+ "900012": {
+  "seniority_match": true,
+  "conf": "high",
+  "note": "seniority-13"
+ },
+ "900013": {
+  "seniority_match": false,
+  "conf": "high",
+  "note": "seniority-14"
+ },
+ "900014": {
+  "seniority_match": "uncertain",
+  "conf": "high",
+  "note": "seniority-15"
+ },
+ "900015": {
+  "seniority_match": true,
+  "conf": "high",
+  "note": "seniority-16"
+ },
+ "900016": {
+  "seniority_match": "uncertain",
+  "conf": "high",
+  "note": "seniority-17"
+ },
+ "900017": {
+  "seniority_match": "uncertain",
+  "conf": "high",
+  "note": "seniority-18"
+ },
+ "900018": {
+  "seniority_match": "uncertain",
+  "conf": "high",
+  "note": "seniority-19"
+ },
+ "900019": {
+  "seniority_match": true,
+  "conf": "high",
+  "note": "seniority-20"
+ },
+ "910000": {
+  "relevance": "substantive",
+  "conf": "high",
+  "note": "relevance-01"
+ },
+ "910001": {
+  "relevance": "substantive",
+  "conf": "high",
+  "note": "relevance-02"
+ },
+ "910002": {
+  "relevance": "substantive",
+  "conf": "high",
+  "note": "relevance-03"
+ },
+ "910003": {
+  "relevance": "substantive",
+  "conf": "high",
+  "note": "relevance-04"
+ },
+ "910004": {
+  "relevance": "substantive",
+  "conf": "high",
+  "note": "relevance-05"
+ },
+ "910005": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "relevance-06"
+ },
+ "910006": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "relevance-07"
+ },
+ "910007": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "relevance-08"
+ },
+ "910008": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "relevance-09"
+ },
+ "910009": {
+  "relevance": "peripheral",
+  "conf": "high",
+  "note": "relevance-10"
+ },
+ "910010": {
+  "relevance": "peripheral",
+  "conf": "high",
+  "note": "relevance-11"
+ },
+ "910011": {
+  "relevance": "peripheral",
+  "conf": "high",
+  "note": "relevance-12"
+ },
+ "910012": {
+  "relevance": "substantive",
+  "conf": "high",
+  "note": "relevance-13"
+ },
+ "910013": {
+  "relevance": "peripheral",
+  "conf": "high",
+  "note": "relevance-14"
+ },
+ "910014": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "relevance-15"
+ },
+ "910015": {
+  "relevance": "substantive",
+  "conf": "high",
+  "note": "relevance-16"
+ },
+ "910016": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "relevance-17"
+ },
+ "910017": {
+  "relevance": "substantive",
+  "conf": "high",
+  "note": "relevance-18"
+ },
+ "910018": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "relevance-19"
+ },
+ "910019": {
+  "relevance": "substantive",
+  "conf": "high",
+  "note": "relevance-20"
+ }
+}

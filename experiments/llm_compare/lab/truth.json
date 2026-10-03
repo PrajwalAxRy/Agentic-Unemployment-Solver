@@ -1,0 +1,830 @@
+{
+ "4": {
+  "relevance": "peripheral",
+  "seniority_match": "uncertain",
+  "conf": "low",
+  "note": "AI architecture advisory; AI is main subject, not building"
+ },
+ "34": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "high",
+  "note": "CRM dev; AI automation one skill among many"
+ },
+ "35": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "high",
+  "note": "frontend; AI coding tools + calling LLM APIs = pattern (d)"
+ },
+ "139": {
+  "relevance": "substantive",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "director of eng leading teams building AI/CV data product; requires AI/ML depth"
+ },
+ "150": {
+  "relevance": "substantive",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "search relevance/ranking signals + NLP/ranking qualification"
+ },
+ "180": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "manager of AI customer engineers (AI practice)"
+ },
+ "190": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "product lead in Applied AI team; leads Applied AI solutions"
+ },
+ "205": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "AI customer engineer; prototypes agents for customers"
+ },
+ "227": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "AI-ready data products/semantic layer for agents; data feeding AI"
+ },
+ "228": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "ops/budget delivery manager; model tuning is overseen partner work"
+ },
+ "265": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "high",
+  "note": "TPU design verification = hardware validation for AI accelerators"
+ },
+ "277": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "AI customer engineer; prototypes RAG/agent integrations for customers"
+ },
+ "283": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "AI customer engineer, presales"
+ },
+ "304": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "manager of training-data filtering infra for AI/Search"
+ },
+ "316": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "perf models for ML accelerator IPs = AI hardware"
+ },
+ "317": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "low",
+  "note": "PhD silicon intern; cloud silicon incl TPUs; ML/DL background preferred"
+ },
+ "454": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "business analyst; segmentation = analytics in Excel/SQL role"
+ },
+ "470": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "SDE on ML/DL+LLM automation team building platforms with applied scientists"
+ },
+ "540": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "ops people manager of human-in-the-loop annotation team"
+ },
+ "586": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "generic SDE; 'run predictions' is Amazon template text"
+ },
+ "638": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "SDE duty: contribute to development of AI-powered experiences"
+ },
+ "640": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "SDE; team engineering scope includes ML model deployment"
+ },
+ "664": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "ops program manager; ML labelling ops + GenAI productivity tooling"
+ },
+ "693": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "SDE duty: build Native-AI software products; ML/LLM fundamentals preferred"
+ },
+ "698": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "SDE; team states AI is core of what we build, with scientists"
+ },
+ "833": {
+  "relevance": "peripheral",
+  "seniority_match": "uncertain",
+  "conf": "med",
+  "note": "AI Solutions Engineer at AI company; description is only blurb; title decides"
+ },
+ "850": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "low",
+  "note": "support engineer for decision models/recommendations on AI platform"
+ },
+ "894": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "general SWE intern; AI only in example past projects"
+ },
+ "1018": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "builds framework for AI conversational UIs; AI integration in scope"
+ },
+ "1115": {
+  "relevance": "peripheral",
+  "seniority_match": "uncertain",
+  "conf": "low",
+  "note": "data-pipeline principal; deploying GenAI/LLM solutions is a REQUIRED qualification"
+ },
+ "1134": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "full-stack building interfaces for real-time AI products at AI company"
+ },
+ "1153": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "low",
+  "note": "demo engineer; duties include building agents/MCP tooling"
+ },
+ "1159": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "med",
+  "note": "credit-risk analytics; classical scorecards"
+ },
+ "1224": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "high",
+  "note": "UPI banking partner/product manager; uses AI tools"
+ },
+ "1527": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "high",
+  "note": "device demo/install intern at AI health company"
+ },
+ "1543": {
+  "relevance": "peripheral",
+  "seniority_match": "uncertain",
+  "conf": "low",
+  "note": "operations lead for production AI/agentic applications"
+ },
+ "1594": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "credit/fraud analytics+data science CoE; develops ML-based approaches"
+ },
+ "1617": {
+  "relevance": "peripheral",
+  "seniority_match": "uncertain",
+  "conf": "low",
+  "note": "model validation incl AI/ML models among many categories"
+ },
+ "1628": {
+  "relevance": "peripheral",
+  "seniority_match": "uncertain",
+  "conf": "low",
+  "note": "data analyst; forecast models; leveraging ML/AI in accountabilities"
+ },
+ "1659": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "low",
+  "note": "Barclays template line is job-family boilerplate (also on Pega/SRE roles); role text is AWS infra"
+ },
+ "1660": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "low",
+  "note": "Barclays template boilerplate; role text is PySpark ETL"
+ },
+ "1661": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "low",
+  "note": "Barclays template boilerplate; role text is PySpark ETL"
+ },
+ "1723": {
+  "relevance": "peripheral",
+  "seniority_match": "uncertain",
+  "conf": "med",
+  "note": "DE: productionize models; ML/AI deployment preferred"
+ },
+ "1754": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "high",
+  "note": "C++/Java engineer; Barclays DE template misapplied; AI/ML nice-to-have"
+ },
+ "1828": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "med",
+  "note": "payments performance engineering; Barclays template boilerplate"
+ },
+ "1829": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "med",
+  "note": "payments performance engineering; Barclays template boilerplate"
+ },
+ "1830": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "med",
+  "note": "payments performance engineering; Barclays template boilerplate"
+ },
+ "1888": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "med",
+  "note": "Ab Initio/AWS ETL; Barclays template boilerplate"
+ },
+ "1889": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "high",
+  "note": "Pega developer; Barclays DE template misapplied"
+ },
+ "1911": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "high",
+  "note": "Linux/KDB SRE; Barclays DE template misapplied"
+ },
+ "2044": {
+  "relevance": "peripheral",
+  "seniority_match": "uncertain",
+  "conf": "low",
+  "note": "product owner for AI/agentic automation of booking lifecycle"
+ },
+ "2147": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "med",
+  "note": "finance systems architecture director; AI one of many areas"
+ },
+ "2479": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "low",
+  "note": "infra full-stack SWE; AI integration only in skills list"
+ },
+ "2540": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "backend for AI red-teaming security product"
+ },
+ "2541": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "backend for AI red-teaming security product"
+ },
+ "2750": {
+  "relevance": "peripheral",
+  "seniority_match": "uncertain",
+  "conf": "med",
+  "note": "verification of Edge AI SoC designs = AI hardware validation"
+ },
+ "2905": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "low",
+  "note": "EDA AE; ML-based tool deployment one duty"
+ },
+ "2975": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "DevOps; AI in CI/CD code review = prompt pattern (d)"
+ },
+ "2987": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "DevOps; AI in CI/CD code review = prompt pattern (d)"
+ },
+ "2984": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "QA engineer using AI for test generation = pattern (d)"
+ },
+ "3219": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "low",
+  "note": "AI/BI enablement trainer; advises on tools"
+ },
+ "3584": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "collections analytics; statistical segmentation"
+ },
+ "421": {
+  "relevance": "substantive",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "Applied Scientist I; well-defined problems alongside experienced scientists"
+ },
+ "450": {
+  "relevance": "substantive",
+  "seniority_match": true,
+  "conf": "high",
+  "note": "eligible while obtaining Master's degree"
+ },
+ "1355": {
+  "relevance": "substantive",
+  "seniority_match": "uncertain",
+  "conf": "med",
+  "note": "summary says 5y, qualifications say 3y = conflict"
+ },
+ "1508": {
+  "relevance": "substantive",
+  "seniority_match": true,
+  "conf": "high",
+  "note": "Jr developer; built a few web apps"
+ },
+ "1513": {
+  "relevance": "substantive",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "PhD path; no professional years required"
+ },
+ "1811": {
+  "relevance": "substantive",
+  "seniority_match": "uncertain",
+  "conf": "low",
+  "note": "12+y OR unquantified ML-infra path; strictly unresolved"
+ },
+ "2091": {
+  "relevance": "substantive",
+  "seniority_match": true,
+  "conf": "low",
+  "note": "welcomes academic/hackathon backgrounds; no minimum"
+ },
+ "2234": {
+  "relevance": "substantive",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "basic understanding; assist/support scope"
+ },
+ "3025": {
+  "relevance": "substantive",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "10+ years listed in role qualifications"
+ },
+ "3572": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "low",
+  "note": "skills over years; no minimum"
+ },
+ "851": {
+  "relevance": "peripheral",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "radiologist annotating/validating AI models; MD + 1 year"
+ },
+ "1560": {
+  "relevance": "substantive",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "evaluates GenAI/LLM/ML models in model risk; 0-2 years"
+ },
+ "3218": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "low",
+  "note": "Luna failed; Sol verdict taken unverified"
+ },
+ "3280": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "Luna failed; Sol verdict taken unverified"
+ },
+ "3390": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "Luna failed; Sol verdict taken unverified"
+ },
+ "332": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "cloud architect; guides development of AI orchestrations/agentic workflows"
+ },
+ "343": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "sales specialist for data/agentic platform = pattern (e)"
+ },
+ "360": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "duty: architect integrations for conversational AI into dashboards"
+ },
+ "371": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "data-analytics CE manager; AI one topic"
+ },
+ "584": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "SDE duty: improve onboarding leveraging Gen AI technologies"
+ },
+ "617": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "audio QA; ASR one of many audio features"
+ },
+ "669": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "SDM; team leverages GenAI to build shopping features"
+ },
+ "873": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "staff eng designs systems harnessing AI advancements"
+ },
+ "879": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "manager of data scientists doing risk modeling"
+ },
+ "901": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "staff eng; team develops GenAI assistants; agentic LLM preferred"
+ },
+ "937": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "Salesforce consulting director = pattern (e)"
+ },
+ "980": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "consultant; duty architects Einstein predictive solutions"
+ },
+ "1003": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "readiness architect for Agentforce AI products"
+ },
+ "1052": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "high",
+  "note": "service mesh traffic infra"
+ },
+ "1062": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "IAM for an AI platform; IAM not AI-specific"
+ },
+ "1069": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "analyst builds LLM-based catalog categorization automation"
+ },
+ "1152": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "team outcomes include integrating LLMs and AI into product architecture"
+ },
+ "1155": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "data platform powering the AI platform; partners with AI/ML teams"
+ },
+ "1360": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "platform deployment; posting routes agent/LLM work to another track"
+ },
+ "1394": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "full-stack integrating data-science model outputs"
+ },
+ "1409": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "scientist designing offer algorithms with causal inference"
+ },
+ "1531": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "high",
+  "note": "medical science liaison"
+ },
+ "1538": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "high",
+  "note": "spacecraft GNC; no AI"
+ },
+ "2359": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "quant; one duty contributes to AI/ML initiatives"
+ },
+ "2407": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "security-heavy lead SWE; leads GenAI initiatives; GenAI stack required"
+ },
+ "2408": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "offensive security; AI systems one attack surface among many"
+ },
+ "2432": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "title 'with GenAI experience'; AI/LLM integration skills section"
+ },
+ "2437": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "head of DS/data-eng/AI-enabled analytics delivery org"
+ },
+ "2445": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "title 'Gen AI/LLM'; GenAI/RAG system design preferred"
+ },
+ "2525": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "firewall customer success; configures DL threat features"
+ },
+ "2538": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "frontend for AI red-teaming security product"
+ },
+ "2575": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "escalation/support; LLM debug tools = pattern (d)"
+ },
+ "2773": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "high",
+  "note": "SoC system software architecture; no AI"
+ },
+ "2834": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "EDA AE; 'deploy ML based solutions' one line"
+ },
+ "2848": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "EDA AE; 'deploy ML based solutions' one line"
+ },
+ "2900": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "EDA C++ engineer; 'deploy ML/AI solutions to improve productivity'"
+ },
+ "3229": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "UALink switch silicon for AI/HPC interconnect"
+ },
+ "3323": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "data engineer (MLOps title) delivering ML-ready datasets to AI/ML teams"
+ },
+ "3336": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "data engineer (MLOps title) delivering ML-ready datasets to AI/ML teams"
+ },
+ "3327": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "simulation lead integrating ADAS/AD algorithms"
+ },
+ "1402": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "program leadership of AI transformation = pattern (e)"
+ },
+ "1459": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "engagement/delivery manager of AI engagements = pattern (e)"
+ },
+ "691": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "risk/program manager driving AI adoption = pattern (e)"
+ },
+ "672": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "BI analyst; collaboration with ML teams only"
+ },
+ "3292": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "mixed-signal DV; AI/ML only a preferred methodology"
+ },
+ "1045": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "security platform engineer; AI one technology to explore"
+ },
+ "195": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "quota-carrying AI sales specialist = pattern (e)"
+ },
+ "1121": {
+  "relevance": "peripheral",
+  "seniority_match": "uncertain",
+  "conf": "med",
+  "note": "manages AI forward-deployed engineers (DS/MLE) building GenAI apps"
+ },
+ "1176": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "sales director for AI services = pattern (e)"
+ },
+ "1186": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "GTM/sales manager for AI services = pattern (e)"
+ },
+ "1450": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "pre-sales solutioning lead for AI contact-center solutions"
+ },
+ "1686": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "low",
+  "note": "OpenShift migration engineer; ML sentence is template text"
+ },
+ "1388": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "RGM consulting; ML listed among analytics techniques"
+ },
+ "2187": {
+  "relevance": "unrelated",
+  "seniority_match": true,
+  "conf": "med",
+  "note": "'Data Scientist' title but duties are BI reporting/dashboards"
+ },
+ "167": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "high",
+  "note": "static analysis/malware engineering; no AI"
+ },
+ "181": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "search serving infra whose 2026 focus is speeding up AI Overviews/AI Mode"
+ },
+ "847": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "identity engineer; agent/MCP authorization = pattern (h)"
+ },
+ "1399": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "low",
+  "note": "full-stack integrating data-science model outputs (same as 1394)"
+ },
+ "1776": {
+  "relevance": "unrelated",
+  "seniority_match": "uncertain",
+  "conf": "med",
+  "note": "DevOps/infra role under Barclays ML template = pattern (f)"
+ },
+ "2681": {
+  "relevance": "peripheral",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "DV manager verifying AI/ML accelerators among SoC blocks"
+ },
+ "2970": {
+  "relevance": "unrelated",
+  "seniority_match": false,
+  "conf": "med",
+  "note": "information architecture/content strategy"
+ }
+}
