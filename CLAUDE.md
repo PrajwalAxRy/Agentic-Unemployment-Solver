@@ -27,6 +27,8 @@ code, and `latest_scan.json` is better queried with `jq` than read.
 | Does anything prune the DB? | `state prune` manually clears descriptions not seen in 90 days, protecting fresh batch candidates, and removes an expired batch. It preserves job rows/first-seen dates and spending. Fresh scans replace the singleton batch; daily lifecycle baselines/counts are bounded on publication. Judgment cache, request accounting, old reports/logs and historical `scan_runs` have no automatic retention deadline. |
 | Is `jobs.date_basis` used? | **No — dead schema.** Migration 4 adds the column; `JobRecord` has no such field and no statement reads or writes it. |
 | Is the DB in WAL mode? | **No.** `database.py` sets `foreign_keys` and `busy_timeout` only, so it runs in rollback-journal mode. |
+| Do `reasoning_effort`, `temperature` or `seed` stabilise Luna? | **No — measured.** The gateway accepts all three; none reduced rerun instability (luna flips relevance on ~26% of hard cases with prompt 1.1.0). Neither did evidence-before-verdict schema order. Only prompt clarity helped (1.2.0: 14%). See `experiments/llm_compare/README.md`. |
+| Is Sol (gpt-6.1-sol) ground truth for Luna? | **No.** On 72 hand-adjudicated disagreements Sol missed 9 relevant jobs and passed 13 irrelevant ones. Adjudicate from the description; `experiments/llm_compare/lab/adjudicated_cases.json` holds 138 such verdicts. |
 
 ## Architecture: discovery checkpoint, then evaluation, one lock
 
@@ -68,8 +70,14 @@ rejected — the gate earns its keep).
 location **only** when the deterministic filter couldn't resolve it.
 
 Each judgment carries a **verbatim evidence quote**, validated as a substring of
-title+description after whitespace/case normalization. Failures trigger the retry
-(~10% rate). `seniority_match` is `bool | str` — **never truthiness-check it**;
+title+description after whitespace/case/typography normalization (dash and quote variants,
+non-breaking spaces, a trailing period or leading bullet). Failures trigger the retry
+(~1% of calls with prompt 1.2.0).
+
+Prompt 1.2.0's relevance boundary is a measured policy, not wording to tidy: engineering
+roles with explicit AI duties are "peripheral" (visible), AI sales/consulting/delivery
+management is "unrelated", job-family template text is ignored. Re-run the harness in
+`experiments/llm_compare/` before changing it. `seniority_match` is `bool | str` — **never truthiness-check it**;
 `"uncertain"` is truthy. All current consumers correctly use `is True` / `is False`.
 
 Cache key: SHA-256 of the **exact rendered LLM request plus model policy**, including
@@ -180,6 +188,9 @@ prompts and request journal) · `filters/` (`roles`, `locations`) · `persistenc
 (SQLite, batches and migrations) · `adapters/` (per-ATS scrapers, HTTP/connectivity) ·
 `checkpoint.py` (legacy file helpers and listing codecs; retired from the daily CLI) ·
 `cost.py`/`accounting.py` (permanent spending) · `terminal.py` (progress UI).
+
+`experiments/llm_compare/` holds the Luna/Sol comparison harness, every prompt variant,
+the adjudicated cases and the report; its run data is git-ignored.
 
 Config in `config/`, state in `state/` (gitignored). Secrets in `.env` (gitignored —
 **never commit**). `to_change.md` is the 986-line rewrite spec; sections are cited as
