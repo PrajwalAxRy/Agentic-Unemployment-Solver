@@ -65,6 +65,9 @@ class AmdGatewaySettings:
 
     Optional on purpose: a missing rate means cost is reported as unknown, never as zero.
     """
+    second_opinion: bool = False
+    """JOB_FINDER_LLM_SECOND_OPINION: re-ask once, and a third time on a relevance-gate
+    disagreement (see MergedEvaluator._consult). Off unless explicitly enabled."""
 
     @property
     def model_policy(self) -> ModelPolicy:
@@ -120,6 +123,7 @@ def load_gateway_settings(
             "JOB_FINDER_LLM_TIMEOUT_SECONDS",
         ),
         token_rates=load_rates(values),
+        second_opinion=_flag(values, "JOB_FINDER_LLM_SECOND_OPINION"),
         usage_limits=UsageLimits(
             max_requests=_positive_int(values, "JOB_FINDER_LLM_MAX_REQUESTS"),
             max_estimated_input_tokens=_positive_int(
@@ -336,6 +340,15 @@ def _positive_int(values: Mapping[str, str], name: str) -> int:
     if value <= 0:
         raise GatewayProviderError(f"{name} must be a positive integer")
     return value
+
+
+def _flag(values: Mapping[str, str], name: str) -> bool:
+    raw = (values.get(name) or "").strip().lower()
+    if raw in {"", "0", "false", "no", "off"}:
+        return False
+    if raw in {"1", "true", "yes", "on"}:
+        return True
+    raise GatewayProviderError(f"{name} must be true or false")
 
 
 def _positive_float(raw: str, name: str) -> float:

@@ -1098,6 +1098,7 @@ def _scan(args: argparse.Namespace) -> int:
                 prompt=load_merged_prompt(args.merged_prompt),
                 model_policy=settings.model_policy,
                 budget=budget,
+                second_opinion=settings.second_opinion,
             )
         command = "evaluate" if args.command == "scan" and args.resume else args.command
         client = BoundedHttpClient(

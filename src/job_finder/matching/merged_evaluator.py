@@ -16,6 +16,7 @@ decides discipline; this decides domain.
 from __future__ import annotations
 
 import logging
+from collections.abc import Callable
 from typing import Any
 
 from job_finder.matching.evaluator import (
@@ -34,6 +35,7 @@ from job_finder.matching.merged_prompt import (
     MergedResponseError,
     parse_merged_response,
 )
+from job_finder.matching.relevance_set import RelevanceVerdict
 from job_finder.matching.seniority import DetectedLevel, SeniorityDecision
 
 _LOGGER = logging.getLogger(__name__)
@@ -88,6 +90,11 @@ _LOCATION_SCHEMA_EXTRAS: dict[str, Any] = {
 }
 
 
+def _passes(judgment: MergedJudgment) -> bool:
+    """Whether a judgment passes the relevance gate (anything but "unrelated")."""
+    return judgment.relevance is not RelevanceVerdict.UNRELATED
+
+
 def merged_response_schema(*, location_requested: bool) -> dict[str, Any]:
     """Build the strict response schema, including location only when asked.
 
@@ -120,11 +127,13 @@ class MergedEvaluator:
         prompt: MergedPrompt,
         model_policy: ModelPolicy,
         budget: UsageBudget,
+        second_opinion: bool = False,
     ) -> None:
         self._client = client
         self._prompt = prompt
         self._model_policy = model_policy
         self._budget = budget
+        self._second_opinion = second_opinion
         self._last: MergedJudgment | None = None
 
     @property
@@ -164,13 +173,15 @@ class MergedEvaluator:
 
         from job_finder.matching.journal import fingerprint
 
-        return fingerprint(
-            {
-                "prompt": asdict(self._prompt),
-                "model": self.model_policy,
-                "max_output_tokens": self._budget.limits.max_output_tokens_per_request,
-            }
-        )
+        configuration: dict[str, Any] = {
+            "prompt": asdict(self._prompt),
+            "model": self.model_policy,
+            "max_output_tokens": self._budget.limits.max_output_tokens_per_request,
+        }
+        # Added only when enabled, so existing saved batches keep their fingerprint.
+        if self._second_opinion:
+            configuration["second_opinion"] = True
+        return fingerprint(configuration)
 
     def build_request(
         self,
@@ -203,7 +214,6 @@ class MergedEvaluator:
     ) -> EvaluationOutcome:
         """Evaluate one job. ``location_original`` is passed only when unresolved."""
         self._last = None
-        location_requested = location_original is not None
         request = self.build_request(
             title=title,
             description=description,
@@ -212,30 +222,33 @@ class MergedEvaluator:
         )
         errors: list[str] = []
         initial_usage = self._budget.snapshot
-        for attempt in (1, 2):
-            try:
-                replaying = bool(getattr(self._client, "has_replay", False))
-                if not replaying:
-                    self._budget.reserve(request)
-                response = self._client.complete(request, self._model_policy)
-                if not replaying:
-                    self._budget.record(response)
-                judgment = parse_merged_response(
-                    response.content,
-                    description=description,
-                    title=title,
-                    location_requested=location_requested,
-                    location_original=location_original,
-                )
-            except UsageLimitExceeded as error:
+        calls = [0]
+
+        def sample() -> MergedJudgment | None:
+            return self._sample(
+                request,
+                description=description,
+                title=title,
+                location_original=location_original,
+                errors=errors,
+                calls=calls,
+            )
+
+        judgment: MergedJudgment | None = None
+        try:
+            judgment = sample()
+            if judgment is not None and self._second_opinion:
+                judgment = self._consult(judgment, sample)
+        except UsageLimitExceeded as error:
+            _LOGGER.warning("llm_budget_exhausted reason=%s", error)
+            if judgment is None:
                 # Return early and distinctly. Falling through to the MANUAL_REVIEW exit
                 # below would tell the caller this job was judged and found wanting, when
                 # in fact no request was ever sent.
-                _LOGGER.warning("llm_budget_exhausted reason=%s", error)
                 return EvaluationOutcome(
                     disposition=EvaluationDisposition.BUDGET_EXHAUSTED,
                     decision=None,
-                    attempt_count=attempt - 1,
+                    attempt_count=calls[0],
                     # Keep any earlier attempt's errors: a malformed response followed by
                     # budget exhaustion should not lose the malformed-response context.
                     errors=(*errors, str(error)),
@@ -243,35 +256,92 @@ class MergedEvaluator:
                     prompt_version=self._prompt.prompt_version,
                     model_policy=self._model_policy.cache_key,
                 )
-            except MergedResponseError as error:
-                errors.append(str(error))
-                _LOGGER.warning("merged_response_invalid attempt=%d reason=%s", attempt, error)
-                continue
+            # A valid first answer exists; a missing second opinion leaves it standing.
 
-            self._last = judgment
+        if judgment is None:
             return EvaluationOutcome(
-                disposition=EvaluationDisposition.COMPLETED,
-                decision=SeniorityDecision(
-                    seniority_match=judgment.seniority_match,
-                    detected_level=judgment.detected_level,
-                    required_experience=judgment.required_experience,
-                    evidence=judgment.seniority_evidence,
-                    reason=judgment.seniority_reason,
-                ),
-                judgment=judgment,
-                attempt_count=attempt,
+                disposition=EvaluationDisposition.MANUAL_REVIEW,
+                decision=None,
+                attempt_count=self._budget.snapshot.request_count - initial_usage.request_count,
                 errors=tuple(errors),
                 usage=_usage_delta(initial_usage, self._budget.snapshot),
                 prompt_version=self._prompt.prompt_version,
                 model_policy=self._model_policy.cache_key,
             )
-
+        self._last = judgment
         return EvaluationOutcome(
-            disposition=EvaluationDisposition.MANUAL_REVIEW,
-            decision=None,
-            attempt_count=self._budget.snapshot.request_count - initial_usage.request_count,
+            disposition=EvaluationDisposition.COMPLETED,
+            decision=SeniorityDecision(
+                seniority_match=judgment.seniority_match,
+                detected_level=judgment.detected_level,
+                required_experience=judgment.required_experience,
+                evidence=judgment.seniority_evidence,
+                reason=judgment.seniority_reason,
+            ),
+            judgment=judgment,
+            attempt_count=calls[0],
             errors=tuple(errors),
             usage=_usage_delta(initial_usage, self._budget.snapshot),
             prompt_version=self._prompt.prompt_version,
             model_policy=self._model_policy.cache_key,
         )
+
+    def _sample(
+        self,
+        request: LLMRequest,
+        *,
+        description: str,
+        title: str,
+        location_original: str | None,
+        errors: list[str],
+        calls: list[int],
+    ) -> MergedJudgment | None:
+        """One judgment: a call plus at most one retry for invalid output.
+
+        Raises UsageLimitExceeded before any request the budget cannot cover.
+        """
+        for attempt in (1, 2):
+            replaying = bool(getattr(self._client, "has_replay", False))
+            if not replaying:
+                self._budget.reserve(request)
+            response = self._client.complete(request, self._model_policy)
+            calls[0] += 1
+            if not replaying:
+                self._budget.record(response)
+            try:
+                return parse_merged_response(
+                    response.content,
+                    description=description,
+                    title=title,
+                    location_requested=location_original is not None,
+                    location_original=location_original,
+                )
+            except MergedResponseError as error:
+                errors.append(str(error))
+                _LOGGER.warning("merged_response_invalid attempt=%d reason=%s", attempt, error)
+        return None
+
+    def _consult(
+        self, first: MergedJudgment, sample: Callable[[], MergedJudgment | None]
+    ) -> MergedJudgment:
+        """Second opinion on the relevance gate; a third breaks a disagreement.
+
+        Measured on the 2026-10-02 batch: the same request flips across "unrelated" on ~2%
+        of ordinary jobs and ~8% of borderline ones. Majority of three (asking the third
+        only on disagreement) removed every holdout gate error at ~2x the cost. When no
+        majority can be formed, the passing answer wins: a missed job costs more than an
+        extra one.
+        """
+        second = sample()
+        if second is None or _passes(second) == _passes(first):
+            return first
+        third = sample()
+        _LOGGER.info(
+            "relevance_second_opinion first=%s second=%s third=%s",
+            first.relevance.value,
+            second.relevance.value,
+            None if third is None else third.relevance.value,
+        )
+        if third is None:
+            return first if _passes(first) else second
+        return first if _passes(first) == _passes(third) else second
