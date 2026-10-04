@@ -1,0 +1,132 @@
+{
+  "version": "v0",
+  "note": "Borderline relevance cases from the hand-checked batches, grouped into types for a policy decision. Members are 'batch:ordinal'; batch 10-02 = runs/2026-10-02, 10-03 and 10-04 likewise. 'anchors' are confidently-judged examples included to make a type concrete.",
+  "types": [
+    {
+      "key": "build_ai_internal",
+      "title": "Builds AI agents or LLM systems for internal teams",
+      "description": "Engineers whose work is building AI systems (agents, LLM platforms, fine-tuning, evaluation, AIOps) whose users are other engineers or internal operations, not external customers. Prompt 1.3.0 made Sol reject these as 'AI-assisted engineering'.",
+      "suggest": "show",
+      "why": "Building an agent or an LLM platform is AI engineering whoever the users are. Only using AI tools (Copilot, Claude) is not.",
+      "anchors": ["10-04:671", "10-04:67", "10-04:2703", "10-04:796", "10-04:2324"],
+      "members": ["10-04:2394", "10-04:1903", "10-04:397", "10-04:2612", "10-04:2504", "10-04:2345", "10-04:1014", "10-04:803", "10-03:996", "10-03:2524", "10-03:2373", "10-02:1069", "10-02:584"]
+    },
+    {
+      "key": "ai_tooling_only",
+      "title": "Uses AI tools, or AI is only hedged or listed",
+      "description": "Ordinary engineering roles where AI appears as tools the engineer uses (coding assistants, AI-driven EDA flows), as a hedge ('potentially leveraging AI', 'identify opportunities to integrate LLMs'), or as one item in a long skills list.",
+      "suggest": "hide",
+      "why": "Nothing in the work is building or operating AI. Showing these would flood the report: most postings now mention AI tools.",
+      "anchors": ["10-04:1889"],
+      "members": ["10-04:1842", "10-04:875", "10-04:2691", "10-04:1417", "10-04:2362", "10-04:3264", "10-04:124", "10-04:178", "10-04:3258", "10-04:3322", "10-03:123", "10-03:2978", "10-02:2900", "10-02:2834", "10-02:2848", "10-02:2905", "10-02:873", "10-02:1045"]
+    },
+    {
+      "key": "ai_skill_required",
+      "title": "Ordinary engineering role that requires AI-building skills",
+      "description": "Generic duties (web, backend, C++), but the REQUIRED qualifications ask for hands-on experience building with LLMs, RAG, GenAI applications or ML models.",
+      "suggest": "show",
+      "why": "A hard requirement to build with AI usually means the team does it, even when the duty list is boilerplate. Mere 'knowledge of' is weaker.",
+      "anchors": [],
+      "members": ["10-04:38", "10-04:2593", "10-04:3329", "10-03:60", "10-03:1176", "10-03:2368", "10-03:1211", "10-03:1669", "10-02:1115", "10-02:2407", "10-02:2479"]
+    },
+    {
+      "key": "genai_template_req",
+      "title": "Google's standard 'integrating GenAI tools into workflows' requirement",
+      "description": "Google engineering-manager and staff postings that add one minimum qualification: 'Experience integrating generative AI tools or LLM interfaces into workflows'. The rest of the posting is a normal SWE role.",
+      "suggest": "uncertain",
+      "why": "The line appears on many unrelated Google postings, so it is closer to template text, but it is a hard requirement.",
+      "anchors": [],
+      "members": ["10-04:185", "10-04:180", "10-04:217", "10-04:307", "10-03:179"]
+    },
+    {
+      "key": "customer_ai",
+      "title": "Customer-facing engineers for AI products",
+      "description": "Customer engineers, solution/readiness architects, support and success engineers whose product is AI (Agentforce, an AI security product, an industrial AI monitoring product, Cloud AI).",
+      "suggest": "show",
+      "why": "The prompt already treats these as peripheral: AI is the main subject even though they do not build the models.",
+      "anchors": ["10-04:2414", "10-04:1475"],
+      "members": ["10-04:382", "10-04:948", "10-04:1474", "10-04:2728", "10-02:205", "10-02:277", "10-02:283", "10-02:1153", "10-02:1003", "10-02:1450", "10-02:850", "10-02:371"]
+    },
+    {
+      "key": "consulting_ai",
+      "title": "Consultants and enterprise architects who advise on AI among other things",
+      "description": "Billable consulting managers, enterprise architects and practice leads whose engagements include designing or integrating AI solutions for clients, alongside CRM, cloud or data work.",
+      "suggest": "uncertain",
+      "why": "Judged both ways so far. They do design AI solutions, but the job is consulting delivery, and most are very senior.",
+      "anchors": ["10-04:941", "10-04:345"],
+      "members": ["10-04:7", "10-04:889", "10-04:1319", "10-03:913", "10-03:960", "10-03:949", "10-03:2268", "10-02:4", "10-02:332", "10-02:980", "10-02:1388"]
+    },
+    {
+      "key": "ai_product_strategy",
+      "title": "Product, program and strategy roles where AI is the main subject",
+      "description": "Product managers, product owners and strategy leads who define AI features or AI automation but do not engineer them.",
+      "suggest": "uncertain",
+      "why": "AI is central, but the work is not engineering. Depends on whether you would apply to an AI product-management role.",
+      "anchors": ["10-04:2346"],
+      "members": ["10-04:1939", "10-04:3482", "10-04:203", "10-04:1517", "10-04:3480", "10-04:1874", "10-03:197", "10-02:190", "10-02:2044", "10-02:3219", "10-02:2437"]
+    },
+    {
+      "key": "data_feeding_ml",
+      "title": "Data engineering, BI and architecture whose output feeds ML",
+      "description": "Data engineers, BI engineers and data architects whose pipelines or platforms are consumed by data scientists or AI features, among other users.",
+      "suggest": "hide",
+      "why": "Data platforms serve everyone; ML is one consumer. Show only when the role builds ML-specific infrastructure (feature stores, training data, model serving).",
+      "anchors": [],
+      "members": ["10-04:523", "10-04:1224", "10-04:1137", "10-04:281", "10-04:1999", "10-04:1378", "10-04:2840", "10-03:519", "10-03:1243", "10-03:1388", "10-03:1401", "10-02:227", "10-02:304", "10-02:1394", "10-02:1399"]
+    },
+    {
+      "key": "template_text",
+      "title": "ML appears only in a company or job-family template",
+      "description": "Barclays' standard 'Collaboration with data scientist to build and deploy machine learning models' block, Google's 'AI and Infrastructure' org paragraph, and similar boilerplate. The role-specific part is ETL, migration or general software.",
+      "suggest": "hide",
+      "why": "The same sentence appears on Pega, SRE and C++ postings, so it says nothing about this job.",
+      "anchors": ["10-04:1598"],
+      "members": ["10-04:1675", "10-04:1786", "10-04:315", "10-04:300", "10-03:335", "10-02:1659", "10-02:1660", "10-02:1661", "10-02:1686"]
+    },
+    {
+      "key": "ds_titles",
+      "title": "'Data Scientist' or quant titles doing analytics and statistics",
+      "description": "Roles titled Data Scientist (or similar) whose duties are business analytics, experimentation, forecasting, pricing or credit strategy, sometimes with propensity or churn models.",
+      "suggest": "show",
+      "why": "The title names data science and many build predictive models. Hiding them would miss roles a data-science candidate would apply to.",
+      "anchors": ["10-04:1886"],
+      "members": ["10-04:1622", "10-04:2017", "10-04:2361", "10-04:78", "10-04:352", "10-03:1635", "10-02:1628", "10-02:879", "10-02:1409", "10-02:2359"]
+    },
+    {
+      "key": "ai_hardware",
+      "title": "Chip and hardware work for AI accelerators",
+      "description": "Design verification, SoC and interconnect roles where AI/ML accelerators or AI cluster interconnect (UALink) are among the things designed or verified.",
+      "suggest": "show",
+      "why": "The prompt calls hardware for AI accelerators peripheral. Weaker when AI is one item in a long list of blocks.",
+      "anchors": [],
+      "members": ["10-04:3087", "10-04:2536", "10-04:2569", "10-03:2578", "10-03:3096", "10-02:317", "10-02:3229"]
+    },
+    {
+      "key": "ai_governance_eval",
+      "title": "Model risk, AI governance, AI quality and AI security",
+      "description": "Model validation, AI governance or privacy, quality leads who measure AI model accuracy, benchmarking of AI outputs, and identity/security controls for AI agents.",
+      "suggest": "uncertain",
+      "why": "AI is the object of the work, but nobody builds models. Closer to oversight than engineering.",
+      "anchors": ["10-04:499", "10-04:784"],
+      "members": ["10-04:1538", "10-04:279", "10-04:355", "10-04:2290", "10-02:1617", "10-02:847", "10-02:1543"]
+    },
+    {
+      "key": "annotation",
+      "title": "Data labelling and annotation roles",
+      "description": "Amazon 'ML Data Associate' style postings: non-technical labelling of text, image and video data for model training. Usually early-career.",
+      "suggest": "uncertain",
+      "why": "Both models currently show them. They are ML jobs in name and early-career, but explicitly non-technical.",
+      "anchors": [],
+      "members": ["10-04:437", "10-04:614", "10-04:663", "10-03:529"]
+    },
+    {
+      "key": "ai_adjacent",
+      "title": "Systems next to AI, without building it",
+      "description": "ADAS algorithm integration and simulation, software that talks to computer-vision or robotics systems, OCR as one feature, notification platforms for agents, QA of ML-assisted decisions, serving infrastructure for AI features.",
+      "suggest": "hide",
+      "why": "The role touches AI outputs but the duties never say they build, train or evaluate models.",
+      "anchors": [],
+      "members": ["10-04:3158", "10-04:3130", "10-04:634", "10-04:63", "10-04:158", "10-04:490", "10-04:839", "10-03:3192", "10-03:3163", "10-03:654", "10-03:62", "10-03:863", "10-02:3327", "10-02:181", "10-02:472"]
+    }
+  ]
+}
