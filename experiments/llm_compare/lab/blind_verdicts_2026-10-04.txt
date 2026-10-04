@@ -1,0 +1,116 @@
+# Blind hand verdicts for the 111 jobs where Luna's and Sol's majorities disagreed on the
+# relevance gate (2026-10-04 batch). Read without seeing either model's answer, in the
+# shuffled order of blind_order_2026-10-04.txt. Format: ordinal relevance conf | note
+# relevance: s=substantive p=peripheral u=unrelated; conf: high/med/low (low = borderline,
+# excluded from headline numbers).
+1889 u high | lead SWE; only AI coding tools
+2394 p med | "Staff AI-SRE": builds LLM runbooks, AIOps anomaly detection, AI capacity models
+941 u med | Salesforce technical consulting manager (pattern e)
+2593 p low | observability eng; required AI/ML-based monitoring/anomaly detection
+2324 p high | title names agentic AI; builds agentic workflows, LLM/RAG required
+1903 p med | director; team builds AI/agentic tools that heal infrastructure
+1417 u low | SRE; one bullet "apply AI-enabled approaches" to anomaly detection
+2896 u high | switch ASIC architect; AI only as market context
+2612 p med | builds AI-powered analog IC design tools
+345 u med | consulting enterprise architect (pattern e)
+136 u high | finance apps EM; "exposure to AI/ML"
+671 p high | builds LLM-powered remediation agents and AI knowledge foundation
+2346 u med | strategy/transformation manager, non-engineering
+1622 p low | Barclays "Data scientist" credit strategy (title vs template/g)
+1939 p low | product owner for ML/GenAI/agentic automation
+2691 u low | physical design; AI tools in the EDA flow
+2504 p low | automation reliability; integrates AI/ML models and LLMs into ops
+1122 u med | growth/content manager; ranking via DS teams
+2635 u high | silicon validation; NPUs only as devices under test
+839 u low | Stripe internal systems; AI seller tooling one of three teams
+178 u low | T&S analyst; "identify opportunities to integrate LLM" (hedge)
+67 s high | builds Adobe AI agent platform: orchestration, evaluation, context
+3312 u med | Salesforce developer; Data Cloud AI features
+2067 u med | data engineering director; AI one consumer of the platform
+185 p low | DevAI EM; required integrating GenAI/LLM interfaces
+1475 p med | customer success eng for an industrial AI product; monitors/tunes models
+437 p low | annotation associate (policy: status quo passes these)
+1999 u low | data architect; data for predictive modeling
+2114 u med | SWE manager; platforms supporting AI products, AI tools
+499 p med | benchmarks GenAI copilot outputs; LLM evaluation quality lead
+3480 u low | risk PM; model orchestration layers in a decision engine
+2536 p low | DV principal; verifies AI/ML accelerators among others
+102 u med | Jira data management; agent-native vision is org context
+1517 p low | credit-risk manager; prototypes GenAI/agentic solutions with AI teams
+2017 p low | "Data Scientist" pricing analytics; scikit-learn/forecasting
+509 u med | SDE; ML in team blurb only
+2290 u low | data security lead; AI data-consumption controls (h)
+158 u low | notifications platform for agent-driven experiences
+297 u med | optimization (MIP) SWE; AI2 org template
+277 u med | QC operations manager (pattern e)
+2748 u high | Workday HRIS architect
+3158 u low | simulation lead; AD algorithms, ML never named
+1378 u low | data architect; ML architects are another specialty
+2840 u low | software architect; AI/ML infra one listed area
+3258 u low | VS Code extension dev; LLM APIs good to have
+355 u low | privacy manager for AI-enabled HR journeys
+1319 u low | RGM consulting engagement manager
+849 u med | tax engine SWE; "complemented with AI"
+2525 p med | title "AI Platforms Engineer"; data platform for data scientists
+180 u low | Maps EM; GenAI tool integration requirement only
+634 u low | AFT SDE; interacts with CV/robotics
+523 p low | BIE; team's stated work uses AI/ML predictive insights
+1886 s med | Data Scientist; builds churn/propensity predictive models
+352 p low | Marketing Data Scientist; measurement, propensity modeling preferred
+1224 p low | HC analytics; team builds AI-based products
+337 u med | data center technician
+279 p low | QA lead monitoring AI QA model performance and retraining labels
+137 u med | data engineer; ML experience nice to have
+1842 u low | SVP SWE; agentic AI for engineering workflows (d)
+382 p low | customer engineering manager for data + AI workloads
+2361 p low | "Data Scientist" consulting analytics (title)
+3322 u low | API integration consultant
+784 u med | IAM for AI agents (h)
+3264 u low | C# tools dev; "introduce AI concepts"
+2728 p med | product engineer for an agentic-AI EDA product
+2703 s high | LLM fine-tuning, evaluation, multi-agent systems
+7 p low | enterprise architect; required RAG/LLM eval experience
+3130 u low | ADAS integration
+2639 u med | design architect; AI tools in group blurb
+38 p low | C++ dev; GenAI RAG knowledge required
+2137 u med | data platform architect
+2569 p low | DV staff; verifies AI/ML accelerators
+3482 p low | AI-first PM designing AI-powered experiences
+900 u med | Salesforce technical consulting manager (pattern e)
+2345 p low | innovation SWE; GenAI/agentic prototypes in production
+1675 u low | Barclays data lead; template text only
+1474 p med | customer success eng for an industrial AI product
+889 p low | Salesforce architect manager; designs predictive/GenAI solutions
+1598 u med | OpenShift migration engineer; template ML sentence
+315 u low | SWE manager; AI&I org template
+1178 p med | operations for the GenAI infrastructure team
+472 u high | business analyst; segmentation
+579 u med | SDE; "run predictions" template
+996 u high | service mesh
+3329 u low | ITSM architect; AI knowledge listed
+2826 p med | title names AI; develops LLM/agent utilities
+124 u low | design technologist; AI-native internal design tooling
+796 p high | title names AI; builds engineering agents, AI gateway, agent runtime, RAG
+948 p low | Agentforce/Data Cloud readiness architect
+3087 p low | UALink (AI accelerator interconnect) switch design
+490 u low | QA; tests ML-assisted decision flows (h)
+1014 p low | network reliability; operates AI anomaly-detection platforms
+1538 p low | model risk; validates AI/ML models among others
+2362 u low | middleware reliability; AI/ML integrations for ops
+2352 u med | OpenPages Java dev; "AI tools" requirement
+803 p low | SDET lead; evaluates accuracy of AI agents
+203 p low | product lead for Applied AI solutions
+300 u low | networking SWE; AI Data team blurb
+1137 u low | data platform SDE; enables ML teams among others
+2414 p med | support engineer for an AI security product; builds LLM agentic workflows
+1874 u low | product director for agile metrics
+78 p low | "Principal Data Scientist", analytics
+217 u low | Home EM; GenAI tool integration requirement only
+281 u low | data engineer; pipelines for AI-driven decisions
+397 p med | builds agentic debugging tools and agent solutions
+2223 p high | title names AI; builds AI/ML models, required
+1786 u low | Barclays data lead; template text only
+63 u low | Acrobat C++; OCR one bullet
+307 u low | Google One staff SWE; GenAI tool integration requirement only
+1159 u med | UPI banking solutions manager
+875 u low | cloud security; AI agents in engineering workflows

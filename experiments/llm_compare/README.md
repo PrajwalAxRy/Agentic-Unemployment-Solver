@@ -230,6 +230,35 @@ jobs. On the 65 Luna-only passes that were never hand-judged, v8 rejects 46% of 
 - **Consulting architects who design AI solutions for clients** (Salesforce technical
   consulting managers): judged both ways; they are all senior, so they never show.
 
+## Round 4 (2026-10-04): full lab run, Luna x4 vs Sol x3, blind adjudication
+
+`run_full_lab.sh` on a fresh batch (3,634 jobs): discovery with the Bank of America and
+REVIEW-admission fixes, Luna 1.3.0 + second opinion through the real pipeline, and harness
+reruns (Luna x4, Sol x3, seniority variant x2). Costs: Luna x4 $4.28, Sol x3 $42.10,
+variant $2.22, pipeline $1.94 (7,366 calls, 2.03 per job). Five pipeline halts were gateway
+failures, each resumed automatically.
+
+Pipeline result: review list 106 (100 seniority uncertain, 5 evidence failures, 1 location
+uncertain), down from 976; 0 deterministic filter reviews (Bank of America: 880 detail
+fetches, 0 failures, all US). 226 matches. 42 unresolved locations went to the model.
+
+Instability: Luna changed its gate answer across 4 calls on 137 jobs (3.8%), Sol across 3
+calls on 46 (1.3%). The majorities disagreed on 111 jobs (91 Luna-only pass, 20 Sol-only).
+All 111 were judged blind (`lab/blind_verdicts_2026-10-04.txt`, no model answers shown,
+shuffled order), then unblinded (`lab/unblind.py`): 63 of 111 are genuinely borderline
+("low"). On the 48 confident ones, per call (`analyze_reps.py --only-judged`):
+| | Gate missed | Gate extra |
+|---|---|---|
+| 1 Luna call | 2.0 | 15.0 |
+| 2 Luna + tie-break (second opinion) | 1.5 | 16.5 |
+| 1 Sol call | 16.3 | 5.3 |
+Sol 1.3.0 misses roles that BUILD AI systems for internal engineers (Adobe AI agent
+platform, Amazon LLM remediation agents, Cadence LLM fine-tuning, Safe "Engineering
+Productivity (AI)"), each time citing the (d) "AI-assisted SDLC" exclusion; 1.3.0 widened
+(d) and Sol over-applies it. Luna's extras are consulting/strategy roles, generic SWE
+postings with AI tooling, and template text, often unstable across calls. The second
+opinion barely helps because both models' errors repeat.
+
 ## Not done / next steps
 1. Seniority policy for "no years stated" (above) is a user decision.
 2. The 65 seniority disagreements on unrelated jobs were not adjudicated.

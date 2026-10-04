@@ -1,0 +1,557 @@
+{
+ "1889": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "lead SWE; only AI coding tools"
+ },
+ "2394": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "\"Staff AI-SRE\": builds LLM runbooks, AIOps anomaly detection, AI capacity models"
+ },
+ "941": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "Salesforce technical consulting manager (pattern e)"
+ },
+ "2593": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "observability eng; required AI/ML-based monitoring/anomaly detection"
+ },
+ "2324": {
+  "relevance": "peripheral",
+  "conf": "high",
+  "note": "title names agentic AI; builds agentic workflows, LLM/RAG required"
+ },
+ "1903": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "director; team builds AI/agentic tools that heal infrastructure"
+ },
+ "1417": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "SRE; one bullet \"apply AI-enabled approaches\" to anomaly detection"
+ },
+ "2896": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "switch ASIC architect; AI only as market context"
+ },
+ "2612": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "builds AI-powered analog IC design tools"
+ },
+ "345": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "consulting enterprise architect (pattern e)"
+ },
+ "136": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "finance apps EM; \"exposure to AI/ML\""
+ },
+ "671": {
+  "relevance": "peripheral",
+  "conf": "high",
+  "note": "builds LLM-powered remediation agents and AI knowledge foundation"
+ },
+ "2346": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "strategy/transformation manager, non-engineering"
+ },
+ "1622": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "Barclays \"Data scientist\" credit strategy (title vs template/g)"
+ },
+ "1939": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "product owner for ML/GenAI/agentic automation"
+ },
+ "2691": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "physical design; AI tools in the EDA flow"
+ },
+ "2504": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "automation reliability; integrates AI/ML models and LLMs into ops"
+ },
+ "1122": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "growth/content manager; ranking via DS teams"
+ },
+ "2635": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "silicon validation; NPUs only as devices under test"
+ },
+ "839": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "Stripe internal systems; AI seller tooling one of three teams"
+ },
+ "178": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "T&S analyst; \"identify opportunities to integrate LLM\" (hedge)"
+ },
+ "67": {
+  "relevance": "substantive",
+  "conf": "high",
+  "note": "builds Adobe AI agent platform: orchestration, evaluation, context"
+ },
+ "3312": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "Salesforce developer; Data Cloud AI features"
+ },
+ "2067": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "data engineering director; AI one consumer of the platform"
+ },
+ "185": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "DevAI EM; required integrating GenAI/LLM interfaces"
+ },
+ "1475": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "customer success eng for an industrial AI product; monitors/tunes models"
+ },
+ "437": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "annotation associate (policy: status quo passes these)"
+ },
+ "1999": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "data architect; data for predictive modeling"
+ },
+ "2114": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "SWE manager; platforms supporting AI products, AI tools"
+ },
+ "499": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "benchmarks GenAI copilot outputs; LLM evaluation quality lead"
+ },
+ "3480": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "risk PM; model orchestration layers in a decision engine"
+ },
+ "2536": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "DV principal; verifies AI/ML accelerators among others"
+ },
+ "102": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "Jira data management; agent-native vision is org context"
+ },
+ "1517": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "credit-risk manager; prototypes GenAI/agentic solutions with AI teams"
+ },
+ "2017": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "\"Data Scientist\" pricing analytics; scikit-learn/forecasting"
+ },
+ "509": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "SDE; ML in team blurb only"
+ },
+ "2290": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "data security lead; AI data-consumption controls (h)"
+ },
+ "158": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "notifications platform for agent-driven experiences"
+ },
+ "297": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "optimization (MIP) SWE; AI2 org template"
+ },
+ "277": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "QC operations manager (pattern e)"
+ },
+ "2748": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "Workday HRIS architect"
+ },
+ "3158": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "simulation lead; AD algorithms, ML never named"
+ },
+ "1378": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "data architect; ML architects are another specialty"
+ },
+ "2840": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "software architect; AI/ML infra one listed area"
+ },
+ "3258": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "VS Code extension dev; LLM APIs good to have"
+ },
+ "355": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "privacy manager for AI-enabled HR journeys"
+ },
+ "1319": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "RGM consulting engagement manager"
+ },
+ "849": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "tax engine SWE; \"complemented with AI\""
+ },
+ "2525": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "title \"AI Platforms Engineer\"; data platform for data scientists"
+ },
+ "180": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "Maps EM; GenAI tool integration requirement only"
+ },
+ "634": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "AFT SDE; interacts with CV/robotics"
+ },
+ "523": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "BIE; team's stated work uses AI/ML predictive insights"
+ },
+ "1886": {
+  "relevance": "substantive",
+  "conf": "med",
+  "note": "Data Scientist; builds churn/propensity predictive models"
+ },
+ "352": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "Marketing Data Scientist; measurement, propensity modeling preferred"
+ },
+ "1224": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "HC analytics; team builds AI-based products"
+ },
+ "337": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "data center technician"
+ },
+ "279": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "QA lead monitoring AI QA model performance and retraining labels"
+ },
+ "137": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "data engineer; ML experience nice to have"
+ },
+ "1842": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "SVP SWE; agentic AI for engineering workflows (d)"
+ },
+ "382": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "customer engineering manager for data + AI workloads"
+ },
+ "2361": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "\"Data Scientist\" consulting analytics (title)"
+ },
+ "3322": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "API integration consultant"
+ },
+ "784": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "IAM for AI agents (h)"
+ },
+ "3264": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "C# tools dev; \"introduce AI concepts\""
+ },
+ "2728": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "product engineer for an agentic-AI EDA product"
+ },
+ "2703": {
+  "relevance": "substantive",
+  "conf": "high",
+  "note": "LLM fine-tuning, evaluation, multi-agent systems"
+ },
+ "7": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "enterprise architect; required RAG/LLM eval experience"
+ },
+ "3130": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "ADAS integration"
+ },
+ "2639": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "design architect; AI tools in group blurb"
+ },
+ "38": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "C++ dev; GenAI RAG knowledge required"
+ },
+ "2137": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "data platform architect"
+ },
+ "2569": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "DV staff; verifies AI/ML accelerators"
+ },
+ "3482": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "AI-first PM designing AI-powered experiences"
+ },
+ "900": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "Salesforce technical consulting manager (pattern e)"
+ },
+ "2345": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "innovation SWE; GenAI/agentic prototypes in production"
+ },
+ "1675": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "Barclays data lead; template text only"
+ },
+ "1474": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "customer success eng for an industrial AI product"
+ },
+ "889": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "Salesforce architect manager; designs predictive/GenAI solutions"
+ },
+ "1598": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "OpenShift migration engineer; template ML sentence"
+ },
+ "315": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "SWE manager; AI&I org template"
+ },
+ "1178": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "operations for the GenAI infrastructure team"
+ },
+ "472": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "business analyst; segmentation"
+ },
+ "579": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "SDE; \"run predictions\" template"
+ },
+ "996": {
+  "relevance": "unrelated",
+  "conf": "high",
+  "note": "service mesh"
+ },
+ "3329": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "ITSM architect; AI knowledge listed"
+ },
+ "2826": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "title names AI; develops LLM/agent utilities"
+ },
+ "124": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "design technologist; AI-native internal design tooling"
+ },
+ "796": {
+  "relevance": "peripheral",
+  "conf": "high",
+  "note": "title names AI; builds engineering agents, AI gateway, agent runtime, RAG"
+ },
+ "948": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "Agentforce/Data Cloud readiness architect"
+ },
+ "3087": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "UALink (AI accelerator interconnect) switch design"
+ },
+ "490": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "QA; tests ML-assisted decision flows (h)"
+ },
+ "1014": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "network reliability; operates AI anomaly-detection platforms"
+ },
+ "1538": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "model risk; validates AI/ML models among others"
+ },
+ "2362": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "middleware reliability; AI/ML integrations for ops"
+ },
+ "2352": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "OpenPages Java dev; \"AI tools\" requirement"
+ },
+ "803": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "SDET lead; evaluates accuracy of AI agents"
+ },
+ "203": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "product lead for Applied AI solutions"
+ },
+ "300": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "networking SWE; AI Data team blurb"
+ },
+ "1137": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "data platform SDE; enables ML teams among others"
+ },
+ "2414": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "support engineer for an AI security product; builds LLM agentic workflows"
+ },
+ "1874": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "product director for agile metrics"
+ },
+ "78": {
+  "relevance": "peripheral",
+  "conf": "low",
+  "note": "\"Principal Data Scientist\", analytics"
+ },
+ "217": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "Home EM; GenAI tool integration requirement only"
+ },
+ "281": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "data engineer; pipelines for AI-driven decisions"
+ },
+ "397": {
+  "relevance": "peripheral",
+  "conf": "med",
+  "note": "builds agentic debugging tools and agent solutions"
+ },
+ "2223": {
+  "relevance": "peripheral",
+  "conf": "high",
+  "note": "title names AI; builds AI/ML models, required"
+ },
+ "1786": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "Barclays data lead; template text only"
+ },
+ "63": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "Acrobat C++; OCR one bullet"
+ },
+ "307": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "Google One staff SWE; GenAI tool integration requirement only"
+ },
+ "1159": {
+  "relevance": "unrelated",
+  "conf": "med",
+  "note": "UPI banking solutions manager"
+ },
+ "875": {
+  "relevance": "unrelated",
+  "conf": "low",
+  "note": "cloud security; AI agents in engineering workflows"
+ }
+}
