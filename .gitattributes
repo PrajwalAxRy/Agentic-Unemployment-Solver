@@ -1,2 +1,5 @@
 # Shell scripts must keep LF endings: bash fails on CRLF line endings.
 *.sh text eol=lf
+# The comparison profiles are sourced by bash; a CRLF would leave "\r" in every value
+# (e.g. the model name) and break the run.
+experiments/llm_compare/profiles/*.env text eol=lf
