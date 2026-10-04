@@ -24,6 +24,9 @@ strong hint, not ground truth). Missing a relevant job is worse than showing an 
 |---|---|---|
 | `README.md` | yes | this report |
 | `run_compare.sh`, `profiles/` | yes | unattended discovery + Luna/Sol run (no secrets in profiles) |
+| `run_full_lab.sh` | yes | discovery + Luna pipeline check + harness reruns (Luna x4, Sol x3, seniority variant x2) in one command |
+| `lab/costs.py`, `lab/compare_full.py` | yes | price harness runs; whole-batch shown/flip counts |
+| `lab/prompts/v8s.toml` | yes | experiment only: 1.3.0 with a title-decides seniority rule when no years are stated (reviewed seniority set 19/20: it turns a "Principal" with no years from uncertain to false, by design) |
 | `lab/lab.py` | yes | harness: `build`, `run` (prompt x model x set x reps), `score` |
 | `lab/view.py`, `lab/adjudicate.py`, `lab/compare.py` | yes | read cases, record verdicts, compare two runs |
 | `lab/view_runs.py`, `lab/view_blind.py` | yes | print cases with any runs' answers / with no answers |
