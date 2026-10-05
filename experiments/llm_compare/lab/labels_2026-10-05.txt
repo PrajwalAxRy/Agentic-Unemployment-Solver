@@ -399,3 +399,83 @@
 813|hide|no|-|9|no description; lean/customer-experience business partner, nothing about AI; Staff
 2240|hide|yes|-|10|physical security systems associate; 1-3 yrs
 1371|hide|no|-|10|medical science liaison manager at an AI health company; 5+ yrs
+1189|hide|yes|-|10|HFT trade monitoring/support; 1-3 yrs
+121|hide|no|-|9|product designer of AI experiences (policy: AI product/UX designers hidden); 7+ yrs
+1545|hide|yes|-|10|credit strategy research analyst; 2+ yrs
+3243|hide|uncertain|-|7|manufacturing dispensing process owner; no years, no level marker
+2517|hide|no|-|10|Linux/Perforce system administration; 5+ yrs
+1672|hide|no|-|9|scrum master/delivery; AVP template, no years
+2419|hide|no|-|10|XDR technical support; 6-8 yrs
+3441|hide|no|-|9|rural sales team leader; Team Leader title, no years
+1197|involved|yes|-|8|quant researcher applying statistical and machine-learning techniques to find trading signals (quant duties name ML); up to 1 yr
+2388|hide|no|-|10|network security technical support, internal ML tools only; 5 yrs
+1279|hide|yes|india|9|AWS Glue/Spark data engineering; 4-14 yrs; description lists Mumbai/Bengaluru/Gurgaon/Chennai/Pune
+341|hide|yes|-|10|Google Cloud front-end engineer; 1 yr
+641|hide|yes|-|10|site reliability engineering; 3-8 yrs
+386|hide|uncertain|-|8|data-centre technician; no years, no level marker
+359|hide|yes|-|7|GPU physical design for Tensor SoC; "AI physical design tools" are used, not built; graphics GPU, not an AI accelerator; 4 yrs
+3189|hide|yes|-|10|purchasing project management; 3-5 yrs
+564|hide|no|-|10|HR business partner; 5+ yrs
+1911|hide|no|-|10|Oracle EPM profitability lead; 7+ yrs
+2984|hide|no|-|10|IP verification; 10-15 yrs
+1018|hide|no|-|9|developer-experience/CI tooling; Staff title, no years
+2696|hide|no|-|10|MIPI verification IP product engineering; 7-12 yrs
+1217|hide|no|-|10|Kafka/JVM streaming platform; 8+ yrs
+815|hide|no|-|8|capacity planning analytics; "implement AI/GenAI and BI tools" is tool adoption; 7+ yrs
+1209|hide|yes|-|7|loan EMI collections calling; "Executive II", no years
+1776|hide|no|-|9|Java back-end engineering, AI-assisted tools only; Lead title, no years
+2509|involved|uncertain|-|6|semiconductor compact modelling with deep-learning parameter extraction methods; PhD required, "Senior", no years
+163|hide|uncertain|excluded|7|GitLab professional services architect; "Intermediate" level, no years; "West" region with US/PST-CST time zones
+1582|hide|yes|-|8|ISDA/GMRA contract negotiation; Analyst template, no years
+2468|hide|yes|-|10|DFT engineering; 3-8 yrs
+897|uncertain|no|-|5|Salesforce technical architect with "integrate predictive and generative AI" and AI evaluation-framework duties (integrate); 9-14 yrs
+3149|hide|uncertain|-|8|automotive component lab testing technician; "Sr", no years
+329|hide|no|-|10|network infrastructure TPM; 5 yrs
+1025|involved|no|-|8|engineering manager modernising a talent platform and building AI agents (LangGraph/CrewAI required); Manager title, years only "preferably"
+2628|hide|no|-|10|design verification; 7-10 yrs
+2500|involved|no|-|8|automotive audio algorithms (AEC, voice activity, trigger-word recognition) applying AI/ML as a role requirement; 8-10 yrs
+1552|hide|no|-|9|employee conduct breach management; AVP, no years
+19|involved|yes|-|7|web analytics analyst who deploys data-science models; LLM application/RAG/agent building experience required; 2-5 yrs
+1853|hide|yes|-|10|alternatives fund controller; 2+ yrs
+2794|core|yes|-|10|machine-learning group developing inspection algorithms; MS + 0 / BS + 2 yrs
+24|core|no|-|8|Java backend engineer building AI agents for RCA/self-healing tests and LLM/RAG services; 5-8 yrs
+2250|hide|no|-|10|finance systems (Ariba/Oracle) analyst; 8+ / MS 6+ yrs
+651|hide|no|-|9|enterprise security product engineering using AI coding agents; 10+ yrs
+490|hide|yes|-|7|data-governance platform SDE; "apply generative AI where it creates leverage" and tool evaluation only; 3+ yrs
+307|hide|no|-|10|engineering productivity for mobile apps; 8 yrs
+1236|core|yes|-|10|computer-vision data scientist building and deploying deep-learning models; 3-8 yrs
+937|hide|no|-|10|cloud billing/metering backend; 8+ yrs
+2453|involved|yes|-|6|support engineer debugging LLM agent pipelines, evaluating LLM outputs and turning failures into prompt/workflow fixes (works with the AI technically); 3+ yrs
+527|core|yes|-|9|applied scientist developing LLM/GenAI modelling techniques; 3+ yrs building models (PhD or MS + 4)
+2200|hide|yes|-|10|derivatives valuations operations; 2-3 yrs
+1394|hide|no|-|10|payment network product management; Senior Manager, no years
+2669|hide|no|-|9|verification tool product engineering; Sr Principal, no years
+559|hide|yes|-|10|AWS data-centre operations technician; 2+ yrs
+3112|hide|no|-|10|automotive cybersecurity engineering manager; 12-16 yrs
+2211|hide|no|-|10|HR people advisor; 6+ yrs
+2663|hide|no|-|10|Python/Go back-end for drug-discovery HPC platform; 5+ yrs
+3439|hide|no|-|9|rural sales team leader; Team Leader title, no years
+78|core|no|-|10|principal data scientist building ML/LLM models and measurement; 9+ yrs
+2343|hide|no|-|10|cloud security backend; 5+ yrs
+2387|hide|yes|-|10|managed detection and response SOC analyst; 3+ yrs
+167|involved|yes|-|6|trust-and-safety engineering analyst who designs and refines LLM prompts for abuse classification plus anti-abuse systems; 2 yrs
+2313|hide|no|-|10|enterprise/cloud security engineering; 8-10 yrs
+2972|hide|yes|-|9|MCU ROM/driver firmware; MS + 3 / BS + 5 yrs
+2826|hide|no|-|10|IC package design; 13-16 yrs
+72|uncertain|yes|-|5|product support at a foundation-model company, troubleshooting API errors and model behaviour; AI tooling familiarity required (support role that touches the AI technically); 2-8 yrs
+3047|hide|yes|-|10|semiconductor scribe test-structure design; 2 yrs
+1171|hide|no|-|10|Windows infrastructure engineering manager; 8+ yrs
+1714|hide|no|-|9|rates strats/structuring lead, no ML; VP, no years
+2720|hide|no|-|10|EDA place-and-route C++; 8+ yrs
+3292|uncertain|uncertain|-|5|ERP/output-management automation developer who integrates "modern AI and automation technologies" (Copilot/n8n) into services (integrate); "Senior", no years
+635|hide|uncertain|-|7|Apple retail specialist; no years, no level marker
+17|core|no|-|10|builds production GenAI/agentic systems (RAG, tool use, orchestration, evaluation); 10+ yrs
+2366|hide|no|-|10|MDR/SOC incident analysis; 5+ yrs
+3183|hide|no|uncertain|9|plant finance manager; Manager title, no years; location unavailable (German required)
+2516|hide|no|-|10|energy-metering product applications engineering; 5+ yrs
+480|hide|no|-|10|social/video content lead; 5+ yrs
+114|hide|no|-|10|principal backend/developer-productivity engineer; 10+ yrs
+364|hide|no|-|10|generic Google Core senior software engineer; 5 yrs
+1935|hide|no|-|9|performance testing lead, "AI-driven performance testing where applicable" minor; 7+ yrs
+1145|hide|yes|-|9|fund operations/client services; agentic workflows only preferred; 2-6 yrs
+131|hide|no|-|10|principal full-stack engineer; 10+ yrs
