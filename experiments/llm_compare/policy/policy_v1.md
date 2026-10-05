@@ -1,10 +1,11 @@
-# Job-screening policy v1 (draft for approval)
+# Job-screening policy v1.1 (approved 2026-10-05)
 
 The single source of truth for what the job scanner shows. Every benchmark label and every
 prompt (1.4.0 and v10) is written from this document; when it changes, labels and prompts
 follow. Each rule notes where it came from: **[CB type]** = your casebook decision on that
 job type (`casebook/decisions_v0.json`), **[Q n]** = your answer to requirement question n,
-**[override]** = a job-level override you made on the review page.
+**[override]** = a job-level override you made on the review page, **[OQ n]** = your answer
+to open question n in section 8.
 
 ---
 
@@ -101,8 +102,12 @@ areas [scope discussion]:
   Q2e]
 - Google's standard requirement "experience integrating generative AI tools or LLM
   interfaces into workflows" on an engineering posting. [CB genai_template_req]
-- Customer or solutions engineers who build or prototype with the AI for customers.
-  [CB customer_ai, override 1450]
+- Customer or solutions engineers who build or prototype with the AI for customers, or who
+  deploy and configure the company's AI product for customers. [CB customer_ai, override
+  1450, OQ1]
+- Analysts with non-AI titles whose duties build machine-learning or predictive models
+  (a "Staff Data Analyst" building churn models). If the duties are statistics only:
+  uncertain. [OQ2]
 - Chip design or verification for AI/ML accelerators or AI cluster interconnect.
   [CB ai_hardware, Q2i]
 - AI evaluation or benchmarking, model risk and validation, or AI-operations leadership as
@@ -125,6 +130,12 @@ areas [scope discussion]:
   [Q5]
 - Senior data leadership under a generic ML template. [rule 3.6]
 - The posting says too little to tell **and** something in it points to AI/data work.
+- Engineers who write code calling LLM APIs as one part of a non-AI product (for example an
+  IDE extension that integrates "AI services"). [OQ4]
+- Security engineers whose duties include red-teaming or securing AI systems alongside other
+  security work (AI security). [OQ7]
+- Practice directors who own an AI business line but mostly lead client and pilot work.
+  [OQ9]
 
 ### Hide (not AI)
 - AI only in the company description or culture text. [Q13]
@@ -149,6 +160,11 @@ areas [scope discussion]:
 - Configuring, testing, selling or securing a product in which AI is one feature among
   many. [carried over from 1.3.0]
 - No description and a title that says nothing about AI or data. [benchmark finding on v9]
+- Configuring a business platform vendor's AI features (Workday "AI-enabled features",
+  Salesforce Data Cloud "AI-driven insights"). [OQ3]
+- Product and UX designers of AI-powered experiences. [OQ5]
+- Data-centre technicians and hardware operations, including for ML clusters. [OQ6]
+- Trainers and enablement roles that teach AI tools or AI literacy. [OQ8]
 
 ---
 
@@ -184,7 +200,8 @@ of professional experience. [Q1, Q23]
 
 - **India:** based in India or explicitly hires in India → shown.
 - **Open remote:** remote with no restriction that excludes India, or open across APAC,
-  worldwide or any time zone → shown, not uncertain. [Q33]
+  worldwide or any time zone → shown, not uncertain. [Q33] This includes "Remote" with no
+  region stated, wherever the company is headquartered. [OQ10]
 - **Relocation:** based outside India but offers relocation or visa sponsorship → shown in
   a separate "Relocation" category. [Q34] *Limitation:* today the deterministic filter drops
   most non-India locations before the model sees them, so this mostly applies to remote
@@ -211,9 +228,11 @@ of professional experience. [Q1, Q23]
 
 ---
 
-## 8. Open questions — my proposed answer in brackets
+## 8. Open questions — resolved 2026-10-05
 
-These came up while consolidating; the benchmark will hit them.
+Your answers: 5 → **hide** (not uncertain as proposed), 10 → **show** as open remote (not
+uncertain as proposed); the other eight as proposed. Each is now a rule in sections 4 and 6,
+tagged [OQ n]. The original wording, with my proposals in brackets:
 
 1. Customer-facing engineers who **deploy and configure** the company's AI product for
    customers, without building models (for example a customer-success technical manager
