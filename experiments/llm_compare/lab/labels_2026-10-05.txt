@@ -639,3 +639,63 @@
 2565|hide|no|-|10|RF system-level modelling lead; 7-12 yrs
 2275|hide|no|-|10|cloud platform SRE/production support; 5+ yrs
 502|hide|yes|-|10|manual test execution associate
+1875|core|yes|-|8|junior data scientist building quantitative and machine-learning models for entity data; 3+ yrs only preferred
+3321|hide|uncertain|-|8|no description; IT executive title, nothing about AI; no level marker
+44|hide|uncertain|-|9|generic technology consulting description; "Senior", no years
+63|hide|uncertain|-|9|Adobe Campaign/Journey Optimizer presales architect; no years, no level marker
+467|hide|yes|-|10|delivery-partner investigations; 2 yrs
+2206|hide|no|-|8|upstream oil and gas transaction research using AI-assisted research tools; Principal Analyst, no years
+1942|hide|uncertain|-|9|Kubernetes/Terraform reliability engineering; "Senior", no years
+577|hide|uncertain|-|9|facility maintenance coordinator; no years, no level marker
+3099|hide|uncertain|-|9|automotive OTA/bootloader embedded developer; no years, no level marker
+2617|hide|yes|-|8|computational aeroelasticity solver development; ML/reduced-order modelling only preferred; PhD, 0-5 yrs
+2109|hide|yes|-|9|mainframe COBOL developer; Engineer II
+2150|involved|no|-|7|client-success automation specialist building AI agents (Python, Bedrock, prompt engineering); AI agent experience required; 5+ yrs
+2820|hide|yes|excluded|9|analog design co-op intern; Toronto / Santa Clara
+3250|hide|yes|-|10|hydraulic product testing; 1-2 yrs
+2092|hide|no|-|9|Java payments engineering; Lead title, no years
+2668|hide|no|-|9|description "To be updated"; Sr Principal design engineer
+2873|hide|no|-|10|identity governance (IGA) engineering; 5-7 yrs
+451|hide|uncertain|-|7|seller delivery operations analytics using statistical techniques, no ML; no required years, "Specialist"
+640|involved|no|-|6|SRE who also participates in building ML pipelines and phishing/fraud/anomaly detection models; 15+ yrs
+590|hide|yes|-|10|security and loss prevention; 3+ yrs
+2318|hide|no|-|10|SAP revenue accounting business systems analyst using AI tools; 8+ yrs
+2905|hide|no|-|10|PERC rule deck development lead; 10+ yrs
+1674|uncertain|yes|-|5|decision-intelligence analyst building and validating quantitative decision models (statistics, no ML named); Analyst template
+1433|hide|uncertain|-|7|OpEx and workforce planning; titled "Project Analyst I" but described as a lead needing significant experience (contradictory)
+3445|hide|no|-|9|rural sales team leader; Team Leader title, no years
+1223|core|uncertain|-|8|data scientist building LLM/GenAI, NLP and CV solutions; title spans Data Scientist/Senior, no years
+3103|hide|uncertain|-|9|automotive embedded cybersecurity developer; no years, no level marker
+3444|hide|no|-|9|rural sales team leader; Team Leader title, no years
+679|hide|no|-|10|IO and mixed-signal circuit design; MSEE 5-15 yrs
+1731|hide|yes|-|8|software engineering with only the generic Barclays template; Analyst level
+2423|hide|no|-|10|XSIAM technical support; 5+ yrs
+1415|uncertain|yes|-|5|credit risk analytics analyst developing economic logic and analytical solutions, ML named only as an innovation focus; 0-30 months
+413|hide|no|-|10|cloud professional services engagement manager using GenAI for delivery; 7+ yrs
+286|hide|no|-|7|consumer product features for the Gemini app (own work web/mobile, not AI); 8 yrs
+2514|hide|yes|-|10|associate industrial engineer, capacity analytics; 0-2 yrs
+2392|hide|no|-|10|firewall/quantum security technical marketing; 10+ yrs
+2281|hide|yes|-|7|Java/.NET engineer using agentic coding tools; BS 8+ / MS 5+ / PhD 2 yrs (PhD path below five)
+2571|hide|no|-|10|compute-farm IT systems engineering; 6-8 yrs
+4|hide|uncertain|-|8|generic product security architecture description; "Engineer 5", no years
+2807|hide|no|-|10|XR/multimedia production manager; 5+ yrs
+2197|hide|yes|-|10|corporate actions data operations; 2 yrs
+1745|hide|uncertain|-|7|Java back-end engineer, AI coding tools only; "Software Engineer III", no years
+776|hide|no|-|10|finance and strategy analytics; 7-14 yrs
+1246|hide|no|-|10|GCP DevOps/platform engineering; 5-9 yrs
+760|hide|yes|-|6|vulnerability researcher using LLMs for research (uses AI); "II", no years
+1705|hide|no|-|9|test architect; VP template
+2428|hide|no|-|10|professional services operations analyst; 5+ yrs
+2588|hide|no|-|10|DFT/ATPG product engineering architect; 14+ yrs
+822|involved|no|-|7|AI/ML senior technical architect for LLM/Agentforce solutions who builds agents hands-on; 13+ yrs
+2925|involved|no|-|8|RTL/micro-architecture design for AI inference accelerator SoCs; 14+ yrs
+1349|uncertain|uncertain|-|5|statistical genomics scientist (GWAS, PRS prediction modelling, statistics) at an AI drug-discovery firm; PhD, no years
+1275|hide|uncertain|india|8|data governance/MDM architect (returnship); "Senior", no years; description lists Bengaluru/Mumbai/Gurugram/Pune/Chennai
+1607|uncertain|no|-|4|titled "AI Engineer - VP" but the description is entirely real-time streaming data platforms (Kafka/Flink) with no AI duties; VP
+1263|hide|no|-|10|Azure data architecture; 8-12 yrs
+2128|hide|no|uncertain|9|real-time payments principal engineer; Principal, no years; location unavailable
+749|uncertain|yes|-|5|WAF security researcher required to build LLM-based automations/agentic workflows (code calling LLMs as one part); "II", no years
+962|uncertain|no|-|5|data engineer in a data science org building pipelines and model-deployment automation for scientists (data feeding ML vs MLOps); 7+ yrs
+1710|hide|no|-|9|Salesforce engineering manager; VP
+1035|hide|uncertain|excluded|8|selling agentic AI HR software; no years; Remote, United States
+95|hide|no|-|10|cloud migration delivery manager; 10+ yrs
