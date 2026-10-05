@@ -479,3 +479,103 @@
 1935|hide|no|-|9|performance testing lead, "AI-driven performance testing where applicable" minor; 7+ yrs
 1145|hide|yes|-|9|fund operations/client services; agentic workflows only preferred; 2-6 yrs
 131|hide|no|-|10|principal full-stack engineer; 10+ yrs
+2623|hide|no|-|10|digital implementation reference flows; BS 12-15 / MS 10 yrs
+3296|core|no|-|10|senior staff ML engineer owning cloud ML/GenAI systems end to end; 8+ yrs
+2594|hide|yes|-|9|PCB-layout EDA C++ developer, AI knowledge only preferred; 2+ (summary says 4+) yrs
+1196|hide|uncertain|-|8|low-latency trading systems C++; no years, no level marker
+22|hide|yes|-|7|no description; deal desk analyst title, nothing about AI; "Analyst 3"
+1697|hide|no|-|9|customer survey research and statistics; AVP template, no years
+485|hide|no|-|9|air transportation operations team lead; Lead title, no years
+122|core|no|-|10|principal ML engineer building ranking/retrieval/LLM models; Principal, no years
+1960|uncertain|no|-|5|data-platform/full-stack engineer extending a self-service platform with AI-powered capabilities; LLM/RAG exposure required (smaller AI part); 6+ yrs
+2526|hide|no|-|8|cloud automation full-stack platform, agentic/AI assistants only in preferred examples; 7+ yrs
+2880|hide|no|-|10|analog silicon validation lead; 8-10 yrs
+2326|hide|no|-|10|SASE technical support; 8+ yrs
+1445|hide|uncertain|-|7|third-party risk management; "Manager" title but Analyst template, no years
+2416|hide|uncertain|-|8|VPN/firewall tier-3 support; years only under preferred; "Senior"
+3048|hide|no|-|10|radar SoC design verification manager; 8+ yrs
+144|core|no|-|10|ML systems lead for search: retrieval/ranking model inference and evaluation; 10+ yrs
+615|hide|no|-|10|global security operations centre manager; 7+ yrs
+2212|hide|no|-|10|SAFe scrum master; 5+ yrs
+3120|hide|no|-|9|radar SIL/HIL simulation lead, signal processing and tracking without learning; 8-12 yrs
+1053|hide|no|-|9|creative/marketing lead using GenAI creative tools; 8+ yrs
+958|core|no|-|7|full-stack engineer whose key focus is architecting agentic AI systems and LLM-integrated tooling for internal platforms; 5+ yrs
+1664|hide|no|-|9|technical product owner (SAS/SQL); VP template, no years
+1008|hide|yes|-|8|data-warehouse/analytics backend at an LLM company, AI infra only nice-to-have; 3+ yrs
+247|involved|no|-|8|STA lead for SoCs that accelerate ML computation in data centres (AI accelerator chip design); 10 yrs
+2129|hide|yes|-|10|software engineer II; 1-3 yrs
+1797|hide|no|-|10|operations analytics/Alteryx automation; 8+ yrs
+3308|hide|no|-|9|no description; sales development team lead, nothing about AI
+1486|hide|no|-|9|compliance thematic risk oversight; AVP, no years
+2395|hide|no|-|10|SD-WAN QA automation; 5-10 yrs
+1638|hide|no|-|9|logical data modelling; VP template, no years
+3431|hide|no|-|10|regional collections manager; 10+ yrs
+1539|hide|no|-|8|trust and fiduciary advisory support; AVP template, no years
+2942|hide|no|-|9|wireless ASIC design verification using agentic AI tools; 5+ yrs
+3062|hide|no|-|6|automotive functional safety assessor; AI safety (ISO 8800) one of several standards advised on; 10+ yrs
+3323|hide|uncertain|-|8|commodity settlement operations; no years, no level marker
+3147|hide|no|-|9|cloud platform architecture lead, MLOps practices only mentioned; 14+ yrs
+1017|core|yes|-|10|speech-recognition ML engineer training and deploying ASR models; 2+ yrs
+2575|hide|no|-|10|CAE customer success principal; 5+ yrs
+2247|hide|no|-|10|consulting delivery programme director; 15+ yrs
+353|uncertain|no|-|5|ads trust-and-safety engineering analyst; 5 yrs in data science/applied AI required, ML solutions preferred, duties are investigations and metrics
+864|involved|no|-|7|senior manager setting AI/Agentforce architecture and personally building agents and LLM automations; 13+ yrs
+377|involved|no|-|7|Google Cloud AI customer engineer prototyping and driving technical solutions for AI/agent workloads; 6 yrs
+207|involved|no|-|8|solutions architect leading design and build of AI-powered prototypes; ML architecture and model deployment experience required; 6 yrs
+1089|hide|yes|-|10|production support/automation engineer; 3 yrs
+1222|core|yes|-|10|data scientist building LLM/GenAI, NLP and CV solutions; 3-5 yrs
+1404|hide|no|-|10|digital product operations senior manager; 8-12 yrs
+55|hide|no|-|10|HR employee-relations generalist; 7+ yrs
+2719|hide|no|-|10|PCIe/CPU subsystem RTL architect; 6-16 yrs
+2131|hide|no|-|9|Angular/Java B2B payments engineering; Lead title, no years
+1249|hide|no|-|10|AWS + SAP data engineering; 7+ yrs
+2112|hide|no|-|9|developer-experience CI/CD platform; Lead title, no years
+1914|uncertain|no|-|5|content operations transformation specialist expected to implement AI-agent and automation solutions (AI agent experience required); career stage Manager, no years
+319|hide|no|-|10|YouTube Live creator platform; 5 yrs
+2796|hide|yes|-|6|Snowflake/SAP data engineering; 5-7 yrs stated but minimum qualification allows PhD + 0 / MS + 3
+1313|hide|no|-|10|data architecture; 8-10+ yrs
+752|uncertain|yes|-|6|Go/Python backend engineer; requirements include LLM API, structured outputs and AI-output evaluation knowledge (smaller AI requirement); 3-5 yrs
+3148|hide|yes|-|10|EDM machine operator; 3+ yrs
+1251|hide|no|-|7|Azure Databricks data engineering; P&G "AI factory" frameworks listed but duties are data pipelines; 6-9 yrs
+1457|hide|no|-|9|Java full stack, AI coding agents only valued; AVP, no years
+2791|core|yes|-|7|leads algorithm team developing image processing, computer vision and ML algorithms; PhD + 3 path (MS/BS 6+)
+1555|involved|no|-|6|AI platform engineer leading a platform initiative; LLM deployment, MLOps, vector DBs and AI observability required; VP template, no years
+2558|hide|no|-|10|physical design lead; 12+ yrs
+838|involved|no|-|7|AI/ML technical architect for Agentforce/LLM solutions who also builds agents hands-on; 10+ yrs
+3163|hide|uncertain|uncertain|7|powertrain data-acquisition project engineering, data science only nice-to-have; "Senior", degree or 7-10 yrs equivalent; location unavailable
+1753|hide|no|-|9|engineering senior manager driving AI-assisted engineering adoption (uses AI); 5+ yrs
+2759|hide|yes|-|10|PCB product applications engineer; MS + 0 / BS + 2 yrs
+3507|hide|uncertain|-|8|no description; "Senior Associate", nothing about AI
+819|hide|no|-|9|observability data pipelines lead; Principal (PMTS), no years
+1693|uncertain|uncertain|uncertain|5|no description; workforce-management forecasting analyst title points to data work; "Senior", no years; "2 Locations"
+1957|involved|yes|-|6|senior data scientist/product lead building ML, NLP and LLM/RAG extraction solutions; only years stated are 3-5 managing data scientists
+954|uncertain|no|-|5|staff backend engineer who also designs machine-learning pipelines for inventory/promise (smaller AI part); 8+ yrs
+514|hide|yes|-|10|delivery station operations team lead; 1+ yrs
+3501|hide|yes|-|10|field research/sales business associate; 0-2 yrs
+565|hide|yes|-|10|relay operations centre shift manager; 1+ yrs
+2612|hide|yes|-|10|verification IP development; 3-5 yrs
+1138|hide|yes|-|10|middle-office trade operations; 2+ yrs
+3282|hide|yes|-|9|SAP HCM/ABAP HR master data; "interest in" AI only; 3-8 yrs
+3303|hide|no|-|10|engineering manager; 8-12 yrs
+1551|hide|yes|-|9|network operations engineer; Analyst template, no years
+2173|hide|uncertain|-|8|no description beyond the title; "Senior Software Engineer"
+3182|hide|yes|uncertain|8|IT leadership graduate programme; graduates; location unavailable
+1192|hide|no|-|10|internal full-stack tools for a trading firm; 5+ yrs
+1593|hide|no|-|9|engineering manager driving AI-assisted engineering adoption (uses AI); VP, no years
+2766|hide|no|-|10|PLC software development; 8+ yrs
+424|hide|yes|-|6|risk investigation manager of managers, partners on automation/AI deployment; required 3+ yrs (number beats title)
+1523|hide|no|-|9|campaign execution analytics; ML/AI only in the generic template; 5-10 yrs
+2898|hide|uncertain|-|9|RISC-V CPU design and verification; "Senior", no years
+1613|hide|yes|-|10|business support administration; Analyst template
+771|hide|yes|-|10|supplier contracting operations; 4-5 yrs
+2447|hide|uncertain|open_remote|6|general application with no role described; no level; "Global"
+1867|hide|yes|-|7|client reference data management; Associate title, no years
+3533|hide|yes|-|9|trainee field sales associate
+2040|uncertain|no|-|5|principal data engineer building lakehouse platforms that support ML/GenAI training, evaluation and inference pipelines (data platform feeding ML vs ML platform); 12-18 yrs
+2290|core|no|-|10|staff ML scientist building, deploying and explaining ML/DL models with MLOps; 8+ / MS 6+ yrs
+1892|hide|no|-|9|sustainable-finance content and regulation research; AI only as a listed skill; career stage Manager
+1832|hide|no|-|10|records management process manager; 5-8 yrs
+3119|uncertain|no|-|5|ADAS resimulation C++ developer who triages AI/ML perception algorithms (integrating/testing others' perception); 6-9 yrs
+3387|hide|no|-|10|affiliate marketing growth; 8-10 yrs
+3263|hide|no|-|10|C#/WPF desktop development; 5-12 yrs
+3180|hide|yes|uncertain|9|finance internship; students; location unavailable
