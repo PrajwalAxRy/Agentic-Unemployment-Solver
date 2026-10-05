@@ -579,3 +579,63 @@
 3387|hide|no|-|10|affiliate marketing growth; 8-10 yrs
 3263|hide|no|-|10|C#/WPF desktop development; 5-12 yrs
 3180|hide|yes|uncertain|9|finance internship; students; location unavailable
+1818|hide|yes|-|10|Python/Java software engineer, AI coding tools only; 3+ yrs
+2160|hide|uncertain|-|8|technical writer acting as Mumbai location lead; no years, "Specialist"
+1597|hide|yes|-|9|personal banker voice role; Analyst template, graduates
+3295|uncertain|no|-|5|digital-solutions technical lead/architect who integrates AI/GenAI capabilities into business apps (integrate); 10+ yrs
+2191|hide|yes|-|10|data platform engineering (Django, Spark); 2.5-5 yrs
+1989|hide|no|-|10|Databricks data engineering lead; 8+ yrs
+1624|hide|no|-|9|Java full stack lead using AI coding models; VP, no years
+3457|hide|yes|-|10|graphic designer using AI creative tools; 4-6 yrs
+340|involved|uncertain|-|7|Cloud AI engineer deploying Gemini Enterprise and building agents for customers; GenAI/agent building required; no years, no level marker
+138|core|yes|-|10|ML engineer building search/RAG/agent models and evaluation frameworks; 4+ yrs
+1026|hide|no|uncertain|9|VP managing partner for AI workforce consulting practice (client/business leadership); location unavailable
+2727|hide|no|-|10|design verification; 8+ yrs
+3220|hide|yes|-|10|production supervisor; 2-6 yrs
+183|hide|no|-|8|mobile video-editing engineering lead; AI media generation is a product feature integrated, not built; 5 yrs
+3335|hide|yes|-|9|DevOps at a conversational-AI company, own work not AI; 4+ yrs
+354|hide|no|-|10|event security operations manager; 5 yrs
+2349|hide|no|-|10|software engineering manager; 12+ yrs
+1962|hide|no|-|10|SME services strategy manager; Manager title, no years
+1882|hide|no|-|10|Angular front-end lead; 8+ yrs
+2421|hide|no|-|10|network security professional services; 10+ yrs
+2647|hide|yes|-|9|audio codec/DSP validation; "Engineer II", no years
+2731|hide|no|-|10|DFT engineering; 5-15 yrs
+1963|hide|no|-|9|C/C++ payment cryptography/HSM lead, Copilot with MCP is tool use; Lead title, no years
+414|core|yes|-|10|applied scientist building NLP/recommendation/personalisation ML models for conversational ads; 3+ yrs building models
+1711|hide|no|-|10|Salesforce engineering VP lead; VP, no years
+509|hide|uncertain|-|8|Japanese-speaking campaign operations; "Sr ... Associate", no years
+645|hide|yes|-|10|IC design verification; BS 5+ / MS 3+ yrs
+540|hide|no|-|10|public-sector principal solutions architect; 10+ yrs
+2822|hide|yes|-|8|firmware QA/automation using prompt engineering to generate tests (uses AI); 4-10 yrs
+696|hide|no|-|9|SoC physical design; Staff title, no years
+1590|involved|no|-|7|lead of a team building GenAI solutions (LLM assistants, RAG, agents) with hands-on Python; VP template, no years
+56|hide|yes|-|10|information security audit analyst; 2-4 yrs
+1839|core|no|-|8|senior lead engineer building agentic AI products (agent frameworks, tool calling, guardrails, MCP); 8+ yrs
+1868|hide|no|-|10|equity-administration product associate; 10+ yrs
+3151|hide|yes|excluded|8|German electrician apprenticeship (Ausbildung); in Germany
+3269|hide|yes|-|10|automotive HiL test engineering; 3-6 yrs
+463|hide|no|-|10|software development senior manager; 10+ yrs
+2178|hide|no|-|9|accounts payable operations with AI-enabled dashboards (uses AI); 5-7 yrs
+1534|hide|no|-|10|agile master coach director
+1856|hide|yes|-|7|data governance documentation including AI/ML standards, uses AI for document drafting (governance, not building); 2+ yrs
+2075|hide|uncertain|-|9|infrastructure platform architecture; "Senior", no years
+1649|core|no|-|7|AI engineer delivering GenAI solutions hands-on (LLM integration, RAG, embeddings, agentic workflows); VP template, no years
+1282|core|no|india|9|pharma data scientist leading predictive modelling/ML client engagements; 5-11 (7.6+) yrs; job location Pune
+3035|hide|no|-|10|SoC design verification lead; 18+ yrs
+2203|hide|yes|-|10|index calculation operations; 2+ yrs
+2819|hide|no|-|10|DFT lead; MS 12+ / BS 14+ yrs
+1930|hide|no|-|10|FX QA automation lead, AI coding tools only; 7+ yrs
+2774|hide|yes|-|7|HPC/GPU C++ software for wafer inspection, no ML; 5-12 yrs stated but minimum qualification allows MS + 2 / BS + 3
+1211|hide|yes|-|10|HR operations team lead; 3-5 yrs
+2082|hide|yes|-|7|third-party software security evaluations; "use AI to solve business problems" for efficiency only; Engineer II
+3440|hide|no|-|9|rural sales team leader; Team Leader title, no years
+1801|hide|yes|-|10|European tech equity research; 3+ yrs
+1081|hide|no|-|10|fulfilment user-experience senior manager; 5-8 yrs
+805|core|no|-|9|senior staff engineer building an LLM-agent evaluation platform (agent orchestration, model routing); 12+ yrs
+946|hide|no|-|10|supply-chain backend architecture; 12+ yrs
+2239|hide|no|-|10|Golang/AWS payments engineering; Staff title, 5-6+ yrs
+802|hide|no|-|10|customer success partner management; 10+ yrs
+2565|hide|no|-|10|RF system-level modelling lead; 7-12 yrs
+2275|hide|no|-|10|cloud platform SRE/production support; 5+ yrs
+502|hide|yes|-|10|manual test execution associate
