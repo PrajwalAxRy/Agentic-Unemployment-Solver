@@ -879,3 +879,43 @@
 2840|hide|no|-|10|NXP mixed signal verification lead; 10+ yrs
 2060|hide|yes|-|9|Mastercard product commercialisation specialist; AI products only a plus; 2+ yrs
 3279|hide|uncertain|-|9|Bosch STIBO STEP PIM senior developer; Sr., no years
+2105|uncertain|uncertain|-|5|Mastercard Sr data engineer in AI team; pipelines plus deploying model artifacts and supporting production ML systems; Sr, no years
+1276|uncertain|uncertain|-|5|Fractal full-stack developer building AWS Lex chatbot workflows (integrating a vendor AI service); no years
+2458|hide|no|-|9|Workday Adaptive Planning consultant; 5 yrs IT implementation required
+1256|core|no|-|10|Fractal principal/lead data scientist leading ML/DL solutions; 11-15 yrs
+3262|hide|yes|-|10|Bosch Java/Eclipse tool developer; 2-10 yrs
+2928|hide|yes|-|10|NXP ASIC physical design engineer; 3-5 yrs
+2824|hide|yes|-|10|Marvell switch SDK test automation staff engineer; 3-10 yrs
+2034|hide|no|-|10|Mastercard lead network architect; 9-13 yrs
+1973|hide|uncertain|-|10|Mastercard global mobility HR senior specialist; no years
+2738|hide|no|-|10|Cadence CXL/PCIe principal software engineer; 6-10 yrs
+253|hide|yes|-|10|Google Ads policy specialist; 2 yrs
+2358|hide|no|-|10|Palo Alto principal NGFW consultant; 12+ yrs
+128|core|no|-|10|Atlassian principal ML systems engineer (LLM training/serving, RAG); 6+ yrs
+1536|hide|no|-|9|Barclays AVP macro business management MI; AI tools only
+1758|hide|no|-|10|JPMC infrastructure product delivery manager; 12+ yrs
+555|uncertain|no|-|6|Amazon senior economist, causal inference/econometrics (statistics without ML); MS/PhD + 5+ yrs
+1259|hide|no|-|10|Fractal full-stack architect; 9+ yrs
+2711|hide|no|excluded|9|Cadence DDR controller principal design engineer; 10+ yrs; Cork, Ireland
+616|hide|yes|-|9|Amazon BIE II quick commerce analytics; 3+ yrs
+3443|hide|no|-|9|Paytm rural sales team leader; Team Leader, no years
+1847|hide|no|-|9|JPMC client reporting operations associate; AI tools for automation only; 8+ yrs
+3340|uncertain|yes|-|5|Haptik implementation analyst building chatbot solutions on the company's conversational AI platform (configuring, not building models); 1+ yrs
+3538|hide|yes|-|10|Porter business associate; sales cold-calling
+2144|hide|no|-|9|Nasdaq lead Java engineer for tokenisation platform; AI tools awareness only; 9-12 yrs
+1061|core|no|-|10|Meesho director of data science leading production ML; 10+ yrs
+1615|hide|no|-|10|Barclays VP cyber recovery infrastructure engineer
+2598|hide|yes|-|10|Cadence foundry PDK design engineer II; 2-4 yrs
+1262|uncertain|no|-|5|Fractal engagement manager leading AI/ML solution delivery for clients (consulting/delivery management, hands-on ML background required); 10+ yrs
+3160|hide|yes|-|10|Aptiv SEDM machinist; 4+ yrs
+1773|hide|no|-|10|JPMC VP product delivery manager, reference data
+1869|hide|no|-|10|JPMC lead network infrastructure engineer; AI tools only; 5+ yrs
+1123|hide|no|-|10|D. E. Shaw principal compliance-tech product manager; 8+ yrs
+2042|hide|uncertain|-|10|Mastercard senior SOC incident responder; no years
+270|hide|no|-|10|Google workplace events program manager; 12 yrs
+914|hide|no|-|10|ServiceNow product design director; designs AI experiences only; 15+ yrs
+2793|hide|no|-|10|KLA corporate learning trainer; 5-8 yrs
+2476|hide|yes|-|10|ADI automotive networking design evaluation engineer; 4+ yrs
+682|hide|no|-|10|Broadcom memory layout design engineer; 8+ yrs
+2833|hide|no|-|10|NXP staff SoC verification engineer; 7+ yrs
+929|involved|no|-|7|Coupang staff systems engineer fine-tuning small language models and building inference pipelines alongside full-stack platform work; 7+ yrs
