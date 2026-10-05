@@ -919,3 +919,43 @@
 682|hide|no|-|10|Broadcom memory layout design engineer; 8+ yrs
 2833|hide|no|-|10|NXP staff SoC verification engineer; 7+ yrs
 929|involved|no|-|7|Coupang staff systems engineer fine-tuning small language models and building inference pipelines alongside full-stack platform work; 7+ yrs
+1116|hide|no|-|9|D. E. Shaw HC tech lead full-stack Java/React; GenAI/RAG only a plus; 6-9 yrs
+1337|uncertain|uncertain|-|5|Squarepoint senior quant researcher using advanced statistics, no ML named; Senior, no years
+1628|hide|no|-|9|Barclays AVP Java software engineer
+3385|hide|yes|-|9|Paytm enterprise GTM lead selling AI agents (sales/commercial, not building); 4-6 yrs
+1681|uncertain|no|-|5|Barclays AVP counterparty credit risk quant modeller; statistical risk models, ML only in template
+1190|involved|yes|-|7|Quadeye graduate quant/systems engineer; quant track applies ML to trading signals; graduate hire
+2781|core|yes|-|10|KLA AI engineer: ML, deep learning CV and agentic RAG for semiconductor analytics; MS + 3 yrs / PhD path
+1547|hide|no|-|8|Barclays full-stack Java/React developer for analytics portal; 5+ yrs despite Analyst template
+1883|hide|no|-|10|LSEG ServiceNow specialist talent pool; 8-15 yrs
+2403|hide|no|-|10|Palo Alto SD-WAN senior staff SQA engineer; 5-10 yrs
+1779|hide|yes|-|10|JPMC collections specialist I; 1 yr
+778|hide|yes|-|8|Stripe fraud operations team lead; 3+ yrs people management
+2182|hide|no|-|10|PayU corporate controllership director; 10-12 yrs
+193|core|no|-|10|Google senior SWE AI/ML for HR applications, owns MLOps lifecycle; 5 yrs
+1996|hide|uncertain|-|10|Mastercard senior full-stack Java engineer; no years
+203|uncertain|no|-|5|Google staff SWE leading hybrid semantic search infra and search-quality evals for agents and humans; 8 yrs
+2532|hide|no|-|10|ADI SoC chip lead senior manager; 12+ yrs
+1941|hide|uncertain|-|8|LSEG Databricks data platform administrator; no years
+338|hide|yes|-|10|Google SWE III full stack Cloud; 2 yrs
+1373|hide|yes|-|10|GalaxEye satellite systems intern
+718|hide|uncertain|-|9|Pure Storage MTS storage performance engineering; no years
+2229|uncertain|no|-|5|S&P application/cloud security lead incl. reviewing AI/ML use cases for security risks (oversight, mostly AppSec); 5-8+ yrs
+3338|involved|uncertain|-|6|Haptik voice AI engineer building voice bots, integrating STT/TTS and conversational AI; no years
+2070|hide|no|-|10|Mastercard lead Java software engineer; Lead, no years
+350|core|no|-|10|Google DeepMind research scientist, LLM agents and RL; PhD + 8 yrs
+686|hide|no|-|10|Broadcom memory layout design engineer; 8+/6+ yrs
+2414|involved|no|-|7|Palo Alto senior staff IT engineer building LLM/RAG/MCP agents for SAP alongside ABAP work; 10+ yrs
+2915|hide|yes|-|10|NXP embedded firmware/ROM engineer; MS + 3 yrs
+1976|hide|no|-|10|Mastercard lead technology risk analyst; Lead, no years
+1159|hide|no|-|10|D. E. Shaw HC analytics manager; 7-9 yrs
+2031|hide|uncertain|uncertain|8|Mastercard customer success ops senior specialist; no description; 2 unnamed locations
+396|hide|uncertain|-|10|Amazon KYC senior investigation specialist; no years
+1918|core|no|-|10|LSEG lead data scientist delivering NLP/LLM/RAG models; 8-12 yrs
+515|hide|uncertain|-|9|Amazon Flex app bug triage investigation specialist; AI-assisted triage minor
+1530|hide|yes|-|9|Barclays cloud data engineer; Analyst template; ETL only
+1075|core|no|-|10|Meesho principal data scientist, ad bidding ML/RL; 6+ yrs
+481|hide|no|-|10|AWS senior SDE infra supply chain; 5+ yrs
+3091|core|no|-|10|Aptiv MLOps technical lead for autonomous driving ML; 5+ yrs
+1966|uncertain|no|-|7|Mastercard lead technical PM owning GenAI/agentic product roadmap (AI product role); Lead title
+148|core|no|-|10|Postman senior AI engineer building agent architectures; 5+ yrs
