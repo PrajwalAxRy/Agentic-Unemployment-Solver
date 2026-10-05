@@ -1,0 +1,121 @@
+# Blind labels for bench1000 (2026-10-05), policy v1.1. ordinal | relevance | seniority | location | confidence | reason
+3090|hide|no|-|8|embedded radar software integrating ADAS algorithms; ADAS only an added advantage; 6-10 yrs
+2989|hide|no|-|10|analog circuit design; 12+ yrs
+1257|hide|no|-|9|BI practice lead (Power BI/Tableau); 10+ yrs
+1150|hide|no|-|10|equity research; 8+ yrs
+1376|hide|no|open_remote|8|DevOps/Kubernetes at an AI company, no AI duties; Manager title, no years; "Remote" no region
+2970|hide|no|-|9|digital ASIC design for wireless; Senior Lead title, no years
+3264|hide|yes|-|9|Java/Eclipse tool development; 2-10 yrs
+727|hide|no|-|8|QA lead; AI-assisted testing and LLM-testing exposure only as plus; 8-10 yrs
+956|hide|no|-|10|backend distributed systems; 12+ yrs
+3329|hide|uncertain|-|8|key-account partnerships for a mutual fund; no years, no level marker
+3199|hide|no|-|10|avionics EMC validation; 7-14 yrs
+1580|hide|yes|-|6|regulatory reporting operations; title Associate (junior marker) but leads a team, no years
+767|involved|no|excluded|8|builds AI agents and LLM automation for finance workflows (required); 5+ yrs; US-remote, must live in a US state
+258|involved|no|-|7|AI strategy lead who also builds agents/skills on the AI platform, agentic workflows required; 7 yrs
+2375|hide|yes|-|9|identity-security customer success; 2-5 yrs
+3380|hide|yes|-|10|customer support associate; 1+ yrs
+1723|hide|no|-|10|mainframe storage engineering; 10+ yrs
+491|uncertain|yes|-|4|auth SDK incl. authentication/authorization for AI agents; AI security vs IAM-for-AI (h) unclear; 3+ yrs
+1156|hide|no|-|10|HR systems leadership; 12+ yrs
+1277|hide|yes|india|9|AWS Glue/Spark data engineering; 3-11 yrs; description lists Mumbai/Bengaluru/Gurgaon/Chennai/Pune
+25|core|yes|-|10|builds LLM agentic conversation systems, intent detection, evaluation; 3-5 yrs
+2228|hide|no|-|10|organisational change management; Director
+1466|hide|no|-|10|financial control and regulatory reporting; VP
+1213|hide|no|-|10|Marketo marketing automation admin; 8-10 yrs
+1568|core|no|-|7|builds multi-agent LLM frameworks, MCPs, agent evaluation; Barclays VP level, no years stated
+2508|hide|yes|-|10|Oracle SQL production support; 1-2 yrs
+2706|hide|yes|-|9|DFT RTL design and EDA tool development; 4-6 yrs (lower bound below five)
+797|hide|no|-|10|payments reconciliation ops team lead; 9+ yrs
+3318|hide|yes|-|8|corporate strategy; AI one of many strategy topics; 4-6 yrs
+3520|hide|yes|-|9|B2B outbound sales; 3-4 yrs beats the Manager title
+375|hide|no|-|8|ads quality control ops; AI/ML tool exposure only preferred; 5 yrs
+2021|uncertain|uncertain|-|5|reporting/BI specialist who also defines AI use cases (insights, anomaly detection, NL querying) for the platform; no years, no level
+2778|hide|no|-|10|Linux/UNIX admin; 10+ yrs
+1043|hide|yes|-|10|business finance; CA fresher
+3368|hide|yes|-|10|growth campaign ops; uses AI tools; 2+ yrs
+508|hide|no|-|10|software development manager; 7+ yrs
+592|hide|yes|-|9|security and loss prevention; 3+ yrs stated
+3330|hide|no|-|9|collections operations manager; no years, Manager title
+2361|hide|no|-|10|SASE network security consulting; 12+ yrs
+2123|hide|yes|-|9|test automation engineer; Engineer II, no years
+250|involved|yes|-|8|customer-facing Cloud AI engineer building and deploying GenAI agents (ADKs) for customers; 2 yrs GenAI building required; 3 yrs
+3067|hide|no|-|10|AUTOSAR embedded lead; 8-15 yrs
+2951|hide|no|-|10|silicon functional validation; 7+ yrs
+904|hide|no|-|9|ServiceNow platform governance architect; AI only as generic "think about AI" requirement; 10+ yrs
+1880|hide|yes|-|7|assistant controller, financial control; no years, assisting duties, CA
+380|hide|no|-|10|data centre operations senior manager
+1632|hide|yes|-|6|C/C++ application developer; Barclays analyst-level template, no years stated
+1617|hide|no|-|10|legal contract negotiation; VP
+2868|hide|yes|-|9|SoC design internship; recognition only as an application segment
+2947|hide|no|-|10|digital IP RTL design; Principal title
+1763|hide|no|-|10|Java/AWS lead; AI only as AI-assisted engineering; 5+ yrs
+2740|hide|yes|-|10|design verification; 3-6 yrs
+2107|hide|yes|-|10|customer communications ops; 4-6 yrs
+3022|hide|no|-|8|SystemC virtual prototype modelling; NPU one of many blocks; 15+ yrs
+141|core|no|-|10|ML performance: MCP servers, retrieval/embeddings, AI eval programs; 7+ yrs
+1571|hide|yes|-|7|production service engineering; GenAI only a valued skill; Barclays analyst level, no years
+1464|hide|no|-|9|payments performance engineering; ML only in template purpose; VP
+810|hide|no|-|8|finance apps tech lead; agentic workflows only to automate the team's own PDLC; 10+ yrs
+3410|involved|no|-|7|pre-sales architect designing agentic LLM systems and leading POCs; 5-8 yrs
+1863|hide|no|-|10|Java lead; AI-assisted engineering only; 5+ yrs
+536|hide|yes|-|9|fulfilment centre operations manager; 3+ yrs stated
+217|involved|no|-|7|forward-deployed customer engineer designing AI solutions that integrate models and agents for customers; 7 yrs
+3395|hide|yes|-|10|hotel customer support; 1-3 yrs
+653|hide|uncertain|-|8|malware/network detection research; no years, no level marker
+1730|core|no|-|10|principal applied-AI engineer: LLM fine-tuning, MLOps, agentic frameworks; 12+ yrs
+1221|core|uncertain|-|5|GenAI/NLP data scientist building models; summary says 5+ yrs, qualifications say 3 yrs (conflict)
+817|hide|yes|-|8|technology internal audit; AI/ML risks one knowledge area; 4+ yrs
+301|hide|no|-|10|engineering manager, Play Pass; 8 yrs
+737|uncertain|no|-|7|AI security: owns security of an agentic AI platform, AI red-teaming, plus SecOps; 8-10 yrs
+2877|hide|no|-|10|SoC chip lead; 15+ yrs
+764|core|no|excluded|8|data scientist building AI-derived preference models and causal inference for search/discovery; 9+ yrs; US-remote only
+2979|hide|uncertain|-|9|DFT engineering; Senior, no years
+2929|hide|no|-|10|RF silicon validation; 6-10 yrs
+2354|hide|no|-|10|network security technical support; 5+ yrs
+2899|hide|no|-|10|digital RTL design; 10+ yrs
+306|hide|no|-|7|ads measurement consulting (experiments, MMM) in a sales team; 5 yrs
+2767|hide|no|-|10|Java/C# software for inspection tools; 10+ yrs
+1015|core|yes|-|10|builds LLM agents, RAG pipelines, NLP pipelines; 3+ yrs
+2776|hide|yes|-|10|semiconductor equipment product engineering; Master's + 0 or Bachelor's + 2
+799|hide|yes|-|10|tax content programmer; 3-7 yrs
+155|hide|no|-|10|observability platform; AIOps only preferred; 10+ yrs
+2367|hide|no|-|10|SASE customer success engineering; 7 yrs
+888|uncertain|yes|-|4|Salesforce consultant who designs Agentforce/LLM flows and agentic automation for clients; building agents vs configuring a vendor's AI feature (OQ3) unclear; 3-8 yrs
+332|uncertain|no|-|6|engineering manager, YouTube Creator Assist; ML/GenAI model quality only preferred, product likely AI; 8 yrs
+453|hide|yes|-|9|video/image audit associate (annotation-type operations); bachelor's, no years
+3564|hide|yes|-|10|field sales trainee
+2254|involved|no|-|7|title names GenAI; manages engineers building GenAI features and production use cases; 10+ yrs
+2396|hide|no|-|9|XDR/XSIAM customer success architect; Principal
+3201|uncertain|no|-|6|HR IT enterprise architect who supports evaluating/implementing GenAI among RPA and cloud; GenAI/RAG design preferred; 8+ yrs
+1862|hide|no|-|10|fund services operations; 15+ yrs
+724|involved|no|-|8|implementation engineer integrating LLM components, RAG and NLP pipelines into customer deployments; 7+ yrs
+1390|hide|no|-|10|multi-cloud network engineering; 10-12 yrs
+842|hide|no|-|9|technical support director running support with AI agents (ops management); 10+ yrs
+1006|hide|no|-|10|revenue operations; 6+ yrs
+2556|hide|no|-|10|physical verification; 8-12 yrs
+1736|hide|no|-|8|business analyst; Barclays AVP level, no years
+770|hide|no|-|10|accounts receivable manager; 15+ yrs
+960|hide|no|-|10|SOAR connectors backend; 6+ yrs
+1676|hide|no|-|8|Salesforce engineer; Barclays AVP level, no years
+1787|involved|yes|-|7|builds natural-language data loading and NL-prompt-to-code app generation features; 3+ yrs
+654|hide|no|-|9|Java security product engineering; AI only as coding assistants/agents for the SDLC; Staff title, no years
+2998|core|yes|-|10|ML model optimisation, quantization and deployment for AI accelerators; 2+ yrs
+1858|hide|no|-|10|credit risk governance; 5+ yrs
+1470|hide|no|-|9|Java platform engineering lead; Barclays VP level
+3547|hide|yes|-|10|field partner onboarding trainee
+585|hide|yes|-|10|supply chain operations; 3+ yrs
+2831|hide|no|-|10|disaster recovery management; 5+ yrs
+2624|hide|no|-|9|OpenStack/OpenShift cloud infrastructure; AI/ML one of many workloads; 8+ yrs
+1589|uncertain|no|-|6|treasury/liquidity quant modelling; ML only in the job-family purpose (statistical modelling without ML); VP
+3574|hide|no|-|9|no description; title says nothing about AI; Associate Director
+1452|hide|no|-|10|transformation programme lead; VP
+1132|core|no|-|9|builds generative-AI applications and infrastructure for the firm; 7-15 yrs
+1066|hide|no|-|9|copywriting lead using GenAI tools; Lead title, no years
+3363|hide|yes|-|10|investment product growth; 3-4 yrs
+2064|hide|no|-|9|Java payments development lead; Lead title, no years
+1227|core|no|-|10|leads design and deployment of AI document extraction, matching and agent systems; 8-14 yrs
+2816|involved|yes|-|7|PhD research intern simulating AI-cluster networking and LLM-serving workloads (AI infrastructure)
+2227|core|no|-|10|builds retrieval-grounded LLM agents and production ML/NLP systems; 5+ yrs
+1201|involved|uncertain|-|7|quant researcher applying statistical and machine-learning techniques to build predictive trading signals; no years, "experienced"
+3113|hide|no|-|10|automotive cybersecurity engineering manager; 15+ yrs
