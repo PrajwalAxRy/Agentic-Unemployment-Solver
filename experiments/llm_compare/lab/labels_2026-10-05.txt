@@ -156,17 +156,17 @@
 2102|uncertain|no|-|6|full-stack Java/Angular lead who will "architect and integrate AI-powered capabilities" (integrate); Lead title, no years
 1079|hide|no|-|10|logistics network control tower; 5-8 yrs
 2775|core|no|-|9|AI engineer: ML/DL/LLM/RAG building; PhD+5 / MS+8 / BS+7 yrs
-1036|hide|yes|excluded|8|selling agentic AI HR software; no years; Remote, United States
+1036|hide|uncertain|excluded|8|selling agentic AI HR software; no years; Remote, United States
 677|hide|no|-|10|Java security product engineer, AI tools for productivity; 10+ yrs
 57|hide|uncertain|-|5|no real description (Adobe boilerplate only), non-AI title; SDE 4 level, no years
 159|hide|no|excluded|8|customer story/CXO community program; 12+ yrs; "Remote" but only US pay zones listed
 2667|hide|no|-|9|SerDes RTL design; Lead title, no years
 498|hide|yes|-|10|warehouse inventory QA analyst; 1+ yrs preferred
-1076|involved|no|-|7|security architect building defences for AI agents, LLM red teaming, autonomous agent POCs; 10+ yrs
+1076|involved|no|-|6|security architect building defences for AI agents, LLM red teaming, autonomous agent POCs; 10+ yrs
 1417|hide|yes|-|8|fraud operations MIS/reporting analytics; 4+ yrs preferred
 1422|hide|no|-|10|procurement contract governance; Manager title, no years
 680|hide|uncertain|-|9|memory circuit design; "Senior", no years
-712|hide|yes|-|8|storage systems software; MTS title, no years
+712|hide|uncertain|-|8|storage systems software; MTS title, no years
 149|hide|yes|-|8|React/Electron frontend for Git-native API client, agents only team context; 2-4 yrs
 769|hide|yes|-|10|technical accounting; 2-4+ yrs
 834|uncertain|no|-|5|Salesforce field-service architect who also designs/integrates predictive and generative AI in Salesforce (integrate); 9-14 yrs
@@ -199,3 +199,123 @@
 2576|hide|yes|-|9|emulation product validation; 3+ yrs
 1817|involved|no|-|7|forward-deployed engineer prototyping LLM copilots, agents, RAG assistants for compliance; 5+ yrs
 1827|hide|no|-|10|Java/AWS/kdb+ engineer, AI-assisted dev tools only; 5+ yrs
+1136|hide|yes|-|10|personal-trading compliance analyst; MBA + 1-3 yrs
+1410|hide|yes|-|10|risk reporting governance analyst; 0-2 yrs
+2192|hide|uncertain|-|7|description truncated to one line, plain "Consultant" title, nothing about AI; no years
+2846|hide|yes|-|10|Ethernet system performance; 2+ yrs
+102|involved|no|-|8|forward-deployed engineer building and deploying LLM/agent solutions on Rovo for customers; 15+ yrs
+3306|hide|no|-|10|engineering manager, web back-end; 8-12 yrs
+1980|hide|yes|-|10|Java test-automation engineer, Copilot only; 3+ yrs
+2262|hide|yes|-|10|AWS/Kubernetes platform engineering; 3-7 yrs
+2747|hide|no|-|9|EDA emulation C++; Principal title, no years
+2855|hide|no|-|9|software test/validation; Staff title, no years
+1359|hide|yes|-|9|no description; operations intern
+249|hide|no|-|10|ads policy product specialist; 5 yrs
+1599|hide|yes|-|6|Java/Angular full stack, AI coding tools required; GenAI/agents/LLM only in "highly valued" extras; Analyst level
+2805|core|yes|-|7|algorithm team: develop image processing, computer vision and ML algorithms for wafer inspection; PhD+3 path (MS/BS 6+)
+2836|hide|yes|-|10|security training instructional design; 1-2 yrs
+1090|hide|uncertain|-|8|no description; site operations title, nothing about AI; no years
+1318|core|no|-|10|ML architect: deep learning, CV, multi-agent and RAG systems on Azure; 8-14 yrs
+1814|hide|no|-|9|Databricks analytics engineering, Copilot only; 5+ yrs
+2219|hide|no|-|10|oil markets consulting manager; 15+ yrs
+3203|hide|yes|-|10|SQL/Power BI data analyst; 3-5 yrs
+1392|hide|yes|-|7|merchant account operations apprentice; assists with AI-related requirements/testing, not building AI; fresh graduates
+2390|hide|no|-|10|endpoint security technical support; 8+ yrs
+3475|hide|yes|-|8|no description; plain "Associate" title, nothing about AI
+2875|hide|no|-|10|Wi-Fi/BT embedded software; 6+ yrs
+2843|hide|no|-|10|static timing analysis lead; 7+ yrs
+2988|hide|no|-|10|DFT lead; 12+ yrs
+1399|hide|yes|-|6|training administration/reporting analyst who uses GenAI/Copilot to automate admin work (uses AI, does not build it); Analyst level
+3358|hide|no|-|10|business/growth analytics; 5-7 yrs
+586|hide|yes|-|10|general-ledger distributed services; 3+ yrs
+2946|hide|no|-|10|physical design methodology; 5-8 yrs
+2234|hide|no|-|10|card portfolio consulting, GenAI preferred only; 8-12 yrs
+1057|hide|yes|-|10|revenue assurance accountant; CA + 2-3 yrs
+1602|hide|uncertain|-|8|Salesforce performance testing; "Senior", no years
+215|hide|no|-|9|Google Cloud security customer engineer, AI security only preferred; 10 yrs
+1360|hide|no|-|9|no description; operations manager title, nothing about AI
+717|hide|uncertain|-|8|storage diagnostic/manufacturing tooling in C/C++; MTS title, no years
+2894|hide|no|-|10|Databricks data platform DevOps; 6+ yrs
+1507|hide|no|-|9|liquidity regulatory methodology; VP title, no years
+2127|hide|no|uncertain|7|strategy consulting; Managing Consultant leading teams, no years; location unavailable
+3208|hide|yes|-|10|import logistics coordination; 4-6 yrs
+2140|hide|no|-|10|Calypso capital-markets client support; 7+ yrs
+1401|core|yes|-|8|data science analyst building ML/GenAI personalisation use cases and monitoring models; 1+ yrs
+2032|hide|uncertain|-|9|payments service engineering; "Senior", no years
+1921|hide|yes|-|10|French-language financial data content analyst; associate, no years
+3304|hide|no|-|10|B2B growth/revenue lead; 6-13 yrs
+1097|hide|no|-|10|collections cluster manager; 5+ yrs
+1834|hide|uncertain|-|8|voice/chat contact-centre product, conversational AI awareness preferred only; "Senior Product Associate", no years
+2592|hide|no|-|10|EDA system-analysis C++; 5+ yrs
+2352|hide|no|-|9|Windows agent C++ using AI coding assistants; model fine-tuning only preferred; 6+ yrs
+3244|hide|yes|-|10|production front-line manager; 1+ yrs
+1204|uncertain|no|-|5|security engineer at an RL-environment company, hardens sandboxes where AI agents run (AI security); 8+ yrs
+1202|hide|uncertain|-|7|discretionary/systematic trader bringing own profitable strategy, no ML named; "Experienced", no years
+3092|hide|no|-|7|data engineering manager building ML-ready ADAS data platforms (data feeding ML); Manager title, no years
+401|hide|yes|-|9|Prime Video mobile apps, AI only team context; 3+ yrs
+884|uncertain|no|-|6|Salesforce technical architect who designs/integrates predictive and generative AI and AI evaluation frameworks for clients (integrate); 14+ yrs
+3336|involved|yes|-|6|integration engineer building client chatbots/voice bots on a conversational-AI platform (configures the company's AI product); 2-6 yrs
+2022|hide|no|-|10|test automation/service engineering; 7+ yrs
+1752|hide|no|-|10|HR customer success executive director; 8+ yrs
+3422|uncertain|no|-|8|product manager for AI agents for SMBs (AI is the main subject of a product role); 5-9 yrs
+955|hide|no|-|10|backend architecture; 12+ yrs
+2835|hide|no|-|10|functional safety engineering; 5-8 yrs
+3083|hide|yes|-|7|ADAS state-estimation/filtering/control algorithms in C++, no learning component; 4+ yrs
+1912|hide|no|-|9|ServiceNow IRM development lead; Lead title, career stage Manager, no years
+1584|hide|no|-|9|test automation lead; Lead title, VP template, no years
+1845|hide|yes|-|6|custody breaks operations; Associate title (junior marker) but people management, no years
+1336|hide|uncertain|-|7|quant researcher, statistical methods, no ML named; "Senior", no years
+3379|uncertain|no|-|5|credit risk portfolio analytics, "understanding of machine learning models in credit risk" as knowledge only; 5-8 yrs
+1372|hide|yes|-|10|reverse logistics operations; 2-5 yrs
+906|hide|no|-|8|integration-hub backend Java; MCP/tool calling only good-to-have; 5+ yrs
+104|hide|no|-|9|analytics/visualisation platform architecture, AI insights only helpful; Senior Principal, no years
+1936|hide|yes|-|10|DevOps release engineering; 3+ yrs
+18|hide|no|-|10|C++ systems engineering, AI coding tools only; 7+ yrs
+1146|hide|yes|-|10|fund financial reporting; CA + 2-4 yrs
+2195|hide|yes|-|9|marketing audience analytics, SQL; 2+ yrs
+1416|core|yes|-|9|data science analyst developing and validating predictive/ML models for credit and fraud risk; 0-30 months
+618|hide|no|-|10|software development manager; 10+ yrs
+238|uncertain|yes|-|4|generic Google SWE PhD internship; programme template mentions "AI-integrated software" and AI/ML research preferred, team assigned later; intern
+1793|hide|yes|-|9|sourcing and procurement; 4-5 yrs
+2895|hide|yes|-|10|Databricks data platform DevOps; 4+ yrs
+1380|hide|yes|-|8|QA/performance testing at a voice-AI company, own work not AI; 4+ yrs
+2589|hide|yes|-|9|verification IP development; 4-6 yrs
+3209|hide|uncertain|-|7|Oracle data modelling/PL-SQL consultant; header says 4-6 yrs, requirements say 5+ (contradictory)
+127|core|no|-|10|principal ML engineer building models and agentic search/LLM systems; 5+ yrs
+2417|hide|yes|-|10|firewall/VPN tier-3 support; 3+ yrs
+922|hide|no|-|10|ServiceNow professional services senior manager; 10+ yrs
+1377|hide|yes|-|6|runs coding-data annotation/evaluation programmes for AI labs (annotation operations, not building AI); 4+ yrs
+2606|hide|uncertain|-|7|SoC RTL design lead; header 4-18 yrs vs requirements 10-14 yrs (contradictory)
+1585|hide|yes|-|6|Java/React full stack; intro says "using GenAI" but duties are plain full stack, GenAI tools only valued; Analyst level
+3181|hide|yes|uncertain|8|finance leadership graduate programme; graduates; location unavailable
+1088|hide|no|-|10|smart-speaker firmware; 5-7 yrs
+3449|hide|no|-|9|rural sales team leader; Team Leader title, no years
+438|hide|yes|-|9|quick-commerce network operations manager, AI tools only; 3+ yrs management
+892|uncertain|no|-|5|Salesforce consumer-goods technical architect with an "integrate predictive and generative AI" duty among many (integrate); 10+ yrs
+113|hide|no|excluded|10|account management manager; 5+ yrs; must be located in UK
+1622|hide|no|-|9|finance control assurance; VP title, no years
+3373|hide|yes|-|9|collections team lead; 4+ yrs
+1765|hide|yes|-|10|asset-management RFP writer; 2+ yrs
+1278|hide|no|india|9|GCP data engineering, ML concepts only good-to-have; 5-10 yrs; description lists Bangalore/Mumbai/Gurgaon/Chennai/Pune
+115|hide|no|-|10|principal frontend engineer; 12+ yrs
+850|hide|no|-|8|Marketing Cloud migration consulting director, enterprise AI advice one item among many; 18+ yrs
+2812|core|no|-|9|director leading build of production agentic AI applications (MCP, orchestration, evaluation); 12-18 yrs
+1264|hide|no|-|10|retail full-stack solution architect, ML integration only nice-to-have; 8-12+ yrs
+915|hide|no|-|6|full-stack product engineer; requirements mention AI tools and validating model predictions but duties are not AI; 6+ yrs
+2619|hide|yes|-|10|formal verification IP; 2+ yrs
+1003|involved|no|-|8|forward-deployed engineer configuring and deploying the company's AI virtual agents for customers; 5+ yrs; remote on EST hours from India
+1544|hide|uncertain|-|6|wealth portfolio dealing; Analyst title but AVP expectations template, no years
+2992|involved|no|-|8|data and AI engineering lead building production GenAI/agentic and predictive AI solutions on an R&D lakehouse; 10+ yrs
+2891|uncertain|yes|-|5|Databricks data engineer who also builds self-healing monitoring with agentic AI (smaller AI part); 3+ yrs
+848|hide|no|-|9|Marketing Cloud migration solution architect; 8-14 yrs
+3307|hide|uncertain|-|8|description is an unfilled template; IT support title; "Senior", no years
+2692|hide|no|-|10|design verification; 12-14 yrs
+3213|hide|yes|-|9|AUTOSAR communication stack embedded C; 4-8 yrs
+2724|hide|no|-|9|DDR controller RTL design; Sr Principal title, no years
+2702|hide|yes|-|9|EDA physical-verification C++ tools; 4-6 yrs
+45|hide|no|-|7|Adobe Marketing Cloud consulting architect leading engagements, "agentic AI" only as tech to stay current on; no years but leads large teams
+1226|uncertain|no|-|6|platform solution architect who guides FastAPI AI services integrating OpenAI/Vapi voice AI (integrate) among full-stack duties; 8-14 yrs
+1870|hide|no|-|10|marketing communications compliance review; 7 yrs
+1852|hide|no|-|10|trade finance operations; 5+ yrs
+3198|hide|yes|-|10|treasury and liquidity management; 3-5 yrs
+2990|hide|no|-|10|physical design; 15+ yrs
