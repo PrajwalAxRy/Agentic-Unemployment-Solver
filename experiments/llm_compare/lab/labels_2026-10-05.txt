@@ -699,3 +699,63 @@
 1710|hide|no|-|9|Salesforce engineering manager; VP
 1035|hide|uncertain|excluded|8|selling agentic AI HR software; no years; Remote, United States
 95|hide|no|-|10|cloud migration delivery manager; 10+ yrs
+98|hide|no|-|10|onboarding customer success manager; 10+ yrs
+2483|hide|yes|-|10|DFT engineering; 4-8 yrs
+1768|hide|yes|-|10|fund servicing operations; 3+ yrs
+2503|hide|no|-|10|mixed-signal design verification; 7-10+ yrs
+768|hide|no|-|10|trust and safety investigations supervisor; 10+ yrs
+849|hide|no|-|8|Salesforce data architecture consulting manager, generative AI one advisory item; 10-15 yrs
+2737|hide|no|-|10|DFT design; 7+ yrs
+899|hide|no|-|9|Salesforce programme delivery director including GenAI programmes (programme management); 15+ yrs
+750|hide|yes|-|6|Go/Python backend engineer at an AI security company; only "working knowledge" of LLM fundamentals required; 1-3 yrs
+2151|hide|no|-|10|performance test engineering; 8-12 yrs
+2479|hide|yes|-|8|digital RTL design; 2-4 yrs (listed under preferred)
+2220|involved|no|-|7|engineering manager leading the team building a GenAI platform, LLM applications and retrieval/orchestration services; 8+ yrs
+1219|core|no|-|10|lead AI product engineer owning agents, evaluation and ML models; 10-14 yrs
+1808|hide|no|-|7|Linux standard OS images and automation; "using AI" for OS certification and agents only preferred; 5+ yrs
+1920|core|no|-|10|lead data scientist delivering LLM/RAG/deep learning/NLP solutions; 8-12 yrs
+1886|hide|no|-|10|Power BI development senior manager
+3400|hide|no|-|10|advertising sales key account manager; 7+ yrs
+1293|hide|yes|-|10|Workday HCM administration; 2+ yrs
+632|hide|uncertain|-|8|Apple retail operations expert; no years, no level marker
+1358|hide|uncertain|-|8|no description; frontend engineer title, nothing about AI; no level marker
+1857|hide|yes|-|10|asset servicing/corporate actions operations; 1+ yrs
+972|hide|no|-|10|Go backend for exposure-management platform; ML only a bonus; 10+ yrs
+2462|hide|yes|-|10|Workday data conversion consultant; 3+ yrs
+310|hide|yes|-|10|internal data/business applications engineer; 4 yrs
+2245|hide|no|-|10|consulting delivery director; 15+ yrs
+1114|hide|yes|-|9|lifecycle/growth marketing at a voice-AI company (own work not AI); 3+ yrs
+2541|hide|no|-|10|cloud network architecture; 10+ yrs
+82|hide|no|-|10|principal full-stack engineer; 10+ yrs
+1927|hide|no|-|10|FX QA automation lead; 8+ yrs
+2431|hide|no|-|10|VPN/firewall tier-3 support; 5 yrs
+533|hide|yes|-|10|data centre operations technician; 1+ yrs
+3231|hide|yes|-|9|SAP Digital Manufacturing developer, AI/ML only good-to-have; 4-7 yrs
+1876|hide|no|-|10|identity platform QA automation lead; 10+ yrs
+3462|hide|uncertain|-|8|no description; "Senior Business Associate", nothing about AI
+2981|hide|no|-|8|vision/image-processing IP design verification (not stated as AI); 10-15 yrs
+1855|hide|no|-|10|digital documentation services executive director; 10 yrs
+609|hide|yes|-|10|data centre operations technician; 2+ yrs
+2438|hide|no|-|10|SAP Basis technical services manager; 7+ yrs
+1732|hide|no|-|7|journey/process optimisation embedding RPA and AI tools (uses/configures AI); AVP template
+1002|involved|yes|-|7|AI analyst reviewing model outputs, prompt engineering, curating training/synthetic data and evaluating AI models; 1-2 yrs
+3194|hide|yes|-|10|automotive aftermarket diagnostic content; 3-6 yrs
+2689|hide|no|-|9|PCIe controller RTL design; Sr Principal, no years
+3351|hide|yes|-|10|motor insurance telesales; 0-5 yrs
+288|hide|no|-|10|Pixel enterprise partner management; 7 yrs
+1177|hide|no|-|10|network engineering lead; 8-12 yrs
+1746|hide|no|-|8|controls associate applying automation/AI practices to risk controls (uses AI); 5+ yrs
+1733|hide|no|-|9|ForgeRock/Ping IAM engineering; AVP template, no years
+1688|core|no|-|8|AI platform engineer: AI gateway, GenAI/agentic frameworks, RAG, vLLM serving, GPU scheduling; 5+ yrs platform; VP
+1756|hide|yes|-|10|external financial reporting; 2 yrs
+389|hide|no|-|9|AWS strategic accounts solutions architect; 5+/10+ yrs
+425|hide|yes|-|10|sports data platform services; 2+ yrs
+3055|hide|no|-|10|VS Code-based developer tooling architecture; 12+ yrs
+2661|hide|no|-|9|ADAS simulation customer service lead; 8-10 yrs
+2119|hide|yes|-|9|Java fraud-platform backend; Engineer II
+2983|hide|yes|-|9|MCU ROM/driver firmware; MS + 3 / BS + 5 yrs
+947|hide|no|-|10|SAP S/4HANA solution architect; 12-18+ yrs
+3122|hide|yes|-|10|embedded Linux/hardware validation (LAVA); 3-12 yrs
+538|involved|yes|-|7|SDE on travel & expense platform contributing to AI policy-guidance architecture, conversational agents and ML fraud detection; 3+ yrs
+1388|core|no|-|10|staff engineer building agentic AI frameworks, RAG, LLM infrastructure and evaluation; 8+ yrs
+2659|hide|no|-|9|Boomi integration engineering, agentic AI only preferred; 7+ yrs
