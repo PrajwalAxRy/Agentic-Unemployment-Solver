@@ -119,3 +119,83 @@
 2227|core|no|-|10|builds retrieval-grounded LLM agents and production ML/NLP systems; 5+ yrs
 1201|involved|uncertain|-|7|quant researcher applying statistical and machine-learning techniques to build predictive trading signals; no years, "experienced"
 3113|hide|no|-|10|automotive cybersecurity engineering manager; 15+ yrs
+2943|hide|no|-|10|DFT lead; 12+ yrs
+76|hide|no|-|9|data platform engineering; ML data foundations only nice-to-have; 12+ yrs
+1648|hide|no|-|9|securitisation analytics/reporting; Barclays AVP level
+1340|core|yes|-|10|builds and evaluates LLM agents, eval pipelines, fine-tuning datasets; 2-5 yrs
+1956|involved|no|-|7|"Senior Data Scientist" leading design of AI/ML-powered extraction solutions and mentoring DS team; 5-7 yrs managing data scientists
+182|uncertain|yes|-|7|PhD SWE writing NIC/IPU kernel drivers; sits in Google's AI2 organisation, work not AI; PhD early career
+2114|hide|no|uncertain|8|no description; digital assets product title, nothing about AI; Director; location "2 Locations"
+283|hide|no|-|10|cloud field sales; 10 yrs
+2199|hide|no|-|10|BI data engineering; 8+ yrs
+2907|hide|yes|-|10|embedded Linux customer support; 3-5 yrs
+1504|hide|yes|-|10|financial control analyst; CA, analyst level
+2599|hide|no|-|10|high-speed analog IP design; AI only as a target market; 10-17 yrs
+886|uncertain|no|-|7|Salesforce technical consulting manager designing predictive/GenAI solutions for clients (consulting type); 9-15 yrs
+3054|hide|no|-|10|RTOS verification and validation; 5+ yrs
+129|hide|no|-|10|customer success operations; 8+ yrs
+1621|hide|yes|-|6|full stack engineer; template only, no role-specific text; Barclays analyst level
+741|uncertain|no|-|4|clinical research scientist designing validation studies of the company's AI products; AI evaluation as core job vs clinical research; 5-8 yrs
+705|hide|no|-|10|physical design; MS 6+ / BS 8+ yrs
+2829|involved|no|-|7|switch ASIC architecture for AI training/inference cluster networking (AI interconnect); 15+/PhD 8+ yrs
+782|hide|no|-|10|legal entity controller; 9+ yrs
+3285|hide|uncertain|-|8|HR contract-labour statutory compliance; "Senior Officer", no years
+2649|hide|no|-|10|HBM PHY SI/PI design lead; Sr Principal title, no years
+2749|hide|no|-|10|virtual/hybrid prototyping SystemC; 8+ yrs
+2113|hide|uncertain|-|8|payments product management; "Senior Specialist", no years
+1505|hide|yes|-|9|financial reporting accountant; Analyst level, no years
+2651|hide|no|-|10|STA product engineer; Sr Principal title, no years
+2590|hide|yes|-|8|hardware emulation product engineering, "leverage AI tools" incidental; BS+4 / MS+2 yrs
+772|hide|no|-|10|credit risk operations team lead; 6+ yrs
+3114|hide|no|-|10|automotive OTA engineering manager; 15+ yrs
+934|hide|no|-|10|back-end engineering senior manager; 12+ yrs
+110|hide|no|excluded|8|digital customer-success marketing incl. AI agent channels; Manager title, no years; must be located in UK
+600|uncertain|yes|-|5|SDE II on process-automation platform, role "offers exposure to" ML algorithms; AI tie thin; 3+ yrs
+2536|hide|no|-|10|technical writer; 7-10 yrs
+2309|involved|no|-|6|AI-security professional services: deploys model scanning/AI red teaming, designs defences against prompt injection/model poisoning (technical, customer-facing); 8+ yrs
+2102|uncertain|no|-|6|full-stack Java/Angular lead who will "architect and integrate AI-powered capabilities" (integrate); Lead title, no years
+1079|hide|no|-|10|logistics network control tower; 5-8 yrs
+2775|core|no|-|9|AI engineer: ML/DL/LLM/RAG building; PhD+5 / MS+8 / BS+7 yrs
+1036|hide|yes|excluded|8|selling agentic AI HR software; no years; Remote, United States
+677|hide|no|-|10|Java security product engineer, AI tools for productivity; 10+ yrs
+57|hide|uncertain|-|5|no real description (Adobe boilerplate only), non-AI title; SDE 4 level, no years
+159|hide|no|excluded|8|customer story/CXO community program; 12+ yrs; "Remote" but only US pay zones listed
+2667|hide|no|-|9|SerDes RTL design; Lead title, no years
+498|hide|yes|-|10|warehouse inventory QA analyst; 1+ yrs preferred
+1076|involved|no|-|7|security architect building defences for AI agents, LLM red teaming, autonomous agent POCs; 10+ yrs
+1417|hide|yes|-|8|fraud operations MIS/reporting analytics; 4+ yrs preferred
+1422|hide|no|-|10|procurement contract governance; Manager title, no years
+680|hide|uncertain|-|9|memory circuit design; "Senior", no years
+712|hide|yes|-|8|storage systems software; MTS title, no years
+149|hide|yes|-|8|React/Electron frontend for Git-native API client, agents only team context; 2-4 yrs
+769|hide|yes|-|10|technical accounting; 2-4+ yrs
+834|uncertain|no|-|5|Salesforce field-service architect who also designs/integrates predictive and generative AI in Salesforce (integrate); 9-14 yrs
+2087|hide|yes|-|7|SRE; titled Lead but text says early career, 1-2 yrs desirable
+1024|hide|no|uncertain|5|no description; "AI Advisor - Talent & Workforce" reads as customer advisory at an HR-AI vendor; Senior Director; location unavailable
+2083|hide|no|-|10|procure-to-pay/corporate card ops; Manager title, no years
+1051|hide|yes|-|9|last-mile logistics partner ops; 3-5 yrs
+2246|hide|no|-|10|payments consulting director; 15+ yrs
+3191|hide|no|-|10|plant facility management; 10+ yrs
+1010|uncertain|yes|-|5|Python/Django backend at an LLM contact-centre company, NLP/ML experience preferred only; 2-5 yrs
+33|hide|no|-|10|Windows desktop QA lead; 10+ yrs
+2653|hide|no|-|10|DDR design verification; 8+ yrs
+3377|hide|no|-|10|lending collections team lead; 8+ yrs
+3217|hide|no|-|8|automotive ECU project manager; BE + 12 yrs
+3074|hide|no|-|10|VxWorks engineering director; 12+ yrs
+356|hide|no|-|9|gTech Ads strategy and operations, LLM/agent scripting preferred only; 6 yrs
+1667|hide|no|-|9|payments product owner, agentic AI desirable only; AVP title, no years
+2053|hide|uncertain|-|9|Java payments engineer; "Senior", no years
+2645|hide|no|-|9|RTL design; Lead title, no years
+898|uncertain|no|-|6|Salesforce technical architect who designs/integrates predictive and generative AI and AI evaluation frameworks for clients (integrate); 14+ yrs
+2995|hide|no|-|9|DevOps for LDAP/PAM, "explore AI concepts" only; 12+ yrs
+53|hide|no|-|9|content operations for a generative-AI creative studio, not building AI; 5+ yrs
+3066|hide|no|-|10|AUTOSAR embedded; 8-15 yrs
+2028|hide|yes|excluded|9|graduate sales/product rotation programme; students; Cairo, Egypt
+920|core|no|-|9|research scientist building LLM agent evaluation methods and pipelines; 5+ yrs
+709|hide|no|-|10|PCIe verification; 12+ yrs
+14|uncertain|no|-|5|software architect for an AI brand-intelligence platform, operationalises ML team's models and integrates AI capabilities (integrate vs team builds AI); 12+ yrs
+1328|hide|no|-|9|AWS data architect, AI coding tools preferred only; 5-13 yrs
+965|involved|yes|-|6|OT/IoT vulnerability pipeline engineer who will design and implement AI agent workflows for vulnerability validation; 3-7 yrs
+2576|hide|yes|-|9|emulation product validation; 3+ yrs
+1817|involved|no|-|7|forward-deployed engineer prototyping LLM copilots, agents, RAG assistants for compliance; 5+ yrs
+1827|hide|no|-|10|Java/AWS/kdb+ engineer, AI-assisted dev tools only; 5+ yrs
