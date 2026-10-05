@@ -36,6 +36,9 @@ from job_finder.matching.openai_client import (
 )
 from job_finder.persistence.batches import listing_from_payload
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import v2  # noqa: E402  (lab-only schema_version 2 contract)
+
 HERE = Path(__file__).resolve().parent
 # LAB_BATCH selects a comparison folder under runs/. The original 2026-10-02 batch keeps its
 # unsuffixed file names; any other batch gets its own cases, sets and results.
@@ -164,7 +167,9 @@ def run(args) -> None:
     settings = load_gateway_settings(environment=env)
     wire = _Wire(_gateway_client(settings), json.loads(args.extra) if args.extra else {})
     gateway = AmdGatewayClient(settings, client=wire)
-    prompt = load_merged_prompt(Path(args.prompt))
+    # schema_version 2 prompts (v9 onwards) answer in a different shape; see v2.py.
+    schema_version = v2.prompt_schema_version(Path(args.prompt))
+    prompt = (v2.load_prompt if schema_version == 2 else load_merged_prompt)(Path(args.prompt))
     lock = threading.Lock()
 
     class _Tap:
@@ -187,7 +192,7 @@ def run(args) -> None:
         case = cases[o]
         tap = _Tap()
         wire.local.calls = []
-        evaluator = MergedEvaluator(
+        evaluator = (v2.Evaluator if schema_version == 2 else MergedEvaluator)(
             client=tap, prompt=prompt, model_policy=settings.model_policy,
             budget=UsageBudget(UsageLimits(10**6, 10**12, 10**12, args.max_output)),
         )
@@ -200,7 +205,9 @@ def run(args) -> None:
                     location_original=case["location_original"],
                 )
                 disposition = outcome.disposition.value
-                judgment = asdict(outcome.judgment) if outcome.judgment else None
+                judgment = outcome.judgment
+                if judgment is not None and not isinstance(judgment, dict):
+                    judgment = asdict(judgment)
                 errors = list(outcome.errors)
                 break
             except LLMProviderError as error:
@@ -209,9 +216,9 @@ def run(args) -> None:
         # Keep raw replies: they are the only way to diagnose a rejected evidence quote.
         usage = [asdict(r) for r in tap.responses]
         return {
-            "ordinal": o, "rep": rep, "disposition": disposition, "judgment": judgment,
-            "errors": errors, "finish": wire.local.calls, "usage": usage,
-            "seconds": round(time.monotonic() - started, 1),
+            "ordinal": o, "rep": rep, "schema": schema_version, "disposition": disposition,
+            "judgment": judgment, "errors": errors, "finish": wire.local.calls,
+            "usage": usage, "seconds": round(time.monotonic() - started, 1),
         }
 
     count = 0
@@ -242,6 +249,12 @@ def _revalidate(record: dict, case: dict) -> dict:
         return record
     for content in contents:
         try:
+            if record.get("schema") == 2:
+                v2_judgment = v2.parse(
+                    content, description=case["description"], title=case["title"],
+                    location_original=case["location_original"],
+                )
+                return {**record, "disposition": "completed", "judgment": v2_judgment}
             judgment = parse_merged_response(
                 content, description=case["description"], title=case["title"],
                 location_requested=case["location_original"] is not None,
