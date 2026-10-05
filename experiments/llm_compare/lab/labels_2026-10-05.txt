@@ -959,3 +959,43 @@
 3091|core|no|-|10|Aptiv MLOps technical lead for autonomous driving ML; 5+ yrs
 1966|uncertain|no|-|7|Mastercard lead technical PM owning GenAI/agentic product roadmap (AI product role); Lead title
 148|core|no|-|10|Postman senior AI engineer building agent architectures; 5+ yrs
+823|hide|yes|-|6|Salesforce senior engineering manager; AI coding tools/prompting, agent text is template; 3+ yrs leading teams
+153|hide|yes|-|10|Postman full-stack engineer for API Network search UX; 2-4 yrs
+1435|hide|uncertain|excluded|8|BofA financial solutions advisor; no description; Tulsa-area US locations
+2081|hide|yes|-|10|Mastercard senior .NET integrations engineer; 3-5 yrs
+2049|hide|uncertain|-|10|Mastercard senior Java engineer; no years
+197|involved|no|-|7|Google AI outcome customer engineer (FDE) designing and integrating AI models/agents into customer systems; 7 yrs
+3493|hide|uncertain|-|9|Porter business executive; no description
+2201|hide|yes|-|10|S&P WSO loan quality control analyst; 2 yrs
+2204|hide|yes|-|10|S&P WSO specialized account services analyst; 1-3 yrs
+835|hide|no|-|8|Salesforce engagement delivery manager; boilerplate only, Manager title
+3571|hide|yes|-|10|Porter trainee business associate; sales
+426|hide|yes|-|10|Amazon FC process assistant; 1+ yrs
+2008|hide|uncertain|-|9|Mastercard senior data analyst, BI/reporting; no years
+2949|hide|no|-|10|NXP senior principal digital IP RTL engineer
+191|hide|no|-|10|Google senior design verification engineer; 8 yrs
+1543|hide|no|-|9|Barclays VP engineering manager Java; GenAI/agents only desirable
+1948|hide|yes|-|10|LSEG junior Salesforce DevOps engineer; 4+ yrs
+308|involved|yes|-|8|Google TPU silicon architecture/design engineer, PhD early career (AI accelerator design)
+900|uncertain|no|-|5|Salesforce technical consulting manager; architects predictive/generative AI elements among CRM duties; 10-15 yrs
+225|core|no|-|9|Google staff SWE Search Intelligence requiring ML infrastructure and LLM integration; 8 yrs
+1527|hide|no|-|10|Barclays VP test manager
+1579|hide|no|-|10|Barclays AVP compliance testing RBI oversight
+290|core|no|-|9|Google staff forward deployed engineer building and shipping LLM agent systems in customer environments; 8 yrs
+123|core|no|-|9|Atlassian principal ML engineer (post-training, recommendation, agents); Principal title
+812|hide|no|-|10|Intuit staff business systems analyst, finance systems; 7+ yrs
+1828|hide|no|-|10|JPMC senior manager of software engineering, data platforms; 5+ yrs
+3281|uncertain|no|-|5|Bosch Celonis process mining architect enriching analyses with ML algorithms (minor AI part); 10 yrs
+187|hide|no|-|7|Google marketing science lead (measurement consulting, causal inference/MMM, sales); 8 yrs
+2071|hide|no|-|10|Mastercard technology risk manager
+1356|hide|uncertain|-|9|BarRaiser assistant manager; no description
+326|hide|no|-|10|Google staff SWE persistent disk snapshots; 8 yrs
+1909|hide|no|-|10|LSEG equity index data team lead; 5+ yrs
+2940|hide|no|-|10|NXP senior lead NVM memory design engineer; 7+ yrs
+236|hide|no|-|10|Google staff SWE Google One security; 8 yrs
+151|hide|no|-|10|Postman senior full-stack engineer API Network; 6+ yrs
+2274|hide|uncertain|-|9|Visa senior network engineer; title says 4-6 yrs but body requires 5+ (contradictory)
+1429|core|yes|-|10|Amex AI Engineer II building agentic AI, RAG and LLM workflows; 3-5+ yrs
+554|hide|no|-|10|Amazon SDE III payments security; 5+ yrs
+3403|hide|yes|-|10|Paytm bus travel key account team lead; 2-6 yrs
+1206|hide|yes|-|9|CRED credit card bill-pay growth role; partners with DS only; 4-7 or 3-5 yrs
