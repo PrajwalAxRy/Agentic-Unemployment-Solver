@@ -1,0 +1,1963 @@
+{
+ "batch": "2026-10-05",
+ "exported_at": "2026-10-05T21:53:32.392Z",
+ "jobs": {
+  "14": {
+   "section": "low",
+   "half": "test",
+   "company": "adobe",
+   "title": "Principal Scientist - Adobe Brand Intelligence",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "software architect for an AI brand-intelligence platform, operationalises ML team's models and integrates AI capabilities (integrate vs team builds AI); 12+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "57": {
+   "section": "low",
+   "half": "tune",
+   "company": "adobe",
+   "title": "Software Development Engineer 4",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "uncertain",
+    "location": "-",
+    "conf": 5,
+    "reason": "no real description (Adobe boilerplate only), non-AI title; SDE 4 level, no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "uncertain",
+   "location": "-",
+   "note": ""
+  },
+  "72": {
+   "section": "low",
+   "half": "test",
+   "company": "cartesia",
+   "title": "Product Support Engineer, India",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 5,
+    "reason": "product support at a foundation-model company, troubleshooting API errors and model behaviour; AI tooling familiarity required (support role that touches the AI technically); 2-8 yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "122": {
+   "section": "sample",
+   "half": "tune",
+   "company": "atlassian",
+   "title": "Principal Machine Learning Engineer",
+   "claude": {
+    "relevance": "core",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "principal ML engineer building ranking/retrieval/LLM models; Principal, no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "129": {
+   "section": "sample",
+   "half": "test",
+   "company": "atlassian",
+   "title": "Principal Operation Analyst, Customer Success",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "customer success operations; 8+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "141": {
+   "section": "sample",
+   "half": "test",
+   "company": "atlassian",
+   "title": "Senior ML Performance Engineer",
+   "claude": {
+    "relevance": "core",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "ML performance: MCP servers, retrieval/embeddings, AI eval programs; 7+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "151": {
+   "section": "sample",
+   "half": "tune",
+   "company": "postman",
+   "title": "Senior Engineer, API Network",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "Postman senior full-stack engineer API Network; 6+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "203": {
+   "section": "low",
+   "half": "test",
+   "company": "google",
+   "title": "Staff Software Engineer, Knowledge Catalog, Core Data",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "Google staff SWE leading hybrid semantic search infra and search-quality evals for agents and humans; 8 yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "222": {
+   "section": "low",
+   "half": "test",
+   "company": "google",
+   "title": "AI and Knowledge Strategist, Google Ads",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "Google Ads AI and knowledge strategist writing prompts and monitoring model grounding for AI support content; 5 yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "233": {
+   "section": "low",
+   "half": "tune",
+   "company": "google",
+   "title": "Staff Software Engineer",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "staff engineer on cluster resource optimisation enabling AI/ML infrastructure growth (data-centre capacity, ML hardware cost modelling); 8 yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "238": {
+   "section": "low",
+   "half": "tune",
+   "company": "google",
+   "title": "Software Engineering PhD Intern, Summer 2027",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 4,
+    "reason": "generic Google SWE PhD internship; programme template mentions \"AI-integrated software\" and AI/ML research preferred, team assigned later; intern"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "core",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "353": {
+   "section": "low",
+   "half": "test",
+   "company": "google",
+   "title": "Engineering Analyst, Trust and Safety Ads",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "ads trust-and-safety engineering analyst; 5 yrs in data science/applied AI required, ML solutions preferred, duties are investigations and metrics"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "354": {
+   "section": "sample",
+   "half": "test",
+   "company": "google",
+   "title": "Events Security Operations Manager",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "event security operations manager; 5 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "380": {
+   "section": "sample",
+   "half": "test",
+   "company": "oracle-oci",
+   "title": "Senior Manager, Data Center Operations",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "data centre operations senior manager"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "413": {
+   "section": "sample",
+   "half": "test",
+   "company": "amazon-aws",
+   "title": "Sr. Engagement Manager, AWS Professional Services India",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "cloud professional services engagement manager using GenAI for delivery; 7+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "431": {
+   "section": "sample",
+   "half": "tune",
+   "company": "amazon-aws",
+   "title": "Sr Solutions Architect, AWS Industries India - Strat Acc.",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 9,
+    "reason": "AWS solutions architect, ML one of many areas; 5+/10+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "467": {
+   "section": "sample",
+   "half": "test",
+   "company": "amazon-aws",
+   "title": "Investigation Specialist II, Flex Investigations and Offboarding",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 10,
+    "reason": "delivery-partner investigations; 2 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "491": {
+   "section": "low",
+   "half": "test",
+   "company": "amazon-aws",
+   "title": "Software Development Engineer II, Unified Auth SDK",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 4,
+    "reason": "auth SDK incl. authentication/authorization for AI agents; AI security vs IAM-for-AI (h) unclear; 3+ yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "498": {
+   "section": "sample",
+   "half": "test",
+   "company": "amazon-aws",
+   "title": "ICQA Research Analyst, ICQA",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 10,
+    "reason": "warehouse inventory QA analyst; 1+ yrs preferred"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "531": {
+   "section": "low",
+   "half": "test",
+   "company": "amazon-aws",
+   "title": "Finance Manager, INFC",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "Amazon finance manager; requires building/deploying automation or AI tools in finance; Manager title"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "554": {
+   "section": "sample",
+   "half": "tune",
+   "company": "amazon-aws",
+   "title": "Software Dev Engineer III, Amazon Payment Services",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "Amazon SDE III payments security; 5+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "600": {
+   "section": "low",
+   "half": "tune",
+   "company": "amazon-aws",
+   "title": "Software Development Engineer II, Workplace Productivity",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 5,
+    "reason": "SDE II on process-automation platform, role \"offers exposure to\" ML algorithms; AI tie thin; 3+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "616": {
+   "section": "sample",
+   "half": "tune",
+   "company": "amazon-aws",
+   "title": "BIE II, Amazon Now Quick Commerce",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 9,
+    "reason": "Amazon BIE II quick commerce analytics; 3+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "682": {
+   "section": "sample",
+   "half": "test",
+   "company": "broadcom",
+   "title": "Sr. Memory Layout Design Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "Broadcom memory layout design engineer; 8+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "741": {
+   "section": "low",
+   "half": "tune",
+   "company": "qure-ai",
+   "title": "Clinical Research Scientist - Oncology",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 4,
+    "reason": "clinical research scientist designing validation studies of the company's AI products; AI evaluation as core job vs clinical research; 5-8 yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "749": {
+   "section": "low",
+   "half": "tune",
+   "company": "safe-security",
+   "title": "Security Researcher II (WAF)",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 5,
+    "reason": "WAF security researcher required to build LLM-based automations/agentic workflows (code calling LLMs as one part); \"II\", no years"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "764": {
+   "section": "sample",
+   "half": "test",
+   "company": "airbnb",
+   "title": "Senior Staff Data Scientist, Guest & Host Marketplace AI",
+   "claude": {
+    "relevance": "core",
+    "seniority": "no",
+    "location": "excluded",
+    "conf": 8,
+    "reason": "data scientist building AI-derived preference models and causal inference for search/discovery; 9+ yrs; US-remote only"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "excluded",
+   "note": ""
+  },
+  "834": {
+   "section": "low",
+   "half": "test",
+   "company": "salesforce",
+   "title": "Salesforce Field Service Architect",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "Salesforce field-service architect who also designs/integrates predictive and generative AI in Salesforce (integrate); 9-14 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "835": {
+   "section": "sample",
+   "half": "tune",
+   "company": "salesforce",
+   "title": "Engagement Delivery Manager",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 8,
+    "reason": "Salesforce engagement delivery manager; boilerplate only, Manager title"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "888": {
+   "section": "low",
+   "half": "tune",
+   "company": "salesforce",
+   "title": "Senior Technical Consultant - Japanese Fluency (Mandatory)",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 4,
+    "reason": "Salesforce consultant who designs Agentforce/LLM flows and agentic automation for clients; building agents vs configuring a vendor's AI feature (OQ3) unclear; 3-8 yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "core",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "892": {
+   "section": "low",
+   "half": "tune",
+   "company": "salesforce",
+   "title": "Salesforce Technical Architect, Consumer goods (REX or TPM or CG Cloud exp mandatory)",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "Salesforce consumer-goods technical architect with an \"integrate predictive and generative AI\" duty among many (integrate); 10+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "897": {
+   "section": "low",
+   "half": "tune",
+   "company": "salesforce",
+   "title": "Salesforce Technical Architect",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "Salesforce technical architect with \"integrate predictive and generative AI\" and AI evaluation-framework duties (integrate); 9-14 yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "900": {
+   "section": "low",
+   "half": "tune",
+   "company": "salesforce",
+   "title": "Manager, Technical Consulting",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "Salesforce technical consulting manager; architects predictive/generative AI elements among CRM duties; 10-15 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "922": {
+   "section": "sample",
+   "half": "tune",
+   "company": "servicenow",
+   "title": "Senior Manager, Expert Services (Tech / Core Business / Sec Ops / IRM)",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "ServiceNow professional services senior manager; 10+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "954": {
+   "section": "low",
+   "half": "tune",
+   "company": "coupang",
+   "title": "Staff Backend Engineer",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "staff backend engineer who also designs machine-learning pipelines for inventory/promise (smaller AI part); 8+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "962": {
+   "section": "low",
+   "half": "test",
+   "company": "crowdstrike",
+   "title": "Data Engineer III (Remote, IND)",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "data engineer in a data science org building pipelines and model-deployment automation for scientists (data feeding ML vs MLOps); 7+ yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1010": {
+   "section": "low",
+   "half": "test",
+   "company": "level-ai",
+   "title": "Senior Backend Engineer -PE",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 5,
+    "reason": "Python/Django backend at an LLM contact-centre company, NLP/ML experience preferred only; 2-5 yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "1024": {
+   "section": "low",
+   "half": "tune",
+   "company": "eightfold-ai",
+   "title": "Senior Director, AI Advisor – Talent & Workforce",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "uncertain",
+    "conf": 5,
+    "reason": "no description; \"AI Advisor - Talent & Workforce\" reads as customer advisory at an HR-AI vendor; Senior Director; location unavailable"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "uncertain",
+   "note": "The title says Director and AI advisor, so a leadership role with AI focus"
+  },
+  "1191": {
+   "section": "sample",
+   "half": "test",
+   "company": "quadeye",
+   "title": "Network Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 10,
+    "reason": "low-latency network engineering; 2-5 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "1204": {
+   "section": "low",
+   "half": "tune",
+   "company": "collinear-ai",
+   "title": "MTS - Engineering (Security)",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "security engineer at an RL-environment company, hardens sandboxes where AI agents run (AI security); 8+ yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1206": {
+   "section": "sample",
+   "half": "test",
+   "company": "cred",
+   "title": "credit card bill payments growth",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 9,
+    "reason": "CRED credit card bill-pay growth role; partners with DS only; 4-7 or 3-5 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "1221": {
+   "section": "low",
+   "half": "test",
+   "company": "fractal-analytics",
+   "title": "GenAI Data Scientist",
+   "claude": {
+    "relevance": "core",
+    "seniority": "uncertain",
+    "location": "-",
+    "conf": 5,
+    "reason": "GenAI/NLP data scientist building models; summary says 5+ yrs, qualifications say 3 yrs (conflict)"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "core",
+   "seniority": "uncertain",
+   "location": "-",
+   "note": ""
+  },
+  "1222": {
+   "section": "sample",
+   "half": "tune",
+   "company": "fractal-analytics",
+   "title": "Data Scientist_ NLP GenAI_ 3 to 5yrs",
+   "claude": {
+    "relevance": "core",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 10,
+    "reason": "data scientist building LLM/GenAI, NLP and CV solutions; 3-5 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "core",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "1262": {
+   "section": "low",
+   "half": "tune",
+   "company": "fractal-analytics",
+   "title": "Engagement Manager Analytics",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "Fractal engagement manager leading AI/ML solution delivery for clients (consulting/delivery management, hands-on ML background required); 10+ yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1276": {
+   "section": "low",
+   "half": "test",
+   "company": "fractal-analytics",
+   "title": "Fullstack Developer",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "uncertain",
+    "location": "-",
+    "conf": 5,
+    "reason": "Fractal full-stack developer building AWS Lex chatbot workflows (integrating a vendor AI service); no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "uncertain",
+   "location": "-",
+   "note": ""
+  },
+  "1293": {
+   "section": "sample",
+   "half": "tune",
+   "company": "quantiphi",
+   "title": "System Specialist- Workday",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 10,
+    "reason": "Workday HCM administration; 2+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "1337": {
+   "section": "low",
+   "half": "test",
+   "company": "squarepoint-capital",
+   "title": "Senior Quant Researcher - Equity Mid/Low Frequency",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "uncertain",
+    "location": "-",
+    "conf": 5,
+    "reason": "Squarepoint senior quant researcher using advanced statistics, no ML named; Senior, no years"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "hide",
+   "seniority": "uncertain",
+   "location": "-",
+   "note": ""
+  },
+  "1345": {
+   "section": "low",
+   "half": "test",
+   "company": "100ms",
+   "title": "Senior Product Engineer - AI Agents (Healthcare)",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 5,
+    "reason": "full-stack product engineer at an AI-agents healthcare startup; title says AI Agents but duties are web/API work; 4+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "1349": {
+   "section": "low",
+   "half": "tune",
+   "company": "aganitha",
+   "title": "Scientist (Statistical Genomics)",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "uncertain",
+    "location": "-",
+    "conf": 5,
+    "reason": "statistical genomics scientist (GWAS, PRS prediction modelling, statistics) at an AI drug-discovery firm; PhD, no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "uncertain",
+   "location": "-",
+   "note": ""
+  },
+  "1394": {
+   "section": "sample",
+   "half": "tune",
+   "company": "american-express",
+   "title": "Senior Manager-Digital Product Management",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "payment network product management; Senior Manager, no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1415": {
+   "section": "low",
+   "half": "tune",
+   "company": "american-express",
+   "title": "Analyst-Risk Management",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 5,
+    "reason": "credit risk analytics analyst developing economic logic and analytical solutions, ML named only as an innovation focus; 0-30 months"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "yes",
+   "location": "-",
+   "note": "Data science is heavily involved along with ML"
+  },
+  "1590": {
+   "section": "sample",
+   "half": "tune",
+   "company": "barclays",
+   "title": "GenAI  Data Engineering Lead",
+   "claude": {
+    "relevance": "involved",
+    "seniority": "no",
+    "location": "-",
+    "conf": 7,
+    "reason": "lead of a team building GenAI solutions (LLM assistants, RAG, agents) with hands-on Python; VP template, no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "involved",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1607": {
+   "section": "low",
+   "half": "test",
+   "company": "barclays",
+   "title": "AI Engineer - VP",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 4,
+    "reason": "titled \"AI Engineer - VP\" but the description is entirely real-time streaming data platforms (Kafka/Flink) with no AI duties; VP"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1648": {
+   "section": "sample",
+   "half": "tune",
+   "company": "barclays",
+   "title": "AVP - SPPM/Conduit Structuring",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 9,
+    "reason": "securitisation analytics/reporting; Barclays AVP level"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1674": {
+   "section": "low",
+   "half": "test",
+   "company": "barclays",
+   "title": "Decision Analyst",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 5,
+    "reason": "decision-intelligence analyst building and validating quantitative decision models (statistics, no ML named); Analyst template"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "1681": {
+   "section": "low",
+   "half": "tune",
+   "company": "barclays",
+   "title": "AVP Quantitative Analytics CCR Modeler",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "Barclays AVP counterparty credit risk quant modeller; statistical risk models, ML only in template"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1693": {
+   "section": "low",
+   "half": "test",
+   "company": "barclays",
+   "title": "Workforce Management Senior Forecasting Analyst",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "uncertain",
+    "location": "uncertain",
+    "conf": 5,
+    "reason": "no description; workforce-management forecasting analyst title points to data work; \"Senior\", no years; \"2 Locations\""
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "uncertain",
+   "location": "uncertain",
+   "note": ""
+  },
+  "1770": {
+   "section": "low",
+   "half": "tune",
+   "company": "jpmorganchase",
+   "title": "Lead Software Engineer - Python, Gen AI",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "JPMC lead SWE building LLM/agent automation for ops remediation, mostly SRE/controls work; 8+ yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1782": {
+   "section": "sample",
+   "half": "tune",
+   "company": "jpmorganchase",
+   "title": "Lead Security Engineer - Threat modelling, Cloud Security",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "cloud security threat modelling lead, AI-assisted engineering only; 10+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1856": {
+   "section": "sample",
+   "half": "tune",
+   "company": "jpmorganchase",
+   "title": "Senior Data Governance Associate",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 7,
+    "reason": "data governance documentation including AI/ML standards, uses AI for document drafting (governance, not building); 2+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "1876": {
+   "section": "sample",
+   "half": "tune",
+   "company": "london-stock-exchange-group",
+   "title": "Lead Automation Quality Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "identity platform QA automation lead; 10+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1882": {
+   "section": "sample",
+   "half": "test",
+   "company": "london-stock-exchange-group",
+   "title": "Lead Software Engineer - Frontend Developer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "Angular front-end lead; 8+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1883": {
+   "section": "sample",
+   "half": "test",
+   "company": "london-stock-exchange-group",
+   "title": "Senior ServiceNow Specialist",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "LSEG ServiceNow specialist talent pool; 8-15 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1914": {
+   "section": "low",
+   "half": "test",
+   "company": "london-stock-exchange-group",
+   "title": "Senior Content Specialist",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "content operations transformation specialist expected to implement AI-agent and automation solutions (AI agent experience required); career stage Manager, no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1960": {
+   "section": "low",
+   "half": "tune",
+   "company": "mastercard",
+   "title": "Senior Data Engineer (Data Platforms)-1",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "data-platform/full-stack engineer extending a self-service platform with AI-powered capabilities; LLM/RAG exposure required (smaller AI part); 6+ yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "1996": {
+   "section": "sample",
+   "half": "tune",
+   "company": "mastercard",
+   "title": "Senior Software Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "uncertain",
+    "location": "-",
+    "conf": 10,
+    "reason": "Mastercard senior full-stack Java engineer; no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "uncertain",
+   "location": "-",
+   "note": ""
+  },
+  "2002": {
+   "section": "low",
+   "half": "tune",
+   "company": "mastercard",
+   "title": "Sr. Specialist, Product Management",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "uncertain",
+    "location": "-",
+    "conf": 5,
+    "reason": "disputes-platform product owner who also identifies AI-powered automation opportunities with data science (AI one part of a product role); \"Sr. Specialist\", no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "uncertain",
+   "location": "-",
+   "note": ""
+  },
+  "2021": {
+   "section": "low",
+   "half": "test",
+   "company": "mastercard",
+   "title": "Specialist, Product Express Reporting and Analytics",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "uncertain",
+    "location": "-",
+    "conf": 5,
+    "reason": "reporting/BI specialist who also defines AI use cases (insights, anomaly detection, NL querying) for the platform; no years, no level"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "uncertain",
+   "location": "-",
+   "note": ""
+  },
+  "2022": {
+   "section": "sample",
+   "half": "tune",
+   "company": "mastercard",
+   "title": "Senior Software Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "test automation/service engineering; 7+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "2040": {
+   "section": "low",
+   "half": "tune",
+   "company": "mastercard",
+   "title": "Principal Data Engineer (AWS, Databricks, Ai, ML Flow, Data Architecture, Apache Airflow)",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "principal data engineer building lakehouse platforms that support ML/GenAI training, evaluation and inference pipelines (data platform feeding ML vs ML platform); 12-18 yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "-",
+   "note": "clearly AI-related. This is a Principal AI/ML data-platform engineering role with MLOps responsibilities."
+  },
+  "2053": {
+   "section": "sample",
+   "half": "tune",
+   "company": "mastercard",
+   "title": "Senior Software Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "uncertain",
+    "location": "-",
+    "conf": 9,
+    "reason": "Java payments engineer; \"Senior\", no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "uncertain",
+   "location": "-",
+   "note": ""
+  },
+  "2102": {
+   "section": "sample",
+   "half": "test",
+   "company": "mastercard",
+   "title": "Lead Software Engineer",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 6,
+    "reason": "full-stack Java/Angular lead who will \"architect and integrate AI-powered capabilities\" (integrate); Lead title, no years"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "2105": {
+   "section": "low",
+   "half": "tune",
+   "company": "mastercard",
+   "title": "Sr Data Engineer",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "uncertain",
+    "location": "-",
+    "conf": 5,
+    "reason": "Mastercard Sr data engineer in AI team; pipelines plus deploying model artifacts and supporting production ML systems; Sr, no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "uncertain",
+   "location": "-",
+   "note": ""
+  },
+  "2131": {
+   "section": "sample",
+   "half": "test",
+   "company": "mastercard",
+   "title": "Lead Software Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 9,
+    "reason": "Angular/Java B2B payments engineering; Lead title, no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "2190": {
+   "section": "sample",
+   "half": "test",
+   "company": "payu",
+   "title": "Data Science Manager - BFSI",
+   "claude": {
+    "relevance": "core",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "data science manager owning design and deployment of ML fraud/success-rate models; 5+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "2194": {
+   "section": "low",
+   "half": "test",
+   "company": "payu",
+   "title": "Associate Director -HR Analytics",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "HR analytics lead whose duties include statistical analysis and \"predictive modelling\"; 8+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "2214": {
+   "section": "low",
+   "half": "tune",
+   "company": "s-and-p-global",
+   "title": "Senior Quality Engineer (Automation -  Selenium, Playwright, Cypress)",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 5,
+    "reason": "S&P senior QE testing agentic AI systems and LLM apps (AI testing partly core); 4+ yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "2229": {
+   "section": "low",
+   "half": "tune",
+   "company": "s-and-p-global",
+   "title": "Application & Cloud Security Lead",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "S&P application/cloud security lead incl. reviewing AI/ML use cases for security risks (oversight, mostly AppSec); 5-8+ yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "2262": {
+   "section": "sample",
+   "half": "test",
+   "company": "visa",
+   "title": "Sr Systems Engineer - AWS, Kubernetes, Automation, Platform Engineering",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 10,
+    "reason": "AWS/Kubernetes platform engineering; 3-7 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "2272": {
+   "section": "low",
+   "half": "test",
+   "company": "visa",
+   "title": "Sr. SW Test Engineer (Senior Software Builder and AI Automation Engineer)",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "test engineer building AI-enhanced test frameworks and AI-driven root-cause tooling (builds AI tooling vs uses it); 5+ yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "2423": {
+   "section": "sample",
+   "half": "tune",
+   "company": "palo-alto-networks",
+   "title": "Senior Technical Support Engineer - XSIAM",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "XSIAM technical support; 5+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "2476": {
+   "section": "sample",
+   "half": "tune",
+   "company": "analog-devices",
+   "title": "Sr. Design Evaluation Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 10,
+    "reason": "ADI automotive networking design evaluation engineer; 4+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "2575": {
+   "section": "sample",
+   "half": "test",
+   "company": "cadence",
+   "title": "Principal Application Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "CAE customer success principal; 5+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "2649": {
+   "section": "sample",
+   "half": "test",
+   "company": "cadence",
+   "title": "Sr Principal Design Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "HBM PHY SI/PI design lead; Sr Principal title, no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "2711": {
+   "section": "sample",
+   "half": "test",
+   "company": "cadence",
+   "title": "Principal Design Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "excluded",
+    "conf": 9,
+    "reason": "Cadence DDR controller principal design engineer; 10+ yrs; Cork, Ireland"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "excluded",
+   "note": ""
+  },
+  "2891": {
+   "section": "low",
+   "half": "tune",
+   "company": "nxp-semiconductors",
+   "title": "Senior Data Engineer",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 5,
+    "reason": "Databricks data engineer who also builds self-healing monitoring with agentic AI (smaller AI part); 3+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "2933": {
+   "section": "low",
+   "half": "test",
+   "company": "nxp-semiconductors",
+   "title": "Sales System Architect",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "NXP sales system architect; Agentforce/AI-ML solutions among CRM duties; 5+ yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "2947": {
+   "section": "sample",
+   "half": "test",
+   "company": "nxp-semiconductors",
+   "title": "Principal Digital IP Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "digital IP RTL design; Principal title"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "2979": {
+   "section": "sample",
+   "half": "tune",
+   "company": "nxp-semiconductors",
+   "title": "Sr DFT Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "uncertain",
+    "location": "-",
+    "conf": 9,
+    "reason": "DFT engineering; Senior, no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "uncertain",
+   "location": "-",
+   "note": ""
+  },
+  "2988": {
+   "section": "sample",
+   "half": "test",
+   "company": "nxp-semiconductors",
+   "title": "Principal DFT Engineer",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "DFT lead; 12+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "3091": {
+   "section": "sample",
+   "half": "tune",
+   "company": "aptiv",
+   "title": "Technical Lead-MLOps:",
+   "claude": {
+    "relevance": "core",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "Aptiv MLOps technical lead for autonomous driving ML; 5+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "3114": {
+   "section": "sample",
+   "half": "test",
+   "company": "aptiv",
+   "title": "Software Download OTA Engineering Team Manager",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "automotive OTA engineering manager; 15+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "3119": {
+   "section": "low",
+   "half": "tune",
+   "company": "aptiv",
+   "title": "Advanced Software Engineer- Automotive + CPP +  Simulation",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "ADAS resimulation C++ developer who triages AI/ML perception algorithms (integrating/testing others' perception); 6-9 yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "core",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "3220": {
+   "section": "sample",
+   "half": "test",
+   "company": "bosch-global-software-technologies",
+   "title": "IN_RBIC_Production Supervisor_IN",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 10,
+    "reason": "production supervisor; 2-6 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "3231": {
+   "section": "sample",
+   "half": "test",
+   "company": "bosch-global-software-technologies",
+   "title": "Senior Developer(SAP DM Support) - ECF2",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 9,
+    "reason": "SAP Digital Manufacturing developer, AI/ML only good-to-have; 4-7 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "3281": {
+   "section": "low",
+   "half": "test",
+   "company": "bosch-global-software-technologies",
+   "title": "Process Mining solutions Architect",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "Bosch Celonis process mining architect enriching analyses with ML algorithms (minor AI part); 10 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "3292": {
+   "section": "low",
+   "half": "test",
+   "company": "bosch-global-software-technologies",
+   "title": "Senior Software developer",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "uncertain",
+    "location": "-",
+    "conf": 5,
+    "reason": "ERP/output-management automation developer who integrates \"modern AI and automation technologies\" (Copilot/n8n) into services (integrate); \"Senior\", no years"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "uncertain",
+   "location": "-",
+   "note": ""
+  },
+  "3295": {
+   "section": "low",
+   "half": "tune",
+   "company": "bosch-global-software-technologies",
+   "title": "IN_RBIN_Manager-Technical Lead - Digital Solutions (RBIN/BDO)",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "digital-solutions technical lead/architect who integrates AI/GenAI capabilities into business apps (integrate); 10+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "uncertain",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "3340": {
+   "section": "low",
+   "half": "tune",
+   "company": "jio-platforms-haptik",
+   "title": "Implementation Analyst",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 5,
+    "reason": "Haptik implementation analyst building chatbot solutions on the company's conversational AI platform (configuring, not building models); 1+ yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "involved",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "3379": {
+   "section": "low",
+   "half": "tune",
+   "company": "paytm",
+   "title": "Credit Risk - Manager",
+   "claude": {
+    "relevance": "uncertain",
+    "seniority": "no",
+    "location": "-",
+    "conf": 5,
+    "reason": "credit risk portfolio analytics, \"understanding of machine learning models in credit risk\" as knowledge only; 5-8 yrs"
+   },
+   "reviewed": true,
+   "changed": true,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "3389": {
+   "section": "sample",
+   "half": "tune",
+   "company": "paytm",
+   "title": "Growth Management - UPI Growth | Experience : 3-5 yrs",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "yes",
+    "location": "-",
+    "conf": 10,
+    "reason": "Paytm city growth role; 3-5 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "yes",
+   "location": "-",
+   "note": ""
+  },
+  "3399": {
+   "section": "sample",
+   "half": "test",
+   "company": "paytm",
+   "title": "KAM - Manager - Paytm Ads",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "advertising sales key account manager; 7+ yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  },
+  "3455": {
+   "section": "sample",
+   "half": "test",
+   "company": "paytm",
+   "title": "Treasury & Capital Markets - Paytm Money",
+   "claude": {
+    "relevance": "hide",
+    "seniority": "no",
+    "location": "-",
+    "conf": 10,
+    "reason": "corporate treasury and debt capital markets; 8-10 yrs"
+   },
+   "reviewed": true,
+   "changed": false,
+   "relevance": "hide",
+   "seniority": "no",
+   "location": "-",
+   "note": ""
+  }
+ }
+}

@@ -1,11 +1,12 @@
-# Job-screening policy v1.1 (approved 2026-10-05)
+# Job-screening policy v1.2 (approved 2026-10-06)
 
 The single source of truth for what the job scanner shows. Every benchmark label and every
 prompt (1.4.0 and v10) is written from this document; when it changes, labels and prompts
 follow. Each rule notes where it came from: **[CB type]** = your casebook decision on that
 job type (`casebook/decisions_v0.json`), **[Q n]** = your answer to requirement question n,
 **[override]** = a job-level override you made on the review page, **[OQ n]** = your answer
-to open question n in section 8.
+to open question n in section 8, **[R ordinal]** = your answer on the 2026-10-06 label review
+(`lab/label_review_2026-10-05.json`). Section 9 summarises what v1.2 changed.
 
 ---
 
@@ -96,8 +97,9 @@ areas [scope discussion]:
   applications, model training or deployment). [CB ai_skill_required, Q16]
 - The hiring team's stated work is building AI/ML systems. [Google discussion]
 - The title clearly names AI/ML work (AI Engineer, ML Engineer, Data Scientist, NLP,
-  Computer Vision, Deep Learning, AI Platform, Inference) and the duties are around AI, or
-  the title is all the posting gives. [Q15, Q22]
+  Computer Vision, Deep Learning, AI Platform, Inference, Gen AI, AI Advisor, AI Automation
+  Engineer). The title alone is enough: show even when the description has no AI duties or
+  there is no description. [Q15, Q22, R1607, R1770, R2272, R1024]
 - "Data Scientist" titles doing analytics, experimentation or forecasting. [CB ds_titles,
   Q2e]
 - Google's standard requirement "experience integrating generative AI tools or LLM
@@ -112,6 +114,20 @@ areas [scope discussion]:
   [CB ai_hardware, Q2i]
 - AI evaluation or benchmarking, model risk and validation, or AI-operations leadership as
   the core job. [overrides 499, 1538, 1543]
+- Testing, validating, supporting or securing AI systems as a real duty: QA of agentic and
+  LLM apps, clinical validation of AI products, triage of perception algorithms, support
+  engineers debugging model behaviour, security of AI agent sandboxes, security review of
+  AI use cases. [R2214, R741, R3119, R72, R1204, R2229]
+- Writing prompts or LLM automations that are part of the deliverable (prompt and grounding
+  work for an AI support product, LLM-based security automations). [R222, R749]
+- Analysts whose duties build forecasting or decision models, or roles that require
+  data-science/applied-AI experience. [R1415, R1674, R1693, R353]
+- Data or compute platforms whose stated purpose includes ML training, evaluation,
+  inference or model deployment, and infrastructure built for AI workloads (cluster
+  capacity for ML, semantic search for agents). Core when that is the main work. [R2040,
+  R962, R233, R203]
+- AI consulting or delivery leadership that requires hands-on ML experience, and AI
+  advisory leadership titles. [R1262, R1024]
 - Quant, trading or risk roles whose duties name machine learning. [Q8]
 
 ### Uncertain (shown, tagged)
@@ -123,17 +139,17 @@ areas [scope discussion]:
   solutions among other technologies. [CB consulting_ai, overrides 7, 345, 889]
 - Product, program and strategy roles where AI is the main subject. [CB ai_product_strategy,
   Q2k]
-- AI governance, AI security, AI quality and AI risk roles that oversee rather than build.
-  [CB ai_governance_eval and your note on it]
+- AI governance, AI quality and AI risk roles that only oversee, with no hands-on review,
+  testing or securing of AI systems (those are AI-involved, above). [CB ai_governance_eval,
+  narrowed by R2229]
 - Integrating someone else's AI or perception algorithms. [Q7]
-- Statistical or econometric modelling for business decisions without machine learning.
-  [Q5]
+- Risk or econometric modelling without machine learning (counterparty-credit quant
+  models, economists). [Q5, R1681 kept] Quant trading research on statistics alone, and
+  credit-risk roles where ML is only "understanding", are hide. [R1337, R3379]
 - Senior data leadership under a generic ML template. [rule 3.6]
 - The posting says too little to tell **and** something in it points to AI/data work.
 - Engineers who write code calling LLM APIs as one part of a non-AI product (for example an
   IDE extension that integrates "AI services"). [OQ4]
-- Security engineers whose duties include red-teaming or securing AI systems alongside other
-  security work (AI security). [OQ7]
 - Practice directors who own an AI business line but mostly lead client and pilot work.
   [OQ9]
 
@@ -146,8 +162,9 @@ areas [scope discussion]:
 - AI in a long list of skills or technologies unrelated to the duties. [override 1669]
 - Job-family template text when the role-specific part is other work (not senior data
   leadership). [CB template_text]
-- Data engineering, BI or data platforms whose output merely feeds data scientists.
-  [CB data_feeding_ml, Q2j]
+- Data engineering, BI or data platforms whose output merely feeds data scientists. If
+  the platform runs ML training, inference or model deployment, it is AI-involved or core
+  (section above). [CB data_feeding_ml, Q2j, R2040]
 - Data labelling and annotation roles. [CB annotation]
 - Customer-facing, go-to-market, support or monitoring roles for an AI product where the
   person does not work with the AI technically. [CB customer_ai overrides 948, 1474, 2728,
@@ -165,6 +182,13 @@ areas [scope discussion]:
 - Product and UX designers of AI-powered experiences. [OQ5]
 - Data-centre technicians and hardware operations, including for ML clusters. [OQ6]
 - Trainers and enablement roles that teach AI tools or AI literacy. [OQ8]
+- Non-engineering roles required to adopt or deploy AI tools in their function (a finance
+  manager automating close with AI tools). [R531]
+- Backend or full-stack engineers at an AI company whose own work is not AI, with ML only
+  preferred. [R1010]
+- Sales-operations or CRM system architects whose AI mention is the vendor's agent product
+  among CRM duties. [R2933]
+- Identity and authentication for AI agents (the work is IAM, not AI). [R491]
 
 ---
 
@@ -225,6 +249,11 @@ of professional experience. [Q1, Q23]
   that my confident labels can be trusted. If you change more than about 10% of those 50, I
   relabel more widely.
 - Any answer you give that generalises becomes a new rule here (policy v1.1, v1.2, ...).
+- **Scoring.** The primary score is **visibility** (shown = core, involved or uncertain,
+  with seniority not "not eligible"; hidden otherwise), because that decides what you see.
+  Core vs involved vs uncertain is a secondary, soft score: on the 2026-10-06 review the
+  same job type landed on both sides of the uncertain/involved line (Salesforce architects
+  897 involved; 834, 892, 900 uncertain), so no prompt can be held to that line exactly.
 
 ---
 
@@ -257,3 +286,17 @@ tagged [OQ n]. The original wording, with my proposals in brackets:
    [uncertain]
 10. **"Remote" with no region stated**, at a company headquartered outside India.
     [uncertain]
+
+---
+
+## 9. Changes in v1.2 (label review, 2026-10-06)
+
+You reviewed 103 labels: all 53 at confidence 5 or lower and a random 50 of the rest.
+- **Confident labels hold:** 1 of 50 changed (2%, under the 10% relabel threshold).
+- **Low-confidence labels:** 32 of 53 changed, 25 of them uncertain → AI-involved/core
+  (still shown, only the tag moves), 6 to hide and 1 hide → show. The new and narrowed
+  rules above carry an [R ordinal] tag.
+- **Net direction:** most "uncertain" cases that involve hands-on work *with* AI systems
+  (testing, securing, integrating, platform for ML, forecasting models) are now
+  AI-involved; cases where AI is only a tool, a preference or a vendor CRM feature are hide.
+
