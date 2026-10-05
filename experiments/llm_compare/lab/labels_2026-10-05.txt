@@ -759,3 +759,43 @@
 538|involved|yes|-|7|SDE on travel & expense platform contributing to AI policy-guidance architecture, conversational agents and ML fraud detection; 3+ yrs
 1388|core|no|-|10|staff engineer building agentic AI frameworks, RAG, LLM infrastructure and evaluation; 8+ yrs
 2659|hide|no|-|9|Boomi integration engineering, agentic AI only preferred; 7+ yrs
+785|hide|no|-|10|support operations manager; 8+ yrs
+233|uncertain|no|-|5|staff engineer on cluster resource optimisation enabling AI/ML infrastructure growth (data-centre capacity, ML hardware cost modelling); 8 yrs
+80|hide|no|-|10|cloud migration delivery manager; 10+ yrs
+2159|hide|yes|-|10|technical writer/help-centre release analyst; foundational role
+1345|uncertain|yes|-|5|full-stack product engineer at an AI-agents healthcare startup; title says AI Agents but duties are web/API work; 4+ yrs
+343|core|yes|-|9|software engineer implementing ML solutions with ML infrastructure (deployment, evaluation, optimisation); 2 yrs / 1 with advanced degree
+1910|hide|no|-|9|equity index data team lead; 5+ yrs
+2841|hide|no|-|10|analog design lead; 15+ yrs
+2019|hide|uncertain|-|9|internet infrastructure platform architect; "Senior", no years
+2|hide|yes|open_remote|6|customer support specialist at a legal-AI company, uses AI tools; 2 yrs; "Remote" (USD pay band only)
+348|hide|no|-|7|analog/mixed-signal PHY integration lead for Google Cloud SoCs (AI accelerators not stated); 10 yrs
+160|hide|no|excluded|9|enterprise security senior manager; 5+ yrs management; US pay zones only
+2118|hide|no|-|10|deal management finance; Manager title, no years
+3111|hide|no|-|10|functional-safety software product owner; 8-13 yrs
+361|hide|no|-|10|trust and safety policy manager; 13 yrs
+611|core|yes|-|10|decision scientist building ML credit models (gradient boosting, survival analysis) and experiments; 3+ yrs
+1591|hide|no|-|9|Java full stack, AI coding models only; AVP template
+795|hide|no|-|10|billing/revenue platform staff engineer; 10+ yrs
+216|hide|yes|-|10|systems development engineer (IAM); 2 yrs
+731|involved|no|-|6|solution architect integrating LLMs, RAG and agentic workflows into an AI field-service product; 12+ yrs
+3389|hide|yes|-|10|Paytm city growth role; 3-5 yrs
+1447|hide|no|-|9|Barclays data modeller; AVP title, no AI duties
+2214|uncertain|yes|-|5|S&P senior QE testing agentic AI systems and LLM apps (AI testing partly core); 4+ yrs
+1740|hide|no|excluded|9|Barclays SWE VP; location Whippany, New Jersey
+352|involved|no|-|6|Google Sr SWE building storage for AI/ML workloads (AI infra); 5 yrs
+1425|hide|yes|-|10|Amex operational resilience analyst; 2-3 yrs
+1444|hide|no|-|9|Barclays VP Java lead; no AI duties
+2933|uncertain|no|-|5|NXP sales system architect; Agentforce/AI-ML solutions among CRM duties; 5+ yrs
+1419|hide|yes|-|10|Amex control management BI analyst; 2-5 yrs
+1974|hide|no|-|10|Mastercard lead SWE; 10+ yrs
+3273|hide|no|-|10|Bosch AUTOSAR diagnostics embedded; 5-8 yrs
+3079|hide|no|-|10|Wind River BSP embedded engineer; 5+ yrs
+164|hide|no|open_remote|9|GitLab Sr Manager TPM; AI only in company text; remote
+2644|hide|no|-|10|Cadence Salesforce developer; 8+ yrs
+2391|hide|no|-|10|Palo Alto XSIAM support tech lead; 8+ yrs
+2307|hide|no|-|8|Palo Alto Senior Staff SWE microservices; AI tools/agents only as bonus; 5+ yrs
+2181|hide|no|-|10|PayU customer service manager; 8-10 yrs
+1854|hide|yes|-|9|JPMC UAT testing analyst using approved AI tools; 2 yrs
+2436|hide|no|-|10|Palo Alto sales data operations; 5+ yrs
+434|hide|no|-|10|AWS data center facilities engineer; 5+ yrs
