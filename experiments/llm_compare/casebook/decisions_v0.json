@@ -1,0 +1,284 @@
+{
+ "version": "v0",
+ "exported_at": "2026-10-05T09:06:58.897Z",
+ "types": {
+  "build_ai_internal": {
+   "title": "Builds AI agents or LLM systems for internal teams",
+   "suggest": "show",
+   "decision": "show",
+   "note": ""
+  },
+  "ai_tooling_only": {
+   "title": "Uses AI tools, or AI is only hedged or listed",
+   "suggest": "hide",
+   "decision": "hide",
+   "note": ""
+  },
+  "ai_skill_required": {
+   "title": "Ordinary engineering role that requires AI-building skills",
+   "suggest": "show",
+   "decision": "show",
+   "note": ""
+  },
+  "genai_template_req": {
+   "title": "Google's standard 'integrating GenAI tools into workflows' requirement",
+   "suggest": "uncertain",
+   "decision": "show",
+   "note": ""
+  },
+  "customer_ai": {
+   "title": "Customer-facing engineers for AI products",
+   "suggest": "show",
+   "decision": "show",
+   "note": ""
+  },
+  "consulting_ai": {
+   "title": "Consultants and enterprise architects who advise on AI among other things",
+   "suggest": "uncertain",
+   "decision": "uncertain",
+   "note": ""
+  },
+  "ai_product_strategy": {
+   "title": "Product, program and strategy roles where AI is the main subject",
+   "suggest": "uncertain",
+   "decision": "uncertain",
+   "note": ""
+  },
+  "data_feeding_ml": {
+   "title": "Data engineering, BI and architecture whose output feeds ML",
+   "suggest": "hide",
+   "decision": "hide",
+   "note": ""
+  },
+  "template_text": {
+   "title": "ML appears only in a company or job-family template",
+   "suggest": "hide",
+   "decision": "hide",
+   "note": ""
+  },
+  "ds_titles": {
+   "title": "'Data Scientist' or quant titles doing analytics and statistics",
+   "suggest": "show",
+   "decision": "show",
+   "note": ""
+  },
+  "ai_hardware": {
+   "title": "Chip and hardware work for AI accelerators",
+   "suggest": "show",
+   "decision": "show",
+   "note": ""
+  },
+  "ai_governance_eval": {
+   "title": "Model risk, AI governance, AI quality and AI security",
+   "suggest": "uncertain",
+   "decision": "uncertain",
+   "note": "AI Governance, AI quality and AI security should also be part of jobs that are to be shown but show them as uncertain"
+  },
+  "annotation": {
+   "title": "Data labelling and annotation roles",
+   "suggest": "uncertain",
+   "decision": "hide",
+   "note": ""
+  },
+  "ai_adjacent": {
+   "title": "Systems next to AI, without building it",
+   "suggest": "hide",
+   "decision": "hide",
+   "note": ""
+  }
+ },
+ "jobs": {
+  "10-04:315": {
+   "override": "show",
+   "note": "The team is primarily and majorly involved in AI/ML work so based on that the joining engineer would basically be working on that only, so this should be included. I would say that this should be Substantive.",
+   "company": "google",
+   "title": "Software Engineering Manager II, Google Cloud",
+   "job_key": "v1:external_id:e7e81135e2766e7bcd47190f49e0ca664528d0663eedcc7796d98a2624aafb5e",
+   "type": "template_text"
+  },
+  "10-04:300": {
+   "override": "show",
+   "note": "The team is primarily and majorly involved in AI/ML work so based on that the joining engineer would basically be working on that only, so this should be included. I would say that this should be Substantive. They also explicitly mention that the team is involved in building scalable and automated infrastructure to maintain ML assestes.",
+   "company": "google",
+   "title": "Software Engineer, PhD, Google Cloud Platform",
+   "job_key": "v1:external_id:744902f14984731c1889b0f506582b194309bf412ad31e8e8bb625e4c018dceb",
+   "type": "template_text"
+  },
+  "10-03:335": {
+   "override": "show",
+   "note": "The team is primarily and majorly involved in AI/ML work so based on that the joining engineer would basically be working on that only, so this should be included. I would say that this should be Substantive.",
+   "company": "google",
+   "title": "Software Engineer III, Full Stack, Google Cloud",
+   "job_key": "v1:external_id:d513c26b7ff033ca38cc94956da2161884c2b3c207cc7830d45fb944914328a1",
+   "type": "template_text"
+  },
+  "10-02:1659": {
+   "override": "hide",
+   "note": "",
+   "company": "barclays",
+   "title": "Data Engineer - AWS Cloud Engineer",
+   "job_key": null,
+   "type": "template_text"
+  },
+  "10-02:1660": {
+   "override": "hide",
+   "note": "",
+   "company": "barclays",
+   "title": "Data Engineer - PySpark Developer",
+   "job_key": null,
+   "type": "template_text"
+  },
+  "10-02:1661": {
+   "override": "hide",
+   "note": "",
+   "company": "barclays",
+   "title": "Data Engineer - ETL",
+   "job_key": null,
+   "type": "template_text"
+  },
+  "10-04:1786": {
+   "override": "uncertain",
+   "note": "This is a VP level role that will most probably involves Shaping AI ML strategies. So this should be included only because it's a VP level role which is related to Data and ML.",
+   "company": "barclays",
+   "title": "Data Lead - VP",
+   "job_key": "v1:external_id:164cbd7a779118bbd684e91d67dcc4b6730800d83fea7b23c10ef5ba581aa380",
+   "type": "template_text"
+  },
+  "10-04:1675": {
+   "override": "uncertain",
+   "note": "This is a VP level role that will most probably involves Shaping AI ML strategies. So this should be included only because it's a VP level role which is related to Data and ML.",
+   "company": "barclays",
+   "title": "VP - Data Engineering Lead - IDL Technology",
+   "job_key": "v1:external_id:1b98b3120c427a8cd797814f2707d0d5ab0def2126f4263e20cf45382d723786",
+   "type": "template_text"
+  },
+  "10-04:3329": {
+   "override": "uncertain",
+   "note": "This jobs seems heavily focused on tradition software engineering than AI ML heavy job, but does mention AI ML work so lets keep it uncertain.",
+   "company": "bosch-global-software-technologies",
+   "title": "Technical Architect - Business Tools and IT Service Management",
+   "job_key": "v1:external_id:555ae19e5d14b09a8e4f5b16270585970cf3dd6806b67744c09229148de8d19d",
+   "type": "ai_skill_required"
+  },
+  "10-03:60": {
+   "override": "uncertain",
+   "note": "This jobs seems heavily focused on tradition software engineering than AI ML heavy job, but does mention AI ML work so lets keep it uncertain.",
+   "company": "adobe",
+   "title": "Software Development Engineer",
+   "job_key": "v1:external_id:431ccc7553517b77d9b832a2af05db35666217db70475d3bc776ec842080017e",
+   "type": "ai_skill_required"
+  },
+  "10-03:1669": {
+   "override": "hide",
+   "note": "The role builds enterprise applications and infrastructure, while AI/GenAI appears only in a broad expertise list without explicit AI/ML engineering duties.",
+   "company": "barclays",
+   "title": "Senior Software Engineer",
+   "job_key": "v1:external_id:114f2c3953b6022c537f36f576df523880a93c7d8403d4665760dac8c2f568c9",
+   "type": "ai_skill_required"
+  },
+  "10-04:948": {
+   "override": "hide",
+   "note": "",
+   "company": "salesforce",
+   "title": "Readiness Architect",
+   "job_key": "v1:external_id:9230d3195be7d0e0857d3b60ee33e8d71def53deb3219d3f0dce82c3d70f1208",
+   "type": "customer_ai"
+  },
+  "10-04:1474": {
+   "override": "hide",
+   "note": "You just look at the AI generated logs, your work although has nothing to do with AI. So Hide.",
+   "company": "uptimeai",
+   "title": "Customer Success Engineering – Oil & Gas",
+   "job_key": "v1:external_id:6ebee85626f2d839a71ca71a05e517b04dab4ee0db0ef338255fb556c2b677ef",
+   "type": "customer_ai"
+  },
+  "10-04:2728": {
+   "override": "hide",
+   "note": "The core work is to make go to market strategy and customer engangement. The product you are making the strategy for is an AI product but you have nothing to do with it.",
+   "company": "cadence",
+   "title": "Sr Principal Product Engineer",
+   "job_key": "v1:external_id:de3452bf07ec8c78899164cba246ebdc0f65b2be867e247759cf72d00a267e0a",
+   "type": "customer_ai"
+  },
+  "10-02:850": {
+   "override": "hide",
+   "note": "",
+   "company": "aera-technology",
+   "title": "Sustaining Engineer – Modeling Support",
+   "job_key": null,
+   "type": "customer_ai"
+  },
+  "10-02:1450": {
+   "override": "show",
+   "note": "This is a leadership role that requires working with GenAI and agents. It also naturally involves other things as well as it is a leadership role but that doesn't mean it's not an AI ML sort of role.",
+   "company": "quantiphi",
+   "title": "Client Solutions Partner",
+   "job_key": null,
+   "type": "customer_ai"
+  },
+  "10-04:941": {
+   "override": "hide",
+   "note": "The core role is Salesforce consulting leadership and customer delivery, with AI architecture and AI-assisted development among several areas covered rather than ownership of AI/ML engineering.",
+   "company": "salesforce",
+   "title": "Manager Technical Consulting (Salesforce+ Tech arch+domain(Health/Insurance/Comms/FINS/SF CPQ/Consumer Goods Experience mandatory))",
+   "job_key": "v1:external_id:57d9ea7d74a02b9ca7557419559be74980c83a7671a171724db9554e9c072f65",
+   "type": "consulting_ai"
+  },
+  "10-04:345": {
+   "override": "uncertain",
+   "note": "",
+   "company": "google",
+   "title": "Enterprise Architect, Professional Services, Google Cloud",
+   "job_key": "v1:external_id:3248cb9c348ed7b6430f2e1310ffe4b67b13f4acf31f215f5d75cc9faf7e889e",
+   "type": "consulting_ai"
+  },
+  "10-04:7": {
+   "override": "uncertain",
+   "note": "",
+   "company": "adobe",
+   "title": "Enterprise Architect",
+   "job_key": "v1:external_id:c7e93f2665d5c5fabd14e3ce0828fe390811f7d6c6df88a837f1dc9551ba9f4a",
+   "type": "consulting_ai"
+  },
+  "10-04:889": {
+   "override": "uncertain",
+   "note": "",
+   "company": "salesforce",
+   "title": "Salesforce Senior Architect Manager",
+   "job_key": "v1:external_id:909749a8ec14dc6e5193926f10fd534624b957a9356506ac34ac9fd1163f14b8",
+   "type": "consulting_ai"
+  },
+  "10-04:499": {
+   "override": "show",
+   "note": "",
+   "company": "amazon-aws",
+   "title": "AI Benchmarking Lead, Performance Benchmarking Evaluation",
+   "job_key": "v1:external_id:636c590eefa24b5c898c990ed848559c38fc77250038d456ea3129ab75d1f8e3",
+   "type": "ai_governance_eval"
+  },
+  "10-04:784": {
+   "override": "uncertain",
+   "note": "",
+   "company": "uniphore",
+   "title": "Senior Security Engineer, Identity & Machine Access",
+   "job_key": "v1:external_id:0c83d3eb8036b4240f6ab4a096d05cf6f2af49a62aa672b8f225612c4c6461f1",
+   "type": "ai_governance_eval"
+  },
+  "10-04:1538": {
+   "override": "show",
+   "note": "",
+   "company": "barclays",
+   "title": "Model Risk Management",
+   "job_key": "v1:external_id:0945bec092adeabe00954a79248011f428f6381d97b5c3bd4904d616b4b1d7a3",
+   "type": "ai_governance_eval"
+  },
+  "10-02:1543": {
+   "override": "show",
+   "note": "",
+   "company": "zeta-global",
+   "title": "AI Ops Application Operations Lead",
+   "job_key": null,
+   "type": "ai_governance_eval"
+  }
+ }
+}
