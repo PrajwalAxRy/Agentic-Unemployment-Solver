@@ -839,3 +839,43 @@
 3366|hide|no|-|10|Paytm campaign ops lead; 7-11 yrs
 1418|hide|yes|-|7|Amex Offers business analyst; analytics/statistics, no ML duties; 1-3 yrs
 1436|hide|uncertain|excluded|8|BofA financial solutions advisor; no description; Littlerock area US locations
+927|hide|no|-|10|Coupang senior staff backend engineer; 12+ yrs
+2631|hide|yes|-|10|Cadence ADAS simulation customer service engineer; 2-3 yrs
+457|hide|uncertain|-|9|AWS data center logistics specialist; no years or level marker
+3184|hide|yes|excluded|8|Aptiv automotive lead systems engineer; MS + 3 yrs; Carmel, Indiana
+2750|hide|no|-|10|Cadence virtual prototyping lead solutions engineer; 5+ yrs
+818|hide|no|-|9|Intuit technology audit manager; AI/ML risk knowledge only; 7+ yrs
+3430|hide|no|-|10|Paytm EMI scheme senior manager
+1770|uncertain|no|-|5|JPMC lead SWE building LLM/agent automation for ops remediation, mostly SRE/controls work; 8+ yrs
+394|hide|no|-|10|AWS APAC energy and water principal strategist; 10+ yrs
+2149|hide|no|-|10|Nasdaq Workday Finance technical specialist; 5-11 yrs
+634|hide|uncertain|-|10|Apple retail Expert; sales role, no years
+1284|hide|no|-|9|Uber senior staff mobile engineer; on-device ML/LLM only preferred
+1669|hide|no|-|9|Barclays AVP full stack Java engineer; ML-aware only desirable
+74|hide|no|-|10|Atlassian mid-market sales manager
+1273|hide|yes|india|9|Fractal returnship full-stack React/Java engineer; 4+ yrs; Indian cities listed
+3141|core|no|-|10|Aptiv MLOps engineer for autonomous driving ML (Ray, MLflow); 5+ yrs
+1407|hide|yes|-|7|Amex complaints data analyst; Gen AI output validation is a minor duty; Analyst
+2546|hide|no|-|10|ADI physical design engineer; 5+ yrs
+1052|hide|yes|-|9|Meesho last-mile cluster head; 3-5 yrs
+1604|hide|no|-|10|Barclays AVP DevOps engineer
+2941|hide|no|-|10|NXP lead DFT engineer; 5-8 yrs
+2404|hide|no|-|10|Palo Alto SASE professional services consultant; 8+ yrs
+2050|hide|uncertain|-|9|Mastercard senior full-stack Java/React engineer; AI coding tools only; Senior, no years
+2252|involved|yes|-|6|Visa senior SWE building GenAI/LLM features, RAG and agent integrations alongside backend platform work; 2+ yrs
+1167|hide|uncertain|-|10|D. E. Shaw general Human Capital application
+2494|hide|no|-|10|ADI senior design verification manager; 12+ yrs
+2600|hide|yes|-|10|Cadence IR/EM lead product engineer; 4-7 yrs
+195|core|yes|-|10|Google SWE III AI/ML infrastructure performance engineering; 2 yrs
+208|hide|no|-|10|Google Ads policy specialist; 5 yrs
+2348|hide|yes|-|8|Palo Alto Cortex SOC domain consultant (presales); 5+ yrs or Academy graduate
+2464|hide|no|-|10|Workday absence/time tracking consultant; 8+ yrs
+1713|hide|yes|-|9|Barclays full stack developer; Analyst template
+1014|core|yes|-|10|Level AI senior ML engineer NLP/LLMs/agents; 3+ yrs
+321|involved|yes|-|7|Google content adversarial red team analyst for GenAI products (AI evaluation as core job); 4 yrs
+2994|hide|no|-|10|NXP DevOps LDAP/IAM engineer; 5+ yrs
+222|uncertain|no|-|5|Google Ads AI and knowledge strategist writing prompts and monitoring model grounding for AI support content; 5 yrs
+1641|hide|no|-|10|Barclays senior Avaloq PL/SQL developer; 8+ yrs
+2840|hide|no|-|10|NXP mixed signal verification lead; 10+ yrs
+2060|hide|yes|-|9|Mastercard product commercialisation specialist; AI products only a plus; 2+ yrs
+3279|hide|uncertain|-|9|Bosch STIBO STEP PIM senior developer; Sr., no years
