@@ -27,15 +27,22 @@ def load_labels() -> dict[int, dict]:
         if not line.strip() or line.startswith("#"):
             continue
         ordinal, relevance, seniority, location, conf, reason = line.split("|", 5)
-        labels[int(ordinal)] = {"relevance": relevance, "seniority": seniority,
-                                "location": location, "conf": int(conf), "reason": reason}
+        labels[int(ordinal)] = {
+            "relevance": relevance,
+            "seniority": seniority,
+            "location": location,
+            "conf": int(conf),
+            "reason": reason,
+        }
     return labels
 
 
 def main() -> None:
     labels = load_labels()
-    cases = {int(k): v for k, v in json.loads(
-        (HERE / f"cases_{BATCH}.json").read_text(encoding="utf-8")).items()}
+    cases = {
+        int(k): v
+        for k, v in json.loads((HERE / f"cases_{BATCH}.json").read_text(encoding="utf-8")).items()
+    }
     sets = json.loads((HERE / f"sets_{BATCH}.json").read_text(encoding="utf-8"))
     half = {o: "tune" for o in sets["bench_tune"]} | {o: "test" for o in sets["bench_test"]}
 
@@ -49,21 +56,29 @@ def main() -> None:
     for section, ordinals in (("low", low), ("sample", sample)):
         for o in ordinals:
             case = cases[o]
-            jobs.append({
-                "ordinal": o, "section": section, "half": half.get(o, "?"),
-                "company": case["company"], "title": case["title"],
-                "location": case.get("location_original"),
-                "description": " ".join(case["description"].split()),
-                "label": labels[o],
-            })
+            jobs.append(
+                {
+                    "ordinal": o,
+                    "section": section,
+                    "half": half.get(o, "?"),
+                    "company": case["company"],
+                    "title": case["title"],
+                    "location": case.get("location_original"),
+                    "description": " ".join(case["description"].split()),
+                    "label": labels[o],
+                }
+            )
 
     payload = json.dumps({"batch": BATCH, "jobs": jobs}, ensure_ascii=False)
     html = (HERE / "label_review_template.html").read_text(encoding="utf-8")
     out = HERE / "label_review.html"
-    out.write_text(html.replace("/*__DATA__*/null", payload.replace("</", "<\\/")),
-                   encoding="utf-8")
-    print(f"wrote {out} ({out.stat().st_size // 1024} KB): "
-          f"{len(low)} low-confidence + {len(sample)} sampled = {len(jobs)} jobs")
+    out.write_text(
+        html.replace("/*__DATA__*/null", payload.replace("</", "<\\/")), encoding="utf-8"
+    )
+    print(
+        f"wrote {out} ({out.stat().st_size // 1024} KB): "
+        f"{len(low)} low-confidence + {len(sample)} sampled = {len(jobs)} jobs"
+    )
 
 
 if __name__ == "__main__":

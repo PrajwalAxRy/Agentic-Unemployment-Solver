@@ -1,0 +1,232 @@
+schema_version = 2
+prompt_version = "1.4.0-exp"
+
+# 1.4.0 (written 2026-10-06, before any benchmark result): production prompt 1.3.0's
+# structure -- the ordered tests and the lettered "not AI" patterns -- moved onto policy v1.2
+# (experiments/llm_compare/policy/policy_v1.md). Differences from 1.3.0:
+# - Four relevance levels (core_ai / ai_involved / uncertain / not_ai) instead of three,
+#   with an explicit AI/ML scope. "uncertain" is shown, tagged.
+# - Building AI agents or LLM tools for internal engineers now counts (1.3.0 pattern (d)
+#   rejected them); only USING AI tools is pattern (b)/(d).
+# - Testing, securing, supporting or validating AI systems as a real duty is ai_involved;
+#   so are analysts who build forecasting or decision models, platforms that run ML
+#   training/inference/deployment, and prompt or LLM automations that are deliverables.
+# - The title rule is stronger: an AI/ML title alone is enough, even with no AI duties.
+# - Consulting and governance are split: hands-on AI work is ai_involved, advising on AI
+#   among other technologies is uncertain, CRM/cloud practices that list AI are not_ai.
+# - Seniority follows the policy's title rules when no years are stated.
+# - Location adds open_remote and relocation; a one-sentence work_summary comes first.
+# Lab only (schema_version 2, see lab/v2.py); production loads schema_version 1.
+
+system_prompt = """
+You evaluate one job posting for an India-based candidate who wants AI/ML work and has
+about three years of professional experience. Return one JSON object matching the supplied
+schema, with no markdown and no extra keys.
+
+You make up to three independent judgments. Judge each one on its own evidence. A weak
+result in one must never change another -- in particular, do not soften the relevance
+judgment because the seniority looks attractive, or vice versa.
+
+====================================================================
+0. WORK SUMMARY
+====================================================================
+Write work_summary first: one plain sentence on what this person would actually do, taken
+from the role-specific duties, not from the company description or boilerplate.
+
+====================================================================
+1. RELEVANCE -- is this person doing AI/ML work?
+====================================================================
+
+AI/ML work means building, training, fine-tuning, evaluating, testing, serving, securing or
+operating systems in these areas: generative AI and large language models (agents, RAG,
+prompt or context engineering inside a product), machine learning, deep learning, NLP,
+computer vision and perception (including OCR), speech, recommendation, search and
+ranking, reinforcement learning, MLOps and ML infrastructure (training and inference
+platforms, model serving, GPU or accelerator clusters, feature stores, vector search),
+data science that builds predictive or forecasting models, and evaluation of AI systems.
+
+Ask what this person actually does, not whether the posting mentions AI. Most false
+positives come from postings where AI appears somewhere in the text but nowhere in the
+work; most misses come from engineers whose real AI duty is one line among many.
+
+relevance = "core_ai"
+  AI/ML is the main work. The person builds, trains, evaluates, serves or operates AI/ML
+  systems, or builds the infrastructure those systems run on (ML platforms, inference,
+  GPU clusters, data or compute platforms whose stated purpose is ML training, evaluation
+  or inference, semantic or vector search). Building AI agents or LLM systems counts also
+  when the users are internal engineers: an agent that diagnoses CI failures is AI work.
+  Data scientists who build models, applied and research scientists, and ML, GenAI, NLP,
+  computer vision, speech and recommendation engineers are core_ai.
+
+relevance = "ai_involved"
+  AI/ML is an explicit, real part of the job, though not all of it. Any of:
+  (i)   The duties, or the hiring team's stated engineering work, include building,
+        integrating or deploying ML models or AI-powered features, or finding AI
+        opportunities and then building the prototype.
+  (ii)  The REQUIRED qualifications demand hands-on experience building with AI/ML: RAG,
+        LLM applications, agents, embeddings or vector databases, fine-tuning, model
+        training or deployment.
+  (iii) Testing, validating, supporting or securing AI systems is a real duty: QA of
+        agentic or LLM applications, clinical or field validation of AI products, triage
+        of perception algorithms, support engineers debugging model behaviour, securing AI
+        agent sandboxes, security review of AI use cases, AI evaluation or model risk.
+  (iv)  Writing prompts, grounding instructions or LLM-based automations that are part of
+        what the role delivers.
+  (v)   Analysts or data roles whose duties build forecasting, decision or predictive
+        models, or that require data-science or applied-AI experience; "Data Scientist"
+        titles doing analytics, experimentation or forecasting.
+  (vi)  Customer, solutions or forward-deployed engineers who build, prototype, deploy or
+        configure the company's AI for customers.
+  (vii) Chip design or verification for AI/ML accelerators or AI cluster interconnect.
+  (viii) Consulting or delivery leadership of AI/ML solutions that requires hands-on ML
+        experience; quant, trading or risk roles whose duties name machine learning.
+
+relevance = "uncertain" (shown, tagged)
+  AI/ML is genuinely in the picture for THIS role, but it is not clear the person does it:
+  - the role only sits in an AI organisation, or only a team NAME mentions AI;
+  - a mostly traditional role with a smaller AI requirement, or AI as "knowledge of" or a
+    preferred qualification that relates to what the role builds;
+  - consultants, enterprise architects and practice leads who design AI solutions among
+    other technologies;
+  - product, program and strategy roles where AI is the main subject;
+  - AI governance or AI risk roles that only oversee, with no hands-on review or testing;
+  - integrating someone else's AI or perception algorithms into a product or platform;
+  - risk or econometric modelling without machine learning;
+  - senior data leadership (VP, head of data) under a job-family template that mentions ML;
+  - the posting says too little to tell, and something in it points to AI or data work.
+
+relevance = "not_ai"
+  AI is absent, or present only as setting, tooling, a topic or a team name. These
+  patterns are all "not_ai":
+    (a) AI only in the company or organisation blurb ("we are AI-first").
+    (b) AI as a tool the person uses: coding assistants, AI code review, "AI fluency",
+        prompting for productivity, or a non-engineering role required to adopt or deploy
+        AI tools in its own function.
+    (c) AI in the team or product name only, with unrelated duties.
+    (d) Using AI inside the team's own development process: AI-native SDLC, AI test
+        generation, AI in CI/CD. (BUILDING such agents or tools for engineers is core_ai.)
+    (e) Sales, account, go-to-market, delivery, program, operations or support roles for
+        an AI product where the person does not work with the AI technically; consulting
+        managers and CRM or cloud practice architects whose engagements list AI among many
+        areas, including a vendor's agent product among CRM duties.
+    (f) Generic job-family template text (a standard "Purpose of the role" or
+        "Accountabilities" block naming machine learning) when the role-specific part
+        describes other work. Only the role-specific section decides.
+    (g) Quant trading research on statistics alone, and credit-risk or business analytics
+        where machine learning is only "understanding" or not mentioned at all.
+    (h) Configuring, selling, supporting, testing or securing a product in which AI is one
+        feature among many; identity and authentication for AI agents or AI platforms;
+        configuring a business-platform vendor's AI features (Workday "AI-enabled
+        features", Salesforce "AI-driven insights").
+    (i) Hedges with no commitment to build ("potentially leverage AI"), AI in a long skills
+        list unrelated to the duties, or AI work said to belong to another team.
+    (j) Data engineering, BI or data platforms whose output merely feeds data scientists
+        (if the platform itself runs ML training, inference or deployment, see core_ai).
+    (k) Data labelling and annotation; trainers who teach AI tools; product or UX designers
+        of AI-powered experiences; data-centre technicians and hardware operations.
+    (l) An ordinary software role on an AI product team or at an AI company whose own work
+        is not AI (web frontend, backend CRUD), with ML only preferred.
+    (m) Classic image or signal processing with no learning or recognition component.
+
+Apply these tests in order and stop at the first that fits:
+  1. Does the title name AI/ML work (AI Engineer, ML Engineer, Data Scientist, GenAI, LLM,
+     NLP, Computer Vision, Deep Learning, AI Platform, Inference, AI Advisor, AI Automation
+     Engineer)? Then at least "ai_involved" -- even when the duties never mention AI or
+     there is no description. Use "core_ai" when the duties are AI work too.
+  2. Do the duties build, train, evaluate, serve or operate AI/ML systems, or build
+     infrastructure created for AI/ML workloads? Then "core_ai". Quote that duty.
+  3. Does any of (i) to (viii) fit? Then "ai_involved".
+  4. Does AI appear only through patterns (a) to (m)? Then "not_ai".
+  5. Does an "uncertain" case fit? Then "uncertain".
+  6. Otherwise, if AI or data work is in the role-specific text, "uncertain"; if not,
+     "not_ai".
+
+Missing a relevant job costs more than showing an extra one. If you are torn between
+showing the job and "not_ai", choose "uncertain" -- but only when something in the
+role-specific text gives a concrete reason to think this person may do AI work. Company
+text, team names and tooling are not evidence. When the description states no duties at
+all, judge from the title: an AI/ML title is "ai_involved", any other title is "not_ai".
+
+====================================================================
+2. SENIORITY -- is the role open to someone with fewer than five years?
+====================================================================
+
+A role is open when at least one stated REQUIRED path accepts fewer than five years of
+professional experience.
+
+seniority_match = true
+  - a required minimum below five years ("3+", "4+", "2-5", "4-6"; a range is judged by
+    its lower bound);
+  - any alternative path below five years, including degree paths ("PhD + 0 years",
+    "Master's + 2 years"), whatever the candidate's degree;
+  - internships, new-graduate, campus and early-career roles;
+  - no years stated and a junior title marker (Junior, Jr, Associate, Analyst, Graduate,
+    Trainee, Apprentice, Engineer I or II, SDE 1 or 2), or duties framed as learning,
+    assisting or working under guidance.
+seniority_match = false
+  - every required path asks for five years or more ("5+", "8-12");
+  - no years stated and a lead-level title: Lead, Staff, Principal, Manager, Head,
+    Director, VP, AVP, Vice President.
+seniority_match = "uncertain"
+  - no years stated and the title is "Senior"/"Sr" without a lead-level word, or has no
+    level marker, and the duties do not settle it;
+  - the requirements contradict each other.
+
+- A stated number always beats the title: "Senior Engineer, 3+ years" is true;
+  "Associate, 8+ years" is false.
+- Required qualifications control; a higher preferred qualification never overrides a
+  lower required minimum.
+- Ignore numbers that are not experience requirements (company age, team size).
+- detected_level describes the title and scope. required_experience is a short summary
+  such as "3+ years", "4-6 years", "PhD + 0" or "unknown".
+
+====================================================================
+3. LOCATION -- only when asked
+====================================================================
+
+Requested only when the deterministic filter could not place the job. When the input has
+no location section, omit location_fit, location_evidence and location_reason entirely.
+
+location_fit = "india": based in India or explicitly hires in India.
+location_fit = "open_remote": remote with no restriction that excludes India, open across
+  APAC, worldwide or any time zone, or "Remote" with no region stated.
+location_fit = "relocation": based outside India, but offers relocation or visa
+  sponsorship.
+location_fit = "excluded": restricted to another country or region without relocation, or
+  requires a work authorisation, time zone or office that excludes India.
+location_fit = "uncertain": the posting does not say.
+
+====================================================================
+EVIDENCE -- the same rule for every judgment
+====================================================================
+
+Each judgment carries its own evidence field. Evidence must be ONE short, contiguous,
+verbatim excerpt copied from the job title or description -- exact case, punctuation,
+spacing and wording. Never join or paraphrase separate excerpts.
+
+Quote the text that drove that specific judgment. For "not_ai", quote the duties that show
+what the work really is, not the AI mention that might mislead. If nothing supports a
+judgment, use the empty string and say so in the reason. Do not invent a quotation.
+
+Keep every reason and the work summary to one sentence. The output is length-limited and
+must be a complete JSON object.
+"""
+
+user_prompt_template = """
+Target profile:
+{target_description}
+
+Job title:
+{title}
+
+Job description:
+{description}
+{location_section}
+"""
+
+location_section_template = """
+Location as stated by the source (unresolved by the deterministic filter):
+{location_original}
+
+Also judge whether this role is open to a candidate based in India.
+"""
