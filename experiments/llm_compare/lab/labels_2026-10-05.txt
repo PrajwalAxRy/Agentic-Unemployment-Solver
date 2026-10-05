@@ -799,3 +799,43 @@
 1854|hide|yes|-|9|JPMC UAT testing analyst using approved AI tools; 2 yrs
 2436|hide|no|-|10|Palo Alto sales data operations; 5+ yrs
 434|hide|no|-|10|AWS data center facilities engineer; 5+ yrs
+1198|involved|uncertain|-|7|Quadeye quant researcher applying ML to predictive trading signals; no years or level marker
+3414|hide|yes|-|8|Paytm ads PM; AI/ML ad products only preferred; 3-8 yrs
+2148|hide|no|-|10|Nasdaq Salesforce developer; AI tools only; 8+ yrs
+1368|hide|no|-|10|Dozee hardware procurement; 6+ yrs
+1905|hide|no|-|9|LSEG reference data manager; Manager career stage
+3357|hide|yes|-|10|Paytm lending business analyst; AI tools for reporting only; 2-5 yrs
+531|uncertain|no|-|5|Amazon finance manager; requires building/deploying automation or AI tools in finance; Manager title
+15|hide|no|-|10|Adobe Marketo architect; 14+ yrs
+1038|hide|uncertain|excluded|9|Eightfold agentic AI sales specialist; sells AI only; Remote, United States
+983|hide|no|-|9|Okta senior SET; AI test tools preferred only; 5+ yrs
+692|hide|yes|-|10|Broadcom physical design R&D engineer; 4-8 yrs
+2090|uncertain|uncertain|-|7|Mastercard senior technical PM owning GenAI/agentic roadmap (AI product role); Senior, no years
+1748|core|no|-|10|JPMC LLM agents applied research ED; PhD 8+/MS 12+
+32|hide|no|-|10|Adobe Experience Cloud enterprise architect; 12+ yrs
+883|hide|no|uncertain|8|Salesforce Sr Manager HRIS data strategy; no description; 3 unnamed locations
+2321|hide|no|-|10|Palo Alto IAM .NET engineer; 5+ yrs
+879|uncertain|no|-|6|Salesforce field service TA; designs/integrates predictive and generative AI among CRM duties; 9-14 yrs
+2851|hide|yes|-|10|NXP entry-level data engineer; no ML; 1+ yrs
+661|hide|no|-|9|Broadcom staff Java engineer; AI code assistants/agentic tooling use only; 8-12 yrs
+281|hide|no|-|10|Google Cloud platform customer engineer; 10 yrs
+3569|hide|yes|-|10|Porter trainee business associate; field sales/ops
+876|hide|no|-|9|Salesforce senior technical consultant; AI coding assistants only; 6+ yrs
+1398|hide|yes|-|10|Amex Oracle FCCS financial systems analyst; 3+ yrs
+2415|hide|yes|-|10|Palo Alto senior technical support engineer; 3 yrs
+1323|hide|no|-|10|Quantiphi healthcare data architect; 8-13 yrs
+1509|hide|no|-|10|Barclays VP liquidity risk reporting
+2512|uncertain|yes|-|6|ADI industrial engineer; designs predictive models and AI-enabled analytics among capacity/scheduling duties; 3-8 yrs
+1031|hide|yes|-|8|Eightfold data platform engineer; no ML duties; 3+ yrs
+1947|hide|no|-|10|LSEG QA manager; AI tools only; 10+ yrs
+1553|core|yes|-|7|Barclays data scientist developing and deploying ML models; Analyst template, no years
+493|hide|yes|-|10|Amazon transportation specialist I
+1027|core|no|-|8|Eightfold lead ML engineer (LLM fine-tuning, ML pipelines); Lead title, 6-10 yrs
+1945|hide|no|-|10|LSEG workforce planning specialist; 8-11 yrs
+1450|hide|no|-|9|Barclays AVP FinCrime MI data manager; ML/AI only in template
+3187|hide|yes|-|10|Bosch automotive flash bootloader engineer; 4-8 yrs
+628|hide|yes|-|10|Amazon WHS safety officer; 1+ yrs
+260|involved|no|-|7|Google ads fraud engineering analyst manager leading AI clustering models and AI agent training; 7 yrs
+3366|hide|no|-|10|Paytm campaign ops lead; 7-11 yrs
+1418|hide|yes|-|7|Amex Offers business analyst; analytics/statistics, no ML duties; 1-3 yrs
+1436|hide|uncertain|excluded|8|BofA financial solutions advisor; no description; Littlerock area US locations
