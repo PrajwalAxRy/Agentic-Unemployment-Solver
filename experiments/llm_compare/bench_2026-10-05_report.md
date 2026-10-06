@@ -91,3 +91,28 @@ Relevant jobs now: tune 107 (40 shown end to end), test 88 (29). The ranking is 
 v10 misses far fewer jobs than 1.3.0 for a few more extras. Its remaining tuning-half
 misses are the new uncertain grey zone (76, 555, 1536, 2514); its visible extras are the
 "using AI tools" and vague-mention patterns listed above.
+
+## Addendum 2026-10-06: Luna reasoning effort (default / high / xhigh, 3 calls per job each)
+
+`run_effort_2026-10-05.sh`, scored on the re-checked truth. Shown jobs missed / extra per
+call, tuning + sealed halves added (966 jobs, 69 shown end to end):
+
+| | default | high | xhigh |
+|---|---|---|---|
+| 1.3.0 | 8.4 / 14.3 | 8.7 / 16.0 | 8.7 / 16.0 |
+| 1.4.0 | 2.3 / 28.3 | 2.3 / 25.0 | 3.3 / 26.0 |
+| **v10** | 3.3 / 20.0 | 2.0 / 21.6 | **1.3 / 22.6** |
+
+v10 per half: default 1.3 / 12.3 tune, 2.0 / 7.7 test; high 1.0 / 11.3, 1.0 / 10.3;
+xhigh 0.3 / 10.3, 1.0 / 12.3. Cost per call (v10): $0.00029 / $0.00038 / $0.00053.
+Seconds per call (v10, mean / p95): 3.7 / 5.8, 5.6 / 9.5, 6.1 / 12.1.
+
+- Effort does nothing for 1.3.0 and nothing consistent for 1.4.0.
+- With v10, higher effort steadily removes misses (3.3 -> 2.0 -> 1.3) for 1-3 more extras.
+  High vs xhigh differ by under one job per 1,000 and are within noise of each other.
+- Earlier finding 4 ("xhigh does not help") was measured on the pre-re-check labels with
+  two xhigh calls per job; it does not hold for v10 on the re-checked labels.
+- Production is single-threaded: a 3,677-job evaluation at ~3.7 s/call takes about 3.8 h
+  at default and about 6.2 h at xhigh (5.7 h at high). Cost per such scan: about $1.07 /
+  $1.40 / $1.95. The benchmark over-samples hard jobs, so per-scan error counts are not a
+  simple multiple of the table.
