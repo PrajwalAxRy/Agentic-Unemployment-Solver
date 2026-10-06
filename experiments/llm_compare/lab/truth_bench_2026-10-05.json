@@ -216,13 +216,14 @@
   "source": "claude"
  },
  "76": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "no",
   "location": "-",
   "conf": 9,
   "reason": "data platform engineering; ML data foundations only nice-to-have; 12+ yrs",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): ML-platform data foundations (training data, feature parity) preferred for the data platform it builds"
  },
  "78": {
   "relevance": "core",
@@ -2089,13 +2090,14 @@
   "source": "claude"
  },
  "849": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "no",
   "location": "-",
   "conf": 8,
   "reason": "Salesforce data architecture consulting manager, generative AI one advisory item; 10-15 yrs",
   "half": "test",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): Salesforce architect integrating predictive/generative AI elements among CRM duties (consistent with 834/892/900)"
  },
  "850": {
   "relevance": "hide",
@@ -2251,13 +2253,14 @@
   "source": "claude"
  },
  "915": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "no",
   "location": "-",
   "conf": 6,
   "reason": "full-stack product engineer; requirements mention AI tools and validating model predictions but duties are not AI; 6+ yrs",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): required: validating datasets, model predictions and inference consistency"
  },
  "920": {
   "relevance": "core",
@@ -2684,13 +2687,14 @@
   "source": "claude"
  },
  "1079": {
-  "relevance": "hide",
+  "relevance": "involved",
   "seniority": "no",
   "location": "-",
   "conf": 10,
   "reason": "logistics network control tower; 5-8 yrs",
   "half": "test",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): builds predictive volume models for capacity planning"
  },
  "1081": {
   "relevance": "hide",
@@ -3152,13 +3156,14 @@
   "source": "claude"
  },
  "1259": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "no",
   "location": "-",
   "conf": 10,
   "reason": "Fractal full-stack architect; 9+ yrs",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): integrates the data-science team's algorithmic output via REST (integrating someone else's AI)"
  },
  "1262": {
   "relevance": "core",
@@ -3197,13 +3202,14 @@
   "source": "claude"
  },
  "1273": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "yes",
   "location": "india",
   "conf": 9,
   "reason": "Fractal returnship full-stack React/Java engineer; 4+ yrs; Indian cities listed",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): integrates the data-science team's algorithmic output via REST (integrating someone else's AI)"
  },
  "1274": {
   "relevance": "hide",
@@ -3269,13 +3275,14 @@
   "source": "claude"
  },
  "1284": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "no",
   "location": "-",
   "conf": 9,
   "reason": "Uber senior staff mobile engineer; on-device ML/LLM only preferred",
   "half": "test",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): on-device ML, model deployment and LLM experiences preferred for the mobile platform it architects"
  },
  "1293": {
   "relevance": "hide",
@@ -3557,13 +3564,14 @@
   "source": "claude"
  },
  "1407": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "yes",
   "location": "-",
   "conf": 7,
   "reason": "Amex complaints data analyst; Gen AI output validation is a minor duty; Analyst",
   "half": "test",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): duties include assisting validation of model and Gen AI work (validating AI as a minor real duty)"
  },
  "1410": {
   "relevance": "hide",
@@ -3603,13 +3611,14 @@
   "source": "claude"
  },
  "1418": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "yes",
   "location": "-",
   "conf": 7,
   "reason": "Amex Offers business analyst; analytics/statistics, no ML duties; 1-3 yrs",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): requires analytics/data-science domain experience"
  },
  "1419": {
   "relevance": "hide",
@@ -3882,13 +3891,14 @@
   "source": "claude"
  },
  "1536": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "no",
   "location": "-",
   "conf": 9,
   "reason": "Barclays AVP macro business management MI; AI tools only",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): team produces revenue forecasting and budgeting models"
  },
  "1539": {
   "relevance": "hide",
@@ -3909,13 +3919,14 @@
   "source": "claude"
  },
  "1543": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "no",
   "location": "-",
   "conf": 9,
   "reason": "Barclays VP engineering manager Java; GenAI/agents only desirable",
   "half": "test",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): GenAI, LLM integrations, agentic frameworks and vector databases valued"
  },
  "1544": {
   "relevance": "hide",
@@ -4089,13 +4100,14 @@
   "source": "claude"
  },
  "1599": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "yes",
   "location": "-",
   "conf": 6,
   "reason": "Java/Angular full stack, AI coding tools required; GenAI/agents/LLM only in \"highly valued\" extras; Analyst level",
   "half": "test",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): GenAI/agentic frameworks, LLMs and prompt engineering valued for the software this team builds (preferred AI related to the role)"
  },
  "1602": {
   "relevance": "hide",
@@ -4485,13 +4497,14 @@
   "source": "claude"
  },
  "1753": {
-  "relevance": "hide",
+  "relevance": "involved",
   "seniority": "no",
   "location": "-",
   "conf": 9,
   "reason": "engineering senior manager driving AI-assisted engineering adoption (uses AI); 5+ yrs",
   "half": "test",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): title names AI ('Java, AWS, AI'); title rule, like R1770"
  },
  "1756": {
   "relevance": "hide",
@@ -4629,13 +4642,14 @@
   "source": "claude"
  },
  "1808": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "no",
   "location": "-",
   "conf": 7,
   "reason": "Linux standard OS images and automation; \"using AI\" for OS certification and agents only preferred; 5+ yrs",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): building AI agents and agentic workflows for infrastructure preferred"
  },
  "1814": {
   "relevance": "hide",
@@ -5899,13 +5913,14 @@
   "source": "user"
  },
  "2234": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "no",
   "location": "-",
   "conf": 10,
   "reason": "card portfolio consulting, GenAI preferred only; 8-12 yrs",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): forecast analytics with propensity, uplift and attrition models"
  },
  "2239": {
   "relevance": "hide",
@@ -6034,13 +6049,14 @@
   "source": "claude"
  },
  "2307": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "no",
   "location": "-",
   "conf": 8,
   "reason": "Palo Alto Senior Staff SWE microservices; AI tools/agents only as bonus; 5+ yrs",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): integrating AI agents, LLM APIs or RAG into enterprise workflows preferred"
  },
  "2309": {
   "relevance": "involved",
@@ -6520,13 +6536,14 @@
   "source": "claude"
  },
  "2514": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "yes",
   "location": "-",
   "conf": 10,
   "reason": "associate industrial engineer, capacity analytics; 0-2 yrs",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): supports validation of forecasting models; data-science coursework preferred"
  },
  "2515": {
   "relevance": "involved",
@@ -6763,13 +6780,14 @@
   "source": "claude"
  },
  "2617": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "yes",
   "location": "-",
   "conf": 8,
   "reason": "computational aeroelasticity solver development; ML/reduced-order modelling only preferred; PhD, 0-5 yrs",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): ML / reduced-order modelling preferred for the simulation software it builds (preferred AI related to the role)"
  },
  "2619": {
   "relevance": "hide",
@@ -6871,13 +6889,14 @@
   "source": "claude"
  },
  "2659": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "no",
   "location": "-",
   "conf": 9,
   "reason": "Boomi integration engineering, agentic AI only preferred; 7+ yrs",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): building agentic AI modules with Boomi preferred"
  },
  "2661": {
   "relevance": "hide",
@@ -7852,13 +7871,14 @@
   "source": "claude"
  },
  "3062": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "no",
   "location": "-",
   "conf": 6,
   "reason": "automotive functional safety assessor; AI safety (ISO 8800) one of several standards advised on; 10+ yrs",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): advises on AI safety (ISO 8800) for AI-enabled automotive systems (AI governance oversight)"
  },
  "3066": {
   "relevance": "hide",
@@ -7924,13 +7944,14 @@
   "source": "user_confirmed"
  },
  "3092": {
-  "relevance": "hide",
+  "relevance": "involved",
   "seniority": "no",
   "location": "-",
   "conf": 7,
   "reason": "data engineering manager building ML-ready ADAS data platforms (data feeding ML); Manager title, no years",
   "half": "test",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): leads a data platform built for AI/ML and MLOps teams (platform whose stated purpose is ML)"
  },
  "3099": {
   "relevance": "hide",
@@ -8032,13 +8053,14 @@
   "source": "claude"
  },
  "3147": {
-  "relevance": "hide",
+  "relevance": "uncertain",
   "seniority": "no",
   "location": "-",
   "conf": 9,
   "reason": "cloud platform architecture lead, MLOps practices only mentioned; 14+ yrs",
   "half": "test",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): guides teams on MLOps practices (smaller AI part)"
  },
  "3148": {
   "relevance": "hide",
@@ -8590,22 +8612,24 @@
   "source": "claude"
  },
  "3357": {
-  "relevance": "hide",
+  "relevance": "involved",
   "seniority": "yes",
   "location": "-",
   "conf": 10,
   "reason": "Paytm lending business analyst; AI tools for reporting only; 2-5 yrs",
   "half": "tune",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): designs data-driven prioritisation models (analyst building decision models, R1674)"
  },
  "3358": {
-  "relevance": "hide",
+  "relevance": "involved",
   "seniority": "no",
   "location": "-",
   "conf": 10,
   "reason": "business/growth analytics; 5-7 yrs",
   "half": "test",
-  "source": "claude"
+  "source": "recheck_v1.2",
+  "note": "v1.2 recheck (was hide): develops forecasting and scenario models for GMV and revenue (analyst forecasting models)"
  },
  "3363": {
   "relevance": "hide",

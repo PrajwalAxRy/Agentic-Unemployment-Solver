@@ -59,3 +59,35 @@ ML), but only the 103 reviewed jobs were relabelled. Unreviewed jobs those rules
 are still labelled by v1.1, so some "extras" (3357, 1418 above) may be label errors under
 v1.2. A rule-driven relabel of the unreviewed labels, made without looking at model
 answers for the test half, should precede tuning.
+
+## Addendum 2026-10-06: v1.2 re-check of unreviewed labels
+
+All 1,000 labels were checked against the v1.2 rules without new model calls. Candidates
+were picked by rule from the job text alone (AI title; forecasting, decision or predictive
+models; testing, validating or securing AI; platforms for ML; prompts): 139 unreviewed
+"hide" labels, of which 24 changed (source `recheck_v1.2` in the truth file, with the
+reason). 19 became uncertain (integrating someone else's AI, preferred AI related to what
+the role builds, AI-oversight duties) and 5 AI-involved (analysts building forecasting or
+decision models, an AI title, an ML data platform). Only 7 change what is shown end to end
+(tune 1273, 1418, 2514, 2617, 3357; test 1599, 1407); the rest are closed by seniority.
+Disclosure: for four of the tuning jobs (1273, 1418, 2617, 3357) v10's answer had already
+been seen in the extras list above; they were changed because a written rule covers them.
+No test-half model answer was looked at.
+
+Kept hidden where the AI-title rule conflicts with a more specific v1.2 hide rule (for the
+user to decide): 121 "Lead Product Designer, AI" (UX designers of AI), 453 "ML Data
+Operations" associate (annotation), 53 "AI Studio" content operations, 1035/1036/1038
+"Agentic Acquisition Specialist" (sales), 1399 "AI Enablement" analyst (AI tool training).
+
+Re-scored, Luna default, per call (shown missed / extra end to end):
+
+| | tune | test (sealed) | relevance missed tune / test |
+|---|---|---|---|
+| 1.3.0 | 5.7 / 10.3 | 2.7 / 4.0 | 15.3 / 13.3 |
+| 1.4.0 | 1.3 / 16.0 | 1.0 / 12.3 | 4.0 / 3.7 |
+| **v10** | **1.3 / 12.3** | **2.0 / 7.7** | **4.0 / 5.0** |
+
+Relevant jobs now: tune 107 (40 shown end to end), test 88 (29). The ranking is unchanged:
+v10 misses far fewer jobs than 1.3.0 for a few more extras. Its remaining tuning-half
+misses are the new uncertain grey zone (76, 555, 1536, 2514); its visible extras are the
+"using AI tools" and vague-mention patterns listed above.
