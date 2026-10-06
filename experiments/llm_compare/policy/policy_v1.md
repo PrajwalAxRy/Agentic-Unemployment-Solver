@@ -99,7 +99,10 @@ areas [scope discussion]:
 - The title clearly names AI/ML work (AI Engineer, ML Engineer, Data Scientist, NLP,
   Computer Vision, Deep Learning, AI Platform, Inference, Gen AI, AI Advisor, AI Automation
   Engineer). The title alone is enough: show even when the description has no AI duties or
-  there is no description. [Q15, Q22, R1607, R1770, R2272, R1024]
+  there is no description. [Q15, Q22, R1607, R1770, R2272, R1024] The title must name AI
+  *work*: an AI product name or an AI-flavoured job name does not override a more specific
+  hide rule (AI product designers, annotation, sales of AI, AI-tool enablement).
+  [decision 2026-10-06 on 53, 121, 453, 1035-1038, 1399]
 - "Data Scientist" titles doing analytics, experimentation or forecasting. [CB ds_titles,
   Q2e]
 - Google's standard requirement "experience integrating generative AI tools or LLM
@@ -117,7 +120,9 @@ areas [scope discussion]:
 - Testing, validating, supporting or securing AI systems as a real duty: QA of agentic and
   LLM apps, clinical validation of AI products, triage of perception algorithms, support
   engineers debugging model behaviour, security of AI agent sandboxes, security review of
-  AI use cases. [R2214, R741, R3119, R72, R1204, R2229]
+  AI use cases. [R2214, R741, R3119, R72, R1204, R2229] The thing under test must be an
+  AI system: using AI tools to test ordinary software is "using AI tools" (hide).
+  [benchmark finding 2026-10-06]
 - Writing prompts or LLM automations that are part of the deliverable (prompt and grounding
   work for an AI support product, LLM-based security automations). [R222, R749]
 - Analysts whose duties build forecasting or decision models, or roles that require

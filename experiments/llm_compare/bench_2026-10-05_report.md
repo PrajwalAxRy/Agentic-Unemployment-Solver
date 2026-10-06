@@ -116,3 +116,13 @@ Seconds per call (v10, mean / p95): 3.7 / 5.8, 5.6 / 9.5, 6.1 / 12.1.
   at default and about 6.2 h at xhigh (5.7 h at high). Cost per such scan: about $1.07 /
   $1.40 / $1.95. The benchmark over-samples hard jobs, so per-scan error counts are not a
   simple multiple of the table.
+
+## Decisions 2026-10-06
+
+- **Effort for production: Luna high.** The user chose high over xhigh (about half an hour
+  less per scan, within noise of xhigh on misses).
+- **Title-rule conflicts stay hidden** (53, 121, 453, 1035-1038, 1399); recorded in policy
+  v1.2 under the title rule.
+- **No broad tuning.** Misses are at the noise floor of a 69-positive benchmark; one
+  targeted fix only: prompt v11 = v10 + "testing with AI tools is not testing AI systems",
+  measured against v10 at high effort by `run_v11_2026-10-05.sh`.
