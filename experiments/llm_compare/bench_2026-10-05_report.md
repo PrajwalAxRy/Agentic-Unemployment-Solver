@@ -126,3 +126,16 @@ Seconds per call (v10, mean / p95): 3.7 / 5.8, 5.6 / 9.5, 6.1 / 12.1.
 - **No broad tuning.** Misses are at the noise floor of a 69-positive benchmark; one
   targeted fix only: prompt v11 = v10 + "testing with AI tools is not testing AI systems",
   measured against v10 at high effort by `run_v11_2026-10-05.sh`.
+
+## Addendum 2026-10-06: v11 vs v10 at Luna high (3 calls per job) -- v11 rejected
+
+Shown missed / extra per call: tune v10 1.0 / 11.3, v11 2.0 / 9.0; sealed test v10 1.0 /
+10.3, v11 1.3 / 12.3. Jobs flipping between calls: tune 12 -> 8, test 7 -> 13. Same cost.
+
+The fix did what it targeted on the tuning half (2822, a QA role prompt-engineering its
+tests, left the extras), but the stronger "using AI tools" wording spilled over: on 3357, an
+analyst who designs decision models and also uses AI tools for reporting, v11 answered
+not_ai on 2 of 3 calls ("AI tools are mentioned only as a way to automate reporting"), a
+new miss. On the sealed half v11 is slightly worse on both misses and extras. All
+differences are about one job, i.e. within noise, and the agreed rule was "if it adds a
+miss, stay on v10". **Production prompt: v10, Luna high effort.**
