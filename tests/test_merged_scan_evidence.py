@@ -235,5 +235,40 @@ def test_an_ai_involved_match_is_distinguishable_in_the_rendered_report(
     markdown = render_scan_markdown(report)
 
     assert report.matching_jobs[0].relevance == "ai_involved"
-    assert "| Relevance |" in markdown
-    assert "ai_involved" in markdown
+    assert "| Relevance | What you'd do |" in markdown
+    assert "| AI-involved | Trains and deploys production machine learning models. |" in markdown
+
+
+def test_match_rows_are_ordered_core_then_involved_then_uncertain() -> None:
+    """Policy v1.2 section 1: core AI before AI-involved; uncertain shown last, tagged."""
+    from job_finder.reporting.scan_report import _matching_table
+    from job_finder.scan import MatchingJobRecord
+
+    def row(title: str, relevance: str | None) -> MatchingJobRecord:
+        return MatchingJobRecord(
+            company_name="Example",
+            title=title,
+            location="Bengaluru",
+            publication_date=None,
+            raw_date_text=None,
+            date_basis="first_seen",
+            first_seen_at="2026-10-06T00:00:00+00:00",
+            seniority_decision="match",
+            seniority_evidence="3+ years",
+            seniority_reason="Below five years.",
+            canonical_url="https://example.com/job",
+            relevance=relevance,
+        )
+
+    lines = _matching_table(
+        (
+            row("Uncertain role", "uncertain"),
+            row("Legacy role", None),
+            row("Involved role", "ai_involved"),
+            row("Core role", "core_ai"),
+        )
+    )
+
+    titles = [line.split(" | ")[1] for line in lines[2:]]
+    assert titles == ["Core role", "Involved role", "Uncertain role", "Legacy role"]
+    assert "| uncertain |" in lines[4]

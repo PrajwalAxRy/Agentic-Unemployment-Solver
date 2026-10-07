@@ -128,13 +128,17 @@ class MatchingJobRecord:
     seniority_evidence: str
     seniority_reason: str
     canonical_url: str
-    # 2.6 tiers peripheral below substantive, but until now the report rendered them
-    # identically -- the tiering existed only as a counter, so the one signal telling you
-    # which rows deserve a click never reached the page. None under --seniority-only,
-    # which makes no relevance judgment at all.
+    # 2.6 tiers matches by relevance (core_ai, then ai_involved, then uncertain; 1.x rows
+    # carry substantive / peripheral), but the report once rendered them identically -- the
+    # tiering existed only as a counter, so the one signal telling you which rows deserve
+    # a click never reached the page. None under --seniority-only, which makes no
+    # relevance judgment at all.
     relevance: str | None = None
     relevance_reason: str | None = None
     new_identity: bool = True
+    # Prompt 2.0.0's one sentence on what the person would do. None on rows judged
+    # under 1.x or --seniority-only.
+    work_summary: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -1176,6 +1180,7 @@ def _matching_job(
         # cached path -- which has no judgment in hand -- still reports the stored verdict.
         relevance=record.verdict,
         relevance_reason=record.relevance_reason,
+        work_summary=record.work_summary,
     )
 
 

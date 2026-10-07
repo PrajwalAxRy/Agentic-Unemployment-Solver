@@ -46,9 +46,11 @@ def render_scan_markdown(report: ScanReport) -> str:
         "jobs separately; these are not strict ten-day results. |",
         "| Why a job is shown | Match tables: **Relevance**, **Why it is relevant**, "
         "**Seniority evidence** and **Why it matched**; review table: **Review category** and "
-        "**Reason / evidence** | Use those cells, not the job title alone. Read `substantive` "
-        "rows before `peripheral` ones: peripheral is adjacent work, tiered lower on purpose. "
-        "A `-` means the row predates relevance judging or ran under `--seniority-only`. |",
+        "**Reason / evidence** | Use those cells, not the job title alone. Rows are ordered "
+        "`core AI`, then `AI-involved` (AI is a real part of the job), then `uncertain` (AI is "
+        "in the picture but it is unclear this person does it: check it). **What you'd do** "
+        "is the model's one-sentence summary of the role. A `-` means the row predates "
+        "relevance judging or ran under `--seniority-only`. |",
         "| Companies with source problems | **Source failures** | List those companies. "
         "**Unsupported and blocked sources** are known release limitations, not failures of this "
         "run. |",
@@ -151,15 +153,37 @@ def _outcome_message(report: ScanReport) -> str:
     return "**Scan failed because no enabled source completed successfully.**"
 
 
+# Display order and label per relevance value. 1.x strings (substantive, peripheral) are
+# still stored on rows judged before prompt 2.0.0 and sort beside their nearest tier.
+_RELEVANCE_DISPLAY: dict[str, tuple[int, str]] = {
+    "core_ai": (0, "core AI"),
+    "substantive": (0, "substantive"),
+    "ai_involved": (1, "AI-involved"),
+    "peripheral": (1, "peripheral"),
+    "uncertain": (2, "uncertain"),
+}
+
+
+def _relevance_rank(item: MatchingJobRecord) -> int:
+    return _RELEVANCE_DISPLAY.get(item.relevance or "", (3, ""))[0]
+
+
+def _relevance_label(relevance: str | None) -> str:
+    if relevance is None:
+        return "-"
+    return _RELEVANCE_DISPLAY.get(relevance, (3, relevance))[1]
+
+
 def _matching_table(items: tuple[MatchingJobRecord, ...]) -> list[str]:
     if not items:
         return ["No new matching jobs in this section."]
     lines = [
-        "| Company | Job | Location | Date (basis) | First seen | Relevance | "
+        "| Company | Job | Location | Date (basis) | First seen | Relevance | What you'd do | "
         "Why it is relevant | Seniority evidence | Why it matched | Identity | Link |",
-        "|---|---|---|---|---|---|---|---|---|---|---|",
+        "|---|---|---|---|---|---|---|---|---|---|---|---|",
     ]
-    for item in items:
+    # Stable: within a tier the incoming order (newest first) is kept.
+    for item in sorted(items, key=_relevance_rank):
         source_date = item.publication_date or item.raw_date_text or "Unavailable"
         lines.append(
             "| "
@@ -173,7 +197,8 @@ def _matching_table(items: tuple[MatchingJobRecord, ...]) -> list[str]:
                     # Dashes rather than blanks: a row judged before migration 5, or one
                     # produced under --seniority-only, has no relevance verdict at all.
                     # That is different from a verdict with nothing to say about it.
-                    _markdown(item.relevance or "-"),
+                    _markdown(_relevance_label(item.relevance)),
+                    _markdown(item.work_summary or "-"),
                     _markdown(item.relevance_reason or "-"),
                     _markdown(item.seniority_evidence),
                     _markdown(item.seniority_reason),
