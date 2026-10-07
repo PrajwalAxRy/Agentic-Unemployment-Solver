@@ -356,7 +356,7 @@ def test_report_failure_preserves_completed_batch_for_regeneration(tmp_path):
     assert len(result.report.matching_jobs) == 1
 
 
-def test_cached_merged_unrelated_judgment_remains_a_rejection(tmp_path):
+def test_cached_merged_not_ai_judgment_remains_a_rejection(tmp_path):
     listing = replace(_job("1", "ML Engineer"), company_id="healthy")
 
     def model(client):
@@ -367,7 +367,7 @@ def test_cached_merged_unrelated_judgment_remains_a_rejection(tmp_path):
             budget=UsageBudget(UsageLimits(20, 20000, 4000, 200)),
         )
 
-    run(tmp_path, None, listings=(listing,), model=model(_Client([_merged_response("unrelated")])))
+    run(tmp_path, None, listings=(listing,), model=model(_Client([_merged_response("not_ai")])))
     client = _Client([])
     result = run(tmp_path, None, listings=(listing,), model=model(client))
     assert not client.requests
@@ -377,7 +377,7 @@ def test_cached_merged_unrelated_judgment_remains_a_rejection(tmp_path):
 
 def _merged_without_seniority_quote() -> str:
     """Valid under the merged contract, invalid under the standalone seniority one."""
-    response = json.loads(_merged_response("substantive"))
+    response = json.loads(_merged_response("core_ai"))
     response.update(
         seniority_match="uncertain",
         seniority_evidence="",  # the merged prompt asks for "" rather than an invented quote
@@ -587,6 +587,7 @@ def test_fresh_scan_freezes_description_even_for_previously_cached_job(tmp_path)
 def _title_only_reply(relevance: str, title: str) -> str:
     return json.dumps(
         {
+            "work_summary": "Unknown beyond the title.",
             "relevance": relevance,
             "relevance_evidence": title,
             "relevance_reason": "Only the title is available.",
@@ -608,7 +609,7 @@ def test_missing_description_is_judged_from_the_title(tmp_path):
         _job("1", "ML Engineer"), company_id="healthy", description=None, description_hash=None
     )
     adapter = RetryingDetailAdapter({"healthy": (listing,)}, failures_remaining=99)
-    client = _Client([_title_only_reply("unrelated", "ML Engineer")])
+    client = _Client([_title_only_reply("not_ai", "ML Engineer")])
 
     result = run(tmp_path, None, adapter=adapter, model=_merged_model(client))
 
@@ -616,14 +617,14 @@ def test_missing_description_is_judged_from_the_title(tmp_path):
     [request] = client.requests
     assert daily.NO_DESCRIPTION in request.user_prompt
     assert "ML Engineer" in request.user_prompt
-    assert not result.report.review_candidates  # judged unrelated: hidden, not reviewed
+    assert not result.report.review_candidates  # judged not_ai: hidden, not reviewed
     assert result.report.metrics.description_failure_count == 1
     with migrated_database(tmp_path / "jobs.sqlite3") as connection:
         stored = json.loads(
             connection.execute("SELECT result_json FROM batch_candidates").fetchone()[0]
         )
     assert stored["description_error"]
-    assert stored["judgment"]["relevance"] == "unrelated"
+    assert stored["judgment"]["relevance"] == "not_ai"
 
 
 def test_title_only_verdict_is_redone_once_a_description_appears(tmp_path):
@@ -635,9 +636,9 @@ def test_title_only_verdict_is_redone_once_a_description_appears(tmp_path):
         tmp_path,
         None,
         adapter=RetryingDetailAdapter({"healthy": (bare,)}, failures_remaining=99),
-        model=_merged_model(_Client([_title_only_reply("peripheral", "ML Engineer")])),
+        model=_merged_model(_Client([_title_only_reply("ai_involved", "ML Engineer")])),
     )
-    client = _Client([_merged_response("substantive")])
+    client = _Client([_merged_response("core_ai")])
 
     run(
         tmp_path,
@@ -663,10 +664,11 @@ def _remote_listing():
     )
 
 
-def _located_reply(relevance: str, eligible: object, evidence: str) -> str:
+def _located_reply(relevance: str, fit: str, evidence: str, **overrides: object) -> str:
     reply = json.loads(_merged_response(relevance))
+    reply.update(overrides)
     reply.update(
-        location_eligible=eligible,
+        location_fit=fit,
         location_evidence=evidence,
         location_reason="Judged from the stated location.",
     )
@@ -674,27 +676,30 @@ def _located_reply(relevance: str, eligible: object, evidence: str) -> str:
 
 
 @pytest.mark.parametrize(
-    ("relevance", "eligible", "matches", "review_categories"),
+    ("relevance", "fit", "matches", "review_categories"),
     [
-        ("substantive", True, 1, []),
-        ("substantive", False, 0, []),
-        ("substantive", "uncertain", 0, ["location_uncertain"]),
-        ("unrelated", "uncertain", 0, []),
+        ("core_ai", "india", 1, []),
+        ("core_ai", "open_remote", 1, []),
+        ("core_ai", "excluded", 0, []),
+        ("core_ai", "uncertain", 0, ["location_uncertain"]),
+        # Policy v1.2 section 6: shown, in its own category rather than among matches.
+        ("core_ai", "relocation", 0, ["location_relocation"]),
+        ("not_ai", "uncertain", 0, []),
     ],
 )
 def test_unresolved_location_is_judged_by_the_model(
-    tmp_path, relevance, eligible, matches, review_categories
+    tmp_path, relevance, fit, matches, review_categories
 ):
     # to_change.md 2.4 (decided): the model decides India eligibility for locations the
     # filter cannot resolve. Those rows used to go straight to review, so the location
     # judgment never ran and irrelevant roles reached the queue unchecked.
-    client = _Client([_located_reply(relevance, eligible, "Remote - APAC")])
+    client = _Client([_located_reply(relevance, fit, "Remote - APAC")])
 
     result = run(tmp_path, None, listings=(_remote_listing(),), model=_merged_model(client))
 
     [request] = client.requests
     assert "Remote - APAC" in request.user_prompt
-    assert "location_eligible" in request.response_schema["properties"]
+    assert "location_fit" in request.response_schema["properties"]
     assert result.pending_count == 0
     assert len(result.report.matching_jobs) == matches
     assert [item.category for item in result.report.review_candidates] == review_categories
@@ -738,3 +743,15 @@ def test_valid_reply_without_usage_completes_without_paid_replay(tmp_path):
     assert len(resumed.report.matching_jobs) == 1
     with migrated_database(tmp_path / "jobs.sqlite3") as connection:
         assert connection.execute("SELECT input_tokens FROM llm_requests").fetchone()[0] is None
+
+
+@pytest.mark.parametrize("fit", ["uncertain", "relocation"])
+def test_a_closed_seniority_hides_a_location_review_row(tmp_path, fit):
+    # Policy v1.2 section 1: "not eligible" hides a job whatever else is true. Before
+    # schema 2 an uncertain location went to review even when seniority was already false.
+    client = _Client([_located_reply("core_ai", fit, "Remote - APAC", seniority_match=False)])
+
+    result = run(tmp_path, None, listings=(_remote_listing(),), model=_merged_model(client))
+
+    assert not result.report.matching_jobs
+    assert not result.report.review_candidates

@@ -290,7 +290,7 @@ def _schema_name(response_schema: Mapping[str, object]) -> str:
     if "relevance" in fields:
         return (
             "merged_relevance_seniority_location"
-            if "location_eligible" in fields
+            if "location_fit" in fields
             else "merged_relevance_seniority"
         )
     return "seniority_decision"

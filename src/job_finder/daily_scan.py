@@ -30,6 +30,7 @@ from job_finder.daily_lifecycle import replace_daily_lifecycle
 from job_finder.filters.locations import LocationDecision
 from job_finder.matching.evaluator import EvaluationDisposition, LLMProviderError, UsageSnapshot
 from job_finder.matching.journal import JournalClient, fingerprint
+from job_finder.matching.merged_prompt import LocationFit, RelevanceTier
 from job_finder.matching.seniority import stored_merged_decision
 from job_finder.matching.service import JobEvaluator
 from job_finder.persistence.batches import (
@@ -76,6 +77,14 @@ class DailyScanResult:
         if self.halt_reason == "discovery_only":
             return self.report.outcome.exit_code
         return 6 if self.pending_count else self.report.outcome.exit_code
+
+
+# Locations the model could not place firmly in India are shown in the review list, not
+# hidden and not mixed into matches. Relocation is policy v1.2 section 6's own category.
+_LOCATION_REVIEW: dict[object, tuple[str, str]] = {
+    LocationFit.RELOCATION: ("location_relocation", "Based abroad; offers relocation"),
+    LocationFit.UNCERTAIN: ("location_uncertain", "Location eligibility is uncertain"),
+}
 
 
 def discovery_fingerprint(registry: CompanySourceRegistry, profile: SearchProfile) -> str:
@@ -544,20 +553,28 @@ def _report(
         counts.evaluated += not result["cached"]
         counts.conditional_pass += 1
         judgment = result.get("judgment") or {}
-        if judgment.get("relevance") == "unrelated":
+        # Stored judgments are JSON, so the tiers arrive as plain strings.
+        relevance = judgment.get("relevance")
+        if relevance == RelevanceTier.NOT_AI:
             counts.conditional_reject += 1
             continue
-        counts.relevance_peripheral += judgment.get("relevance") == "peripheral"
-        if judgment.get("location_eligible") is False:
+        counts.relevance_involved += relevance == RelevanceTier.AI_INVOLVED
+        counts.relevance_uncertain += relevance == RelevanceTier.UNCERTAIN
+        location_fit = judgment.get("location_fit")
+        if location_fit == LocationFit.EXCLUDED:
             counts.location_rejected += 1
             continue
-        if judgment.get("location_eligible") == "uncertain":
+        location_review = _LOCATION_REVIEW.get(location_fit)
+        # A role the model already judged closed on seniority is hidden whatever its
+        # location (policy v1.2 section 1); only open or uncertain ones are worth a look.
+        if location_review is not None and judgment.get("seniority_match") is not False:
+            category, fallback = location_review
             counts.review += 1
             reviews.append(
                 _review(
                     row,
-                    "location_uncertain",
-                    judgment.get("location_reason") or "Location eligibility is uncertain",
+                    category,
+                    judgment.get("location_reason") or fallback,
                     evidence=judgment.get("location_evidence"),
                 )
             )

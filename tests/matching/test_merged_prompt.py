@@ -14,11 +14,12 @@ from pathlib import Path
 import pytest
 
 from job_finder.matching.merged_prompt import (
+    LocationFit,
     MergedResponseError,
+    RelevanceTier,
     load_merged_prompt,
     parse_merged_response,
 )
-from job_finder.matching.relevance_set import RelevanceVerdict
 from job_finder.matching.seniority import DetectedLevel
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -33,7 +34,8 @@ DESCRIPTION = (
 
 def _response(**overrides: object) -> str:
     payload: dict[str, object] = {
-        "relevance": "substantive",
+        "work_summary": "Builds and trains ranking models for Ads.",
+        "relevance": "core_ai",
         "relevance_evidence": "train and evaluate deep models",
         "relevance_reason": "The engineer trains and evaluates models directly.",
         "seniority_match": True,
@@ -49,16 +51,29 @@ def _response(**overrides: object) -> str:
 def test_shipped_prompt_loads_and_validates() -> None:
     prompt = load_merged_prompt(PROMPT)
 
-    assert prompt.schema_version == 1
+    assert prompt.schema_version == 2
     assert prompt.prompt_version
-    # The four failure modes from 2.3 must be encoded as explicit negatives, or the merge
-    # silently drops the guidance that the relevance gate exists to apply. Whitespace is
-    # collapsed first because the prompt is hard-wrapped and phrases span line breaks.
+    # The policy's load-bearing rules must be encoded explicitly, or the merge silently
+    # drops the guidance the relevance gate exists to apply (screening policy v1.2).
+    # Whitespace is collapsed first because the prompt is hard-wrapped.
     system = " ".join(prompt.system_prompt.split()).casefold()
-    assert "organisation blurb" in system
-    assert "generative ai to improve team productivity" in system
-    assert "ads ai core infra" in system
-    assert "ai-native sdlc" in system
+    assert "ai only in the company description" in system
+    assert "using ai tools at work" in system
+    assert "the title alone is enough" in system
+    assert "testing, validating, supporting or securing ai systems" in system
+    assert "a stated number always beats the title" in system
+
+
+def test_a_schema_1_prompt_is_refused(tmp_path: Path) -> None:
+    """1.x answers in a different vocabulary; mapping it silently would mislabel jobs."""
+    legacy = tmp_path / "legacy.toml"
+    legacy.write_text(
+        PROMPT.read_text(encoding="utf-8").replace("schema_version = 2", "schema_version = 1"),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="schema_version"):
+        load_merged_prompt(legacy)
 
 
 def test_location_section_is_omitted_when_location_is_already_resolved() -> None:
@@ -93,7 +108,8 @@ def test_each_judgment_keeps_its_own_verdict_evidence_and_reason() -> None:
     """The property that makes a failing sub-judgment diagnosable (2.5)."""
     judgment = parse_merged_response(_response(), description=DESCRIPTION, location_requested=False)
 
-    assert judgment.relevance is RelevanceVerdict.SUBSTANTIVE
+    assert judgment.work_summary == "Builds and trains ranking models for Ads."
+    assert judgment.relevance is RelevanceTier.CORE_AI
     assert judgment.relevance_evidence == "train and evaluate deep models"
     assert judgment.seniority_match is True
     assert judgment.detected_level is DetectedLevel.MID
@@ -122,10 +138,19 @@ def test_empty_evidence_is_permitted_rather_than_invented() -> None:
     assert judgment.relevance_evidence == ""
 
 
-def test_location_judgment_round_trips_when_requested() -> None:
+def test_a_missing_work_summary_is_rejected() -> None:
+    """The summary is written first so it informs the verdicts; it is not optional."""
+    with pytest.raises(MergedResponseError, match="work_summary"):
+        parse_merged_response(
+            _response(work_summary=" "), description=DESCRIPTION, location_requested=False
+        )
+
+
+@pytest.mark.parametrize("fit", list(LocationFit))
+def test_location_judgment_round_trips_when_requested(fit: LocationFit) -> None:
     judgment = parse_merged_response(
         _response(
-            location_eligible=True,
+            location_fit=fit.value,
             location_evidence="This role may be performed remotely from India",
             location_reason="Explicitly open to India.",
         ),
@@ -134,7 +159,31 @@ def test_location_judgment_round_trips_when_requested() -> None:
     )
 
     assert judgment.location_requested is True
-    assert judgment.location_eligible is True
+    assert judgment.location_fit is fit
+
+
+def test_location_evidence_may_quote_the_source_location_string() -> None:
+    judgment = parse_merged_response(
+        _response(
+            location_fit="open_remote",
+            location_evidence="Remote - APAC",
+            location_reason="Open across APAC.",
+        ),
+        description=DESCRIPTION,
+        location_requested=True,
+        location_original="Remote - APAC",
+    )
+
+    assert judgment.location_evidence == "Remote - APAC"
+
+
+def test_an_unknown_location_fit_is_rejected() -> None:
+    with pytest.raises(MergedResponseError, match="location_fit must be"):
+        parse_merged_response(
+            _response(location_fit=True, location_evidence="", location_reason="Open."),
+            description=DESCRIPTION,
+            location_requested=True,
+        )
 
 
 def test_unrequested_location_answer_is_rejected() -> None:
@@ -142,7 +191,7 @@ def test_unrequested_location_answer_is_rejected() -> None:
     with pytest.raises(MergedResponseError, match="location was not requested"):
         parse_merged_response(
             _response(
-                location_eligible=True,
+                location_fit="india",
                 location_evidence="remotely from India",
                 location_reason="Open to India.",
             ),
@@ -160,9 +209,10 @@ def test_missing_location_fields_when_requested_are_rejected() -> None:
     ("overrides", "expected"),
     [
         ({}, False),
-        ({"relevance": "peripheral"}, False),
+        ({"relevance": "ai_involved"}, False),
+        ({"relevance": "uncertain"}, False),
         ({"seniority_match": "uncertain"}, False),
-        ({"relevance": "unrelated"}, True),
+        ({"relevance": "not_ai"}, True),
         ({"seniority_match": False}, True),
     ],
 )
@@ -171,7 +221,7 @@ def test_only_confident_rejections_may_drop_a_row(
 ) -> None:
     """2.6: nothing except a confident rejection is ever dropped.
 
-    peripheral and uncertain must display, tiered lower. Forcing them into a binary would
+    ai_involved and uncertain must display, tiered lower. Forcing them into a binary would
     hide the uncertainty rather than remove it, and lose the signal showing which rows
     deserve a click.
     """
@@ -182,10 +232,14 @@ def test_only_confident_rejections_may_drop_a_row(
     assert judgment.is_confident_rejection is expected
 
 
-def test_uncertain_location_still_displays() -> None:
+@pytest.mark.parametrize(
+    ("fit", "expected"),
+    [("uncertain", False), ("relocation", False), ("open_remote", False), ("excluded", True)],
+)
+def test_only_an_excluded_location_drops_a_row(fit: str, expected: bool) -> None:
     judgment = parse_merged_response(
         _response(
-            location_eligible="uncertain",
+            location_fit=fit,
             location_evidence="",
             location_reason="The description does not resolve geography.",
         ),
@@ -193,14 +247,15 @@ def test_uncertain_location_still_displays() -> None:
         location_requested=True,
     )
 
-    assert judgment.is_confident_rejection is False
+    assert judgment.is_confident_rejection is expected
 
 
-def test_three_way_verdicts_are_enforced() -> None:
-    with pytest.raises(MergedResponseError, match="relevance must be one of"):
-        parse_merged_response(
-            _response(relevance="maybe"), description=DESCRIPTION, location_requested=False
-        )
+def test_relevance_tiers_and_seniority_values_are_enforced() -> None:
+    for legacy in ("maybe", "substantive", "peripheral", "unrelated"):
+        with pytest.raises(MergedResponseError, match="relevance must be one of"):
+            parse_merged_response(
+                _response(relevance=legacy), description=DESCRIPTION, location_requested=False
+            )
     with pytest.raises(MergedResponseError, match="seniority_match must be"):
         parse_merged_response(
             _response(seniority_match="probably"),
@@ -253,7 +308,7 @@ def test_evidence_may_be_quoted_from_the_title() -> None:
     assert judgment.seniority_match == "uncertain"
     assert judgment.seniority_evidence == "Staff ML Compiler Engineer"
     # The relevance judgment survives intact rather than being discarded with it.
-    assert judgment.relevance is RelevanceVerdict.SUBSTANTIVE
+    assert judgment.relevance is RelevanceTier.CORE_AI
 
 
 def test_evidence_from_neither_title_nor_description_is_still_rejected() -> None:

@@ -51,7 +51,7 @@ from job_finder.core.source_contracts import AdapterOutcome, CompanySource
 from job_finder.filters.locations import LocationDecision
 from job_finder.filters.roles import RoleDecision
 from job_finder.matching.evaluator import LLMProviderError, SeniorityEvaluator, UsageSnapshot
-from job_finder.matching.relevance_set import RelevanceVerdict
+from job_finder.matching.merged_prompt import LocationFit, RelevanceTier
 from job_finder.matching.seniority import SeniorityDecision
 from job_finder.matching.service import (
     CachedEvaluationDisposition,
@@ -66,7 +66,9 @@ from job_finder.persistence.locking import ScanLock
 from job_finder.persistence.repository import EvaluationStatus, JobRecord, JobStateRepository
 from job_finder.persistence.runs import ScanRunRepository, ScanRunStatus
 
-SCAN_REPORT_SCHEMA_VERSION = 2
+# 3: relevance_peripheral_count became relevance_involved_count and
+# relevance_uncertain_count with merged prompt schema 2 (four relevance tiers).
+SCAN_REPORT_SCHEMA_VERSION = 3
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -172,7 +174,8 @@ class ScanMetrics:
     description_failure_count: int
     conditional_pass_count: int
     conditional_rejection_count: int
-    relevance_peripheral_count: int
+    relevance_involved_count: int
+    relevance_uncertain_count: int
     llm_location_rejection_count: int
     llm_evaluated_count: int
     llm_budget_halted_count: int
@@ -260,7 +263,8 @@ class _ProcessingCounts:
     detail_failure: int = 0
     conditional_pass: int = 0
     conditional_reject: int = 0
-    relevance_peripheral: int = 0
+    relevance_involved: int = 0
+    relevance_uncertain: int = 0
     location_rejected: int = 0
     evaluated: int = 0
     budget_halted: int = 0
@@ -766,9 +770,9 @@ def process_filter_report(
         # widened title filter -- 2.2a took the title pass rate from 11% to ~70%, so
         # without this every engineering title in India reaches the report.
         #
-        # Only a confident "unrelated" drops a row. "peripheral" is displayed, tiered
-        # lower: forcing it into a binary would hide the uncertainty rather than remove
-        # it, and lose the signal showing which rows deserve a click.
+        # Only a confident "not_ai" drops a row. "ai_involved" and "uncertain" are
+        # displayed, tiered lower: forcing them into a binary would hide the uncertainty
+        # rather than remove it, and lose the signal showing which rows deserve a click.
         judgment = getattr(evaluator, "last_judgment", None)
         judged: JobRecord | None = None
         if judgment is not None:
@@ -777,7 +781,7 @@ def process_filter_report(
             # lets rows recovered from the normalization bug surface as new despite
             # carrying old first_seen_at values.
             #
-            # Recorded for every verdict including "unrelated", and deliberately NOT via
+            # Recorded for every verdict including "not_ai", and deliberately NOT via
             # fail_evaluation(): the evaluation itself succeeded. Marking a completed
             # evaluation as failed would both violate the repository's invariant and
             # destroy the cache entry, so the next run would pay for the same call again
@@ -801,7 +805,7 @@ def process_filter_report(
                 location_evidence=judgment.location_evidence,
                 location_reason=judgment.location_reason,
             )
-            if judgment.relevance is RelevanceVerdict.UNRELATED:
+            if judgment.relevance is RelevanceTier.NOT_AI:
                 counts.conditional_reject += 1
                 _LOGGER.debug(
                     "relevance_rejected company=%s title=%s reason=%s",
@@ -810,9 +814,10 @@ def process_filter_report(
                     judgment.relevance_reason,
                 )
                 continue
-            counts.relevance_peripheral += judgment.relevance is RelevanceVerdict.PERIPHERAL
+            counts.relevance_involved += judgment.relevance is RelevanceTier.AI_INVOLVED
+            counts.relevance_uncertain += judgment.relevance is RelevanceTier.UNCERTAIN
             # 2.4: an unqualified-remote row the model judged ineligible for India.
-            if judgment.location_eligible is False:
+            if judgment.location_fit is LocationFit.EXCLUDED:
                 counts.location_rejected += 1
                 continue
 
@@ -1276,7 +1281,8 @@ def _metrics(
         description_failure_count=counts.detail_failure,
         conditional_pass_count=counts.conditional_pass,
         conditional_rejection_count=counts.conditional_reject,
-        relevance_peripheral_count=counts.relevance_peripheral,
+        relevance_involved_count=counts.relevance_involved,
+        relevance_uncertain_count=counts.relevance_uncertain,
         llm_location_rejection_count=counts.location_rejected,
         llm_evaluated_count=counts.evaluated,
         llm_budget_halted_count=counts.budget_halted,

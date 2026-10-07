@@ -1,6 +1,6 @@
 """Second opinion on the relevance gate (JOB_FINDER_LLM_SECOND_OPINION).
 
-Measured on the 2026-10-02 batch: the same request flips across "unrelated" on ~2% of
+Measured on the 2026-10-02 batch: the same request flips across "not_ai" on ~2% of
 ordinary jobs and ~8% of borderline ones. These tests pin the decision rule: ask twice,
 ask a third time only on a gate disagreement, majority wins, and with no majority the
 passing answer wins because a missed job costs more than an extra one.
@@ -23,8 +23,7 @@ from job_finder.matching.evaluator import (
     UsageLimits,
 )
 from job_finder.matching.merged_evaluator import MergedEvaluator
-from job_finder.matching.merged_prompt import load_merged_prompt
-from job_finder.matching.relevance_set import RelevanceVerdict
+from job_finder.matching.merged_prompt import RelevanceTier, load_merged_prompt
 
 ROOT = Path(__file__).resolve().parents[2]
 DESCRIPTION = (
@@ -36,6 +35,7 @@ DESCRIPTION = (
 def reply(relevance: str) -> str:
     return json.dumps(
         {
+            "work_summary": "Builds ranking models for Ads.",
             "relevance": relevance,
             "relevance_evidence": "train and evaluate deep models",
             "relevance_reason": "Judged from the duties.",
@@ -77,12 +77,12 @@ def evaluate(contents: list[str], *, second_opinion: bool = True, max_requests: 
     ("replies", "calls", "verdict"),
     [
         # Agreement on the gate: two calls, the first answer stands.
-        (["substantive", "peripheral"], 2, "substantive"),
-        (["unrelated", "unrelated"], 2, "unrelated"),
+        (["core_ai", "ai_involved"], 2, "core_ai"),
+        (["not_ai", "not_ai"], 2, "not_ai"),
         # Disagreement: a third call decides.
-        (["unrelated", "substantive", "peripheral"], 3, "substantive"),
-        (["substantive", "unrelated", "unrelated"], 3, "unrelated"),
-        (["unrelated", "peripheral", "unrelated"], 3, "unrelated"),
+        (["not_ai", "core_ai", "ai_involved"], 3, "core_ai"),
+        (["core_ai", "not_ai", "not_ai"], 3, "not_ai"),
+        (["not_ai", "ai_involved", "not_ai"], 3, "not_ai"),
     ],
 )
 def test_majority_on_the_relevance_gate(replies, calls, verdict) -> None:
@@ -92,38 +92,38 @@ def test_majority_on_the_relevance_gate(replies, calls, verdict) -> None:
     assert len(client.requests) == calls
     assert outcome.attempt_count == calls
     assert outcome.judgment is not None
-    assert outcome.judgment.relevance is RelevanceVerdict(verdict)
+    assert outcome.judgment.relevance is RelevanceTier(verdict)
 
 
 def test_no_majority_keeps_the_passing_answer() -> None:
     # The third reply is invalid twice, so only one vote on each side survives.
-    outcome, client = evaluate([reply("unrelated"), reply("peripheral"), "not json", "{}"])
+    outcome, client = evaluate([reply("not_ai"), reply("ai_involved"), "not json", "{}"])
 
     assert len(client.requests) == 4
     assert outcome.judgment is not None
-    assert outcome.judgment.relevance is RelevanceVerdict.PERIPHERAL
+    assert outcome.judgment.relevance is RelevanceTier.AI_INVOLVED
 
 
 def test_invalid_second_opinion_leaves_the_first_answer() -> None:
-    outcome, client = evaluate([reply("unrelated"), "not json", "{}"])
+    outcome, client = evaluate([reply("not_ai"), "not json", "{}"])
 
     assert len(client.requests) == 3
     assert outcome.disposition is EvaluationDisposition.COMPLETED
     assert outcome.judgment is not None
-    assert outcome.judgment.relevance is RelevanceVerdict.UNRELATED
+    assert outcome.judgment.relevance is RelevanceTier.NOT_AI
 
 
 def test_budget_exhaustion_after_a_valid_answer_keeps_that_answer() -> None:
-    outcome, client = evaluate([reply("peripheral")], max_requests=1)
+    outcome, client = evaluate([reply("ai_involved")], max_requests=1)
 
     assert len(client.requests) == 1
     assert outcome.disposition is EvaluationDisposition.COMPLETED
     assert outcome.judgment is not None
-    assert outcome.judgment.relevance is RelevanceVerdict.PERIPHERAL
+    assert outcome.judgment.relevance is RelevanceTier.AI_INVOLVED
 
 
 def test_disabled_by_default_makes_one_call() -> None:
-    outcome, client = evaluate([reply("unrelated")], second_opinion=False)
+    outcome, client = evaluate([reply("not_ai")], second_opinion=False)
 
     assert len(client.requests) == 1
     assert outcome.attempt_count == 1

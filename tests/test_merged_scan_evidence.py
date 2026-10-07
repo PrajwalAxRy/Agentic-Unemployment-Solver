@@ -92,6 +92,7 @@ def _merged_response(relevance: str) -> str:
     """A valid merged response. Every quote must be verbatim or the parser rejects it."""
     return json.dumps(
         {
+            "work_summary": "Trains and deploys production machine learning models.",
             "relevance": relevance,
             "relevance_evidence": "train and deploy production machine learning models",
             "relevance_reason": "Core ML engineering, not an adjacent analytics role.",
@@ -168,11 +169,11 @@ def _run(tmp_path: Path, contents: list[str]) -> list[JobRecord]:
 
 
 def test_relevance_evidence_reaches_the_database(tmp_path: Path) -> None:
-    stored = _run(tmp_path, [_merged_response("substantive")])
+    stored = _run(tmp_path, [_merged_response("core_ai")])
 
     assert len(stored) == 1
     record = stored[0]
-    assert record.verdict == "substantive"
+    assert record.verdict == "core_ai"
     assert record.relevance_evidence == "train and deploy production machine learning models"
     assert record.relevance_reason == "Core ML engineering, not an adjacent analytics role."
 
@@ -181,19 +182,19 @@ def test_a_rejected_job_still_records_why_it_was_rejected(tmp_path: Path) -> Non
     """The rejection path `continue`s immediately, so it is the easiest one to miss.
 
     It is also the one that matters most: 153 of 259 evaluated jobs in the 2026-09-30 scan
-    were dropped as unrelated, and none of them could be explained after the fact.
+    were dropped as unrelated (now not_ai), and none of them could be explained after the fact.
     """
-    stored = _run(tmp_path, [_merged_response("unrelated")])
+    stored = _run(tmp_path, [_merged_response("not_ai")])
 
     assert len(stored) == 1
     record = stored[0]
-    assert record.verdict == "unrelated"
+    assert record.verdict == "not_ai"
     assert record.relevance_reason == "Core ML engineering, not an adjacent analytics role."
 
 
 def test_location_evidence_is_absent_when_the_filter_resolved_it(tmp_path: Path) -> None:
     """Bengaluru resolves deterministically, so the model is never asked about location."""
-    stored = _run(tmp_path, [_merged_response("substantive")])
+    stored = _run(tmp_path, [_merged_response("core_ai")])
 
     record = stored[0]
     assert record.location_evidence is None
@@ -201,7 +202,7 @@ def test_location_evidence_is_absent_when_the_filter_resolved_it(tmp_path: Path)
 
 
 def test_the_description_is_stored_alongside_its_hash(tmp_path: Path) -> None:
-    stored = _run(tmp_path, [_merged_response("substantive")])
+    stored = _run(tmp_path, [_merged_response("core_ai")])
 
     record = stored[0]
     assert record.description == DESCRIPTION
@@ -217,21 +218,21 @@ def test_the_report_carries_the_relevance_verdict_on_the_run_that_produced_it(
     picked one up on a later cached run -- the worst possible failure mode, because it
     looks correct as soon as you re-run to check.
     """
-    report = _run_report(tmp_path, [_merged_response("substantive")])
+    report = _run_report(tmp_path, [_merged_response("core_ai")])
 
     assert len(report.matching_jobs) == 1
     match = report.matching_jobs[0]
-    assert match.relevance == "substantive"
+    assert match.relevance == "core_ai"
     assert match.relevance_reason == "Core ML engineering, not an adjacent analytics role."
 
 
-def test_a_peripheral_match_is_distinguishable_in_the_rendered_report(
+def test_an_ai_involved_match_is_distinguishable_in_the_rendered_report(
     tmp_path: Path,
 ) -> None:
-    """2.6 tiers peripheral below substantive; before this it rendered identically."""
-    report = _run_report(tmp_path, [_merged_response("peripheral")])
+    """2.6 tiers ai_involved below core_ai; before this it rendered identically."""
+    report = _run_report(tmp_path, [_merged_response("ai_involved")])
     markdown = render_scan_markdown(report)
 
-    assert report.matching_jobs[0].relevance == "peripheral"
+    assert report.matching_jobs[0].relevance == "ai_involved"
     assert "| Relevance |" in markdown
-    assert "peripheral" in markdown
+    assert "ai_involved" in markdown

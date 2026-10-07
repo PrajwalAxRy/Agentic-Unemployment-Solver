@@ -33,7 +33,11 @@ from job_finder.core.validation import required_string
 
 
 class RelevanceVerdict(StrEnum):
-    """Three-way relevance judgment (``to_change.md`` 2.3, 2.6)."""
+    """Three-way relevance judgment (``to_change.md`` 2.3, 2.6) of merged prompt 1.x.
+
+    Legacy: production answers with :class:`~job_finder.matching.merged_prompt.RelevanceTier`
+    since prompt 2.0.0. Kept only for the inert evaluation set it labels.
+    """
 
     SUBSTANTIVE = "substantive"
     """The engineer builds, trains, evaluates or operates AI/ML systems."""

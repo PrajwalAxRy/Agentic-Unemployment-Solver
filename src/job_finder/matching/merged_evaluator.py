@@ -30,12 +30,13 @@ from job_finder.matching.evaluator import (
     _usage_delta,
 )
 from job_finder.matching.merged_prompt import (
+    LocationFit,
     MergedJudgment,
     MergedPrompt,
     MergedResponseError,
+    RelevanceTier,
     parse_merged_response,
 )
-from job_finder.matching.relevance_set import RelevanceVerdict
 from job_finder.matching.seniority import DetectedLevel, SeniorityDecision
 
 _LOGGER = logging.getLogger(__name__)
@@ -48,7 +49,10 @@ _LOGGER = logging.getLogger(__name__)
 MERGED_RESPONSE_SCHEMA: dict[str, Any] = {
     "type": "object",
     "additionalProperties": False,
+    # Structured output writes fields in this order, so the summary of the work comes
+    # before the verdict it should inform (schema version 2).
     "required": [
+        "work_summary",
         "relevance",
         "relevance_evidence",
         "relevance_reason",
@@ -59,7 +63,8 @@ MERGED_RESPONSE_SCHEMA: dict[str, Any] = {
         "seniority_reason",
     ],
     "properties": {
-        "relevance": {"type": "string", "enum": ["substantive", "peripheral", "unrelated"]},
+        "work_summary": {"type": "string"},
+        "relevance": {"type": "string", "enum": [tier.value for tier in RelevanceTier]},
         "relevance_evidence": {"type": "string"},
         "relevance_reason": {"type": "string"},
         "seniority_match": {
@@ -82,17 +87,15 @@ MERGED_RESPONSE_SCHEMA: dict[str, Any] = {
 }
 
 _LOCATION_SCHEMA_EXTRAS: dict[str, Any] = {
-    "location_eligible": {
-        "anyOf": [{"type": "boolean"}, {"type": "string", "enum": ["uncertain"]}]
-    },
+    "location_fit": {"type": "string", "enum": [fit.value for fit in LocationFit]},
     "location_evidence": {"type": "string"},
     "location_reason": {"type": "string"},
 }
 
 
 def _passes(judgment: MergedJudgment) -> bool:
-    """Whether a judgment passes the relevance gate (anything but "unrelated")."""
-    return judgment.relevance is not RelevanceVerdict.UNRELATED
+    """Whether a judgment passes the relevance gate (shown: anything but "not_ai")."""
+    return judgment.relevance.shown
 
 
 def merged_response_schema(*, location_requested: bool) -> dict[str, Any]:
@@ -109,7 +112,7 @@ def merged_response_schema(*, location_requested: bool) -> dict[str, Any]:
         "properties": {**MERGED_RESPONSE_SCHEMA["properties"], **_LOCATION_SCHEMA_EXTRAS},
         "required": [
             *MERGED_RESPONSE_SCHEMA["required"],
-            "location_eligible",
+            "location_fit",
             "location_evidence",
             "location_reason",
         ],

@@ -21,6 +21,13 @@ that is already answered invites the model to contradict it.
 ``config/seniority_prompt.toml`` and :mod:`job_finder.matching.prompt` are deliberately
 left in place. This is an addition, not a replacement, so the tuned single-purpose path
 remains available as a fallback without a code change.
+
+Schema version 2 (prompt 2.0.0, 2026-10-06) replaced the three relevance verdicts and the
+boolean location answer with the contract measured in ``experiments/llm_compare``
+(``bench_2026-10-05_report.md``): four relevance tiers, a one-sentence ``work_summary``
+written before the verdicts, and a five-way ``location_fit``. Version 1 prompts are refused
+rather than mapped: the request fingerprint changes anyway, so nothing cached under 1.x is
+reused, and one vocabulary keeps every consumer simple.
 """
 
 from __future__ import annotations
@@ -29,13 +36,40 @@ import json
 import tomllib
 from collections.abc import Mapping
 from dataclasses import dataclass
+from enum import StrEnum
 from pathlib import Path
 
-from job_finder.matching.relevance_set import RelevanceVerdict
 from job_finder.matching.seniority import DetectedLevel, SeniorityMatch
 
-LocationEligibility = bool | str
-"""``True``, ``False``, or the literal ``"uncertain"`` -- mirrors ``SeniorityMatch``."""
+SCHEMA_VERSION = 2
+
+
+class RelevanceTier(StrEnum):
+    """Is this person doing AI/ML work? (screening policy v1.2, section 4)."""
+
+    CORE_AI = "core_ai"
+    """AI/ML is the main work."""
+    AI_INVOLVED = "ai_involved"
+    """AI/ML is an explicit, real part of the job, though not all of it."""
+    UNCERTAIN = "uncertain"
+    """AI/ML is in the picture but it is unclear this person does it: shown, tagged."""
+    NOT_AI = "not_ai"
+    """AI absent or only setting, tooling or decoration: hidden."""
+
+    @property
+    def shown(self) -> bool:
+        return self is not RelevanceTier.NOT_AI
+
+
+class LocationFit(StrEnum):
+    """Can a candidate in India take this job? Asked only when the filter could not tell."""
+
+    INDIA = "india"
+    OPEN_REMOTE = "open_remote"
+    RELOCATION = "relocation"
+    """Based abroad but offers relocation or sponsorship: shown in its own category."""
+    EXCLUDED = "excluded"
+    UNCERTAIN = "uncertain"
 
 
 class MergedResponseError(ValueError):
@@ -46,12 +80,15 @@ class MergedResponseError(ValueError):
 class MergedJudgment:
     """One job's three-part judgment.
 
-    Every judgment keeps its own verdict, evidence and reason. 2.6 requires three-way
+    Every judgment keeps its own verdict, evidence and reason. 2.6 requires graded
     verdicts throughout: nothing except a confident rejection is dropped, and a displayed
-    ``peripheral`` or ``uncertain`` is the system working rather than failing.
+    ``uncertain`` is the system working rather than failing.
     """
 
-    relevance: RelevanceVerdict
+    work_summary: str
+    """One sentence on what the person would actually do, written before the verdicts."""
+
+    relevance: RelevanceTier
     relevance_evidence: str
     relevance_reason: str
 
@@ -61,25 +98,25 @@ class MergedJudgment:
     seniority_evidence: str
     seniority_reason: str
 
-    location_eligible: LocationEligibility | None = None
+    location_fit: LocationFit | None = None
     location_evidence: str | None = None
     location_reason: str | None = None
 
     @property
     def location_requested(self) -> bool:
-        return self.location_eligible is not None
+        return self.location_fit is not None
 
     @property
     def is_confident_rejection(self) -> bool:
         """Whether this row may be dropped rather than displayed.
 
-        The only three conditions that drop a row (2.6). Everything else -- peripheral
-        relevance, uncertain seniority, uncertain location -- displays, tiered lower.
+        The only three conditions that drop a row (2.6). Everything else -- uncertain
+        relevance, uncertain seniority, uncertain location, relocation -- displays.
         """
         return (
-            self.relevance is RelevanceVerdict.UNRELATED
+            self.relevance is RelevanceTier.NOT_AI
             or self.seniority_match is False
-            or self.location_eligible is False
+            or self.location_fit is LocationFit.EXCLUDED
         )
 
 
@@ -120,7 +157,7 @@ def load_merged_prompt(path: Path) -> MergedPrompt:
     with path.open("rb") as stream:
         raw = tomllib.load(stream)
     schema_version = raw.get("schema_version")
-    if schema_version != 1:
+    if schema_version != SCHEMA_VERSION:
         raise ValueError(f"unsupported merged prompt schema_version: {schema_version!r}")
     prompt = MergedPrompt(
         schema_version=schema_version,
@@ -172,29 +209,31 @@ def parse_merged_response(
 
     sources = (description, title) if title else (description,)
 
+    work_summary = _required_text(raw.get("work_summary"), "work_summary")
     relevance = _relevance(raw.get("relevance"))
     relevance_evidence = _evidence(raw, "relevance_evidence", sources)
     seniority_match = _seniority_match(raw.get("seniority_match"))
     seniority_evidence = _evidence(raw, "seniority_evidence", sources)
 
-    location_eligible: LocationEligibility | None = None
+    location_fit: LocationFit | None = None
     location_evidence: str | None = None
     location_reason: str | None = None
     if location_requested:
-        location_eligible = _location_eligible(raw.get("location_eligible"))
+        location_fit = _location_fit(raw.get("location_fit"))
         # The source's location string is shown to the model in its own prompt section, so
         # it is a legitimate quotation for the location judgment (and only for that one).
         location_sources = (*sources, location_original) if location_original else sources
         location_evidence = _evidence(raw, "location_evidence", location_sources)
         location_reason = _required_text(raw.get("location_reason"), "location_reason")
-    elif "location_eligible" in raw:
+    elif "location_fit" in raw:
         # The model answered a question it was not asked. Refusing it keeps the
         # deterministic decision authoritative, per 2.5.
         raise MergedResponseError(
-            "merged response contains location_eligible but location was not requested"
+            "merged response contains location_fit but location was not requested"
         )
 
     return MergedJudgment(
+        work_summary=work_summary,
         relevance=relevance,
         relevance_evidence=relevance_evidence,
         relevance_reason=_required_text(raw.get("relevance_reason"), "relevance_reason"),
@@ -203,19 +242,19 @@ def parse_merged_response(
         required_experience=_required_text(raw.get("required_experience"), "required_experience"),
         seniority_evidence=seniority_evidence,
         seniority_reason=_required_text(raw.get("seniority_reason"), "seniority_reason"),
-        location_eligible=location_eligible,
+        location_fit=location_fit,
         location_evidence=location_evidence,
         location_reason=location_reason,
     )
 
 
-def _relevance(value: object) -> RelevanceVerdict:
+def _relevance(value: object) -> RelevanceTier:
     if not isinstance(value, str):
         raise MergedResponseError("relevance must be a string")
     try:
-        return RelevanceVerdict(value)
+        return RelevanceTier(value)
     except ValueError as error:
-        supported = ", ".join(item.value for item in RelevanceVerdict)
+        supported = ", ".join(item.value for item in RelevanceTier)
         raise MergedResponseError(f"relevance must be one of: {supported}") from error
 
 
@@ -227,12 +266,14 @@ def _seniority_match(value: object) -> SeniorityMatch:
     raise MergedResponseError("seniority_match must be true, false, or 'uncertain'")
 
 
-def _location_eligible(value: object) -> LocationEligibility:
-    if isinstance(value, bool):
-        return value
-    if value == "uncertain":
-        return "uncertain"
-    raise MergedResponseError("location_eligible must be true, false, or 'uncertain'")
+def _location_fit(value: object) -> LocationFit:
+    if not isinstance(value, str):
+        raise MergedResponseError("location_fit must be a string")
+    try:
+        return LocationFit(value)
+    except ValueError as error:
+        supported = ", ".join(item.value for item in LocationFit)
+        raise MergedResponseError(f"location_fit must be one of: {supported}") from error
 
 
 def _detected_level(value: object) -> DetectedLevel:
