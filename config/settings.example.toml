@@ -36,6 +36,10 @@ state_directory = "state"
 # Optional:
 #
 #   JOB_FINDER_LLM_TIMEOUT_SECONDS             Defaults to 30.
+#   JOB_FINDER_LLM_REASONING_EFFORT            low|medium|high|xhigh, sent as reasoning_effort.
+#                                              Unset sends nothing. Part of the cache key,
+#                                              so changing it re-evaluates. Production uses
+#                                              high (experiments/llm_compare benchmark).
 #
 # Cost note (to_change.md 2.2a, decision D): the title filter now passes roughly 6x more
 # titles to the description stage than before, so per-scan LLM volume rises materially.

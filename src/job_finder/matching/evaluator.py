@@ -28,10 +28,14 @@ class ModelPolicy:
     provider: str
     model: str
     policy_version: str
+    reasoning_effort: str | None = None
+    """Gateway reasoning effort, or None to leave the provider default. Effort changes the
+    answers, so it is part of the cache identity; unset keeps the historical key."""
 
     @property
     def cache_key(self) -> str:
-        return f"{self.provider}:{self.model}:{self.policy_version}"
+        key = f"{self.provider}:{self.model}:{self.policy_version}"
+        return key if self.reasoning_effort is None else f"{key}:effort={self.reasoning_effort}"
 
 
 @dataclass(frozen=True, slots=True)

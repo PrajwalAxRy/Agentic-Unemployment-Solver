@@ -32,6 +32,9 @@ REQUIRED_ENVIRONMENT_VARIABLES = (
     "JOB_FINDER_LLM_MAX_OUTPUT_TOKENS",
     "JOB_FINDER_LLM_MAX_OUTPUT_TOKENS_PER_REQUEST",
 )
+# Values measured in experiments/llm_compare (bench_2026-10-05_report.md). Anything else is
+# a typo, and an unknown effort would silently change answers and cache identity.
+REASONING_EFFORTS = ("low", "medium", "high", "xhigh")
 
 
 class GatewayProviderError(LLMProviderError):
@@ -68,6 +71,9 @@ class AmdGatewaySettings:
     second_opinion: bool = False
     """JOB_FINDER_LLM_SECOND_OPINION: re-ask once, and a third time on a relevance-gate
     disagreement (see MergedEvaluator._consult). Off unless explicitly enabled."""
+    reasoning_effort: str | None = None
+    """JOB_FINDER_LLM_REASONING_EFFORT: sent as ``reasoning_effort`` on every request when
+    set; unset sends nothing and the gateway's default applies."""
 
     @property
     def model_policy(self) -> ModelPolicy:
@@ -75,6 +81,7 @@ class AmdGatewaySettings:
             provider="amd-llm-gateway",
             model=self.model,
             policy_version=f"v{self.policy_version}",
+            reasoning_effort=self.reasoning_effort,
         )
 
 
@@ -124,6 +131,7 @@ def load_gateway_settings(
         ),
         token_rates=load_rates(values),
         second_opinion=_flag(values, "JOB_FINDER_LLM_SECOND_OPINION"),
+        reasoning_effort=_reasoning_effort(values),
         usage_limits=UsageLimits(
             max_requests=_positive_int(values, "JOB_FINDER_LLM_MAX_REQUESTS"),
             max_estimated_input_tokens=_positive_int(
@@ -153,6 +161,11 @@ class AmdGatewayClient:
         """Submit one strict Chat Completion and return measured gateway usage."""
         if policy != self._settings.model_policy:
             raise GatewayProviderError("requested model policy does not match gateway settings")
+        # Only sent when configured: the exact kwargs are otherwise unchanged from before
+        # the setting existed.
+        extra: dict[str, Any] = {}
+        if self._settings.reasoning_effort is not None:
+            extra["reasoning_effort"] = self._settings.reasoning_effort
         try:
             completion = self._client.chat.completions.create(
                 model=self._settings.model,
@@ -173,6 +186,7 @@ class AmdGatewayClient:
                     },
                 },
                 max_tokens=request.max_output_tokens,
+                **extra,
             )
         except OpenAIError as error:
             raise GatewayProviderError("AMD LLM gateway request failed") from error
@@ -349,6 +363,16 @@ def _flag(values: Mapping[str, str], name: str) -> bool:
     if raw in {"1", "true", "yes", "on"}:
         return True
     raise GatewayProviderError(f"{name} must be true or false")
+
+
+def _reasoning_effort(values: Mapping[str, str]) -> str | None:
+    name = "JOB_FINDER_LLM_REASONING_EFFORT"
+    raw = (values.get(name) or "").strip().lower()
+    if not raw:
+        return None
+    if raw not in REASONING_EFFORTS:
+        raise GatewayProviderError(f"{name} must be one of: {', '.join(REASONING_EFFORTS)}")
+    return raw
 
 
 def _positive_float(raw: str, name: str) -> float:

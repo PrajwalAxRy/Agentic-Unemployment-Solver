@@ -151,6 +151,48 @@ def test_chat_client_sends_strict_schema_and_reads_usage() -> None:
     assert response.output_tokens == 12
 
 
+def test_reasoning_effort_is_sent_only_when_configured() -> None:
+    settings = load_gateway_settings(
+        environment={**configured_environment(), "JOB_FINDER_LLM_REASONING_EFFORT": "High"}
+    )
+    assert settings.reasoning_effort == "high"
+    client, create = fake_client(completion())
+
+    AmdGatewayClient(settings, client=client).complete(
+        LLMRequest("system", "user", {"type": "object"}, 300), settings.model_policy
+    )
+
+    assert create.call_args.kwargs["reasoning_effort"] == "high"
+
+
+def test_unset_reasoning_effort_sends_nothing_and_keeps_the_cache_key() -> None:
+    settings = load_gateway_settings(environment=configured_environment())
+    client, create = fake_client(completion())
+
+    AmdGatewayClient(settings, client=client).complete(
+        LLMRequest("system", "user", {"type": "object"}, 300), settings.model_policy
+    )
+
+    assert settings.reasoning_effort is None
+    assert "reasoning_effort" not in create.call_args.kwargs
+    assert settings.model_policy.cache_key == "amd-llm-gateway:gpt-5.6-luna:v1"
+
+
+def test_reasoning_effort_changes_the_cache_key() -> None:
+    def key(effort: str) -> str:
+        environment = {**configured_environment(), "JOB_FINDER_LLM_REASONING_EFFORT": effort}
+        return load_gateway_settings(environment=environment).model_policy.cache_key
+
+    assert key("high") == "amd-llm-gateway:gpt-5.6-luna:v1:effort=high"
+    assert key("high") != key("xhigh")
+
+
+def test_unknown_reasoning_effort_is_rejected() -> None:
+    environment = {**configured_environment(), "JOB_FINDER_LLM_REASONING_EFFORT": "max"}
+    with pytest.raises(GatewayProviderError, match="REASONING_EFFORT"):
+        load_gateway_settings(environment=environment)
+
+
 def test_malformed_completion_keeps_provider_usage():
     settings = load_gateway_settings(environment=configured_environment())
     malformed = completion()
