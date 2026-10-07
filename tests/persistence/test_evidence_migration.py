@@ -105,3 +105,27 @@ def test_already_judged_rows_keep_null_evidence_rather_than_an_invention(
     assert row["verdict"] == "unrelated"
     for column in _EVIDENCE_COLUMNS:
         assert row[column] is None, f"{column} must be absent, not fabricated"
+
+
+def test_migration_8_adds_the_schema_2_columns_and_keeps_old_verdicts(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Merged prompt 2.0.0 stores a work summary and a location fit beside the verdict.
+
+    Rows judged under 1.x keep their old verdict string and gain NULLs: the 1.x answer had
+    no summary or location fit, so there is nothing true to backfill.
+    """
+    path = tmp_path / "legacy.sqlite3"
+    monkeypatch.setattr(database_module, "CURRENT_SCHEMA_VERSION", 7)
+    with migrated_database(path) as connection:
+        _insert_pre_evidence_job(connection, "job-1")
+        assert {"work_summary", "location_fit"}.isdisjoint(_columns(connection))
+    monkeypatch.undo()
+
+    with migrated_database(path) as connection:
+        assert {"work_summary", "location_fit"} <= _columns(connection)
+        row = connection.execute("SELECT * FROM jobs").fetchone()
+
+    assert row["verdict"] == "unrelated"
+    assert row["work_summary"] is None
+    assert row["location_fit"] is None

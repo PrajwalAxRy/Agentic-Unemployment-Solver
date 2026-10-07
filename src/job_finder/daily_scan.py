@@ -468,7 +468,8 @@ def _commit_result(
             "model_policy = ?, evaluation_status = ?, seniority_result_json = ?, verdict = ?, "
             "verdict_at = CASE WHEN ? IS NULL THEN verdict_at ELSE COALESCE(verdict_at, ?) END, "
             "required_experience = ?, relevance_evidence = ?, relevance_reason = ?, "
-            "location_evidence = ?, location_reason = ?, updated_at = ? WHERE job_key = ?",
+            "location_evidence = ?, location_reason = ?, work_summary = ?, location_fit = ?, "
+            "updated_at = ? WHERE job_key = ?",
             (
                 row.normalized_job.description,
                 row.normalized_job.description_hash,
@@ -491,6 +492,8 @@ def _commit_result(
                 judgment.get("relevance_reason"),
                 judgment.get("location_evidence"),
                 judgment.get("location_reason"),
+                judgment.get("work_summary"),
+                judgment.get("location_fit"),
                 completed.isoformat(),
                 candidate["job_key"],
             ),

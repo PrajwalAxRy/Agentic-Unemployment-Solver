@@ -65,6 +65,9 @@ class JobRecord:
     # asked, which is the common case -- not that it was asked and declined to answer.
     location_evidence: str | None = None
     location_reason: str | None = None
+    # Migration 8 (merged prompt 2.0.0). None on rows judged before it.
+    work_summary: str | None = None
+    location_fit: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -342,6 +345,8 @@ class JobStateRepository:
         relevance_reason: str | None = None,
         location_evidence: str | None = None,
         location_reason: str | None = None,
+        work_summary: str | None = None,
+        location_fit: str | None = None,
     ) -> JobRecord:
         """Record the first time a job reached a qualifying verdict (3.6).
 
@@ -367,6 +372,8 @@ class JobStateRepository:
                     relevance_reason = COALESCE(?, relevance_reason),
                     location_evidence = COALESCE(?, location_evidence),
                     location_reason = COALESCE(?, location_reason),
+                    work_summary = COALESCE(?, work_summary),
+                    location_fit = COALESCE(?, location_fit),
                     updated_at = ?
                 WHERE job_key = ?
                 """,
@@ -378,6 +385,8 @@ class JobStateRepository:
                     relevance_reason,
                     location_evidence,
                     location_reason,
+                    work_summary,
+                    location_fit,
                     _utc_now_text(),
                     job_key,
                 ),
@@ -466,6 +475,8 @@ def _record_from_row(row: sqlite3.Row) -> JobRecord:
         relevance_reason=_optional_text(row["relevance_reason"]),
         location_evidence=_optional_text(row["location_evidence"]),
         location_reason=_optional_text(row["location_reason"]),
+        work_summary=_optional_text(row["work_summary"]),
+        location_fit=_optional_text(row["location_fit"]),
     )
 
 

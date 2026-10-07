@@ -804,6 +804,8 @@ def process_filter_report(
                 # model was never asked -- which is the common case, not a failure.
                 location_evidence=judgment.location_evidence,
                 location_reason=judgment.location_reason,
+                work_summary=judgment.work_summary,
+                location_fit=None if judgment.location_fit is None else judgment.location_fit.value,
             )
             if judgment.relevance is RelevanceTier.NOT_AI:
                 counts.conditional_reject += 1

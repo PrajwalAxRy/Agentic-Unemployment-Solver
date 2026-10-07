@@ -703,6 +703,12 @@ def test_unresolved_location_is_judged_by_the_model(
     assert result.pending_count == 0
     assert len(result.report.matching_jobs) == matches
     assert [item.category for item in result.report.review_candidates] == review_categories
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        stored = connection.execute(
+            "SELECT verdict, location_fit, work_summary FROM jobs"
+        ).fetchone()
+    assert tuple(stored)[:2] == (relevance, fit)
+    assert stored["work_summary"]
 
 
 def test_replaying_invalid_reply_does_not_consume_new_invocation_budget(tmp_path):

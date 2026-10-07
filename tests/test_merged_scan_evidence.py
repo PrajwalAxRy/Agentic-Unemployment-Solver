@@ -175,6 +175,7 @@ def test_relevance_evidence_reaches_the_database(tmp_path: Path) -> None:
     record = stored[0]
     assert record.verdict == "core_ai"
     assert record.relevance_evidence == "train and deploy production machine learning models"
+    assert record.work_summary == "Trains and deploys production machine learning models."
     assert record.relevance_reason == "Core ML engineering, not an adjacent analytics role."
 
 

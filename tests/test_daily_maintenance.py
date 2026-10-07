@@ -125,6 +125,9 @@ def test_legacy_schema_backup_restore_preserves_identity_before_upgrade(tmp_path
             "daily_company_counts",
         ):
             connection.execute(f"DROP TABLE {table}")
+        # Migration 8 added columns to jobs itself; a real schema-5 database lacks them.
+        for column in ("work_summary", "location_fit"):
+            connection.execute(f"ALTER TABLE jobs DROP COLUMN {column}")
         connection.execute("DELETE FROM schema_migrations WHERE version >= 6")
     assert inspect_state(database).schema_version == 5
     backup_state(database, tmp_path / "backup.sqlite3")

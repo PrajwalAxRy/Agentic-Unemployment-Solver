@@ -8,7 +8,7 @@ from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 
-CURRENT_SCHEMA_VERSION = 7
+CURRENT_SCHEMA_VERSION = 8
 
 _MIGRATIONS: dict[int, tuple[str, ...]] = {
     1: (
@@ -173,6 +173,16 @@ _MIGRATIONS: dict[int, tuple[str, ...]] = {
         "ALTER TABLE llm_requests ADD COLUMN cached_input_tokens INTEGER",
         "ALTER TABLE llm_requests ADD COLUMN cache_write_tokens INTEGER",
         "ALTER TABLE llm_requests ADD COLUMN reasoning_tokens INTEGER",
+    ),
+    # Merged prompt 2.0.0 (schema version 2). jobs.verdict now holds a relevance tier
+    # (core_ai / ai_involved / uncertain / not_ai); rows judged under 1.x keep their
+    # substantive / peripheral / unrelated strings until re-judged, which is why it has no
+    # CHECK constraint. work_summary is one model-written sentence on what the person
+    # would do. location_fit is NULL when the deterministic filter placed the job and the
+    # model was never asked -- the common case, not a missing answer.
+    8: (
+        "ALTER TABLE jobs ADD COLUMN work_summary TEXT",
+        "ALTER TABLE jobs ADD COLUMN location_fit TEXT",
     ),
 }
 

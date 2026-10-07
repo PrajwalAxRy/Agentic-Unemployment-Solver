@@ -274,3 +274,26 @@ def test_untrusted_run_writes_no_change(repository: JobStateRepository) -> None:
     stored = repository.require(key)
     assert stored.consecutive_absences == 2
     assert stored.status == "active"
+
+
+def test_schema_2_summary_and_location_fit_are_persisted(repository: JobStateRepository) -> None:
+    """Migration 8: merged prompt 2.0.0's work summary and location fit."""
+    observation = repository.observe_listing(
+        _job(), observed_at=datetime(2026, 9, 25, tzinfo=UTC), profile_version="1.0"
+    )
+    key = observation.record.job_key
+
+    repository.record_verdict(
+        key,
+        verdict="ai_involved",
+        verdict_at=datetime(2026, 9, 26, tzinfo=UTC),
+        work_summary="Builds payment APIs and integrates an LLM triage feature.",
+        location_fit="open_remote",
+    )
+    # A later run where the filter placed the location passes no fit: keep the stored one.
+    repository.record_verdict(key, verdict="core_ai", verdict_at=datetime(2026, 9, 29, tzinfo=UTC))
+
+    stored = repository.require(key)
+    assert stored.verdict == "core_ai"
+    assert stored.work_summary == "Builds payment APIs and integrates an LLM triage feature."
+    assert stored.location_fit == "open_remote"
