@@ -1,5 +1,13 @@
 # Luna vs Sol: making Luna's judgments robust (2026-10-02 batch)
 
+> **Current state (2026-10-06).** Production runs merged prompt 2.0.0 (lab prompt v10,
+> schema 2: `core_ai`/`ai_involved`/`uncertain`/`not_ai`, `work_summary`, `location_fit`)
+> at Luna `high` reasoning effort. It was chosen on a blind 1,000-job benchmark scored
+> against the user's written policy (`policy/policy_v1.md`); see
+> `bench_2026-10-05_report.md`. The lab-only contract in `lab/v2.py` is now production's
+> (`src/job_finder/matching/merged_prompt.py`); `lab/smoke_production.py` makes one real
+> call with the production settings. The history below predates that benchmark.
+
 ## Goal
 Production uses gpt-6-luna. gpt-6.1-sol ran as a reference. Make Luna's relevance and
 seniority judgments match reality, judged from the job description itself (Sol is a

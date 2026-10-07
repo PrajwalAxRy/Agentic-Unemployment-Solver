@@ -30,6 +30,7 @@ code, and `latest_scan.json` is better queried with `jq` than read.
 | Do `reasoning_effort`, `temperature` or `seed` stabilise Luna? | **No — measured.** The gateway accepts all three; none reduced rerun instability (luna flips relevance on ~26% of hard cases with prompt 1.1.0). Neither did evidence-before-verdict schema order. Only prompt clarity helped (1.2.0: 14%). See `experiments/llm_compare/README.md`. |
 | Why was the review list ~1,000 rows? | **Not the LLM.** On 2026-10-02, 816 of 1,060 were Bank of America `detail_location_unavailable`: Workday echoed the site as `Lateral-US` vs configured `lateral-us`, and a case-sensitive URL check failed every detail fetch (fixed in `workday.py`). Most of the rest were location reviews and empty-description rows, now judged by the model. |
 | Is Sol (gpt-6.1-sol) ground truth for Luna? | **No.** On 72 hand-adjudicated disagreements, with prompt 1.1.0 Sol missed 9 relevant jobs and passed 13 irrelevant ones. With 1.2.0 Sol improved too and is still better than Luna (per call: Sol 0 missed / 3 extra, Luna 0.3 / 6) at ~12x the cost. On the fresh 2026-10-03 batch Luna 1.2.0's errors were mostly repeatable (same answer every rerun), i.e. prompt gaps; 1.3.0 closed most of them. Adjudicate from the description; verdicts are in `experiments/llm_compare/lab/adjudicated_cases.json` and `truth_2026-10-03.json`. |
+| Which prompt and effort does production use, and why? | **Prompt 2.0.0 at Luna `high`** (`JOB_FINDER_LLM_REASONING_EFFORT=high`), chosen on a blind 1,000-job benchmark labelled under `experiments/llm_compare/policy/policy_v1.md` and reviewed by the user. Per call over 966 scored jobs: shown jobs missed 8.4 → 2.0 vs 1.3.0, at ~14 → ~22 extras. Effort helps only with a clear prompt (it did nothing for 1.3.0). Higher effort is ~1.5x slower per call. Details: `experiments/llm_compare/bench_2026-10-05_report.md`. |
 | Does the second opinion (`JOB_FINDER_LLM_SECOND_OPINION`) fix Luna's errors? | **Only the unstable ones.** It votes away answers that flip between reruns (~2% of jobs). An error Luna makes on every call survives any vote; fix those in the prompt and measure with `experiments/llm_compare/lab`. |
 
 ## Architecture: discovery checkpoint, then evaluation, one lock
@@ -67,9 +68,14 @@ rejected — the gate earns its keep).
 
 ## The merged LLM call (`to_change.md` 2.5)
 
-`MergedEvaluator` makes one call per job returning three judgments: relevance
-(`substantive`/`peripheral`/`unrelated`), seniority (`true`/`false`/`"uncertain"`), and
-location **only** when the deterministic filter couldn't resolve it.
+`MergedEvaluator` makes one call per job (prompt schema 2, `config/merged_prompt.toml`)
+returning a one-sentence `work_summary` first, then three judgments: relevance
+(`core_ai`/`ai_involved`/`uncertain`/`not_ai`; only `not_ai` hides, `uncertain` is shown
+last and tagged), seniority (`true`/`false`/`"uncertain"`), and `location_fit`
+(`india`/`open_remote`/`relocation`/`excluded`/`uncertain`) **only** when the deterministic
+filter couldn't resolve it. `excluded` hides; `relocation` and `uncertain` go to the review
+list unless seniority is already `false`. Rows judged under 1.x keep
+`substantive`/`peripheral`/`unrelated` in `jobs.verdict`; schema-1 prompts are refused.
 
 Admission to evaluation is filter outcome RETAINED **or REVIEW** (role passed, location
 unresolved). Until 2026-10-03 REVIEW rows went straight to the review list, so the location
@@ -83,10 +89,13 @@ title+description after whitespace/case/typography normalization (dash and quote
 non-breaking spaces, a trailing period or leading bullet). Failures trigger the retry
 (~1% of calls with prompt 1.2.0).
 
-Prompt 1.2.0's relevance boundary is a measured policy, not wording to tidy: engineering
-roles with explicit AI duties are "peripheral" (visible), AI sales/consulting/delivery
-management is "unrelated", job-family template text is ignored. Re-run the harness in
-`experiments/llm_compare/` before changing it. `seniority_match` is `bool | str` — **never truthiness-check it**;
+Prompt 2.0.0's relevance boundary is the user's written policy
+(`experiments/llm_compare/policy/policy_v1.md`, v1.2), not wording to tidy: the title alone
+can show a job, testing or securing AI systems counts, using AI tools does not, AI sales
+and CRM-practice consulting are hidden. Its text is byte-identical to the benchmarked lab
+prompt; change it only after re-running `experiments/llm_compare/run_bench_2026-10-05.sh`
+style scoring against `lab/truth_bench_2026-10-05.json` (score the tuning half, look at
+the sealed test half once). A tempting one-line fix (prompt v11) cost a real miss. `seniority_match` is `bool | str` — **never truthiness-check it**;
 `"uncertain"` is truthy. All current consumers correctly use `is True` / `is False`.
 
 Cache key: SHA-256 of the **exact rendered LLM request plus model policy**, including
@@ -179,6 +188,7 @@ python -m job_finder scan --discovery-only # save full batch/descriptions; no LL
 python -m job_finder evaluate            # resume saved attempt before midnight IST
 python -m job_finder force_reevaluate    # restart all saved candidates, paying again
 python -m job_finder costs               # per-day spend, discarded totals, unknown usage
+python experiments/llm_compare/lab/smoke_production.py  # one real call with production settings
 
 # Reclaim disk by clearing description text for jobs not seen in 90 days. Keeps the rows.
 python -m job_finder state prune --backup state/backups/pre-prune.sqlite3 \
