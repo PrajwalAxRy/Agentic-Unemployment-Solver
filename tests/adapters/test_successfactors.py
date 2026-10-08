@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import replace
 from datetime import UTC, datetime
 from pathlib import Path
@@ -147,6 +148,31 @@ def test_detail_page_supplies_published_date_description_and_preserves_identity(
         "Build reliable machine-learning services.\n\nPartner with research and platform teams."
     )
     assert detailed.description_hash is not None
+
+
+def test_detail_without_street_address_falls_back_to_locality_region_country() -> None:
+    page = (FIXTURES / "detail.html").read_text(encoding="utf-8")
+    streetless = HttpResponse(
+        "",
+        "",
+        200,
+        "text/html",
+        0,
+        re.sub(
+            r'<meta[^>]*itemprop="streetAddress"[^>]*>',
+            '<meta itemprop="addressLocality" content="Bangalore">'
+            '<meta itemprop="addressRegion" content="KA">'
+            '<meta itemprop="addressCountry" content="IN">',
+            page,
+        ).encode(),
+    )
+    adapter, _ = adapter_for([fixture("page_1.html"), fixture("page_2.html"), streetless])
+    listing = adapter.list_jobs(source()).jobs[0]
+
+    detailed = adapter.get_job_detail(source(), listing)
+
+    assert detailed.location_original == "Bangalore, KA, IN"
+    assert detailed.description is not None
 
 
 def test_empty_malformed_access_and_partial_responses_are_visible() -> None:

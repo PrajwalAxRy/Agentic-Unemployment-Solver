@@ -387,7 +387,10 @@ class SuccessFactorsAdapter:
         parser.feed(document)
         parser.close()
         title = _required_text(parser.title, "SuccessFactors detail title")
-        location = _required_text(parser.location, "SuccessFactors detail location")
+        location = _required_text(
+            parser.location or parser.address_fallback or job.location_original,
+            "SuccessFactors detail location",
+        )
         description = _description_text(parser.description_parts)
         published_raw = _optional_text(parser.date_posted)
         published_at = _parse_date_posted(published_raw)
@@ -499,15 +502,33 @@ class _DetailParser(HTMLParser):
         self.location: str | None = None
         self.date_posted: str | None = None
         self.description_parts: list[str] = []
+        self._address_parts: dict[str, str] = {}
         self._title_parts: list[str] = []
         self._capture_title = False
         self._description_depth = 0
+
+    @property
+    def address_fallback(self) -> str | None:
+        """City, region and country, for pages that carry no streetAddress meta tag."""
+        parts = [
+            self._address_parts[name]
+            for name in ("addressLocality", "addressRegion", "addressCountry")
+            if name in self._address_parts
+        ]
+        return ", ".join(parts) or None
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         attributes = dict(attrs)
         itemprop = attributes.get("itemprop")
         if tag == "meta" and itemprop == "streetAddress" and self.location is None:
             self.location = attributes.get("content")
+        elif (
+            tag == "meta"
+            and itemprop in ("addressLocality", "addressRegion", "addressCountry")
+            and itemprop not in self._address_parts
+            and (attributes.get("content") or "").strip()
+        ):
+            self._address_parts[itemprop] = (attributes.get("content") or "").strip()
         elif tag == "meta" and itemprop == "datePosted" and self.date_posted is None:
             self.date_posted = attributes.get("content")
         if self._description_depth:
