@@ -14,7 +14,12 @@ from uuid import uuid4
 
 from job_finder.adapters.base import AdapterRegistry, JobDetailAdapter
 from job_finder.adapters.connectivity import ConnectivityWaiter
-from job_finder.adapters.errors import DetailUnavailable, exception_category
+from job_finder.adapters.errors import (
+    POSTING_CLOSED,
+    DetailPostingClosed,
+    DetailUnavailable,
+    exception_category,
+)
 from job_finder.adapters.http_client import HttpRequestError
 from job_finder.checkpoint import (
     DEFAULT_CHECKPOINT_PATH,
@@ -661,6 +666,8 @@ def process_filter_report(
             row.normalized_job, source, adapters, profile
         )
         counts.detail_fetch += fetched
+        if failure_category == POSTING_CLOSED:
+            continue
         if detailed is None:
             counts.detail_failure += 1
             counts.review += 1
@@ -970,6 +977,16 @@ def _ensure_description(
             error,
         )
         return None, 1, f"http_{error.category.value}"
+    except DetailPostingClosed as error:
+        # The board says the job is gone while still listing it. Expected, not an adapter
+        # fault, so no traceback; callers drop the job instead of judging it.
+        _LOGGER.warning(
+            "detail_posting_closed company=%s url=%s reason=%s",
+            source.company_id,
+            job.canonical_url,
+            error,
+        )
+        return None, 1, POSTING_CLOSED
     except DetailUnavailable as error:
         # Identity mismatches mean an adapter assumption broke, not that the site is down.
         # Logged at ERROR with a traceback so a burst of them is visible rather than

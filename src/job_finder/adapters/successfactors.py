@@ -12,6 +12,7 @@ from urllib.parse import urlencode, urljoin, urlsplit
 
 from job_finder.adapters._support import diagnostic, request_outcome
 from job_finder.adapters.base import request_failure_diagnostic, require_source_configuration
+from job_finder.adapters.errors import DetailPostingClosed
 from job_finder.adapters.http_client import BoundedHttpClient, HttpFailureCategory, HttpRequestError
 from job_finder.core.access_detection import is_access_block_html
 from job_finder.core.job_contracts import DateBasis, NormalizedJob
@@ -35,6 +36,7 @@ _WHITESPACE_RUN = re.compile(r"\s+")
 DEFAULT_PAGE_SIZE = 25
 DEFAULT_MAX_PAGES = 100
 _PATH_SEGMENT = r"[A-Za-z0-9._~%()+@-]+"
+_POSITION_FILLED = re.compile(r"this\s+position\s+has\s+been\s+filled", re.IGNORECASE)
 _CATEGORY_PATH = re.compile(rf"/(?:{_PATH_SEGMENT}/)?go/{_PATH_SEGMENT}/[0-9]+/")
 _JOB_ID_PATH = re.compile(r"/([0-9]+)/?$")
 _RESULT_RANGE = re.compile(
@@ -386,6 +388,12 @@ class SuccessFactorsAdapter:
         parser = _DetailParser()
         parser.feed(document)
         parser.close()
+        if parser.title is None and _POSITION_FILLED.search(document):
+            # RMK keeps serving the listing row after a requisition closes, but the detail
+            # page becomes an empty shell: no itemprop markup, only this notice (SAP,
+            # 2026-10-08). It is only trusted when no title was found, so a real posting
+            # that quotes the phrase in its body is unaffected.
+            raise DetailPostingClosed("SuccessFactors detail page says the position was filled.")
         title = _required_text(parser.title, "SuccessFactors detail title")
         location = _required_text(
             parser.location or parser.address_fallback or job.location_original,

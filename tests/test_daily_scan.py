@@ -584,6 +584,42 @@ def test_fresh_scan_freezes_description_even_for_previously_cached_job(tmp_path)
     assert not result.report.matching_jobs
 
 
+def test_filled_posting_is_dropped_not_judged_and_keeps_its_job_row(tmp_path):
+    # SAP still lists a filled requisition but its detail page says "position has been
+    # filled". It must not reach the model or the report, and a known job's row must
+    # survive (deleting it would make a live listing look new, see CLAUDE.md "Prune").
+    from job_finder.adapters.errors import DetailPostingClosed
+    from tests.test_scan import RetryingDetailAdapter
+
+    class FilledAdapter(RetryingDetailAdapter):
+        def get_job_detail(self, company_source, listing):
+            self.detail_requests += 1
+            raise DetailPostingClosed("position has been filled")
+
+    full = replace(_job("1", "ML Engineer"), company_id="healthy")
+    bare = replace(full, description=None, description_hash=None)
+    adapter = FilledAdapter({"healthy": (bare,)})
+    client = _Client([])
+
+    result = run(tmp_path, None, adapter=adapter, model=_merged_model(client))
+
+    assert adapter.detail_requests == 1
+    assert client.requests == []
+    assert result.pending_count == 0
+    assert not result.report.review_candidates
+    assert not result.report.matching_jobs
+    assert result.report.metrics.description_failure_count == 0
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        assert connection.execute("SELECT count(*) FROM batch_candidates").fetchone()[0] == 0
+
+    # A job already known from an earlier scan keeps its row when it later turns up filled.
+    run(tmp_path, StubLLMClient([decision(True)]), listings=(full,))
+    run(tmp_path, None, adapter=FilledAdapter({"healthy": (bare,)}), model=_merged_model(client))
+    with migrated_database(tmp_path / "jobs.sqlite3") as connection:
+        assert connection.execute("SELECT count(*) FROM jobs").fetchone()[0] == 1
+        assert connection.execute("SELECT count(*) FROM batch_candidates").fetchone()[0] == 0
+
+
 def _title_only_reply(relevance: str, title: str) -> str:
     return json.dumps(
         {

@@ -15,6 +15,7 @@ from uuid import uuid4
 
 from job_finder.adapters.base import AdapterRegistry
 from job_finder.adapters.connectivity import ConnectivityWaiter
+from job_finder.adapters.errors import POSTING_CLOSED
 from job_finder.checkpoint import CheckpointError
 from job_finder.collection import (
     FilterListingRecord,
@@ -287,6 +288,7 @@ def _publish(
     sources = {entry.source.company_id: entry.source for entry in registry.entries}
     prepared = []
     identities: set[str] = set()
+    closed: set[str] = set()
     for row in filtered.listings:
         # Location-review rows are evaluated too (to_change.md 2.4, decided): the merged
         # call answers the location question the deterministic filter could not. They were
@@ -295,12 +297,18 @@ def _publish(
         if row.final_decision not in _ADMITTED:
             continue
         key = job_identity(row.normalized_job).job_key
-        if key in identities:
+        if key in identities or key in closed:
             continue
-        identities.add(key)
         detailed, fetched, error = _ensure_description(
             row.normalized_job, sources[row.company_id], adapters, profile
         )
+        if error == POSTING_CLOSED:
+            # Filled but still listed: not a candidate, so it is never judged or reported.
+            # The jobs row is left alone and the key stays out of ``identities``, so the
+            # presence update below treats it like any other listed non-candidate.
+            closed.add(key)
+            continue
+        identities.add(key)
         prepared.append(
             (replace(row, normalized_job=detailed or row.normalized_job), key, fetched, error)
         )
@@ -314,10 +322,12 @@ def _publish(
         for row in filtered.listings
         if row.final_decision is FinalFilterDecision.REVIEW
         and job_identity(row.normalized_job).job_key not in identities
+        and job_identity(row.normalized_job).job_key not in closed
     )
     metadata = {
         "filtered": filter_metadata(replace(filtered, listings=leftover)),
         "accounting": [asdict(row) for row in _company_accounting(registry)],
+        "closed_postings": len(closed),
         "started_at": start.isoformat(),
         "profile_id": profile.profile_id,
         "profile_version": profile.version,

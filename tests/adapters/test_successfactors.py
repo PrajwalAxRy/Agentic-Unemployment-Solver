@@ -10,6 +10,7 @@ from pathlib import Path
 import pytest
 
 from job_finder.adapters.base import AdapterConfigurationError, JobDetailAdapter
+from job_finder.adapters.errors import DetailPostingClosed
 from job_finder.adapters.http_client import (
     BoundedHttpClient,
     HttpFailureCategory,
@@ -173,6 +174,40 @@ def test_detail_without_street_address_falls_back_to_locality_region_country() -
 
     assert detailed.location_original == "Bangalore, KA, IN"
     assert detailed.description is not None
+
+
+def test_filled_position_page_is_reported_as_a_closed_posting() -> None:
+    """SAP keeps listing a closed requisition; its detail page is an empty shell.
+
+    Observed 2026-10-08: no itemprop markup and only "Sorry, this position has been
+    filled.", which used to surface as an untyped "title must be non-empty" error.
+    """
+    adapter, _ = adapter_for(
+        [fixture("page_1.html"), fixture("page_2.html"), fixture("detail_filled.html")]
+    )
+    listing = adapter.list_jobs(source()).jobs[0]
+
+    with pytest.raises(DetailPostingClosed):
+        adapter.get_job_detail(source(), listing)
+
+
+def test_phrase_inside_a_real_posting_does_not_close_it() -> None:
+    page = (FIXTURES / "detail.html").read_text(encoding="utf-8")
+    quoting = HttpResponse(
+        "",
+        "",
+        200,
+        "text/html",
+        0,
+        page.replace(
+            "Build reliable machine-learning services.",
+            "Build services. (This position has been filled twice before.)",
+        ).encode(),
+    )
+    adapter, _ = adapter_for([fixture("page_1.html"), fixture("page_2.html"), quoting])
+    listing = adapter.list_jobs(source()).jobs[0]
+
+    assert adapter.get_job_detail(source(), listing).description is not None
 
 
 def test_empty_malformed_access_and_partial_responses_are_visible() -> None:

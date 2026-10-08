@@ -20,7 +20,13 @@ The split that matters operationally is **identity mismatch** versus **missing c
     The right page was fetched but a required field or section is absent. Usually means the
     site's markup changed, or the posting genuinely lacks the field.
 
-Both derive from ``DetailUnavailable``, which derives from ``ValueError`` so that existing
+``DetailPostingClosed``
+    The right page was fetched and the board itself says the posting is closed (for example
+    SuccessFactors' "Sorry, this position has been filled."), usually while the listing still
+    advertises it. Not an adapter fault and not worth a retry: the job is dropped from the
+    scan rather than judged from its title.
+
+All three derive from ``DetailUnavailable``, which derives from ``ValueError`` so that existing
 ``except ValueError`` handlers keep working unchanged during migration. This follows the
 codebase's own precedent -- ``AdapterConfigurationError``, ``SeniorityResponseError`` and
 ``_RemoteApiError`` all subclass builtins the same way.
@@ -52,6 +58,14 @@ class DetailContentMissing(DetailUnavailable):
     Distinct from :class:`DetailIdentityMismatch` because the remedy differs: the page was
     correctly identified, so this points at changed markup or a genuinely incomplete posting.
     """
+
+
+class DetailPostingClosed(DetailUnavailable):
+    """The board's detail page states the posting is closed, filled or withdrawn."""
+
+
+#: ``failure_category`` reported by ``_ensure_description`` for :class:`DetailPostingClosed`.
+POSTING_CLOSED = "posting_closed"
 
 
 def exception_category(error: BaseException) -> str:
