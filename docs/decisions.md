@@ -350,3 +350,88 @@ halts still return 6. The flag is rejected on evaluation/resume commands before 
 state/artifact replacement; otherwise an operator could silently skip the requested
 evaluation. Current provider/model/prompt settings remain required to bind the frozen
 batch to its eventual evaluation rules. No network inference is performed in this mode.
+
+---
+
+## D14. Adapter entity checks identify the company, not an exact legal name
+**2026-10-01 · SETTLED**
+
+`navi_careers.py` rejected any `CompanyName` outside the literal set
+`{"Navi", "Navi Limited"}`. Navi's public API reports the *legal entity* that owns each
+requisition, and 4 of 36 live jobs are owned by `NAVI TECHNOLOGIES LIMITED` — the holding
+company's former name, still attached to open requisitions after its rename to Navi
+Limited. Those rows raised `malformed_job`.
+
+The check now requires only that the first word of the name be exactly `navi`, which
+accepts the group's entities (`Navi Finserv Limited`, `Navi General Insurance Limited`)
+while still rejecting an unrelated company that merely contains the substring
+(`Navigator Systems`, `NaviLink`).
+
+**Why:** the entity string is not the relevance signal — `filter_role` and the LLM gate
+decide that. This check exists only to prove a posting is not an unrelated company sharing
+the endpoint. Pinning it to exact display names makes the adapter fail on ordinary
+corporate action (renames, subsidiaries, acquisitions) with no warning until a run reports
+the source as degraded.
+
+**How to apply:** when an adapter must confirm a payload belongs to its company, match the
+company identity, not a fixed display string. Prefer a rule that survives a rename.
+
+---
+
+## D15. A malformed row degrades the row, not the whole source
+**2026-10-01 · SETTLED**
+
+`navi_careers.py` returned immediately on the first unparseable row. Combined with D14,
+the 2026-10-01 run retained **4 of Navi's 36 jobs** — the abort fired at index 4 and
+discarded the 31 valid rows after it. `greenhouse.py` and `ashby.py` already skip the row
+and continue; Navi now does the same, and reports `PARTIAL` with `complete=False` whenever
+any row failed.
+
+**Why:** one unparseable row is evidence about that row. Dropping every subsequent job
+turns a single upstream quirk into near-total silent data loss on a healthy source, and
+the resulting count still looks like a plausible result. Completeness is reported through
+the outcome and the `complete` flag, which is what downstream coverage accounting reads —
+an early return is not needed to signal it, and actively destroys information.
+
+**How to apply:** per-row validation failures append a `malformed_job` diagnostic and
+`continue`. Reserve early returns for whole-response faults — bad JSON, failed total
+reconciliation, duplicate identity, redirects — where later rows genuinely cannot be
+trusted.
+
+---
+
+## D16. `inconsistent_total` on Eightfold is correct behaviour, not a bug
+**2026-10-01 · SETTLED · no code change**
+
+Millennium Management (`eightfold`, tenant `mlp`) reported `source_retry_exhausted` +
+`inconsistent_total` and outcome `suspicious` on 2026-10-01. Investigated and
+**deliberately not fixed.**
+
+Replayed the same public endpoint the same evening: 22 pages, 214 jobs, `count` stable at
+214 across every page, 214 unique IDs, zero duplicates. The adapter paginates correctly.
+`inconsistent_total` fires only when Eightfold's `count` changes *between pages of one
+run*, which is what happens when a requisition is opened or closed mid-pagination — the
+source is genuinely in motion and completeness for that run is unknowable. The source was
+validated at 225 jobs on 2026-09-21 and serves 214 now, so this board does change.
+
+The outer retry already treats `SUSPICIOUS` as retryable (`base.py:116-120`); it retried
+and the count moved again each time, which is exactly `source_retry_exhausted`.
+
+**Why not "fix" it:** the only ways to make this green are to tolerate a drifting count or
+to stop reconciling totals, both of which would let a genuinely truncated page set be
+recorded as complete. Reporting one company as `suspicious` for a run is the correct,
+conservative outcome and does not affect the other 148 sources.
+
+**Reopen if:** this company fails this way on most runs rather than occasionally, which
+would suggest the board mutates continuously and needs a different completeness strategy
+(e.g. snapshot-and-verify) rather than a loosened check.
+
+**Known-latent, deliberately not fixed in D14/D15:** a `malformed_job` ERROR forces
+`complete=False`, and `safe_for_absence_counting` (`source_contracts.py:201-208`) then
+blocks absence counting, so a permanently-unparseable row would stop Navi jobs expiring
+and make the source retry 3× every scan for a byte-identical result. Measured 2026-10-01:
+all 36 live Navi rows normalize, so no row is currently in this state. Fixing it properly
+means separating "this row belongs to another company" (a filtering decision, severity
+WARNING, completeness untouched) from "this row is defective" (a parse defect) across all
+adapters, not just Navi. **Reopen if** any adapter reports a non-zero steady-state
+`malformed_job` count across consecutive runs.

@@ -100,10 +100,18 @@ class NaviCareersAdapter:
         jobs: list[NormalizedJob] = []
         diagnostics: list[AdapterDiagnostic] = []
         seen_ids: set[str] = set()
+        parse_error_count = 0
         for index, raw_job in enumerate(raw_jobs):
             try:
                 job = _normalize_job(source, raw_job)
             except (json.JSONDecodeError, ValueError) as error:
+                # Skip the offending row and keep going, matching greenhouse.py and
+                # ashby.py. Returning here made one unparseable row discard every later
+                # job in the response: the 2026-10-01 run kept 4 of 36 because the 5th
+                # row carried an unexpected legal entity name. One bad row is a row-level
+                # fact, so the completeness signal below -- not an early return -- is what
+                # reports it.
+                parse_error_count += 1
                 diagnostics.append(
                     diagnostic(
                         "malformed_job",
@@ -112,13 +120,7 @@ class NaviCareersAdapter:
                         job_index=index,
                     )
                 )
-                return _result(
-                    source,
-                    AdapterOutcome.PARTIAL if jobs else AdapterOutcome.FAILED,
-                    jobs,
-                    diagnostics,
-                    page_count=1,
-                )
+                continue
             external_id = job.external_job_id
             if external_id is None:
                 raise AssertionError("Navi jobs require an external ID")
@@ -134,6 +136,21 @@ class NaviCareersAdapter:
                 return _result(source, AdapterOutcome.SUSPICIOUS, jobs, diagnostics, page_count=1)
             seen_ids.add(external_id)
             jobs.append(job)
+
+        if parse_error_count:
+            # Still fail closed on completeness: we reconciled Total against the returned
+            # collection, but we could not normalize every row, so this is not a complete
+            # view of the source and must not be recorded as one. Zero surviving rows is a
+            # whole-source fault, not a partial read -- a schema change or a renamed entity
+            # fails every row, and reporting that as PARTIAL with no jobs would present
+            # total loss as a successful partial read.
+            return _result(
+                source,
+                AdapterOutcome.PARTIAL if jobs else AdapterOutcome.FAILED,
+                jobs,
+                diagnostics,
+                page_count=1,
+            )
 
         return _result(
             source,
@@ -163,8 +180,10 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
     if _UUID_PATTERN.fullmatch(external_id) is None:
         raise ValueError("Navi JobId must be a UUID.")
     company_name = required_string(raw, "CompanyName", "Navi job")
-    if company_name not in {"Navi", "Navi Limited"}:
-        raise ValueError("Navi job CompanyName did not identify Navi.")
+    if not _is_navi_entity(company_name):
+        raise ValueError(
+            f"Navi job CompanyName did not identify a Navi group entity: {company_name!r}"
+        )
     title = required_string(raw, "JobTitle", "Navi job")
     canonical_url = _job_url(required_string(raw, "ApplyUrl", "Navi job"), external_id)
     location_raw = required_string(raw, "Location", "Navi job")
@@ -198,6 +217,29 @@ def _normalize_job(source: CompanySource, value: object) -> NormalizedJob:
             "job_type": required_string(raw, "JobType", "Navi job"),
         },
     )
+
+
+def _is_navi_entity(value: str) -> bool:
+    """Accept any Navi group legal entity, not a fixed pair of display names.
+
+    The public API returns the *legal* entity that owns each requisition, and the group
+    posts under several: ``Navi Limited`` (the renamed holding company) alongside
+    ``NAVI TECHNOLOGIES LIMITED``, its former name, which still owns live requisitions.
+    A fixed allowlist of two exact strings treated the second as a malformed job and
+    aborted the whole source (2026-10-01 run: 4 of 36 jobs, collection stopped at the
+    first one). Entity names change with corporate action; the title filter is the
+    component that decides relevance, so this check only needs to prove the posting
+    belongs to Navi rather than to an unrelated company sharing the endpoint.
+
+    The first word must be exactly ``navi`` so that a different company whose name merely
+    contains the substring (``Navigator Systems``, ``NaviLink``) is still rejected.
+
+    Empty tokens are dropped before that check so the result does not depend on the
+    caller having stripped the value first: leading punctuation (``"Navi" Ltd``) would
+    otherwise put ``""`` in front and reject a genuine entity.
+    """
+    tokens = [token for token in re.split(r"[^a-z0-9]+", value.casefold()) if token]
+    return bool(tokens) and tokens[0] == "navi"
 
 
 def _location_values(value: str) -> list[str]:

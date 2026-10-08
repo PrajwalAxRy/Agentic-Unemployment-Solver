@@ -105,7 +105,7 @@ def test_complete_collection_maps_identity_location_date_and_description() -> No
     assert transport.calls == [NAVI_JOBS_API]
 
 
-def test_total_mismatch_duplicate_malformed_location_and_redirect_fail_closed() -> None:
+def test_total_mismatch_duplicate_and_redirect_fail_closed() -> None:
     mismatched = payload()
     mismatched["Total"] = 3
     adapter, _ = adapter_for([response(mismatched)])
@@ -117,15 +117,76 @@ def test_total_mismatch_duplicate_malformed_location_and_redirect_fail_closed() 
     adapter, _ = adapter_for([response(duplicate)])
     assert adapter.list_jobs(source()).outcome is AdapterOutcome.SUSPICIOUS
 
-    malformed = payload()
-    malformed["Jobs"][0]["Location"] = "not-json"  # type: ignore[index]
-    adapter, _ = adapter_for([response(malformed)])
-    result = adapter.list_jobs(source())
-    assert result.outcome is AdapterOutcome.FAILED
-    assert result.diagnostics[-1].category == "malformed_job"
-
     adapter, _ = adapter_for([response(payload(), final_url="https://example.com/jobs")])
     assert adapter.list_jobs(source()).outcome is AdapterOutcome.FAILED
+
+
+def test_malformed_row_is_skipped_without_discarding_the_rest() -> None:
+    """One unparseable row must not discard the rows after it.
+
+    The 2026-10-01 run returned early on the first malformed row and kept 4 of Navi's 36
+    jobs. Greenhouse and Ashby skip and continue; Navi now does too, while still reporting
+    the source as incomplete.
+    """
+    malformed = payload()
+    malformed["Jobs"][0]["Location"] = "not-json"  # type: ignore[index]
+
+    result = adapter_for([response(malformed)])[0].list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.PARTIAL
+    assert result.complete is False
+    assert [job.external_job_id for job in result.jobs] == [
+        malformed["Jobs"][1]["JobId"].casefold()  # type: ignore[index]
+    ]
+    assert [item.category for item in result.diagnostics] == ["malformed_job"]
+
+
+@pytest.mark.parametrize(
+    "company_name",
+    ["Navi", "Navi Limited", "NAVI TECHNOLOGIES LIMITED", "navi technologies limited"],
+)
+def test_navi_group_legal_entities_are_accepted(company_name: str) -> None:
+    """Requisitions are owned by several Navi legal entities, all of them legitimate."""
+    value = payload()
+    value["Jobs"][0]["CompanyName"] = company_name  # type: ignore[index]
+
+    result = adapter_for([response(value)])[0].list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.SUCCESS
+    assert result.complete is True
+    assert len(result.jobs) == 2
+    assert result.jobs[0].source_metadata["company_name"] == company_name
+
+
+@pytest.mark.parametrize("company_name", ["Navigator Systems", "Acme Corp", "Not Navi Ltd"])
+def test_unrelated_company_names_are_still_rejected(company_name: str) -> None:
+    """Widening the entity check must not accept a substring match from another company."""
+    value = payload()
+    value["Jobs"][0]["CompanyName"] = company_name  # type: ignore[index]
+
+    result = adapter_for([response(value)])[0].list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.PARTIAL
+    assert [item.category for item in result.diagnostics] == ["malformed_job"]
+    assert len(result.jobs) == 1
+
+
+def test_every_row_failing_is_reported_as_failed_not_partial() -> None:
+    """Total loss must not be reported as a partial read.
+
+    A schema change or a renamed legal entity fails every row at once. PARTIAL with zero
+    jobs would present that as "we got some of the source".
+    """
+    value = payload()
+    for raw_job in value["Jobs"]:  # type: ignore[attr-defined]
+        raw_job["CompanyName"] = "Unrelated Corp"
+
+    result = adapter_for([response(value)])[0].list_jobs(source())
+
+    assert result.outcome is AdapterOutcome.FAILED
+    assert result.complete is False
+    assert result.jobs == ()
+    assert [item.category for item in result.diagnostics] == ["malformed_job"] * 2
 
 
 def test_source_configuration_is_strict() -> None:
