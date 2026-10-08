@@ -247,7 +247,10 @@ class PcsxCareersAdapter:
         locations = _locations(detail)
         if not locations:
             locations = ["Location unavailable"]
-        if _shared_locations(locations) != job.location_normalized:
+        # Compare against location_original: job.location_normalized has already been
+        # rewritten by the policy pass (aliases, punctuation) and no longer matches this
+        # adapter's own normalization of the same text.
+        if _shared_locations(locations) != _shared_locations(job.location_original.split(" | ")):
             raise DetailIdentityMismatch("PCSx detail locations did not match the listing.")
         _validate_position_path(detail.get("positionUrl"), external_id)
         if required_string(detail, "publicUrl", "PCSx detail") != job.canonical_url:

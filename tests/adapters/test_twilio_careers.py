@@ -116,6 +116,20 @@ def test_pagination_and_detail_preserve_identity_and_verify_visible_date() -> No
     assert "position_details?position_id=1099556260796" in transport.calls[2]
 
 
+def test_detail_accepts_a_listing_whose_location_was_rewritten_by_the_policy_pass() -> None:
+    adapter, _ = adapter_for(
+        [response("page1.json"), response("page2.json"), response("detail.json")]
+    )
+    first = adapter.list_jobs(source()).jobs[0]
+    # normalize_job rewrites location_normalized with the shared policy (punctuation
+    # stripped, aliases applied) before the detail call; location_original is untouched.
+    rewritten = replace(first, location_normalized=("remote us",))
+
+    detailed = adapter.get_job_detail(source(), rewritten)
+
+    assert detailed.description is not None
+
+
 def test_changed_total_duplicate_and_redirect_fail_closed() -> None:
     page2 = json.loads((FIXTURES / "page2.json").read_text(encoding="utf-8"))
     page2["data"]["count"] = 4

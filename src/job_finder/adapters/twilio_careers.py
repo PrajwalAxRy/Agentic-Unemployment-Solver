@@ -260,7 +260,10 @@ class TwilioCareersAdapter:
         if normalize_title(title) != job.title_normalized:
             raise DetailIdentityMismatch("Twilio detail title did not match the listing.")
         locations = _locations(detail)
-        if _shared_locations(locations) != job.location_normalized:
+        # Compare against location_original: job.location_normalized has already been
+        # rewritten by the policy pass (aliases, punctuation) and no longer matches this
+        # adapter's own normalization of the same text.
+        if _shared_locations(locations) != _shared_locations(job.location_original.split(" | ")):
             raise DetailIdentityMismatch("Twilio detail locations did not match the listing.")
         _validate_position_path(detail.get("positionUrl"), external_id)
         public_url = required_string(detail, "publicUrl", "Twilio detail")
