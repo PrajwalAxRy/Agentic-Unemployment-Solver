@@ -435,3 +435,31 @@ means separating "this row belongs to another company" (a filtering decision, se
 WARNING, completeness untouched) from "this row is defective" (a parse defect) across all
 adapters, not just Navi. **Reopen if** any adapter reports a non-zero steady-state
 `malformed_job` count across consecutive runs.
+
+---
+
+## D17. Porter's empty descriptions are empty at the source, not an adapter bug
+**2026-10-08 · SETTLED · no code change**
+
+Porter (Darwinbox tenant `porter`) returned `empty_description` for 67 of its 119 jobs on
+2026-10-07. Checked against the raw API and Porter's own UI, not inferred from our output.
+
+Raw `jd` from `/ms/candidateapi/job/<id>` for all 119 jobs: 52 carry text, 26 are `""`, and
+41 are markup with no text (`&lt;p&gt;&lt;br /&gt;&lt;/p&gt;`). 26 + 41 = the 67 reported. The
+detail payload has no other description-like field (every other string is a location). The
+listing endpoint's `jd` is empty for all 119, which is why detail is needed at all.
+
+Porter's own page for a Business Associate posting (rendered in headless Chrome) shows
+"No job description at the moment!" with only title, location, department and employee type.
+`_plain_text` (`darwinbox.py`) stripping markup-only `jd` to `None` is therefore correct.
+
+**Why:** the title-only judgment (`NO_DESCRIPTION`) is the right behaviour for these jobs, and
+the daily re-fetch picks up a description if Porter ever adds one. ClearTax and Unacademy use
+the same adapter; their pages also render with no description ("No job description at the
+moment!" and "Please enter job description").
+
+**Fixed 2026-10-09:** the canonical URL we stored, `/ms/candidate/careers/<id>`, lands on the
+tenant home page in a browser. `_job_url` now builds the page that renders the posting,
+`/ms/candidatev2/main/careers/jobDetails/<id>`, verified on the porter, clear and unacademy
+tenants. Job identity uses the external ID, so no job key changes, and stored rows take the new
+URL the next time they are observed.

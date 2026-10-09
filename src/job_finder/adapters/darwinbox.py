@@ -425,7 +425,13 @@ def _careers_url(tenant: str) -> str:
 
 
 def _job_url(tenant: str, job_id: str) -> str:
-    return _careers_url(tenant) + "/" + quote(job_id, safe="")
+    # The page a reader can open. ``/ms/candidate/careers/<id>`` (the board URL plus the id)
+    # lands on the tenant home page in a browser; the posting itself renders only at the
+    # candidatev2 route. Checked 2026-10-09 on the porter, clear and unacademy tenants.
+    # Identity is the external ID, so changing this never changes a job key.
+    return f"https://{tenant}.darwinbox.in/ms/candidatev2/main/careers/jobDetails/" + quote(
+        job_id, safe=""
+    )
 
 
 def _listing_collection(payload: object) -> tuple[list[object], int]:
