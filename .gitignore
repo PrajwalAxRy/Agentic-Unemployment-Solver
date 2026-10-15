@@ -44,6 +44,9 @@ dist/
 
 # Private notes (not for the repo)
 /PS_Note.md
+/PS_notes.md
+/implementation_plan.md
+/env_permission.log
 
 # Editors and operating systems
 .idea/

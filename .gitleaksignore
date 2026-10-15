@@ -1,0 +1,4 @@
+# Reviewed public-document URL from source-discovery evidence. Its signed S3
+# access expired on 2026-06-23. Preserve the original history; suppress only this
+# exact historical finding (also reported after URL decoding).
+f89b775efa48072627f7b951320f33cbd1262fb9:data/source_search_quality_retries.json:aws-access-token:432

@@ -491,3 +491,32 @@ passed 1,206 tests but failed two gateway tests because the real local `.env`
 provided `reasoning_effort=high` to cases intended to leave effort unset. Production
 dotenv fallback is intentional; isolating the tests fixes their environmental
 dependency without changing that behaviour or exposing local credentials.
+
+---
+
+## D20. Preserve history and exclude local notes from the public release
+**2026-10-15 · SETTLED · user decision and release review**
+
+The approved GitHub destination is a new public repository named
+`PrajwalAxRy/Agentic-Unemployment-Solver`, with the description:
+
+> A Python CLI that scans ~150 elite high paying company career sites and evaluates AI/ML roles for relevance, seniority, and India eligibility.
+
+Keep the existing `master` history and `v0.1.0` tag. Keep `PS_notes.md`,
+`implementation_plan.md` and `env_permission.log` local through explicit
+root-level ignore rules. The user requested readiness work only; creating the
+repository and pushing remain deferred until a later instruction.
+
+The user authorized a one-time automated secrets scan of archived and review
+documents for publication readiness. Those documents remain historical material
+rather than current architecture guidance. Gitleaks 8.30.1 scanned the complete
+Git history and reported one signed S3 URL twice, including its decoded form.
+It is public-document discovery evidence in `data/source_search_quality_retries.json`,
+signed on 2026-06-22 and expired on 2026-06-23 at 04:46:56 UTC.
+`.gitleaksignore` records only its exact historical commit/path/rule/line
+fingerprint, without exposing the URL's credential values.
+
+**Why:** the URL no longer grants access, so rewriting the existing commits and
+tag would not protect an active credential. Preserving them retains the requested
+full history. A single reviewed fingerprint keeps unrelated and future secret
+findings visible; no file, directory or credential rule is broadly excluded.
