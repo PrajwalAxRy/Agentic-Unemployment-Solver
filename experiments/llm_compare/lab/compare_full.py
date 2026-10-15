@@ -41,8 +41,10 @@ for t in tags:
                 lost.append(o)
             elif seen and not b_seen:
                 gained.append(o)
-    print(f"{t:12s} relevant={rel} shown={shown} failed={failed}"
-          + (f" | shown vs {base}: lost {len(lost)} gained {len(gained)}" if t != base else ""))
+    print(
+        f"{t:12s} relevant={rel} shown={shown} failed={failed}"
+        + (f" | shown vs {base}: lost {len(lost)} gained {len(gained)}" if t != base else "")
+    )
     if t != base:
         for name, group in (("lost", lost), ("gained", gained)):
             by = collections.Counter(cases[o]["company"] for o in group)

@@ -131,7 +131,7 @@ tune, test = [], []
 by_kind: dict[str, list[int]] = {}
 for o, k in kinds.items():
     by_kind.setdefault(k, []).append(o)
-for k, members in sorted(by_kind.items()):
+for _kind, members in sorted(by_kind.items()):
     members = sorted(members)
     rng.shuffle(members)
     half = len(members) // 2
@@ -147,8 +147,14 @@ sets |= {
     "bench_random": sorted(random_part),
 }
 lab.SETS.write_text(json.dumps(sets))
-(LABDIR / "bench_kinds_2026-10-05.json").write_text(json.dumps({str(o): k for o, k in kinds.items()}))
+(LABDIR / "bench_kinds_2026-10-05.json").write_text(
+    json.dumps({str(o): k for o, k in kinds.items()})
+)
 print(f"batch {len(cases)} jobs; unused unique postings {len(pool)}")
-print(f"hard {len(hard)}: " + ", ".join(f"{k} {sum(v == k for v in kinds.values())}"
-                                        for k in ["location", "no_description", *mixed]))
+print(
+    f"hard {len(hard)}: "
+    + ", ".join(
+        f"{k} {sum(v == k for v in kinds.values())}" for k in ["location", "no_description", *mixed]
+    )
+)
 print(f"random {len(random_part)}; tuning {len(tune)}, sealed test {len(test)}")

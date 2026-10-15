@@ -21,6 +21,12 @@ from job_finder.matching.openai_client import (
 )
 
 
+@pytest.fixture(autouse=True)
+def isolate_local_dotenv(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    """Keep the developer's real provider configuration out of gateway tests."""
+    monkeypatch.chdir(tmp_path)
+
+
 def configured_environment() -> dict[str, str]:
     return {
         "LLM_GATEWAY_KEY": "test-secret",

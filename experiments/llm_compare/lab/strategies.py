@@ -65,30 +65,46 @@ def run(set_name: str, luna_tag: str, sol_tag: str | None):
     def show(v):  # a failed call (None) shows nothing
         return bool(v)
 
-    evaluate("1 Luna call (production today)",
-             {o: [show(v) for v in luna[o]] for o in jobs}, LUNA_CALL)
-    evaluate("majority of 3 Luna calls",
-             {o: [sum(map(show, luna[o][:3])) >= 2] for o in jobs}, 3 * LUNA_CALL)
+    evaluate(
+        "1 Luna call (production today)", {o: [show(v) for v in luna[o]] for o in jobs}, LUNA_CALL
+    )
+    evaluate(
+        "majority of 3 Luna calls",
+        {o: [sum(map(show, luna[o][:3])) >= 2] for o in jobs},
+        3 * LUNA_CALL,
+    )
 
     # 2 calls; a third only when they disagree on the gate (= majority of 3, cheaper).
     tie_rate = sum(show(luna[o][0]) != show(luna[o][1]) for o in jobs) / len(jobs)
-    evaluate("2 Luna, 3rd Luna only if they disagree",
-             {o: [sum(map(show, luna[o][:3])) >= 2] for o in jobs},
-             (2 + tie_rate) * LUNA_CALL)
+    evaluate(
+        "2 Luna, 3rd Luna only if they disagree",
+        {o: [sum(map(show, luna[o][:3])) >= 2] for o in jobs},
+        (2 + tie_rate) * LUNA_CALL,
+    )
 
     # Show the job if either of two calls says relevant (misses cost more than extras).
-    evaluate("2 Luna, show if either says relevant",
-             {o: [show(a) or show(b) for a, b in itertools.combinations(luna[o][:3], 2)]
-              for o in jobs}, 2 * LUNA_CALL)
+    evaluate(
+        "2 Luna, show if either says relevant",
+        {o: [show(a) or show(b) for a, b in itertools.combinations(luna[o][:3], 2)] for o in jobs},
+        2 * LUNA_CALL,
+    )
 
     if sol:
         sol_jobs = [o for o in jobs if sol.get(o)]
-        evaluate("2 Luna, Sol breaks a tie",
-                 {o: [show(a) if show(a) == show(b) else show(sol[o][0])
-                      for a, b in itertools.combinations(luna[o][:3], 2)] for o in sol_jobs},
-                 2 * LUNA_CALL + tie_rate * SOL_CALL)
-        evaluate("1 Sol call (new prompt)",
-                 {o: [show(v) for v in sol[o]] for o in sol_jobs}, SOL_CALL)
+        evaluate(
+            "2 Luna, Sol breaks a tie",
+            {
+                o: [
+                    show(a) if show(a) == show(b) else show(sol[o][0])
+                    for a, b in itertools.combinations(luna[o][:3], 2)
+                ]
+                for o in sol_jobs
+            },
+            2 * LUNA_CALL + tie_rate * SOL_CALL,
+        )
+        evaluate(
+            "1 Sol call (new prompt)", {o: [show(v) for v in sol[o]] for o in sol_jobs}, SOL_CALL
+        )
         print(f"  (Luna's first two calls disagree on {tie_rate:.1%} of these jobs)")
 
 

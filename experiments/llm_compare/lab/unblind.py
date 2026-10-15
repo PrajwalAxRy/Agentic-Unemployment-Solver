@@ -43,12 +43,17 @@ for name, ordinals in side.items():
         luna_pass = sum(lg) * 2 >= len(lg)
         winner = "luna" if luna_pass == truth else "sol"
         tally[(name, v["conf"] != "low", winner)] += 1
-        print(f"{name:9s} {o:5d} truth={v['relevance'][:4]} {v['conf']:4s} "
-              f"luna={''.join('p' if g else 'u' for g in lg)} sol={''.join('p' if g else 'u' for g in sg)}"
-              f" right={winner:4s} [{cases[o]['company']}] {cases[o]['title'][:45]}")
+        print(
+            f"{name:9s} {o:5d} truth={v['relevance'][:4]} {v['conf']:4s} "
+            f"luna={''.join('p' if g else 'u' for g in lg)} "
+            f"sol={''.join('p' if g else 'u' for g in sg)}"
+            f" right={winner:4s} [{cases[o]['company']}] {cases[o]['title'][:45]}"
+        )
 print()
 for name in side:
     for confident in (True, False):
         label = "med/high" if confident else "low"
-        print(f"{name:9s} {label:8s} luna right {tally[(name, confident, 'luna')]:3d}  "
-              f"sol right {tally[(name, confident, 'sol')]:3d}")
+        print(
+            f"{name:9s} {label:8s} luna right {tally[(name, confident, 'luna')]:3d}  "
+            f"sol right {tally[(name, confident, 'sol')]:3d}"
+        )

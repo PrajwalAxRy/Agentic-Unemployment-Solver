@@ -476,3 +476,18 @@ declares the MIT license and includes its file in package distributions.
 **Why:** MIT provides short, permissive terms allowing reuse, modification,
 redistribution and commercial use while requiring preservation of the copyright
 and license notices. It also includes warranty and liability disclaimers.
+
+---
+
+## D19. Isolate gateway tests from the developer's local provider configuration
+**2026-10-15 · SETTLED · public-release validation**
+
+Gateway client tests run from a disposable working directory so implicit `.env`
+lookups cannot read the developer's real provider settings. Tests of dotenv
+loading still supply their own files explicitly.
+
+**Why:** after fixing existing experiment formatting and lint issues, validation
+passed 1,206 tests but failed two gateway tests because the real local `.env`
+provided `reasoning_effort=high` to cases intended to leave effort unset. Production
+dotenv fallback is intentional; isolating the tests fixes their environmental
+dependency without changing that behaviour or exposing local credentials.

@@ -194,7 +194,8 @@ for tag in tags:
             for r in calls:
                 table[(labels[o], level(r))] += 1 / len(calls)
     print(
-        f"**{tag}**\n\n| your label | model show | model uncertain | model hide |\n|---|---|---|---|"
+        f"**{tag}**\n\n| your label | model show | model uncertain | model hide |\n"
+        "|---|---|---|---|"
     )
     for want in ("show", "uncertain", "hide"):
         print(
@@ -205,10 +206,12 @@ for tag in tags:
     print()
 
 print(
-    "## What would reach the report (majority over calls; relevance shown and seniority not false)\n"
+    "## What would reach the report "
+    "(majority over calls; relevance shown and seniority not false)\n"
 )
 print(
-    "| run | shown | of which relevance uncertain | seniority true | seniority uncertain | seniority false |"
+    "| run | shown | of which relevance uncertain | seniority true | "
+    "seniority uncertain | seniority false |"
 )
 print("|---|---|---|---|---|---|")
 for tag in tags:

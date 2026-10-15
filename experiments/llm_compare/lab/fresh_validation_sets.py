@@ -30,12 +30,16 @@ def gate(results, o):
 
 
 agreeing = sorted(
-    o for o in lab.load_cases()
+    o
+    for o in lab.load_cases()
     if o not in disagreements and gate(luna, o) is not None and gate(luna, o) == gate(sol, o)
 )
 sets = json.loads(lab.SETS.read_text(encoding="utf-8"))
 sets["unadjudicated"] = sorted(disagreements - tuned)
 sets["consensus300"] = sorted(random.Random(20261004).sample(agreeing, 300))
 lab.SETS.write_text(json.dumps(sets))
-print({name: len(sets[name]) for name in ("unadjudicated", "consensus300")},
-      "relevant in consensus300:", sum(gate(luna, o) for o in sets["consensus300"]))
+print(
+    {name: len(sets[name]) for name in ("unadjudicated", "consensus300")},
+    "relevant in consensus300:",
+    sum(gate(luna, o) for o in sets["consensus300"]),
+)

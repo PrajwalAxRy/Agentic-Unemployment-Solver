@@ -1,6 +1,6 @@
 """Print cases WITHOUT any model answers, for blind adjudication.
 
-  LAB_BATCH=2026-10-03 python view_blind.py 12,34,56
+LAB_BATCH=2026-10-03 python view_blind.py 12,34,56
 """
 
 import sys

@@ -12,7 +12,7 @@ import json
 import os
 import sqlite3
 import sys
-from dataclasses import asdict, replace
+from dataclasses import asdict
 from pathlib import Path
 
 from job_finder.adapters.http_client import BoundedHttpClient, HttpPolicy
@@ -56,7 +56,9 @@ def evaluator(model: str) -> MergedEvaluator:
             env[key.strip()] = value.strip()
     settings = load_gateway_settings(environment=env)
     return MergedEvaluator(
-        client=AmdGatewayClient(settings), prompt=prompt, model_policy=settings.model_policy,
+        client=AmdGatewayClient(settings),
+        prompt=prompt,
+        model_policy=settings.model_policy,
         budget=UsageBudget(UsageLimits(10**6, 10**12, 10**12, 2000)),
     )
 
@@ -75,7 +77,8 @@ for row in rows:
         for _ in range(reps):
             try:
                 outcome = model.evaluate(
-                    title=row.title_original, description=description,
+                    title=row.title_original,
+                    description=description,
                     target_description=profile.seniority.description,
                     location_original=row.location_original,
                 )
@@ -84,18 +87,29 @@ for row in rows:
                 )
             except LLMProviderError as exc:
                 calls[name].append(f"provider_error: {exc}")
-    out.append({
-        "company": row.company_id, "title": row.title_original,
-        "location_original": row.location_original,
-        "filter_reason": row.location.reason_code if row.location else None,
-        "description_error": error, "description": description, "calls": calls,
-    })
+    out.append(
+        {
+            "company": row.company_id,
+            "title": row.title_original,
+            "location_original": row.location_original,
+            "filter_reason": row.location.reason_code if row.location else None,
+            "description_error": error,
+            "description": description,
+            "calls": calls,
+        }
+    )
     summary = {
-        k: [c["relevance"] + "/" + str(c["location_eligible"]) if isinstance(c, dict) else c
-            for c in v] for k, v in calls.items()
+        k: [
+            c["relevance"] + "/" + str(c["location_eligible"]) if isinstance(c, dict) else c
+            for c in v
+        ]
+        for k, v in calls.items()
     }
-    print(f"{row.company_id:16s} {row.title_original[:40]:40s} {row.location_original[:28]:28s} "
-          f"{summary}", flush=True)
+    print(
+        f"{row.company_id:16s} {row.title_original[:40]:40s} {row.location_original[:28]:28s} "
+        f"{summary}",
+        flush=True,
+    )
 
 (HERE / f"location_probe_{batch}.json").write_text(
     json.dumps(out, indent=1, ensure_ascii=False, default=str), encoding="utf-8"

@@ -41,11 +41,16 @@ for spec in sys.argv[1:]:
         seen.add(record["ordinal"])
         for usage in record["usage"]:
             calls += 1
-            total += price.input_cost_of(
-                usage["input_tokens"],
-                cached_tokens=usage.get("cached_input_tokens") or 0,
-                cache_write_tokens=usage.get("cache_write_tokens") or 0,
-            ) + usage["output_tokens"] * price.output_per_mtok / 1_000_000
+            total += (
+                price.input_cost_of(
+                    usage["input_tokens"],
+                    cached_tokens=usage.get("cached_input_tokens") or 0,
+                    cache_write_tokens=usage.get("cache_write_tokens") or 0,
+                )
+                + usage["output_tokens"] * price.output_per_mtok / 1_000_000
+            )
     jobs = len(seen)
-    print(f"{tag:14s} model={model} jobs={jobs} calls={calls} "
-          f"cost=USD {total:.2f} per_call={total / max(1, calls):.5f}")
+    print(
+        f"{tag:14s} model={model} jobs={jobs} calls={calls} "
+        f"cost=USD {total:.2f} per_call={total / max(1, calls):.5f}"
+    )

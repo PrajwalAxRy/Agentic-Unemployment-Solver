@@ -1,6 +1,6 @@
 """Print cases with the answers from harness runs (any batch), then the full description.
 
-  LAB_BATCH=2026-10-03 python view_runs.py luna_v4,sol_v4 12,34,56
+LAB_BATCH=2026-10-03 python view_runs.py luna_v4,sol_v4 12,34,56
 """
 
 import sys

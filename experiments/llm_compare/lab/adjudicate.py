@@ -1,6 +1,7 @@
 """Append hand verdicts to truth.json.
 
-Usage: adjudicate.py '<ordinal> <relevance|=luna|=sol> <seniority|=agreed|=luna|=sol> <conf> <note>' ...
+Usage: adjudicate.py
+  '<ordinal> <relevance|=luna|=sol> <seniority|=agreed|=luna|=sol> <conf> <note>' ...
   relevance: substantive|peripheral|unrelated, or =luna / =sol to copy that model
   seniority: True|False|uncertain, =agreed (both models agreed), =luna, =sol
   conf: high|med|low  (low = genuinely borderline; excluded from tuning targets)

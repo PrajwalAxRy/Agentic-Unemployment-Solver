@@ -1,6 +1,6 @@
 """Case sets for a fresh batch: everything, and the postings not seen in 2026-10-02.
 
-  LAB_BATCH=2026-10-03 uv run --locked python experiments/llm_compare/lab/fresh_sets.py
+LAB_BATCH=2026-10-03 uv run --locked python experiments/llm_compare/lab/fresh_sets.py
 """
 
 import json

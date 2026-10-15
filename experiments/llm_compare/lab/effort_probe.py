@@ -18,8 +18,10 @@ from openai import OpenAIError  # noqa: E402
 from job_finder.matching.openai_client import _gateway_client, load_gateway_settings  # noqa: E402
 
 EFFORTS = [None, "none", "minimal", "low", "medium", "high", "xhigh", "not-a-level"]
-PROMPT = ("A bat and a ball cost 1.10 in total. The bat costs 1.00 more than the ball. "
-          "How much does the ball cost? Answer with the number only.")
+PROMPT = (
+    "A bat and a ball cost 1.10 in total. The bat costs 1.00 more than the ball. "
+    "How much does the ball cost? Answer with the number only."
+)
 
 for model in ("luna", "sol"):
     env = {**os.environ, **lab._env_file(lab.PROFILES[model])}
@@ -40,10 +42,14 @@ for model in ("luna", "sol"):
             details = getattr(usage, "completion_tokens_details", None)
             reasoning = getattr(details, "reasoning_tokens", None) if details else None
             answer = (completion.choices[0].message.content or "").strip()[:20]
-            print(f"  {str(effort):12s} OK    {time.monotonic() - started:5.1f}s "
-                  f"out={usage.completion_tokens:5d} reasoning={reasoning} answer={answer!r}")
+            print(
+                f"  {str(effort):12s} OK    {time.monotonic() - started:5.1f}s "
+                f"out={usage.completion_tokens:5d} reasoning={reasoning} answer={answer!r}"
+            )
         except OpenAIError as error:
             status = getattr(error, "status_code", "?")
             body = getattr(error, "body", None) or str(error)
-            print(f"  {str(effort):12s} ERROR {time.monotonic() - started:5.1f}s "
-                  f"status={status} {str(body)[:600]}")
+            print(
+                f"  {str(effort):12s} ERROR {time.monotonic() - started:5.1f}s "
+                f"status={status} {str(body)[:600]}"
+            )

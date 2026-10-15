@@ -23,22 +23,31 @@ p = argparse.ArgumentParser()
 p.add_argument("luna")
 p.add_argument("sol")
 p.add_argument("--truth")
-p.add_argument("--only-judged", action="store_true",
-               help="score only hand-judged jobs, so neither model is its own reference")
+p.add_argument(
+    "--only-judged",
+    action="store_true",
+    help="score only hand-judged jobs, so neither model is its own reference",
+)
 args = p.parse_args()
 
 cases = lab.load_cases()
 luna, sol = lab.load_results(args.luna), lab.load_results(args.sol)
 truth = {}
 if args.truth:
-    truth = {int(k): v for k, v in json.loads(Path(args.truth).read_text("utf-8")).items()
-             if v.get("conf") != "low"}
+    truth = {
+        int(k): v
+        for k, v in json.loads(Path(args.truth).read_text("utf-8")).items()
+        if v.get("conf") != "low"
+    }
 
 
 def answers(results, o):
     """(gate, seniority) per valid call; failed calls are dropped."""
-    return [(r["judgment"]["relevance"] != "unrelated", str(r["judgment"]["seniority_match"]))
-            for r in results.get(o, []) if r["judgment"]]
+    return [
+        (r["judgment"]["relevance"] != "unrelated", str(r["judgment"]["seniority_match"]))
+        for r in results.get(o, [])
+        if r["judgment"]
+    ]
 
 
 def majority(values, tie):
@@ -106,15 +115,24 @@ def majority3(order):
     return gate, sen
 
 
-print(f"jobs scored: {len(ref)} (reference: Sol majority over its reruns"
-      f"{', overridden by ' + str(len(truth)) + ' hand verdicts' if truth else ''})")
-print(f"reference gate passes: {sum(g for g, _ in ref.values())}, "
-      f"shown: {sum(shown(*v) for v in ref.values())}")
-print(f"{'strategy':36s} {'gate missed':>11s} {'gate extra':>10s} "
-      f"{'shown missed':>12s} {'shown extra':>11s}")
-for name, pick in (("1 Luna call", one), ("2 Luna + tie-break (second opinion)",
-                   second_opinion), ("2 Luna, show if either passes", either),
-                   ("majority of 3 Luna", majority3)):
+print(
+    f"jobs scored: {len(ref)} (reference: Sol majority over its reruns"
+    f"{', overridden by ' + str(len(truth)) + ' hand verdicts' if truth else ''})"
+)
+print(
+    f"reference gate passes: {sum(g for g, _ in ref.values())}, "
+    f"shown: {sum(shown(*v) for v in ref.values())}"
+)
+print(
+    f"{'strategy':36s} {'gate missed':>11s} {'gate extra':>10s} "
+    f"{'shown missed':>12s} {'shown extra':>11s}"
+)
+for name, pick in (
+    ("1 Luna call", one),
+    ("2 Luna + tie-break (second opinion)", second_opinion),
+    ("2 Luna, show if either passes", either),
+    ("majority of 3 Luna", majority3),
+):
     m, e, sm, se = strategy(pick)
     print(f"{name:36s} {m:11.1f} {e:10.1f} {sm:12.1f} {se:11.1f}")
 
@@ -126,12 +144,16 @@ sol_missed = sum(
 sol_extra = sum(
     sum(g and not ref[o][0] for g, _ in answers(sol, o)) / len(answers(sol, o)) for o in ref
 )
-print(f"{'1 Sol call':36s} {sol_missed:11.1f} {sol_extra:10.1f}"
-      f"   (vs {'reference' if truth else 'its own majority: noise only'})")
+print(
+    f"{'1 Sol call':36s} {sol_missed:11.1f} {sol_extra:10.1f}"
+    f"   (vs {'reference' if truth else 'its own majority: noise only'})"
+)
 
 unstable = {o for o, calls in luna_calls.items() if len({g for g, _ in calls}) > 1}
-print(f"Luna gate unstable across its reruns: {len(unstable)} jobs; "
-      f"Sol: {sum(len({g for g, _ in answers(sol, o)}) > 1 for o in ref)}")
+print(
+    f"Luna gate unstable across its reruns: {len(unstable)} jobs; "
+    f"Sol: {sum(len({g for g, _ in answers(sol, o)}) > 1 for o in ref)}"
+)
 
 # Where the majorities disagree on the gate (ties count as pass, as in production).
 disagree = {"luna_only": [], "sol_only": []}
@@ -141,8 +163,10 @@ for o, calls in luna_calls.items():
         disagree["luna_only"].append(o)
     elif ref[o][0] and not lg:
         disagree["sol_only"].append(o)
-print(f"majority gate disagreements: Luna-only pass {len(disagree['luna_only'])}, "
-      f"Sol-only pass {len(disagree['sol_only'])}")
+print(
+    f"majority gate disagreements: Luna-only pass {len(disagree['luna_only'])}, "
+    f"Sol-only pass {len(disagree['sol_only'])}"
+)
 if not truth:  # the blind-review todo list is defined against the models alone
     out = lab.HERE / f"disagreements_{lab.BATCH_NAME}.json"
     out.write_text(json.dumps(disagree))

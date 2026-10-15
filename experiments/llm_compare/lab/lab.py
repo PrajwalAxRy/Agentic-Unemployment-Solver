@@ -72,8 +72,11 @@ def build() -> None:
         if not path.exists():
             return {}
         c = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
-        return {o: json.loads(r) for o, r in c.execute(
-            "select ordinal, result_json from batch_candidates") if r}
+        return {
+            o: json.loads(r)
+            for o, r in c.execute("select ordinal, result_json from batch_candidates")
+            if r
+        }
 
     luna, sol = results("luna"), results("sol")
     pristine = sqlite3.connect(f"file:{BATCH / 'pristine' / 'jobs.sqlite3'}?mode=ro", uri=True)
@@ -149,9 +152,16 @@ def run(args) -> None:
         import job_finder.matching.merged_evaluator as merged_module
 
         props = merged_module.MERGED_RESPONSE_SCHEMA["properties"]
-        order = ["relevance_evidence", "relevance_reason", "relevance",
-                 "seniority_evidence", "seniority_reason", "required_experience",
-                 "detected_level", "seniority_match"]
+        order = [
+            "relevance_evidence",
+            "relevance_reason",
+            "relevance",
+            "seniority_evidence",
+            "seniority_reason",
+            "required_experience",
+            "detected_level",
+            "seniority_match",
+        ]
         merged_module.MERGED_RESPONSE_SCHEMA = {
             **merged_module.MERGED_RESPONSE_SCHEMA,
             "properties": {k: props[k] for k in order},
@@ -162,8 +172,11 @@ def run(args) -> None:
             k: extras[k] for k in ("location_evidence", "location_reason", "location_eligible")
         }
 
-    env = {**os.environ, **_env_file(PROFILES[args.model]),
-           "JOB_FINDER_LLM_MAX_OUTPUT_TOKENS_PER_REQUEST": str(args.max_output)}
+    env = {
+        **os.environ,
+        **_env_file(PROFILES[args.model]),
+        "JOB_FINDER_LLM_MAX_OUTPUT_TOKENS_PER_REQUEST": str(args.max_output),
+    }
     settings = load_gateway_settings(environment=env)
     wire = _Wire(_gateway_client(settings), json.loads(args.extra) if args.extra else {})
     gateway = AmdGatewayClient(settings, client=wire)
@@ -193,14 +206,17 @@ def run(args) -> None:
         tap = _Tap()
         wire.local.calls = []
         evaluator = (v2.Evaluator if schema_version == 2 else MergedEvaluator)(
-            client=tap, prompt=prompt, model_policy=settings.model_policy,
+            client=tap,
+            prompt=prompt,
+            model_policy=settings.model_policy,
             budget=UsageBudget(UsageLimits(10**6, 10**12, 10**12, args.max_output)),
         )
         started = time.monotonic()
         for attempt in range(3):  # transport retries only; validation retry is the evaluator's
             try:
                 outcome = evaluator.evaluate(
-                    title=case["title"], description=case["description"],
+                    title=case["title"],
+                    description=case["description"],
                     target_description=case["target"],
                     location_original=case["location_original"],
                 )
@@ -216,9 +232,15 @@ def run(args) -> None:
         # Keep raw replies: they are the only way to diagnose a rejected evidence quote.
         usage = [asdict(r) for r in tap.responses]
         return {
-            "ordinal": o, "rep": rep, "schema": schema_version, "disposition": disposition,
-            "judgment": judgment, "errors": errors, "finish": wire.local.calls,
-            "usage": usage, "seconds": round(time.monotonic() - started, 1),
+            "ordinal": o,
+            "rep": rep,
+            "schema": schema_version,
+            "disposition": disposition,
+            "judgment": judgment,
+            "errors": errors,
+            "finish": wire.local.calls,
+            "usage": usage,
+            "seconds": round(time.monotonic() - started, 1),
         }
 
     count = 0
@@ -251,19 +273,26 @@ def _revalidate(record: dict, case: dict) -> dict:
         try:
             if record.get("schema") == 2:
                 v2_judgment = v2.parse(
-                    content, description=case["description"], title=case["title"],
+                    content,
+                    description=case["description"],
+                    title=case["title"],
                     location_original=case["location_original"],
                 )
                 return {**record, "disposition": "completed", "judgment": v2_judgment}
             judgment = parse_merged_response(
-                content, description=case["description"], title=case["title"],
+                content,
+                description=case["description"],
+                title=case["title"],
                 location_requested=case["location_original"] is not None,
             )
         except MergedResponseError:
             continue
         # JSON round trip turns the str-enums into the plain values stored in results.
-        return {**record, "disposition": "completed",
-                "judgment": json.loads(json.dumps(asdict(judgment)))}
+        return {
+            **record,
+            "disposition": "completed",
+            "judgment": json.loads(json.dumps(asdict(judgment))),
+        }
     if len(contents) < 2:
         # Newly invalid single reply: the evaluator would have retried, which we cannot
         # replay. Keep the recorded outcome rather than inventing a failure.
@@ -315,19 +344,27 @@ def score(args) -> None:
         retried = sum(len(r["usage"]) > 1 for r in calls)
         outs = [u["output_tokens"] for r in calls for u in r["usage"]]
         ins = [u["input_tokens"] for r in calls for u in r["usage"]]
-        print(f"\n== {tag}: {len(keys)} jobs, {len(calls)} calls, failed {failed}, "
-              f"retried {retried}, mean in {sum(ins)/max(1,len(ins)):.0f} "
-              f"out {sum(outs)/max(1,len(outs)):.0f}")
+        print(
+            f"\n== {tag}: {len(keys)} jobs, {len(calls)} calls, failed {failed}, "
+            f"retried {retried}, mean in {sum(ins) / max(1, len(ins)):.0f} "
+            f"out {sum(outs) / max(1, len(outs)):.0f}"
+        )
         for field in ("relevance", "seniority_match"):
             unstable = sum(vote(res[o], field)[1] < 1 for o in keys)
             line = f"  {field:16s} unstable across reps: {unstable}/{len(keys)}"
             for ref in ("sol0", "luna0"):
-                pairs = [(vote(res[o], field)[0], str(cases[o][ref]["judgment"][field]))
-                         for o in keys if cases[o][ref].get("judgment")]
+                pairs = [
+                    (vote(res[o], field)[0], str(cases[o][ref]["judgment"][field]))
+                    for o in keys
+                    if cases[o][ref].get("judgment")
+                ]
                 line += f" | vs {ref}: {sum(a == b for a, b in pairs)}/{len(pairs)}"
             if truth:
-                pairs = [(vote(res[o], field)[0], str(truth[o][field]))
-                         for o in keys if o in truth and field in truth[o]]
+                pairs = [
+                    (vote(res[o], field)[0], str(truth[o][field]))
+                    for o in keys
+                    if o in truth and field in truth[o]
+                ]
                 line += f" | vs truth: {sum(a == b for a, b in pairs)}/{len(pairs)}"
             print(line)
         if truth:
@@ -344,8 +381,10 @@ def score(args) -> None:
                     gate_missed.append(o)
                 elif p and not t:
                     gate_fp += 1
-            print(f"  relevance gate vs truth on {gate_n}: missed {gate_fn}, extra {gate_fp}"
-                  f" | missed: {gate_missed}")
+            print(
+                f"  relevance gate vs truth on {gate_n}: missed {gate_fn}, extra {gate_fp}"
+                f" | missed: {gate_missed}"
+            )
             # Production makes ONE call per job; the vote above flatters that. Average the
             # per-call gate errors over every recorded call instead.
             single_fn = single_fp = single_n = 0
@@ -363,8 +402,10 @@ def score(args) -> None:
                     single_fn += t and not p
                     single_fp += p and not t
             if single_n:
-                print(f"  single-call gate: missed {single_fn / single_n * gate_n:.1f}, "
-                      f"extra {single_fp / single_n * gate_n:.1f} (expected per {gate_n} jobs)")
+                print(
+                    f"  single-call gate: missed {single_fn / single_n * gate_n:.1f}, "
+                    f"extra {single_fp / single_n * gate_n:.1f} (expected per {gate_n} jobs)"
+                )
             fn = fp = n = 0
             misses = []
             for o in keys:
@@ -378,7 +419,9 @@ def score(args) -> None:
                     misses.append(o)
                 elif p and not t:
                     fp += 1
-            print(f"  visibility vs truth on {n}: missed {fn} (worse), extra {fp} | missed: {misses}")
+            print(
+                f"  visibility vs truth on {n}: missed {fn} (worse), extra {fp} | missed: {misses}"
+            )
 
 
 def main() -> None:
@@ -394,8 +437,11 @@ def main() -> None:
     r.add_argument("--workers", type=int, default=4)
     r.add_argument("--max-output", type=int, default=2000)
     r.add_argument("--extra", help='extra create() kwargs as JSON, e.g. {"reasoning_effort":"low"}')
-    r.add_argument("--evidence-first", action="store_true",
-                   help="schema asks for evidence and reason before each verdict")
+    r.add_argument(
+        "--evidence-first",
+        action="store_true",
+        help="schema asks for evidence and reason before each verdict",
+    )
     s = sub.add_parser("score")
     s.add_argument("--tags", required=True)
     s.add_argument("--set")

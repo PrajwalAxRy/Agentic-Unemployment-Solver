@@ -42,5 +42,7 @@ for tag in sys.argv[1].split(","):
             shown += seen and not ref_seen
             if gate != ref_gate:
                 flips.append(f"{o}{'-' if ref_gate else '+'}")
-    print(f"{tag:10s} calls={calls} gate lost={lost} gained={gained} | "
-          f"visible lost={hidden} gained={shown} | {' '.join(flips)}")
+    print(
+        f"{tag:10s} calls={calls} gate lost={lost} gained={gained} | "
+        f"visible lost={hidden} gained={shown} | {' '.join(flips)}"
+    )

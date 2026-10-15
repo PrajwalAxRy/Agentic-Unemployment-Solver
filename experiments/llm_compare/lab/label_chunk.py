@@ -27,8 +27,11 @@ random.Random(7).shuffle(order)
 def labelled() -> set[int]:
     if not LABELS.exists():
         return set()
-    return {int(line.split("|")[0]) for line in LABELS.read_text("utf-8").splitlines()
-            if line.strip() and not line.startswith("#")}
+    return {
+        int(line.split("|")[0])
+        for line in LABELS.read_text("utf-8").splitlines()
+        if line.strip() and not line.startswith("#")
+    }
 
 
 if sys.argv[1] == "status":
@@ -52,7 +55,9 @@ TAIL_MARKERS = re.compile(
 )
 BARCLAYS = re.compile(
     r"(Analyst|Assistant Vice President|Vice President|Director) Expectations .*?"
-    r"how we behave\.", re.S)
+    r"how we behave\.",
+    re.S,
+)
 
 
 def trim(text: str) -> str:
@@ -60,15 +65,17 @@ def trim(text: str) -> str:
     start = int(len(text) * 0.55)
     match = TAIL_MARKERS.search(text, start)
     if match:
-        text = text[:match.start()] + f"[... {len(text) - match.start()} chars of boilerplate]"
+        text = text[: match.start()] + f"[... {len(text) - match.start()} chars of boilerplate]"
     return text
 
 
 cases = lab.load_cases()
 n = int(sys.argv[1])
-for o in order[n * SIZE:(n + 1) * SIZE]:
+for o in order[n * SIZE : (n + 1) * SIZE]:
     c = cases[o]
     loc = c["location_original"]
-    print(f"\n######## {o} | [{c['company']}] {c['title']}"
-          + (f" | LOCATION ASKED: {loc}" if loc is not None else ""))
+    print(
+        f"\n######## {o} | [{c['company']}] {c['title']}"
+        + (f" | LOCATION ASKED: {loc}" if loc is not None else "")
+    )
     print("  " + trim(" ".join(c["description"].split())))

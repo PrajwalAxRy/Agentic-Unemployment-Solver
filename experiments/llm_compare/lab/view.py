@@ -1,8 +1,8 @@
 """Print cases for hand adjudication: both models' verdicts, then the full description.
 
-  view.py rel 0 10      relevance disagreements, items 0..9
-  view.py sen 0 10      seniority-only disagreements
-  view.py ords 12,34    specific ordinals
+view.py rel 0 10      relevance disagreements, items 0..9
+view.py sen 0 10      seniority-only disagreements
+view.py ords 12,34    specific ordinals
 """
 
 import json
@@ -31,7 +31,10 @@ def show(o):
         if not j:
             print(f"  {name}: {c[name]['disposition']} {c[name].get('errors')}")
             continue
-        print(f"  {name}: rel={j['relevance']} sen={j['seniority_match']} ({j['required_experience']})")
+        print(
+            f"  {name}: rel={j['relevance']} sen={j['seniority_match']} "
+            f"({j['required_experience']})"
+        )
         print(f"     rel_ev: {j['relevance_evidence'][:220]}")
         print(f"     rel_why: {j['relevance_reason'][:300]}")
         print(f"     sen_ev: {j['seniority_evidence'][:220]}")
