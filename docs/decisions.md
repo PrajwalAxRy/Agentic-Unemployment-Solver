@@ -463,3 +463,16 @@ tenant home page in a browser. `_job_url` now builds the page that renders the p
 `/ms/candidatev2/main/careers/jobDetails/<id>`, verified on the porter, clear and unacademy
 tenants. Job identity uses the external ID, so no job key changes, and stored rows take the new
 URL the next time they are observed.
+
+---
+
+## D18. Use the MIT license for the public release
+**2026-10-15 · SETTLED · user decision**
+
+The user selected MIT for publication on GitHub and chose `PrajwalAxRy` as the
+copyright holder. The root `LICENSE` records copyright year 2026; `pyproject.toml`
+declares the MIT license and includes its file in package distributions.
+
+**Why:** MIT provides short, permissive terms allowing reuse, modification,
+redistribution and commercial use while requiring preservation of the copyright
+and license notices. It also includes warranty and liability disclaimers.

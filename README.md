@@ -55,3 +55,7 @@ so begin the upgrade with a fresh scan. It does not schedule itself or send noti
 - The workbook named in `data/README.md` is immutable provenance material, not a runtime input.
 - Local state, generated reports, cached responses, diagnostics, browser captures, and secrets are
   excluded from Git.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
